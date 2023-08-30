@@ -116,7 +116,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
     const [selectedPaymentMode, setSelectedPaymentMode] = useState<string | undefined>(undefined);
     const [isPaymentModeModalOpen, setIsPaymentModeModalOpen] = useState<boolean>(false);
     const [total, setTotal] = useState<any>(0);
-
+    const [isPaymentOptionModalOpen, setIsPaymentOptionModalOpen] = useState<boolean>(false);
 
     const {
         paymentModes
@@ -469,6 +469,14 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
         setIsPaymentModeModalOpen(true);
     }, []);
 
+    const openPaymentOptionModal = useCallback(() => {
+        setIsPaymentOptionModalOpen(true);
+    }, []);
+
+    const closePaymentOptionModal = useCallback(() => {
+        setIsPaymentOptionModalOpen(false);
+    }, []);
+
     const closePaymentModeModal = useCallback(() => {
         setIsPaymentModeModalOpen(false);
         setSelectedPaymentMode(undefined);
@@ -476,11 +484,17 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
 
     const onSubmit = useCallback((values: any, {setSubmitting}: FormikHelpers<any>) => {
         setSubmitting(false);
-        openPaymentModeModal()
-    }, [openPaymentModeModal]);
+        openPaymentOptionModal();
+    }, [openPaymentOptionModal]);
 
-    const handleAddReceiptConfirm = useCallback(() => {
+    const handlePayNow = useCallback(() => {
+        closePaymentOptionModal();
+        openPaymentModeModal();
+    }, [closePaymentOptionModal, openPaymentModeModal]);
+
+    const handleAddReceiptConfirm = useCallback((bill_type: any) => {
         closePaymentModeModal();
+        closePaymentOptionModal();
         const values = formRef?.current?.values;
         const setSubmitting = formRef?.current?.setSubmitting;
         const setErrors = formRef?.current?.setErrors;
@@ -491,18 +505,23 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
             discount,
             payable_amount: total - discount,
             payment_mode: selectedPaymentMode,
+            bill_type: bill_type,
         }
         CommonService._billingsService.AddNewReceiptAPICall(payload)
             .then((response: IAPIResponseType<any>) => {
                 CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                 setSubmitting && setSubmitting(false);
-                navigate(CommonService._routeConfig.BillingList() + '?activeTab=completedPayments');
+                if (bill_type === 'receipt') {
+                    navigate(CommonService._routeConfig.BillingList() + '?activeTab=completedPayments');
+                } else {
+                    navigate(CommonService._routeConfig.BillingList() + '?activeTab=pendingPayments');
+                }
             })
             .catch((error: any) => {
                 setErrors && CommonService.handleErrors(setErrors, error);
                 setSubmitting && setSubmitting(false);
             })
-    }, [closePaymentModeModal, total, navigate, selectedPaymentMode]);
+    }, [closePaymentModeModal,closePaymentOptionModal, total, navigate, selectedPaymentMode]);
 
     const handleAddReceiptCancel = useCallback(() => {
         CommonService.onConfirm(
@@ -827,13 +846,13 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                                                         }
                                                     </Field>
                                                 </div>
-                                                    <div className={'ts-col-md-12'}>
-                                                        {(values.thankyou_note?.length) >= 90 ?
-                                                            <div className={'alert-error'}>Characters
-                                                                Limit:{(values.thankyou_note?.length)}/90</div> :
-                                                            <div className={'no-alert'}>Characters
-                                                                Limit:{(values.thankyou_note?.length)}/90</div>}
-                                                    </div>
+                                                <div className={'ts-col-md-12'}>
+                                                    {(values.thankyou_note?.length) >= 90 ?
+                                                        <div className={'alert-error'}>Characters
+                                                            Limit:{(values.thankyou_note?.length)}/90</div> :
+                                                        <div className={'no-alert'}>Characters
+                                                            Limit:{(values.thankyou_note?.length)}/90</div>}
+                                                </div>
                                             </CardComponent>
 
                                         </div>
@@ -948,6 +967,27 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                                              onCancel={closeBillingAddressFormDrawer}
                                              onSave={handleEditBillingAddress}/>
             </DrawerComponent>
+
+            <ModalComponent isOpen={isPaymentOptionModalOpen}
+                            className={'payment-mode-modal'}
+                            showClose={true}
+                            onClose={() => setIsPaymentOptionModalOpen(false)}
+            >
+                <>
+                    <div className={'generate-receipt-header'}>
+                        <FormControlLabelComponent label={"Generate Receipt"}/>
+                    </div>
+                    <div className={'action-cta pay-now'}>
+                        <ButtonComponent onClick={handlePayNow} fullWidth={true}>Pay Now</ButtonComponent>
+                    </div>
+                    <div className={'action-cta'}>
+                        <ButtonComponent onClick={() => handleAddReceiptConfirm('invoice')} fullWidth={true}>Pay
+                            Later</ButtonComponent>
+                    </div>
+                </>
+
+
+            </ModalComponent>
             {/*Payment mode selection Modal start*/}
             <ModalComponent isOpen={isPaymentModeModalOpen}
                             className={'payment-mode-modal'}
@@ -964,7 +1004,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                                 <ButtonComponent variant={'contained'}
                                                  color={'primary'}
                                                  disabled={!selectedPaymentMode}
-                                                 onClick={handleAddReceiptConfirm}
+                                                 onClick={() => handleAddReceiptConfirm('receipt')}
                                 >
                                     Confirm Payment
                                 </ButtonComponent>

@@ -132,7 +132,8 @@
     }
 
     &.default-view {
-    transition: 0.1s ease;
+      transition: 0.1s ease;
+
       .logo-sm {
         display: none;
       }
@@ -325,8 +326,9 @@
 .case-statistics-modal {
   .modal-content-wrapper {
     width: 600px;
-    .modal-footer{
-      .close-btn{
+
+    .modal-footer {
+      .close-btn {
         margin-top: 14px;
       }
     }
@@ -615,7 +617,8 @@
 .intervention-special-test-selection-modal {
   .modal-content-wrapper {
     width: 900px !important;
-    .modal-footer{
+
+    .modal-footer {
       margin-top: 24px;
     }
   }
@@ -859,6 +862,25 @@
       flex-direction: column;
       align-items: center;
 
+      .generate-receipt-header {
+        .form-control-label-component {
+          margin: 0;
+
+          .form-control-label {
+            text-transform: capitalize;
+          }
+        }
+      }
+
+      .action-cta {
+        width: 310px;
+        margin-top: 30px;
+
+        &.pay-now {
+          margin-top: 30px;
+        }
+      }
+
       .form-control-label-component {
         margin: 30px 0 15px;
 
@@ -969,8 +991,8 @@
 
 .edit-medical-record-drawer {
 
-    .drawer-container .drawer-body {
-      .edit-medical-record-component, .add-attachment-drawer{
+  .drawer-container .drawer-body {
+    .edit-medical-record-component, .add-attachment-drawer {
       .t-form {
         .t-surgery-record-drawer-form-controls {
           min-height: calc(100vh - 215px) !important;
@@ -1044,6 +1066,7 @@
 
   }
 }
+
 .delete-document {
   display: flex;
   justify-content: center;
@@ -1059,7 +1082,7 @@
   }
 }
 
-.discard-soap{
+.discard-soap {
   display: flex;
   justify-content: center;
   //align-items: center;
