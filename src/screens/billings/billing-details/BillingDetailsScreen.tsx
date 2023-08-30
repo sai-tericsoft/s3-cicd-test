@@ -26,7 +26,7 @@ import SelectComponent from "../../../shared/components/form-controls/select/Sel
 import {ITableColumn} from "../../../shared/models/table.model";
 import TableComponent from "../../../shared/components/table/TableComponent";
 import {BillingType} from "../../../shared/models/common.model";
-import {getBillingFromAddress} from "../../../store/actions/billings.action";
+import {getBillingFromAddress, getBillingSettings} from "../../../store/actions/billings.action";
 
 interface BillingDetailsScreenProps {
 
@@ -54,6 +54,9 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
     const [selectedPaymentMode, setSelectedPaymentMode] = useState<string>("");
     const [isPaymentModeModalOpen, setIsPaymentModeModalOpen] = useState<boolean>(false);
     const [isInterventionIncompleteModalOpen, setIsInterventionIncompleteModalOpen] = useState<boolean>(false);
+    const {
+        billingSettings,
+    } = useSelector((state: IRootReducerState) => state.billings);
 
     const {
         paymentModes
@@ -91,6 +94,10 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
             }
         }));
     }, [navigate, dispatch, searchParams]);
+
+    useEffect(() => {
+        dispatch(getBillingSettings())
+    }, [dispatch]);
 
     const openPaymentModeModal = useCallback(() => {
         setIsPaymentModeModalOpen(true);
@@ -603,6 +610,9 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                                 </div>
                             </div>
                         </div>
+                        <CardComponent title={'Thank You Note'} className={'mrg-top-30'}>
+                            <div className={'pdd-bottom-25'}>{billingSettings?.default_thankyou_note || 'N/A'}</div>
+                        </CardComponent>
                     </div>
                 </>
             }
