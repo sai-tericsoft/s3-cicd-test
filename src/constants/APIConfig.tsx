@@ -945,6 +945,10 @@ const APIConfig: IAPIConfig = {
     GET_BILLING_SETTINGS: {
         URL: ENV.API_URL + '/billingSetting',
         METHOD: "get"
+    },
+    GET_BILLING_ADDRESS_LIST: {
+        URL: (clientId:string)=> ENV.API_URL + '/client/' + clientId + '/billingAddress/list',
+        METHOD: "get"
     }
 
 
