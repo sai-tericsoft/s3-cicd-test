@@ -32,6 +32,7 @@ import SelectComponent from "../../../shared/components/form-controls/select/Sel
 import LinkComponent from "../../../shared/components/link/LinkComponent";
 import EditBillingAddressComponent from "../edit-billing-address/EditBillingAddressComponent";
 import {getBillingFromAddress, getBillingSettings} from "../../../store/actions/billings.action";
+import AddBillingAddressComponent from "../add-billing-address/AddBillingAddressComponent";
 
 interface AddNewReceiptScreenProps {
 
@@ -386,7 +387,6 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
         // setIsClientBillingAddressListLoading(true);
         CommonService._billingsService.GetBillingAddressList(selectedClient?._id)
             .then((response: any) => {
-                console.log('response', response);
                 setGetBillingList(response?.data);
                 // setIsClientBillingAddressListLoading(false);
             })
@@ -577,35 +577,35 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
         setTotal(CommonService.convertToDecimals(totalAmount));
     }, [formRef.current?.values?.products]);
 
-        useEffect(() => {
-            // Initialize selectedAddress with the default address when the component mounts
-            const defaultAddress = getBillingList.find((item: any) => item.is_default);
-            if (defaultAddress) {
-                setSelectedAddress(defaultAddress);
-            }
-        }, [getBillingList]);
+    useEffect(() => {
+        // Initialize selectedAddress with the default address when the component mounts
+        const defaultAddress = getBillingList.find((item: any) => item.is_default);
+        if (defaultAddress) {
+            setSelectedAddress(defaultAddress);
+        }
+    }, [getBillingList]);
 
-        const handleRadioButtonClick = useCallback((address: any) => {
-            // Update selectedAddress when a radio button is clicked
-            setTempSelectedAddress(address);
-            setSelectedChanged(true);
-            // setSelectedAddress(address);
-        },[]);
+    const handleRadioButtonClick = useCallback((address: any) => {
+        // Update selectedAddress when a radio button is clicked
+        setTempSelectedAddress(address);
+        setSelectedChanged(true);
+        // setSelectedAddress(address);
+    }, []);
 
-        const handleSaveButtonClick = useCallback(() => {
-            if (tempSelectedAddress) {
-                setSelectedAddress(tempSelectedAddress); // Update the selected address when "Save" is clicked
-            }
-            setSelectedChanged(false);
-            closeBillingAddressFormDrawer();
-        },[closeBillingAddressFormDrawer,tempSelectedAddress]);
+    const handleSaveButtonClick = useCallback(() => {
+        if (tempSelectedAddress) {
+            setSelectedAddress(tempSelectedAddress); // Update the selected address when "Save" is clicked
+        }
+        setSelectedChanged(false);
+        closeBillingAddressFormDrawer();
+    }, [closeBillingAddressFormDrawer, tempSelectedAddress]);
 
-        const handleEdit = useCallback((address:any)=>{
-            setCurrentStep('editAddress');
-            setTempSelectedAddress(address)
-        },[]);
+    const handleEdit = useCallback((address: any) => {
+        setCurrentStep('editAddress');
+        setTempSelectedAddress(address)
+    }, []);
 
-    const handleEditBillingAddress = useCallback((values: any) => {
+    const handleEditBillingAddress = useCallback(() => {
         // setSelectedClientBillingAddress(values);
         closeBillingAddressFormDrawer();
     }, [closeBillingAddressFormDrawer]);
@@ -1033,7 +1033,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                                         </div>
                                         <div className={'btn-wrapper'}>
                                             <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>} variant={'text'}
-                                                             onClick={()=>handleEdit(item)}>
+                                                             onClick={() => handleEdit(item)}>
                                                 Edit
                                             </ButtonComponent>
                                         </div>
@@ -1084,7 +1084,11 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                                 </div>
                             })
                             }
+                            <ButtonComponent prefixIcon={<ImageConfig.AddIcon/>} onClick={()=>setCurrentStep("addAddress")} variant={"text"}>Add New
+                                Address</ButtonComponent>
                         </div>
+
+
                         <div className={'select-cta'}>
                             <ButtonComponent fullWidth={true} onClick={handleSaveButtonClick}>Select</ButtonComponent>
                         </div>
@@ -1097,6 +1101,15 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                                                  onSave={handleEditBillingAddress}
                                                  afterSave={getClientBillingAddressList}
                     />}
+                {
+                    currentStep === "addAddress" &&
+                    <AddBillingAddressComponent clientId={selectedClient?._id}
+                                                onCancel={closeBillingAddressFormDrawer}
+                                                onSave={handleEditBillingAddress}
+                                                afterSave={getClientBillingAddressList}
+
+                    />
+                }
             </DrawerComponent>
 
             <ModalComponent isOpen={isPaymentOptionModalOpen}

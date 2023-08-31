@@ -949,6 +949,10 @@ const APIConfig: IAPIConfig = {
     GET_BILLING_ADDRESS_LIST: {
         URL: (clientId:string)=> ENV.API_URL + '/client/' + clientId + '/billingAddress/list',
         METHOD: "get"
+    },
+    ADD_BILLING_ADDRESS: {
+        URL: (clientId:string)=> ENV.API_URL + '/client/' + clientId + '/billingAddress',
+        METHOD: "post"
     }
 
 
