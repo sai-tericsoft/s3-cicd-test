@@ -14,6 +14,7 @@ interface EditBillingAddressComponentProps {
     clientId: string;
     onCancel: () => void;
     onSave: (billing_address: any) => void;
+    afterSave?: () => void;
 }
 
 const BillingAddressFormValidationSchema = Yup.object({
@@ -38,7 +39,7 @@ const BillingAddressFormInitialValues = {
 
 const EditBillingAddressComponent = (props: EditBillingAddressComponentProps) => {
     const [billingAddressFormInitialValues, setBillingAddressFormInitialValues] = useState<any>(_.cloneDeep(BillingAddressFormInitialValues));
-    const {billing_address, clientId, onSave, onCancel} = props;
+    const {billing_address,afterSave, onSave, onCancel} = props;
 
     useEffect(() => {
         setBillingAddressFormInitialValues(billing_address);
@@ -47,17 +48,18 @@ const EditBillingAddressComponent = (props: EditBillingAddressComponentProps) =>
     const onBillingAddressFormSubmit = useCallback((values: any, {setSubmitting, setErrors}: FormikHelpers<any>) => {
         console.log('submitting');
         setSubmitting(true);
-        CommonService._client.UpdateClientBillingAddress(clientId, values)
+        CommonService._client.UpdateClientBillingAddress(billing_address?._id, values)
             .then((response: any) => {
                 CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                 onSave(values);
+                afterSave && afterSave();
                 setSubmitting(false);
             })
             .catch((error: any) => {
                 CommonService.handleErrors(setErrors, error);
                 setSubmitting(false);
             });
-    }, [clientId, onSave]);
+    }, [billing_address?._id, onSave,afterSave]);
 
     return (
         <div className={'edit-billing-address-component'}>

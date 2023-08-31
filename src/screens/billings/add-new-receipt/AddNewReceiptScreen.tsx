@@ -98,8 +98,8 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
     const [providerList, setProviderList] = useState<any>([]);
     const [isProviderListLoading, setIsProviderListLoading] = useState<any>(false);
     const [selectedClient, setSelectedClient] = useState<any>(null);
-    const [isClientBillingAddressLoading, setIsClientBillingAddressLoading] = useState<boolean>(false);
-    const [selectedClientBillingAddress, setSelectedClientBillingAddress] = useState<any>(null);
+    // const [isClientBillingAddressLoading, setIsClientBillingAddressLoading] = useState<boolean>(false);
+    // const [selectedClientBillingAddress, setSelectedClientBillingAddress] = useState<any>(null);
     const [selectedProvider, setSelectedProvider] = useState<any>(null);
     const [isClientSelectionDrawerOpened, setIsClientSelectionDrawerOpened] = useState<boolean>(false);
     const [isProviderSelectionDrawerOpened, setIsProviderSelectionDrawerOpened] = useState<boolean>(false);
@@ -144,29 +144,6 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
     useEffect(() => {
         dispatch(getBillingSettings())
     }, [dispatch]);
-
-    useEffect(() => {
-        // Initialize selectedAddress with the default address when the component mounts
-        const defaultAddress = getBillingList.find((item: any) => item.is_default);
-        if (defaultAddress) {
-            setSelectedAddress(defaultAddress);
-        }
-    }, [getBillingList]);
-
-    const handleRadioButtonClick = (address: any) => {
-        // Update selectedAddress when a radio button is clicked
-        setTempSelectedAddress(address);
-        setSelectedChanged(true);
-        // setSelectedAddress(address);
-    };
-
-    const handleSaveButtonClick = () => {
-        if (tempSelectedAddress) {
-            setSelectedAddress(tempSelectedAddress); // Update the selected address when "Save" is clicked
-        }
-        setSelectedChanged(false);
-        closeBillingAddressFormDrawer();
-    };
 
     const productListTableColumns: ITableColumn[] = useMemo<ITableColumn[]>(() => [
         {
@@ -428,7 +405,6 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
         getClientBillingAddressList()
     }, [getClientBillingAddressList]);
 
-    console.log('getBillingList', getBillingList);
 
     const clientListColumns: ITableColumn[] = useMemo<ITableColumn[]>(() => [
         {
@@ -466,24 +442,24 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
         }
     ], [selectedProvider]);
 
-    const getClientBillingAddress = useCallback(() => {
-        setIsClientBillingAddressLoading(true);
-        let billingAddress: any = undefined;
-        console.log(selectedClient);
-        CommonService._client.GetClientBillingAddress(selectedClient?._id)
-            .then((response: any) => {
-                if (response?.data) {
-                    billingAddress = response?.data;
-                }
-                setSelectedClientBillingAddress(billingAddress);
-                setIsClientBillingAddressLoading(false);
-            })
-            .catch((error: any) => {
-                CommonService._alert.showToast(error.error || error.errors || "Failed to fetch client billing address", "error");
-                setSelectedClientBillingAddress(billingAddress);
-                setIsClientBillingAddressLoading(false);
-            });
-    }, [selectedClient]);
+    // const getClientBillingAddress = useCallback(() => {
+    //     setIsClientBillingAddressLoading(true);
+    //     let billingAddress: any = undefined;
+    //     console.log(selectedClient);
+    //     CommonService._client.GetClientBillingAddress(selectedClient?._id)
+    //         .then((response: any) => {
+    //             if (response?.data) {
+    //                 billingAddress = response?.data;
+    //             }
+    //             setSelectedClientBillingAddress(billingAddress);
+    //             setIsClientBillingAddressLoading(false);
+    //         })
+    //         .catch((error: any) => {
+    //             CommonService._alert.showToast(error.error || error.errors || "Failed to fetch client billing address", "error");
+    //             setSelectedClientBillingAddress(billingAddress);
+    //             setIsClientBillingAddressLoading(false);
+    //         });
+    // }, [selectedClient]);
 
     const openClientSelectionDrawer = useCallback(() => {
         setIsClientSelectionDrawerOpened(true);
@@ -495,8 +471,8 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
 
     const confirmClientSelection = useCallback(() => {
         closeClientSelectionDrawer();
-        getClientBillingAddress();
-    }, [getClientBillingAddress, closeClientSelectionDrawer]);
+        // getClientBillingAddress();
+    }, [closeClientSelectionDrawer]);
 
     const openProviderSelectionDrawer = useCallback(() => {
         setIsProviderSelectionDrawerOpened(true);
@@ -513,6 +489,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
     const closeBillingAddressFormDrawer = useCallback(() => {
         setIsClientBillingAddressDrawerOpened(false);
         setCurrentStep('selectAddress')
+        // getClientBillingAddressList()
     }, []);
 
     const openPaymentModeModal = useCallback(() => {
@@ -600,8 +577,36 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
         setTotal(CommonService.convertToDecimals(totalAmount));
     }, [formRef.current?.values?.products]);
 
+        useEffect(() => {
+            // Initialize selectedAddress with the default address when the component mounts
+            const defaultAddress = getBillingList.find((item: any) => item.is_default);
+            if (defaultAddress) {
+                setSelectedAddress(defaultAddress);
+            }
+        }, [getBillingList]);
+
+        const handleRadioButtonClick = useCallback((address: any) => {
+            // Update selectedAddress when a radio button is clicked
+            setTempSelectedAddress(address);
+            setSelectedChanged(true);
+            // setSelectedAddress(address);
+        },[]);
+
+        const handleSaveButtonClick = useCallback(() => {
+            if (tempSelectedAddress) {
+                setSelectedAddress(tempSelectedAddress); // Update the selected address when "Save" is clicked
+            }
+            setSelectedChanged(false);
+            closeBillingAddressFormDrawer();
+        },[closeBillingAddressFormDrawer,tempSelectedAddress]);
+
+        const handleEdit = useCallback((address:any)=>{
+            setCurrentStep('editAddress');
+            setTempSelectedAddress(address)
+        },[]);
+
     const handleEditBillingAddress = useCallback((values: any) => {
-        setSelectedClientBillingAddress(values);
+        // setSelectedClientBillingAddress(values);
         closeBillingAddressFormDrawer();
     }, [closeBillingAddressFormDrawer]);
 
@@ -685,7 +690,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                                                     </>
                                                 }
                                                 {
-                                                    (selectedAddress && !isClientBillingAddressLoading) && <>
+                                                    (selectedAddress) && <>
                                                         <div
                                                             className={"billing-address-block__detail__row name"}>
                                                             {selectedAddress?.name}
@@ -1028,7 +1033,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                                         </div>
                                         <div className={'btn-wrapper'}>
                                             <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>} variant={'text'}
-                                                             onClick={() => setCurrentStep('editAddress')}>
+                                                             onClick={()=>handleEdit(item)}>
                                                 Edit
                                             </ButtonComponent>
                                         </div>
@@ -1086,10 +1091,12 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                     </>
                 }
                 {currentStep === "editAddress" &&
-                    <EditBillingAddressComponent billing_address={selectedClientBillingAddress}
+                    <EditBillingAddressComponent billing_address={tempSelectedAddress}
                                                  clientId={selectedClient?._id}
                                                  onCancel={closeBillingAddressFormDrawer}
-                                                 onSave={handleEditBillingAddress}/>}
+                                                 onSave={handleEditBillingAddress}
+                                                 afterSave={getClientBillingAddressList}
+                    />}
             </DrawerComponent>
 
             <ModalComponent isOpen={isPaymentOptionModalOpen}
