@@ -61,7 +61,11 @@ const GetBillingSettings = (payload: any) => {
 const GetBillingAddressList = (clientId:string)=>{
     // @ts-ignore
     return ApiService[APIConfig.GET_BILLING_ADDRESS_LIST.METHOD](APIConfig.GET_BILLING_ADDRESS_LIST.URL(clientId))
+}
 
+const AddBillingAddress = (clientId:string, payload:any)=>{
+    // @ts-ignore
+    return ApiService[APIConfig.ADD_BILLING_ADDRESS.METHOD](APIConfig.ADD_BILLING_ADDRESS.URL(clientId), payload)
 }
 
 const BillingService = {
@@ -76,7 +80,8 @@ const BillingService = {
     GetBillingFromAddress,
     AddBillingSettings,
     GetBillingSettings,
-    GetBillingAddressList
+    GetBillingAddressList,
+    AddBillingAddress
 }
 
 export default BillingService;
