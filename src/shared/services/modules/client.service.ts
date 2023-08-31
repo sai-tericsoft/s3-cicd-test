@@ -132,8 +132,8 @@ const GetClientBillingAddress = (clientId: any) => {
     return ApiService[APIConfig.GET_CLIENT_BILLING_ADDRESS.METHOD](APIConfig.GET_CLIENT_BILLING_ADDRESS.URL(clientId));
 }
 
-const UpdateClientBillingAddress = (clientId: any, payload: any) => {
-    return ApiService[APIConfig.UPDATE_CLIENT_BILLING_ADDRESS.METHOD](APIConfig.UPDATE_CLIENT_BILLING_ADDRESS.URL(clientId), payload);
+const UpdateClientBillingAddress = (addressId: any, payload: any) => {
+    return ApiService[APIConfig.UPDATE_CLIENT_BILLING_ADDRESS.METHOD](APIConfig.UPDATE_CLIENT_BILLING_ADDRESS.URL(addressId), payload);
 }
 
 const ClientService = {

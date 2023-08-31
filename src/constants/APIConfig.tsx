@@ -215,7 +215,7 @@ const APIConfig: IAPIConfig = {
         METHOD: "get"
     },
     UPDATE_CLIENT_BILLING_ADDRESS: {
-        URL: (clientId: string) => ENV.API_URL + '/client/' + clientId + '/billingAddress',
+        URL: (addressId: string) => ENV.API_URL + '/billingAddress/' + addressId,
         METHOD: "put"
     },
     CLIENT_LIST_LITE: {
