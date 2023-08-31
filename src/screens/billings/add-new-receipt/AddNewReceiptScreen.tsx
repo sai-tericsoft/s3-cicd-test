@@ -112,11 +112,17 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
             }
         ],
     });
+
     const [isClientBillingAddressDrawerOpened, setIsClientBillingAddressDrawerOpened] = useState<boolean>(false);
     const [selectedPaymentMode, setSelectedPaymentMode] = useState<string | undefined>(undefined);
     const [isPaymentModeModalOpen, setIsPaymentModeModalOpen] = useState<boolean>(false);
     const [total, setTotal] = useState<any>(0);
     const [isPaymentOptionModalOpen, setIsPaymentOptionModalOpen] = useState<boolean>(false);
+    const [currentStep, setCurrentStep] = useState<"selectAddress" | "editAddress" | "addAddress">("selectAddress");
+    const [getBillingList, setGetBillingList] = useState<any>([]);
+    const [selectedAddress, setSelectedAddress] = useState<any>(null);
+    const [tempSelectedAddress, setTempSelectedAddress] = useState<any>(null);
+    const [selectedChanged, setSelectedChanged] = useState<boolean>(false);
 
     const {
         paymentModes
@@ -138,6 +144,29 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
     useEffect(() => {
         dispatch(getBillingSettings())
     }, [dispatch]);
+
+    useEffect(() => {
+        // Initialize selectedAddress with the default address when the component mounts
+        const defaultAddress = getBillingList.find((item: any) => item.is_default);
+        if (defaultAddress) {
+            setSelectedAddress(defaultAddress);
+        }
+    }, [getBillingList]);
+
+    const handleRadioButtonClick = (address: any) => {
+        // Update selectedAddress when a radio button is clicked
+        setTempSelectedAddress(address);
+        setSelectedChanged(true);
+        // setSelectedAddress(address);
+    };
+
+    const handleSaveButtonClick = () => {
+        if (tempSelectedAddress) {
+            setSelectedAddress(tempSelectedAddress); // Update the selected address when "Save" is clicked
+        }
+        setSelectedChanged(false);
+        closeBillingAddressFormDrawer();
+    };
 
     const productListTableColumns: ITableColumn[] = useMemo<ITableColumn[]>(() => [
         {
@@ -376,10 +405,30 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
         })
     }, [providerListSearch]);
 
+    const getClientBillingAddressList = useCallback(() => {
+        // setIsClientBillingAddressListLoading(true);
+        CommonService._billingsService.GetBillingAddressList(selectedClient?._id)
+            .then((response: any) => {
+                console.log('response', response);
+                setGetBillingList(response?.data);
+                // setIsClientBillingAddressListLoading(false);
+            })
+            .catch((error: any) => {
+                CommonService._alert.showToast(error.error || error.errors || "Failed to fetch client billing address", "error");
+                // setIsClientBillingAddressListLoading(false);
+            });
+    }, [selectedClient?._id]);
+
 
     useEffect(() => {
         getProviderList()
     }, [getProviderList]);
+
+    useEffect(() => {
+        getClientBillingAddressList()
+    }, [getClientBillingAddressList]);
+
+    console.log('getBillingList', getBillingList);
 
     const clientListColumns: ITableColumn[] = useMemo<ITableColumn[]>(() => [
         {
@@ -463,6 +512,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
 
     const closeBillingAddressFormDrawer = useCallback(() => {
         setIsClientBillingAddressDrawerOpened(false);
+        setCurrentStep('selectAddress')
     }, []);
 
     const openPaymentModeModal = useCallback(() => {
@@ -521,7 +571,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                 setErrors && CommonService.handleErrors(setErrors, error);
                 setSubmitting && setSubmitting(false);
             })
-    }, [closePaymentModeModal,closePaymentOptionModal, total, navigate, selectedPaymentMode]);
+    }, [closePaymentModeModal, closePaymentOptionModal, total, navigate, selectedPaymentMode]);
 
     const handleAddReceiptCancel = useCallback(() => {
         CommonService.onConfirm(
@@ -620,7 +670,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                                             <div className={"billing-address-block__header"}>
                                                 <div className={"billing-address-block__title"}>Billing To</div>
                                                 &nbsp;&nbsp;
-                                                {selectedClientBillingAddress &&
+                                                {selectedAddress &&
                                                     <LinkComponent onClick={openBillingAddressFormDrawer}>
                                                         <span>  <ImageConfig.EditIcon height={'15'}
                                                                                       width={'15'}/> </span>
@@ -629,25 +679,25 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                                             </div>
                                             <div className={"billing-address-block__details"}>
                                                 {
-                                                    !selectedClientBillingAddress && <>
+                                                    !selectedAddress && <>
                                                         <div className={"billing-address-block__detail__row"}> -</div>
                                                         <div className={"billing-address-block__detail__row"}> -</div>
                                                     </>
                                                 }
                                                 {
-                                                    (selectedClientBillingAddress && !isClientBillingAddressLoading) && <>
+                                                    (selectedAddress && !isClientBillingAddressLoading) && <>
                                                         <div
                                                             className={"billing-address-block__detail__row name"}>
-                                                            {selectedClientBillingAddress?.name}
+                                                            {selectedAddress?.name}
                                                         </div>
                                                         <div
-                                                            className={"billing-address-block__detail__row"}> {selectedClientBillingAddress.address_line} </div>
+                                                            className={"billing-address-block__detail__row"}> {selectedAddress.address_line} </div>
                                                         <div className={"billing-address-block__detail__row"}>
-                                                            <span>  {selectedClientBillingAddress?.city} </span>, <span> {selectedClientBillingAddress?.state} </span>&nbsp;
-                                                            <span>  {selectedClientBillingAddress?.zip_code} </span>
+                                                            <span>  {selectedAddress?.city} </span>, <span> {selectedAddress?.state} </span>&nbsp;
+                                                            <span>  {selectedAddress?.zip_code} </span>
                                                         </div>
                                                         <div
-                                                            className={"billing-address-block__detail__row"}>  {selectedClientBillingAddress?.phone || '-'} </div>
+                                                            className={"billing-address-block__detail__row"}>  {selectedAddress?.phone || '-'} </div>
                                                     </>
                                                 }
                                             </div>
@@ -962,10 +1012,84 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                              onClose={closeBillingAddressFormDrawer}
                              showClose={true}
             >
-                <EditBillingAddressComponent billing_address={selectedClientBillingAddress}
-                                             clientId={selectedClient?._id}
-                                             onCancel={closeBillingAddressFormDrawer}
-                                             onSave={handleEditBillingAddress}/>
+                {
+                    currentStep === 'selectAddress' && <>
+                        <FormControlLabelComponent label={"Select Billing Address"}/>
+                        <div className={'select-billing-address'}>
+                            {getBillingList?.length > 0 && getBillingList?.map((item: any, index: number) => {
+                                return <div className={'select-address-card'}>
+                                    <div className={'select-address-card-header'}>
+                                        <div className={'btn-heading-wrapper'}>
+                                            <RadioButtonComponent
+                                                checked={selectedChanged ? tempSelectedAddress === item : selectedAddress === item}
+                                                onChange={() => handleRadioButtonClick(item)}/>
+                                            <div
+                                                className={'card-heading'}>{item?.is_default ? 'Default Address' : 'Other Address'}</div>
+                                        </div>
+                                        <div className={'btn-wrapper'}>
+                                            <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>} variant={'text'}
+                                                             onClick={() => setCurrentStep('editAddress')}>
+                                                Edit
+                                            </ButtonComponent>
+                                        </div>
+                                    </div>
+                                    <div className={'ts-row mrg-top-10'}>
+                                        <div className={'ts-col-lg-1'}/>
+                                        <div className={'ts-col-lg-6'}>
+                                            <DataLabelValueComponent label={'Name of Client/Organisation'}>
+                                                {item?.name || 'N/A'}
+                                            </DataLabelValueComponent>
+                                        </div>
+                                        <div className={'ts-col-lg-4'}>
+                                            <DataLabelValueComponent label={'Address Line'}>
+                                                {item?.address_line || 'N/A'}
+                                            </DataLabelValueComponent>
+                                        </div>
+                                        <div className={'ts-col-lg-2'}/>
+
+                                    </div>
+                                    <div className={'ts-row'}>
+                                        <div className={'ts-col-lg-1'}/>
+                                        <div className={'ts-col-lg-6'}>
+                                            <DataLabelValueComponent label={'City'}>
+                                                {item?.city || "N/A"}
+                                            </DataLabelValueComponent>
+                                        </div>
+                                        <div className={'ts-col-lg-4'}>
+                                            <DataLabelValueComponent label={'State'}>
+                                                {item?.state || 'N/A'}                                        </DataLabelValueComponent>
+                                        </div>
+                                        <div className={'ts-col-lg-2'}/>
+
+                                    </div>
+                                    <div className={'ts-row'}>
+                                        <div className={'ts-col-lg-1'}/>
+                                        <div className={'ts-col-lg-6'}>
+                                            <DataLabelValueComponent label={'ZIP Code'}>
+                                                {item?.zip_code || 'N/A'}
+                                            </DataLabelValueComponent>
+                                        </div>
+                                        <div className={'ts-col-lg-4'}>
+                                            <DataLabelValueComponent label={'Country'}>
+                                                {item?.country || 'N/A'}                                       </DataLabelValueComponent>
+                                        </div>
+                                        <div className={'ts-col-lg-2'}/>
+
+                                    </div>
+                                </div>
+                            })
+                            }
+                        </div>
+                        <div className={'select-cta'}>
+                            <ButtonComponent fullWidth={true} onClick={handleSaveButtonClick}>Select</ButtonComponent>
+                        </div>
+                    </>
+                }
+                {currentStep === "editAddress" &&
+                    <EditBillingAddressComponent billing_address={selectedClientBillingAddress}
+                                                 clientId={selectedClient?._id}
+                                                 onCancel={closeBillingAddressFormDrawer}
+                                                 onSave={handleEditBillingAddress}/>}
             </DrawerComponent>
 
             <ModalComponent isOpen={isPaymentOptionModalOpen}
