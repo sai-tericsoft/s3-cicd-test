@@ -54,9 +54,9 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
     const [selectedPaymentMode, setSelectedPaymentMode] = useState<string>("");
     const [isPaymentModeModalOpen, setIsPaymentModeModalOpen] = useState<boolean>(false);
     const [isInterventionIncompleteModalOpen, setIsInterventionIncompleteModalOpen] = useState<boolean>(false);
-    const {
-        billingSettings,
-    } = useSelector((state: IRootReducerState) => state.billings);
+    // const {
+    //     billingSettings,
+    // } = useSelector((state: IRootReducerState) => state.billings);
 
     const {
         paymentModes
@@ -326,7 +326,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
             CommonService.downloadFile(url, `${type}-${billingId}.pdf`);
         });
     }, [fetchBillingPDF, type, billingId]);
-
+console.log('billingDetails',billingDetails);
     return (
         <div className={'billing-details-screen'}>
             <PageHeaderComponent
@@ -611,7 +611,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                             </div>
                         </div>
                         <CardComponent title={'Thank You Note'} className={'mrg-top-30'}>
-                            <div className={'pdd-bottom-25'}>{billingSettings?.default_thankyou_note || 'N/A'}</div>
+                            <div className={'pdd-bottom-25'}>{billingDetails?.thankyou_note || 'N/A'}</div>
                         </CardComponent>
                     </div>
                 </>

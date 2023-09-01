@@ -105,7 +105,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
     const [isClientSelectionDrawerOpened, setIsClientSelectionDrawerOpened] = useState<boolean>(false);
     const [isProviderSelectionDrawerOpened, setIsProviderSelectionDrawerOpened] = useState<boolean>(false);
     const [addNewReceiptFormInitialValues, setAddNewReceiptFormFormInitialValues] = useState<any>({
-        thankyou_note: billingSettings?.default_thankyou_note || '',
+        thankyou_note: billingSettings?.default_thankyou_note|| '',
         products: [
             {
                 ...ProductRow,
@@ -113,7 +113,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
             }
         ],
     });
-
+console.log('billingSettings',billingSettings);
     const [isClientBillingAddressDrawerOpened, setIsClientBillingAddressDrawerOpened] = useState<boolean>(false);
     const [selectedPaymentMode, setSelectedPaymentMode] = useState<string | undefined>(undefined);
     const [isPaymentModeModalOpen, setIsPaymentModeModalOpen] = useState<boolean>(false);

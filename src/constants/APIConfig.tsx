@@ -718,6 +718,10 @@ const APIConfig: IAPIConfig = {
         URL: ENV.API_URL + '/receipt',
         METHOD: 'get'
     },
+    CONSOLIDATED_PAYMENT_LIST: {
+        URL: ENV.API_URL + '/consolidatedBills',
+        METHOD: 'get'
+    },
     CLIENT_PENDING_PAYMENT_LIST: {
         URL: (clientId: string) => ENV.API_URL + '/invoice/' + clientId,
         METHOD: 'get'
