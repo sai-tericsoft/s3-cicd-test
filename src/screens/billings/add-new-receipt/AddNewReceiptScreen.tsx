@@ -113,7 +113,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
             }
         ],
     });
-console.log('billingSettings',billingSettings);
+
     const [isClientBillingAddressDrawerOpened, setIsClientBillingAddressDrawerOpened] = useState<boolean>(false);
     const [selectedPaymentMode, setSelectedPaymentMode] = useState<string | undefined>(undefined);
     const [isPaymentModeModalOpen, setIsPaymentModeModalOpen] = useState<boolean>(false);

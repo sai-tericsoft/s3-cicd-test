@@ -27,6 +27,8 @@ import {ITableColumn} from "../../../shared/models/table.model";
 import TableComponent from "../../../shared/components/table/TableComponent";
 import {BillingType} from "../../../shared/models/common.model";
 import {getBillingFromAddress, getBillingSettings} from "../../../store/actions/billings.action";
+import {RadioButtonComponent} from "../../../shared/components/form-controls/radio-button/RadioButtonComponent";
+import AddBillingAddressComponent from "../add-billing-address/AddBillingAddressComponent";
 
 interface BillingDetailsScreenProps {
 
@@ -52,8 +54,14 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
     const [billingDetails, setBillingDetails] = useState<any>(undefined);
     const [isClientBillingAddressDrawerOpened, setIsClientBillingAddressDrawerOpened] = useState<boolean>(false);
     const [selectedPaymentMode, setSelectedPaymentMode] = useState<string>("");
+    const [currentStep, setCurrentStep] = useState<"selectAddress" | "editAddress" | "addAddress">("selectAddress");
     const [isPaymentModeModalOpen, setIsPaymentModeModalOpen] = useState<boolean>(false);
     const [isInterventionIncompleteModalOpen, setIsInterventionIncompleteModalOpen] = useState<boolean>(false);
+    const [getBillingList, setGetBillingList] = useState<any>([]);
+    const [selectedAddress, setSelectedAddress] = useState<any>(null);
+    const [tempSelectedAddress, setTempSelectedAddress] = useState<any>(null);
+    const [selectedChanged, setSelectedChanged] = useState<boolean>(false);
+
     // const {
     //     billingSettings,
     // } = useSelector((state: IRootReducerState) => state.billings);
@@ -135,6 +143,26 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
         })
     }, [type, billingId]);
 
+    const getClientBillingAddressList = useCallback(() => {
+        // setIsClientBillingAddressListLoading(true);
+        CommonService._billingsService.GetBillingAddressList(billingDetails?.client_id)
+            .then((response: any) => {
+                setGetBillingList(response?.data);
+                // setIsClientBillingAddressListLoading(false);
+            })
+            .catch((error: any) => {
+                CommonService._alert.showToast(error.error || error.errors || "Failed to fetch client billing address", "error");
+                // setIsClientBillingAddressListLoading(false);
+            });
+    }, [billingDetails?.client_id]);
+
+    useEffect(() => {
+        getClientBillingAddressList()
+    }, [getClientBillingAddressList]);
+    
+    console.log('selectedAddress',selectedAddress);
+
+
     const handleBillingMarkAsPaidSuccess = useCallback(() => {
         navigate(CommonService._routeConfig.BillingList() + '?referrer=' + location.pathname + '&type=receipt');
     }, [navigate, location.pathname]);
@@ -188,6 +216,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
 
     const closeBillingAddressFormDrawer = useCallback(() => {
         setIsClientBillingAddressDrawerOpened(false);
+        setCurrentStep('selectAddress');
     }, []);
 
     const handleEditBillingAddress = useCallback((values: any) => {
@@ -326,7 +355,36 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
             CommonService.downloadFile(url, `${type}-${billingId}.pdf`);
         });
     }, [fetchBillingPDF, type, billingId]);
-console.log('billingDetails',billingDetails);
+
+    useEffect(() => {
+        // Initialize selectedAddress with the default address when the component mounts
+        const defaultAddress = getBillingList.find((item: any) => item.is_default);
+        if (defaultAddress) {
+            setSelectedAddress(defaultAddress);
+        }
+    }, [getBillingList]);
+
+    const handleSaveButtonClick = useCallback(() => {
+        if (tempSelectedAddress) {
+            setSelectedAddress(tempSelectedAddress); // Update the selected address when "Save" is clicked
+        }
+        setSelectedChanged(false);
+        closeBillingAddressFormDrawer();
+    }, [closeBillingAddressFormDrawer, tempSelectedAddress]);
+
+    const handleRadioButtonClick = useCallback((address: any) => {
+        // Update selectedAddress when a radio button is clicked
+        setTempSelectedAddress(address);
+        setSelectedChanged(true);
+        // setSelectedAddress(address);
+    }, []);
+
+    const handleEdit = useCallback((address: any) => {
+        setCurrentStep('editAddress');
+        setTempSelectedAddress(address)
+    }, []);
+
+
     return (
         <div className={'billing-details-screen'}>
             <PageHeaderComponent
@@ -448,14 +506,14 @@ console.log('billingDetails',billingDetails);
                                         (billingDetails?.billing_address) && <>
                                             <div
                                                 className={"billing-address-block__detail__row name"}>
-                                                {billingDetails?.billing_address?.name}
+                                                {(type==='invoice' && selectedAddress)? selectedAddress?.name:billingDetails?.billing_address?.name}
                                             </div>
                                             <div
-                                                className={"billing-address-block__detail__row"}> {billingDetails?.billing_address.address_line} </div>
+                                                className={"billing-address-block__detail__row"}> {(type==='invoice' && selectedAddress)? selectedAddress?.address:billingDetails?.billing_address.address_line} </div>
                                             <div className={"billing-address-block__detail__row"}>
-                                                <span>{billingDetails?.billing_address?.city}</span>,&nbsp;
-                                                <span>{billingDetails?.billing_address?.state}</span>&nbsp;
-                                                <span>{billingDetails?.billing_address?.zip_code}</span>
+                                                <span>{(type==='invoice' && selectedAddress)? selectedAddress?.city:billingDetails?.billing_address?.city}</span>,&nbsp;
+                                                <span>{(type==='invoice' && selectedAddress)? selectedAddress?.state:billingDetails?.billing_address?.state}</span>&nbsp;
+                                                <span>{(type==='invoice' && selectedAddress)? selectedAddress?.zip_code:billingDetails?.billing_address?.zip_code}</span>
                                             </div>
                                             <div
                                                 className={"billing-address-block__detail__row"}>  {billingDetails?.billing_address?.phone || '-'} </div>
@@ -619,10 +677,101 @@ console.log('billingDetails',billingDetails);
             <DrawerComponent isOpen={isClientBillingAddressDrawerOpened}
                              onClose={closeBillingAddressFormDrawer}
                              showClose={true}>
-                <EditBillingAddressComponent billing_address={billingDetails?.billing_address}
-                                             clientId={billingDetails?.client_id}
-                                             onCancel={closeBillingAddressFormDrawer}
-                                             onSave={handleEditBillingAddress}/>
+                {
+                    currentStep === 'selectAddress' && <>
+                        <FormControlLabelComponent label={"Select Billing Address"}/>
+                        <div className={'select-billing-address'}>
+                            {getBillingList?.length > 0 && getBillingList?.map((item: any, index: number) => {
+                                return <div className={'select-address-card'}>
+                                    <div className={'select-address-card-header'}>
+                                        <div className={'btn-heading-wrapper'}>
+                                            <RadioButtonComponent
+                                                checked={selectedChanged ? tempSelectedAddress === item : selectedAddress === item}
+                                                onChange={() => handleRadioButtonClick(item)}/>
+                                            <div
+                                                className={'card-heading'}>{item?.is_default ? 'Default Address' : 'Other Address'}</div>
+                                        </div>
+                                        <div className={'btn-wrapper'}>
+                                            <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>} variant={'text'}
+                                                             onClick={() => handleEdit(item)}>
+                                                Edit
+                                            </ButtonComponent>
+                                        </div>
+                                    </div>
+                                    <div className={'ts-row mrg-top-10'}>
+                                        <div className={'ts-col-lg-1'}/>
+                                        <div className={'ts-col-lg-6'}>
+                                            <DataLabelValueComponent label={'Name of Client/Organisation'}>
+                                                {item?.name || 'N/A'}
+                                            </DataLabelValueComponent>
+                                        </div>
+                                        <div className={'ts-col-lg-4'}>
+                                            <DataLabelValueComponent label={'Address Line'}>
+                                                {item?.address_line || 'N/A'}
+                                            </DataLabelValueComponent>
+                                        </div>
+                                        <div className={'ts-col-lg-2'}/>
+
+                                    </div>
+                                    <div className={'ts-row'}>
+                                        <div className={'ts-col-lg-1'}/>
+                                        <div className={'ts-col-lg-6'}>
+                                            <DataLabelValueComponent label={'City'}>
+                                                {item?.city || "N/A"}
+                                            </DataLabelValueComponent>
+                                        </div>
+                                        <div className={'ts-col-lg-4'}>
+                                            <DataLabelValueComponent label={'State'}>
+                                                {item?.state || 'N/A'}                                        </DataLabelValueComponent>
+                                        </div>
+                                        <div className={'ts-col-lg-2'}/>
+
+                                    </div>
+                                    <div className={'ts-row'}>
+                                        <div className={'ts-col-lg-1'}/>
+                                        <div className={'ts-col-lg-6'}>
+                                            <DataLabelValueComponent label={'ZIP Code'}>
+                                                {item?.zip_code || 'N/A'}
+                                            </DataLabelValueComponent>
+                                        </div>
+                                        <div className={'ts-col-lg-4'}>
+                                            <DataLabelValueComponent label={'Country'}>
+                                                {item?.country || 'N/A'}                                       </DataLabelValueComponent>
+                                        </div>
+                                        <div className={'ts-col-lg-2'}/>
+
+                                    </div>
+                                </div>
+                            })
+                            }
+                            <ButtonComponent prefixIcon={<ImageConfig.AddIcon/>}
+                                             onClick={() => setCurrentStep("addAddress")} variant={"text"}>Add New
+                                Address</ButtonComponent>
+                        </div>
+
+
+                        <div className={'select-cta'}>
+                            <ButtonComponent fullWidth={true} onClick={handleSaveButtonClick}>Select</ButtonComponent>
+                        </div>
+                    </>
+                }
+                {currentStep === "editAddress" && <EditBillingAddressComponent billing_address={tempSelectedAddress}
+                                                                               clientId={billingDetails?.client_id}
+                                                                               onCancel={closeBillingAddressFormDrawer}
+                                                                               afterSave={getClientBillingAddressList}
+                                                                               onSave={handleEditBillingAddress}/>
+                }
+
+
+                {
+                    currentStep === "addAddress" &&
+                    <AddBillingAddressComponent clientId={billingDetails?.client_id}
+                                                onCancel={closeBillingAddressFormDrawer}
+                                                onSave={handleEditBillingAddress}
+                                                afterSave={getClientBillingAddressList}
+
+                    />
+                }
             </DrawerComponent>
 
             {/*Payment mode selection Modal start*/}
