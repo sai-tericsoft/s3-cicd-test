@@ -114,9 +114,9 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             }
         },
         {
-            title: 'Appointment ID',
-            key: 'appointment_id',
-            dataIndex: 'appointment_id',
+            title: 'Invoice No.',
+            key: 'invoice_number',
+            dataIndex: 'invoice_number',
             // fixed: 'left',
             width: 140,
             align: 'center',
@@ -124,31 +124,31 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                 return <LinkComponent
                     route={CommonService._routeConfig.BillingDetails(item?._id) + '?referrer=' + location?.pathname + '&type=invoice'}>
                     {
-                        (item?.appointment_details?.appointment_number)?.length > 10 ?
+                        (item?.invoice_number)?.length > 10 ?
                             <ToolTipComponent
-                                tooltip={item?.appointment_details?.appointment_number}
+                                tooltip={item?.invoice_number}
                                 showArrow={true}
                                 position={"top"}
                             >
                                 <div className={"ellipses-for-table-data"}>
-                                    {item?.appointment_details?.appointment_number }
+                                    {item?.invoice_number}
                                 </div>
                             </ToolTipComponent> :
                             <>
-                                {item?.appointment_details?.appointment_number}
+                                {item?.invoice_number}
                             </>
                     }
                 </LinkComponent>
             }
         },
         {
-            title: 'Appointment Date',
-            key: 'appointment_date',
-            dataIndex: "appointment_date",
+            title: 'Billing Date',
+            key: 'billing_date',
+            dataIndex: "created_at",
             width: 200,
             align: 'center',
             render: (item: any) => {
-                return <>{CommonService.convertDateFormat2(item?.appointment_details?.appointment_date) || '-'}</>
+                return <>{CommonService.convertDateFormat2(item?.created_at) || '-'}</>
             }
         },
         {
@@ -206,6 +206,16 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             render: (item: any) => {
                 return <>{Misc.CURRENCY_SYMBOL} {CommonService.convertToDecimals(item?.total)}</>
             }
+        },
+        {
+            title:'Payment For',
+            key:'payment_for',
+            dataIndex:'payment_for',
+            align: 'center',
+            render:(item:any)=>{
+                return <>{item?.payment_for ? <ChipComponent label={item?.payment_for}/>:'-'}</>
+            }
+
         },
         {
             title: '',
