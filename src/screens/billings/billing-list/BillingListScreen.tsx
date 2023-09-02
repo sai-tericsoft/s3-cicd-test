@@ -208,12 +208,12 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             }
         },
         {
-            title:'Payment For',
-            key:'payment_for',
-            dataIndex:'payment_for',
+            title: 'Payment For',
+            key: 'payment_for',
+            dataIndex: 'payment_for',
             align: 'center',
-            render:(item:any)=>{
-                return <>{item?.payment_for ? <ChipComponent label={item?.payment_for}/>:'-'}</>
+            render: (item: any) => {
+                return <>{item?.payment_for ? <ChipComponent label={item?.payment_for}/> : '-'}</>
             }
 
         },
@@ -416,7 +416,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             align: 'center',
             render: (item: any) => {
                 return <>
-                    {CommonService.convertDateFormat2(item?.created_at) || '-'}
+                    {item?.bill_type === 'invoice' ? CommonService.convertDateFormat2(item?.created_at) : CommonService.convertDateFormat2(item?.updated_at) || '-'}
                 </>
             }
         },
@@ -435,7 +435,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             key: 'amount',
             align: 'center',
             render: (item: any) => {
-                return <>{Misc.CURRENCY_SYMBOL}{CommonService.convertToDecimals(item?.total) || '-' }</>
+                return <>{Misc.CURRENCY_SYMBOL}{CommonService.convertToDecimals(item?.total) || '-'}</>
             }
         },
         {
@@ -451,7 +451,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             key: 'payment_for',
             align: 'center',
             render: (item: any) => {
-                return <>{item?.payment_for ? <ChipComponent label={item?.payment_for}/>:'-'}</>
+                return <>{item?.payment_for ? <ChipComponent label={item?.payment_for}/> : '-'}</>
             }
         },
         {
