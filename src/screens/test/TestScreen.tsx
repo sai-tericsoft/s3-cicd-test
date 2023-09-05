@@ -1,8 +1,8 @@
 import './TestScreen.scss';
 import React from "react";
-// import ColorPickerComponent from "../../shared/components/form-controls/color-picker/ColorPickerComponent";
 import ConsolidatedBillingDetailsScreen
     from "../billings/consolidated-billing-details/consolidated-billing-details/ConsolidatedBillingDetailsScreen";
+// import ColorPickerComponent from "../../shared/components/form-controls/color-picker/ColorPickerComponent";
 
 
 // const users = [
