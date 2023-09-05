@@ -719,7 +719,7 @@ const APIConfig: IAPIConfig = {
         METHOD: 'get'
     },
     CONSOLIDATED_PAYMENT_LIST: {
-        URL: ENV.API_URL + '/consolidatedBills',
+        URL: ENV.API_URL + '/consolidatedBill',
         METHOD: 'get'
     },
     CLIENT_PENDING_PAYMENT_LIST: {
@@ -757,6 +757,10 @@ const APIConfig: IAPIConfig = {
     },
     GET_BILLING_STATS_COUNT: {
         URL: ENV.API_URL + '/invoiceStats',
+        METHOD: 'get'
+    },
+    GET_CONSOLIDATED_BILLING_DETAILS: {
+        URL: (consolidatedBillId: string) => ENV.API_URL + '/consolidatedBill/' + consolidatedBillId,
         METHOD: 'get'
     },
 

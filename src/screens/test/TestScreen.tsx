@@ -1,6 +1,8 @@
 import './TestScreen.scss';
 import React from "react";
-import ColorPickerComponent from "../../shared/components/form-controls/color-picker/ColorPickerComponent";
+// import ColorPickerComponent from "../../shared/components/form-controls/color-picker/ColorPickerComponent";
+import ConsolidatedBillingDetailsScreen
+    from "../billings/consolidated-billing-details/consolidated-billing-details/ConsolidatedBillingDetailsScreen";
 
 
 // const users = [
@@ -41,31 +43,33 @@ import ColorPickerComponent from "../../shared/components/form-controls/color-pi
 
 const TestScreen = () => {
 
-    const handleColorChange = () => {
-        // Handle color change logic here
-    };
+    // const handleColorChange = () => {
+    //     // Handle color change logic here
+    // };
 
 
     return (
         <div className="test-screen">
-            <div className="ts-row">
-                <div className="ts-col-6">
-                    <ColorPickerComponent
-                        // defaultColor={{r: 241, g: 112, b: 19, a: 1}}
-                        required={true}
-                        label={'Background Color'}
-                        handleChange={handleColorChange}
-                    />
-                </div>
-                <div className="ts-col-6">
-                    <ColorPickerComponent
-                        // defaultColor={{r: 241, g: 112, b: 19, a: 1}}
-                        required={true}
-                        label={'Text Color'}
-                        handleChange={handleColorChange}
-                    />
-                </div>
-            </div>
+
+            {/*<div className="ts-row">*/}
+            {/*    <div className="ts-col-6">*/}
+            {/*        <ColorPickerComponent*/}
+            {/*            // defaultColor={{r: 241, g: 112, b: 19, a: 1}}*/}
+            {/*            required={true}*/}
+            {/*            label={'Background Color'}*/}
+            {/*            handleChange={handleColorChange}*/}
+            {/*        />*/}
+            {/*    </div>*/}
+            {/*    <div className="ts-col-6">*/}
+            {/*        <ColorPickerComponent*/}
+            {/*            // defaultColor={{r: 241, g: 112, b: 19, a: 1}}*/}
+            {/*            required={true}*/}
+            {/*            label={'Text Color'}*/}
+            {/*            handleChange={handleColorChange}*/}
+            {/*        />*/}
+            {/*    </div>*/}
+
+            {/*</div>*/}
 
 
             {/*<MentionsComponent*/}
@@ -87,7 +91,7 @@ const TestScreen = () => {
             {/*    <InputComponent name={'Accordion'} value={'aa'}/>*/}
             {/*</AccordionComponent>*/}
 
-
+     <ConsolidatedBillingDetailsScreen/>
         </div>
     );
 };
