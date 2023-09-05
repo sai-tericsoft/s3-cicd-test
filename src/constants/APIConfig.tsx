@@ -763,6 +763,10 @@ const APIConfig: IAPIConfig = {
         URL: (consolidatedBillId: string) => ENV.API_URL + '/consolidatedBill/' + consolidatedBillId,
         METHOD: 'get'
     },
+    ADD_INVOICE_NOTE: {
+        URL: (invoiceId: string) => ENV.API_URL + '/invoice/' + invoiceId,
+        METHOD: 'put'
+    },
 
     GET_BILLING_STATS: {
         URL: (clientId: string) => ENV.API_URL + '/client/' + clientId + '/billingStats',
@@ -955,11 +959,11 @@ const APIConfig: IAPIConfig = {
         METHOD: "get"
     },
     GET_BILLING_ADDRESS_LIST: {
-        URL: (clientId:string)=> ENV.API_URL + '/client/' + clientId + '/billingAddress/list',
+        URL: (clientId: string) => ENV.API_URL + '/client/' + clientId + '/billingAddress/list',
         METHOD: "get"
     },
     ADD_BILLING_ADDRESS: {
-        URL: (clientId:string)=> ENV.API_URL + '/client/' + clientId + '/billingAddress',
+        URL: (clientId: string) => ENV.API_URL + '/client/' + clientId + '/billingAddress',
         METHOD: "post"
     }
 

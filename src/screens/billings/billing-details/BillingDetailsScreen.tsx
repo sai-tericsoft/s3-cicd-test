@@ -64,6 +64,8 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
     const [selectedChanged, setSelectedChanged] = useState<boolean>(false);
     const [thankYouNote, setThankYouNote] = useState<any>('');
     const [comments, setComments] = useState<any>('');
+    const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+
     // const {
     //     billingSettings,
     // } = useSelector((state: IRootReducerState) => state.billings);
@@ -388,6 +390,23 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
         setTempSelectedAddress(address)
     }, []);
 
+    const handleNoteAndComment = useCallback((comment: any, thankYouNote: any) => {
+        setIsSubmitting(true);
+        const payload = {
+            thankyou_note: thankYouNote,
+            comments: comment
+        }
+        billingId && CommonService._billingsService.AddInvoiceNote(billingId, payload)
+            .then((response: IAPIResponseType<any>) => {
+                setIsSubmitting(false);
+                CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY] || "Note and comment added successfully", "success");
+            })
+            .catch((error: any) => {
+                setIsSubmitting(false);
+                CommonService._alert.showToast(error.error || error.errors || "Failed to add note and comment", "error");
+            });
+    }, [billingId]);
+
 
     return (
         <div className={'billing-details-screen'}>
@@ -623,16 +642,16 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                             <div className="ts-row">
                                 <div className="ts-col-lg-4 add-new-invoice__comments__block">
                                     <DataLabelValueComponent className={'comments'} label={""}>
-                                        {type==='invoice'?<TextAreaComponent label={'Comments'}
-                                                            placeholder={'Please add your comments here'}
-                                                            fullWidth={true}
-                                                            value={comments}
-                                                            onChange={(value: any) => setComments(value)}
-                                        />:<TextAreaComponent label={'Comments'}
-                                                              placeholder={'Please add your comments here'}
-                                                              fullWidth={true}
-                                                              value={comments?.length>0?comments:'N/A'}
-                                                              disabled={true}
+                                        {type === 'invoice' ? <TextAreaComponent label={'Comments'}
+                                                                                 placeholder={'Please add your comments here'}
+                                                                                 fullWidth={true}
+                                                                                 value={comments}
+                                                                                 onChange={(value: any) => setComments(value)}
+                                        /> : <TextAreaComponent label={'Comments'}
+                                                                placeholder={'Please add your comments here'}
+                                                                fullWidth={true}
+                                                                value={comments?.length > 0 ? comments : 'N/A'}
+                                                                disabled={true}
                                         />
                                         }
                                     </DataLabelValueComponent>
@@ -680,7 +699,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                                                 }
                                             </div>
                                         </div>
-                                        {type === 'receipt' &&<div className="add-new-invoice__payment__block__row date">
+                                        {type === 'receipt' && <div className="add-new-invoice__payment__block__row date">
                                             <div className="add-new-invoice__payment__block__row__title">
                                                 Payment Date
                                             </div>
@@ -689,36 +708,45 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                                                 {CommonService.convertDateFormat2(billingDetails?.created_at)}
                                             </div>
                                         </div>}
-                                            {
-                                                type === 'receipt' &&
-                                                // <DataLabelValueComponent className={'mode_of_payment'}
-                                                //                          label={"Mode Of Payment: "}
-                                                //                          direction={"row"}
-                                                // >
-                                                //     {billingDetails?.payment_mode_details?.title || billingDetails?.payment_mode || "N/A"}
-                                                // </DataLabelValueComponent>
-                                                <div className="add-new-invoice__payment__block__row date">
-                                                    <div className="add-new-invoice__payment__block__row__title">
-                                                        Payment Method
-                                                    </div>
-                                                    <div
-                                                        className="add-new-invoice__payment__block__row__value">
-                                                        {billingDetails?.payment_mode_details?.title || billingDetails?.payment_mode || "N/A"}
-                                                    </div>
+                                        {
+                                            type === 'receipt' &&
+                                            // <DataLabelValueComponent className={'mode_of_payment'}
+                                            //                          label={"Mode Of Payment: "}
+                                            //                          direction={"row"}
+                                            // >
+                                            //     {billingDetails?.payment_mode_details?.title || billingDetails?.payment_mode || "N/A"}
+                                            // </DataLabelValueComponent>
+                                            <div className="add-new-invoice__payment__block__row date">
+                                                <div className="add-new-invoice__payment__block__row__title">
+                                                    Payment Method
                                                 </div>
+                                                <div
+                                                    className="add-new-invoice__payment__block__row__value">
+                                                    {billingDetails?.payment_mode_details?.title || billingDetails?.payment_mode || "N/A"}
+                                                </div>
+                                            </div>
 
-                                            }
+                                        }
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <CardComponent title={'Thank You Note'} className={'mrg-top-30'}>
-                            {type === 'invoice' ? <TextAreaComponent label={'Note'}
-                                                                     fullWidth={true}
-                                                                     value={thankYouNote}
-                                                                     onChange={(value: any) => setThankYouNote(value)}
+                            {type === 'invoice' ? <><TextAreaComponent label={'Note'}
+                                                                       fullWidth={true}
+                                                                       value={thankYouNote}
+                                                                       onChange={(value: any) => setThankYouNote(value)}
 
-                            /> : <div className={'pdd-bottom-20'}>{thankYouNote}</div>
+                                />
+                                    <div className={'ts-col-md-12'}>
+                                        {(thankYouNote?.length) >= 90 ?
+                                            <div className={'alert-error'}>Characters
+                                                Limit:{(thankYouNote?.length)}/90</div> :
+                                            <div className={'no-alert'}>Characters
+                                                Limit:{(thankYouNote?.length)}/90</div>}
+                                    </div>
+                                </>
+                                : <div className={'pdd-bottom-20'}>{thankYouNote}</div>
                             }
                         </CardComponent>
                     </div>
@@ -728,7 +756,11 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                                          onClick={() => navigate(CommonService._routeConfig.BillingList())}>
                             Cancel
                         </ButtonComponent>
-                        <ButtonComponent variant={"contained"} color={"primary"}>
+                        <ButtonComponent variant={"contained"}
+                                         isLoading={isSubmitting}
+                                         disabled={isSubmitting || thankYouNote?.length>90}
+                                         onClick={() => handleNoteAndComment(comments, thankYouNote)}
+                                         color={"primary"}>
                             Save
                         </ButtonComponent>
 
