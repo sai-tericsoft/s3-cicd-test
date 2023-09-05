@@ -33,7 +33,9 @@ import moment from "moment";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
 import BillingStatsCardComponent from "../billing-stats-card/BillingStatsCardComponent";
-
+import SwitchComponent from "../../../shared/components/form-controls/switch/SwitchComponent";
+import ReceiptOutlinedIcon from '@mui/icons-material/ReceiptOutlined';
+import commonService from "../../../shared/services/common.service";
 
 interface PaymentListComponentProps {
 
@@ -43,6 +45,15 @@ const PENDING_PAYMENTS_MODULE = 'PENDING_PAYMENTS_MODULE';
 
 type PaymentsListTabType = 'pendingPayments' | 'completedPayments' | 'consolidatedPayments';
 const PaymentsListTabTypes = ['pendingPayments', 'completedPayments', 'consolidatedPayments'];
+
+const ClientListFilterStateInitialValues = {
+    search: "",
+    client_id: undefined,
+    date_range: [null, null],
+    start_date: null,
+    end_date: null,
+    linked_invoices: false,
+}
 const BillingListScreen = (props: PaymentListComponentProps) => {
 
     const dispatch = useDispatch();
@@ -61,15 +72,9 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
     const [isBillingStatsBeingLoading, setIsBillingStatsBeingLoading] = useState<boolean>(false);
     const [isBillingStatsBeingLoadingFailed, setIsBillingStatsBeingLoadingFailed] = useState<boolean>(false);
     const [billingStats, setBillingStats] = useState<any>(undefined);
+    const [setCurrentSelectedClient, setSetCurrentSelectedClient] = useState<any>(undefined);
 
-
-    const [clientListFilterState, setClientListFilterState] = useState<any>({
-        search: "",
-        client_id: clientId,
-        date_range: [null, null],
-        start_date: null,
-        end_date: null,
-    });
+    const [clientListFilterState, setClientListFilterState] = useState<any>(ClientListFilterStateInitialValues);
 
     const handlePaymentSelection = useCallback((payment: any, isChecked: boolean) => {
         if (isChecked) {
@@ -107,7 +112,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                 return <CheckBoxComponent
                     className={selectedPayments.includes(item) ? 'selected-row' : ''}
                     disabled={clientIdOfSelectedPayments && clientIdOfSelectedPayments !== item?.client_id}
-                    checked={selectedPayments.includes(item)}
+                    checked={selectedPayments.some((payment: any) => payment._id === item._id)}
                     onChange={(isChecked) => {
                         handlePaymentSelection(item, isChecked)
                     }}/>
@@ -260,7 +265,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                 return <CheckBoxComponent
                     className={selectedPayments.includes(item) ? 'selected-row' : ''}
                     disabled={clientIdOfSelectedPayments && clientIdOfSelectedPayments !== item?.client_id}
-                    checked={selectedPayments.includes(item)}
+                    checked={selectedPayments.some((payment: any) => payment._id === item._id)}
                     onChange={(isChecked) => {
                         handlePaymentSelection(item, isChecked)
                     }}/>
@@ -341,6 +346,23 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
 
     const clientCompletePaymentListColumn: ITableColumn[] = useMemo<any>(() => [
         {
+            title: '',
+            key: 'select',
+            dataIndex: 'select',
+            width: 50,
+            fixed: 'left',
+            render: (item: any) => {
+                const clientIdOfSelectedPayments = selectedPayments?.length > 0 ? selectedPayments[0]?.client_id : undefined;
+                return <CheckBoxComponent
+                    className={selectedPayments.includes(item) ? 'selected-row' : ''}
+                    disabled={clientIdOfSelectedPayments && clientIdOfSelectedPayments !== item?.client_id}
+                    checked={selectedPayments.some((payment: any) => payment._id === item._id)}
+                    onChange={(isChecked) => {
+                        handlePaymentSelection(item, isChecked)
+                    }}/>
+            }
+        },
+        {
             title: 'Receipt No.',
             key: 'receipt_no',
             align: 'center',
@@ -412,79 +434,27 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                 </LinkComponent>
             }
         }
-    ], [location]);
-
-    const consolidatedPayments: ITableColumn[] = useMemo<any>(() => [
-        {
-            title: 'Invoice/Receipt No.',
-            key: 'billing_number',
-            width: 200,
-            render: (item: any) => {
-                return <LinkComponent
-                    route={CommonService._routeConfig.BillingDetails(item?.billing_number) + '?referrer=' + location.pathname + '&type=receipt'}>
-                    {item?.billing_number || '-'}
-                </LinkComponent>
-            }
-        },
-        {
-            title: 'Billing Date',
-            key: 'billing_date',
-            align: 'center',
-            render: (item: any) => {
-                return <>
-                    {item?.bill_type === 'invoice' ? CommonService.convertDateFormat2(item?.created_at) : CommonService.convertDateFormat2(item?.updated_at) || '-'}
-                </>
-            }
-        },
-        {
-            title: 'Client Name',
-            key: 'client_name',
-            align: 'center',
-            render: (item: any) => {
-                return <>
-                    {CommonService.extractName(item?.client_details) || '-'}
-                </>
-            }
-        },
-        {
-            title: 'Total Amount',
-            key: 'amount',
-            align: 'center',
-            render: (item: any) => {
-                return <>{Misc.CURRENCY_SYMBOL}{CommonService.convertToDecimals(item?.total) || '-'}</>
-            }
-        },
-        {
-            title: 'Bill Type',
-            key: 'bill_type',
-            align: 'center',
-            render: (item: any) => {
-                return <>{CommonService.capitalizeFirstLetter(item?.bill_type) || '-'}</>
-            }
-        },
-        {
-            title: 'Payment For',
-            key: 'payment_for',
-            align: 'center',
-            render: (item: any) => {
-                return <>{item?.payment_for ? <ChipComponent label={item?.payment_for}/> : '-'}</>
-            }
-        },
-        {
-            title: '',
-            key: 'action',
-            fixed: 'right',
-            dataIndex: 'action',
-            render: (item: any) => {
-                return <LinkComponent>
-                    View Details
-                </LinkComponent>
-            }
-        }
-    ], [location.pathname]);
-
+    ], [location,handlePaymentSelection]);
 
     const completePaymentListColumn: ITableColumn[] = useMemo<any>(() => [
+        {
+            title: '',
+            key: 'select',
+            dataIndex: 'select',
+            width: 50,
+            fixed: 'left',
+            render: (item: any) => {
+                const clientIdOfSelectedPayments = selectedPayments?.length > 0 ? selectedPayments[0]?.client_id : undefined;
+                console.log("clientIdOfSelectedPayments", selectedPayments.find((payment: any) => payment?._id === item?._id));
+                return <CheckBoxComponent
+                    className={selectedPayments.includes(item) ? 'selected-row' : ''}
+                    disabled={clientIdOfSelectedPayments && clientIdOfSelectedPayments !== item?.client_id}
+                    checked={selectedPayments.some((payment: any) => payment._id === item._id)}
+                    onChange={(isChecked) => {
+                        handlePaymentSelection(item, isChecked)
+                    }}/>
+            }
+        },
         {
             title: 'Receipt No.',
             key: 'receipt_no',
@@ -582,7 +552,78 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                 </LinkComponent>
             }
         }
-    ], [location]);
+    ], [location,selectedPayments,handlePaymentSelection]);
+
+    const consolidatedPayments: ITableColumn[] = useMemo<any>(() => [
+        {
+            title: 'Invoice/Receipt No.',
+            key: 'billing_number',
+            width: 200,
+            render: (item: any) => {
+                return <LinkComponent
+                    route={CommonService._routeConfig.BillingDetails(item?.billing_number) + '?referrer=' + location.pathname + '&type=receipt'}>
+                    {item?.billing_number || '-'}
+                </LinkComponent>
+            }
+        },
+        {
+            title: 'Billing Date',
+            key: 'billing_date',
+            align: 'center',
+            render: (item: any) => {
+                return <>
+                    {item?.bill_type === 'invoice' ? CommonService.convertDateFormat2(item?.created_at) : CommonService.convertDateFormat2(item?.updated_at) || '-'}
+                </>
+            }
+        },
+        {
+            title: 'Client Name',
+            key: 'client_name',
+            align: 'center',
+            render: (item: any) => {
+                return <>
+                    {CommonService.extractName(item?.client_details) || '-'}
+                </>
+            }
+        },
+        {
+            title: 'Total Amount',
+            key: 'amount',
+            align: 'center',
+            render: (item: any) => {
+                return <>{Misc.CURRENCY_SYMBOL}{CommonService.convertToDecimals(item?.total) || '-'}</>
+            }
+        },
+        {
+            title: 'Bill Type',
+            key: 'bill_type',
+            align: 'center',
+            render: (item: any) => {
+                return <>{CommonService.capitalizeFirstLetter(item?.bill_type) || '-'}</>
+            }
+        },
+        {
+            title: 'Payment For',
+            key: 'payment_for',
+            align: 'center',
+            render: (item: any) => {
+                return <>{item?.payment_for ? <ChipComponent label={item?.payment_for}/> : '-'}</>
+            }
+        },
+        {
+            title: '',
+            key: 'action',
+            fixed: 'right',
+            dataIndex: 'action',
+            render: (item: any) => {
+                return <LinkComponent>
+                    View Details
+                </LinkComponent>
+            }
+        }
+    ], [location.pathname]);
+
+
 
     const markAsPaidTableColumns: ITableColumn[] = useMemo<any>(() => [
         {
@@ -636,6 +677,8 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
 
     const handleTabChange = useCallback((e: any, value: any) => {
         searchParams.set("activeTab", value);
+        setSelectedPayments([])
+        setClientListFilterState(ClientListFilterStateInitialValues);
         setSearchParams(searchParams);
         setCurrentTab(value);
     }, [searchParams, setSearchParams]);
@@ -737,6 +780,44 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
         }
     }, [fetchBillingStats, clientId]);
 
+    const handleCreateConsolidatedPayment = useCallback((selectedPayments:any) => {
+        const payload = {
+            "client_id": setCurrentSelectedClient,
+            "bill_type":currentTab === 'pendingPayments' ? 'invoice' : 'receipt',
+            "bill_ids": selectedPayments.map((payment: any) => payment?._id)
+        }
+        commonService._billingsService.CreateConsolidatedPaymentAPICall(payload)
+            .then((response: IAPIResponseType<any>) => {
+                handleTabChange(null, 'consolidatedPayments');
+                commonService._alert.showToast(response?.message || "Payments consolidated successfully", "success");
+            }
+        )
+            .catch((error: any) => {
+                commonService._alert.showToast(error?.error || error?.errors || "Failed to consolidate payments", "error");
+            });
+    },[currentTab,setCurrentSelectedClient,handleTabChange]);
+
+    const handleConsolidatePayments = useCallback(() => {
+        commonService.openConfirmationDialog({
+            confirmationTitle: "CONSOLIDATE INVOICES",
+            confirmationSubTitle: "Are you sure you want to consolidate the\n" +
+                "selected payments?",
+            image: `${ImageConfig.ConfirmIcon}`,
+            direction: "up",
+            yes: {
+                text: "Yes",
+                color: "primary"
+            },
+            no: {
+                text: "No",
+                color: "primary"
+            }
+        }).then((response: any) => {
+            handleCreateConsolidatedPayment(selectedPayments)
+        }).catch((error: any) => {
+        })
+    }, [selectedPayments,handleCreateConsolidatedPayment]);
+
     return (
         <div className={'payment-list-component list-screen'}>
             {/*<iframe src={"https://kinergycustomertest.teric.services/"}*/}
@@ -775,8 +856,20 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                                 }}
                             />
                         </div>
-                        <div className="ts-col-lg-2"/>
-                        <div className="ts-col-lg-4 d-flex ts-justify-content-end">
+                        <div className="ts-col-lg-1"/>
+                        <div className="ts-col-lg-5 d-flex ts-justify-content-end">
+                            {
+                                (currentTab === 'completedPayments' || currentTab === 'pendingPayments') &&
+                                <>
+                                    <ButtonComponent variant={'outlined'}
+                                                     className={'mrg-right-10'}
+                                                     disabled={selectedPayments.length < 2}
+                                                     onClick={handleConsolidatePayments}
+                                                     prefixIcon={<ReceiptOutlinedIcon/>}>
+                                        Consolidate
+                                    </ButtonComponent>&nbsp;&nbsp;
+                                </>
+                            }
                             {currentTab === 'pendingPayments' &&
                                 <>
                                     <ButtonComponent variant={'outlined'}
@@ -796,6 +889,37 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                         </div>
 
                     </div>
+                </div>
+            </div>
+            <div className={'consolidation-switch-wrapper'}>
+                <div className={'consolidation-switch'}>
+                    <SwitchComponent
+                        label={''}
+                        disabled={selectedPayments?.length === 0 || currentTab === 'consolidatedPayments' || selectedPayments[0]?.payment_for === "products" }
+                        checked={clientListFilterState.linked_invoices}
+                        onChange={(value) => {
+                            if (!value) {
+                                setClientListFilterState(
+                                    {
+                                        ...clientListFilterState,
+                                        linked_invoices: value,
+                                        client_id: undefined
+                                    }
+                                );
+                            } else {
+                                setSetCurrentSelectedClient(selectedPayments[0]?.client_id)
+                                setClientListFilterState({
+                                    ...clientListFilterState,
+                                    linked_invoices: value,
+                                    client_id: selectedPayments[0]?.client_id
+                                })
+                            }
+                        }
+                        }
+                    />
+                </div>
+                <div className={`consolidation-switch-label-component ${(selectedPayments?.length === 0 || currentTab === 'consolidatedPayments' || selectedPayments[0]?.payment_for === "products") && " disabled"}`}>
+                    Display all payments linked with the selected client
                 </div>
             </div>
             {clientId &&

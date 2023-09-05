@@ -965,6 +965,10 @@ const APIConfig: IAPIConfig = {
     ADD_BILLING_ADDRESS: {
         URL: (clientId: string) => ENV.API_URL + '/client/' + clientId + '/billingAddress',
         METHOD: "post"
+    },
+    CREATE_CONSOLIDATED_PAYMENT: {
+        URL: ENV.API_URL + '/consolidatedBill',
+        METHOD: "post"
     }
 
 

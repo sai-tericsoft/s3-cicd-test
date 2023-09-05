@@ -78,6 +78,10 @@ const AddInvoiceNote = (invoiceId:string, payload:any)=>{
     return ApiService[APIConfig.ADD_INVOICE_NOTE.METHOD](APIConfig.ADD_INVOICE_NOTE.URL(invoiceId), payload)
 }
 
+const CreateConsolidatedPaymentAPICall = (payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.CREATE_CONSOLIDATED_PAYMENT.METHOD](APIConfig.CREATE_CONSOLIDATED_PAYMENT.URL, payload)
+}
 const BillingService = {
     MarkPaymentsAsPaidAPICall,
     AddNewReceiptAPICall,
@@ -93,7 +97,8 @@ const BillingService = {
     GetBillingAddressList,
     AddBillingAddress,
     GetConsolidatedBillingDetails,
-    AddInvoiceNote
+    AddInvoiceNote,
+    CreateConsolidatedPaymentAPICall
 }
 
 export default BillingService;
