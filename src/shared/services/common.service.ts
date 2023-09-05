@@ -100,6 +100,18 @@ const openDialog = (component: any) => {
     });
 }
 
+const openConfirmationDialog = (config: IConfirmationConfig = {}) => {
+    const defaultConfig: IConfirmationConfig = {
+        direction: "down",
+        yes: {text: 'Yes, Confirm', color: 'primary'},
+        no: {text: 'No, Cancel', color: 'primary'},
+    }
+    config = {...defaultConfig, ...config};
+    return new Promise((resolve, reject) => {
+        Communications.ConfirmStateSubject.next({config, promise: {resolve, reject}})
+    });
+}
+
 const getCancelToken = (): CancelTokenSource => {
     return axios.CancelToken.source();
 }
@@ -735,6 +747,7 @@ const CommonService = {
     StartTimingsList,
     generateTimeSlots,
     EndTimingsList,
+    openConfirmationDialog,
     // createValidationsObject,
     // createYupSchema,
 

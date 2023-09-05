@@ -18,6 +18,7 @@ const SetUserColorScheme: Subject<'light' | 'dark'> = new Subject<'light' | 'dar
 const ConfirmStateSubject: Subject<{ config: IConfirmationConfig, promise: { resolve: any, reject: any } }> = new Subject<{ config: IConfirmationConfig; promise: { resolve: any; reject: any } }>()
 const pageBackButtonSubject: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
 const pageTitleSubject: BehaviorSubject<string> = new BehaviorSubject<string>('');
+
 const Communications = {
     logoutSubject,
     updateActiveUserIdSubject,
