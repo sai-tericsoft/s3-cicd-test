@@ -384,15 +384,17 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
         setSelectedChanged(true);
         // setSelectedAddress(address);
     }, []);
+    
 
     const handleEdit = useCallback((address: any) => {
         setCurrentStep('editAddress');
         setTempSelectedAddress(address)
     }, []);
 
-    const handleNoteAndComment = useCallback((comment: any, thankYouNote: any) => {
+    const handleNoteAndComment = useCallback((comment: any, thankYouNote: any,selectedAddress:any) => {
         setIsSubmitting(true);
         const payload = {
+            billing_address:selectedAddress,
             thankyou_note: thankYouNote,
             comments: comment
         }
@@ -759,7 +761,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                         <ButtonComponent variant={"contained"}
                                          isLoading={isSubmitting}
                                          disabled={isSubmitting || thankYouNote?.length>90}
-                                         onClick={() => handleNoteAndComment(comments, thankYouNote)}
+                                         onClick={() => handleNoteAndComment(comments, thankYouNote,selectedAddress)}
                                          color={"primary"}>
                             Save
                         </ButtonComponent>
