@@ -213,7 +213,23 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             dataIndex: 'payment_for',
             align: 'center',
             render: (item: any) => {
-                return <>{item?.payment_for ? <ChipComponent label={item?.payment_for}/> : '-'}</>
+                let className = "";
+                if (item?.payment_for === 'appointment') {
+                    className = "active";
+                } else if (item?.payment_for === 'no show') {
+                    className = "no-show";
+                } else if (item?.payment_for === 'products') {
+                    className = "products";
+                } else if (item?.payment_for === 'waived') {
+                    className = "waived";
+                } else if (item?.payment_for === 'cancellation') {
+                    className = "cancellation";
+                }
+                return <>
+                    {item?.payment_for ? <ChipComponent
+                        className={`min-width-60 ${className}`}
+                        label={item?.payment_for}/> :'-'}
+                </>
             }
 
         },
