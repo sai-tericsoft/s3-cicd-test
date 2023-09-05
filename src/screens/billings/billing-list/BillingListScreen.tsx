@@ -73,6 +73,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
     const [isBillingStatsBeingLoadingFailed, setIsBillingStatsBeingLoadingFailed] = useState<boolean>(false);
     const [billingStats, setBillingStats] = useState<any>(undefined);
     const [setCurrentSelectedClient, setSetCurrentSelectedClient] = useState<any>(undefined);
+    const [isPaymentsGettingConsolidated, setIsPaymentsGettingConsolidated] = useState<boolean>(false);
 
     const [clientListFilterState, setClientListFilterState] = useState<any>(ClientListFilterStateInitialValues);
 
@@ -233,7 +234,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                 return <>
                     {item?.payment_for ? <ChipComponent
                         className={`min-width-60 ${className}`}
-                        label={item?.payment_for}/> :'-'}
+                        label={item?.payment_for}/> : '-'}
                 </>
             }
 
@@ -434,7 +435,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                 </LinkComponent>
             }
         }
-    ], [location,handlePaymentSelection]);
+    ], [location, handlePaymentSelection]);
 
     const completePaymentListColumn: ITableColumn[] = useMemo<any>(() => [
         {
@@ -552,7 +553,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                 </LinkComponent>
             }
         }
-    ], [location,selectedPayments,handlePaymentSelection]);
+    ], [location, selectedPayments, handlePaymentSelection]);
 
     const consolidatedPayments: ITableColumn[] = useMemo<any>(() => [
         {
@@ -622,7 +623,6 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             }
         }
     ], [location.pathname]);
-
 
 
     const markAsPaidTableColumns: ITableColumn[] = useMemo<any>(() => [
@@ -780,22 +780,25 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
         }
     }, [fetchBillingStats, clientId]);
 
-    const handleCreateConsolidatedPayment = useCallback((selectedPayments:any) => {
+    const handleCreateConsolidatedPayment = useCallback((selectedPayments: any) => {
         const payload = {
             "client_id": setCurrentSelectedClient,
-            "bill_type":currentTab === 'pendingPayments' ? 'invoice' : 'receipt',
+            "bill_type": currentTab === 'pendingPayments' ? 'invoice' : 'receipt',
             "bill_ids": selectedPayments.map((payment: any) => payment?._id)
         }
+        setIsPaymentsGettingConsolidated(true);
         commonService._billingsService.CreateConsolidatedPaymentAPICall(payload)
             .then((response: IAPIResponseType<any>) => {
-                handleTabChange(null, 'consolidatedPayments');
-                commonService._alert.showToast(response?.message || "Payments consolidated successfully", "success");
-            }
-        )
+                    handleTabChange(null, 'consolidatedPayments');
+                setIsPaymentsGettingConsolidated(false);
+                    commonService._alert.showToast(response?.message || "Payments consolidated successfully", "success");
+                }
+            )
             .catch((error: any) => {
+                setIsPaymentsGettingConsolidated(false);
                 commonService._alert.showToast(error?.error || error?.errors || "Failed to consolidate payments", "error");
             });
-    },[currentTab,setCurrentSelectedClient,handleTabChange]);
+    }, [currentTab, setCurrentSelectedClient, handleTabChange]);
 
     const handleConsolidatePayments = useCallback(() => {
         commonService.openConfirmationDialog({
@@ -816,7 +819,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             handleCreateConsolidatedPayment(selectedPayments)
         }).catch((error: any) => {
         })
-    }, [selectedPayments,handleCreateConsolidatedPayment]);
+    }, [selectedPayments, handleCreateConsolidatedPayment]);
 
     return (
         <div className={'payment-list-component list-screen'}>
@@ -864,6 +867,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                                     <ButtonComponent variant={'outlined'}
                                                      className={'mrg-right-10'}
                                                      disabled={selectedPayments.length < 2}
+                                                     isLoading={isPaymentsGettingConsolidated}
                                                      onClick={handleConsolidatePayments}
                                                      prefixIcon={<ReceiptOutlinedIcon/>}>
                                         Consolidate
@@ -895,7 +899,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                 <div className={'consolidation-switch'}>
                     <SwitchComponent
                         label={''}
-                        disabled={selectedPayments?.length === 0 || currentTab === 'consolidatedPayments' || selectedPayments[0]?.payment_for === "products" }
+                        disabled={selectedPayments?.length === 0 || currentTab === 'consolidatedPayments' || selectedPayments[0]?.payment_for === "products"}
                         checked={clientListFilterState.linked_invoices}
                         onChange={(value) => {
                             if (!value) {
@@ -918,7 +922,8 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                         }
                     />
                 </div>
-                <div className={`consolidation-switch-label-component ${(selectedPayments?.length === 0 || currentTab === 'consolidatedPayments' || selectedPayments[0]?.payment_for === "products") && " disabled"}`}>
+                <div
+                    className={`consolidation-switch-label-component ${(selectedPayments?.length === 0 || currentTab === 'consolidatedPayments' || selectedPayments[0]?.payment_for === "products") && " disabled"}`}>
                     Display all payments linked with the selected client
                 </div>
             </div>
