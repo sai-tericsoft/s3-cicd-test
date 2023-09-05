@@ -802,7 +802,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             confirmationTitle: "CONSOLIDATE INVOICES",
             confirmationSubTitle: "Are you sure you want to consolidate the\n" +
                 "selected payments?",
-            image: `${ImageConfig.ConfirmIcon}`,
+            image: `${ImageConfig.confirmImage}`,
             direction: "up",
             yes: {
                 text: "Yes",

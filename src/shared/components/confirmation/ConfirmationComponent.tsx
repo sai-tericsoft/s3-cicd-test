@@ -90,18 +90,18 @@ const ConfirmationComponent = (props: ConfirmationComponentProps) => {
                 <div className="confirmation-dialog-sub-title-and-description">
                     {config?.image && <div className="confirmation-dialog-image-container">
                         <div className={"confirmation-dialog-image"}>
-                            {
-                                config.showLottie ? <LottieFileGenerationComponent
-                                    loop={true}
-                                    autoplay={true}
-                                    animationData={config.image}/> : <div>
+                            {/*{*/}
+                            {/*    config.showLottie ? <LottieFileGenerationComponent*/}
+                            {/*        loop={true}*/}
+                            {/*        autoplay={true}*/}
+                            {/*        animationData={config.image}/> : <div>*/}
 
-                                    {(typeof (config.image) === 'string') &&
-                                    <img src={config.image} alt={config?.confirmationTitle}/>}
-                                    {(typeof (config.image) !== 'string') && <config.image/>}
-                                </div>
-                            }
-
+                            {/*        {(typeof (config.image) === 'string') &&*/}
+                            {/*        <img src={config.image} alt={config?.confirmationTitle}/>}*/}
+                            {/*        {(typeof (config.image) !== 'string') && <config.image/>}*/}
+                            {/*    </div>*/}
+                            {/*}*/}
+                            <img src={config?.image} alt={'imagePath'}/>
                         </div>
                     </div>}
                     <div className={"confirmation-dialog-title"}>
