@@ -1,0 +1,37 @@
+.consolidated-billing-details-component{
+  .billing-details-container{
+    .payment-type-header{
+      color: #6D6D6D;
+      padding-bottom: 9px;
+      padding-right: 20px;
+    }
+    .payment-type-header-total{
+      color: #212B36;
+      padding-bottom: 50px;
+      padding-right: 20px;
+      font-weight: 500;
+
+    }
+    .alert-error {
+      display: flex;
+      flex-direction: row-reverse;
+      color: #FF6767;
+      font-weight: 500;
+      font-size: 0.85714rem;
+      float: end;
+      margin-left: 200px;
+      margin-top: -12px;
+      margin-bottom: 24px;
+    }
+    .no-alert {
+      display: flex;
+      flex-direction: row-reverse;
+      color: #83909D;
+      font-weight: 500;
+      font-size: 0.85714rem;
+      margin-top: -12px;
+      margin-bottom: 24px;
+
+    }
+  }
+}

@@ -33,6 +33,8 @@ const CLIENT_ADD = "/client/client-add";
 const CLIENT_DETAILS = "/client/:clientId";
 const CLIENT_PROFILE_DETAILS = "client-profile-details";
 const CLIENT_BILLING_DETAILS = "client-billing-details";
+
+const CLIENT_CONSOLIDATED_BILLING_DETAILS = "client-consolidated-billing-details";
 const CLIENT_DOCUMENTS = "client-documents";
 const CLIENT_DOCUMENTS_DETAILS = ":clientDocumentId/client-documents-view-details";
 const CLIENT_APPOINTMENTS = "client-appointments";
@@ -186,6 +188,7 @@ export {
     BASIC_DETAILS,
     PERSONAL_SLOTS_EDIT,
     USER_SLOTS_EDIT,
-    BILLING_SETTINGS
+    BILLING_SETTINGS,
+    CLIENT_CONSOLIDATED_BILLING_DETAILS
 
 };

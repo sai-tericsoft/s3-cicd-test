@@ -68,6 +68,11 @@ const AddBillingAddress = (clientId:string, payload:any)=>{
     return ApiService[APIConfig.ADD_BILLING_ADDRESS.METHOD](APIConfig.ADD_BILLING_ADDRESS.URL(clientId), payload)
 }
 
+const GetConsolidatedBillingDetails = (consolidatedBillId:string, payload:any)=>{
+    // @ts-ignore
+    return ApiService[APIConfig.GET_CONSOLIDATED_BILLING_DETAILS.METHOD](APIConfig.GET_CONSOLIDATED_BILLING_DETAILS.URL(consolidatedBillId), payload)
+}
+
 const BillingService = {
     MarkPaymentsAsPaidAPICall,
     AddNewReceiptAPICall,
@@ -81,7 +86,8 @@ const BillingService = {
     AddBillingSettings,
     GetBillingSettings,
     GetBillingAddressList,
-    AddBillingAddress
+    AddBillingAddress,
+    GetConsolidatedBillingDetails
 }
 
 export default BillingService;
