@@ -20,6 +20,11 @@ import DataLabelValueComponent from "../../../../shared/components/data-label-va
 import TableComponent from "../../../../shared/components/table/TableComponent";
 import IconButtonComponent from "../../../../shared/components/icon-button/IconButtonComponent";
 import TextAreaComponent from "../../../../shared/components/form-controls/text-area/TextAreaComponent";
+import DrawerComponent from "../../../../shared/components/drawer/DrawerComponent";
+import FormControlLabelComponent from "../../../../shared/components/form-control-label/FormControlLabelComponent";
+import {RadioButtonComponent} from "../../../../shared/components/form-controls/radio-button/RadioButtonComponent";
+import EditBillingAddressComponent from "../../edit-billing-address/EditBillingAddressComponent";
+import AddBillingAddressComponent from "../../add-billing-address/AddBillingAddressComponent";
 
 interface ConsolidatedBillingDetailsScreenProps {
 
@@ -35,12 +40,18 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
         const [billingDetails, setBillingDetails] = useState<any>(undefined);
         const [thankYouNote, setThankYouNote] = useState<any>('');
         const [comments, setComments] = useState<any>('');
-
+        const [getBillingList, setGetBillingList] = useState<any>([]);
         const {billingFromAddress} = useSelector((state: IRootReducerState) => state.billings);
+        const [currentStep, setCurrentStep] = useState<"selectAddress" | "editAddress" | "addAddress">("selectAddress");
+        const [selectedAddress, setSelectedAddress] = useState<any>(null);
+        const [tempSelectedAddress, setTempSelectedAddress] = useState<any>(null);
+        const [selectedChanged, setSelectedChanged] = useState<boolean>(false);
+        const [isClientBillingAddressDrawerOpened, setIsClientBillingAddressDrawerOpened] = useState<boolean>(false);
 
         useEffect(() => {
             dispatch(getBillingFromAddress())
         }, [dispatch]);
+
 
         useEffect(() => {
             setThankYouNote(billingDetails?.thankyou_note);
@@ -158,6 +169,69 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
             fetchBillingDetails();
         }, [fetchBillingDetails]);
 
+        const getClientBillingAddressList = useCallback(() => {
+            CommonService._billingsService.GetBillingAddressList(billingDetails?.client_id)
+                .then((response: any) => {
+                    setGetBillingList(response?.data);
+                })
+                .catch((error: any) => {
+                    CommonService._alert.showToast(error.error || error.errors || "Failed to fetch client billing address", "error");
+                });
+        }, [billingDetails?.client_id]);
+
+        useEffect(() => {
+            getClientBillingAddressList()
+        }, [getClientBillingAddressList]);
+
+    useEffect(() => {
+        // Initialize selectedAddress with the default address when the component mounts
+        const defaultAddress = getBillingList.find((item: any) => item.is_default);
+        if (defaultAddress) {
+            setSelectedAddress(defaultAddress);
+        }
+    }, [getBillingList]);
+
+        const openBillingAddressFormDrawer = useCallback(() => {
+            setIsClientBillingAddressDrawerOpened(true);
+        }, []);
+
+        const closeBillingAddressFormDrawer = useCallback(() => {
+            setIsClientBillingAddressDrawerOpened(false);
+            setCurrentStep('selectAddress');
+        }, []);
+
+        const handleRadioButtonClick = useCallback((address: any) => {
+            // Update selectedAddress when a radio button is clicked
+            setTempSelectedAddress(address);
+            setSelectedChanged(true);
+            // setSelectedAddress(address);
+        }, []);
+
+        const handleEdit = useCallback((address: any) => {
+            setCurrentStep('editAddress');
+            setTempSelectedAddress(address)
+        }, []);
+
+        const handleSaveButtonClick = useCallback(() => {
+            if (tempSelectedAddress) {
+                setSelectedAddress(tempSelectedAddress); // Update the selected address when "Save" is clicked
+            }
+            setSelectedChanged(false);
+            closeBillingAddressFormDrawer();
+        }, [closeBillingAddressFormDrawer, tempSelectedAddress]);
+
+        const handleEditBillingAddress = useCallback((values: any) => {
+            setBillingDetails((prevBillingDetails: any) => {
+                return {
+                    ...prevBillingDetails,
+                    billing_address: {
+                        ...prevBillingDetails.billing_address,
+                        ...values
+                    }
+                }
+            });
+            closeBillingAddressFormDrawer();
+        }, [closeBillingAddressFormDrawer]);
 
         return (
             <div className={'consolidated-billing-details-component billing-details-screen'}>
@@ -221,7 +295,7 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                                     {
                                         <div>
                                             <div className={'appointment-id-heading'}>
-                                                {CommonService.capitalizeFirstLetter(billingDetails?.bill_type) +' No'}
+                                                {CommonService.capitalizeFirstLetter(billingDetails?.bill_type) + ' No'}
                                             </div>
                                             <div className={'appointment-id'}>
                                                 {billingDetails?.billing_number}
@@ -258,14 +332,15 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                                     <div className={"billing-address-block__header"}>
                                         <div className={"billing-address-block__title"}>Billing To</div>
                                         &nbsp;&nbsp;
-                                        {(billingDetails?.billing_address && type === 'invoice') &&
-                                            <LinkComponent
-                                                // onClick={openBillingAddressFormDrawer}
-                                            >
+                                        {/*{(billingDetails?.billing_address && type === 'invoice') &&*/}
+                                        <LinkComponent
+                                            onClick={openBillingAddressFormDrawer}
+                                        >
                                               <span>  <ImageConfig.EditIcon height={'15'}
                                                                             width={'15'}/> </span>
-                                                <span className={'edit-text'}>Edit</span>
-                                            </LinkComponent>}
+                                            <span className={'edit-text'}>Edit</span>
+                                        </LinkComponent>
+                                        {/*}*/}
                                     </div>
                                     <div className={"billing-address-block__details"}>
                                         {
@@ -279,17 +354,17 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                                                 <div
                                                     className={"billing-address-block__detail__row name"}>
                                                     {/*{(type === 'invoice' && selectedAddress) && */}
-                                                    {billingDetails?.billing_address?.name}
+                                                    {selectedAddress ? selectedAddress?.name :billingDetails?.billing_address?.name}
                                                 </div>
                                                 <div
                                                     className={"billing-address-block__detail__row"}>
                                                     {/*{(type === 'invoice' && selectedAddress) ? selectedAddress?.address : billingDetails?.billing_address.address_line}*/}
-                                                    {billingDetails?.billing_address.address_line}
+                                                    {selectedAddress ? selectedAddress?.address:billingDetails?.billing_address.address_line}
                                                 </div>
                                                 <div className={"billing-address-block__detail__row"}>
-                                                    <span>{billingDetails?.billing_address?.city}</span>,&nbsp;
-                                                    <span>{billingDetails?.billing_address?.state}</span>&nbsp;
-                                                    <span>{billingDetails?.billing_address?.zip_code}</span>
+                                                    <span>{selectedAddress ? selectedAddress?.city:billingDetails?.billing_address?.city}</span>,&nbsp;
+                                                    <span>{selectedAddress ? selectedAddress?.state:billingDetails?.billing_address?.state}</span>&nbsp;
+                                                    <span>{selectedAddress ? selectedAddress?.zip_code:billingDetails?.billing_address?.zip_code}</span>
                                                 </div>
                                                 <div
                                                     className={"billing-address-block__detail__row"}>  {billingDetails?.billing_address?.phone || '-'} </div>
@@ -480,6 +555,107 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                         </div>
                     </>
                 }
+                <DrawerComponent isOpen={isClientBillingAddressDrawerOpened}
+                                 onClose={() => setIsClientBillingAddressDrawerOpened(false)}
+                                 showClose={true}>
+
+                    {
+                        currentStep === 'selectAddress' && <>
+                            <FormControlLabelComponent label={"Select Billing Address"}/>
+                            <div className={'select-billing-address'}>
+                                {getBillingList?.length > 0 && getBillingList?.map((item: any, index: number) => {
+                                    return <div className={'select-address-card'}>
+                                        <div className={'select-address-card-header'}>
+                                            <div className={'btn-heading-wrapper'}>
+                                                <RadioButtonComponent
+                                                    checked={selectedChanged ? tempSelectedAddress === item : selectedAddress === item}
+                                                    onChange={() => handleRadioButtonClick(item)}/>
+                                                <div
+                                                    className={'card-heading'}>{item?.is_default ? 'Default Address' : 'Other Address'}</div>
+                                            </div>
+                                            <div className={'btn-wrapper'}>
+                                                <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>} variant={'text'}
+                                                                 onClick={() => handleEdit(item)}>
+                                                    Edit
+                                                </ButtonComponent>
+                                            </div>
+                                        </div>
+                                        <div className={'ts-row mrg-top-10'}>
+                                            <div className={'ts-col-lg-1'}/>
+                                            <div className={'ts-col-lg-6'}>
+                                                <DataLabelValueComponent label={'Name of Client/Organisation'}>
+                                                    {item?.name || 'N/A'}
+                                                </DataLabelValueComponent>
+                                            </div>
+                                            <div className={'ts-col-lg-4'}>
+                                                <DataLabelValueComponent label={'Address Line'}>
+                                                    {item?.address_line || 'N/A'}
+                                                </DataLabelValueComponent>
+                                            </div>
+                                            <div className={'ts-col-lg-2'}/>
+
+                                        </div>
+                                        <div className={'ts-row'}>
+                                            <div className={'ts-col-lg-1'}/>
+                                            <div className={'ts-col-lg-6'}>
+                                                <DataLabelValueComponent label={'City'}>
+                                                    {item?.city || "N/A"}
+                                                </DataLabelValueComponent>
+                                            </div>
+                                            <div className={'ts-col-lg-4'}>
+                                                <DataLabelValueComponent label={'State'}>
+                                                    {item?.state || 'N/A'}                                        </DataLabelValueComponent>
+                                            </div>
+                                            <div className={'ts-col-lg-2'}/>
+
+                                        </div>
+                                        <div className={'ts-row'}>
+                                            <div className={'ts-col-lg-1'}/>
+                                            <div className={'ts-col-lg-6'}>
+                                                <DataLabelValueComponent label={'ZIP Code'}>
+                                                    {item?.zip_code || 'N/A'}
+                                                </DataLabelValueComponent>
+                                            </div>
+                                            <div className={'ts-col-lg-4'}>
+                                                <DataLabelValueComponent label={'Country'}>
+                                                    {item?.country || 'N/A'}                                       </DataLabelValueComponent>
+                                            </div>
+                                            <div className={'ts-col-lg-2'}/>
+
+                                        </div>
+                                    </div>
+                                })
+                                }
+                                <ButtonComponent prefixIcon={<ImageConfig.AddIcon/>}
+                                                 onClick={() => setCurrentStep("addAddress")} variant={"text"}>Add New
+                                    Address</ButtonComponent>
+                            </div>
+
+
+                            <div className={'select-cta'}>
+                                <ButtonComponent fullWidth={true} onClick={handleSaveButtonClick}>
+                                    Select</ButtonComponent>
+                            </div>
+                        </>
+                    }
+                    {currentStep === "editAddress" && <EditBillingAddressComponent billing_address={tempSelectedAddress}
+                                                                                   clientId={billingDetails?.client_id}
+                                                                                   onCancel={closeBillingAddressFormDrawer}
+                                                                                   afterSave={getClientBillingAddressList}
+                                                                                   onSave={handleEditBillingAddress}/>
+                    }
+                    {
+                        currentStep === "addAddress" &&
+                        <AddBillingAddressComponent clientId={billingDetails?.client_id}
+                                                    onCancel={closeBillingAddressFormDrawer}
+                                                    onSave={handleEditBillingAddress}
+                                                    afterSave={getClientBillingAddressList}
+
+                        />
+                    }
+
+
+                </DrawerComponent>
             </div>
         );
 
