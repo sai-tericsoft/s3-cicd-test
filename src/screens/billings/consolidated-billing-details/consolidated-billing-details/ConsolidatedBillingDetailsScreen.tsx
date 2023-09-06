@@ -29,6 +29,8 @@ import {setCurrentNavParams} from "../../../../store/actions/navigation.action";
 import {useLocation, useNavigate, useParams, useSearchParams} from "react-router-dom";
 import {IAPIResponseType} from "../../../../shared/models/api.model";
 import ModalComponent from "../../../../shared/components/modal/ModalComponent";
+import commonService from "../../../../shared/services/common.service";
+import _ from "lodash";
 
 interface ConsolidatedBillingDetailsScreenProps {
 
@@ -60,7 +62,7 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
         const [isBillingBeingMarkedAsPaid, setIsBillingBeingMarkedAsPaid] = useState<boolean>(false);
         const [selectedPaymentMode, setSelectedPaymentMode] = useState<string>("");
         const [isPaymentModeModalOpen, setIsPaymentModeModalOpen] = useState<boolean>(false);
-
+        const [currentClientIndex, setCurrentClientIndex] = useState<number>(0);
         const {
             paymentModes
         } = useSelector((state: IRootReducerState) => state.staticData);
@@ -70,6 +72,26 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
             dispatch(getBillingFromAddress())
             dispatch(getBillingSettings())
         }, [dispatch]);
+
+        const fetchBillingDetails = useCallback(() => {
+            setIsBillingDetailsBeingLoading(true);
+            setIsBillingDetailsBeingLoadingFailed(false);
+            setIsBillingDetailsBeingLoaded(false);
+            consolidatedBillingId && CommonService._billingsService.GetConsolidatedBillingDetails(consolidatedBillingId, {})
+                .then((response) => {
+                    setIsBillingDetailsBeingLoading(false);
+                    setIsBillingDetailsBeingLoaded(true);
+                    setBillingDetails(response.data);
+                }).catch((error) => {
+                    setBillingDetails(undefined)
+                    setIsBillingDetailsBeingLoading(false);
+                    setIsBillingDetailsBeingLoadingFailed(true);
+                });
+        }, [consolidatedBillingId]);
+
+        useEffect(() => {
+            fetchBillingDetails();
+        }, [fetchBillingDetails]);
 
         useEffect(() => {
             if (searchParams.get('type') === 'consolidatedInvoice') {
@@ -90,6 +112,56 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                 }
             }));
         }, [navigate, dispatch, searchParams]);
+
+        const removePayment = useCallback((item: any, index: number,billingDetails:any,currentClientIndex:number) => {
+            const tempBillingDetails = _.cloneDeep(billingDetails);
+            tempBillingDetails.bills_details[currentClientIndex].bills.splice(index, 1);
+            tempBillingDetails.bills_details[currentClientIndex].totalAmount = tempBillingDetails.bills_details[currentClientIndex].bills.reduce((acc: any, item: any) => {
+                return acc + item.total;
+            }, 0);
+            tempBillingDetails.bills_details[currentClientIndex].totalDiscount = tempBillingDetails.bills_details[currentClientIndex].bills.reduce((acc: any, item: any) => {
+                return acc + item.discount;
+            }, 0);
+            tempBillingDetails.bills_details[currentClientIndex].totalPayableAmount = tempBillingDetails.bills_details[currentClientIndex].bills.reduce((acc: any, item: any) => {
+                return acc + item.payable_amount;
+            }, 0);
+            tempBillingDetails.payable_amount = tempBillingDetails.bills_details.reduce((acc: any, item: any) => {
+                return acc + item.totalPayableAmount;
+            }, 0);
+            tempBillingDetails.discount = tempBillingDetails.bills_details.reduce((acc: any, item: any) => {
+                return acc + item.totalDiscount;
+            }, 0);
+            tempBillingDetails.total = tempBillingDetails.bills_details.reduce((acc: any, item: any) => {
+                return acc + item.totalAmount;
+            }, 0);
+            // eslint-disable-next-line array-callback-return
+            tempBillingDetails.bill_ids = tempBillingDetails.bill_ids.map((billId: any) => {
+                if (billId !== item._id) {
+                    return item._id
+                }
+            })
+            setBillingDetails(tempBillingDetails);
+        }, []);
+
+        const handleRemovePayment = useCallback((item: any, index: number) => () => {
+            commonService.openConfirmationDialog({
+                confirmationTitle: "REMOVE RECEIPT",
+                confirmationSubTitle: "Are you sure you want to remove the\n" +
+                    "selected receipt?",
+                image: `${ImageConfig.confirmImage}`,
+                yes: {
+                    text: "Yes",
+                    color: "primary"
+                },
+                no: {
+                    text: "No",
+                    color: "primary"
+                }
+            }).then((response: any) => {
+                removePayment(item, index,billingDetails,currentClientIndex)
+            }).catch((error: any) => {
+            })
+        }, [billingDetails,currentClientIndex,removePayment]);
 
         const consolidatedDetailsColumn: any = [
             {
@@ -174,33 +246,14 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                 key: "actions",
                 fixed: 'right',
                 width: 70,
-                render: (item: any) => {
-                    return <IconButtonComponent>
+                render: (item: any, index: any) => {
+                    return <IconButtonComponent onClick={handleRemovePayment(item, index)}>
                         <ImageConfig.CircleCancel/>
                     </IconButtonComponent>
                 }
             }
         ]
 
-        const fetchBillingDetails = useCallback(() => {
-            setIsBillingDetailsBeingLoading(true);
-            setIsBillingDetailsBeingLoadingFailed(false);
-            setIsBillingDetailsBeingLoaded(false);
-            consolidatedBillingId && CommonService._billingsService.GetConsolidatedBillingDetails(consolidatedBillingId, {})
-                .then((response) => {
-                    setIsBillingDetailsBeingLoading(false);
-                    setIsBillingDetailsBeingLoaded(true);
-                    setBillingDetails(response.data);
-                }).catch((error) => {
-                    setBillingDetails(undefined)
-                    setIsBillingDetailsBeingLoading(false);
-                    setIsBillingDetailsBeingLoadingFailed(true);
-                });
-        }, [consolidatedBillingId]);
-
-        useEffect(() => {
-            fetchBillingDetails();
-        }, [fetchBillingDetails]);
 
         const getClientBillingAddressList = useCallback((clientId?: string) => {
             setIsBillingListLoading(true);
@@ -291,7 +344,7 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                     CommonService._alert.showToast(error.error || error.errors || "Failed to update billing", "error");
                 })
 
-        }, [consolidatedBillingId,navigate]);
+        }, [consolidatedBillingId, navigate]);
 
         const getLinkedClientList = useCallback(() => {
             CommonService._billingsService.LinkedClientListAPICall(billingDetails?.client_id, {})
@@ -483,7 +536,7 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                                 </div>
                             </div>
                             {
-                                billingDetails?.bills_details?.length > 0 && billingDetails?.bills_details?.map((billDetail: any) => {
+                                billingDetails?.bills_details?.length > 0 && billingDetails?.bills_details?.map((billDetail: any, index: number) => {
                                     return (
                                         <CardComponent title={'Client and Case Details'}>
                                             <div className={'ts-row'}>
@@ -507,9 +560,12 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                                                         })}
                                                     </DataLabelValueComponent>
                                                 </div>
-
                                             </div>
-                                            <TableComponent columns={consolidatedDetailsColumn} data={billDetail?.bills}/>
+                                            <div className={'consolidated-client-bills-table'} onClick={() => {
+                                                setCurrentClientIndex(index)
+                                            }}>
+                                                <TableComponent columns={consolidatedDetailsColumn} data={billDetail?.bills}/>
+                                            </div>
                                             {
                                                 billingDetails?.bills_details?.length > 1 && <>
                                                     <div className={'ts-row'}>
