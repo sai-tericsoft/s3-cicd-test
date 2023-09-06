@@ -973,6 +973,14 @@ const APIConfig: IAPIConfig = {
     GET_LINKED_CLIENT_LIST: {
         URL: (clientId: string) => ENV.API_URL + '/client/' + clientId + '/linkedClientList',
         METHOD: "get"
+    },
+    CONSOLIDATED_MARK_AS_PAID: {
+        URL: ENV.API_URL + '/consolidatedBill/markPaid',
+        METHOD: "post"
+    },
+    EDIT_CONSOLIDATED_BILL: {
+        URL: (consolidatedBillId: string) => ENV.API_URL + '/consolidatedBill/' + consolidatedBillId,
+        METHOD: "put"
     }
 
 

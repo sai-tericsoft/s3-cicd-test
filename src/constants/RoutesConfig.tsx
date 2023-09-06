@@ -33,8 +33,6 @@ const CLIENT_ADD = "/client/client-add";
 const CLIENT_DETAILS = "/client/:clientId";
 const CLIENT_PROFILE_DETAILS = "client-profile-details";
 const CLIENT_BILLING_DETAILS = "client-billing-details";
-
-const CLIENT_CONSOLIDATED_BILLING_DETAILS = "client-consolidated-billing-details";
 const CLIENT_DOCUMENTS = "client-documents";
 const CLIENT_DOCUMENTS_DETAILS = ":clientDocumentId/client-documents-view-details";
 const CLIENT_APPOINTMENTS = "client-appointments";
@@ -76,6 +74,7 @@ const BILLING = "/billing";
 const BILLING_LIST = "/billing/billing-list";
 const ADD_NEW_RECEIPT = "/billing/add-new-receipt";
 const BILLING_DETAILS = "/billing/billing-details/:billingId";
+const CONSOLIDATED_BILLING_DETAILS = "/billing/consolidated-billing-details/:consolidatedBillingId";
 
 const HELP = "/help";
 const FAQ = "/help/faq";
@@ -189,6 +188,5 @@ export {
     PERSONAL_SLOTS_EDIT,
     USER_SLOTS_EDIT,
     BILLING_SETTINGS,
-    CLIENT_CONSOLIDATED_BILLING_DETAILS
-
+    CONSOLIDATED_BILLING_DETAILS,
 };

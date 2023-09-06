@@ -6,12 +6,11 @@ import MenuDropdownComponent from "../../../../shared/components/menu-dropdown/M
 import {ListItem} from "@mui/material";
 import PageHeaderComponent from "../../../../shared/components/page-header/PageHeaderComponent";
 import React, {useCallback, useEffect, useState} from "react";
-import {BillingType} from "../../../../shared/models/common.model";
 import LoaderComponent from "../../../../shared/components/loader/LoaderComponent";
 import StatusCardComponent from "../../../../shared/components/status-card/StatusCardComponent";
 import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "../../../../store/reducers";
-import {getBillingFromAddress} from "../../../../store/actions/billings.action";
+import {getBillingFromAddress, getBillingSettings} from "../../../../store/actions/billings.action";
 import HorizontalLineComponent
     from "../../../../shared/components/horizontal-line/horizontal-line/HorizontalLineComponent";
 import LinkComponent from "../../../../shared/components/link/LinkComponent";
@@ -26,6 +25,10 @@ import {RadioButtonComponent} from "../../../../shared/components/form-controls/
 import EditBillingAddressComponent from "../../edit-billing-address/EditBillingAddressComponent";
 import AddBillingAddressComponent from "../../add-billing-address/AddBillingAddressComponent";
 import SelectComponent from "../../../../shared/components/form-controls/select/SelectComponent";
+import {setCurrentNavParams} from "../../../../store/actions/navigation.action";
+import {useLocation, useNavigate, useParams, useSearchParams} from "react-router-dom";
+import {IAPIResponseType} from "../../../../shared/models/api.model";
+import ModalComponent from "../../../../shared/components/modal/ModalComponent";
 
 interface ConsolidatedBillingDetailsScreenProps {
 
@@ -34,7 +37,10 @@ interface ConsolidatedBillingDetailsScreenProps {
 const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScreenProps) => {
 
         const dispatch = useDispatch();
-        const [type, setType] = useState<BillingType>('invoice');
+        const navigate = useNavigate();
+        const location = useLocation();
+        const {consolidatedBillingId} = useParams();
+        const [searchParams] = useSearchParams();
         const [isBillingDetailsBeingLoaded, setIsBillingDetailsBeingLoaded] = useState<boolean>(false);
         const [isBillingDetailsBeingLoading, setIsBillingDetailsBeingLoading] = useState<boolean>(false);
         const [isBillingDetailsBeingLoadingFailed, setIsBillingDetailsBeingLoadingFailed] = useState<boolean>(false);
@@ -51,16 +57,39 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
         const [clientLinkedList, setClientLinkedList] = useState<any>([]);
         const [isBillingListLoading, setIsBillingListLoading] = useState<boolean>(false);
         const [isBillingListLoaded, setIsBillingListLoaded] = useState<boolean>(false);
+        const [isBillingBeingMarkedAsPaid, setIsBillingBeingMarkedAsPaid] = useState<boolean>(false);
+        const [selectedPaymentMode, setSelectedPaymentMode] = useState<string>("");
+        const [isPaymentModeModalOpen, setIsPaymentModeModalOpen] = useState<boolean>(false);
+
+        const {
+            paymentModes
+        } = useSelector((state: IRootReducerState) => state.staticData);
+        const {billingSettings} = useSelector((state: IRootReducerState) => state.billings);
 
         useEffect(() => {
             dispatch(getBillingFromAddress())
+            dispatch(getBillingSettings())
         }, [dispatch]);
 
+        useEffect(() => {
+            if (searchParams.get('type') === 'consolidatedInvoice') {
+                setThankYouNote(billingSettings?.default_thankyou_note);
+            } else {
+                setThankYouNote(billingDetails?.thankyou_note);
+            }
+            setComments(billingDetails?.comments);
+        }, [billingSettings?.default_thankyou_note, billingDetails?.thankyou_note, searchParams, billingDetails?.comments]);
 
         useEffect(() => {
-            setThankYouNote(billingDetails?.thankyou_note);
-            setComments(billingDetails?.comments);
-        }, [billingDetails?.thankyou_note, billingDetails?.comments]);
+            const referrer: any = searchParams.get("referrer");
+            dispatch(setCurrentNavParams("View Invoice", null, () => {
+                if (referrer) {
+                    navigate(referrer);
+                } else {
+                    navigate(CommonService._routeConfig.BillingList());
+                }
+            }));
+        }, [navigate, dispatch, searchParams]);
 
         const consolidatedDetailsColumn: any = [
             {
@@ -157,17 +186,17 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
             setIsBillingDetailsBeingLoading(true);
             setIsBillingDetailsBeingLoadingFailed(false);
             setIsBillingDetailsBeingLoaded(false);
-            CommonService._billingsService.GetConsolidatedBillingDetails('64f58b5cfa59f9f71115a63c', {})
+            consolidatedBillingId && CommonService._billingsService.GetConsolidatedBillingDetails(consolidatedBillingId, {})
                 .then((response) => {
                     setIsBillingDetailsBeingLoading(false);
                     setIsBillingDetailsBeingLoaded(true);
                     setBillingDetails(response.data);
                 }).catch((error) => {
-                setBillingDetails(undefined)
-                setIsBillingDetailsBeingLoading(false);
-                setIsBillingDetailsBeingLoadingFailed(true);
-            });
-        }, []);
+                    setBillingDetails(undefined)
+                    setIsBillingDetailsBeingLoading(false);
+                    setIsBillingDetailsBeingLoadingFailed(true);
+                });
+        }, [consolidatedBillingId]);
 
         useEffect(() => {
             fetchBillingDetails();
@@ -191,7 +220,7 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
             if (billingDetails?.client_id !== undefined) {
                 getClientBillingAddressList(billingDetails?.client_id)
             }
-        }, [getClientBillingAddressList,billingDetails?.client_id]);
+        }, [getClientBillingAddressList, billingDetails?.client_id]);
 
         const handleSelectChange = useCallback((value: any) => {
             getClientBillingAddressList(value);
@@ -247,8 +276,25 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
             closeBillingAddressFormDrawer();
         }, [closeBillingAddressFormDrawer]);
 
+        const handleSave = useCallback((thankYouNote: any, comments: any, selectedAddress: any, billingDetails: any) => {
+            const payload = {
+                "billing_address_id": selectedAddress?._id,
+                "thankyou_note": thankYouNote,
+                "comments": comments,
+                "bill_ids": [...billingDetails?.bill_ids]
+            }
+            consolidatedBillingId && CommonService._billingsService.EditConsolidatedBill(consolidatedBillingId, payload)
+                .then((response) => {
+                    CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY] || "Billing updated successfully", "success");
+                    navigate(CommonService._routeConfig.BillingList() + '?activeTab=consolidatedPayments');
+                }).catch((error) => {
+                    CommonService._alert.showToast(error.error || error.errors || "Failed to update billing", "error");
+                })
+
+        }, [consolidatedBillingId,navigate]);
+
         const getLinkedClientList = useCallback(() => {
-            CommonService._billingsService.LinkedClientListAPICall('64de1553bf84de935ae5b1bf', {})
+            CommonService._billingsService.LinkedClientListAPICall(billingDetails?.client_id, {})
                 .then((response: any) => {
                     setClientLinkedList(response?.data);
                 })
@@ -256,33 +302,67 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                     CommonService._alert.showToast(error.error || error.errors || "Failed to fetch client linked list", "error");
                 });
 
-        }, []);
+        }, [billingDetails?.client_id]);
 
         useEffect(() => {
             getLinkedClientList();
         }, [getLinkedClientList]);
 
+        const handleBillingMarkAsPaidSuccess = useCallback(() => {
+            navigate(CommonService._routeConfig.BillingList() + '?referrer=' + location.pathname + '&type=receipt');
+        }, [navigate, location.pathname]);
+
+        const openPaymentModeModal = useCallback(() => {
+            setIsPaymentModeModalOpen(true);
+        }, []);
+
+        const closePaymentModeModal = useCallback(() => {
+            setIsPaymentModeModalOpen(false);
+            setSelectedPaymentMode("");
+        }, []);
+
+        const handleBillingMarkAsPaid = useCallback(() => {
+            closePaymentModeModal();
+            setIsBillingBeingMarkedAsPaid(true);
+            const payload = {
+                "payment_mode": selectedPaymentMode,
+                "_id": consolidatedBillingId
+            }
+            CommonService._billingsService.ConsolidatedMarkAsPaid(payload)
+                .then((response: IAPIResponseType<any>) => {
+                    setIsBillingBeingMarkedAsPaid(false);
+                    CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY] || "Payment marked as paid successfully", "success");
+                    handleBillingMarkAsPaidSuccess();
+                })
+                .catch((error: any) => {
+                    CommonService._alert.showToast(error.error || error.errors || "Failed to mark payment as paid", "error");
+                    setIsBillingBeingMarkedAsPaid(false);
+                });
+        }, [consolidatedBillingId, closePaymentModeModal, selectedPaymentMode, handleBillingMarkAsPaidSuccess]);
+
+
         return (
             <div className={'consolidated-billing-details-component billing-details-screen'}>
                 <PageHeaderComponent
-                    title={`View Consolidated ${CommonService.capitalizeFirstLetter(type)}`}
+                    title={`View Consolidated ${CommonService.capitalizeFirstLetter(billingDetails?.bill_type)}`}
                     actions={<>
                         {
-                            // type === 'invoice' &&
+                            searchParams.get('type') !== 'completed' &&
                             <>
                                 <ButtonComponent variant={'outlined'} color={'error'}
                                                  prefixIcon={<ImageConfig.DeleteIcon/>}>
                                     Delete
                                 </ButtonComponent>&nbsp;&nbsp;
-
-                                <ButtonComponent
-                                    prefixIcon={<ImageConfig.CircleCheck/>}
-                                    // onClick={openPaymentModeModal}
-                                    // disabled={isBillingBeingMarkedAsPaid}
-                                    // isLoading={isBillingBeingMarkedAsPaid}
-                                >
-                                    Mark as Paid
-                                </ButtonComponent>&nbsp;&nbsp;
+                                {searchParams.get('type') === 'consolidatedInvoice' &&
+                                    <ButtonComponent
+                                        prefixIcon={<ImageConfig.CircleCheck/>}
+                                        onClick={openPaymentModeModal}
+                                        disabled={isBillingBeingMarkedAsPaid}
+                                        isLoading={isBillingBeingMarkedAsPaid}
+                                    >
+                                        Mark as Paid
+                                    </ButtonComponent>}
+                                &nbsp;&nbsp;
                             </>
                         }
                         <MenuDropdownComponent className={'billing-details-drop-down-menu'} menuBase={
@@ -293,12 +373,12 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                             <ListItem
                                 // onClick={handleBillingDownload}
                             >
-                                Download {CommonService.capitalizeFirstLetter(type)}
+                                Download {CommonService.capitalizeFirstLetter(billingDetails?.bill_type)}
                             </ListItem>,
                             <ListItem
                                 // onClick={handleBillingPrint}
                             >
-                                Print {CommonService.capitalizeFirstLetter(type)}
+                                Print {CommonService.capitalizeFirstLetter(billingDetails?.bill_type)}
                             </ListItem>
                         ]}
                         />
@@ -471,19 +551,20 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                                 <div className="ts-row">
                                     <div className="ts-col-lg-4 add-new-invoice__comments__block">
                                         <DataLabelValueComponent className={'comments'} label={""}>
-                                            {/*{type === 'invoice' ?*/}
-                                            <TextAreaComponent label={'Comments'}
-                                                               placeholder={'Please add your comments here'}
-                                                               fullWidth={true}
-                                                               value={comments}
-                                                               onChange={(value: any) => setComments(value)}
-                                            />
-                                            {/*//     : <TextAreaComponent label={'Comments'}*/}
-                                            {/*//                         placeholder={'Please add your comments here'}*/}
-                                            {/*//                         fullWidth={true}*/}
-                                            {/*//     // value={comments?.length>0?comments:'N/A'}*/}
-                                            {/*//                         disabled={true}*/}
-                                            {/*// />*/}
+                                            {searchParams.get('type') !== 'completed' &&
+                                                <TextAreaComponent label={'Comments'}
+                                                                   placeholder={'Please add your comments here'}
+                                                                   fullWidth={true}
+                                                                   value={comments}
+                                                                   onChange={(value: any) => setComments(value)}
+                                                />
+                                            }
+                                            {searchParams.get('type') === 'completed' && <TextAreaComponent label={'Comments'}
+                                                                                                            placeholder={'Please add your comments here'}
+                                                                                                            fullWidth={true}
+                                                                                                            value={comments?.length > 0 ? comments : 'N/A'}
+                                                                                                            disabled={true}
+                                            />}
 
                                         </DataLabelValueComponent>
                                         {/*{*/}
@@ -530,7 +611,7 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                                                     }
                                                 </div>
                                             </div>
-                                            {type === 'receipt' &&
+                                            {searchParams.get('type') === 'consolidatedReceipt' &&
                                                 <div className="add-new-invoice__payment__block__row date">
                                                     <div className="add-new-invoice__payment__block__row__title">
                                                         Payment Date
@@ -539,17 +620,14 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                                                         className="add-new-invoice__payment__block__row__value">
                                                         {CommonService.convertDateFormat2(billingDetails?.created_at)}
                                                     </div>
-                                                </div>}
-                                            {
-                                                type === 'receipt' &&
-                                                // <DataLabelValueComponent className={'mode_of_payment'}
-                                                //                          label={"Mode Of Payment: "}
-                                                //                          direction={"row"}
-                                                // >
-                                                //     {billingDetails?.payment_mode_details?.title || billingDetails?.payment_mode || "N/A"}
-                                                // </DataLabelValueComponent>
+                                                </div>
+                                            }
+                                            {/*// }*/}
+
+                                            {searchParams.get('type') === 'consolidatedReceipt' &&
                                                 <div className="add-new-invoice__payment__block__row date">
-                                                    <div className="add-new-invoice__payment__block__row__title">
+                                                    <div
+                                                        className="add-new-invoice__payment__block__row__title">
                                                         Payment Method
                                                     </div>
                                                     <div
@@ -557,31 +635,40 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                                                         {billingDetails?.payment_mode_details?.title || billingDetails?.payment_mode || "N/A"}
                                                     </div>
                                                 </div>
-
                                             }
+
+
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <CardComponent title={'Thank You Note'} className={'mrg-top-30'}>
-                                <TextAreaComponent label={'Note'}
-                                                   fullWidth={true}
-                                                   value={thankYouNote}
-                                                   onChange={(value: any) => setThankYouNote(value)}
+                                {searchParams.get('type') !== 'completed' && <><TextAreaComponent label={'Note'}
+                                                                                                  fullWidth={true}
+                                                                                                  value={thankYouNote}
+                                                                                                  onChange={(value: any) => setThankYouNote(value)}
                                 />
+
+                                    <div className={'ts-col-md-12'}>
+                                        {(thankYouNote?.length) >= 90 ?
+                                            <div className={'alert-error'}>Characters
+                                                Limit:{(thankYouNote?.length)}/90</div> :
+                                            <div className={'no-alert'}>Characters
+                                                Limit:{(thankYouNote?.length)}/90</div>}
+                                    </div>
+                                </>
+
+                                }
+                                {searchParams.get('type') === 'completed' && <>{billingDetails?.thankyou_note}</>}
                                 {/*// <div className={'pdd-bottom-20'}>{thankYouNote}</div>*/}
-                                <div className={'ts-col-md-12'}>
-                                    {(thankYouNote?.length) >= 90 ?
-                                        <div className={'alert-error'}>Characters
-                                            Limit:{(thankYouNote?.length)}/90</div> :
-                                        <div className={'no-alert'}>Characters
-                                            Limit:{(thankYouNote?.length)}/90</div>}
-                                </div>
+
                             </CardComponent>
                         </div>
-                        <div className={'d-flex ts-justify-content-center mrg-top-20'}>
-                            <ButtonComponent>Save</ButtonComponent>
-                        </div>
+                        {searchParams.get('type') !== 'completed' &&
+                            <div className={'d-flex ts-justify-content-center mrg-top-20'}>
+                                <ButtonComponent
+                                    onClick={() => handleSave(thankYouNote, comments, selectedAddress, billingDetails)}>Save</ButtonComponent>
+                            </div>}
                     </>
                 }
                 <DrawerComponent isOpen={isClientBillingAddressDrawerOpened}
@@ -704,9 +791,44 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
 
                         />
                     }
-
-
                 </DrawerComponent>
+                <ModalComponent isOpen={isPaymentModeModalOpen}
+                                className={'payment-mode-modal'}
+                                onClose={() => {
+                                    setSelectedPaymentMode("");
+                                }
+                                }
+                                modalFooter={<>
+                                    <ButtonComponent variant={'outlined'}
+                                                     className={'mrg-right-10'}
+                                                     onClick={() => {
+                                                         setIsPaymentModeModalOpen(false);
+                                                         setSelectedPaymentMode("");
+                                                     }}
+                                    >
+                                        Cancel
+                                    </ButtonComponent>
+                                    <ButtonComponent variant={'contained'}
+                                                     color={'primary'}
+                                                     disabled={!selectedPaymentMode}
+                                                     onClick={handleBillingMarkAsPaid}
+                                    >
+                                        Confirm Payment
+                                    </ButtonComponent>
+                                </>
+                                }
+                >
+                    <ImageConfig.ConfirmIcon/>
+                    <FormControlLabelComponent label={"Select Mode Of Payment"}/>
+                    <SelectComponent
+                        label={"Select Mode Of Payment"}
+                        className={'t-form-control'}
+                        options={paymentModes || []}
+                        value={selectedPaymentMode}
+                        fullWidth={true}
+                        onUpdate={(value) => setSelectedPaymentMode(value)}
+                    />
+                </ModalComponent>
             </div>
         );
 

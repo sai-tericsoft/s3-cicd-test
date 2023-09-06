@@ -252,6 +252,10 @@ const BillingDetails = (billingId: string) => {
     return "/billing/billing-details/" + billingId;
 }
 
+const ConsolidatedBillingDetails = (consolidatedBillingId: string) => {
+    return "/billing/consolidated-billing-details/" + consolidatedBillingId;
+}
+
 const Help = () => {
     return HELP;
 }
@@ -420,7 +424,8 @@ const RouteConfigService = {
     PersonalSlotsEdit,
     UserSlotsEdit,
     Settings,
-    BillingSettings
+    BillingSettings,
+    ConsolidatedBillingDetails,
 
 }
 
