@@ -82,6 +82,12 @@ const CreateConsolidatedPaymentAPICall = (payload: any) => {
     // @ts-ignore
     return ApiService[APIConfig.CREATE_CONSOLIDATED_PAYMENT.METHOD](APIConfig.CREATE_CONSOLIDATED_PAYMENT.URL, payload)
 }
+
+const LinkedClientListAPICall = (clientId:string,payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.GET_LINKED_CLIENT_LIST.METHOD](APIConfig.GET_LINKED_CLIENT_LIST.URL(clientId), payload)
+}
+
 const BillingService = {
     MarkPaymentsAsPaidAPICall,
     AddNewReceiptAPICall,
@@ -98,7 +104,8 @@ const BillingService = {
     AddBillingAddress,
     GetConsolidatedBillingDetails,
     AddInvoiceNote,
-    CreateConsolidatedPaymentAPICall
+    CreateConsolidatedPaymentAPICall,
+    LinkedClientListAPICall,
 }
 
 export default BillingService;
