@@ -435,7 +435,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                 </LinkComponent>
             }
         }
-    ], [location, handlePaymentSelection]);
+    ], [selectedPayments,location, handlePaymentSelection]);
 
     const completePaymentListColumn: ITableColumn[] = useMemo<any>(() => [
         {

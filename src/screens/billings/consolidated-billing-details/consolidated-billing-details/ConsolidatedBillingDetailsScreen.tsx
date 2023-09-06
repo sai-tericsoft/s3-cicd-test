@@ -25,6 +25,7 @@ import FormControlLabelComponent from "../../../../shared/components/form-contro
 import {RadioButtonComponent} from "../../../../shared/components/form-controls/radio-button/RadioButtonComponent";
 import EditBillingAddressComponent from "../../edit-billing-address/EditBillingAddressComponent";
 import AddBillingAddressComponent from "../../add-billing-address/AddBillingAddressComponent";
+import SelectComponent from "../../../../shared/components/form-controls/select/SelectComponent";
 
 interface ConsolidatedBillingDetailsScreenProps {
 
@@ -47,6 +48,9 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
         const [tempSelectedAddress, setTempSelectedAddress] = useState<any>(null);
         const [selectedChanged, setSelectedChanged] = useState<boolean>(false);
         const [isClientBillingAddressDrawerOpened, setIsClientBillingAddressDrawerOpened] = useState<boolean>(false);
+        const [clientLinkedList, setClientLinkedList] = useState<any>([]);
+        const [isBillingListLoading, setIsBillingListLoading] = useState<boolean>(false);
+        const [isBillingListLoaded, setIsBillingListLoaded] = useState<boolean>(false);
 
         useEffect(() => {
             dispatch(getBillingFromAddress())
@@ -169,27 +173,37 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
             fetchBillingDetails();
         }, [fetchBillingDetails]);
 
-        const getClientBillingAddressList = useCallback(() => {
-            CommonService._billingsService.GetBillingAddressList(billingDetails?.client_id)
+        const getClientBillingAddressList = useCallback((clientId?: string) => {
+            setIsBillingListLoading(true);
+            setIsBillingListLoaded(false);
+            clientId && CommonService._billingsService.GetBillingAddressList(clientId)
                 .then((response: any) => {
+                    setIsBillingListLoading(false);
+                    setIsBillingListLoaded(true);
                     setGetBillingList(response?.data);
                 })
                 .catch((error: any) => {
                     CommonService._alert.showToast(error.error || error.errors || "Failed to fetch client billing address", "error");
                 });
-        }, [billingDetails?.client_id]);
+        }, []);
 
         useEffect(() => {
-            getClientBillingAddressList()
+            if (billingDetails?.client_id !== undefined) {
+                getClientBillingAddressList(billingDetails?.client_id)
+            }
+        }, [getClientBillingAddressList,billingDetails?.client_id]);
+
+        const handleSelectChange = useCallback((value: any) => {
+            getClientBillingAddressList(value);
         }, [getClientBillingAddressList]);
 
-    useEffect(() => {
-        // Initialize selectedAddress with the default address when the component mounts
-        const defaultAddress = getBillingList.find((item: any) => item.is_default);
-        if (defaultAddress) {
-            setSelectedAddress(defaultAddress);
-        }
-    }, [getBillingList]);
+        useEffect(() => {
+            // Initialize selectedAddress with the default address when the component mounts
+            const defaultAddress = getBillingList.find((item: any) => item.is_default);
+            if (defaultAddress) {
+                setSelectedAddress(defaultAddress);
+            }
+        }, [getBillingList]);
 
         const openBillingAddressFormDrawer = useCallback(() => {
             setIsClientBillingAddressDrawerOpened(true);
@@ -232,6 +246,21 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
             });
             closeBillingAddressFormDrawer();
         }, [closeBillingAddressFormDrawer]);
+
+        const getLinkedClientList = useCallback(() => {
+            CommonService._billingsService.LinkedClientListAPICall('64de1553bf84de935ae5b1bf', {})
+                .then((response: any) => {
+                    setClientLinkedList(response?.data);
+                })
+                .catch((error: any) => {
+                    CommonService._alert.showToast(error.error || error.errors || "Failed to fetch client linked list", "error");
+                });
+
+        }, []);
+
+        useEffect(() => {
+            getLinkedClientList();
+        }, [getLinkedClientList]);
 
         return (
             <div className={'consolidated-billing-details-component billing-details-screen'}>
@@ -354,17 +383,17 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                                                 <div
                                                     className={"billing-address-block__detail__row name"}>
                                                     {/*{(type === 'invoice' && selectedAddress) && */}
-                                                    {selectedAddress ? selectedAddress?.name :billingDetails?.billing_address?.name}
+                                                    {selectedAddress ? selectedAddress?.name : billingDetails?.billing_address?.name}
                                                 </div>
                                                 <div
                                                     className={"billing-address-block__detail__row"}>
                                                     {/*{(type === 'invoice' && selectedAddress) ? selectedAddress?.address : billingDetails?.billing_address.address_line}*/}
-                                                    {selectedAddress ? selectedAddress?.address:billingDetails?.billing_address.address_line}
+                                                    {selectedAddress ? selectedAddress?.address : billingDetails?.billing_address.address_line}
                                                 </div>
                                                 <div className={"billing-address-block__detail__row"}>
-                                                    <span>{selectedAddress ? selectedAddress?.city:billingDetails?.billing_address?.city}</span>,&nbsp;
-                                                    <span>{selectedAddress ? selectedAddress?.state:billingDetails?.billing_address?.state}</span>&nbsp;
-                                                    <span>{selectedAddress ? selectedAddress?.zip_code:billingDetails?.billing_address?.zip_code}</span>
+                                                    <span>{selectedAddress ? selectedAddress?.city : billingDetails?.billing_address?.city}</span>,&nbsp;
+                                                    <span>{selectedAddress ? selectedAddress?.state : billingDetails?.billing_address?.state}</span>&nbsp;
+                                                    <span>{selectedAddress ? selectedAddress?.zip_code : billingDetails?.billing_address?.zip_code}</span>
                                                 </div>
                                                 <div
                                                     className={"billing-address-block__detail__row"}>  {billingDetails?.billing_address?.phone || '-'} </div>
@@ -562,69 +591,91 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                     {
                         currentStep === 'selectAddress' && <>
                             <FormControlLabelComponent label={"Select Billing Address"}/>
+
                             <div className={'select-billing-address'}>
-                                {getBillingList?.length > 0 && getBillingList?.map((item: any, index: number) => {
-                                    return <div className={'select-address-card'}>
-                                        <div className={'select-address-card-header'}>
-                                            <div className={'btn-heading-wrapper'}>
-                                                <RadioButtonComponent
-                                                    checked={selectedChanged ? tempSelectedAddress === item : selectedAddress === item}
-                                                    onChange={() => handleRadioButtonClick(item)}/>
-                                                <div
-                                                    className={'card-heading'}>{item?.is_default ? 'Default Address' : 'Other Address'}</div>
-                                            </div>
-                                            <div className={'btn-wrapper'}>
-                                                <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>} variant={'text'}
-                                                                 onClick={() => handleEdit(item)}>
-                                                    Edit
-                                                </ButtonComponent>
-                                            </div>
-                                        </div>
-                                        <div className={'ts-row mrg-top-10'}>
-                                            <div className={'ts-col-lg-1'}/>
-                                            <div className={'ts-col-lg-6'}>
-                                                <DataLabelValueComponent label={'Name of Client/Organisation'}>
-                                                    {item?.name || 'N/A'}
-                                                </DataLabelValueComponent>
-                                            </div>
-                                            <div className={'ts-col-lg-4'}>
-                                                <DataLabelValueComponent label={'Address Line'}>
-                                                    {item?.address_line || 'N/A'}
-                                                </DataLabelValueComponent>
-                                            </div>
-                                            <div className={'ts-col-lg-2'}/>
-
-                                        </div>
-                                        <div className={'ts-row'}>
-                                            <div className={'ts-col-lg-1'}/>
-                                            <div className={'ts-col-lg-6'}>
-                                                <DataLabelValueComponent label={'City'}>
-                                                    {item?.city || "N/A"}
-                                                </DataLabelValueComponent>
-                                            </div>
-                                            <div className={'ts-col-lg-4'}>
-                                                <DataLabelValueComponent label={'State'}>
-                                                    {item?.state || 'N/A'}                                        </DataLabelValueComponent>
-                                            </div>
-                                            <div className={'ts-col-lg-2'}/>
-
-                                        </div>
-                                        <div className={'ts-row'}>
-                                            <div className={'ts-col-lg-1'}/>
-                                            <div className={'ts-col-lg-6'}>
-                                                <DataLabelValueComponent label={'ZIP Code'}>
-                                                    {item?.zip_code || 'N/A'}
-                                                </DataLabelValueComponent>
-                                            </div>
-                                            <div className={'ts-col-lg-4'}>
-                                                <DataLabelValueComponent label={'Country'}>
-                                                    {item?.country || 'N/A'}                                       </DataLabelValueComponent>
-                                            </div>
-                                            <div className={'ts-col-lg-2'}/>
-
+                                {clientLinkedList?.length > 1 &&
+                                    <div className={'ts-row'}>
+                                        <div className={'ts-col-lg-11'}>
+                                            <SelectComponent options={clientLinkedList}
+                                                             fullWidth={true}
+                                                             label={'Select Client'}
+                                                             displayWith={(item: any) => item?.first_name + " " + item?.last_name}
+                                                             valueExtractor={(item: any) => item?._id}
+                                                             onUpdate={(value: any) => {
+                                                                 handleSelectChange(value)
+                                                             }}/>
                                         </div>
                                     </div>
-                                })
+                                }
+                                {
+                                    isBillingListLoading && <LoaderComponent/>
+                                }
+                                {
+                                    isBillingListLoaded && <>
+                                        {getBillingList?.length > 0 && getBillingList?.map((item: any, index: number) => {
+                                            return <div className={'select-address-card'}>
+                                                <div className={'select-address-card-header'}>
+                                                    <div className={'btn-heading-wrapper'}>
+                                                        <RadioButtonComponent
+                                                            checked={selectedChanged ? tempSelectedAddress === item : selectedAddress === item}
+                                                            onChange={() => handleRadioButtonClick(item)}/>
+                                                        <div
+                                                            className={'card-heading'}>{item?.is_default ? 'Default Address' : 'Other Address'}</div>
+                                                    </div>
+                                                    <div className={'btn-wrapper'}>
+                                                        <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>} variant={'text'}
+                                                                         onClick={() => handleEdit(item)}>
+                                                            Edit
+                                                        </ButtonComponent>
+                                                    </div>
+                                                </div>
+                                                <div className={'ts-row mrg-top-10'}>
+                                                    <div className={'ts-col-lg-1'}/>
+                                                    <div className={'ts-col-lg-6'}>
+                                                        <DataLabelValueComponent label={'Name of Client/Organisation'}>
+                                                            {item?.name || 'N/A'}
+                                                        </DataLabelValueComponent>
+                                                    </div>
+                                                    <div className={'ts-col-lg-4'}>
+                                                        <DataLabelValueComponent label={'Address Line'}>
+                                                            {item?.address_line || 'N/A'}
+                                                        </DataLabelValueComponent>
+                                                    </div>
+                                                    <div className={'ts-col-lg-2'}/>
+
+                                                </div>
+                                                <div className={'ts-row'}>
+                                                    <div className={'ts-col-lg-1'}/>
+                                                    <div className={'ts-col-lg-6'}>
+                                                        <DataLabelValueComponent label={'City'}>
+                                                            {item?.city || "N/A"}
+                                                        </DataLabelValueComponent>
+                                                    </div>
+                                                    <div className={'ts-col-lg-4'}>
+                                                        <DataLabelValueComponent label={'State'}>
+                                                            {item?.state || 'N/A'}                                        </DataLabelValueComponent>
+                                                    </div>
+                                                    <div className={'ts-col-lg-2'}/>
+
+                                                </div>
+                                                <div className={'ts-row'}>
+                                                    <div className={'ts-col-lg-1'}/>
+                                                    <div className={'ts-col-lg-6'}>
+                                                        <DataLabelValueComponent label={'ZIP Code'}>
+                                                            {item?.zip_code || 'N/A'}
+                                                        </DataLabelValueComponent>
+                                                    </div>
+                                                    <div className={'ts-col-lg-4'}>
+                                                        <DataLabelValueComponent label={'Country'}>
+                                                            {item?.country || 'N/A'}                                       </DataLabelValueComponent>
+                                                    </div>
+                                                    <div className={'ts-col-lg-2'}/>
+
+                                                </div>
+                                            </div>
+                                        })
+                                        }
+                                    </>
                                 }
                                 <ButtonComponent prefixIcon={<ImageConfig.AddIcon/>}
                                                  onClick={() => setCurrentStep("addAddress")} variant={"text"}>Add New

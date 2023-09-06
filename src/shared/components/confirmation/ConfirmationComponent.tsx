@@ -5,7 +5,6 @@ import {Communications} from "../../services";
 import {IConfirmationConfig} from "../../models/confirmation.model";
 import ModalComponent from "../modal/ModalComponent";
 import ButtonComponent from "../button/ButtonComponent";
-import LottieFileGenerationComponent from "../lottie-file-generation/LottieFileGenerationComponent";
 
 interface ConfirmationComponentProps {
 
