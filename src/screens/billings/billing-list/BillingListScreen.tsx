@@ -435,7 +435,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                 </LinkComponent>
             }
         }
-    ], [selectedPayments,location, handlePaymentSelection]);
+    ], [selectedPayments, location, handlePaymentSelection]);
 
     const completePaymentListColumn: ITableColumn[] = useMemo<any>(() => [
         {
@@ -446,7 +446,6 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             fixed: 'left',
             render: (item: any) => {
                 const clientIdOfSelectedPayments = selectedPayments?.length > 0 ? selectedPayments[0]?.client_id : undefined;
-                console.log("clientIdOfSelectedPayments", selectedPayments.find((payment: any) => payment?._id === item?._id));
                 return <CheckBoxComponent
                     className={selectedPayments.includes(item) ? 'selected-row' : ''}
                     disabled={clientIdOfSelectedPayments && clientIdOfSelectedPayments !== item?.client_id}
@@ -608,7 +607,23 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             key: 'payment_for',
             align: 'center',
             render: (item: any) => {
-                return <>{item?.payment_for ? <ChipComponent label={item?.payment_for}/> : '-'}</>
+                let className = "";
+                if (item?.payment_for === 'appointment') {
+                    className = "active";
+                } else if (item?.payment_for === 'no show') {
+                    className = "no-show";
+                } else if (item?.payment_for === 'products') {
+                    className = "products";
+                } else if (item?.payment_for === 'waived') {
+                    className = "waived";
+                } else if (item?.payment_for === 'cancellation') {
+                    className = "cancellation";
+                }
+                return <>
+                    <ChipComponent
+                        className={`min-width-60 ${className}`}
+                        label={item?.payment_for || '-'}/>
+                </>
             }
         },
         {
@@ -617,9 +632,19 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             fixed: 'right',
             dataIndex: 'action',
             render: (item: any) => {
-                return <LinkComponent>
-                    View Details
-                </LinkComponent>
+                let route = '';
+                if (item?.bill_type === 'invoice') {
+                    route = CommonService._routeConfig.ConsolidatedBillingDetails(item?._id) + '?referrer=' + location.pathname + '&type=consolidatedInvoice';
+                } else if (item?.bill_type === 'receipt') {
+                    route = CommonService._routeConfig.ConsolidatedBillingDetails(item?._id) + '?referrer=' + location.pathname + '&type=consolidatedReceipt';
+                } else {
+                    route = CommonService._routeConfig.ConsolidatedBillingDetails(item?._id) + '?referrer=' + location.pathname + '&type=completed';
+                }
+                return <>
+                    <LinkComponent route={route}>
+                        View Details
+                    </LinkComponent>
+                </>
             }
         }
     ], [location.pathname]);
@@ -790,7 +815,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
         commonService._billingsService.CreateConsolidatedPaymentAPICall(payload)
             .then((response: IAPIResponseType<any>) => {
                     handleTabChange(null, 'consolidatedPayments');
-                setIsPaymentsGettingConsolidated(false);
+                    setIsPaymentsGettingConsolidated(false);
                     commonService._alert.showToast(response?.message || "Payments consolidated successfully", "success");
                 }
             )

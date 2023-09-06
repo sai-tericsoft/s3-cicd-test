@@ -52,7 +52,7 @@ import {
     CLIENT_PROFILE_DETAILS,
     CLIENT_SEARCH,
     COMING_SOON_ROUTE,
-    CONCUSSION_FILE_VIEW_DETAILS,
+    CONCUSSION_FILE_VIEW_DETAILS, CONSOLIDATED_BILLING_DETAILS,
     COUPON_ADD,
     COUPON_DETAILS,
     COUPON_EDIT,
@@ -188,6 +188,8 @@ import UserAccountDetailsEditComponent
 import UserSlotsDetailsComponent from "../screens/settings/user-slots-details/UserSlotsDetailsComponent";
 import UserSlotsEditComponent from "../screens/settings/user-slots-edit/UserSlotsEditComponent";
 import ThankYouNoteComponent from "../screens/admin/billing-settings/thank-you-note/ThankYouNoteComponent";
+import ConsolidatedBillingDetailsScreen
+    from "../screens/billings/consolidated-billing-details/consolidated-billing-details/ConsolidatedBillingDetailsScreen";
 
 
 const ProtectedRoute = (props: React.PropsWithChildren<any>) => {
@@ -905,6 +907,12 @@ const Navigator = (props: NavigatorProps) => {
                             <BillingDetailsScreen/>
                         </ProtectedRoute>}
                         />
+                        <Route path={CONSOLIDATED_BILLING_DETAILS} element={<ProtectedRoute>
+                            <ConsolidatedBillingDetailsScreen/>
+                        </ProtectedRoute>}
+                        />
+
+
                     </Route>
                     <Route path={CLIENT_BILLING_DETAILS} element={<ProtectedRoute>
                         <BillingListScreen/>
