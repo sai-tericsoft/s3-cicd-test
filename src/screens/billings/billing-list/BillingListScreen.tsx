@@ -110,9 +110,11 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             fixed: 'left',
             render: (item: any) => {
                 const clientIdOfSelectedPayments = selectedPayments?.length > 0 ? selectedPayments[0]?.client_id : undefined;
+                const paymentFor =selectedPayments?.length > 0 ? selectedPayments[0]?.payment_for : undefined;
+                const selectedPaymentId = selectedPayments?.length > 0 ? selectedPayments[0]?._id : undefined;
                 return <CheckBoxComponent
                     className={selectedPayments.includes(item) ? 'selected-row' : ''}
-                    disabled={clientIdOfSelectedPayments && clientIdOfSelectedPayments !== item?.client_id}
+                    disabled={(clientIdOfSelectedPayments && clientIdOfSelectedPayments !== item?.client_id) || (paymentFor === "products" && selectedPaymentId !== item?._id)}
                     checked={selectedPayments.some((payment: any) => payment._id === item._id)}
                     onChange={(isChecked) => {
                         handlePaymentSelection(item, isChecked)
@@ -263,9 +265,11 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             fixed: 'left',
             render: (item: any) => {
                 const clientIdOfSelectedPayments = selectedPayments?.length > 0 ? selectedPayments[0]?.client_id : undefined;
+                const paymentFor =selectedPayments?.length > 0 ? selectedPayments[0]?.payment_for : undefined;
+                const selectedPaymentId = selectedPayments?.length > 0 ? selectedPayments[0]?._id : undefined;
                 return <CheckBoxComponent
                     className={selectedPayments.includes(item) ? 'selected-row' : ''}
-                    disabled={clientIdOfSelectedPayments && clientIdOfSelectedPayments !== item?.client_id}
+                    disabled={(clientIdOfSelectedPayments && clientIdOfSelectedPayments !== item?.client_id) || (paymentFor === "products" && selectedPaymentId !== item?._id)}
                     checked={selectedPayments.some((payment: any) => payment._id === item._id)}
                     onChange={(isChecked) => {
                         handlePaymentSelection(item, isChecked)
@@ -354,9 +358,11 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             fixed: 'left',
             render: (item: any) => {
                 const clientIdOfSelectedPayments = selectedPayments?.length > 0 ? selectedPayments[0]?.client_id : undefined;
+                const paymentFor =selectedPayments?.length > 0 ? selectedPayments[0]?.payment_for : undefined;
+                const selectedPaymentId = selectedPayments?.length > 0 ? selectedPayments[0]?._id : undefined;
                 return <CheckBoxComponent
                     className={selectedPayments.includes(item) ? 'selected-row' : ''}
-                    disabled={clientIdOfSelectedPayments && clientIdOfSelectedPayments !== item?.client_id}
+                    disabled={(clientIdOfSelectedPayments && clientIdOfSelectedPayments !== item?.client_id) || (paymentFor === "products" && selectedPaymentId !== item?._id)}
                     checked={selectedPayments.some((payment: any) => payment._id === item._id)}
                     onChange={(isChecked) => {
                         handlePaymentSelection(item, isChecked)
@@ -446,9 +452,11 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             fixed: 'left',
             render: (item: any) => {
                 const clientIdOfSelectedPayments = selectedPayments?.length > 0 ? selectedPayments[0]?.client_id : undefined;
+                const paymentFor =selectedPayments?.length > 0 ? selectedPayments[0]?.payment_for : undefined;
+                const selectedPaymentId = selectedPayments?.length > 0 ? selectedPayments[0]?._id : undefined;
                 return <CheckBoxComponent
                     className={selectedPayments.includes(item) ? 'selected-row' : ''}
-                    disabled={clientIdOfSelectedPayments && clientIdOfSelectedPayments !== item?.client_id}
+                    disabled={(clientIdOfSelectedPayments && clientIdOfSelectedPayments !== item?.client_id) || (paymentFor === "products" && selectedPaymentId !== item?._id)}
                     checked={selectedPayments.some((payment: any) => payment._id === item._id)}
                     onChange={(isChecked) => {
                         handlePaymentSelection(item, isChecked)
