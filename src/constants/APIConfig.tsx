@@ -981,9 +981,11 @@ const APIConfig: IAPIConfig = {
     EDIT_CONSOLIDATED_BILL: {
         URL: (consolidatedBillId: string) => ENV.API_URL + '/consolidatedBill/' + consolidatedBillId,
         METHOD: "put"
+    },
+    DELETE_CONSOLIDATED_BILL: {
+        URL: (consolidatedBillId: string) => ENV.API_URL + '/consolidatedBill/' + consolidatedBillId,
+        METHOD: "delete"
     }
-
-
 }
 
 export default APIConfig;

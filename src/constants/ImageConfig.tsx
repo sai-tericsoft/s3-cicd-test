@@ -231,5 +231,5 @@ export {
     LockLottie,
     CloudIcon,
     confirmImage,
-    NewLogo
+    NewLogo,
 }
