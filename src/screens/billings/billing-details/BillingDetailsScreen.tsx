@@ -461,7 +461,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                         <div
                             className={"billing-details-header"}>
                             <div className={"billing-details-logo"}>
-                                <img src={ImageConfig.BillingLogo} alt=""/>
+                               <div>{<ImageConfig.NewLogo/>}</div>
                             </div>
                             <div className={"billing-details-meta"}>
                                 {

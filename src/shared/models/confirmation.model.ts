@@ -15,7 +15,7 @@ export interface IConfirmationConfig {
     confirmationDescription?: string | React.ReactElement;
     image?: any;
     showLottie?: boolean;
-    confirmationSubTitle?: string;
+    confirmationSubTitle?: any;
     closeOnEsc?: boolean;
     closeOnBackdropClick?: boolean;
     hideNoOption?: boolean;
