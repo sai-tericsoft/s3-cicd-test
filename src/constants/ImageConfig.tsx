@@ -17,6 +17,8 @@ import {ReactComponent as UploadIcon} from '../assets/icons/upload.svg';
 import {ReactComponent as SelectDropDownIcon} from './../assets/icons/select_dropdown.svg';
 import {ReactComponent as EyeIcon} from './../assets/icons/eye.svg';
 import {ReactComponent as CloseEyeIcon} from './../assets/icons/close_eye.svg';
+import {ReactComponent as NewLogo} from './../assets/icons/logo-new.svg';
+
 
 import {ReactComponent as PrintIcon} from './../assets/icons/print.svg';
 
@@ -228,5 +230,6 @@ export {
     ConfirmationLottie,
     LockLottie,
     CloudIcon,
-    confirmImage
+    confirmImage,
+    NewLogo
 }
