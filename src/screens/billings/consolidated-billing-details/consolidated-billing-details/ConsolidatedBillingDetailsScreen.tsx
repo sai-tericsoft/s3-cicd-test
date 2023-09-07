@@ -113,7 +113,7 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
             }));
         }, [navigate, dispatch, searchParams]);
 
-        const removePayment = useCallback((item: any, index: number,billingDetails:any,currentClientIndex:number) => {
+        const removePayment = useCallback((removedPayment: any, index: number,billingDetails:any,currentClientIndex:number) => {
             const tempBillingDetails = _.cloneDeep(billingDetails);
             tempBillingDetails.bills_details[currentClientIndex].bills.splice(index, 1);
             tempBillingDetails.bills_details[currentClientIndex].totalAmount = tempBillingDetails.bills_details[currentClientIndex].bills.reduce((acc: any, item: any) => {
@@ -135,11 +135,10 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                 return acc + item.totalAmount;
             }, 0);
             // eslint-disable-next-line array-callback-return
-            tempBillingDetails.bill_ids = tempBillingDetails.bill_ids.map((billId: any) => {
-                if (billId !== item._id) {
-                    return item._id
-                }
-            })
+            console.log(tempBillingDetails.bill_ids)
+            console.log(removedPayment)
+            tempBillingDetails.bill_ids = tempBillingDetails.bill_ids.filter((billId: any) => billId !== removedPayment._id)
+            console.log(tempBillingDetails.bill_ids)
             setBillingDetails(tempBillingDetails);
         }, []);
 
