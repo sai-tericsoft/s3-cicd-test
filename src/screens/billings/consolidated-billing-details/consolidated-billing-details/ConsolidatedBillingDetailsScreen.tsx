@@ -503,7 +503,7 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                                         <div
                                             className={"billing-address-block__detail__row"}> {billingFromAddress?.address_line} </div>
                                         <div className={"billing-address-block__detail__row"}>
-                                            <span>{billingFromAddress?.city}</span>, <span>{billingFromAddress?.state}</span>
+                                            <span>{billingFromAddress?.city}</span>, <span>{billingFromAddress?.state}</span>&nbsp;
                                             <span>{billingFromAddress?.zip_code}</span>
                                         </div>
                                         <div
