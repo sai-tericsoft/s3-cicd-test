@@ -136,6 +136,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                 billingDetails = response.data;
             }
             setBillingDetails(billingDetails);
+            setSelectedAddress(billingDetails?.billing_address)
             setIsBillingDetailsBeingLoading(false);
             setIsBillingDetailsBeingLoaded(true);
             setIsBillingDetailsBeingLoadingFailed(false);
@@ -222,8 +223,9 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
 
     const closeBillingAddressFormDrawer = useCallback(() => {
         setIsClientBillingAddressDrawerOpened(false);
+        setTempSelectedAddress(selectedAddress);
         setCurrentStep('selectAddress');
-    }, []);
+    }, [selectedAddress]);
 
     const handleEditBillingAddress = useCallback((values: any) => {
         setBillingDetails((prevBillingDetails: any) => {
@@ -362,13 +364,13 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
         });
     }, [fetchBillingPDF, type, billingId]);
 
-    useEffect(() => {
-        // Initialize selectedAddress with the default address when the component mounts
-        const defaultAddress = getBillingList.find((item: any) => item.is_default);
-        if (defaultAddress) {
-            setSelectedAddress(defaultAddress);
-        }
-    }, [getBillingList]);
+    // useEffect(() => {
+    //     // Initialize selectedAddress with the default address when the component mounts
+    //     const defaultAddress = getBillingList.find((item: any) => item.is_default);
+    //     if (defaultAddress) {
+    //         setSelectedAddress(defaultAddress);
+    //     }
+    // }, [getBillingList]);
 
     const handleSaveButtonClick = useCallback(() => {
         if (tempSelectedAddress) {
@@ -384,17 +386,17 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
         setSelectedChanged(true);
         // setSelectedAddress(address);
     }, []);
-    
+
 
     const handleEdit = useCallback((address: any) => {
         setCurrentStep('editAddress');
         setTempSelectedAddress(address)
     }, []);
 
-    const handleNoteAndComment = useCallback((comment: any, thankYouNote: any,selectedAddress:any) => {
+    const handleNoteAndComment = useCallback((comment: any, thankYouNote: any, selectedAddress: any) => {
         setIsSubmitting(true);
         const payload = {
-            billing_address:selectedAddress,
+            billing_address: selectedAddress,
             thankyou_note: thankYouNote,
             comments: comment
         }
@@ -402,6 +404,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
             .then((response: IAPIResponseType<any>) => {
                 setIsSubmitting(false);
                 CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY] || "Note and comment added successfully", "success");
+                navigate(CommonService._routeConfig.BillingList() + '?referrer=' + location.pathname + '&type=' + type);
             })
             .catch((error: any) => {
                 setIsSubmitting(false);
@@ -461,16 +464,16 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                         <div
                             className={"billing-details-header"}>
                             <div className={"billing-details-logo"}>
-                               <div>{<ImageConfig.NewLogo/>}</div>
+                                <div>{<ImageConfig.NewLogo/>}</div>
                             </div>
                             <div className={"billing-details-meta"}>
                                 {
                                     type === 'invoice' && <div>
                                         <div className={'appointment-id-heading'}>
-                                            Appointment ID
+                                            Invoice No
                                         </div>
                                         <div className={'appointment-id'}>
-                                            #{billingDetails?.appointment_id}
+                                            {billingDetails?.invoice_number}
                                         </div>
                                     </div>
                                 }
@@ -491,7 +494,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                         </div>
                         <HorizontalLineComponent/>
                         <div className={"billing-address-wrapper ts-row"}>
-                            <div className={"billing-address-block from ts-col-lg-3"}>
+                            <div className={"billing-address-block from ts-col-lg-4"}>
                                 <div className={"billing-address-block__header"}>
                                     <div className={"billing-address-block__title"}>Billing From</div>
                                 </div>
@@ -501,24 +504,29 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                                     <div
                                         className={"billing-address-block__detail__row"}> {billingFromAddress?.address_line} </div>
                                     <div className={"billing-address-block__detail__row"}>
-                                        <span>{billingFromAddress?.city}</span>, <span>{billingFromAddress?.state}</span>
+                                        <span>{billingFromAddress?.city}</span>, <span>{billingFromAddress?.state}</span> &nbsp;
                                         <span>{billingFromAddress?.zip_code}</span>
                                     </div>
                                     <div
                                         className={"billing-address-block__detail__row"}> {billingFromAddress?.phone} </div>
                                 </div>
                             </div>
-                            <div className={'ts-col-lg-3'}/>
-                            <div className={"billing-address-block to ts-col-lg-3"}>
+                            <div className={'ts-col-lg-2'}/>
+                            <div className={"billing-address-block to ts-col-lg-4"}>
                                 <div className={"billing-address-block__header"}>
                                     <div className={"billing-address-block__title"}>Billing To</div>
                                     &nbsp;&nbsp;
                                     {(billingDetails?.billing_address && type === 'invoice') &&
-                                        <LinkComponent onClick={openBillingAddressFormDrawer}>
-                                              <span>  <ImageConfig.EditIcon height={'15'}
-                                                                            width={'15'}/> </span>
-                                            <span className={'edit-text'}>Edit</span>
-                                        </LinkComponent>}
+                                        <ButtonComponent
+                                            onClick={openBillingAddressFormDrawer}
+                                            variant={'text'}
+                                            color={"primary"}
+                                            className={'edit-button'}
+                                            prefixIcon={<ImageConfig.EditIcon height={'15'}
+                                                                              width={'15'}/>}
+                                        >
+                                            Edit
+                                        </ButtonComponent>}
                                 </div>
                                 <div className={"billing-address-block__details"}>
                                     {
@@ -527,23 +535,20 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                                             <div className={"billing-address-block__detail__row"}> -</div>
                                         </>
                                     }
-                                    {
-                                        (billingDetails?.billing_address) && <>
-                                            <div
-                                                className={"billing-address-block__detail__row name"}>
-                                                {(type === 'invoice' && selectedAddress) ? selectedAddress?.name : billingDetails?.billing_address?.name}
-                                            </div>
-                                            <div
-                                                className={"billing-address-block__detail__row"}> {(type === 'invoice' && selectedAddress) ? selectedAddress?.address : billingDetails?.billing_address.address_line} </div>
-                                            <div className={"billing-address-block__detail__row"}>
-                                                <span>{(type === 'invoice' && selectedAddress) ? selectedAddress?.city : billingDetails?.billing_address?.city}</span>,&nbsp;
-                                                <span>{(type === 'invoice' && selectedAddress) ? selectedAddress?.state : billingDetails?.billing_address?.state}</span>&nbsp;
-                                                <span>{(type === 'invoice' && selectedAddress) ? selectedAddress?.zip_code : billingDetails?.billing_address?.zip_code}</span>
-                                            </div>
-                                            <div
-                                                className={"billing-address-block__detail__row"}>  {billingDetails?.billing_address?.phone || '-'} </div>
-                                        </>
-                                    }
+
+                                    <div
+                                        className={"billing-address-block__detail__row name"}>
+                                        {selectedAddress?.name}
+                                    </div>
+                                    <div
+                                        className={"billing-address-block__detail__row"}> {selectedAddress?.address_line} </div>
+                                    <div className={"billing-address-block__detail__row"}>
+                                        <span>{selectedAddress?.city}</span>,&nbsp;
+                                        <span>{selectedAddress?.state}</span>&nbsp;
+                                        <span>{selectedAddress?.zip_code}</span>
+                                    </div>
+                                    <div
+                                        className={"billing-address-block__detail__row"}>  {billingDetails?.billing_address?.phone || '-'} </div>
                                 </div>
                             </div>
                         </div>
@@ -591,7 +596,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                             </div>
                         </CardComponent>
                         {
-                            ((type === "receipt" && billingDetails?.payment_for === 'products')) &&
+                            ((type === "receipt" || type === "invoice" && billingDetails?.payment_for === 'products')) &&
                             <CardComponent className={'billing-products-card'}>
                                 <TableComponent
                                     columns={ProductsColumns}
@@ -601,7 +606,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                             </CardComponent>
                         }
                         {
-                            (type === 'invoice' || (type === "receipt" && billingDetails?.payment_for !== 'products')) &&
+                            ((type === 'invoice' || type === "receipt") && billingDetails?.payment_for !== 'products') &&
                             <CardComponent title={"Appointment Details"}>
                                 <div className="ts-row">
                                     <div className="ts-col-lg-3">
@@ -724,7 +729,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                                                 </div>
                                                 <div
                                                     className="add-new-invoice__payment__block__row__value">
-                                                    {billingDetails?.payment_mode_details?.title || billingDetails?.payment_mode || "N/A"}
+                                                    {billingDetails?.payment_mode_details?.title.replace('_', " ") || billingDetails?.payment_mode.replace('_', " ") || "N/A"}
                                                 </div>
                                             </div>
 
@@ -743,9 +748,9 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                                     <div className={'ts-col-md-12'}>
                                         {(thankYouNote?.length) >= 90 ?
                                             <div className={'alert-error'}>Characters
-                                                Limit:{(thankYouNote?.length)}/90</div> :
+                                                Limit: {(thankYouNote?.length)}/90</div> :
                                             <div className={'no-alert'}>Characters
-                                                Limit:{(thankYouNote?.length)}/90</div>}
+                                                Limit: {(thankYouNote?.length)}/90</div>}
                                     </div>
                                 </>
                                 : <div className={'pdd-bottom-20'}>{thankYouNote}</div>
@@ -753,15 +758,15 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                         </CardComponent>
                     </div>
                     {type === 'invoice' && <div className={'cta-wrapper'}>
-                        <ButtonComponent variant={"outlined"}
-                                         className={'mrg-right-20'}
-                                         onClick={() => navigate(CommonService._routeConfig.BillingList())}>
-                            Cancel
-                        </ButtonComponent>
+                        {/*<ButtonComponent variant={"outlined"}*/}
+                        {/*                 className={'mrg-right-20'}*/}
+                        {/*                 onClick={() => navigate(CommonService._routeConfig.BillingList())}>*/}
+                        {/*    Cancel*/}
+                        {/*</ButtonComponent>*/}
                         <ButtonComponent variant={"contained"}
                                          isLoading={isSubmitting}
-                                         disabled={isSubmitting || thankYouNote?.length>90}
-                                         onClick={() => handleNoteAndComment(comments, thankYouNote,selectedAddress)}
+                                         disabled={isSubmitting || thankYouNote?.length > 90}
+                                         onClick={() => handleNoteAndComment(comments, thankYouNote, selectedAddress)}
                                          color={"primary"}>
                             Save
                         </ButtonComponent>
@@ -781,7 +786,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                                     <div className={'select-address-card-header'}>
                                         <div className={'btn-heading-wrapper'}>
                                             <RadioButtonComponent
-                                                checked={selectedChanged ? tempSelectedAddress === item : selectedAddress === item}
+                                                checked={selectedChanged ? tempSelectedAddress._id === item._id : selectedAddress._id === item._id}
                                                 onChange={() => handleRadioButtonClick(item)}/>
                                             <div
                                                 className={'card-heading'}>{item?.is_default ? 'Default Address' : 'Other Address'}</div>
@@ -897,9 +902,9 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                             }
             >
                 <ImageConfig.ConfirmIcon/>
-                <FormControlLabelComponent label={"Select Mode Of Payment"}/>
+                <FormControlLabelComponent label={"Select Mode of Payment"}/>
                 <SelectComponent
-                    label={"Select Mode Of Payment"}
+                    label={"Select Mode of Payment"}
                     className={'t-form-control'}
                     options={paymentModes || []}
                     value={selectedPaymentMode}
