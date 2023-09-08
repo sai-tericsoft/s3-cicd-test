@@ -51,6 +51,20 @@ const ReportAnIssueComponent = (props: ReportAnIssueComponentProps) => {
         });
     }, []);
 
+    const handleFileUpload = useCallback((acceptedFiles: any[], rejectedFiles: any[],setFieldValue:any) => {
+        const maxAllowedSize = 5 * 1024 * 1024;
+        if (acceptedFiles && acceptedFiles.length > 0  ) {
+            if(acceptedFiles[0].size > maxAllowedSize){
+                CommonService._alert.showToast('File size should be under 5MB.', "error");
+                return;
+            }
+            else {
+                const file = acceptedFiles[0];
+                setFieldValue('attachment', file);
+            }
+        }
+    }, []);
+
     return (
         <div className={'report-an-issue-component'}>
 
@@ -101,10 +115,8 @@ const ReportAnIssueComponent = (props: ReportAnIssueComponentProps) => {
                                                 (!values.attachment) && <>
                                                     <FilePickerComponent maxFileCount={1}
                                                                          onFilesDrop={(acceptedFiles, rejectedFiles) => {
-                                                                             if (acceptedFiles && acceptedFiles.length > 0) {
-                                                                                 const file = acceptedFiles[0];
-                                                                                 setFieldValue('attachment', file);
-                                                                             }
+                                                                             handleFileUpload(acceptedFiles, rejectedFiles,setFieldValue);
+
                                                                          }}
                                                                          acceptedFileTypes={["pdf", "png", "jpg", "jpeg"]}
                                                                          acceptedFilesText={"PNG, JPG, JPEG, PDF files are allowed upto 5MB"}
