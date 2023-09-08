@@ -62,7 +62,6 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
         const [isBillingBeingMarkedAsPaid, setIsBillingBeingMarkedAsPaid] = useState<boolean>(false);
         const [selectedPaymentMode, setSelectedPaymentMode] = useState<string>("");
         const [isPaymentModeModalOpen, setIsPaymentModeModalOpen] = useState<boolean>(false);
-        const [currentClientIndex, setCurrentClientIndex] = useState<number>(0);
         const [isConsolidatedBillDeleted, setIsConsolidatedBillDeleted] = useState<boolean>(false);
 
         const {
@@ -83,7 +82,7 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                 .then((response) => {
                     setIsBillingDetailsBeingLoading(false);
                     setIsBillingDetailsBeingLoaded(true);
-                    setBillingDetails(response.data);
+                    setBillingDetails(response?.data);
                 }).catch((error) => {
                     setBillingDetails(undefined)
                     setIsBillingDetailsBeingLoading(false);
@@ -115,18 +114,24 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
             }));
         }, [navigate, dispatch, searchParams]);
 
-        const removePayment = useCallback((removedPayment: any, index: number, billingDetails: any, currentClientIndex: number) => {
+        const removePayment = useCallback((removedPayment: any, index: number, billingDetails: any) => {
             const tempBillingDetails = _.cloneDeep(billingDetails);
-            tempBillingDetails.bills_details[currentClientIndex].bills.splice(index, 1);
-            tempBillingDetails.bills_details[currentClientIndex].totalAmount = tempBillingDetails.bills_details[currentClientIndex].bills.reduce((acc: any, item: any) => {
-                return acc + item.total;
-            }, 0);
-            tempBillingDetails.bills_details[currentClientIndex].totalDiscount = tempBillingDetails.bills_details[currentClientIndex].bills.reduce((acc: any, item: any) => {
-                return acc + item.discount;
-            }, 0);
-            tempBillingDetails.bills_details[currentClientIndex].totalPayableAmount = tempBillingDetails.bills_details[currentClientIndex].bills.reduce((acc: any, item: any) => {
-                return acc + item.payable_amount;
-            }, 0);
+            const currentClientIndex = tempBillingDetails.bills_details.findIndex((item: any) => item.bills.find((bill: any) => bill._id === removedPayment._id));
+            if(tempBillingDetails.bills_details[currentClientIndex].bills.length === 1){
+                tempBillingDetails.bills_details.splice(currentClientIndex, 1);
+            }
+            else{
+                tempBillingDetails.bills_details[currentClientIndex].bills.splice(index, 1);
+                tempBillingDetails.bills_details[currentClientIndex].totalAmount = tempBillingDetails.bills_details[currentClientIndex].bills.reduce((acc: any, item: any) => {
+                    return acc + item.total;
+                }, 0);
+                tempBillingDetails.bills_details[currentClientIndex].totalDiscount = tempBillingDetails.bills_details[currentClientIndex].bills.reduce((acc: any, item: any) => {
+                    return acc + item.discount;
+                }, 0);
+                tempBillingDetails.bills_details[currentClientIndex].totalPayableAmount = tempBillingDetails.bills_details[currentClientIndex].bills.reduce((acc: any, item: any) => {
+                    return acc + item.payable_amount;
+                }, 0);
+            }
             tempBillingDetails.payable_amount = tempBillingDetails.bills_details.reduce((acc: any, item: any) => {
                 return acc + item.totalPayableAmount;
             }, 0);
@@ -137,32 +142,55 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                 return acc + item.totalAmount;
             }, 0);
             // eslint-disable-next-line array-callback-return
-            console.log(tempBillingDetails.bill_ids)
-            console.log(removedPayment)
             tempBillingDetails.bill_ids = tempBillingDetails.bill_ids.filter((billId: any) => billId !== removedPayment._id)
-            console.log(tempBillingDetails.bill_ids)
             setBillingDetails(tempBillingDetails);
         }, []);
 
+    const handleDeleteConsolidatedBill = useCallback((type: any) => {
+        CommonService.onConfirm({
+            image: ImageConfig.RemoveBodyPartConfirmationIcon,
+            confirmationTitle: `DELETE CONSOLIDATED ${type.toLocaleUpperCase()}`,
+            confirmationSubTitle: 'Are you sure you want to permanently delete this\n' +
+                'consolidated invoice? This action cannot be undone.'
+        }).then(() => {
+            setIsConsolidatedBillDeleted(true);
+            consolidatedBillingId && CommonService._billingsService.DeleteConsolidatedBill(consolidatedBillingId, {})
+                .then((response: any) => {
+                    setIsConsolidatedBillDeleted(false);
+                    CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+                    navigate(CommonService._routeConfig.BillingList() + '?activeTab=consolidatedPayments')
+                }).catch((error: any) => {
+                    setIsConsolidatedBillDeleted(false);
+                    CommonService._alert.showToast(error.error || "Error deleting provider", "error");
+                })
+        })
+
+    }, [consolidatedBillingId, navigate]);
+
         const handleRemovePayment = useCallback((item: any, index: number) => () => {
-            commonService.openConfirmationDialog({
-                confirmationTitle: "REMOVE RECEIPT",
-                confirmationSubTitle: "Are you sure you want to remove the\n" +
-                    "selected receipt?",
-                image: `${ImageConfig.confirmImage}`,
-                yes: {
-                    text: "Yes",
-                    color: "primary"
-                },
-                no: {
-                    text: "No",
-                    color: "primary"
-                }
-            }).then((response: any) => {
-                removePayment(item, index, billingDetails, currentClientIndex)
-            }).catch((error: any) => {
-            })
-        }, [billingDetails, currentClientIndex, removePayment]);
+            if(billingDetails.bill_ids.length === 1){
+                handleDeleteConsolidatedBill(billingDetails?.bill_type);
+            }
+            else{
+                commonService.openConfirmationDialog({
+                    confirmationTitle: "REMOVE RECEIPT",
+                    confirmationSubTitle: "Are you sure you want to remove the\n" +
+                        "selected receipt?",
+                    image: `${ImageConfig.confirmImage}`,
+                    yes: {
+                        text: "Yes",
+                        color: "primary"
+                    },
+                    no: {
+                        text: "No",
+                        color: "primary"
+                    }
+                }).then((response: any) => {
+                    removePayment(item, index, billingDetails)
+                }).catch((error: any) => {
+                })
+            }
+        }, [billingDetails, removePayment,handleDeleteConsolidatedBill]);
 
         const consolidatedDetailsColumn: any = [
             {
@@ -248,7 +276,7 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                 fixed: 'right',
                 width: 70,
                 render: (item: any, index: any) => {
-                    return <IconButtonComponent onClick={handleRemovePayment(item, index)}>
+                    return <IconButtonComponent onClick={handleRemovePayment(item, index)} >
                         <ImageConfig.CircleCancel/>
                     </IconButtonComponent>
                 }
@@ -393,26 +421,7 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                     setIsBillingBeingMarkedAsPaid(false);
                 });
         }, [consolidatedBillingId, closePaymentModeModal, selectedPaymentMode, handleBillingMarkAsPaidSuccess]);
-
-        const handleDeleteConsolidatedBill = useCallback((type: any) => {
-            setIsConsolidatedBillDeleted(true);
-            CommonService.onConfirm({
-                image: ImageConfig.RemoveBodyPartConfirmationIcon,
-                confirmationTitle: `DELETE CONSOLIDATED ${type.toLocaleUpperCase()}`,
-                confirmationSubTitle: 'Are you sure you want to permanently delete this\n' +
-                    'consolidated invoice? This action cannot be undone.'
-            }).then(() => {
-                consolidatedBillingId && CommonService._billingsService.DeleteConsolidatedBill(consolidatedBillingId,{})
-                    .then((response:any) => {
-                        CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
-                        navigate(CommonService._routeConfig.BillingList() + '?activeTab=consolidatedPayments')
-                    }).catch((error: any) => {
-                    CommonService._alert.showToast(error.error || "Error deleting provider", "error");
-                })
-            })
-
-        }, [consolidatedBillingId,navigate]);
-
+        
         return (
             <div className={'consolidated-billing-details-component billing-details-screen'}>
                 <PageHeaderComponent
@@ -582,11 +591,7 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                                                     </DataLabelValueComponent>
                                                 </div>
                                             </div>
-                                            <div className={'consolidated-client-bills-table'} onClick={() => {
-                                                setCurrentClientIndex(index)
-                                            }}>
-                                                <TableComponent columns={consolidatedDetailsColumn} data={billDetail?.bills}/>
-                                            </div>
+                                            <TableComponent columns={consolidatedDetailsColumn} data={billDetail?.bills}/>
                                             {
                                                 billingDetails?.bills_details?.length > 1 && <>
                                                     <div className={'ts-row'}>
