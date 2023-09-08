@@ -1050,6 +1050,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                 </TabContentComponent>
                 <TabContentComponent value={'completedPayments'} selectedTab={currentTab}>
                     <TableWrapperComponent url={APIConfig.COMPLETE_PAYMENT_LIST.URL}
+                                           noDataText={'Currently there is no completed payments.'}
                                            method={APIConfig.COMPLETE_PAYMENT_LIST.METHOD}
                                            extraPayload={clientListFilterState}
                                            columns={clientId ? clientCompletePaymentListColumn : completePaymentListColumn}
