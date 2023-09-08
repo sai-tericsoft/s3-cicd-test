@@ -17,7 +17,6 @@ import ChipComponent from "../../../shared/components/chip/ChipComponent";
 import SearchComponent from "../../../shared/components/search/SearchComponent";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import ModalComponent from "../../../shared/components/modal/ModalComponent";
-import CardComponent from "../../../shared/components/card/CardComponent";
 import DataLabelValueComponent from "../../../shared/components/data-label-value/DataLabelValueComponent";
 import TableComponent from "../../../shared/components/table/TableComponent";
 import IconButtonComponent from "../../../shared/components/icon-button/IconButtonComponent";
@@ -187,7 +186,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             }
         },
         {
-            title: 'Phone Number',
+            title: 'Phone',
             key: 'phone_number',
             dataIndex: 'phone',
             width: 200,
@@ -213,7 +212,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             dataIndex: 'amount',
             width: 120,
             render: (item: any) => {
-                return <>{Misc.CURRENCY_SYMBOL} {CommonService.convertToDecimals(item?.total)}</>
+                return <>{Misc.CURRENCY_SYMBOL}{CommonService.convertToDecimals(item?.total)}</>
             }
         },
         {
@@ -333,7 +332,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             dataIndex: 'amount',
             width: 120,
             render: (item: any) => {
-                return <>{Misc.CURRENCY_SYMBOL} {CommonService.convertToDecimals(item?.total)}</>
+                return <>{Misc.CURRENCY_SYMBOL}{CommonService.convertToDecimals(item?.total)}</>
             }
         },
         {
@@ -402,7 +401,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             align: 'center',
             dataIndex: 'amount',
             render: (item: any) => {
-                return <>{Misc.CURRENCY_SYMBOL} {CommonService.convertToDecimals(item?.total)}</>
+                return <>{Misc.CURRENCY_SYMBOL}{CommonService.convertToDecimals(item?.total)}</>
             }
         },
         {
@@ -505,7 +504,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             }
         },
         {
-            title: 'Phone Number',
+            title: 'Phone',
             key: 'phone_number',
             dataIndex: 'phone',
             align: 'center',
@@ -672,33 +671,54 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
 
     const markAsPaidTableColumns: ITableColumn[] = useMemo<any>(() => [
         {
+            title: 'Invoice No.',
+            key: 'invoice_number',
+            dataIndex: 'invoice_number',
+            fixed: 'left',
+        },
+        {
             title: 'Appointment Date',
             key: 'date',
             dataIndex: 'date',
-            width: 187,
+            width: 180,
             align: 'center',
-            fixed: 'left',
+
             render: (item: any) => {
                 return <>
                     {CommonService.convertDateFormat2(item?.appointment_details?.appointment_date)}</>
             }
         },
         {
-            title: 'Appointment ID',
-            key: 'appointment_id',
-            dataIndex: 'appointment_id',
-            width: 250,
+            title: 'Client Name',
+            key: 'client_name',
+            dataIndex: 'client_name',
+            width: 120,
             align: 'center',
+            render: (item: any) => {
+                return <>{CommonService.extractName(item?.client_details)}</>
+            }
         },
         {
-            title: 'Amount (Inc. Tax)',
+            title: 'Phone',
+            key: 'phone',
+            dataIndex: 'phone',
+            width: 120,
+            align: 'center',
+            render: (item: any) => {
+                return <>{CommonService.formatPhoneNumber(item?.client_details?.primary_contact_info?.phone)}</>
+            }
+
+        },
+
+        {
+            title: 'Amount (Inc. tax)',
             key: 'amount',
             dataIndex: 'amount',
-            width: 280,
+            width: 200,
             align: 'center',
             fixed: 'right',
             render: (item: any) => {
-                return <>{Misc.CURRENCY_SYMBOL} {CommonService.convertToDecimals(+item?.total)} </>
+                return <>{Misc.CURRENCY_SYMBOL}{CommonService.convertToDecimals(+item?.total)} </>
             }
         },
         {
@@ -1089,30 +1109,30 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                             </div>
                             }
             >
-                <CardComponent title={'Client Details'} className={'client-details-card'}>
-                    <div className="ts-row">
-                        <div className="ts-col-lg-6">
-                            <DataLabelValueComponent
-                                direction={"row"}
-                                label={<>
-                                    <ImageConfig.PersonIcon/>
-                                    <span className={'client-details-label'}>Client Name</span>
-                                </>}>
-                                {CommonService.extractName(selectedPayments[0]?.client_details)}
-                            </DataLabelValueComponent>
-                        </div>
-                        <div className="ts-col-lg-6">
-                            <DataLabelValueComponent
-                                direction={"row"}
-                                label={<>
-                                    <ImageConfig.CallIcon/>
-                                    <span className={'client-details-label'}>Phone Number</span>
-                                </>}>
-                                {selectedPayments[0]?.client_details?.primary_contact_info?.phone}
-                            </DataLabelValueComponent>
-                        </div>
-                    </div>
-                </CardComponent>
+                {/*<CardComponent title={'Client Details'} className={'client-details-card'}>*/}
+                {/*    <div className="ts-row">*/}
+                {/*        <div className="ts-col-lg-6">*/}
+                {/*            <DataLabelValueComponent*/}
+                {/*                direction={"row"}*/}
+                {/*                label={<>*/}
+                {/*                    <ImageConfig.PersonIcon/>*/}
+                {/*                    <span className={'client-details-label'}>Client Name</span>*/}
+                {/*                </>}>*/}
+                {/*                {CommonService.extractName(selectedPayments[0]?.client_details)}*/}
+                {/*            </DataLabelValueComponent>*/}
+                {/*        </div>*/}
+                {/*        <div className="ts-col-lg-6">*/}
+                {/*            <DataLabelValueComponent*/}
+                {/*                direction={"row"}*/}
+                {/*                label={<>*/}
+                {/*                    <ImageConfig.CallIcon/>*/}
+                {/*                    <span className={'client-details-label'}>Phone Number</span>*/}
+                {/*                </>}>*/}
+                {/*                {selectedPayments[0]?.client_details?.primary_contact_info?.phone}*/}
+                {/*            </DataLabelValueComponent>*/}
+                {/*        </div>*/}
+                {/*    </div>*/}
+                {/*</CardComponent>*/}
                 <TableComponent
                     columns={markAsPaidTableColumns}
                     data={selectedPayments}
@@ -1122,7 +1142,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                         direction={"row"}
                         label={"Total Amount (Inc.Tax)"}>
                         <span className="mrg-left-5">
-                            {Misc.CURRENCY_SYMBOL} {CommonService.convertToDecimals(selectedPayments.reduce((acc: any, payment: any) => acc + parseInt(payment?.total), 0))}
+                            {Misc.CURRENCY_SYMBOL} {CommonService.convertToDecimals(selectedPayments.reduce((acc: any, payment: any) => acc + (payment?.total), 0))}
                         </span>
                     </DataLabelValueComponent>
                 </div>
