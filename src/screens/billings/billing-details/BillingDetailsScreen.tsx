@@ -300,7 +300,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
             title: 'Item(s)',
             dataIndex: 'item',
             key: 'item',
-            width: 500,
+            width: 300,
             fixed: 'left',
             render: (record: any) => {
                 return <>{record?.product_name}</>
@@ -310,13 +310,26 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
             title: 'Units',
             dataIndex: 'units',
             key: 'units',
+            align:'center',
+        },
+        {
+            title:'Discount',
+            dataIndex:'discount',
+            key:'discount',
+            align:'center',
+            return : (record:any) => {
+                return <>{`$${record?.discount}`}</>
+
+            }
+
         },
         {
             title: 'Rate',
             dataIndex: 'rate',
             key: 'rate',
+            align:'center',
             render: (record: any) => {
-                return <> {Misc.CURRENCY_SYMBOL} {record?.amount}</>
+                return <> {Misc.CURRENCY_SYMBOL}{CommonService.convertToDecimals(record?.amount)}</>
             }
         },
         {
@@ -325,7 +338,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
             key: 'amount',
             render: (record: any) => {
                 return <>
-                    {Misc.CURRENCY_SYMBOL} {record?.amount * record?.units}
+                    {Misc.CURRENCY_SYMBOL}{CommonService.convertToDecimals(record?.amount * record?.units)}
                 </>
             }
         }
@@ -491,7 +504,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                         </div>
                         <HorizontalLineComponent/>
                         <div className={"billing-address-wrapper ts-row"}>
-                            <div className={"billing-address-block from ts-col-lg-3"}>
+                            <div className={"billing-address-block from ts-col-lg-4"}>
                                 <div className={"billing-address-block__header"}>
                                     <div className={"billing-address-block__title"}>Billing From</div>
                                 </div>
@@ -501,14 +514,14 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                                     <div
                                         className={"billing-address-block__detail__row"}> {billingFromAddress?.address_line} </div>
                                     <div className={"billing-address-block__detail__row"}>
-                                        <span>{billingFromAddress?.city}</span>, <span>{billingFromAddress?.state}</span>
+                                        <span>{billingFromAddress?.city}</span>, <span>{billingFromAddress?.state}</span>&nbsp;
                                         <span>{billingFromAddress?.zip_code}</span>
                                     </div>
                                     <div
                                         className={"billing-address-block__detail__row"}> {billingFromAddress?.phone} </div>
                                 </div>
                             </div>
-                            <div className={'ts-col-lg-3'}/>
+                            <div className={'ts-col-lg-2'}/>
                             <div className={"billing-address-block to ts-col-lg-3"}>
                                 <div className={"billing-address-block__header"}>
                                     <div className={"billing-address-block__title"}>Billing To</div>
@@ -649,12 +662,17 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                                                                                  fullWidth={true}
                                                                                  value={comments}
                                                                                  onChange={(value: any) => setComments(value)}
-                                        /> : <TextAreaComponent label={'Comments'}
-                                                                placeholder={'Please add your comments here'}
-                                                                fullWidth={true}
-                                                                value={comments?.length > 0 ? comments : 'N/A'}
-                                                                disabled={true}
-                                        />
+                                        /> :
+                                        //     <TextAreaComponent label={'Comments'}
+                                        //                         placeholder={'Please add your comments here'}
+                                        //                         fullWidth={true}
+                                        //                         value={comments?.length > 0 ? comments : 'N/A'}
+                                        //                         disabled={true}
+                                        // />
+                                            <div className={'ts-col-12 comment-wrapper'}>
+                                                <div className={'comment-heading'}>Comments</div>
+                                                <div className={'pdd-bottom-10'}>{comments?.length > 0 ? comments : 'N/A'}</div>
+                                            </div>
                                         }
                                     </DataLabelValueComponent>
                                     {/*{*/}
