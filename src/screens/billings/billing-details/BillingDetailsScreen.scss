@@ -89,6 +89,9 @@
 
         .billing-address-block__header {
           justify-content: flex-start;
+          .edit-button{
+            margin-top:-10px
+          }
 
           .link-component {
             font-weight: 400;
@@ -117,6 +120,14 @@
             line-height: 19px;
             color: #6D6D6D;
             margin-bottom: 8px;
+            .link-component{
+              svg{
+                color: $primary-color !important;
+              }
+              .edit-text{
+                color: $primary-color !important;
+              }
+            }
           }
 
         }
