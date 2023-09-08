@@ -9,6 +9,9 @@
     .list-search-filters {
       display: flex;
       flex: 1;
+      .btn-wrapper{
+        padding-top: 3px;
+      }
 
       .ts-row{
         flex: 1;

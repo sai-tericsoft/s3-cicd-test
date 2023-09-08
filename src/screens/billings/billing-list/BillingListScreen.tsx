@@ -930,7 +930,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                             />
                         </div>
                         <div className="ts-col-lg-1"/>
-                        <div className="ts-col-lg-5 d-flex ts-justify-content-end">
+                        <div className="ts-col-lg-5 d-flex ts-justify-content-end btn-wrapper">
                             {
                                 (currentTab === 'completedPayments' || currentTab === 'pendingPayments') &&
                                 <>
@@ -1141,7 +1141,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                     <DataLabelValueComponent
                         direction={"row"}
                         label={"Total Amount (Inc.Tax)"}>
-                        <span className="mrg-left-5">
+                        <span>
                             {Misc.CURRENCY_SYMBOL} {CommonService.convertToDecimals(selectedPayments.reduce((acc: any, payment: any) => acc + (payment?.total), 0))}
                         </span>
                     </DataLabelValueComponent>
