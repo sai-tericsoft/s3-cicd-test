@@ -839,7 +839,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
 
     const handleConsolidatePayments = useCallback(() => {
         commonService.openConfirmationDialog({
-            confirmationTitle: "CONSOLIDATE INVOICES",
+            confirmationTitle: `CONSOLIDATE ${currentTab === 'pendingPayments' ? 'INVOICES' : 'RECEIPTS'}`,
             confirmationSubTitle: "Are you sure you want to consolidate the\n" +
                 "selected payments?",
             image: `${ImageConfig.confirmImage}`,
@@ -856,7 +856,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             handleCreateConsolidatedPayment(selectedPayments)
         }).catch((error: any) => {
         })
-    }, [selectedPayments, handleCreateConsolidatedPayment]);
+    }, [selectedPayments, handleCreateConsolidatedPayment,currentTab]);
 
     return (
         <div className={'payment-list-component list-screen'}>
