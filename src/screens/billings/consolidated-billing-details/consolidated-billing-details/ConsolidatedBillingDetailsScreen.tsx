@@ -146,6 +146,27 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
             setBillingDetails(tempBillingDetails);
         }, []);
 
+    const handleDeleteConsolidatedBill = useCallback((type: any) => {
+        CommonService.onConfirm({
+            image: ImageConfig.RemoveBodyPartConfirmationIcon,
+            confirmationTitle: `DELETE CONSOLIDATED ${type.toLocaleUpperCase()}`,
+            confirmationSubTitle: 'Are you sure you want to permanently delete this\n' +
+                'consolidated invoice? This action cannot be undone.'
+        }).then(() => {
+            setIsConsolidatedBillDeleted(true);
+            consolidatedBillingId && CommonService._billingsService.DeleteConsolidatedBill(consolidatedBillingId, {})
+                .then((response: any) => {
+                    setIsConsolidatedBillDeleted(false);
+                    CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+                    navigate(CommonService._routeConfig.BillingList() + '?activeTab=consolidatedPayments')
+                }).catch((error: any) => {
+                    setIsConsolidatedBillDeleted(false);
+                    CommonService._alert.showToast(error.error || "Error deleting provider", "error");
+                })
+        })
+
+    }, [consolidatedBillingId, navigate]);
+
         const handleRemovePayment = useCallback((item: any, index: number) => () => {
             if(billingDetails.bill_ids.length === 1){
                 handleDeleteConsolidatedBill(billingDetails?.bill_type);
@@ -169,7 +190,7 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                 }).catch((error: any) => {
                 })
             }
-        }, [billingDetails, removePayment]);
+        }, [billingDetails, removePayment,handleDeleteConsolidatedBill]);
 
         const consolidatedDetailsColumn: any = [
             {
@@ -400,28 +421,7 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                     setIsBillingBeingMarkedAsPaid(false);
                 });
         }, [consolidatedBillingId, closePaymentModeModal, selectedPaymentMode, handleBillingMarkAsPaidSuccess]);
-
-        const handleDeleteConsolidatedBill = useCallback((type: any) => {
-            CommonService.onConfirm({
-                image: ImageConfig.RemoveBodyPartConfirmationIcon,
-                confirmationTitle: `DELETE CONSOLIDATED ${type.toLocaleUpperCase()}`,
-                confirmationSubTitle: 'Are you sure you want to permanently delete this\n' +
-                    'consolidated invoice? This action cannot be undone.'
-            }).then(() => {
-                setIsConsolidatedBillDeleted(true);
-                consolidatedBillingId && CommonService._billingsService.DeleteConsolidatedBill(consolidatedBillingId, {})
-                    .then((response: any) => {
-                        setIsConsolidatedBillDeleted(false);
-                        CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
-                        navigate(CommonService._routeConfig.BillingList() + '?activeTab=consolidatedPayments')
-                    }).catch((error: any) => {
-                        setIsConsolidatedBillDeleted(false);
-                        CommonService._alert.showToast(error.error || "Error deleting provider", "error");
-                    })
-            })
-
-        }, [consolidatedBillingId, navigate]);
-
+        
         return (
             <div className={'consolidated-billing-details-component billing-details-screen'}>
                 <PageHeaderComponent

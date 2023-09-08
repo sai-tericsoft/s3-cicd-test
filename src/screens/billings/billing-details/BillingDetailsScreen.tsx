@@ -422,7 +422,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                 setIsSubmitting(false);
                 CommonService._alert.showToast(error.error || error.errors || "Failed to add note and comment", "error");
             });
-    }, [billingId,navigate]);
+    }, [billingId,navigate,location.pathname,type]);
 
 
     return (
@@ -608,7 +608,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                             </div>
                         </CardComponent>
                         {
-                            ((type === "receipt" || type === "invoice" && billingDetails?.payment_for === 'products')) &&
+                            (((type === "receipt" || type === "invoice" )&& billingDetails?.payment_for === 'products')) &&
                             <CardComponent className={'billing-products-card'}>
                                 <TableComponent
                                     columns={ProductsColumns}
