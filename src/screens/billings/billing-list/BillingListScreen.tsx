@@ -110,9 +110,9 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             fixed: 'left',
             render: (item: any) => {
                 const clientIdOfSelectedPayments = selectedPayments?.length > 0 ? selectedPayments[0]?.client_id : undefined;
-                const paymentFor =selectedPayments?.length > 0 ? selectedPayments[0]?.payment_for : undefined;
+                const paymentFor = selectedPayments?.length > 0 ? selectedPayments[0]?.payment_for : undefined;
                 const selectedPaymentId = selectedPayments?.length > 0 ? selectedPayments[0]?._id : undefined;
-                const isDisabled = (clientIdOfSelectedPayments && clientIdOfSelectedPayments !== item?.client_id) || (paymentFor === "products" && selectedPaymentId !== item?._id ) || (clientIdOfSelectedPayments && item?.payment_for === "products" && selectedPaymentId !== item?._id);
+                const isDisabled = (clientIdOfSelectedPayments && clientIdOfSelectedPayments !== item?.client_id) || (paymentFor === "products" && selectedPaymentId !== item?._id) || (clientIdOfSelectedPayments && item?.payment_for === "products" && selectedPaymentId !== item?._id);
                 return <CheckBoxComponent
                     className={selectedPayments.includes(item) ? 'selected-row' : ''}
                     disabled={isDisabled}
@@ -266,9 +266,9 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             fixed: 'left',
             render: (item: any) => {
                 const clientIdOfSelectedPayments = selectedPayments?.length > 0 ? selectedPayments[0]?.client_id : undefined;
-                const paymentFor =selectedPayments?.length > 0 ? selectedPayments[0]?.payment_for : undefined;
+                const paymentFor = selectedPayments?.length > 0 ? selectedPayments[0]?.payment_for : undefined;
                 const selectedPaymentId = selectedPayments?.length > 0 ? selectedPayments[0]?._id : undefined;
-                const isDisabled = (clientIdOfSelectedPayments && clientIdOfSelectedPayments !== item?.client_id) || (paymentFor === "products" && selectedPaymentId !== item?._id ) || (clientIdOfSelectedPayments && item?.payment_for === "products" && selectedPaymentId !== item?._id);
+                const isDisabled = (clientIdOfSelectedPayments && clientIdOfSelectedPayments !== item?.client_id) || (paymentFor === "products" && selectedPaymentId !== item?._id) || (clientIdOfSelectedPayments && item?.payment_for === "products" && selectedPaymentId !== item?._id);
                 return <CheckBoxComponent
                     className={selectedPayments.includes(item) ? 'selected-row' : ''}
                     disabled={isDisabled}
@@ -360,9 +360,9 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             fixed: 'left',
             render: (item: any) => {
                 const clientIdOfSelectedPayments = selectedPayments?.length > 0 ? selectedPayments[0]?.client_id : undefined;
-                const paymentFor =selectedPayments?.length > 0 ? selectedPayments[0]?.payment_for : undefined;
+                const paymentFor = selectedPayments?.length > 0 ? selectedPayments[0]?.payment_for : undefined;
                 const selectedPaymentId = selectedPayments?.length > 0 ? selectedPayments[0]?._id : undefined;
-                const isDisabled = (clientIdOfSelectedPayments && clientIdOfSelectedPayments !== item?.client_id) || (paymentFor === "products" && selectedPaymentId !== item?._id ) || (clientIdOfSelectedPayments && item?.payment_for === "products" && selectedPaymentId !== item?._id);
+                const isDisabled = (clientIdOfSelectedPayments && clientIdOfSelectedPayments !== item?.client_id) || (paymentFor === "products" && selectedPaymentId !== item?._id) || (clientIdOfSelectedPayments && item?.payment_for === "products" && selectedPaymentId !== item?._id);
                 return <CheckBoxComponent
                     className={selectedPayments.includes(item) ? 'selected-row' : ''}
                     disabled={isDisabled}
@@ -455,9 +455,9 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             fixed: 'left',
             render: (item: any) => {
                 const clientIdOfSelectedPayments = selectedPayments?.length > 0 ? selectedPayments[0]?.client_id : undefined;
-                const paymentFor =selectedPayments?.length > 0 ? selectedPayments[0]?.payment_for : undefined;
+                const paymentFor = selectedPayments?.length > 0 ? selectedPayments[0]?.payment_for : undefined;
                 const selectedPaymentId = selectedPayments?.length > 0 ? selectedPayments[0]?._id : undefined;
-                const isDisabled = (clientIdOfSelectedPayments && clientIdOfSelectedPayments !== item?.client_id) || (paymentFor === "products" && selectedPaymentId !== item?._id ) || (clientIdOfSelectedPayments && item?.payment_for === "products" && selectedPaymentId !== item?._id);
+                const isDisabled = (clientIdOfSelectedPayments && clientIdOfSelectedPayments !== item?.client_id) || (paymentFor === "products" && selectedPaymentId !== item?._id) || (clientIdOfSelectedPayments && item?.payment_for === "products" && selectedPaymentId !== item?._id);
                 return <CheckBoxComponent
                     className={selectedPayments.includes(item) ? 'selected-row' : ''}
                     disabled={isDisabled}
@@ -572,8 +572,16 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             key: 'billing_number',
             width: 200,
             render: (item: any) => {
+                let route = '';
+                if (item?.bill_type === 'invoice') {
+                    route = CommonService._routeConfig.ConsolidatedBillingDetails(item?._id) + '?referrer=' + location.pathname + '&type=consolidatedInvoice';
+                } else if (item?.bill_type === 'receipt') {
+                    route = CommonService._routeConfig.ConsolidatedBillingDetails(item?._id) + '?referrer=' + location.pathname + '&type=consolidatedReceipt';
+                } else {
+                    route = CommonService._routeConfig.ConsolidatedBillingDetails(item?._id) + '?referrer=' + location.pathname + '&type=completed';
+                }
                 return <LinkComponent
-                    route={CommonService._routeConfig.BillingDetails(item?.billing_number) + '?referrer=' + location.pathname + '&type=receipt'}>
+                    route={route}>
                     {item?.billing_number || '-'}
                 </LinkComponent>
             }
