@@ -897,7 +897,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                 <div className={'list-search-filters'}>
                     <div className="ts-row">
                         <div className="ts-col-md-12 ts-col-lg-6 d-flex ts-justify-content-start">
-                            {!clientId && <div className={'ts-col-7 mrg-right-10'}>
+                            {!clientId && <div className={'ts-col'}>
                                 <SearchComponent
                                     label={"Search"}
                                     placeholder={"Search using Client Name"}
@@ -909,25 +909,27 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                             </div>
 
                             }
-                            <DateRangePickerComponent
-                                label={"Select Date Range"}
-                                value={clientListFilterState.date_range}
-                                onDateChange={(value: any) => {
-                                    setClientListFilterState((oldState: any) => {
-                                        const newState = {...oldState};
-                                        if (value) {
-                                            newState['start_date'] = moment(value[0])?.format('YYYY-MM-DD');
-                                            newState['end_date'] = moment(value[1])?.format('YYYY-MM-DD');
-                                            // newState['date_range'] = value;
-                                        } else {
-                                            delete newState['date_range'];
-                                            delete newState['start_date'];
-                                            delete newState['end_date'];
-                                        }
-                                        return newState;
-                                    })
-                                }}
-                            />
+                            <div className={'ts-col'}>
+                                <DateRangePickerComponent
+                                    label={"Select Date Range"}
+                                    value={clientListFilterState.date_range}
+                                    onDateChange={(value: any) => {
+                                        setClientListFilterState((oldState: any) => {
+                                            const newState = {...oldState};
+                                            if (value) {
+                                                newState['start_date'] = moment(value[0])?.format('YYYY-MM-DD');
+                                                newState['end_date'] = moment(value[1])?.format('YYYY-MM-DD');
+                                                // newState['date_range'] = value;
+                                            } else {
+                                                delete newState['date_range'];
+                                                delete newState['start_date'];
+                                                delete newState['end_date'];
+                                            }
+                                            return newState;
+                                        })
+                                    }}
+                                />
+                            </div>
                         </div>
                         <div className="ts-col-lg-1"/>
                         <div className="ts-col-lg-5 d-flex ts-justify-content-end btn-wrapper">

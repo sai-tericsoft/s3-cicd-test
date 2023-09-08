@@ -81,6 +81,7 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
             consolidatedBillingId && CommonService._billingsService.GetConsolidatedBillingDetails(consolidatedBillingId, {})
                 .then((response) => {
                     setIsBillingDetailsBeingLoading(false);
+                    setSelectedAddress(response?.data?.billing_address)
                     setIsBillingDetailsBeingLoaded(true);
                     setBillingDetails(response?.data);
                 }).catch((error) => {
@@ -117,10 +118,9 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
         const removePayment = useCallback((removedPayment: any, index: number, billingDetails: any) => {
             const tempBillingDetails = _.cloneDeep(billingDetails);
             const currentClientIndex = tempBillingDetails.bills_details.findIndex((item: any) => item.bills.find((bill: any) => bill._id === removedPayment._id));
-            if(tempBillingDetails.bills_details[currentClientIndex].bills.length === 1){
+            if (tempBillingDetails.bills_details[currentClientIndex].bills.length === 1) {
                 tempBillingDetails.bills_details.splice(currentClientIndex, 1);
-            }
-            else{
+            } else {
                 tempBillingDetails.bills_details[currentClientIndex].bills.splice(index, 1);
                 tempBillingDetails.bills_details[currentClientIndex].totalAmount = tempBillingDetails.bills_details[currentClientIndex].bills.reduce((acc: any, item: any) => {
                     return acc + item.total;
@@ -146,32 +146,31 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
             setBillingDetails(tempBillingDetails);
         }, []);
 
-    const handleDeleteConsolidatedBill = useCallback((type: any) => {
-        CommonService.onConfirm({
-            image: ImageConfig.RemoveBodyPartConfirmationIcon,
-            confirmationTitle: `DELETE CONSOLIDATED ${type.toLocaleUpperCase()}`,
-            confirmationSubTitle: 'Are you sure you want to permanently delete this\n' +
-                'consolidated invoice? This action cannot be undone.'
-        }).then(() => {
-            setIsConsolidatedBillDeleted(true);
-            consolidatedBillingId && CommonService._billingsService.DeleteConsolidatedBill(consolidatedBillingId, {})
-                .then((response: any) => {
-                    setIsConsolidatedBillDeleted(false);
-                    CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
-                    navigate(CommonService._routeConfig.BillingList() + '?activeTab=consolidatedPayments')
-                }).catch((error: any) => {
-                    setIsConsolidatedBillDeleted(false);
-                    CommonService._alert.showToast(error.error || "Error deleting provider", "error");
-                })
-        })
+        const handleDeleteConsolidatedBill = useCallback((type: any) => {
+            CommonService.onConfirm({
+                image: ImageConfig.RemoveBodyPartConfirmationIcon,
+                confirmationTitle: `DELETE CONSOLIDATED ${type.toLocaleUpperCase()}`,
+                confirmationSubTitle: 'Are you sure you want to permanently delete this\n' +
+                    'consolidated invoice? This action cannot be undone.'
+            }).then(() => {
+                setIsConsolidatedBillDeleted(true);
+                consolidatedBillingId && CommonService._billingsService.DeleteConsolidatedBill(consolidatedBillingId, {})
+                    .then((response: any) => {
+                        setIsConsolidatedBillDeleted(false);
+                        CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+                        navigate(CommonService._routeConfig.BillingList() + '?activeTab=consolidatedPayments')
+                    }).catch((error: any) => {
+                        setIsConsolidatedBillDeleted(false);
+                        CommonService._alert.showToast(error.error || "Error deleting provider", "error");
+                    })
+            })
 
-    }, [consolidatedBillingId, navigate]);
+        }, [consolidatedBillingId, navigate]);
 
         const handleRemovePayment = useCallback((item: any, index: number) => () => {
-            if(billingDetails.bill_ids.length === 1){
+            if (billingDetails.bill_ids.length === 1) {
                 handleDeleteConsolidatedBill(billingDetails?.bill_type);
-            }
-            else{
+            } else {
                 commonService.openConfirmationDialog({
                     confirmationTitle: "REMOVE RECEIPT",
                     confirmationSubTitle: "Are you sure you want to remove the\n" +
@@ -190,7 +189,7 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                 }).catch((error: any) => {
                 })
             }
-        }, [billingDetails, removePayment,handleDeleteConsolidatedBill]);
+        }, [billingDetails, removePayment, handleDeleteConsolidatedBill]);
 
         const consolidatedDetailsColumn: any = [
             {
@@ -276,7 +275,7 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                 fixed: 'right',
                 width: 70,
                 render: (item: any, index: any) => {
-                    return <IconButtonComponent onClick={handleRemovePayment(item, index)} >
+                    return <IconButtonComponent onClick={handleRemovePayment(item, index)}>
                         <ImageConfig.CircleCancel/>
                     </IconButtonComponent>
                 }
@@ -308,13 +307,13 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
             getClientBillingAddressList(value);
         }, [getClientBillingAddressList]);
 
-        useEffect(() => {
-            // Initialize selectedAddress with the default address when the component mounts
-            const defaultAddress = getBillingList.find((item: any) => item.is_default);
-            if (defaultAddress) {
-                setSelectedAddress(defaultAddress);
-            }
-        }, [getBillingList]);
+        // useEffect(() => {
+        //     // Initialize selectedAddress with the default address when the component mounts
+        //     const defaultAddress = getBillingList.find((item: any) => item.is_default);
+        //     if (defaultAddress) {
+        //         setSelectedAddress(defaultAddress);
+        //     }
+        // }, [getBillingList]);
 
         const openBillingAddressFormDrawer = useCallback(() => {
             setIsClientBillingAddressDrawerOpened(true);
@@ -421,7 +420,7 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                     setIsBillingBeingMarkedAsPaid(false);
                 });
         }, [consolidatedBillingId, closePaymentModeModal, selectedPaymentMode, handleBillingMarkAsPaidSuccess]);
-        
+
         return (
             <div className={'consolidated-billing-details-component billing-details-screen'}>
                 <PageHeaderComponent
@@ -525,13 +524,16 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                                         <div className={"billing-address-block__title"}>Billing To</div>
                                         &nbsp;&nbsp;
                                         {/*{(billingDetails?.billing_address && type === 'invoice') &&*/}
-                                        <LinkComponent
+                                        <ButtonComponent
                                             onClick={openBillingAddressFormDrawer}
+                                            variant={'text'}
+                                            color={"primary"}
+                                            className={'edit-button'}
+                                            prefixIcon={<ImageConfig.EditIcon height={'15'}
+                                                                              width={'15'}/>}
                                         >
-                                              <span>  <ImageConfig.EditIcon height={'15'}
-                                                                            width={'15'}/> </span>
-                                            <span className={'edit-text'}>Edit</span>
-                                        </LinkComponent>
+                                            Edit
+                                        </ButtonComponent>
                                         {/*}*/}
                                     </div>
                                     <div className={"billing-address-block__details"}>
@@ -542,26 +544,24 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                                             </>
                                         }
                                         {
-                                            (billingDetails?.billing_address) && <>
-                                                <div
-                                                    className={"billing-address-block__detail__row name"}>
-                                                    {/*{(type === 'invoice' && selectedAddress) && */}
-                                                    {selectedAddress ? selectedAddress?.name : billingDetails?.billing_address?.name}
-                                                </div>
-                                                <div
-                                                    className={"billing-address-block__detail__row"}>
-                                                    {/*{(type === 'invoice' && selectedAddress) ? selectedAddress?.address : billingDetails?.billing_address.address_line}*/}
-                                                    {selectedAddress ? selectedAddress?.address : billingDetails?.billing_address.address_line}
-                                                </div>
-                                                <div className={"billing-address-block__detail__row"}>
-                                                    <span>{selectedAddress ? selectedAddress?.city : billingDetails?.billing_address?.city}</span>,&nbsp;
-                                                    <span>{selectedAddress ? selectedAddress?.state : billingDetails?.billing_address?.state}</span>&nbsp;
-                                                    <span>{selectedAddress ? selectedAddress?.zip_code : billingDetails?.billing_address?.zip_code}</span>
-                                                </div>
-                                                <div
-                                                    className={"billing-address-block__detail__row"}>  {billingDetails?.billing_address?.phone || '-'} </div>
+                                            !billingDetails?.billing_address && <>
+                                                <div className={"billing-address-block__detail__row"}> -</div>
+                                                <div className={"billing-address-block__detail__row"}> -</div>
                                             </>
                                         }
+                                        <div
+                                            className={"billing-address-block__detail__row name"}>
+                                            {selectedAddress?.name}
+                                        </div>
+                                        <div
+                                            className={"billing-address-block__detail__row"}> {selectedAddress?.address_line} </div>
+                                        <div className={"billing-address-block__detail__row"}>
+                                            <span>{selectedAddress?.city}</span>,&nbsp;
+                                            <span>{selectedAddress?.state}</span>&nbsp;
+                                            <span>{selectedAddress?.zip_code}</span>
+                                        </div>
+                                        <div
+                                            className={"billing-address-block__detail__row"}>  {billingDetails?.billing_address?.phone || '-'} </div>
                                     </div>
                                 </div>
                             </div>
@@ -786,7 +786,7 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                                                 <div className={'select-address-card-header'}>
                                                     <div className={'btn-heading-wrapper'}>
                                                         <RadioButtonComponent
-                                                            checked={selectedChanged ? tempSelectedAddress === item : selectedAddress === item}
+                                                            checked={selectedChanged ? tempSelectedAddress?._id === item?._id : selectedAddress?._id === item?._id}
                                                             onChange={() => handleRadioButtonClick(item)}/>
                                                         <div
                                                             className={'card-heading'}>{item?.is_default ? 'Default Address' : 'Other Address'}</div>
