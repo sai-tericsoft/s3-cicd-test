@@ -154,6 +154,16 @@
         flex: 1;
         justify-content: space-between;
 
+        .comment-wrapper{
+          border:  1px solid #ABB6BE;
+          border-radius: 4px;
+          .comment-heading{
+            font-weight: 500;
+            padding-top: 5px;
+            color: #212B36;
+          }
+        }
+
         .data-label-value {
           margin-bottom: 0;
 
