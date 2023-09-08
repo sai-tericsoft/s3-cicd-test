@@ -864,7 +864,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             handleCreateConsolidatedPayment(selectedPayments)
         }).catch((error: any) => {
         })
-    }, [selectedPayments, handleCreateConsolidatedPayment,currentTab]);
+    }, [selectedPayments, handleCreateConsolidatedPayment, currentTab]);
 
     return (
         <div className={'payment-list-component list-screen'}>
@@ -893,14 +893,19 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                                 label={"Select Date Range"}
                                 value={clientListFilterState.date_range}
                                 onDateChange={(value: any) => {
-                                    if (value) {
-                                        setClientListFilterState({
-                                            ...clientListFilterState,
-                                            start_date: moment(value[0]).format('YYYY-MM-DD'),
-                                            end_date: moment(value[1]).format('YYYY-MM-DD'),
-                                            date_range: value
-                                        })
-                                    }
+                                    setClientListFilterState((oldState: any) => {
+                                        const newState = {...oldState};
+                                        if (value) {
+                                            newState['start_date'] = moment(value[0])?.format('YYYY-MM-DD');
+                                            newState['end_date'] = moment(value[1])?.format('YYYY-MM-DD');
+                                            // newState['date_range'] = value;
+                                        } else {
+                                            delete newState['date_range'];
+                                            delete newState['start_date'];
+                                            delete newState['end_date'];
+                                        }
+                                        return newState;
+                                    })
                                 }}
                             />
                         </div>
