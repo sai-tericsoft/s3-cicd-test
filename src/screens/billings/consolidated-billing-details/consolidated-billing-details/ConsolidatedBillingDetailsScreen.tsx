@@ -63,6 +63,8 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
         const [selectedPaymentMode, setSelectedPaymentMode] = useState<string>("");
         const [isPaymentModeModalOpen, setIsPaymentModeModalOpen] = useState<boolean>(false);
         const [currentClientIndex, setCurrentClientIndex] = useState<number>(0);
+        const [isConsolidatedBillDeleted, setIsConsolidatedBillDeleted] = useState<boolean>(false);
+
         const {
             paymentModes
         } = useSelector((state: IRootReducerState) => state.staticData);
@@ -113,7 +115,7 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
             }));
         }, [navigate, dispatch, searchParams]);
 
-        const removePayment = useCallback((removedPayment: any, index: number,billingDetails:any,currentClientIndex:number) => {
+        const removePayment = useCallback((removedPayment: any, index: number, billingDetails: any, currentClientIndex: number) => {
             const tempBillingDetails = _.cloneDeep(billingDetails);
             tempBillingDetails.bills_details[currentClientIndex].bills.splice(index, 1);
             tempBillingDetails.bills_details[currentClientIndex].totalAmount = tempBillingDetails.bills_details[currentClientIndex].bills.reduce((acc: any, item: any) => {
@@ -157,10 +159,10 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                     color: "primary"
                 }
             }).then((response: any) => {
-                removePayment(item, index,billingDetails,currentClientIndex)
+                removePayment(item, index, billingDetails, currentClientIndex)
             }).catch((error: any) => {
             })
-        }, [billingDetails,currentClientIndex,removePayment]);
+        }, [billingDetails, currentClientIndex, removePayment]);
 
         const consolidatedDetailsColumn: any = [
             {
@@ -392,6 +394,24 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                 });
         }, [consolidatedBillingId, closePaymentModeModal, selectedPaymentMode, handleBillingMarkAsPaidSuccess]);
 
+        const handleDeleteConsolidatedBill = useCallback((type: any) => {
+            setIsConsolidatedBillDeleted(true);
+            CommonService.onConfirm({
+                image: ImageConfig.RemoveBodyPartConfirmationIcon,
+                confirmationTitle: `DELETE CONSOLIDATED ${type.toLocaleUpperCase()}`,
+                confirmationSubTitle: 'Are you sure you want to permanently delete this\n' +
+                    'consolidated invoice? This action cannot be undone.'
+            }).then(() => {
+                consolidatedBillingId && CommonService._billingsService.DeleteConsolidatedBill(consolidatedBillingId,{})
+                    .then((response:any) => {
+                        CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+                        navigate(CommonService._routeConfig.BillingList() + '?activeTab=consolidatedPayments')
+                    }).catch((error: any) => {
+                    CommonService._alert.showToast(error.error || "Error deleting provider", "error");
+                })
+            })
+
+        }, [consolidatedBillingId,navigate]);
 
         return (
             <div className={'consolidated-billing-details-component billing-details-screen'}>
@@ -402,6 +422,8 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                             searchParams.get('type') !== 'completed' &&
                             <>
                                 <ButtonComponent variant={'outlined'} color={'error'}
+                                                 isLoading={isConsolidatedBillDeleted}
+                                                 onClick={() => handleDeleteConsolidatedBill(billingDetails?.bill_type)}
                                                  prefixIcon={<ImageConfig.DeleteIcon/>}>
                                     Delete
                                 </ButtonComponent>&nbsp;&nbsp;
@@ -450,7 +472,7 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                             <div
                                 className={"billing-details-header"}>
                                 <div className={"billing-details-logo"}>
-                                    <img src={ImageConfig.BillingLogo} alt=""/>
+                                    {<ImageConfig.NewLogo/>}
                                 </div>
                                 <div className={"billing-details-meta"}>
                                     {

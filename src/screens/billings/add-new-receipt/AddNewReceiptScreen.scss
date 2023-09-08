@@ -141,11 +141,16 @@
       }
     }
   }
-
 }
 
 .products-block {
   .products-block-wrapper {
+   .t-table-wrapper{
+     .t-table{
+       min-height: fit-content !important;
+     }
+   }
+
     .t-tr {
       //padding-top: 5px !important;
       .t-td {
