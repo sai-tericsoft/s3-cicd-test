@@ -300,7 +300,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                                             }}
                                         />
                                         {isDiscountGreaterThanAmount && (
-                                            <div style={{color: 'red', fontSize:'10px'}}>
+                                            <div style={{color: 'red', fontSize: '10px'}}>
                                                 Invalid discount</div>
                                         )}
                                     </div>
@@ -597,7 +597,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                 return (curr.rate && curr.units) ? acc + ((curr?.rate) * (curr?.units)) - ((curr?.discount || "0.00")) : acc;
             }, 0);
         } else {
-            totalAmount = 0.00;
+            totalAmount = 0;
         }
         formRef.current?.setFieldValue('total', totalAmount);
         formRef.current?.setFieldTouched('discount');
@@ -677,7 +677,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                                         <div
                                             className={"d-flex justify-content-space-between align-items-center mrg-bottom-20"}>
                                             <div>
-                                               <div>{<ImageConfig.NewLogo/>}</div>
+                                                <div>{<ImageConfig.NewLogo/>}</div>
                                             </div>
                                             <div>
                                                 {CommonService.convertDateFormat2(new Date(), "DD-MMM-YYYY | hh:mm A")}
@@ -883,7 +883,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                                                             </div>
                                                             <div
                                                                 className="add-new-receipt__payment__block__row__value">
-                                                                {Misc.CURRENCY_SYMBOL}{CommonService.convertToDecimals(total) || '0.00'}
+                                                                {Misc.CURRENCY_SYMBOL}{total>0 ?CommonService.convertToDecimals(+total) : '0.00'}
                                                             </div>
                                                         </div>
                                                         <div>
@@ -911,8 +911,10 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                                                             <div
                                                                 className="add-new-receipt__payment__block__row__value">{Misc.CURRENCY_SYMBOL}
                                                                 {
-                                                                    CommonService.convertToDecimals(total - ((addNewReceiptFormInitialValues.discount && (addNewReceiptFormInitialValues.discount)))) || '0.00'
+                                                                    addNewReceiptFormInitialValues.discount ? CommonService.convertToDecimals((+total) - (addNewReceiptFormInitialValues.discount && (addNewReceiptFormInitialValues.discount))) :
+                                                                       <> {total > 0 ? CommonService.convertToDecimals(+total): '0.00'}</>
                                                                 }
+
                                                             </div>
                                                         </div>
                                                     </div>

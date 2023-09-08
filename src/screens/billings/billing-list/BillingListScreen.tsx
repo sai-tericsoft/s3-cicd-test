@@ -17,7 +17,6 @@ import ChipComponent from "../../../shared/components/chip/ChipComponent";
 import SearchComponent from "../../../shared/components/search/SearchComponent";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import ModalComponent from "../../../shared/components/modal/ModalComponent";
-import CardComponent from "../../../shared/components/card/CardComponent";
 import DataLabelValueComponent from "../../../shared/components/data-label-value/DataLabelValueComponent";
 import TableComponent from "../../../shared/components/table/TableComponent";
 import IconButtonComponent from "../../../shared/components/icon-button/IconButtonComponent";

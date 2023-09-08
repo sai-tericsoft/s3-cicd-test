@@ -14,7 +14,6 @@ import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
 import HorizontalLineComponent
     from "../../../shared/components/horizontal-line/horizontal-line/HorizontalLineComponent";
-import LinkComponent from "../../../shared/components/link/LinkComponent";
 import CardComponent from "../../../shared/components/card/CardComponent";
 import DataLabelValueComponent from "../../../shared/components/data-label-value/DataLabelValueComponent";
 import DrawerComponent from "../../../shared/components/drawer/DrawerComponent";
@@ -423,7 +422,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                 setIsSubmitting(false);
                 CommonService._alert.showToast(error.error || error.errors || "Failed to add note and comment", "error");
             });
-    }, [billingId]);
+    }, [billingId,navigate]);
 
 
     return (
