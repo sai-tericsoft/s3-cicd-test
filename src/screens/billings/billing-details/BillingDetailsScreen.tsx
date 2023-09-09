@@ -427,7 +427,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
             });
     }, [billingId,navigate,location.pathname,type]);
 
-    console.log(type,'type');
+
 
     return (
         <div className={'billing-details-screen'}>
@@ -486,7 +486,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                                 {
                                     type === 'invoice' && <div>
                                         <div className={'appointment-id-heading'}>
-                                            Invoice No
+                                            Invoice No.
                                         </div>
                                         <div className={'appointment-id'}>
                                             {billingDetails?.invoice_number}
@@ -524,7 +524,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                                 <span>{billingFromAddress?.zip_code}</span>
                                     </div>
                                     <div
-                                        className={"billing-address-block__detail__row"}> {billingFromAddress?.phone} </div>
+                                        className={"billing-address-block__detail__row"}> {CommonService.formatPhoneNumber(billingFromAddress?.phone)} </div>
                                 </div>
                             </div>
                             <div className={'ts-col-lg-2'}/>
@@ -564,7 +564,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                                         <span>{selectedAddress?.zip_code}</span>
                                     </div>
                                     <div
-                                        className={"billing-address-block__detail__row"}>  {billingDetails?.billing_address?.phone || '-'} </div>
+                                        className={"billing-address-block__detail__row"}>  {CommonService.formatPhoneNumber(billingDetails?.billing_address?.phone) || '-'} </div>
                                 </div>
                             </div>
                         </div>
@@ -582,7 +582,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                                 </div>
                                 <div className="ts-col-lg-3">
                                     <DataLabelValueComponent label={"Phone Number"}>
-                                        {billingDetails?.client_details?.primary_contact_info?.phone || '-'}
+                                        {CommonService.formatPhoneNumber(billingDetails?.client_details?.primary_contact_info?.phone) || '-'}
                                     </DataLabelValueComponent>
                                 </div>
                                 <div className="ts-col-lg-3">
@@ -637,7 +637,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                                     </div>
                                     <div className="ts-col-lg-3">
                                         <DataLabelValueComponent label={"Date and Time"}>
-                                            {CommonService.convertDateFormat2(billingDetails?.appointment_details?.appointment_date, "DD-MMM-YYYY")},{CommonService.getHoursAndMinutesFromMinutes(billingDetails?.appointment_details?.start_time)}
+                                            {CommonService.convertDateFormat2(billingDetails?.appointment_details?.appointment_date, "DD-MMM-YYYY")}, {CommonService.getHoursAndMinutesFromMinutes(billingDetails?.appointment_details?.start_time)}
                                         </DataLabelValueComponent>
                                     </div>
                                 </div>
