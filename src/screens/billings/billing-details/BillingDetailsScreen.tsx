@@ -345,18 +345,18 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
         }
     ], []);
 
-    const fetchBillingPDF = useCallback((cb: any) => {
-        const payload = {
-            is_detailed: viewMode === 'detailed'
-        };
-        CommonService._billingsService.GetBillingPDFDocument(billingId, type, payload)
-            .then((response: IAPIResponseType<any>) => {
-                cb(response?.data?.url);
-            })
-            .catch((error: any) => {
-                CommonService._alert.showToast(error.error || error.errors || "Failed to fetch", "error");
-            });
-    }, [viewMode, type, billingId]);
+    // const fetchBillingPDF = useCallback((cb: any) => {
+    //     const payload = {
+    //         is_detailed: viewMode === 'detailed'
+    //     };
+    //     CommonService._billingsService.GetBillingPDFDocument(billingId, type, payload)
+    //         .then((response: IAPIResponseType<any>) => {
+    //             cb(response?.data?.url);
+    //         })
+    //         .catch((error: any) => {
+    //             CommonService._alert.showToast(error.error || error.errors || "Failed to fetch", "error");
+    //         });
+    // }, [viewMode, type, billingId]);
 
     const handleBillingPrint = useCallback(() => {
         CommonService.ComingSoon();

@@ -13,7 +13,6 @@ import {IRootReducerState} from "../../../../store/reducers";
 import {getBillingFromAddress, getBillingSettings} from "../../../../store/actions/billings.action";
 import HorizontalLineComponent
     from "../../../../shared/components/horizontal-line/horizontal-line/HorizontalLineComponent";
-import LinkComponent from "../../../../shared/components/link/LinkComponent";
 import CardComponent from "../../../../shared/components/card/CardComponent";
 import DataLabelValueComponent from "../../../../shared/components/data-label-value/DataLabelValueComponent";
 import TableComponent from "../../../../shared/components/table/TableComponent";
@@ -205,6 +204,7 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                 title: 'Date and Time',
                 key: 'created_at',
                 dataIndex: 'created_at',
+                width: 120,
                 render: (item: any) => {
                     return <>{CommonService.convertDateFormat2(item?.created_at, "DD-MMM-YYYY  hh:mm A") || '-'}</>
                 }
@@ -217,14 +217,14 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                 align: 'center',
                 render: (item: any) => {
                     return <>{CommonService.extractName(item?.provider_details)}<br/>
-                        {item?.provider_details?.primary_contact_info?.phone || '-'}</>
+                        {item?.provider_details?.npi_number || '-'}</>
                 }
             },
             {
                 title: 'Service Description',
                 key: 'service_description',
                 dataIndex: 'service_description',
-                width: 210,
+                width: 220,
 
                 render: (item: any) => {
                     return <>{item?.service_details?.name || '-'}
@@ -237,6 +237,7 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                 key: 'payable_amount',
                 dataIndex: 'payable_amount',
                 align: 'center',
+                width:60,
                 render: (item: any) => {
                     return <>{item?.payable_amount ? <>{Misc.CURRENCY_SYMBOL}{CommonService.convertToDecimals(item?.payable_amount)}</> : '-'}</>
                 }
@@ -246,6 +247,7 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                 key: 'qty',
                 dataIndex: 'qty',
                 align: 'center',
+                width:60,
                 render: (item: any) => {
                     return <>{item?.qty || "-"}</>
                 }
@@ -255,6 +257,7 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                 key: 'discount',
                 dataIndex: 'discount',
                 align: 'center',
+                width:60,
                 render: (item: any) => {
                     return <>{item?.discount ? <>{Misc.CURRENCY_SYMBOL}{CommonService.convertToDecimals(item?.discount)}</> : "-"}</>
                 }
@@ -264,6 +267,7 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                 key: 'total',
                 dataIndex: 'total',
                 align: 'center',
+                width:60,
                 render: (item: any) => {
                     return <>{item?.total ? <>{Misc.CURRENCY_SYMBOL}{CommonService.convertToDecimals(item?.total)}</> : "-"}</>
                 }
@@ -487,7 +491,7 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                                     {
                                         <div>
                                             <div className={'appointment-id-heading'}>
-                                                {CommonService.capitalizeFirstLetter(billingDetails?.bill_type) + ' No'}
+                                                {CommonService.capitalizeFirstLetter(billingDetails?.bill_type) + ' No.'}
                                             </div>
                                             <div className={'appointment-id'}>
                                                 {billingDetails?.billing_number}
@@ -502,7 +506,7 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                             </div>
                             <HorizontalLineComponent/>
                             <div className={"billing-address-wrapper ts-row"}>
-                                <div className={"billing-address-block from ts-col-lg-3"}>
+                                <div className={"billing-address-block from ts-col-lg-4"}>
                                     <div className={"billing-address-block__header"}>
                                         <div className={"billing-address-block__title"}>Billing From</div>
                                     </div>
@@ -516,10 +520,10 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                                             <span>{billingFromAddress?.zip_code}</span>
                                         </div>
                                         <div
-                                            className={"billing-address-block__detail__row"}> {billingFromAddress?.phone} </div>
+                                            className={"billing-address-block__detail__row"}> {CommonService.formatPhoneNumber(billingFromAddress?.phone)} </div>
                                     </div>
                                 </div>
-                                <div className={'ts-col-lg-3'}/>
+                                <div className={'ts-col-lg-2'}/>
                                 <div className={"billing-address-block to ts-col-lg-3"}>
                                     <div className={"billing-address-block__header"}>
                                         <div className={"billing-address-block__title"}>Billing To</div>
@@ -575,12 +579,12 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                                                     <DataLabelValueComponent label={'Client Name'}>
                                                         <div className={'d-flex'}>
                                                             {CommonService.extractName(billDetail?.client_details) + "(" + billDetail?.client_details?.client_id + ")"}&nbsp;
-                                                            <LinkComponent>View Details</LinkComponent>
+                                                            {/*<LinkComponent>View Details</LinkComponent>*/}
                                                         </div>
                                                     </DataLabelValueComponent>
                                                 </div>
                                                 <div className={'ts-col-lg-3'}/>
-                                                <div className={'ts-col-lg-3'}>
+                                                <div className={'ts-col-lg-4'}>
                                                     <DataLabelValueComponent label={'Case Name'}>
                                                         {billDetail?.medical_record_details?.injury_details?.map((injury: any) => {
                                                             return (
@@ -600,7 +604,7 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                                                         <div className={'ts-col-3 mrg-top-25'}>
                                                             <div className={'d-flex ts-justify-content-sm-between'}>
                                                                 <div className={'payment-type-header'}>
-                                                                    Subtotal(Inc. tax)
+                                                                    Subtotal (Inc. tax)
                                                                 </div>
                                                                 <div className={'payment-type-header'}>
                                                                     {Misc.CURRENCY_SYMBOL}{CommonService.convertToDecimals(billDetail?.totalAmount)}
@@ -616,7 +620,7 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                                                             </div>
                                                             <div className={'d-flex ts-justify-content-sm-between'}>
                                                                 <div className={'payment-type-header-total'}>
-                                                                    Amount(Inc.tax)
+                                                                    Amount (Inc.tax)
                                                                 </div>
                                                                 <div className={'payment-type-header-total'}>
                                                                     {Misc.CURRENCY_SYMBOL}{CommonService.convertToDecimals(billDetail?.totalPayableAmount) || '0.00'}
@@ -666,7 +670,7 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                                             <div className="add-new-invoice__payment__block__row subtotal">
                                                 <div
                                                     className="add-new-invoice__payment__block__row__title">
-                                                    Subtotal (Inc. Tax)
+                                                    Subtotal (Inc. tax)
                                                 </div>
                                                 <div
                                                     className="add-new-invoice__payment__block__row__value">
@@ -685,7 +689,7 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                                             </div>
                                             <div className="add-new-invoice__payment__block__row grand">
                                                 <div className="add-new-invoice__payment__block__row__title">
-                                                    Grand Total (Inc. Tax)
+                                                    Grand Total (Inc. tax)
                                                 </div>
                                                 <div
                                                     className="add-new-invoice__payment__block__row__value">{Misc.CURRENCY_SYMBOL}
@@ -735,9 +739,9 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                                     <div className={'ts-col-md-12'}>
                                         {(thankYouNote?.length) >= 90 ?
                                             <div className={'alert-error'}>Characters
-                                                Limit:{(thankYouNote?.length)}/90</div> :
+                                                Limit: {(thankYouNote?.length)}/90</div> :
                                             <div className={'no-alert'}>Characters
-                                                Limit:{(thankYouNote?.length)}/90</div>}
+                                                Limit: {(thankYouNote?.length)}/90</div>}
                                     </div>
                                 </>
 
