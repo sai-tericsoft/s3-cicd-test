@@ -570,6 +570,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             title: 'Invoice/Receipt No.',
             key: 'billing_number',
             width: 200,
+            align: 'center',
             render: (item: any) => {
                 let route = '';
                 if (item?.bill_type === 'invoice') {
@@ -598,7 +599,8 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
         {
             title: 'Client Name',
             key: 'client_name',
-            align: 'center',
+            align:'left',
+            width: 100,
             render: (item: any) => {
                 return <>
                     {CommonService.extractName(item?.client_details) || '-'}
