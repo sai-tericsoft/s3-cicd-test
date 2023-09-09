@@ -586,13 +586,16 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                                                 <div className={'ts-col-lg-3'}/>
                                                 <div className={'ts-col-lg-4'}>
                                                     <DataLabelValueComponent label={'Case Name'}>
-                                                        {billDetail?.medical_record_details?.injury_details?.map((injury: any) => {
+                                                        {billDetail?.medical_record_details?.injury_details && billDetail?.medical_record_details?.injury_details?.map((injury: any) => {
                                                             return (
                                                                 <>
                                                                     {CommonService.convertDateFormat2(billDetail?.created_at)} - {injury?.body_part_name}( {injury?.body_side} )
                                                                 </>
                                                             )
                                                         })}
+                                                        {
+                                                            billDetail?.medical_record_details===undefined && <>N/A</>
+                                                        }
                                                     </DataLabelValueComponent>
                                                 </div>
                                             </div>
