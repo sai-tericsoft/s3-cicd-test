@@ -444,7 +444,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             }
         }
     ], [selectedPayments, location, handlePaymentSelection]);
-
+    
     const completePaymentListColumn: ITableColumn[] = useMemo<any>(() => [
         {
             title: '',
@@ -849,7 +849,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
 
     const handleCreateConsolidatedPayment = useCallback((selectedPayments: any) => {
         const payload = {
-            "client_id": setCurrentSelectedClient,
+            "client_id": selectedPayments[0]?.client_id,
             "bill_type": currentTab === 'pendingPayments' ? 'invoice' : 'receipt',
             "bill_ids": selectedPayments.map((payment: any) => payment?._id)
         }
@@ -887,6 +887,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
         }).catch((error: any) => {
         })
     }, [selectedPayments, handleCreateConsolidatedPayment, currentTab]);
+    
 
     return (
         <div className={'payment-list-component list-screen'}>
@@ -969,6 +970,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                     </div>
                 </div>
             </div>
+            
             <div className={'consolidation-switch-wrapper'}>
                 <div className={'consolidation-switch'}>
                     <SwitchComponent
