@@ -55,13 +55,8 @@ const AddNewReceiptFormValidationSchema = Yup.object({
     total: Yup.number().min(1).required("Amount is required"),
     // discount: Yup.number().min(1).max(100).nullable(),
     discount: Yup.mixed().nullable().when("total", {
-        is: (value: number | string) => {
-            // Convert the value to a number if it's a string
-            const total = typeof value === 'string' ? Number(value) : value;
-            return total > 0;
-        },
-        then: Yup.number()
-            .max(Yup.ref('total'), 'Invalid Discount Amount')
+        is: (value: number) => value > 0,
+        then: Yup.number().max(Yup.ref('total'), 'Invalid Discount Amount')
             .nullable(true)
             // checking self-equality works for NaN, transforming it to null
             .transform((_, val) => val ? Number(val) : null),
@@ -644,7 +639,10 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
 
     useEffect(() => {
         getClientList();
-    }, [getClientList])
+    }, [getClientList]);
+    
+    console.log('total',total);
+
 
     return (
         <div className={'add-new-receipt-screen'}>
@@ -919,10 +917,17 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
 
                                                                 {
                                                                     total >= 0 && (addNewReceiptFormInitialValues.discount ? CommonService.convertToDecimals((+total) - (addNewReceiptFormInitialValues.discount && (addNewReceiptFormInitialValues.discount))) :
-                                                                        <> {total > 0 ? CommonService.convertToDecimals(+total) : '0.00'}</>)
+                                                                        <span> {total > 0 ? CommonService.convertToDecimals(+total) : '0.00'}</span>)
                                                                 }
-
                                                             </div>
+                                                        </div>
+                                                        <div className={'d-flex ts-justify-content-end'}>
+                                                            {
+                                                                //@ts-ignore
+                                                                (addNewReceiptFormInitialValues.discount &&  (CommonService.convertToDecimals((+total) - (addNewReceiptFormInitialValues.discount && (addNewReceiptFormInitialValues.discount))) < 0)) ? (
+                                                                    <span className={'alert-error'}>Invalid Amount</span>
+                                                                ) : null
+                                                            }
                                                         </div>
                                                     </div>
                                                 </div>
