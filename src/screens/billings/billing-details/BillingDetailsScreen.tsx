@@ -496,7 +496,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                                 {
                                     type === 'receipt' && <div>
                                         <div className={'receipt-no-heading'}>
-                                            Receipt No
+                                            Receipt No.
                                         </div>
                                         <div className={'receipt-no'}>
                                             {billingDetails?.receipt_number}
