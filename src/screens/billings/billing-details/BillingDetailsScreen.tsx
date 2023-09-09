@@ -750,7 +750,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                                                 </div>
                                                 <div
                                                     className="add-new-invoice__payment__block__row__value">
-                                                    {billingDetails?.payment_mode_details?.title.replace('_', " ") || billingDetails?.payment_mode.replace('_', " ") || "N/A"}
+                                                    {billingDetails?.payment_mode_details?.title?.replace('_', " ") || billingDetails?.payment_mode?.replace('_', " ") || "N/A"}
                                                 </div>
                                             </div>
 
