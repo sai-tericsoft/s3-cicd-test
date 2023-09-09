@@ -55,8 +55,13 @@ const AddNewReceiptFormValidationSchema = Yup.object({
     total: Yup.number().min(1).required("Amount is required"),
     // discount: Yup.number().min(1).max(100).nullable(),
     discount: Yup.mixed().nullable().when("total", {
-        is: (value: number) => value > 0,
-        then: Yup.number().max(Yup.ref('total'), 'Invalid Discount Amount')
+        is: (value: number | string) => {
+            // Convert the value to a number if it's a string
+            const total = typeof value === 'string' ? Number(value) : value;
+            return total > 0;
+        },
+        then: Yup.number()
+            .max(Yup.ref('total'), 'Invalid Discount Amount')
             .nullable(true)
             // checking self-equality works for NaN, transforming it to null
             .transform((_, val) => val ? Number(val) : null),
@@ -280,12 +285,12 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                                             formikField={field}
                                             size={"small"}
                                             placeholder={"$0.00"}
-                                            onFocus={() => {
-                                                field.form.setFieldValue(`products[${index}].showQuantity`, true);
-                                            }}
-                                            onBlur={() => {
-                                                field.form.setFieldValue(`products[${index}].showQuantity`, true);
-                                            }}
+                                            // onFocus={() => {
+                                            //     field.form.setFieldValue(`products[${index}].showQuantity`, true);
+                                            // }}
+                                            // onBlur={() => {
+                                            //     field.form.setFieldValue(`products[${index}].showQuantity`, true);
+                                            // }}
                                             maxValue={quantity > 0 ? quantity : 0}
                                             disabled={!field.form.values?.products?.[index]?.product_id || !field.form.values?.products?.[index]?.units}
                                             onChange={(value: any) => {
@@ -883,7 +888,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                                                             </div>
                                                             <div
                                                                 className="add-new-receipt__payment__block__row__value">
-                                                                {Misc.CURRENCY_SYMBOL}{total>0 ?CommonService.convertToDecimals(+total) : '0.00'}
+                                                                {Misc.CURRENCY_SYMBOL}{total > 0 ? CommonService.convertToDecimals(+total) : '0.00'}
                                                             </div>
                                                         </div>
                                                         <div>
@@ -908,11 +913,13 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                                                                 className="add-new-receipt__payment__block__row__title">
                                                                 Grand Total (Inc. tax)
                                                             </div>
+
                                                             <div
                                                                 className="add-new-receipt__payment__block__row__value">{Misc.CURRENCY_SYMBOL}
+
                                                                 {
-                                                                    addNewReceiptFormInitialValues.discount ? CommonService.convertToDecimals((+total) - (addNewReceiptFormInitialValues.discount && (addNewReceiptFormInitialValues.discount))) :
-                                                                       <> {total > 0 ? CommonService.convertToDecimals(+total): '0.00'}</>
+                                                                    total >= 0 && (addNewReceiptFormInitialValues.discount ? CommonService.convertToDecimals((+total) - (addNewReceiptFormInitialValues.discount && (addNewReceiptFormInitialValues.discount))) :
+                                                                        <> {total > 0 ? CommonService.convertToDecimals(+total) : '0.00'}</>)
                                                                 }
 
                                                             </div>

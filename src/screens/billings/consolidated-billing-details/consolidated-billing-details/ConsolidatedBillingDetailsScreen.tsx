@@ -453,12 +453,13 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                             </ButtonComponent>
                         } menuOptions={[
                             <ListItem
-                                // onClick={handleBillingDownload}
+                              onClick={()=>CommonService.ComingSoon()}
                             >
                                 Download {CommonService.capitalizeFirstLetter(billingDetails?.bill_type)}
                             </ListItem>,
                             <ListItem
                                 // onClick={handleBillingPrint}
+                                onClick={()=>CommonService.ComingSoon()}
                             >
                                 Print {CommonService.capitalizeFirstLetter(billingDetails?.bill_type)}
                             </ListItem>

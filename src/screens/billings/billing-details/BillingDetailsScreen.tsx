@@ -359,22 +359,25 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
     }, [viewMode, type, billingId]);
 
     const handleBillingPrint = useCallback(() => {
-        fetchBillingPDF((url: string) => {
-            CommonService.printAttachment({
-                url: url,
-                type: "application/pdf",
-                key: CommonService.getUUID(),
-                name: `${type}-${billingId}.pdf`
-            })
-        });
-
-    }, [fetchBillingPDF, type, billingId]);
+        CommonService.ComingSoon();
+        // fetchBillingPDF((url: string) => {
+        //     CommonService.printAttachment({
+        //         url: url,
+        //         type: "application/pdf",
+        //         key: CommonService.getUUID(),
+        //         name: `${type}-${billingId}.pdf`
+        //     })
+        // });
+    },[]);
+    // }, [fetchBillingPDF, type, billingId]);
 
     const handleBillingDownload = useCallback(() => {
-        fetchBillingPDF((url: string) => {
-            CommonService.downloadFile(url, `${type}-${billingId}.pdf`);
-        });
-    }, [fetchBillingPDF, type, billingId]);
+        CommonService.ComingSoon();
+        // fetchBillingPDF((url: string) => {
+        //     CommonService.downloadFile(url, `${type}-${billingId}.pdf`);
+        // });
+    },[]);
+    // }, [fetchBillingPDF, type, billingId]);
 
     // useEffect(() => {
     //     // Initialize selectedAddress with the default address when the component mounts
@@ -424,6 +427,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
             });
     }, [billingId,navigate,location.pathname,type]);
 
+    console.log(type,'type');
 
     return (
         <div className={'billing-details-screen'}>
