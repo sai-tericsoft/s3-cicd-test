@@ -33,7 +33,7 @@ const SelectComponent = (props: SelectComponentProps) => {
         ...otherProps
     } = props;
 
-    const [tmpValue, setTmpValue] = useState(props.value);
+    const [tmpValue, setTmpValue] = useState(props.value );
     const variant = props.variant || "outlined";
     const size = props.size || "medium";
     const isClear = props.isClear || false;
@@ -55,7 +55,7 @@ const SelectComponent = (props: SelectComponentProps) => {
 
     useEffect(() => {
         if (props.value) {
-            setTmpValue(props.value);
+            setTmpValue( props.value);
         }
     }, [props.value]);
 
@@ -89,6 +89,7 @@ const SelectComponent = (props: SelectComponentProps) => {
             <Select
                 fullWidth={fullWidth}
                 value={tmpValue}
+                key={props.value}
                 error={hasError}
                 label={label + "" + (required ? " * " : "")}
                 variant={variant}

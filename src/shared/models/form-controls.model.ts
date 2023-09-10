@@ -152,7 +152,7 @@ export interface ISelectProps {
     required?: boolean;
     displayWith?: (item: any) => any;
     keyExtractor?: (item: any) => any;
-    valueExtractor?: (item: any, index: number) => any;
+    valueExtractor?: (item: any, index?: number) => any;
     label?: string;
     onUpdate?: (value: any) => void;
     onBlur?: () => void;

@@ -45,7 +45,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
     const {billingId} = useParams();
     const location = useLocation();
     const [searchParams, setSearchParams] = useSearchParams();
-    const [type, setType] = useState<BillingType>('invoice');
+    const [type, setType] = useState<BillingType | undefined>(undefined);
     const [viewMode, setViewMode] = useState<BillingViewMode>('general');
     const [isBillingBeingMarkedAsPaid, setIsBillingBeingMarkedAsPaid] = useState<boolean>(false);
     const [isBillingDetailsBeingLoaded, setIsBillingDetailsBeingLoaded] = useState<boolean>(false);
@@ -119,8 +119,10 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
         setSelectedPaymentMode("");
     }, []);
 
-    const fetchBillingDetails = useCallback(() => {
+    const fetchBillingDetails = useCallback((billingId:string,type:string) => {
         setIsBillingDetailsBeingLoading(true);
+        setIsBillingDetailsBeingLoadingFailed(false);
+        setIsBillingDetailsBeingLoaded(false)
         let billingDetails: any = undefined;
         let apiCall: any = undefined;
         if (type === 'invoice') {
@@ -136,6 +138,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
             }
             setBillingDetails(billingDetails);
             setSelectedAddress(billingDetails?.billing_address)
+            console.log(billingDetails?.billing_address)
             setIsBillingDetailsBeingLoading(false);
             setIsBillingDetailsBeingLoaded(true);
             setIsBillingDetailsBeingLoadingFailed(false);
@@ -145,11 +148,11 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
             setIsBillingDetailsBeingLoadingFailed(true);
             setBillingDetails(billingDetails);
         })
-    }, [type, billingId]);
+    }, []);
 
     const getClientBillingAddressList = useCallback(() => {
         // setIsClientBillingAddressListLoading(true);
-        CommonService._billingsService.GetBillingAddressList(billingDetails?.client_id)
+        billingDetails?.client_id && CommonService._billingsService.GetBillingAddressList(billingDetails?.client_id)
             .then((response: any) => {
                 setGetBillingList(response?.data);
                 // setIsClientBillingAddressListLoading(false);
@@ -192,10 +195,10 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
     }, [billingId, closePaymentModeModal, selectedPaymentMode, handleBillingMarkAsPaidSuccess]);
 
     useEffect(() => {
-        if (billingId) {
-            fetchBillingDetails();
+        if (billingId && type) {
+            fetchBillingDetails(billingId,type);
         }
-    }, [billingId, fetchBillingDetails]);
+    }, [billingId, fetchBillingDetails,type]);
 
     const openIncompleteInterventionInfoModal = useCallback(() => {
         setIsInterventionIncompleteModalOpen(true);
@@ -345,18 +348,19 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
         }
     ], []);
 
-    // const fetchBillingPDF = useCallback((cb: any) => {
-    //     const payload = {
-    //         is_detailed: viewMode === 'detailed'
-    //     };
-    //     CommonService._billingsService.GetBillingPDFDocument(billingId, type, payload)
-    //         .then((response: IAPIResponseType<any>) => {
-    //             cb(response?.data?.url);
-    //         })
-    //         .catch((error: any) => {
-    //             CommonService._alert.showToast(error.error || error.errors || "Failed to fetch", "error");
-    //         });
-    // }, [viewMode, type, billingId]);
+    const fetchBillingPDF = useCallback((cb: any) => {
+        const payload = {
+            is_detailed: viewMode === 'detailed'
+        };
+       type && CommonService._billingsService.GetBillingPDFDocument(billingId, type, payload)
+            .then((response: IAPIResponseType<any>) => {
+                cb(response?.data?.url);
+            })
+            .catch((error: any) => {
+                CommonService._alert.showToast(error.error || error.errors || "Failed to fetch", "error");
+            });
+    }, [viewMode, type, billingId]);
+
 
     const handleBillingPrint = useCallback(() => {
         CommonService.ComingSoon();
@@ -554,14 +558,14 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
 
                                     <div
                                         className={"billing-address-block__detail__row name"}>
-                                        {selectedAddress?.name}
+                                        {selectedAddress?.name|| "-"}
                                     </div>
                                     <div
-                                        className={"billing-address-block__detail__row"}> {selectedAddress?.address_line} </div>
+                                        className={"billing-address-block__detail__row"}> {selectedAddress?.address_line|| "-"} </div>
                                     <div className={"billing-address-block__detail__row"}>
-                                        <span>{selectedAddress?.city}</span>,&nbsp;
-                                        <span>{selectedAddress?.state}</span>&nbsp;
-                                        <span>{selectedAddress?.zip_code}</span>
+                                        <span>{selectedAddress?.city || "-"}</span>,&nbsp;
+                                        <span>{selectedAddress?.state|| "-"}</span>&nbsp;
+                                        <span>{selectedAddress?.zip_code|| "-"}</span>
                                     </div>
                                     <div
                                         className={"billing-address-block__detail__row"}>  {CommonService.formatPhoneNumber(billingDetails?.billing_address?.phone) || '-'} </div>
