@@ -812,7 +812,10 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
     const markPaymentsAsPaid = useCallback(() => {
         const payload = {
             invoice_ids: selectedPayments.map((payment: any) => payment?._id),
-            payment_mode: selectedPaymentMode
+            payment_mode: selectedPaymentMode,
+            client_id:selectedPayments[0]?.client_id,
+            download_consolidated_bill:false,
+            linked_invoice: clientListFilterState?.linked_invoices
         };
         setIsPaymentsAreBeingMarkedAsPaid(true);
         CommonService._billingsService.MarkPaymentsAsPaidAPICall(payload)
