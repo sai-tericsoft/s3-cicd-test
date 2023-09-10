@@ -23,6 +23,7 @@ import MedicalRecordBasicDetailsCardComponent
     from "../medical-record-basic-details-card/MedicalRecordBasicDetailsCardComponent";
 import PageHeaderComponent from "../../../shared/components/page-header/PageHeaderComponent";
 import FormikSelectComponent from "../../../shared/components/form-controls/formik-select/FormikSelectComponent";
+import FormDebuggerComponent from "../../../shared/components/form-debugger/FormDebuggerComponent";
 
 interface MedicalInterventionFinalizeTreatmentScreenProps {
 
@@ -116,6 +117,7 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
 
 
     const renderUnitsOfCareInput = useCallback((record: any) => {
+
         return <Field name={`${record._id}.units_of_care`}>
             {
                 (field: FieldProps) => (
@@ -136,6 +138,7 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
     }, []);
 
     const renderMinutesInput = useCallback((record: any) => {
+
         return (
             <Field name={`${record._id}.minutes`}>
                 {(field: FieldProps) => (
@@ -276,7 +279,7 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
             setLinkedCPTCodes(linked_cpt_codes);
             setCptCodesFormInitialValues(linkedCPTCodesConfig);
         }
-    }, [medicalInterventionDetails, CPTCodes]);
+    }, [CPTCodes]);
 
 
     return (
@@ -300,7 +303,6 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
                             }, [validateForm, values]);
                             return (
                                 <Form className="t-form" noValidate={true}>
-                                    {/*<FormDebuggerComponent values={values} errors={errors}/>*/}
                                     <CardComponent className={'finalize-treatment-wrapper'}>
                                         <div className="ts-row display-flex align-items-center">
                                             <div className="ts-col ts-col-6 mrg-bottom-15">
