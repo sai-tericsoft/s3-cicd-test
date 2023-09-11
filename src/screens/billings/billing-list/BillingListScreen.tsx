@@ -71,7 +71,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
     const [isBillingStatsBeingLoading, setIsBillingStatsBeingLoading] = useState<boolean>(false);
     const [isBillingStatsBeingLoadingFailed, setIsBillingStatsBeingLoadingFailed] = useState<boolean>(false);
     const [billingStats, setBillingStats] = useState<any>(undefined);
-    const [setCurrentSelectedClient, setSetCurrentSelectedClient] = useState<any>(undefined);
+    // const [setCurrentSelectedClient, setSetCurrentSelectedClient] = useState<any>(undefined);
     const [isPaymentsGettingConsolidated, setIsPaymentsGettingConsolidated] = useState<boolean>(false);
 
     const [clientListFilterState, setClientListFilterState] = useState<any>(ClientListFilterStateInitialValues);
@@ -838,7 +838,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                 CommonService._alert.showToast(error?.error || error?.errors || "Failed to mark payments marked as paid", "error");
                 setIsPaymentsAreBeingMarkedAsPaid(false);
             });
-    }, [selectedPayments, fetchBillingStatsCount, fetchBillingStats, clientId, closePaymentModeModal, selectedPaymentMode]);
+    }, [selectedPayments, fetchBillingStatsCount,clientListFilterState?.linked_invoices, fetchBillingStats, clientId, closePaymentModeModal, selectedPaymentMode]);
 
     useEffect(() => {
         fetchBillingStatsCount();
@@ -868,7 +868,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                 setIsPaymentsGettingConsolidated(false);
                 commonService._alert.showToast(error?.error || error?.errors || "Failed to consolidate payments", "error");
             });
-    }, [currentTab, setCurrentSelectedClient, handleTabChange]);
+    }, [currentTab, handleTabChange]);
 
     const handleConsolidatePayments = useCallback(() => {
         commonService.openConfirmationDialog({
@@ -990,7 +990,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                                     }
                                 );
                             } else {
-                                setSetCurrentSelectedClient(selectedPayments[0]?.client_id)
+                                // setSetCurrentSelectedClient(selectedPayments[0]?.client_id)
                                 setClientListFilterState({
                                     ...clientListFilterState,
                                     linked_invoices: value,

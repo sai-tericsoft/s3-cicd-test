@@ -5,7 +5,7 @@ import React, {useCallback, useEffect, useMemo, useRef, useState} from "react";
 import {setCurrentNavParams} from "../../../store/actions/navigation.action";
 import {CommonService} from "../../../shared/services";
 import PageHeaderComponent from "../../../shared/components/page-header/PageHeaderComponent";
-import {APIConfig, ImageConfig, Misc, Patterns} from "../../../constants";
+import {APIConfig, ImageConfig, Misc} from "../../../constants";
 import {ITableColumn} from "../../../shared/models/table.model";
 import IconButtonComponent from "../../../shared/components/icon-button/IconButtonComponent";
 import {Field, FieldProps, Form, Formik, FormikHelpers, FormikProps} from "formik";
