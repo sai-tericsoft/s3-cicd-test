@@ -321,8 +321,8 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
             dataIndex:'discount',
             key:'discount',
             align:'center',
-            return : (record:any) => {
-                return <>{`$${record?.discount}`}</>
+            render : (record:any) => {
+                return <> {Misc.CURRENCY_SYMBOL}{CommonService.convertToDecimals(+record?.discount) || '0.00'}</>
 
             }
 
@@ -333,7 +333,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
             key: 'rate',
             align:'center',
             render: (record: any) => {
-                return <> {Misc.CURRENCY_SYMBOL}{CommonService.convertToDecimals(record?.amount)}</>
+                return <>{Misc.CURRENCY_SYMBOL}{CommonService.convertToDecimals(record?.amount)}</>
             }
         },
         {
