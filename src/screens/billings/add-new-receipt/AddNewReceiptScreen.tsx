@@ -925,7 +925,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                                                             {
                                                                 //@ts-ignore
                                                                 (addNewReceiptFormInitialValues.discount &&  (CommonService.convertToDecimals((+total) - (addNewReceiptFormInitialValues.discount && (addNewReceiptFormInitialValues.discount))) < 0)) ? (
-                                                                    <span className={'alert-error'}>Invalid Amount</span>
+                                                                    <span className={'alert-error invalid-amount'}>Invalid Amount</span>
                                                                 ) : null
                                                             }
                                                         </div>
