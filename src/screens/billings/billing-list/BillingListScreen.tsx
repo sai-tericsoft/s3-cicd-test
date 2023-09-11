@@ -111,7 +111,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                 const clientIdOfSelectedPayments = selectedPayments?.length > 0 ? selectedPayments[0]?.client_id : undefined;
                 const paymentFor = selectedPayments?.length > 0 ? selectedPayments[0]?.payment_for : undefined;
                 const selectedPaymentId = selectedPayments?.length > 0 ? selectedPayments[0]?._id : undefined;
-                const isDisabled = (clientIdOfSelectedPayments && clientIdOfSelectedPayments !== item?.client_id) || (paymentFor === "products" && selectedPaymentId !== item?._id) || (clientIdOfSelectedPayments && item?.payment_for === "products" && selectedPaymentId !== item?._id);
+                const isDisabled = (clientIdOfSelectedPayments && clientIdOfSelectedPayments !== item?.client_id) || (paymentFor === "products" && selectedPaymentId !== item?._id) || (clientIdOfSelectedPayments && item?.payment_for === "products" && selectedPaymentId !== item?._id || item?.payment_for==="products");
                 return <CheckBoxComponent
                     className={selectedPayments.includes(item) ? 'selected-row' : ''}
                     disabled={isDisabled}
@@ -267,7 +267,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                 const clientIdOfSelectedPayments = selectedPayments?.length > 0 ? selectedPayments[0]?.client_id : undefined;
                 const paymentFor = selectedPayments?.length > 0 ? selectedPayments[0]?.payment_for : undefined;
                 const selectedPaymentId = selectedPayments?.length > 0 ? selectedPayments[0]?._id : undefined;
-                const isDisabled = (clientIdOfSelectedPayments && clientIdOfSelectedPayments !== item?.client_id) || (paymentFor === "products" && selectedPaymentId !== item?._id) || (clientIdOfSelectedPayments && item?.payment_for === "products" && selectedPaymentId !== item?._id);
+                const isDisabled = (clientIdOfSelectedPayments && clientIdOfSelectedPayments !== item?.client_id) || (paymentFor === "products" && selectedPaymentId !== item?._id) || (clientIdOfSelectedPayments && item?.payment_for === "products" && selectedPaymentId !== item?._id || item?.payment_for==="products");
                 return <CheckBoxComponent
                     className={selectedPayments.includes(item) ? 'selected-row' : ''}
                     disabled={isDisabled}
@@ -361,7 +361,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                 const clientIdOfSelectedPayments = selectedPayments?.length > 0 ? selectedPayments[0]?.client_id : undefined;
                 const paymentFor = selectedPayments?.length > 0 ? selectedPayments[0]?.payment_for : undefined;
                 const selectedPaymentId = selectedPayments?.length > 0 ? selectedPayments[0]?._id : undefined;
-                const isDisabled = (clientIdOfSelectedPayments && clientIdOfSelectedPayments !== item?.client_id) || (paymentFor === "products" && selectedPaymentId !== item?._id) || (clientIdOfSelectedPayments && item?.payment_for === "products" && selectedPaymentId !== item?._id);
+                const isDisabled = (clientIdOfSelectedPayments && clientIdOfSelectedPayments !== item?.client_id) || (paymentFor === "products" && selectedPaymentId !== item?._id) || (clientIdOfSelectedPayments && item?.payment_for === "products" && selectedPaymentId !== item?._id || item?.payment_for==="products");
                 return <CheckBoxComponent
                     className={selectedPayments.includes(item) ? 'selected-row' : ''}
                     disabled={isDisabled}
@@ -456,7 +456,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                 const clientIdOfSelectedPayments = selectedPayments?.length > 0 ? selectedPayments[0]?.client_id : undefined;
                 const paymentFor = selectedPayments?.length > 0 ? selectedPayments[0]?.payment_for : undefined;
                 const selectedPaymentId = selectedPayments?.length > 0 ? selectedPayments[0]?._id : undefined;
-                const isDisabled = (clientIdOfSelectedPayments && clientIdOfSelectedPayments !== item?.client_id) || (paymentFor === "products" && selectedPaymentId !== item?._id) || (clientIdOfSelectedPayments && item?.payment_for === "products" && selectedPaymentId !== item?._id);
+                const isDisabled = (clientIdOfSelectedPayments && clientIdOfSelectedPayments !== item?.client_id) || (paymentFor === "products" && selectedPaymentId !== item?._id) || (clientIdOfSelectedPayments && item?.payment_for === "products" && selectedPaymentId !== item?._id || item?.payment_for==="products");
                 return <CheckBoxComponent
                     className={selectedPayments.includes(item) ? 'selected-row' : ''}
                     disabled={isDisabled}
@@ -628,7 +628,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             key: 'payment_for',
             align: 'center',
             render: (item: any) => {
-                let className = "";
+                let className = "payment-for-chip";
                 if (item?.payment_for === 'appointment') {
                     className = "active";
                 } else if (item?.payment_for === 'no show') {

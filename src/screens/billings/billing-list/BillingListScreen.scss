@@ -24,11 +24,13 @@
   }
 
   .t-table-wrapper .t-table {
-    height: calc(100vh - 360px) !important;;
+    height: calc(100vh - 360px) !important;
+
 
     .table-no-data-wrapper {
       min-height: calc(100vh - 440px) !important;
     }
+
   }
   .search-component{
     margin-left: -10px !important;
@@ -57,4 +59,7 @@
     background-color: #FFE2E9;
     color: #DE1C4E
   }
+}
+.MuiChip-root{
+  width: 100px !important;
 }

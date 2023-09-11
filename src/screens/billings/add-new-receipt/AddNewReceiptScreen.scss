@@ -148,6 +148,13 @@
    .t-table-wrapper{
      .t-table{
        min-height: fit-content !important;
+       .t-cell-units,.t-cell-discount{
+         .input-component{
+           input {
+             text-align: center !important;
+           }
+         }
+       }
      }
    }
 
