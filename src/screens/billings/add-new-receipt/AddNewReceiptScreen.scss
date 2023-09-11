@@ -24,6 +24,10 @@
       margin-left: 200px;
       margin-top: -10px;
       margin-bottom: 24px;
+      &.invalid-amount{
+        font-size: 14px!important;
+        margin-top: -5px!important;
+      }
     }
 
     .no-alert {
