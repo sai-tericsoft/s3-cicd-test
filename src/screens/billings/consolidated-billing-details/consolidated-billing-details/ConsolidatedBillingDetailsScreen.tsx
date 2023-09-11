@@ -62,6 +62,7 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
         const [selectedPaymentMode, setSelectedPaymentMode] = useState<string>("");
         const [isPaymentModeModalOpen, setIsPaymentModeModalOpen] = useState<boolean>(false);
         const [isConsolidatedBillDeleted, setIsConsolidatedBillDeleted] = useState<boolean>(false);
+        const [isMarkAsPaidDisabled,setIsMarkAsPaidDisabled] = useState<boolean>(false);
 
         const {
             paymentModes
@@ -167,6 +168,7 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
         }, [consolidatedBillingId, navigate]);
 
         const handleRemovePayment = useCallback((item: any, index: number) => () => {
+            setIsMarkAsPaidDisabled(true);
             if (billingDetails.bill_ids.length === 1) {
                 handleDeleteConsolidatedBill(billingDetails?.bill_type);
             } else {
@@ -362,6 +364,7 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
         }, [closeBillingAddressFormDrawer]);
 
         const handleSave = useCallback((thankYouNote: any, comments: any, selectedAddress: any, billingDetails: any) => {
+            setIsMarkAsPaidDisabled(false);
             const payload = {
                 "billing_address_id": selectedAddress?._id,
                 "thankyou_note": thankYouNote,
@@ -443,7 +446,7 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                                     <ButtonComponent
                                         prefixIcon={<ImageConfig.CircleCheck/>}
                                         onClick={openPaymentModeModal}
-                                        disabled={isBillingBeingMarkedAsPaid}
+                                        disabled={isBillingBeingMarkedAsPaid || isMarkAsPaidDisabled}
                                         isLoading={isBillingBeingMarkedAsPaid}
                                     >
                                         Mark as Paid
