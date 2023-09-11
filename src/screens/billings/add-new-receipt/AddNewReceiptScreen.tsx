@@ -54,17 +54,17 @@ const AddNewReceiptFormValidationSchema = Yup.object({
     ),
     total: Yup.number().min(1).required("Amount is required"),
     // discount: Yup.number().min(1).max(100).nullable(),
-    discount: Yup.mixed().nullable().when("total", {
-        is: (value: number) => value > 0,
-        then: Yup.number().max(Yup.ref('total'), 'Invalid Discount Amount')
-            .nullable(true)
-            // checking self-equality works for NaN, transforming it to null
-            .transform((_, val) => val ? Number(val) : null),
-        otherwise: Yup.number()
-            .nullable(true)
-            // checking self-equality works for NaN, transforming it to null
-            .transform((_, val) => val ? Number(val) : null),
-    }),
+    // discount: Yup.mixed().nullable().when("total", {
+    //     is: (value: number) => value > 0,
+    //     then: Yup.number().max(Yup.ref('total'), 'Invalid Discount Amount')
+    //         .nullable(true)
+    //         // checking self-equality works for NaN, transforming it to null
+    //         .transform((_, val) => val ? Number(val) : null),
+    //     otherwise: Yup.number()
+    //         .nullable(true)
+    //         // checking self-equality works for NaN, transforming it to null
+    //         .transform((_, val) => val ? Number(val) : null),
+    // }),
     // discount_amount: Yup.mixed().nullable(),
     client_id: Yup.string().required("Client is required"),
     provider_id: Yup.string().required("Provider is required"),
@@ -1008,7 +1008,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                             <TableComponent data={clientList} columns={clientListColumns}
                                             loading={isClientListLoading}
                                             hideHeader={false}
-                                            noDataText={clientListSearch?.length === 0 ? 'No Clients Found' : 'No client available for the name/ID you have searched.'}
+                                            noDataText={clientListSearch?.length === 0 ? 'No Clients Found' : 'No client available for the name/ID you have searched'}
                                             onRowClick={(row: any) => {
                                                 formRef?.current?.setFieldValue('client_id', row._id);
                                                 setSelectedClient(row);
@@ -1048,7 +1048,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                             <TableComponent data={providerList}
                                             columns={providerListColumns}
                                             loading={isProviderListLoading}
-                                            noDataText={providerListSearch?.length === 0 ? 'No Providers Found' : 'No provider available for the name/ID you have searched.'}
+                                            noDataText={providerListSearch?.length === 0 ? 'No Providers Found' : 'No provider available for the name you have searched'}
                                             hideHeader={false}
                                             onRowClick={(row: any) => {
                                                 formRef?.current?.setFieldValue('provider_id', row._id);
