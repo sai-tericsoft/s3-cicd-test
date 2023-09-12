@@ -641,7 +641,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
         getClientList();
     }, [getClientList]);
     
-    console.log('total',total);
+
 
 
     return (
@@ -972,8 +972,8 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                                             <ButtonComponent
                                                 type="submit"
                                                 className={'mrg-left-15'}
-                                                disabled={isSubmitting}
-                                                isLoading={isSubmitting || !isValid}
+                                                disabled={isSubmitting || !isValid}
+                                                isLoading={isSubmitting}
                                             >
                                                 Generate Receipt
                                             </ButtonComponent>
