@@ -65,7 +65,6 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
     const [comments, setComments] = useState<any>('');
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
-    console.log('type', type);
     // const {
     //     billingSettings,
     // } = useSelector((state: IRootReducerState) => state.billings);
@@ -139,7 +138,6 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
             }
             setBillingDetails(billingDetails);
             setSelectedAddress(billingDetails?.billing_address)
-            console.log(billingDetails?.billing_address)
             setIsBillingDetailsBeingLoading(false);
             setIsBillingDetailsBeingLoaded(true);
             setIsBillingDetailsBeingLoadingFailed(false);
@@ -316,14 +314,14 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
             dataIndex: 'units',
             key: 'units',
             align: 'center',
-            width:40,
+            width: 40,
         },
         {
             title: 'Discount',
             dataIndex: 'discount',
             key: 'discount',
             align: 'center',
-            width:50,
+            width: 50,
             render: (record: any) => {
                 return <> {Misc.CURRENCY_SYMBOL}{CommonService.convertToDecimals(+record?.discount) || '0.00'}</>
 
@@ -335,7 +333,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
             dataIndex: 'rate',
             key: 'rate',
             align: 'center',
-            width:40,
+            width: 40,
             render: (record: any) => {
                 return <>{Misc.CURRENCY_SYMBOL}{CommonService.convertToDecimals(record?.amount)}</>
             }
@@ -344,9 +342,9 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
             title: 'Amount',
             dataIndex: 'amount',
             key: 'amount',
-            align:'center',
-            fixed:'right',
-            width:80,
+            align: 'center',
+            fixed: 'right',
+            width: 80,
             render: (record: any) => {
                 return <>
                     {Misc.CURRENCY_SYMBOL}{CommonService.convertToDecimals(record?.amount * record?.units)}
@@ -355,19 +353,23 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
         }
     ], []);
 
-    const fetchBillingPDF = useCallback((cb: any) => {
-        const payload = {
-            is_detailed: viewMode === 'detailed',
-            bill_type: type,
-            _id: billingId
-        };
-        (billingDetails?.payment_for === "appointment") ? CommonService._billingsService.GetAppointmentBillingPDFDocument(payload) : CommonService._billingsService.GetProductBillingPDFDocument(payload)
-            .then((response: IAPIResponseType<any>) => {
-                cb(response?.data?.url);
-            })
-            .catch((error: any) => {
-                CommonService._alert.showToast(error.error || error.errors || "Failed to fetch", "error");
-            });
+    const fetchBillingPDF = useCallback(async (cb: any) => {
+        try {
+            const payload = {
+                is_detailed: viewMode === 'detailed',
+                bill_type: type,
+                _id: billingId
+            };
+            let response;
+            if (billingDetails?.payment_for === "appointment") {
+                response = await CommonService._billingsService.GetAppointmentBillingPDFDocument(payload);
+            } else {
+                response = await CommonService._billingsService.GetProductBillingPDFDocument(payload);
+            }
+            cb(response?.data?.url);
+        } catch (error: any) {
+            CommonService._alert.showToast(error.error || error.errors || "Failed to fetch", "error");
+        }
     }, [viewMode, type, billingId, billingDetails]);
 
 
