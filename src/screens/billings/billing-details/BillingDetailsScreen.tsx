@@ -64,6 +64,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
     const [thankYouNote, setThankYouNote] = useState<any>('');
     const [comments, setComments] = useState<any>('');
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+    const [isButtonsAreBeingDisabled, setIsButtonsAreBeingDisabled] = useState<boolean>(false);
 
     // const {
     //     billingSettings,
@@ -391,6 +392,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
     }, [fetchBillingPDF, type, billingId]);
 
     const handleSaveButtonClick = useCallback(() => {
+        setIsButtonsAreBeingDisabled(true);
         if (tempSelectedAddress) {
             setSelectedAddress(tempSelectedAddress); // Update the selected address when "Save" is clicked
         }
@@ -413,6 +415,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
 
     const handleNoteAndComment = useCallback((comment: any, thankYouNote: any, selectedAddress: any) => {
         setIsSubmitting(true);
+        setIsButtonsAreBeingDisabled(false);
         const payload = {
             billing_address: selectedAddress,
             thankyou_note: thankYouNote,
@@ -441,7 +444,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                             <ButtonComponent
                                 prefixIcon={<ImageConfig.CircleCheck/>}
                                 onClick={openPaymentModeModal}
-                                disabled={isBillingBeingMarkedAsPaid}
+                                disabled={isBillingBeingMarkedAsPaid || isButtonsAreBeingDisabled}
                                 isLoading={isBillingBeingMarkedAsPaid}
                             >
                                 Mark as Paid
@@ -449,7 +452,8 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                         </>
                     }
                     <MenuDropdownComponent className={'billing-details-drop-down-menu'} menuBase={
-                        <ButtonComponent size={'large'} variant={'outlined'} fullWidth={true}>
+                        <ButtonComponent size={'large'} variant={'outlined'} fullWidth={true}
+                                         disabled={isButtonsAreBeingDisabled}>
                             Select Action &nbsp;<ImageConfig.SelectDropDownIcon/>
                         </ButtonComponent>
                     } menuOptions={[
@@ -671,7 +675,11 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                                                                                  placeholder={'Please add your comments here'}
                                                                                  fullWidth={true}
                                                                                  value={comments}
-                                                                                 onChange={(value: any) => setComments(value)}
+                                                                                 onChange={(value: any) => {
+                                                                                     setComments(value);
+                                                                                     setIsButtonsAreBeingDisabled(true);
+
+                                                                                 }}
                                             /> :
                                             //     <TextAreaComponent label={'Comments'}
                                             //                         placeholder={'Please add your comments here'}
@@ -766,7 +774,10 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                             {type === 'invoice' ? <><TextAreaComponent label={'Note'}
                                                                        fullWidth={true}
                                                                        value={thankYouNote}
-                                                                       onChange={(value: any) => setThankYouNote(value)}
+                                                                       onChange={(value: any) => {
+                                                                           setThankYouNote(value);
+                                                                           setIsButtonsAreBeingDisabled(true);
+                                                                       }}
 
                                 />
                                     <div className={'ts-col-md-12'}>

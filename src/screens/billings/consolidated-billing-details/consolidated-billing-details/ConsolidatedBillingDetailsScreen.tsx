@@ -653,7 +653,8 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                                                                    fullWidth={true}
                                                                    value={comments}
                                                                    onChange={(value: any) => {
-                                                                       return setComments(value), setIsMarkAsPaidDisabled(true)
+                                                                       setComments(value);
+                                                                       setIsMarkAsPaidDisabled(true);
                                                                    }}
                                                 />
                                             }
@@ -745,8 +746,8 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                                                                                                   fullWidth={true}
                                                                                                   value={thankYouNote}
                                                                                                   onChange={(value: any) => {
-                                                                                                      return (setThankYouNote(value),
-                                                                                                          setIsMarkAsPaidDisabled(true))
+                                                                                                      setThankYouNote(value);
+                                                                                                      setIsMarkAsPaidDisabled(true);
                                                                                                   }}
                                 />
 
