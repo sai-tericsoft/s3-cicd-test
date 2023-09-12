@@ -581,7 +581,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                 confirmationTitle: "DISCARD RECEIPT",
                 image: ImageConfig.RemoveImage,
                 confirmationSubTitle: <div>
-                    Are you sure you do not wish to generate a receipt ?<br/> This action cannot be undone.
+                    Are you sure you do not wish to generate a receipt?<br/> This action cannot be undone.
                 </div>
             }
         )
