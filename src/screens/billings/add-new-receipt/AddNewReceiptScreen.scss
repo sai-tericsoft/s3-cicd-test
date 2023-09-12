@@ -201,6 +201,9 @@
 
   .t-table-wrapper {
     height: calc(100vh - 310px);
+    .table-no-data-wrapper{
+      min-height: 300px!important;
+    }
   }
 
 }
