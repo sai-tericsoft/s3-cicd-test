@@ -62,7 +62,7 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
         const [selectedPaymentMode, setSelectedPaymentMode] = useState<string>("");
         const [isPaymentModeModalOpen, setIsPaymentModeModalOpen] = useState<boolean>(false);
         const [isConsolidatedBillDeleted, setIsConsolidatedBillDeleted] = useState<boolean>(false);
-        const [isMarkAsPaidDisabled,setIsMarkAsPaidDisabled] = useState<boolean>(false);
+        const [isMarkAsPaidDisabled, setIsMarkAsPaidDisabled] = useState<boolean>(false);
 
         const {
             paymentModes
@@ -239,7 +239,7 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                 key: 'payable_amount',
                 dataIndex: 'payable_amount',
                 align: 'center',
-                width:60,
+                width: 60,
                 render: (item: any) => {
                     return <>{item?.payable_amount ? <>{Misc.CURRENCY_SYMBOL}{CommonService.convertToDecimals(item?.payable_amount)}</> : '-'}</>
                 }
@@ -249,7 +249,7 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                 key: 'qty',
                 dataIndex: 'qty',
                 align: 'center',
-                width:60,
+                width: 60,
                 render: (item: any) => {
                     return <>{item?.qty || "-"}</>
                 }
@@ -259,7 +259,7 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                 key: 'discount',
                 dataIndex: 'discount',
                 align: 'center',
-                width:60,
+                width: 60,
                 render: (item: any) => {
                     return <>{item?.discount ? <>{Misc.CURRENCY_SYMBOL}{CommonService.convertToDecimals(item?.discount)}</> : "-"}</>
                 }
@@ -269,7 +269,7 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                 key: 'total',
                 dataIndex: 'total',
                 align: 'center',
-                width:60,
+                width: 60,
                 render: (item: any) => {
                     return <>{item?.total ? <>{Misc.CURRENCY_SYMBOL}{CommonService.convertToDecimals(item?.total)}</> : "-"}</>
                 }
@@ -343,6 +343,7 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
         }, []);
 
         const handleSaveButtonClick = useCallback(() => {
+            setIsMarkAsPaidDisabled(true);
             if (tempSelectedAddress) {
                 setSelectedAddress(tempSelectedAddress); // Update the selected address when "Save" is clicked
             }
@@ -438,6 +439,7 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                             <>
                                 <ButtonComponent variant={'outlined'} color={'error'}
                                                  isLoading={isConsolidatedBillDeleted}
+                                                 disabled={isMarkAsPaidDisabled}
                                                  onClick={() => handleDeleteConsolidatedBill(billingDetails?.bill_type)}
                                                  prefixIcon={<ImageConfig.DeleteIcon/>}>
                                     Delete
@@ -455,18 +457,19 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                             </>
                         }
                         <MenuDropdownComponent className={'billing-details-drop-down-menu'} menuBase={
-                            <ButtonComponent size={'large'} variant={'outlined'} fullWidth={true}>
+                            <ButtonComponent size={'large'} variant={'outlined'} disabled={isMarkAsPaidDisabled}
+                                             fullWidth={true}>
                                 Select Action &nbsp;<ImageConfig.SelectDropDownIcon/>
                             </ButtonComponent>
                         } menuOptions={[
                             <ListItem
-                              onClick={()=>CommonService.ComingSoon()}
+                                onClick={() => CommonService.ComingSoon()}
                             >
                                 Download {CommonService.capitalizeFirstLetter(billingDetails?.bill_type)}
                             </ListItem>,
                             <ListItem
                                 // onClick={handleBillingPrint}
-                                onClick={()=>CommonService.ComingSoon()}
+                                onClick={() => CommonService.ComingSoon()}
                             >
                                 Print {CommonService.capitalizeFirstLetter(billingDetails?.bill_type)}
                             </ListItem>
@@ -597,7 +600,7 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                                                             )
                                                         })}
                                                         {
-                                                            billDetail?.medical_record_details===undefined && <>N/A</>
+                                                            billDetail?.medical_record_details === undefined && <>N/A</>
                                                         }
                                                     </DataLabelValueComponent>
                                                 </div>
@@ -649,7 +652,9 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                                                                    placeholder={'Please add your comments here'}
                                                                    fullWidth={true}
                                                                    value={comments}
-                                                                   onChange={(value: any) => setComments(value)}
+                                                                   onChange={(value: any) => {
+                                                                       return setComments(value), setIsMarkAsPaidDisabled(true)
+                                                                   }}
                                                 />
                                             }
                                             {searchParams.get('type') === 'completed' && <TextAreaComponent label={'Comments'}
@@ -739,7 +744,10 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                                 {searchParams.get('type') !== 'completed' && <><TextAreaComponent label={'Note'}
                                                                                                   fullWidth={true}
                                                                                                   value={thankYouNote}
-                                                                                                  onChange={(value: any) => setThankYouNote(value)}
+                                                                                                  onChange={(value: any) => {
+                                                                                                      return (setThankYouNote(value),
+                                                                                                          setIsMarkAsPaidDisabled(true))
+                                                                                                  }}
                                 />
 
                                     <div className={'ts-col-md-12'}>
