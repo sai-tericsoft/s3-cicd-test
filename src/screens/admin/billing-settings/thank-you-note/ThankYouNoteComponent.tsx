@@ -105,7 +105,7 @@ const ThankYouNoteComponent = (props: ThankYouNoteComponentProps) => {
                                             </Field>
                                         </div>
                                         <div className={'ts-col-md-12'}>
-                                            {(values.default_thankyou_note?.length) >= 90 ?
+                                            {(values.default_thankyou_note?.length) > 90 ?
                                                 <div className={'alert-error'}>Characters
                                                     Limit:{(values.default_thankyou_note?.length)}/90</div> :
                                                 <div className={'no-alert'}>Characters
