@@ -305,7 +305,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
             title: 'Item(s)',
             dataIndex: 'item',
             key: 'item',
-            width: 300,
+            width: 500,
             fixed: 'left',
             render: (record: any) => {
                 return <>{record?.product_name}</>
@@ -316,12 +316,14 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
             dataIndex: 'units',
             key: 'units',
             align: 'center',
+            width:40,
         },
         {
             title: 'Discount',
             dataIndex: 'discount',
             key: 'discount',
             align: 'center',
+            width:50,
             render: (record: any) => {
                 return <> {Misc.CURRENCY_SYMBOL}{CommonService.convertToDecimals(+record?.discount) || '0.00'}</>
 
@@ -333,6 +335,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
             dataIndex: 'rate',
             key: 'rate',
             align: 'center',
+            width:40,
             render: (record: any) => {
                 return <>{Misc.CURRENCY_SYMBOL}{CommonService.convertToDecimals(record?.amount)}</>
             }
@@ -341,6 +344,9 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
             title: 'Amount',
             dataIndex: 'amount',
             key: 'amount',
+            align:'center',
+            fixed:'right',
+            width:80,
             render: (record: any) => {
                 return <>
                     {Misc.CURRENCY_SYMBOL}{CommonService.convertToDecimals(record?.amount * record?.units)}
@@ -348,7 +354,6 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
             }
         }
     ], []);
-    console.log('billingDetails', billingDetails);
 
     const fetchBillingPDF = useCallback((cb: any) => {
         const payload = {
