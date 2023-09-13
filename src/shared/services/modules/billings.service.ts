@@ -52,6 +52,11 @@ const GetAppointmentBillingPDFDocument = (payload:any)=>{
     return ApiService[APIConfig.GENERATE_APPOINTMENT_BILLING_DOCUMENT_PDF.METHOD](APIConfig.GENERATE_APPOINTMENT_BILLING_DOCUMENT_PDF.URL,payload)
 }
 
+const GetConsolidatedBillingPDFDocument = (payload:any)=>{
+    // @ts-ignore
+    return ApiService[APIConfig.GENERATE_CONSOLIDATED_BILLING_DOCUMENT_PDF.METHOD](APIConfig.GENERATE_CONSOLIDATED_BILLING_DOCUMENT_PDF.URL,payload)
+}
+
 const GetBillingFromAddress = (payload: any) => {
     // @ts-ignore
     return ApiService[APIConfig.GET_BILLING_FROM_ADDRESS.METHOD](APIConfig.GET_BILLING_FROM_ADDRESS.URL, payload)
@@ -112,6 +117,7 @@ const DeleteConsolidatedBill = (consolidatedBillId:string, payload:any)=>{
     return ApiService[APIConfig.DELETE_CONSOLIDATED_BILL.METHOD](APIConfig.DELETE_CONSOLIDATED_BILL.URL(consolidatedBillId), payload)
 }
 
+
 const BillingService = {
     MarkPaymentsAsPaidAPICall,
     AddNewReceiptAPICall,
@@ -134,7 +140,8 @@ const BillingService = {
     EditConsolidatedBill,
     DeleteConsolidatedBill,
     GetProductBillingPDFDocument,
-    GetAppointmentBillingPDFDocument
+    GetAppointmentBillingPDFDocument,
+    GetConsolidatedBillingPDFDocument
 }
 
 export default BillingService;
