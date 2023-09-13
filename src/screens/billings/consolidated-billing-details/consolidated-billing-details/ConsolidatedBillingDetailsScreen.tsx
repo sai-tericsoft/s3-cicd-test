@@ -30,6 +30,7 @@ import {IAPIResponseType} from "../../../../shared/models/api.model";
 import ModalComponent from "../../../../shared/components/modal/ModalComponent";
 import commonService from "../../../../shared/services/common.service";
 import _ from "lodash";
+import momentTimezone from "moment-timezone";
 
 interface ConsolidatedBillingDetailsScreenProps {
 
@@ -433,7 +434,8 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
 
             const payload = {
                 bill_type: billingDetails?.bill_type,
-                _id: consolidatedBillingId
+                _id: consolidatedBillingId,
+                timezone: momentTimezone.tz.guess(),
             };
             CommonService._billingsService.GetConsolidatedBillingPDFDocument(payload)
                 .then((response: any) => {

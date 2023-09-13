@@ -29,7 +29,7 @@ import {getBillingFromAddress, getBillingSettings} from "../../../store/actions/
 import {RadioButtonComponent} from "../../../shared/components/form-controls/radio-button/RadioButtonComponent";
 import AddBillingAddressComponent from "../add-billing-address/AddBillingAddressComponent";
 import TextAreaComponent from "../../../shared/components/form-controls/text-area/TextAreaComponent";
-
+import momentTimezone from "moment-timezone";
 interface BillingDetailsScreenProps {
 
 }
@@ -359,7 +359,8 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
             const payload = {
                 is_detailed: viewMode === 'detailed',
                 bill_type: type,
-                _id: billingId
+                _id: billingId,
+                timezone: momentTimezone.tz.guess(),
             };
             let response;
             if (billingDetails?.payment_for === "appointment") {
