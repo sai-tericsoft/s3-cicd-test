@@ -781,7 +781,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
 
                                 />
                                     <div className={'ts-col-md-12'}>
-                                        {(thankYouNote?.length) >= 90 ?
+                                        {(thankYouNote?.length) > 90 ?
                                             <div className={'alert-error'}>Characters
                                                 Limit: {(thankYouNote?.length)}/90</div> :
                                             <div className={'no-alert'}>Characters

@@ -752,7 +752,7 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                                 />
 
                                     <div className={'ts-col-md-12'}>
-                                        {(thankYouNote?.length) >= 90 ?
+                                        {(thankYouNote?.length) > 90 ?
                                             <div className={'alert-error'}>Characters
                                                 Limit: {(thankYouNote?.length)}/90</div> :
                                             <div className={'no-alert'}>Characters
@@ -769,6 +769,7 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                         {searchParams.get('type') !== 'completed' &&
                             <div className={'d-flex ts-justify-content-center mrg-top-20'}>
                                 <ButtonComponent
+                                    disabled={thankYouNote?.length > 90}
                                     onClick={() => handleSave(thankYouNote, comments, selectedAddress, billingDetails)}>Save</ButtonComponent>
                             </div>}
                     </>
