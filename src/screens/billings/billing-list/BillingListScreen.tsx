@@ -444,7 +444,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             }
         }
     ], [selectedPayments, location, handlePaymentSelection]);
-    
+
     const completePaymentListColumn: ITableColumn[] = useMemo<any>(() => [
         {
             title: '',
@@ -599,7 +599,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
         {
             title: 'Client Name',
             key: 'client_name',
-            align:'left',
+            align: 'left',
             width: 100,
             render: (item: any) => {
                 return <>
@@ -809,36 +809,45 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
         })
     }, [clientListFilterState, clientId]);
 
+    console.log('selectedPayments', selectedPayments);
+
     const markPaymentsAsPaid = useCallback(() => {
         const payload = {
             invoice_ids: selectedPayments.map((payment: any) => payment?._id),
             payment_mode: selectedPaymentMode,
-            client_id:selectedPayments[0]?.client_id,
-            download_consolidated_bill:false,
-            linked_invoice: clientListFilterState?.linked_invoices
+            client_id: selectedPayments[0]?.client_id,
+            download_consolidated_bill: false,
+            linked_invoice: clientListFilterState?.linked_invoices,
+            _id: selectedPayments[0]?._id
         };
         setIsPaymentsAreBeingMarkedAsPaid(true);
-        CommonService._billingsService.MarkPaymentsAsPaidAPICall(payload)
-            .then((response: IAPIResponseType<any>) => {
-                    CommonService._alert.showToast(response?.message || "Payments marked as paid successfully", "success");
-                    closePaymentModeModal();
-                    setSelectedPayments([]);
-                    setSelectedPaymentMode('');
-                    setIsPaymentsAreBeingMarkedAsPaid(false);
-                    CommonService._communications.TableWrapperRefreshSubject.next({
-                        moduleName: PENDING_PAYMENTS_MODULE
-                    });
-                    fetchBillingStatsCount();
-                    if (clientId) {
-                        fetchBillingStats();
-                    }
+
+        let apiCall: any = undefined;
+        if (selectedPayments[0]?.payment_for === 'products') {
+            apiCall = CommonService._billingsService.ProductMarkAsPaid(payload);
+        } else {
+            apiCall = CommonService._billingsService.MarkPaymentsAsPaidAPICall(payload);
+        }
+        apiCall.then((response: IAPIResponseType<any>) => {
+                CommonService._alert.showToast(response?.message || "Payments marked as paid successfully", "success");
+                closePaymentModeModal();
+                setSelectedPayments([]);
+                setSelectedPaymentMode('');
+                setIsPaymentsAreBeingMarkedAsPaid(false);
+                CommonService._communications.TableWrapperRefreshSubject.next({
+                    moduleName: PENDING_PAYMENTS_MODULE
+                });
+                fetchBillingStatsCount();
+                if (clientId) {
+                    fetchBillingStats();
                 }
-            )
+            }
+        )
             .catch((error: any) => {
                 CommonService._alert.showToast(error?.error || error?.errors || "Failed to mark payments marked as paid", "error");
                 setIsPaymentsAreBeingMarkedAsPaid(false);
             });
-    }, [selectedPayments, fetchBillingStatsCount,clientListFilterState?.linked_invoices, fetchBillingStats, clientId, closePaymentModeModal, selectedPaymentMode]);
+    }, [selectedPayments, fetchBillingStatsCount, clientListFilterState?.linked_invoices, fetchBillingStats, clientId, closePaymentModeModal, selectedPaymentMode]);
 
     useEffect(() => {
         fetchBillingStatsCount();
@@ -890,7 +899,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
         }).catch((error: any) => {
         })
     }, [selectedPayments, handleCreateConsolidatedPayment, currentTab]);
-    
+
 
     return (
         <div className={'payment-list-component list-screen'}>
@@ -973,7 +982,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                     </div>
                 </div>
             </div>
-            
+
             <div className={'consolidation-switch-wrapper'}>
                 <div className={'consolidation-switch'}>
                     <SwitchComponent

@@ -117,6 +117,11 @@ const DeleteConsolidatedBill = (consolidatedBillId:string, payload:any)=>{
     return ApiService[APIConfig.DELETE_CONSOLIDATED_BILL.METHOD](APIConfig.DELETE_CONSOLIDATED_BILL.URL(consolidatedBillId), payload)
 }
 
+const ProductMarkAsPaid = (payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.MARK_AS_PAID_FOR_PRODUCT.METHOD](APIConfig.MARK_AS_PAID_FOR_PRODUCT.URL, payload)
+}
+
 
 const BillingService = {
     MarkPaymentsAsPaidAPICall,
@@ -141,7 +146,8 @@ const BillingService = {
     DeleteConsolidatedBill,
     GetProductBillingPDFDocument,
     GetAppointmentBillingPDFDocument,
-    GetConsolidatedBillingPDFDocument
+    GetConsolidatedBillingPDFDocument,
+    ProductMarkAsPaid
 }
 
 export default BillingService;

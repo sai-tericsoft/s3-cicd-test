@@ -755,6 +755,10 @@ const APIConfig: IAPIConfig = {
         URL: ENV.API_URL + '/consolidatedBill/print',
         METHOD: 'post'
     },
+    MARK_AS_PAID_FOR_PRODUCT: {
+        URL:  ENV.API_URL + '/singleInvoice/markPaid',
+        METHOD: 'post'
+    },
     ADD_NEW_RECEIPT: {
         URL: ENV.API_URL + '/receipt',
         METHOD: 'post'
