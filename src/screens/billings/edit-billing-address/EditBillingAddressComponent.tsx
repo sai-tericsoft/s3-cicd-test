@@ -8,6 +8,9 @@ import * as Yup from "yup";
 import _ from "lodash";
 import {CommonService} from "../../../shared/services";
 import {Misc} from "../../../constants";
+import FormikCheckBoxComponent from "../../../shared/components/form-controls/formik-check-box/FormikCheckBoxComponent";
+import FormikPhoneInputComponent
+    from "../../../shared/components/form-controls/formik-phone-input/FormikPhoneInputComponent";
 
 interface EditBillingAddressComponentProps {
     billing_address: any;
@@ -19,12 +22,12 @@ interface EditBillingAddressComponentProps {
 
 const BillingAddressFormValidationSchema = Yup.object({
     name: Yup.string().required("Name is required"),
-    address_line: Yup.string().required("Address is required"),
+    address_line: Yup.string().required("Address Line is required"),
     city: Yup.string().required("City is required"),
     state: Yup.string().required("State is required"),
     zip_code: Yup.string().required("Zip Code is required"),
     country: Yup.string().required("Country is required"),
-    phone: Yup.string().required("Phone is required")
+    phone: Yup.string().required("Phone Number is required")
 });
 
 const BillingAddressFormInitialValues = {
@@ -34,19 +37,19 @@ const BillingAddressFormInitialValues = {
     state: "",
     zip_code: "",
     country: "",
-    phone: ""
+    phone: "",
+    is_default: false
 }
 
 const EditBillingAddressComponent = (props: EditBillingAddressComponentProps) => {
     const [billingAddressFormInitialValues, setBillingAddressFormInitialValues] = useState<any>(_.cloneDeep(BillingAddressFormInitialValues));
-    const {billing_address,afterSave, onSave, onCancel} = props;
+    const {billing_address, afterSave, onSave, onCancel} = props;
 
     useEffect(() => {
         setBillingAddressFormInitialValues(billing_address);
     }, [billing_address]);
 
     const onBillingAddressFormSubmit = useCallback((values: any, {setSubmitting, setErrors}: FormikHelpers<any>) => {
-        console.log('submitting');
         setSubmitting(true);
         CommonService._client.UpdateClientBillingAddress(billing_address?._id, values)
             .then((response: any) => {
@@ -59,7 +62,7 @@ const EditBillingAddressComponent = (props: EditBillingAddressComponentProps) =>
                 CommonService.handleErrors(setErrors, error);
                 setSubmitting(false);
             });
-    }, [billing_address?._id, onSave,afterSave]);
+    }, [billing_address?._id, onSave, afterSave]);
 
     return (
         <div className={'edit-billing-address-component'}>
@@ -73,7 +76,7 @@ const EditBillingAddressComponent = (props: EditBillingAddressComponentProps) =>
                 onSubmit={onBillingAddressFormSubmit}
             >
                 {(formik) => {
-                    const {values, validateForm, isValid, isSubmitting} = formik;
+                    const {values, validateForm, isValid, isSubmitting, setFieldValue} = formik;
                     // eslint-disable-next-line react-hooks/rules-of-hooks
                     useEffect(() => {
                         validateForm();
@@ -97,11 +100,11 @@ const EditBillingAddressComponent = (props: EditBillingAddressComponentProps) =>
                                 <Field name={`phone`} className="t-form-control">
                                     {
                                         (field: FieldProps) => (
-                                            <FormikInputComponent
-                                                label={"Phone Number"}
+                                            <FormikPhoneInputComponent
+                                                label={'Phone Number'}
+                                                formikField={field}
                                                 required={true}
                                                 fullWidth={true}
-                                                formikField={field}
                                             />
                                         )
                                     }
@@ -110,7 +113,7 @@ const EditBillingAddressComponent = (props: EditBillingAddressComponentProps) =>
                                     {
                                         (field: FieldProps) => (
                                             <FormikInputComponent
-                                                label={"Address line"}
+                                                label={"Address Line"}
                                                 required={true}
                                                 fullWidth={true}
                                                 formikField={field}
@@ -146,7 +149,7 @@ const EditBillingAddressComponent = (props: EditBillingAddressComponentProps) =>
                                     {
                                         (field: FieldProps) => (
                                             <FormikInputComponent
-                                                label={"Zip Code"}
+                                                label={"ZIP Code"}
                                                 required={true}
                                                 fullWidth={true}
                                                 formikField={field}
@@ -162,6 +165,23 @@ const EditBillingAddressComponent = (props: EditBillingAddressComponentProps) =>
                                                 required={true}
                                                 fullWidth={true}
                                                 formikField={field}
+                                            />
+                                        )
+                                    }
+                                </Field>
+
+                                 <Field name={`is_default`} className="t-form-control">
+                                    {
+                                        (field: FieldProps) => (
+                                            <FormikCheckBoxComponent
+                                                label={"Make this as default address"}
+                                                required={true}
+                                                formikField={field}
+                                                onChange={(isChecked) => {
+                                                    if (isChecked) {
+                                                        setFieldValue("is_default", true);
+                                                    }
+                                                }}
                                             />
                                         )
                                     }

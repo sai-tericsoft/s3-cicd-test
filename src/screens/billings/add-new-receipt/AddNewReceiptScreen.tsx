@@ -688,7 +688,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                                         </div>
                                         <HorizontalLineComponent/>
                                         <div className={"billing-address-wrapper ts-row"}>
-                                            <div className={"billing-address-block from ts-col-lg-3"}>
+                                            <div className={"billing-address-block from ts-col-lg-4"}>
                                                 <div className={"billing-address-block__header"}>
                                                     <div className={"billing-address-block__title"}>Billing From</div>
                                                 </div>
@@ -698,14 +698,14 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                                                     <div
                                                         className={"billing-address-block__detail__row"}> {billingFromAddress?.address_line} </div>
                                                     <div className={"billing-address-block__detail__row"}>
-                                                        <span> {billingFromAddress?.city} </span>, <span>{billingFromAddress?.state}</span>&nbsp;
+                                                        <span> {billingFromAddress?.city}</span>, <span>{billingFromAddress?.state}</span>&nbsp;
                                                         <span>{billingFromAddress?.zip_code}</span>
                                                     </div>
                                                     <div
                                                         className={"billing-address-block__detail__row"}> {billingFromAddress?.phone} </div>
                                                 </div>
                                             </div>
-                                            <div className={'ts-col-lg-3'}/>
+                                            <div className={'ts-col-lg-2'}/>
                                             {/*<div className={'ts-col-lg-3'}/>*/}
                                             <div className={"billing-address-block to ts-col-lg-3"}>
                                                 <div className={"billing-address-block__header"}>
@@ -734,8 +734,8 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                                                             <div
                                                                 className={"billing-address-block__detail__row"}> {selectedAddress.address_line} </div>
                                                             <div className={"billing-address-block__detail__row"}>
-                                                                <span>  {selectedAddress?.city} </span>, <span> {selectedAddress?.state} </span>&nbsp;
-                                                                <span>  {selectedAddress?.zip_code} </span>
+                                                                <span>  {selectedAddress?.city}</span>, <span>{selectedAddress?.state}</span>&nbsp;
+                                                                <span>{selectedAddress?.zip_code}</span>
                                                             </div>
                                                             <div
                                                                 className={"billing-address-block__detail__row"}>  {selectedAddress?.phone || '-'} </div>
@@ -1138,6 +1138,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                             })
                             }
                             <ButtonComponent prefixIcon={<ImageConfig.AddIcon/>}
+                                             className={'mrg-bottom-50'}
                                              onClick={() => setCurrentStep("addAddress")} variant={"text"}>Add New
                                 Address</ButtonComponent>
                         </div>
