@@ -739,8 +739,24 @@ const APIConfig: IAPIConfig = {
         URL: (invoiceId: string) => ENV.API_URL + '/invoice/' + invoiceId + '/markPaid',
         METHOD: 'post'
     },
-    GENERATE_BILLING_DOCUMENT_PDF: {
-        URL: (billingDocumentId: string, type: 'invoice' | 'receipt') => `${ENV.API_URL}/${type}/${billingDocumentId}/generatePDF`,
+    // GENERATE_BILLING_DOCUMENT_PDF: {
+    //     URL: (billingDocumentId: string, type: 'invoice' | 'receipt') => `${ENV.API_URL}/${type}/${billingDocumentId}/generatePDF`,
+    //     METHOD: 'post'
+    // },
+    GENERATE_PRODUCT_BILLING_DOCUMENT_PDF: {
+        URL: ENV.API_URL + '/product/print',
+        METHOD: 'post'
+    },
+    GENERATE_APPOINTMENT_BILLING_DOCUMENT_PDF: {
+        URL: ENV.API_URL + '/appointment/print',
+        METHOD: 'post'
+    },
+    GENERATE_CONSOLIDATED_BILLING_DOCUMENT_PDF: {
+        URL: ENV.API_URL + '/consolidatedBill/print',
+        METHOD: 'post'
+    },
+    MARK_AS_PAID_FOR_PRODUCT: {
+        URL:  ENV.API_URL + '/singleInvoice/markPaid',
         METHOD: 'post'
     },
     ADD_NEW_RECEIPT: {

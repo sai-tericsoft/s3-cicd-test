@@ -24,6 +24,10 @@
       margin-left: 200px;
       margin-top: -10px;
       margin-bottom: 24px;
+      &.invalid-amount{
+        font-size: 14px!important;
+        margin-top: -5px!important;
+      }
     }
 
     .no-alert {
@@ -148,6 +152,13 @@
    .t-table-wrapper{
      .t-table{
        min-height: fit-content !important;
+       .t-cell-units,.t-cell-discount{
+         .input-component{
+           input {
+             text-align: center !important;
+           }
+         }
+       }
      }
    }
 
@@ -190,12 +201,15 @@
 
   .t-table-wrapper {
     height: calc(100vh - 310px);
+    .table-no-data-wrapper{
+      min-height: 300px!important;
+    }
   }
 
 }
 
 .select-billing-address {
-  height: calc(100vh - 190px);
+  //height: calc(100vh - 190px);
   overflow: auto;
 
   .select-address-card {

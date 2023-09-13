@@ -104,7 +104,7 @@ const FooterNoteComponent = (props: FooterNoteComponentProps) => {
                                             </Field>
                                         </div>
                                         <div className={'ts-col-md-12'}>
-                                            {(values.footer_note?.length) >= 300 ?
+                                            {(values.footer_note?.length) > 300 ?
                                                 <div className={'alert-error'}>Characters
                                                     Limit:{(values?.footer_note?.length)}/300</div> :
                                                 <div className={'no-alert'}>Characters

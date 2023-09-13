@@ -1,6 +1,5 @@
 import {ApiService} from "../index";
 import {APIConfig} from "../../../constants";
-import {BillingType} from "../../models/common.model";
 
 const MarkPaymentsAsPaidAPICall = (payload: any) => {
     // @ts-ignore
@@ -38,9 +37,24 @@ const GetBillingStatsAPICall = (clientId: any, payload: any) => {
     return ApiService[APIConfig.GET_BILLING_STATS.METHOD](APIConfig.GET_BILLING_STATS.URL(clientId), payload)
 }
 
-const GetBillingPDFDocument = (billingDocumentId: any, type: BillingType, payload: any) => {
+// const GetBillingPDFDocument = (billingDocumentId: any, type: BillingType, payload: any) => {
+//     // @ts-ignore
+//     return ApiService[APIConfig.GENERATE_BILLING_DOCUMENT_PDF.METHOD](APIConfig.GENERATE_BILLING_DOCUMENT_PDF.URL(billingDocumentId, type), payload)
+// }
+
+const GetProductBillingPDFDocument = (payload:any)=>{
     // @ts-ignore
-    return ApiService[APIConfig.GENERATE_BILLING_DOCUMENT_PDF.METHOD](APIConfig.GENERATE_BILLING_DOCUMENT_PDF.URL(billingDocumentId, type), payload)
+    return ApiService[APIConfig.GENERATE_PRODUCT_BILLING_DOCUMENT_PDF.METHOD](APIConfig.GENERATE_PRODUCT_BILLING_DOCUMENT_PDF.URL,payload)
+}
+
+const GetAppointmentBillingPDFDocument = (payload:any)=>{
+    // @ts-ignore
+    return ApiService[APIConfig.GENERATE_APPOINTMENT_BILLING_DOCUMENT_PDF.METHOD](APIConfig.GENERATE_APPOINTMENT_BILLING_DOCUMENT_PDF.URL,payload)
+}
+
+const GetConsolidatedBillingPDFDocument = (payload:any)=>{
+    // @ts-ignore
+    return ApiService[APIConfig.GENERATE_CONSOLIDATED_BILLING_DOCUMENT_PDF.METHOD](APIConfig.GENERATE_CONSOLIDATED_BILLING_DOCUMENT_PDF.URL,payload)
 }
 
 const GetBillingFromAddress = (payload: any) => {
@@ -103,6 +117,12 @@ const DeleteConsolidatedBill = (consolidatedBillId:string, payload:any)=>{
     return ApiService[APIConfig.DELETE_CONSOLIDATED_BILL.METHOD](APIConfig.DELETE_CONSOLIDATED_BILL.URL(consolidatedBillId), payload)
 }
 
+const ProductMarkAsPaid = (payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.MARK_AS_PAID_FOR_PRODUCT.METHOD](APIConfig.MARK_AS_PAID_FOR_PRODUCT.URL, payload)
+}
+
+
 const BillingService = {
     MarkPaymentsAsPaidAPICall,
     AddNewReceiptAPICall,
@@ -110,7 +130,7 @@ const BillingService = {
     GetInvoiceDetailsAPICall,
     GetReceiptDetailsAPICall,
     GetBillingStatsCountAPICall,
-    GetBillingPDFDocument,
+    // GetBillingPDFDocument,
     GetBillingStatsAPICall,
     GetBillingFromAddress,
     AddBillingSettings,
@@ -123,7 +143,11 @@ const BillingService = {
     LinkedClientListAPICall,
     ConsolidatedMarkAsPaid,
     EditConsolidatedBill,
-    DeleteConsolidatedBill
+    DeleteConsolidatedBill,
+    GetProductBillingPDFDocument,
+    GetAppointmentBillingPDFDocument,
+    GetConsolidatedBillingPDFDocument,
+    ProductMarkAsPaid
 }
 
 export default BillingService;

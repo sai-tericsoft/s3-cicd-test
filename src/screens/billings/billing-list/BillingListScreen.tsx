@@ -71,6 +71,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
     const [isBillingStatsBeingLoading, setIsBillingStatsBeingLoading] = useState<boolean>(false);
     const [isBillingStatsBeingLoadingFailed, setIsBillingStatsBeingLoadingFailed] = useState<boolean>(false);
     const [billingStats, setBillingStats] = useState<any>(undefined);
+
     const [isPaymentsGettingConsolidated, setIsPaymentsGettingConsolidated] = useState<boolean>(false);
 
     const [clientListFilterState, setClientListFilterState] = useState<any>(ClientListFilterStateInitialValues);
@@ -126,7 +127,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             key: 'invoice_number',
             dataIndex: 'invoice_number',
             // fixed: 'left',
-            width: 140,
+            width: 110,
             align: 'center',
             render: (item: any) => {
                 return <LinkComponent
@@ -153,7 +154,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             title: 'Billing Date',
             key: 'billing_date',
             dataIndex: "created_at",
-            width: 200,
+            width: 130,
             align: 'center',
             render: (item: any) => {
                 return <>{CommonService.convertDateFormat2(item?.created_at) || '-'}</>
@@ -189,7 +190,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             title: 'Phone',
             key: 'phone_number',
             dataIndex: 'phone',
-            width: 200,
+            width: 140,
             align: 'center',
             render: (item: any) => {
                 return <>{CommonService.formatPhoneNumber(item?.client_details?.primary_contact_info?.phone) || '-'}</>
@@ -200,7 +201,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             key: 'service',
             dataIndex: 'name',
             align: 'center',
-            width: 200,
+            width: 170,
             render: (item: any) => {
                 return <>{item?.service_details?.name || '-'}</>
             }
@@ -485,7 +486,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             }
         },
         {
-            title: 'Date',
+            title: 'Billing Date',
             key: 'date',
             dataIndex: 'created_at',
             align: 'center',
@@ -524,7 +525,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             align: 'center',
             dataIndex: 'amount',
             render: (item: any) => {
-                return <>{Misc.CURRENCY_SYMBOL} {CommonService.convertToDecimals(item?.total)}</>
+                return <>{Misc.CURRENCY_SYMBOL}{CommonService.convertToDecimals(item?.total)}</>
             }
         },
         {
@@ -602,7 +603,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
         {
             title: 'Client Name',
             key: 'client_name',
-            align:'left',
+            align: 'left',
             width: 100,
             render: (item: any) => {
                 return <>
@@ -631,7 +632,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             key: 'payment_for',
             align: 'center',
             render: (item: any) => {
-                let className = "";
+                let className = "payment-for-chip";
                 if (item?.payment_for === 'appointment') {
                     className = "active";
                 } else if (item?.payment_for === 'no show') {
@@ -812,36 +813,45 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
         })
     }, [clientListFilterState, clientId]);
 
+    console.log('selectedPayments', selectedPayments);
+
     const markPaymentsAsPaid = useCallback(() => {
         const payload = {
             invoice_ids: selectedPayments.map((payment: any) => payment?._id),
             payment_mode: selectedPaymentMode,
-            client_id:selectedPayments[0]?.client_id,
-            download_consolidated_bill:false,
-            linked_invoice: clientListFilterState?.linked_invoices
+            client_id: selectedPayments[0]?.client_id,
+            download_consolidated_bill: false,
+            linked_invoice: clientListFilterState?.linked_invoices,
+            _id: selectedPayments[0]?._id
         };
         setIsPaymentsAreBeingMarkedAsPaid(true);
-        CommonService._billingsService.MarkPaymentsAsPaidAPICall(payload)
-            .then((response: IAPIResponseType<any>) => {
-                    CommonService._alert.showToast(response?.message || "Payments marked as paid successfully", "success");
-                    closePaymentModeModal();
-                    setSelectedPayments([]);
-                    setSelectedPaymentMode('');
-                    setIsPaymentsAreBeingMarkedAsPaid(false);
-                    CommonService._communications.TableWrapperRefreshSubject.next({
-                        moduleName: PENDING_PAYMENTS_MODULE
-                    });
-                    fetchBillingStatsCount();
-                    if (clientId) {
-                        fetchBillingStats();
-                    }
+
+        let apiCall: any = undefined;
+        if (selectedPayments[0]?.payment_for === 'products') {
+            apiCall = CommonService._billingsService.ProductMarkAsPaid(payload);
+        } else {
+            apiCall = CommonService._billingsService.MarkPaymentsAsPaidAPICall(payload);
+        }
+        apiCall.then((response: IAPIResponseType<any>) => {
+                CommonService._alert.showToast(response?.message || "Payments marked as paid successfully", "success");
+                closePaymentModeModal();
+                setSelectedPayments([]);
+                setSelectedPaymentMode('');
+                setIsPaymentsAreBeingMarkedAsPaid(false);
+                CommonService._communications.TableWrapperRefreshSubject.next({
+                    moduleName: PENDING_PAYMENTS_MODULE
+                });
+                fetchBillingStatsCount();
+                if (clientId) {
+                    fetchBillingStats();
                 }
-            )
+            }
+        )
             .catch((error: any) => {
                 CommonService._alert.showToast(error?.error || error?.errors || "Failed to mark payments marked as paid", "error");
                 setIsPaymentsAreBeingMarkedAsPaid(false);
             });
-    }, [selectedPayments, fetchBillingStatsCount, fetchBillingStats, clientId, closePaymentModeModal, selectedPaymentMode]);
+    }, [selectedPayments, fetchBillingStatsCount, clientListFilterState?.linked_invoices, fetchBillingStats, clientId, closePaymentModeModal, selectedPaymentMode]);
 
     useEffect(() => {
         fetchBillingStatsCount();

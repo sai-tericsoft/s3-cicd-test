@@ -64,6 +64,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
     const [thankYouNote, setThankYouNote] = useState<any>('');
     const [comments, setComments] = useState<any>('');
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+    const [isButtonsAreBeingDisabled, setIsButtonsAreBeingDisabled] = useState<boolean>(false);
 
     // const {
     //     billingSettings,
@@ -119,7 +120,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
         setSelectedPaymentMode("");
     }, []);
 
-    const fetchBillingDetails = useCallback((billingId:string,type:string) => {
+    const fetchBillingDetails = useCallback((billingId: string, type: string) => {
         setIsBillingDetailsBeingLoading(true);
         setIsBillingDetailsBeingLoadingFailed(false);
         setIsBillingDetailsBeingLoaded(false)
@@ -138,7 +139,6 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
             }
             setBillingDetails(billingDetails);
             setSelectedAddress(billingDetails?.billing_address)
-            console.log(billingDetails?.billing_address)
             setIsBillingDetailsBeingLoading(false);
             setIsBillingDetailsBeingLoaded(true);
             setIsBillingDetailsBeingLoadingFailed(false);
@@ -196,9 +196,9 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
 
     useEffect(() => {
         if (billingId && type) {
-            fetchBillingDetails(billingId,type);
+            fetchBillingDetails(billingId, type);
         }
-    }, [billingId, fetchBillingDetails,type]);
+    }, [billingId, fetchBillingDetails, type]);
 
     const openIncompleteInterventionInfoModal = useCallback(() => {
         setIsInterventionIncompleteModalOpen(true);
@@ -304,7 +304,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
             title: 'Item(s)',
             dataIndex: 'item',
             key: 'item',
-            width: 300,
+            width: 500,
             fixed: 'left',
             render: (record: any) => {
                 return <>{record?.product_name}</>
@@ -314,15 +314,17 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
             title: 'Units',
             dataIndex: 'units',
             key: 'units',
-            align:'center',
+            align: 'center',
+            width: 40,
         },
         {
-            title:'Discount',
-            dataIndex:'discount',
-            key:'discount',
-            align:'center',
-            return : (record:any) => {
-                return <>{`$${record?.discount}`}</>
+            title: 'Discount',
+            dataIndex: 'discount',
+            key: 'discount',
+            align: 'center',
+            width: 50,
+            render: (record: any) => {
+                return <> {Misc.CURRENCY_SYMBOL}{CommonService.convertToDecimals(+record?.discount) || '0.00'}</>
 
             }
 
@@ -331,15 +333,19 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
             title: 'Rate',
             dataIndex: 'rate',
             key: 'rate',
-            align:'center',
+            align: 'center',
+            width: 40,
             render: (record: any) => {
-                return <> {Misc.CURRENCY_SYMBOL}{CommonService.convertToDecimals(record?.amount)}</>
+                return <>{Misc.CURRENCY_SYMBOL}{CommonService.convertToDecimals(record?.amount)}</>
             }
         },
         {
             title: 'Amount',
             dataIndex: 'amount',
             key: 'amount',
+            align: 'center',
+            fixed: 'right',
+            width: 80,
             render: (record: any) => {
                 return <>
                     {Misc.CURRENCY_SYMBOL}{CommonService.convertToDecimals(record?.amount * record?.units)}
@@ -348,50 +354,45 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
         }
     ], []);
 
-    const fetchBillingPDF = useCallback((cb: any) => {
-        const payload = {
-            is_detailed: viewMode === 'detailed'
-        };
-       type && CommonService._billingsService.GetBillingPDFDocument(billingId, type, payload)
-            .then((response: IAPIResponseType<any>) => {
-                cb(response?.data?.url);
-            })
-            .catch((error: any) => {
-                CommonService._alert.showToast(error.error || error.errors || "Failed to fetch", "error");
-            });
-    }, [viewMode, type, billingId]);
+    const fetchBillingPDF = useCallback(async (cb: any) => {
+        try {
+            const payload = {
+                is_detailed: viewMode === 'detailed',
+                bill_type: type,
+                _id: billingId
+            };
+            let response;
+            if (billingDetails?.payment_for === "appointment") {
+                response = await CommonService._billingsService.GetAppointmentBillingPDFDocument(payload);
+            } else {
+                response = await CommonService._billingsService.GetProductBillingPDFDocument(payload);
+            }
+            cb(response?.data?.url);
+        } catch (error: any) {
+            CommonService._alert.showToast(error.error || error.errors || "Failed to fetch", "error");
+        }
+    }, [viewMode, type, billingId, billingDetails]);
 
 
     const handleBillingPrint = useCallback(() => {
-        CommonService.ComingSoon();
-        // fetchBillingPDF((url: string) => {
-        //     CommonService.printAttachment({
-        //         url: url,
-        //         type: "application/pdf",
-        //         key: CommonService.getUUID(),
-        //         name: `${type}-${billingId}.pdf`
-        //     })
-        // });
-    },[]);
-    // }, [fetchBillingPDF, type, billingId]);
+        fetchBillingPDF((url: string) => {
+            CommonService.printAttachment({
+                url: url,
+                type: "application/pdf",
+                key: CommonService.getUUID(),
+                name: `${type}-${billingId}.pdf`
+            })
+        });
+    }, [fetchBillingPDF, type, billingId]);
 
     const handleBillingDownload = useCallback(() => {
-        CommonService.ComingSoon();
-        // fetchBillingPDF((url: string) => {
-        //     CommonService.downloadFile(url, `${type}-${billingId}.pdf`);
-        // });
-    },[]);
-    // }, [fetchBillingPDF, type, billingId]);
-
-    // useEffect(() => {
-    //     // Initialize selectedAddress with the default address when the component mounts
-    //     const defaultAddress = getBillingList.find((item: any) => item.is_default);
-    //     if (defaultAddress) {
-    //         setSelectedAddress(defaultAddress);
-    //     }
-    // }, [getBillingList]);
+        fetchBillingPDF((url: string) => {
+            CommonService.downloadFile(url, `${type}-${billingId}.pdf`);
+        });
+    }, [fetchBillingPDF, type, billingId]);
 
     const handleSaveButtonClick = useCallback(() => {
+        setIsButtonsAreBeingDisabled(true);
         if (tempSelectedAddress) {
             setSelectedAddress(tempSelectedAddress); // Update the selected address when "Save" is clicked
         }
@@ -414,6 +415,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
 
     const handleNoteAndComment = useCallback((comment: any, thankYouNote: any, selectedAddress: any) => {
         setIsSubmitting(true);
+        setIsButtonsAreBeingDisabled(false);
         const payload = {
             billing_address: selectedAddress,
             thankyou_note: thankYouNote,
@@ -429,8 +431,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                 setIsSubmitting(false);
                 CommonService._alert.showToast(error.error || error.errors || "Failed to add note and comment", "error");
             });
-    }, [billingId,navigate,location.pathname,type]);
-
+    }, [billingId, navigate, location.pathname, type]);
 
 
     return (
@@ -443,7 +444,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                             <ButtonComponent
                                 prefixIcon={<ImageConfig.CircleCheck/>}
                                 onClick={openPaymentModeModal}
-                                disabled={isBillingBeingMarkedAsPaid}
+                                disabled={isBillingBeingMarkedAsPaid || isButtonsAreBeingDisabled}
                                 isLoading={isBillingBeingMarkedAsPaid}
                             >
                                 Mark as Paid
@@ -451,7 +452,8 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                         </>
                     }
                     <MenuDropdownComponent className={'billing-details-drop-down-menu'} menuBase={
-                        <ButtonComponent size={'large'} variant={'outlined'} fullWidth={true}>
+                        <ButtonComponent size={'large'} variant={'outlined'} fullWidth={true}
+                                         disabled={isButtonsAreBeingDisabled}>
                             Select Action &nbsp;<ImageConfig.SelectDropDownIcon/>
                         </ButtonComponent>
                     } menuOptions={[
@@ -525,7 +527,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                                         className={"billing-address-block__detail__row"}> {billingFromAddress?.address_line} </div>
                                     <div className={"billing-address-block__detail__row"}>
                                         <span>{billingFromAddress?.city}</span>, <span>{billingFromAddress?.state}</span>&nbsp;
-                                <span>{billingFromAddress?.zip_code}</span>
+                                        <span>{billingFromAddress?.zip_code}</span>
                                     </div>
                                     <div
                                         className={"billing-address-block__detail__row"}> {CommonService.formatPhoneNumber(billingFromAddress?.phone)} </div>
@@ -558,14 +560,14 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
 
                                     <div
                                         className={"billing-address-block__detail__row name"}>
-                                        {selectedAddress?.name|| "-"}
+                                        {selectedAddress?.name || "-"}
                                     </div>
                                     <div
-                                        className={"billing-address-block__detail__row"}> {selectedAddress?.address_line|| "-"} </div>
+                                        className={"billing-address-block__detail__row"}> {selectedAddress?.address_line || "-"} </div>
                                     <div className={"billing-address-block__detail__row"}>
                                         <span>{selectedAddress?.city || "-"}</span>,&nbsp;
-                                        <span>{selectedAddress?.state|| "-"}</span>&nbsp;
-                                        <span>{selectedAddress?.zip_code|| "-"}</span>
+                                        <span>{selectedAddress?.state || "-"}</span>&nbsp;
+                                        <span>{selectedAddress?.zip_code || "-"}</span>
                                     </div>
                                     <div
                                         className={"billing-address-block__detail__row"}>  {CommonService.formatPhoneNumber(billingDetails?.billing_address?.phone) || '-'} </div>
@@ -616,7 +618,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                             </div>
                         </CardComponent>
                         {
-                            (((type === "receipt" || type === "invoice" )&& billingDetails?.payment_for === 'products')) &&
+                            (((type === "receipt" || type === "invoice") && billingDetails?.payment_for === 'products')) &&
                             <CardComponent className={'billing-products-card'}>
                                 <TableComponent
                                     columns={ProductsColumns}
@@ -673,17 +675,22 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                                                                                  placeholder={'Please add your comments here'}
                                                                                  fullWidth={true}
                                                                                  value={comments}
-                                                                                 onChange={(value: any) => setComments(value)}
-                                        /> :
-                                        //     <TextAreaComponent label={'Comments'}
-                                        //                         placeholder={'Please add your comments here'}
-                                        //                         fullWidth={true}
-                                        //                         value={comments?.length > 0 ? comments : 'N/A'}
-                                        //                         disabled={true}
-                                        // />
+                                                                                 onChange={(value: any) => {
+                                                                                     setComments(value);
+                                                                                     setIsButtonsAreBeingDisabled(true);
+
+                                                                                 }}
+                                            /> :
+                                            //     <TextAreaComponent label={'Comments'}
+                                            //                         placeholder={'Please add your comments here'}
+                                            //                         fullWidth={true}
+                                            //                         value={comments?.length > 0 ? comments : 'N/A'}
+                                            //                         disabled={true}
+                                            // />
                                             <div className={'ts-col-12 comment-wrapper'}>
                                                 <div className={'comment-heading'}>Comments</div>
-                                                <div className={'pdd-bottom-10'}>{comments?.length > 0 ? comments : 'N/A'}</div>
+                                                <div
+                                                    className={'pdd-bottom-10'}>{comments?.length > 0 ? comments : 'N/A'}</div>
                                             </div>
                                         }
                                     </DataLabelValueComponent>
@@ -767,11 +774,14 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                             {type === 'invoice' ? <><TextAreaComponent label={'Note'}
                                                                        fullWidth={true}
                                                                        value={thankYouNote}
-                                                                       onChange={(value: any) => setThankYouNote(value)}
+                                                                       onChange={(value: any) => {
+                                                                           setThankYouNote(value);
+                                                                           setIsButtonsAreBeingDisabled(true);
+                                                                       }}
 
                                 />
                                     <div className={'ts-col-md-12'}>
-                                        {(thankYouNote?.length) >= 90 ?
+                                        {(thankYouNote?.length) > 90 ?
                                             <div className={'alert-error'}>Characters
                                                 Limit: {(thankYouNote?.length)}/90</div> :
                                             <div className={'no-alert'}>Characters

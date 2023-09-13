@@ -54,17 +54,17 @@ const AddNewReceiptFormValidationSchema = Yup.object({
     ),
     total: Yup.number().min(1).required("Amount is required"),
     // discount: Yup.number().min(1).max(100).nullable(),
-    discount: Yup.mixed().nullable().when("total", {
-        is: (value: number) => value > 0,
-        then: Yup.number().max(Yup.ref('total'), 'Invalid Discount Amount')
-            .nullable(true)
-            // checking self-equality works for NaN, transforming it to null
-            .transform((_, val) => val ? Number(val) : null),
-        otherwise: Yup.number()
-            .nullable(true)
-            // checking self-equality works for NaN, transforming it to null
-            .transform((_, val) => val ? Number(val) : null),
-    }),
+    // discount: Yup.mixed().nullable().when("total", {
+    //     is: (value: number) => value > 0,
+    //     then: Yup.number().max(Yup.ref('total'), 'Invalid Discount Amount')
+    //         .nullable(true)
+    //         // checking self-equality works for NaN, transforming it to null
+    //         .transform((_, val) => val ? Number(val) : null),
+    //     otherwise: Yup.number()
+    //         .nullable(true)
+    //         // checking self-equality works for NaN, transforming it to null
+    //         .transform((_, val) => val ? Number(val) : null),
+    // }),
     // discount_amount: Yup.mixed().nullable(),
     client_id: Yup.string().required("Client is required"),
     provider_id: Yup.string().required("Provider is required"),
@@ -313,9 +313,6 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                 </Field>
             ),
         },
-// Rest of your code for "Rate" and "Amount" columns...
-
-
         {
             title: "Rate",
             dataIndex: "rate",
@@ -551,7 +548,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
         const setSubmitting = formRef?.current?.setSubmitting;
         const setErrors = formRef?.current?.setErrors;
         setSubmitting && setSubmitting(true);
-        const discount = isNaN(values?.discount) ? 0 : values.discount;
+        const discount = isNaN(values?.discount) ? 0 : Number(values.discount);
         const payload = {
             ...CommonService.removeKeysFromJSON(_.cloneDeep(values), ['product', 'key']),
             discount,
@@ -581,7 +578,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                 confirmationTitle: "DISCARD RECEIPT",
                 image: ImageConfig.RemoveImage,
                 confirmationSubTitle: <div>
-                    Are you sure you do not wish to generate a receipt ?<br/> This action cannot be undone.
+                    Are you sure you do not wish to generate a receipt?<br/> This action cannot be undone.
                 </div>
             }
         )
@@ -641,7 +638,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
         getClientList();
     }, [getClientList]);
     
-    console.log('total',total);
+
 
 
     return (
@@ -688,7 +685,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                                         </div>
                                         <HorizontalLineComponent/>
                                         <div className={"billing-address-wrapper ts-row"}>
-                                            <div className={"billing-address-block from ts-col-lg-3"}>
+                                            <div className={"billing-address-block from ts-col-lg-4"}>
                                                 <div className={"billing-address-block__header"}>
                                                     <div className={"billing-address-block__title"}>Billing From</div>
                                                 </div>
@@ -698,14 +695,14 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                                                     <div
                                                         className={"billing-address-block__detail__row"}> {billingFromAddress?.address_line} </div>
                                                     <div className={"billing-address-block__detail__row"}>
-                                                        <span> {billingFromAddress?.city} </span>, <span>{billingFromAddress?.state}</span>&nbsp;
+                                                        <span> {billingFromAddress?.city}</span>, <span>{billingFromAddress?.state}</span>&nbsp;
                                                         <span>{billingFromAddress?.zip_code}</span>
                                                     </div>
                                                     <div
                                                         className={"billing-address-block__detail__row"}> {billingFromAddress?.phone} </div>
                                                 </div>
                                             </div>
-                                            <div className={'ts-col-lg-3'}/>
+                                            <div className={'ts-col-lg-2'}/>
                                             {/*<div className={'ts-col-lg-3'}/>*/}
                                             <div className={"billing-address-block to ts-col-lg-3"}>
                                                 <div className={"billing-address-block__header"}>
@@ -734,8 +731,8 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                                                             <div
                                                                 className={"billing-address-block__detail__row"}> {selectedAddress.address_line} </div>
                                                             <div className={"billing-address-block__detail__row"}>
-                                                                <span>  {selectedAddress?.city} </span>, <span> {selectedAddress?.state} </span>&nbsp;
-                                                                <span>  {selectedAddress?.zip_code} </span>
+                                                                <span>  {selectedAddress?.city}</span>, <span>{selectedAddress?.state}</span>&nbsp;
+                                                                <span>{selectedAddress?.zip_code}</span>
                                                             </div>
                                                             <div
                                                                 className={"billing-address-block__detail__row"}>  {selectedAddress?.phone || '-'} </div>
@@ -925,7 +922,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                                                             {
                                                                 //@ts-ignore
                                                                 (addNewReceiptFormInitialValues.discount &&  (CommonService.convertToDecimals((+total) - (addNewReceiptFormInitialValues.discount && (addNewReceiptFormInitialValues.discount))) < 0)) ? (
-                                                                    <span className={'alert-error'}>Invalid Amount</span>
+                                                                    <span className={'alert-error invalid-amount'}>Invalid Amount</span>
                                                                 ) : null
                                                             }
                                                         </div>
@@ -951,7 +948,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                                                         </Field>
                                                     </div>
                                                     <div className={'ts-col-md-12'}>
-                                                        {(values.thankyou_note?.length) >= 90 ?
+                                                        {(values.thankyou_note?.length) > 90 ?
                                                             <div className={'alert-error'}>Characters
                                                                 Limit: {(values.thankyou_note?.length)}/90</div> :
                                                             <div className={'no-alert'}>Characters
@@ -1008,7 +1005,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                             <TableComponent data={clientList} columns={clientListColumns}
                                             loading={isClientListLoading}
                                             hideHeader={false}
-                                            noDataText={clientListSearch?.length === 0 ? 'No Clients Found' : 'No client available for the name/ID you have searched.'}
+                                            noDataText={clientListSearch?.length === 0 ? 'No Clients Found' : 'No client available for the name/ID you have searched'}
                                             onRowClick={(row: any) => {
                                                 formRef?.current?.setFieldValue('client_id', row._id);
                                                 setSelectedClient(row);
@@ -1048,7 +1045,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                             <TableComponent data={providerList}
                                             columns={providerListColumns}
                                             loading={isProviderListLoading}
-                                            noDataText={providerListSearch?.length === 0 ? 'No Providers Found' : 'No provider available for the name/ID you have searched.'}
+                                            noDataText={providerListSearch?.length === 0 ? 'No Providers Found' : 'No provider available for the name you have searched'}
                                             hideHeader={false}
                                             onRowClick={(row: any) => {
                                                 formRef?.current?.setFieldValue('provider_id', row._id);
@@ -1138,6 +1135,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                             })
                             }
                             <ButtonComponent prefixIcon={<ImageConfig.AddIcon/>}
+                                             className={'mrg-bottom-50'}
                                              onClick={() => setCurrentStep("addAddress")} variant={"text"}>Add New
                                 Address</ButtonComponent>
                         </div>

@@ -2,8 +2,8 @@
   .consolidation-switch-wrapper{
     display: flex;
     align-items: center;
-    margin-top: -14px;
-    margin-bottom: 20px;
+    margin-top: -24px;
+    margin-bottom: 3px;
     margin-left: 9px;
     .consolidation-switch-label-component{
       color: #212B36;
@@ -24,11 +24,13 @@
   }
 
   .t-table-wrapper .t-table {
-    height: calc(100vh - 360px) !important;;
+    height: calc(100vh - 360px) !important;
+
 
     .table-no-data-wrapper {
       min-height: calc(100vh - 440px) !important;
     }
+
   }
   .search-component{
     margin-left: -10px !important;

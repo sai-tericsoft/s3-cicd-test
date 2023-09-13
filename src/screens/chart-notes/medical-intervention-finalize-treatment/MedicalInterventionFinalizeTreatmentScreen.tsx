@@ -23,7 +23,6 @@ import MedicalRecordBasicDetailsCardComponent
     from "../medical-record-basic-details-card/MedicalRecordBasicDetailsCardComponent";
 import PageHeaderComponent from "../../../shared/components/page-header/PageHeaderComponent";
 import FormikSelectComponent from "../../../shared/components/form-controls/formik-select/FormikSelectComponent";
-import FormDebuggerComponent from "../../../shared/components/form-debugger/FormDebuggerComponent";
 
 interface MedicalInterventionFinalizeTreatmentScreenProps {
 

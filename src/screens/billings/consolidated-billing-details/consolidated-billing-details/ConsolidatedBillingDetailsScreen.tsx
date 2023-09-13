@@ -62,6 +62,7 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
         const [selectedPaymentMode, setSelectedPaymentMode] = useState<string>("");
         const [isPaymentModeModalOpen, setIsPaymentModeModalOpen] = useState<boolean>(false);
         const [isConsolidatedBillDeleted, setIsConsolidatedBillDeleted] = useState<boolean>(false);
+        const [isMarkAsPaidDisabled, setIsMarkAsPaidDisabled] = useState<boolean>(false);
 
         const {
             paymentModes
@@ -167,6 +168,7 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
         }, [consolidatedBillingId, navigate]);
 
         const handleRemovePayment = useCallback((item: any, index: number) => () => {
+            setIsMarkAsPaidDisabled(true);
             if (billingDetails.bill_ids.length === 1) {
                 handleDeleteConsolidatedBill(billingDetails?.bill_type);
             } else {
@@ -237,7 +239,7 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                 key: 'payable_amount',
                 dataIndex: 'payable_amount',
                 align: 'center',
-                width:60,
+                width: 60,
                 render: (item: any) => {
                     return <>{item?.payable_amount ? <>{Misc.CURRENCY_SYMBOL}{CommonService.convertToDecimals(item?.payable_amount)}</> : '-'}</>
                 }
@@ -247,7 +249,7 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                 key: 'qty',
                 dataIndex: 'qty',
                 align: 'center',
-                width:60,
+                width: 60,
                 render: (item: any) => {
                     return <>{item?.qty || "-"}</>
                 }
@@ -257,7 +259,7 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                 key: 'discount',
                 dataIndex: 'discount',
                 align: 'center',
-                width:60,
+                width: 60,
                 render: (item: any) => {
                     return <>{item?.discount ? <>{Misc.CURRENCY_SYMBOL}{CommonService.convertToDecimals(item?.discount)}</> : "-"}</>
                 }
@@ -267,7 +269,7 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                 key: 'total',
                 dataIndex: 'total',
                 align: 'center',
-                width:60,
+                width: 60,
                 render: (item: any) => {
                     return <>{item?.total ? <>{Misc.CURRENCY_SYMBOL}{CommonService.convertToDecimals(item?.total)}</> : "-"}</>
                 }
@@ -341,6 +343,7 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
         }, []);
 
         const handleSaveButtonClick = useCallback(() => {
+            setIsMarkAsPaidDisabled(true);
             if (tempSelectedAddress) {
                 setSelectedAddress(tempSelectedAddress); // Update the selected address when "Save" is clicked
             }
@@ -362,6 +365,7 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
         }, [closeBillingAddressFormDrawer]);
 
         const handleSave = useCallback((thankYouNote: any, comments: any, selectedAddress: any, billingDetails: any) => {
+            setIsMarkAsPaidDisabled(false);
             const payload = {
                 "billing_address_id": selectedAddress?._id,
                 "thankyou_note": thankYouNote,
@@ -425,6 +429,39 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                 });
         }, [consolidatedBillingId, closePaymentModeModal, selectedPaymentMode, handleBillingMarkAsPaidSuccess]);
 
+        const fetchBillingPDF = useCallback((cb: any) => {
+
+            const payload = {
+                bill_type: billingDetails?.bill_type,
+                _id: consolidatedBillingId
+            };
+            CommonService._billingsService.GetConsolidatedBillingPDFDocument(payload)
+                .then((response: any) => {
+                    cb(response?.data?.url);
+                })
+                .catch((error: any) => {
+                    CommonService._alert.showToast(error.error || error.errors || "Failed to fetch billing pdf", "error");
+                });
+        }, [consolidatedBillingId, billingDetails]);
+
+
+        const handleBillingPrint = useCallback(() => {
+            fetchBillingPDF((url: string) => {
+                CommonService.printAttachment({
+                    url: url,
+                    type: "application/pdf",
+                    key: CommonService.getUUID(),
+                    name: `${billingDetails?.bill_type}-${consolidatedBillingId}.pdf`
+                })
+            });
+        }, [fetchBillingPDF, billingDetails, consolidatedBillingId]);
+
+        const handleBillingDownload = useCallback(() => {
+            fetchBillingPDF((url: string) => {
+                CommonService.downloadFile(url, `${billingDetails?.bill_type}-${consolidatedBillingId}.pdf`);
+            });
+        }, [fetchBillingPDF, billingDetails, consolidatedBillingId]);
+
         return (
             <div className={'consolidated-billing-details-component billing-details-screen'}>
                 <PageHeaderComponent
@@ -435,6 +472,7 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                             <>
                                 <ButtonComponent variant={'outlined'} color={'error'}
                                                  isLoading={isConsolidatedBillDeleted}
+                                                 disabled={isMarkAsPaidDisabled}
                                                  onClick={() => handleDeleteConsolidatedBill(billingDetails?.bill_type)}
                                                  prefixIcon={<ImageConfig.DeleteIcon/>}>
                                     Delete
@@ -443,7 +481,7 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                                     <ButtonComponent
                                         prefixIcon={<ImageConfig.CircleCheck/>}
                                         onClick={openPaymentModeModal}
-                                        disabled={isBillingBeingMarkedAsPaid}
+                                        disabled={isBillingBeingMarkedAsPaid || isMarkAsPaidDisabled}
                                         isLoading={isBillingBeingMarkedAsPaid}
                                     >
                                         Mark as Paid
@@ -452,18 +490,18 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                             </>
                         }
                         <MenuDropdownComponent className={'billing-details-drop-down-menu'} menuBase={
-                            <ButtonComponent size={'large'} variant={'outlined'} fullWidth={true}>
+                            <ButtonComponent size={'large'} variant={'outlined'} disabled={isMarkAsPaidDisabled}
+                                             fullWidth={true}>
                                 Select Action &nbsp;<ImageConfig.SelectDropDownIcon/>
                             </ButtonComponent>
                         } menuOptions={[
                             <ListItem
-                              onClick={()=>CommonService.ComingSoon()}
+                                onClick={handleBillingDownload}
                             >
                                 Download {CommonService.capitalizeFirstLetter(billingDetails?.bill_type)}
                             </ListItem>,
                             <ListItem
-                                // onClick={handleBillingPrint}
-                                onClick={()=>CommonService.ComingSoon()}
+                                onClick={handleBillingPrint}
                             >
                                 Print {CommonService.capitalizeFirstLetter(billingDetails?.bill_type)}
                             </ListItem>
@@ -594,7 +632,7 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                                                             )
                                                         })}
                                                         {
-                                                            billDetail?.medical_record_details===undefined && <>N/A</>
+                                                            billDetail?.medical_record_details === undefined && <>N/A</>
                                                         }
                                                     </DataLabelValueComponent>
                                                 </div>
@@ -646,15 +684,19 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                                                                    placeholder={'Please add your comments here'}
                                                                    fullWidth={true}
                                                                    value={comments}
-                                                                   onChange={(value: any) => setComments(value)}
+                                                                   onChange={(value: any) => {
+                                                                       setComments(value);
+                                                                       setIsMarkAsPaidDisabled(true);
+                                                                   }}
                                                 />
                                             }
-                                            {searchParams.get('type') === 'completed' && <TextAreaComponent label={'Comments'}
-                                                                                                            placeholder={'Please add your comments here'}
-                                                                                                            fullWidth={true}
-                                                                                                            value={comments?.length > 0 ? comments : 'N/A'}
-                                                                                                            disabled={true}
-                                            />}
+                                            {searchParams.get('type') === 'completed' &&
+                                                <TextAreaComponent label={'Comments'}
+                                                                   placeholder={'Please add your comments here'}
+                                                                   fullWidth={true}
+                                                                   value={comments?.length > 0 ? comments : 'N/A'}
+                                                                   disabled={true}
+                                                />}
 
                                         </DataLabelValueComponent>
                                         {/*{*/}
@@ -736,11 +778,14 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                                 {searchParams.get('type') !== 'completed' && <><TextAreaComponent label={'Note'}
                                                                                                   fullWidth={true}
                                                                                                   value={thankYouNote}
-                                                                                                  onChange={(value: any) => setThankYouNote(value)}
+                                                                                                  onChange={(value: any) => {
+                                                                                                      setThankYouNote(value);
+                                                                                                      setIsMarkAsPaidDisabled(true);
+                                                                                                  }}
                                 />
 
                                     <div className={'ts-col-md-12'}>
-                                        {(thankYouNote?.length) >= 90 ?
+                                        {(thankYouNote?.length) > 90 ?
                                             <div className={'alert-error'}>Characters
                                                 Limit: {(thankYouNote?.length)}/90</div> :
                                             <div className={'no-alert'}>Characters
@@ -757,6 +802,7 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                         {searchParams.get('type') !== 'completed' &&
                             <div className={'d-flex ts-justify-content-center mrg-top-20'}>
                                 <ButtonComponent
+                                    disabled={thankYouNote?.length > 90}
                                     onClick={() => handleSave(thankYouNote, comments, selectedAddress, billingDetails)}>Save</ButtonComponent>
                             </div>}
                     </>
