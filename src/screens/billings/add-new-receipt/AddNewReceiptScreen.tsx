@@ -313,9 +313,6 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                 </Field>
             ),
         },
-// Rest of your code for "Rate" and "Amount" columns...
-
-
         {
             title: "Rate",
             dataIndex: "rate",
@@ -551,7 +548,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
         const setSubmitting = formRef?.current?.setSubmitting;
         const setErrors = formRef?.current?.setErrors;
         setSubmitting && setSubmitting(true);
-        const discount = isNaN(values?.discount) ? 0 : values.discount;
+        const discount = isNaN(values?.discount) ? 0 : Number(values.discount);
         const payload = {
             ...CommonService.removeKeysFromJSON(_.cloneDeep(values), ['product', 'key']),
             discount,
