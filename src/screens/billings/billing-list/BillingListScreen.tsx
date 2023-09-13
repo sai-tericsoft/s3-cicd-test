@@ -126,7 +126,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             key: 'invoice_number',
             dataIndex: 'invoice_number',
             // fixed: 'left',
-            width: 140,
+            width: 110,
             align: 'center',
             render: (item: any) => {
                 return <LinkComponent
@@ -153,7 +153,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             title: 'Billing Date',
             key: 'billing_date',
             dataIndex: "created_at",
-            width: 200,
+            width: 130,
             align: 'center',
             render: (item: any) => {
                 return <>{CommonService.convertDateFormat2(item?.created_at) || '-'}</>
@@ -189,7 +189,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             title: 'Phone',
             key: 'phone_number',
             dataIndex: 'phone',
-            width: 200,
+            width: 140,
             align: 'center',
             render: (item: any) => {
                 return <>{CommonService.formatPhoneNumber(item?.client_details?.primary_contact_info?.phone) || '-'}</>
@@ -200,7 +200,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             key: 'service',
             dataIndex: 'name',
             align: 'center',
-            width: 200,
+            width: 170,
             render: (item: any) => {
                 return <>{item?.service_details?.name || '-'}</>
             }
