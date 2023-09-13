@@ -939,7 +939,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                 <ImageConfig.ConfirmIcon/>
                 <FormControlLabelComponent label={"Select Mode of Payment"}/>
                 <SelectComponent
-                    label={"Select Mode of Payment"}
+                    label={"Mode of Payment"}
                     className={'t-form-control'}
                     options={paymentModes || []}
                     value={selectedPaymentMode}
