@@ -951,7 +951,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                                                         </Field>
                                                     </div>
                                                     <div className={'ts-col-md-12'}>
-                                                        {(values.thankyou_note?.length) >= 90 ?
+                                                        {(values.thankyou_note?.length) > 90 ?
                                                             <div className={'alert-error'}>Characters
                                                                 Limit: {(values.thankyou_note?.length)}/90</div> :
                                                             <div className={'no-alert'}>Characters
