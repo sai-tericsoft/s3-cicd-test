@@ -1193,7 +1193,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                     options={paymentModes || []}
                     fullWidth={true}
                     required={true}
-                    label={"Mode Of Payment"}
+                    label={"Mode of Payment"}
                     value={selectedPaymentMode}
                     onUpdate={(value: any) => {
                         setSelectedPaymentMode(value);

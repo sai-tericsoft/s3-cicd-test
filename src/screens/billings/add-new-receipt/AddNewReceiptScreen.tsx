@@ -1210,7 +1210,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                 <ImageConfig.ConfirmIcon/>
                 <FormControlLabelComponent label={"Select Mode Of Payment"}/>
                 <SelectComponent
-                    label={"Select Mode Of Payment"}
+                    label={"Mode of Payment"}
                     className={'t-form-control'}
                     options={paymentModes || []}
                     value={selectedPaymentMode}
