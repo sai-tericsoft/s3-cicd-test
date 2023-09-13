@@ -71,7 +71,6 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
     const [isBillingStatsBeingLoading, setIsBillingStatsBeingLoading] = useState<boolean>(false);
     const [isBillingStatsBeingLoadingFailed, setIsBillingStatsBeingLoadingFailed] = useState<boolean>(false);
     const [billingStats, setBillingStats] = useState<any>(undefined);
-    const [setCurrentSelectedClient, setSetCurrentSelectedClient] = useState<any>(undefined);
     const [isPaymentsGettingConsolidated, setIsPaymentsGettingConsolidated] = useState<boolean>(false);
 
     const [clientListFilterState, setClientListFilterState] = useState<any>(ClientListFilterStateInitialValues);
@@ -111,7 +110,8 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                 const clientIdOfSelectedPayments = selectedPayments?.length > 0 ? selectedPayments[0]?.client_id : undefined;
                 const paymentFor = selectedPayments?.length > 0 ? selectedPayments[0]?.payment_for : undefined;
                 const selectedPaymentId = selectedPayments?.length > 0 ? selectedPayments[0]?._id : undefined;
-                const isDisabled = (clientIdOfSelectedPayments && clientIdOfSelectedPayments !== item?.client_id) || (paymentFor === "products" && selectedPaymentId !== item?._id) || (clientIdOfSelectedPayments && item?.payment_for === "products" && selectedPaymentId !== item?._id);
+                let isDisabled = (clientIdOfSelectedPayments && clientIdOfSelectedPayments !== item?.client_id) || (paymentFor === "products" && selectedPaymentId !== item?._id) || (clientIdOfSelectedPayments && item?.payment_for === "products" && selectedPaymentId !== item?._id);
+                isDisabled = clientListFilterState?.linked_invoices ? false : isDisabled;
                 return <CheckBoxComponent
                     className={selectedPayments.includes(item) ? 'selected-row' : ''}
                     disabled={isDisabled}
@@ -254,7 +254,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                 </LinkComponent>
             }
         }
-    ], [handlePaymentSelection, selectedPayments, location]);
+    ], [handlePaymentSelection, selectedPayments, location,clientListFilterState]);
 
     const clientPendingPaymentColumn: ITableColumn[] = useMemo<any>(() => [
         {
@@ -267,7 +267,8 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                 const clientIdOfSelectedPayments = selectedPayments?.length > 0 ? selectedPayments[0]?.client_id : undefined;
                 const paymentFor = selectedPayments?.length > 0 ? selectedPayments[0]?.payment_for : undefined;
                 const selectedPaymentId = selectedPayments?.length > 0 ? selectedPayments[0]?._id : undefined;
-                const isDisabled = (clientIdOfSelectedPayments && clientIdOfSelectedPayments !== item?.client_id) || (paymentFor === "products" && selectedPaymentId !== item?._id) || (clientIdOfSelectedPayments && item?.payment_for === "products" && selectedPaymentId !== item?._id);
+                let isDisabled = (clientIdOfSelectedPayments && clientIdOfSelectedPayments !== item?.client_id) || (paymentFor === "products" && selectedPaymentId !== item?._id) || (clientIdOfSelectedPayments && item?.payment_for === "products" && selectedPaymentId !== item?._id);
+                isDisabled = clientListFilterState?.linked_invoices ? false : isDisabled;
                 return <CheckBoxComponent
                     className={selectedPayments.includes(item) ? 'selected-row' : ''}
                     disabled={isDisabled}
@@ -348,7 +349,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                 </LinkComponent>
             }
         }
-    ], [handlePaymentSelection, selectedPayments, location]);
+    ], [handlePaymentSelection, selectedPayments, location,clientListFilterState]);
 
     const clientCompletePaymentListColumn: ITableColumn[] = useMemo<any>(() => [
         {
@@ -361,7 +362,8 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                 const clientIdOfSelectedPayments = selectedPayments?.length > 0 ? selectedPayments[0]?.client_id : undefined;
                 const paymentFor = selectedPayments?.length > 0 ? selectedPayments[0]?.payment_for : undefined;
                 const selectedPaymentId = selectedPayments?.length > 0 ? selectedPayments[0]?._id : undefined;
-                const isDisabled = (clientIdOfSelectedPayments && clientIdOfSelectedPayments !== item?.client_id) || (paymentFor === "products" && selectedPaymentId !== item?._id) || (clientIdOfSelectedPayments && item?.payment_for === "products" && selectedPaymentId !== item?._id);
+                let isDisabled = (clientIdOfSelectedPayments && clientIdOfSelectedPayments !== item?.client_id) || (paymentFor === "products" && selectedPaymentId !== item?._id) || (clientIdOfSelectedPayments && item?.payment_for === "products" && selectedPaymentId !== item?._id);
+                isDisabled = clientListFilterState?.linked_invoices ? false : isDisabled;
                 return <CheckBoxComponent
                     className={selectedPayments.includes(item) ? 'selected-row' : ''}
                     disabled={isDisabled}
@@ -443,8 +445,8 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                 </LinkComponent>
             }
         }
-    ], [selectedPayments, location, handlePaymentSelection]);
-    
+    ], [selectedPayments, location, handlePaymentSelection,clientListFilterState]);
+
     const completePaymentListColumn: ITableColumn[] = useMemo<any>(() => [
         {
             title: '',
@@ -456,7 +458,8 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                 const clientIdOfSelectedPayments = selectedPayments?.length > 0 ? selectedPayments[0]?.client_id : undefined;
                 const paymentFor = selectedPayments?.length > 0 ? selectedPayments[0]?.payment_for : undefined;
                 const selectedPaymentId = selectedPayments?.length > 0 ? selectedPayments[0]?._id : undefined;
-                const isDisabled = (clientIdOfSelectedPayments && clientIdOfSelectedPayments !== item?.client_id) || (paymentFor === "products" && selectedPaymentId !== item?._id) || (clientIdOfSelectedPayments && item?.payment_for === "products" && selectedPaymentId !== item?._id);
+                let isDisabled = (clientIdOfSelectedPayments && clientIdOfSelectedPayments !== item?.client_id) || (paymentFor === "products" && selectedPaymentId !== item?._id) || (clientIdOfSelectedPayments && item?.payment_for === "products" && selectedPaymentId !== item?._id);
+                isDisabled = clientListFilterState?.linked_invoices ? false : isDisabled;
                 return <CheckBoxComponent
                     className={selectedPayments.includes(item) ? 'selected-row' : ''}
                     disabled={isDisabled}
@@ -563,7 +566,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                 </LinkComponent>
             }
         }
-    ], [location, selectedPayments, handlePaymentSelection]);
+    ], [location, selectedPayments, handlePaymentSelection,clientListFilterState]);
 
     const consolidatedPayments: ITableColumn[] = useMemo<any>(() => [
         {
@@ -868,7 +871,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                 setIsPaymentsGettingConsolidated(false);
                 commonService._alert.showToast(error?.error || error?.errors || "Failed to consolidate payments", "error");
             });
-    }, [currentTab, setCurrentSelectedClient, handleTabChange]);
+    }, [currentTab, handleTabChange]);
 
     const handleConsolidatePayments = useCallback(() => {
         commonService.openConfirmationDialog({
@@ -890,7 +893,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
         }).catch((error: any) => {
         })
     }, [selectedPayments, handleCreateConsolidatedPayment, currentTab]);
-    
+
 
     return (
         <div className={'payment-list-component list-screen'}>
@@ -973,7 +976,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                     </div>
                 </div>
             </div>
-            
+
             <div className={'consolidation-switch-wrapper'}>
                 <div className={'consolidation-switch'}>
                     <SwitchComponent
@@ -990,7 +993,6 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                                     }
                                 );
                             } else {
-                                setSetCurrentSelectedClient(selectedPayments[0]?.client_id)
                                 setClientListFilterState({
                                     ...clientListFilterState,
                                     linked_invoices: value,
