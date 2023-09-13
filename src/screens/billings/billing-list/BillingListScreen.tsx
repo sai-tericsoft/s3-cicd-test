@@ -482,7 +482,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             }
         },
         {
-            title: 'Date',
+            title: 'Billing Date',
             key: 'date',
             dataIndex: 'created_at',
             align: 'center',
