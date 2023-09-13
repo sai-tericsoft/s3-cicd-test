@@ -429,6 +429,39 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                 });
         }, [consolidatedBillingId, closePaymentModeModal, selectedPaymentMode, handleBillingMarkAsPaidSuccess]);
 
+        const fetchBillingPDF = useCallback((cb: any) => {
+
+            const payload = {
+                bill_type: billingDetails?.bill_type,
+                _id: consolidatedBillingId
+            };
+            CommonService._billingsService.GetConsolidatedBillingPDFDocument(payload)
+                .then((response: any) => {
+                    cb(response?.data?.url);
+                })
+                .catch((error: any) => {
+                    CommonService._alert.showToast(error.error || error.errors || "Failed to fetch billing pdf", "error");
+                });
+        }, [consolidatedBillingId, billingDetails]);
+
+
+        const handleBillingPrint = useCallback(() => {
+            fetchBillingPDF((url: string) => {
+                CommonService.printAttachment({
+                    url: url,
+                    type: "application/pdf",
+                    key: CommonService.getUUID(),
+                    name: `${billingDetails?.bill_type}-${consolidatedBillingId}.pdf`
+                })
+            });
+        }, [fetchBillingPDF, billingDetails, consolidatedBillingId]);
+
+        const handleBillingDownload = useCallback(() => {
+            fetchBillingPDF((url: string) => {
+                CommonService.downloadFile(url, `${billingDetails?.bill_type}-${consolidatedBillingId}.pdf`);
+            });
+        }, [fetchBillingPDF, billingDetails, consolidatedBillingId]);
+
         return (
             <div className={'consolidated-billing-details-component billing-details-screen'}>
                 <PageHeaderComponent
@@ -463,13 +496,12 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                             </ButtonComponent>
                         } menuOptions={[
                             <ListItem
-                                onClick={() => CommonService.ComingSoon()}
+                                onClick={handleBillingDownload}
                             >
                                 Download {CommonService.capitalizeFirstLetter(billingDetails?.bill_type)}
                             </ListItem>,
                             <ListItem
-                                // onClick={handleBillingPrint}
-                                onClick={() => CommonService.ComingSoon()}
+                                onClick={handleBillingPrint}
                             >
                                 Print {CommonService.capitalizeFirstLetter(billingDetails?.bill_type)}
                             </ListItem>
@@ -658,12 +690,13 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                                                                    }}
                                                 />
                                             }
-                                            {searchParams.get('type') === 'completed' && <TextAreaComponent label={'Comments'}
-                                                                                                            placeholder={'Please add your comments here'}
-                                                                                                            fullWidth={true}
-                                                                                                            value={comments?.length > 0 ? comments : 'N/A'}
-                                                                                                            disabled={true}
-                                            />}
+                                            {searchParams.get('type') === 'completed' &&
+                                                <TextAreaComponent label={'Comments'}
+                                                                   placeholder={'Please add your comments here'}
+                                                                   fullWidth={true}
+                                                                   value={comments?.length > 0 ? comments : 'N/A'}
+                                                                   disabled={true}
+                                                />}
 
                                         </DataLabelValueComponent>
                                         {/*{*/}

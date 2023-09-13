@@ -751,6 +751,10 @@ const APIConfig: IAPIConfig = {
         URL: ENV.API_URL + '/appointment/print',
         METHOD: 'post'
     },
+    GENERATE_CONSOLIDATED_BILLING_DOCUMENT_PDF: {
+        URL: ENV.API_URL + '/consolidatedBill/print',
+        METHOD: 'post'
+    },
     ADD_NEW_RECEIPT: {
         URL: ENV.API_URL + '/receipt',
         METHOD: 'post'
