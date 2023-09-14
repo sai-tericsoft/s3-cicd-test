@@ -3,6 +3,13 @@
     .ant-table {
       min-height: 500px !important;
     }
+    .ant-table-empty{
+      .ant-table-tbody{
+        .status-card-component{
+          min-height: 500px !important;
+        }
+      }
+    }
   }
   .text-center{
     margin-top: 12px;
