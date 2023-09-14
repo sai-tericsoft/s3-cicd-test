@@ -652,7 +652,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                         }
                         {
                             viewMode === 'detailed' && <>
-                                <CardComponent title={"ICD-11 Description(s) and Code(s)"}>
+                                <CardComponent title={"ICD Description(s) and Code(s)"}>
                                     <TableComponent
                                         columns={ICDCodesColumns}
                                         data={billingDetails?.linked_icd_codes || []}

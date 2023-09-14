@@ -515,7 +515,6 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                                 console.log(event);
                                 console.log(event.target.files[0]);
                                 const selectedFile = event.target.files[0];
-                                console.log(selectedFile);
                                 if (selectedFile) {
                                     setSelectedAttachments((prevState: any) => [...(prevState || []), selectedFile]);
                                 }

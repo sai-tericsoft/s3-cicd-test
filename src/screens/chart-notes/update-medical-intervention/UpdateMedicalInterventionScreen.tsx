@@ -893,7 +893,7 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                                                                             size={"large"}
                                                                             className={'rom-special-test-icd-11-cta'}
                                                                         >
-                                                                            Medical Diagnosis / ICD-11 Codes
+                                                                            Medical Diagnosis / ICD Codes
                                                                         </ButtonComponent>
                                                                     </LinkComponent>
                                                                 }
@@ -903,7 +903,7 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                                                                         <div className="card-styling">
                                                                             <CardComponent size={'sm'}
                                                                                            className={'icd-codes-header'}
-                                                                                           title={'Medical Diagnosis/ICD-11 Codes:'}
+                                                                                           title={'Medical Diagnosis/ICD Codes:'}
                                                                                            actions={
                                                                                                <DraftReadonlySwitcherComponent
                                                                                                    condition={true}
