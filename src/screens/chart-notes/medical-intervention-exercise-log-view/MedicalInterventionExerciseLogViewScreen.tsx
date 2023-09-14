@@ -245,7 +245,11 @@ const MedicalInterventionExerciseLogViewScreen = (props: MedicalInterventionExer
             {isMedicalInterventionExerciseLogDetailsLoaded && medicalInterventionExerciseLogDetails && medicalInterventionExerciseLogDetails.comments &&
                 medicalInterventionExerciseLogDetails.comments.length > 0 &&
                 <CardComponent title={'Comments'} className='mrg-top-20'>
-                    <div className='pdd-bottom-20'>{medicalInterventionExerciseLogDetails.comments}</div>
+                    <div className='pdd-bottom-20'>{medicalInterventionExerciseLogDetails.comments &&
+                        medicalInterventionExerciseLogDetails.comments?.split('\n').map((item: any) => {
+                            return <div>{item}</div>
+                        })
+                    }</div>
                 </CardComponent>
             }
 
