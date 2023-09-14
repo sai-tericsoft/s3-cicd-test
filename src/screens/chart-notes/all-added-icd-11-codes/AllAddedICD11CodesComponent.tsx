@@ -51,13 +51,13 @@ const AllAddedICD11CodesComponent = (props: AllAddedIcd11CodesComponentProps) =>
     return (
         <div className={'all-added-icd-11-codes-component'}>
             <div className={'display-flex align-items-center '}>
-                <FormControlLabelComponent className={'mrg-top-20 mrg-right-20'} label={'Added ICD-11 Code (s)'}
+                <FormControlLabelComponent className={'mrg-top-20 mrg-right-20'} label={'Added ICD Code (s)'}
                                            size={'lg'}/>
                 <IconButtonComponent className={"form-helper-icon"}>
                     <ToolTipComponent
                         showArrow={true}
                         position={'top'}
-                        tooltip={"The displayed ICD-11 codes are from the most recent SOAP note that contained ICD-11 codes."}>
+                        tooltip={"The displayed ICD codes are from the most recent SOAP note that contained ICD codes."}>
                         <ImageConfig.InfoIcon/>
                     </ToolTipComponent>
                 </IconButtonComponent>
@@ -66,7 +66,7 @@ const AllAddedICD11CodesComponent = (props: AllAddedIcd11CodesComponentProps) =>
                 isAddedICD11CodeListLoading && <LoaderComponent/>
             }
             {
-                isAddedICD11CodeListLoadingFailed && <StatusCardComponent title={'Failed to fetch ICD-11 code list'}/>
+                isAddedICD11CodeListLoadingFailed && <StatusCardComponent title={'Failed to fetch ICD code list'}/>
             }
             {isAddedICD11CodeListLoaded &&
                 <TableComponent columns={AddedICDCodesColumns}

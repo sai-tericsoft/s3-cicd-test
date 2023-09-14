@@ -326,7 +326,7 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
                         </div>
 
                         {isFullCardOpen && <>
-                            <DataLabelValueComponent label={'Medical Diagnosis/ICD-11 Codes:'}>
+                            <DataLabelValueComponent label={'Medical Diagnosis/ICD Codes:'}>
                                 { clientMedicalRecordProgressReportDetails?.linked_icd_codes?.length > 0 ?
                                     <>
                                         {clientMedicalRecordProgressReportDetails?.linked_icd_codes?.map((icdCode: any,index:number) => (

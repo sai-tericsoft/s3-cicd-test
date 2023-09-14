@@ -184,7 +184,7 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
 
                     {isFullCardOpen && <>
 
-                        <DataLabelValueComponent label={'Medical Diagnosis/ICD-11 Codes:'}>
+                        <DataLabelValueComponent label={'Medical Diagnosis/ICD Codes:'}>
                             {progressReportDetails?.linked_icd_codes?.length > 0 ?
                                 <>
                                     {progressReportDetails?.linked_icd_codes.map((icdCode: any) => (

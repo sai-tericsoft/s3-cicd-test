@@ -871,7 +871,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                                 <div className={'display-flex'}>
                                                                     <FormControlLabelComponent
                                                                         size={'sm'}
-                                                                        label={"Medical Diagnosis / ICD-11 Codes "}/>
+                                                                        label={"Medical Diagnosis / ICD Codes "}/>
                                                                     <div className={'not-texted-text-icd'}>
                                                                         Not Added
                                                                     </div>
@@ -886,7 +886,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                                         className={medicalInterventionDetails?.status === 'draft' ? "" : 'heading-wrapper'}>
                                                                         <FormControlLabelComponent
                                                                             size={'sm'}
-                                                                            label={"Medical Diagnosis/ICD-11 Codes"}/>
+                                                                            label={"Medical Diagnosis/ICD Codes"}/>
                                                                     </div>
 
 
@@ -897,7 +897,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                                         <div className="card-styling mrg-left-30">
                                                                             <CardComponent size={'sm'}
                                                                                            className={medicalInterventionDetails?.status === 'completed' ? 'icd-codes-header' : ''}
-                                                                                           title={'Medical Diagnosis/ICD-11 Codes:'}
+                                                                                           title={'Medical Diagnosis/ICD Codes:'}
                                                                                            actions={
                                                                                                <DraftReadonlySwitcherComponent
                                                                                                    condition={true}
