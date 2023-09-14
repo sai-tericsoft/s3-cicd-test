@@ -42,21 +42,23 @@ const MedicalInterventionExerciseLogViewScreen = (props: MedicalInterventionExer
             title: 'Exercise',
             dataIndex: 'id',
             key: 'id',
-            width: 130
+            width: 150,
+            fixed: 'left',
         },
         {
             title: 'Exercise Name',
             key: 'name',
             dataIndex: 'name',
-            width: 280,
-            align:'center'
+            width: 500,
+            // align:'center',
+            fixed: 'left',
         },
         {
             title: 'SET',
             key: 'no_of_sets',
             dataIndex: 'no_of_sets',
             align:'center',
-            width: 150,
+            width: 100,
             render: (item: any) => {
                 return <div>{item?.no_of_sets || '-'}</div>
             }
@@ -66,7 +68,7 @@ const MedicalInterventionExerciseLogViewScreen = (props: MedicalInterventionExer
             key: 'no_of_reps',
             dataIndex: 'no_of_reps',
             align:'center',
-            width: 150,
+            width: 100,
             render: (item: any) => {
                 return <div>{item?.no_of_reps || '-'}</div>
             }
@@ -76,7 +78,7 @@ const MedicalInterventionExerciseLogViewScreen = (props: MedicalInterventionExer
             key: 'time',
             dataIndex: 'time',
             align:'center',
-            width: 150,
+            width: 100,
             render: (item: any) => {
                 return <div>{item?.time || '-'}</div>
             }
@@ -85,7 +87,7 @@ const MedicalInterventionExerciseLogViewScreen = (props: MedicalInterventionExer
             title: 'RESISTANCE',
             key: 'resistance',
             dataIndex: 'resistance',
-            width: 150,
+            width: 100,
             align:'center',
             render: (item: any) => {
                 return <div>{item?.resistance || '-'}</div>
