@@ -370,6 +370,7 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
                         url={APIConfig.ICD_CODE_LIST.URL}
                         method={APIConfig.ICD_CODE_LIST.METHOD}
                         columns={codeListColumns}
+                        noDataText={'No ICD Codes found for this search'}
                         isPaginated={true}
                         type={"ant"}
                     />
