@@ -1,8 +1,9 @@
 @import "src/assets/styles/common";
 
-.comment-text{
+.comment-text {
   word-break: break-word;
 }
+
 .add-medical-intervention-screen {
 
   .t-cell-description {
@@ -21,22 +22,39 @@
       margin-bottom: 5px;
     }
   }
-  .not-texted-text-rom{
+
+  .not-texted-text-rom {
     margin-left: 0px;
   }
-  .not-texted-text-special-test{
+
+  .not-texted-text-special-test {
     margin-left: 85px;
   }
-  .not-texted-text-icd{
+
+  .not-texted-text-icd {
     margin-left: 0px;
   }
 
   .completed-wrapper {
     display: flex;
 
+    .card-component {
+      .card-header {
+        padding: 0px 24px;
+      }
+    }
+
     .rom-header {
       width: 100%;
       //margin-left: 10px;
+    }
+
+    .card-wrapper {
+      .card-component {
+        .card-header {
+          padding: 0px 24px;
+        }
+      }
     }
 
     .card-styling {
@@ -55,9 +73,10 @@
       margin-bottom: 30px;
     }
   }
-  .rom-icd-not-tested-block{
-    .form-control-label{
-      width: 175px!important;
+
+  .rom-icd-not-tested-block {
+    .form-control-label {
+      width: 175px !important;
     }
   }
 
@@ -83,6 +102,7 @@
     //}
     margin-bottom: 20px;
     width: 100%;
+
     .icd-codes-header-wrapper {
       width: 100%;
       border: 1px solid #212B36;

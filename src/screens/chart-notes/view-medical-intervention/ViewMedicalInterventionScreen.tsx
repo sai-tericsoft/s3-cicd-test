@@ -415,21 +415,21 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                            readonly={<></>}/>}&nbsp;&nbsp;
                                                        {medicalInterventionDetails?.status === 'draft' &&
 
-                                                       <Field name={'is_flagged'}>
-                                                           {
-                                                               (field: FieldProps) => (
-                                                                   <FormikCheckBoxComponent
-                                                                       label={'Flag Note'}
-                                                                       formikField={field}
-                                                                       required={false}
-                                                                       labelPlacement={"start"}
-                                                                       onChange={(isChecked: any) => {
-                                                                           CommonService._alert.showToast( isChecked ? 'This note has been marked as flagged' : 'This note has been marked as unflagged'  , "success");
-                                                                       }}
-                                                                   />
-                                                               )
-                                                           }
-                                                       </Field>
+                                                           <Field name={'is_flagged'}>
+                                                               {
+                                                                   (field: FieldProps) => (
+                                                                       <FormikCheckBoxComponent
+                                                                           label={'Flag Note'}
+                                                                           formikField={field}
+                                                                           required={false}
+                                                                           labelPlacement={"start"}
+                                                                           onChange={(isChecked: any) => {
+                                                                               CommonService._alert.showToast(isChecked ? 'This note has been marked as flagged' : 'This note has been marked as unflagged', "success");
+                                                                           }}
+                                                                       />
+                                                                   )
+                                                               }
+                                                           </Field>
                                                        }
                                                    </>}
                                     >
@@ -467,7 +467,8 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                     </div>
                                                 }
                                                 />
-                                                <div className={"card-styling padding-card-5 range-of-motion-wrapper mrg-bottom-25"}>
+                                                <div
+                                                    className={"card-styling padding-card-5 range-of-motion-wrapper mrg-bottom-25"}>
                                                     <>
                                                         {
                                                             medicalRecordId && medicalInterventionId && <>
@@ -488,7 +489,8 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
 
 
                                                                 {medicalInterventionDetails?.rom_config?.length === 0 &&
-                                                                    <div className={'display-flex mrg-bottom-0 rom-icd-not-tested-block '}>
+                                                                    <div
+                                                                        className={'display-flex mrg-bottom-0 rom-icd-not-tested-block '}>
                                                                         <FormControlLabelComponent
                                                                             className={'mrg-bottom-5'}
                                                                             size={'sm'}
@@ -513,91 +515,91 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                                     }
                                                                     {
                                                                         medicalInterventionDetails?.rom_config?.length > 0 &&
-                                                                        <CardComponent className={'rom-header'}
-                                                                                       title={"Range of Motion and Strength"}
-                                                                                       actions={
-                                                                                           <DraftReadonlySwitcherComponent
-                                                                                               condition={true}
-                                                                                               draft={<>
-                                                                                                   {
-                                                                                                       (medicalInterventionId && medicalRecordId) && medicalInterventionDetails?.status === 'draft' &&
-                                                                                                       <LinkComponent
-                                                                                                           route={CommonService._routeConfig.MedicalInterventionROMConfig(medicalRecordId, medicalInterventionId)}>
-                                                                                                           <ButtonComponent
-                                                                                                               size={"small"}
-                                                                                                               prefixIcon={(medicalInterventionDetails?.rom_config && medicalInterventionDetails?.rom_config.length > 0) ?
-                                                                                                                   <ImageConfig.EditIcon/> :
-                                                                                                                   <ImageConfig.AddIcon/>}>
-                                                                                                               {medicalInterventionDetails?.rom_config && medicalInterventionDetails?.rom_config.length > 0 ? 'Edit' : 'Add'}
-                                                                                                           </ButtonComponent>
-                                                                                                       </LinkComponent>
-                                                                                                   }
-                                                                                               </>} readonly={<></>}
-                                                                                           />
-                                                                                       }
-                                                                        >
+                                                                            <CardComponent className={'rom-header'}
+                                                                                           title={""}
+                                                                                           actions={
+                                                                                               <DraftReadonlySwitcherComponent
+                                                                                                   condition={true}
+                                                                                                   draft={<>
+                                                                                                       {
+                                                                                                           (medicalInterventionId && medicalRecordId) && medicalInterventionDetails?.status === 'draft' &&
+                                                                                                           <LinkComponent
+                                                                                                               route={CommonService._routeConfig.MedicalInterventionROMConfig(medicalRecordId, medicalInterventionId)}>
+                                                                                                               <ButtonComponent
+                                                                                                                   size={"small"}
+                                                                                                                   prefixIcon={(medicalInterventionDetails?.rom_config && medicalInterventionDetails?.rom_config.length > 0) ?
+                                                                                                                       <ImageConfig.EditIcon/> :
+                                                                                                                       <ImageConfig.AddIcon/>}>
+                                                                                                                   {medicalInterventionDetails?.rom_config && medicalInterventionDetails?.rom_config.length > 0 ? 'Edit' : 'Add'}
+                                                                                                               </ButtonComponent>
+                                                                                                           </LinkComponent>
+                                                                                                       }
+                                                                                                   </>} readonly={<></>}
+                                                                                               />
+                                                                                           }
+                                                                            >
 
-                                                                            {
-                                                                                medicalInterventionDetails?.rom_config?.map((body_part: any) => {
-                                                                                    return (
-                                                                                        <>
-                                                                                            <CardComponent
-                                                                                                className={'body-part-card'}
-                                                                                                size={'sm'}
-                                                                                                title={"Body Part: " + body_part?.body_part_details?.name || "-"}>
-                                                                                            </CardComponent>
-                                                                                            {
-                                                                                                body_part?.rom_config?.length > 0 &&
-                                                                                                <TableComponent
-                                                                                                    data={body_part?.rom_config?.filter((rom_config: any) => {
-                                                                                                        const bodyPartSides = body_part?.body_part_details?.sides;
-                                                                                                        const config = rom_config?.config;
-                                                                                                        if (config?.comments) {
-                                                                                                            return rom_config;
-                                                                                                        } else {
-                                                                                                            let romConfig = undefined;
-                                                                                                            bodyPartSides?.forEach((side: any) => {
-                                                                                                                const sideConfig = config[side];
-                                                                                                                if (sideConfig?.arom || sideConfig?.prom || sideConfig?.strength) {
-                                                                                                                    romConfig = rom_config;
-                                                                                                                }
-                                                                                                            });
-                                                                                                            return romConfig;
-                                                                                                        }
-                                                                                                    })}
-                                                                                                    showExpandColumn={false}
-                                                                                                    defaultExpandAllRows={true}
-                                                                                                    canExpandRow={(row: any) => row?.config?.comments?.length > 0}
-                                                                                                    // expandRowRenderer={
-                                                                                                    //     (row: any) => {
-                                                                                                    //         return (
-                                                                                                    //             <div
-                                                                                                    //                 key={row?.config?._id}
-                                                                                                    //                 className={'comment-row'}>
-                                                                                                    //                 <div
-                                                                                                    //                     className={'comment-icon'}>
-                                                                                                    //                     <ImageConfig.CommentIcon/>
-                                                                                                    //                 </div>
-                                                                                                    //                 <div
-                                                                                                    //                     className={'comment-text'}>{row?.config?.comments ? CommonService.capitalizeFirstLetter(row?.config?.comments) : "-"}</div>
-                                                                                                    //             </div>
-                                                                                                    //         )
-                                                                                                    //     }
-                                                                                                    // }
-                                                                                                    bordered={true}
-                                                                                                    columns={getMedicalInterventionROMConfigColumns(body_part)}/>
-                                                                                            }
-                                                                                            {
-                                                                                                body_part?.rom_config?.length === 0 &&
-                                                                                                <StatusCardComponent
-                                                                                                    title={"The following body part does not have any Range of Motion or Strength " +
-                                                                                                        "                                                measurements. \n Please choose another body part."}/>
-                                                                                            }
-                                                                                        </>
-                                                                                    )
-                                                                                })
-                                                                            }
-                                                                        </CardComponent>
+                                                                                {
+                                                                                    medicalInterventionDetails?.rom_config?.map((body_part: any) => {
+                                                                                        return (
+                                                                                            <>
+                                                                                                <CardComponent
+                                                                                                    className={'body-part-card'}
+                                                                                                    size={'sm'}
+                                                                                                    title={"Body Part: " + body_part?.body_part_details?.name || "-"}>
+                                                                                                </CardComponent>
+                                                                                                {
+                                                                                                    body_part?.rom_config?.length > 0 &&
+                                                                                                    <TableComponent
+                                                                                                        data={body_part?.rom_config?.filter((rom_config: any) => {
+                                                                                                            const bodyPartSides = body_part?.body_part_details?.sides;
+                                                                                                            const config = rom_config?.config;
+                                                                                                            if (config?.comments) {
+                                                                                                                return rom_config;
+                                                                                                            } else {
+                                                                                                                let romConfig = undefined;
+                                                                                                                bodyPartSides?.forEach((side: any) => {
+                                                                                                                    const sideConfig = config[side];
+                                                                                                                    if (sideConfig?.arom || sideConfig?.prom || sideConfig?.strength) {
+                                                                                                                        romConfig = rom_config;
+                                                                                                                    }
+                                                                                                                });
+                                                                                                                return romConfig;
+                                                                                                            }
+                                                                                                        })}
+                                                                                                        showExpandColumn={false}
+                                                                                                        defaultExpandAllRows={true}
+                                                                                                        canExpandRow={(row: any) => row?.config?.comments?.length > 0}
+                                                                                                        // expandRowRenderer={
+                                                                                                        //     (row: any) => {
+                                                                                                        //         return (
+                                                                                                        //             <div
+                                                                                                        //                 key={row?.config?._id}
+                                                                                                        //                 className={'comment-row'}>
+                                                                                                        //                 <div
+                                                                                                        //                     className={'comment-icon'}>
+                                                                                                        //                     <ImageConfig.CommentIcon/>
+                                                                                                        //                 </div>
+                                                                                                        //                 <div
+                                                                                                        //                     className={'comment-text'}>{row?.config?.comments ? CommonService.capitalizeFirstLetter(row?.config?.comments) : "-"}</div>
+                                                                                                        //             </div>
+                                                                                                        //         )
+                                                                                                        //     }
+                                                                                                        // }
+                                                                                                        bordered={true}
+                                                                                                        columns={getMedicalInterventionROMConfigColumns(body_part)}/>
+                                                                                                }
+                                                                                                {
+                                                                                                    body_part?.rom_config?.length === 0 &&
+                                                                                                    <StatusCardComponent
+                                                                                                        title={"The following body part does not have any Range of Motion or Strength " +
+                                                                                                            "                                                measurements. \n Please choose another body part."}/>
+                                                                                                }
+                                                                                            </>
+                                                                                        )
+                                                                                    })
+                                                                                }
+                                                                            </CardComponent>
                                                                     }
                                                                 </div>
                                                             </>
@@ -651,45 +653,46 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                                         <div
                                                                             className={"card-styling"}>
                                                                             {/*+ ((medicalInterventionDetails?.special_tests && medicalInterventionDetails?.special_tests.length > 0) ?' white-card-header ' : '')*/}
+                                                                            <div className={'card-wrapper'}>
+                                                                                <CardComponent title={""}
+                                                                                               className={'special-test-header'}
+                                                                                               actions={
+                                                                                                   <DraftReadonlySwitcherComponent
+                                                                                                       condition={true}
+                                                                                                       draft={<>
+                                                                                                           {
+                                                                                                               (medicalInterventionId && medicalRecordId) && medicalInterventionDetails?.status === 'draft' &&
+                                                                                                               <LinkComponent
+                                                                                                                   route={CommonService._routeConfig.MedicalInterventionSpecialTests(medicalRecordId, medicalInterventionId)}>
+                                                                                                                   <ButtonComponent
+                                                                                                                       size={"small"}
+                                                                                                                       prefixIcon={(medicalInterventionDetails?.special_tests && medicalInterventionDetails?.special_tests.length > 0) ?
+                                                                                                                           <ImageConfig.EditIcon/> :
+                                                                                                                           <ImageConfig.AddIcon/>}>
+                                                                                                                       {medicalInterventionDetails?.special_tests && medicalInterventionDetails?.special_tests.length > 0 ? 'Edit' : 'Add'}
+                                                                                                                   </ButtonComponent>
+                                                                                                               </LinkComponent>
+                                                                                                           }
+                                                                                                       </>} readonly={<></>}/>
+                                                                                               }
+                                                                                >
 
-                                                                            <CardComponent title={"Special Test"}
-                                                                                className={'special-test-header'}
-                                                                                           actions={
-                                                                                               <DraftReadonlySwitcherComponent
-                                                                                                   condition={true}
-                                                                                                   draft={<>
-                                                                                                       {
-                                                                                                           (medicalInterventionId && medicalRecordId) && medicalInterventionDetails?.status === 'draft' &&
-                                                                                                           <LinkComponent
-                                                                                                               route={CommonService._routeConfig.MedicalInterventionSpecialTests(medicalRecordId, medicalInterventionId)}>
-                                                                                                               <ButtonComponent
-                                                                                                                   size={"small"}
-                                                                                                                   prefixIcon={(medicalInterventionDetails?.special_tests && medicalInterventionDetails?.special_tests.length > 0) ?
-                                                                                                                       <ImageConfig.EditIcon/> :
-                                                                                                                       <ImageConfig.AddIcon/>}>
-                                                                                                                   {medicalInterventionDetails?.special_tests && medicalInterventionDetails?.special_tests.length > 0 ? 'Edit' : 'Add'}
-                                                                                                               </ButtonComponent>
-                                                                                                           </LinkComponent>
-                                                                                                       }
-                                                                                                   </>} readonly={<></>}/>
-                                                                                           }
-                                                                            >
-
-                                                                                {medicalInterventionDetails?.special_tests.length > 0 ? medicalInterventionDetails?.special_tests.map((body_part: any) => {
-                                                                                    return (<div className={''}>
-                                                                                        <CardComponent
-                                                                                            size={'sm'}
-                                                                                            className={'body-part-card'}
-                                                                                            title={"Body Part: " + body_part?.body_part_details?.name || "-"}>
-                                                                                        </CardComponent>
-                                                                                        <TableComponent
-                                                                                            data={body_part.special_tests}
-                                                                                            columns={SpecialTestsColumns}
-                                                                                            bordered={true}
-                                                                                        />
-                                                                                    </div>)
-                                                                                }) : 'Not Tested'}
-                                                                            </CardComponent>
+                                                                                    {medicalInterventionDetails?.special_tests.length > 0 ? medicalInterventionDetails?.special_tests.map((body_part: any) => {
+                                                                                        return (<div className={''}>
+                                                                                            <CardComponent
+                                                                                                size={'sm'}
+                                                                                                className={'body-part-card'}
+                                                                                                title={"Body Part: " + body_part?.body_part_details?.name || "-"}>
+                                                                                            </CardComponent>
+                                                                                            <TableComponent
+                                                                                                data={body_part.special_tests}
+                                                                                                columns={SpecialTestsColumns}
+                                                                                                bordered={true}
+                                                                                            />
+                                                                                        </div>)
+                                                                                    }) : 'Not Tested'}
+                                                                                </CardComponent>
+                                                                            </div>
                                                                         </div>
                                                                     </div>}
 
@@ -895,33 +898,35 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                                     medicalInterventionDetails?.linked_icd_codes?.length > 0 &&
                                                                     <div className="icd-codes-wrapper">
                                                                         <div className="card-styling">
-                                                                            <CardComponent size={'sm'}
-                                                                                           className={medicalInterventionDetails?.status === 'completed' ? 'icd-codes-header' : ''}
-                                                                                           title={'Medical Diagnosis/ICD Codes:'}
-                                                                                           actions={
-                                                                                               <DraftReadonlySwitcherComponent
-                                                                                                   condition={true}
-                                                                                                   draft={<>
-                                                                                                       {
-                                                                                                           (medicalInterventionId && medicalRecordId) && medicalInterventionDetails?.status === 'draft' &&
-                                                                                                           <LinkComponent
-                                                                                                               route={CommonService._routeConfig.MedicalInterventionICDCodes(medicalRecordId, medicalInterventionId)}>
-                                                                                                               <ButtonComponent
-                                                                                                                   size={"small"}
-                                                                                                                   prefixIcon={(medicalInterventionDetails?.linked_icd_codes && medicalInterventionDetails?.linked_icd_codes.length > 0) ?
-                                                                                                                       <ImageConfig.EditIcon/> :
-                                                                                                                       <ImageConfig.AddIcon/>}>
-                                                                                                                   {medicalInterventionDetails?.linked_icd_codes && medicalInterventionDetails?.linked_icd_codes.length > 0 ? 'Edit' : 'Add'}
-                                                                                                               </ButtonComponent>
-                                                                                                           </LinkComponent>
-                                                                                                       }
-                                                                                                   </>} readonly={<></>}/>
-                                                                                           }>
-                                                                                <TableComponent
-                                                                                    data={medicalInterventionDetails?.linked_icd_codes}
-                                                                                    bordered={true}
-                                                                                    columns={ICDTableColumns}/>
-                                                                            </CardComponent>
+                                                                            <div className={'card-wrapper'}>
+                                                                                <CardComponent size={'sm'}
+                                                                                               className={medicalInterventionDetails?.status === 'completed' ? 'icd-codes-header' : ''}
+                                                                                               title={''}
+                                                                                               actions={
+                                                                                                   <DraftReadonlySwitcherComponent
+                                                                                                       condition={true}
+                                                                                                       draft={<>
+                                                                                                           {
+                                                                                                               (medicalInterventionId && medicalRecordId) && medicalInterventionDetails?.status === 'draft' &&
+                                                                                                               <LinkComponent
+                                                                                                                   route={CommonService._routeConfig.MedicalInterventionICDCodes(medicalRecordId, medicalInterventionId)}>
+                                                                                                                   <ButtonComponent
+                                                                                                                       size={"small"}
+                                                                                                                       prefixIcon={(medicalInterventionDetails?.linked_icd_codes && medicalInterventionDetails?.linked_icd_codes.length > 0) ?
+                                                                                                                           <ImageConfig.EditIcon/> :
+                                                                                                                           <ImageConfig.AddIcon/>}>
+                                                                                                                       {medicalInterventionDetails?.linked_icd_codes && medicalInterventionDetails?.linked_icd_codes.length > 0 ? 'Edit' : 'Add'}
+                                                                                                                   </ButtonComponent>
+                                                                                                               </LinkComponent>
+                                                                                                           }
+                                                                                                       </>} readonly={<></>}/>
+                                                                                               }>
+                                                                                    <TableComponent
+                                                                                        data={medicalInterventionDetails?.linked_icd_codes}
+                                                                                        bordered={true}
+                                                                                        columns={ICDTableColumns}/>
+                                                                                </CardComponent>
+                                                                            </div>
                                                                         </div>
                                                                     </div>
 
@@ -1152,7 +1157,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                             className={"display-flex flex-direction-row-reverse mrg-top-20 mrg-bottom-25"}>
                                             <ESignApprovalComponent isSigned={medicalInterventionDetails?.is_signed}
                                                                     isSigning={isSigningInProgress}
-                                                                    // isLoading={isFormBeingUpdated || formik.isSubmitting}
+                                                // isLoading={isFormBeingUpdated || formik.isSubmitting}
                                                                     canSign={medicalInterventionDetails?.can_sign}
                                                                     signedAt={medicalInterventionDetails?.signed_on}
                                                                     onSign={() => {
