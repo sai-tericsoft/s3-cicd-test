@@ -462,7 +462,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                             className={medicalInterventionDetails?.status === 'draft' ? 'readonly-text' : 'completed-text'}>
                                                             {medicalInterventionDetails?.objective?.observation ? medicalInterventionDetails?.objective?.observation.split("\n").map((i: any, key: any) => {
                                                                 return <div key={key}>{i}</div>;
-                                                            }) : "N/A"}
+                                                            }) : "Not Tested"}
                                                         </div>
                                                     </div>
                                                 }
@@ -488,7 +488,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
 
 
                                                                 {medicalInterventionDetails?.rom_config?.length === 0 &&
-                                                                    <div className={'display-flex mrg-bottom-0'}>
+                                                                    <div className={'display-flex mrg-bottom-0 rom-icd-not-tested-block '}>
                                                                         <FormControlLabelComponent
                                                                             className={'mrg-bottom-5'}
                                                                             size={'sm'}
@@ -724,7 +724,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                             className={medicalInterventionDetails?.status === 'draft' ? 'readonly-text' : 'completed-text'}>
                                                             {medicalInterventionDetails?.objective?.palpation ? medicalInterventionDetails?.objective?.palpation.split("\n").map((i: any, key: any) => {
                                                                 return <div key={key}>{i}</div>;
-                                                            }) : "N/A"}
+                                                            }) : "Not Tested"}
                                                         </div>
                                                     </div>
                                                 }
@@ -756,7 +756,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                             className={medicalInterventionDetails?.status === 'draft' ? 'readonly-text' : 'completed-text'}>
                                                             {medicalInterventionDetails?.objective?.functional_tests ? medicalInterventionDetails?.objective?.functional_tests.split("\n").map((i: any, key: any) => {
                                                                 return <div key={key}>{i}</div>;
-                                                            }) : "N/A"}
+                                                            }) : "Not Tested"}
                                                         </div>
                                                     </div>
                                                 }
@@ -789,7 +789,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                             className={medicalInterventionDetails?.status === 'draft' ? 'readonly-text' : 'completed-text'}>
                                                             {medicalInterventionDetails?.objective?.treatment ? medicalInterventionDetails?.objective?.treatment.split("\n").map((i: any, key: any) => {
                                                                 return <div key={key}>{i}</div>;
-                                                            }) : "N/A"}
+                                                            }) : "Not Tested"}
 
                                                         </div>
                                                     </div>
@@ -824,7 +824,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                             className={medicalInterventionDetails?.status === 'draft' ? 'readonly-text' : 'completed-text'}>
                                                             {medicalInterventionDetails?.objective?.treatment_response ? medicalInterventionDetails?.objective?.treatment_response.split("\n").map((i: any, key: any) => {
                                                                 return <div key={key}>{i}</div>;
-                                                            }) : "N/A"}
+                                                            }) : "Not Tested"}
                                                         </div>
                                                     </div>
                                                 }
@@ -868,7 +868,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                             {/*{*/}
 
                                                             {medicalInterventionDetails?.linked_icd_codes?.length === 0 &&
-                                                                <div className={'display-flex'}>
+                                                                <div className={'display-flex rom-icd-not-tested-block'}>
                                                                     <FormControlLabelComponent
                                                                         size={'sm'}
                                                                         label={"Medical Diagnosis / ICD Codes "}/>

@@ -147,7 +147,8 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
                                             <ImageConfig.EditIcon/>
                                         </IconButtonComponent>
                                     </div> :
-                                    <ButtonComponent disabled={!field.form.values.progress_stats?.[item?._id]?.result}
+                                    <ButtonComponent
+                                        // disabled={!field.form.values.progress_stats?.[item?._id]?.result}
                                                      variant={'text'} onClick={() => {
                                         setShowProgressStatCommentsModal(true);
                                         setSelectedProgressStatComments(item);
