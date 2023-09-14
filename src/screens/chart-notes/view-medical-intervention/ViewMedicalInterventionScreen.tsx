@@ -649,7 +649,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                                     medicalInterventionDetails?.special_tests?.length > 0 &&
                                                                     <div className="icd-codes-wrapper">
                                                                         <div
-                                                                            className={"card-styling mrg-right-30 "}>
+                                                                            className={"card-styling"}>
                                                                             {/*+ ((medicalInterventionDetails?.special_tests && medicalInterventionDetails?.special_tests.length > 0) ?' white-card-header ' : '')*/}
 
                                                                             <CardComponent title={"Special Test"}
@@ -894,7 +894,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                                 {
                                                                     medicalInterventionDetails?.linked_icd_codes?.length > 0 &&
                                                                     <div className="icd-codes-wrapper">
-                                                                        <div className="card-styling mrg-left-30">
+                                                                        <div className="card-styling">
                                                                             <CardComponent size={'sm'}
                                                                                            className={medicalInterventionDetails?.status === 'completed' ? 'icd-codes-header' : ''}
                                                                                            title={'Medical Diagnosis/ICD Codes:'}
