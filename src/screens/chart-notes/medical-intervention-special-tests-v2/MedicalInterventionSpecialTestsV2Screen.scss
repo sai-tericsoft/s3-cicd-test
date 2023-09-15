@@ -26,3 +26,22 @@
     }
   }
 }
+.special-test-table-body-side-wrapper {
+
+  .special-test-table-body-side {
+    text-align: center;
+  }
+  .special-test-table-body-side-indicators{
+    display: flex;
+    column-gap: 30px;
+    justify-content: center;
+    align-items: center;
+    font-size: 15px;
+  }
+}
+.special-test-table-body-side-checkboxes{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}

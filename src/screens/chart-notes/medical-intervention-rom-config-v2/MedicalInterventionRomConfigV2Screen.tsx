@@ -143,6 +143,7 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
         const columns: any = [
             {
                 title: '',
+                width: 180,
                 fixed: 'left',
                 children: [
                     {
@@ -162,71 +163,79 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
         selectedBodySides?.forEach((side: any) => {
             columns.push(generateRomConfigForBodySide(bodyPart, side));
         });
-        columns.push({
-            title: 'Comments',
-            key: 'comments',
-            align: 'center',
-            fixed: 'right',
-            width: 300,
-            render: (record: any, index: any) => <Field
-                name={`${bodyPart._id}.rom_config.${record?.name}.comments`}
-                className="t-form-control">
-                {
-                    (field: FieldProps) => (
-                        <>
-                            {
-                                mode === 'write' && <>
+        columns.push(
+            {
+                title: '',
+                key: 'comments-header',
+                fixed: 'right',
+                width: 300,
+                children: [{
+                    title: 'Comments',
+                    key: 'comments',
+                    align: 'center',
+                    // fixed: 'right',
+                    width: 300,
+                    render: (record: any, index: any) => <Field
+                        name={`${bodyPart._id}.rom_config.${record?.name}.comments`}
+                        className="t-form-control">
+                        {
+                            (field: FieldProps) => (
+                                <>
                                     {
-                                        field.form?.values[bodyPart._id]?.rom_config?.[record?.name]?.comments && <>
-                                            <ToolTipComponent position={'bottom'} tooltip={field.form?.values[bodyPart._id]?.rom_config?.[record?.name]?.comments}>
-                                                <div className="movement-comment">
-                                                    {field.form?.values[bodyPart._id]?.rom_config?.[record?.name]?.comments.length >60 ? field.form?.values[bodyPart._id]?.rom_config?.[record?.name]?.comments.substring(0,60) + '...' : field.form?.values[bodyPart._id]?.rom_config?.[record?.name]?.comments}
-                                                </div>
-                                            </ToolTipComponent>
-                                            &nbsp;
-                                            <IconButtonComponent
-                                                onClick={() => {
-                                                    setShowROMMovementCommentsModal(true);
-                                                    setSelectedBodyPartForComments(bodyPart);
-                                                    setSelectedROMMovementComments(record);
-                                                }}>
-                                                <ImageConfig.EditIcon/>
-                                            </IconButtonComponent>
+                                        mode === 'write' && <>
+                                            {
+                                                field.form?.values[bodyPart._id]?.rom_config?.[record?.name]?.comments && <>
+                                                    <ToolTipComponent position={'bottom'}
+                                                                      tooltip={field.form?.values[bodyPart._id]?.rom_config?.[record?.name]?.comments}>
+                                                        <div className="movement-comment">
+                                                            {field.form?.values[bodyPart._id]?.rom_config?.[record?.name]?.comments.length > 60 ? field.form?.values[bodyPart._id]?.rom_config?.[record?.name]?.comments.substring(0, 60) + '...' : field.form?.values[bodyPart._id]?.rom_config?.[record?.name]?.comments}
+                                                        </div>
+                                                    </ToolTipComponent>
+                                                    &nbsp;
+                                                    <IconButtonComponent
+                                                        onClick={() => {
+                                                            setShowROMMovementCommentsModal(true);
+                                                            setSelectedBodyPartForComments(bodyPart);
+                                                            setSelectedROMMovementComments(record);
+                                                        }}>
+                                                        <ImageConfig.EditIcon/>
+                                                    </IconButtonComponent>
+                                                </>
+                                            }
+                                            {
+                                                !field.form?.values[bodyPart._id]?.rom_config?.[record?.name]?.comments &&
+                                                <>
+                                                    <ButtonComponent
+                                                        variant={"text"}
+                                                        prefixIcon={<ImageConfig.AddIcon/>}
+                                                        disabled={!(record?.applicable_sides?.some((side: string) => field.form?.values[bodyPart._id]?.tableConfig?.map((item: any) => item.title)?.includes(side)))}
+                                                        onClick={() => {
+                                                            setShowROMMovementCommentsModal(true);
+                                                            setSelectedBodyPartForComments(bodyPart);
+                                                            setSelectedROMMovementComments(record);
+                                                        }}>
+                                                        Add Comment
+                                                    </ButtonComponent>
+                                                </>
+
+                                            }
                                         </>
                                     }
                                     {
-                                        !field.form?.values[bodyPart._id]?.rom_config?.[record?.name]?.comments &&
-                                        <>
-                                            <ButtonComponent
-                                                variant={"text"}
-                                                prefixIcon={<ImageConfig.AddIcon/>}
-                                                disabled={!(record?.applicable_sides?.some((side: string) => field.form?.values[bodyPart._id]?.tableConfig?.map((item: any) => item.title)?.includes(side)))}
-                                                onClick={() => {
-                                                    setShowROMMovementCommentsModal(true);
-                                                    setSelectedBodyPartForComments(bodyPart);
-                                                    setSelectedROMMovementComments(record);
-                                                }}>
-                                                Add Comment
-                                            </ButtonComponent>
-                                        </>
-
+                                        mode === 'read' &&
+                                        <ToolTipComponent
+                                            tooltip={field.form?.values[bodyPart._id]?.rom_config?.[record?.name]?.comments}>
+                                            <div className="movement-comment">
+                                                {field.form?.values[bodyPart._id]?.rom_config?.[record?.name]?.comments || "N/A"}
+                                            </div>
+                                        </ToolTipComponent>
                                     }
                                 </>
-                            }
-                            {
-                                mode === 'read' &&
-                                <ToolTipComponent
-                                    tooltip={field.form?.values[bodyPart._id]?.rom_config?.[record?.name]?.comments}>
-                                    <div className="movement-comment">
-                                        {field.form?.values[bodyPart._id]?.rom_config?.[record?.name]?.comments || "N/A"}
-                                    </div>
-                                </ToolTipComponent>
-                            }
-                        </>
-                    )
-                }
-            </Field>
-        });
+                            )
+                        }
+                    </Field>
+                }]
+            })
         return columns;
     }, [mode, generateRomConfigForBodySide]);
 
@@ -627,7 +636,7 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
                                                                                         <TableComponent
                                                                                             data={bodyPart?.movements || []}
                                                                                             bordered={true}
-                                                                                            canExpandRow={()=>true}
+                                                                                            canExpandRow={() => true}
                                                                                             columns={bodyPart?.tableConfig}
                                                                                         />
                                                                                     </div>

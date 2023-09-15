@@ -95,8 +95,10 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
                             className="t-form-control">
                             {
                                 (field: FieldProps) => (
-                                    <>
-                                        {side} Side
+                                    <div className={'special-test-table-body-side-wrapper'}>
+                                        <div className={'special-test-table-body-side'}>
+                                            {side} Side
+                                        </div>
                                         {/*    <IconButtonComponent onClick={() => {*/}
                                         {/*    const specialTestConfig = _.get(field.form.values, `${bodyPart._id}.special_test_config`);*/}
                                         {/*    Object.keys(specialTestConfig).forEach((specialTest: any) => {*/}
@@ -109,7 +111,19 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
                                         {/*}>*/}
                                         {/*    <ImageConfig.ReStartIcon/>*/}
                                         {/*</IconButtonComponent>*/}
-                                    </>
+                                        <div className={'special-test-table-body-side-indicators'}>
+                                            {
+                                                CommonService._staticData.SpecialTestResultOptions.map((option: any) => (
+                                                    <div>
+                                                        {
+                                                            option?.title
+                                                        }
+                                                    </div>
+                                                ))
+
+                                            }
+                                        </div>
+                                    </div>
                                 )
                             }
                         </Field>;
@@ -136,16 +150,17 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
                             <Field name={`${bodyPart._id}.special_test_config.${record}.${side}.result`}
                                    className="t-form-control">
                                 {(field: FieldProps) => (
-                                    <div>
+                                    <div className={'special-test-table-body-side-checkboxes'}>
                                         {CommonService._staticData.SpecialTestResultOptions.map((option: any) => (
                                             <Field
                                                 key={option.value}
                                                 name={`${bodyPart._id}.special_test_config.${record}.${side}.result.${option.code}`}
+                                                className={'mrg-left-25'}
                                             >
                                                 {(innerField: FieldProps) => (
                                                     <FormikCheckBoxComponent
                                                         formikField={innerField}
-                                                        label={option.title}
+                                                        label={''}
                                                         key={option.value}
                                                         onChange={handleCheckBoxChange(field, `${bodyPart._id}.special_test_config.${record}.${side}`, option.code, CommonService._staticData.SpecialTestResultOptions)}
                                                     />
@@ -433,13 +448,13 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
                     const specialTestConfig = special_test_config[special_test_name];
                     console.log(specialTestConfig);
 
-                    const config:any= {
+                    const config: any = {
                         comments: specialTestConfig?.comments,
                         commentsTemp: specialTestConfig?.commentsTemp,
                     }
                     Object.keys(specialTestConfig).forEach((side: any) => {
                         console.log(side);
-                        if(side === 'commentsTemp') return;
+                        if (side === 'commentsTemp') return;
                         if (side === 'comments') return;
                         const resultKeys = Object?.keys(specialTestConfig[side]?.result);
                         const result = resultKeys.find((key) => specialTestConfig[side]?.result[key] === true);

@@ -156,7 +156,8 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
         const ROMColumns: any[] = [
             {
                 title: '',
-                // fixed: 'left',
+                fixed: 'left',
+                width: 180,
                 children: [
                     {
                         title: 'Movement',
@@ -177,6 +178,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                 title: side,
                 className: side,
                 // fixed: 'left',
+                width:281,
                 align: 'center',
                 children: [
                     {
@@ -217,14 +219,21 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
         });
         ROMColumns.push(
             {
-                title: 'Comments',
-                dataIndex: 'comments',
-                key: 'comments',
+                title: '',
+                key: 'comments-header',
+                fixed: 'right',
                 width: 147,
-                render: (item: any) => {
-                    return <div
-                        className={'comment-text'}>{item?.config?.comments ? CommonService.capitalizeFirstLetter(item?.config?.comments) : "-"}</div>
-                }
+                children: [
+                    {
+                        title: 'Comments',
+                        dataIndex: 'comments',
+                        key: 'comments',
+                        width: 147,
+                        render: (item: any) => {
+                            return <div
+                                className={'comment-text'}>{item?.config?.comments ? CommonService.capitalizeFirstLetter(item?.config?.comments) : "-"}</div>
+                        }
+                    }]
             }
         )
         return ROMColumns;
@@ -415,21 +424,21 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                            readonly={<></>}/>}&nbsp;&nbsp;
                                                        {medicalInterventionDetails?.status === 'draft' &&
 
-                                                       <Field name={'is_flagged'}>
-                                                           {
-                                                               (field: FieldProps) => (
-                                                                   <FormikCheckBoxComponent
-                                                                       label={'Flag Note'}
-                                                                       formikField={field}
-                                                                       required={false}
-                                                                       labelPlacement={"start"}
-                                                                       onChange={(isChecked: any) => {
-                                                                           CommonService._alert.showToast( isChecked ? 'This note has been marked as flagged' : 'This note has been marked as unflagged'  , "success");
-                                                                       }}
-                                                                   />
-                                                               )
-                                                           }
-                                                       </Field>
+                                                           <Field name={'is_flagged'}>
+                                                               {
+                                                                   (field: FieldProps) => (
+                                                                       <FormikCheckBoxComponent
+                                                                           label={'Flag Note'}
+                                                                           formikField={field}
+                                                                           required={false}
+                                                                           labelPlacement={"start"}
+                                                                           onChange={(isChecked: any) => {
+                                                                               CommonService._alert.showToast(isChecked ? 'This note has been marked as flagged' : 'This note has been marked as unflagged', "success");
+                                                                           }}
+                                                                       />
+                                                                   )
+                                                               }
+                                                           </Field>
                                                        }
                                                    </>}
                                     >
@@ -467,7 +476,8 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                     </div>
                                                 }
                                                 />
-                                                <div className={"card-styling padding-card-5 range-of-motion-wrapper mrg-bottom-25"}>
+                                                <div
+                                                    className={"card-styling padding-card-5 range-of-motion-wrapper mrg-bottom-25"}>
                                                     <>
                                                         {
                                                             medicalRecordId && medicalInterventionId && <>
@@ -653,7 +663,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                                             {/*+ ((medicalInterventionDetails?.special_tests && medicalInterventionDetails?.special_tests.length > 0) ?' white-card-header ' : '')*/}
 
                                                                             <CardComponent title={"Special Test"}
-                                                                                className={'special-test-header'}
+                                                                                           className={'special-test-header'}
                                                                                            actions={
                                                                                                <DraftReadonlySwitcherComponent
                                                                                                    condition={true}
@@ -1152,7 +1162,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                             className={"display-flex flex-direction-row-reverse mrg-top-20 mrg-bottom-25"}>
                                             <ESignApprovalComponent isSigned={medicalInterventionDetails?.is_signed}
                                                                     isSigning={isSigningInProgress}
-                                                                    // isLoading={isFormBeingUpdated || formik.isSubmitting}
+                                                // isLoading={isFormBeingUpdated || formik.isSubmitting}
                                                                     canSign={medicalInterventionDetails?.can_sign}
                                                                     signedAt={medicalInterventionDetails?.signed_on}
                                                                     onSign={() => {
