@@ -42,7 +42,7 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
         medicalInterventionDetails,
         isMedicalInterventionDetailsLoaded,
     } = useSelector((state: IRootReducerState) => state.chartNotes);
-    const [linkedCPTCodes, setLinkedCPTCodes] = useState<any[]>([]);
+    // const [linkedCPTCodes, setLinkedCPTCodes] = useState<any[]>([]);
     const [totalMinutes, setTotalMinutes] = useState<number>(0);
     const [CPTCodes, setCPTCodes] = useState<any[]>([]);
     const [extraPayload, setExtraPayload] = useState<any>({
@@ -238,7 +238,7 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
                 .then((response: any) => {
                     // CommonService._alert.showToast(response.message, 'success');
                     setSubmitting(false);
-                    setLinkedCPTCodes(payload.cpt_codes);
+                    // setLinkedCPTCodes(payload.cpt_codes);
                     handleInterventionCheckout();
                 })
                 .catch((error: any) => {
@@ -273,7 +273,7 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
                     };
                 });
             }
-            setLinkedCPTCodes(linked_cpt_codes);
+            // setLinkedCPTCodes(linked_cpt_codes);
             setCptCodesFormInitialValues(linkedCPTCodesConfig);
         }
     }, [CPTCodes]);
