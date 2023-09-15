@@ -217,16 +217,14 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
                 });
         }
     }, [navigate, medicalInterventionId, medicalRecordId]);
-
+    
     const handleCPTCodesSubmit = useCallback((values: any, {setSubmitting}: FormikHelpers<any>) => {
+        const mode = (medicalInterventionDetails?.linked_cpt_codes?.length > 0) ? "edit" : "add";
         if (medicalInterventionId) {
             const payload: any = {
                 cpt_codes: [],
-                mode: "add"
+                mode: mode
             };
-            if (medicalInterventionDetails?.linked_cpt_codes > 0 && linkedCPTCodes?.length > 0) {
-                payload.mode = "edit"
-            }
             Object.keys(values).forEach((key) => {
                 payload.cpt_codes.push({
                     cpt_code_id: key,
