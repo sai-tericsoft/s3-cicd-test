@@ -165,6 +165,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                         width: 180,
                         // fixed: 'left',
                         render: (record: any) => {
+                            console.log('record', record);
                             return <div className="movement-name">
                                 {record?.movement_name}
                             </div>
@@ -558,46 +559,74 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                                                                         size={'sm'}
                                                                                                         title={"Body Part: " + body_part?.body_part_details?.name || "-"}>
                                                                                                     </CardComponent>
+                                                                                                    {/*{*/}
+                                                                                                    {/*    body_part?.rom_config?.length > 0 &&*/}
+                                                                                                    {/*    <TableComponent*/}
+                                                                                                    {/*        data={body_part?.rom_config?.filter((rom_config: any) => {*/}
+                                                                                                    {/*            const bodyPartSides = body_part?.body_part_details?.sides;*/}
+                                                                                                    {/*            const config = rom_config?.config;*/}
+                                                                                                    {/*            if (config?.comments) {*/}
+                                                                                                    {/*                return rom_config;*/}
+                                                                                                    {/*            } else {*/}
+                                                                                                    {/*                let romConfig = undefined;*/}
+                                                                                                    {/*                bodyPartSides?.forEach((side: any) => {*/}
+                                                                                                    {/*                    const sideConfig = config[side];*/}
+                                                                                                    {/*                    if (sideConfig?.arom || sideConfig?.prom || sideConfig?.strength) {*/}
+                                                                                                    {/*                        romConfig = rom_config;*/}
+                                                                                                    {/*                    }*/}
+                                                                                                    {/*                });*/}
+                                                                                                    {/*                return romConfig;*/}
+                                                                                                    {/*            }*/}
+                                                                                                    {/*        })}*/}
+                                                                                                    {/*        showExpandColumn={false}*/}
+                                                                                                    {/*        className={'view-arom-prom-table'}*/}
+                                                                                                    {/*        defaultExpandAllRows={true}*/}
+                                                                                                    {/*        canExpandRow={(row: any) => row?.config?.comments?.length > 0}*/}
+                                                                                                    {/*        // expandRowRenderer={*/}
+                                                                                                    {/*        // (row: any) => {*/}
+                                                                                                    {/*        // return (*/}
+                                                                                                    {/*        // <div*/}
+                                                                                                    {/*        // key={row?.config?._id}*/}
+                                                                                                    {/*        // className={'comment-row'}>*/}
+                                                                                                    {/*        // <div*/}
+                                                                                                    {/*        // className={'comment-icon'}>*/}
+                                                                                                    {/*        // <ImageConfig.CommentIcon/>*/}
+                                                                                                    {/*        // </div>*/}
+                                                                                                    {/*        // <div*/}
+                                                                                                    {/*        // className={'comment-text'}>{row?.config?.comments ? CommonService.capitalizeFirstLetter(row?.config?.comments) : "-"}</div>*/}
+                                                                                                    {/*        // </div>*/}
+                                                                                                    {/*        // )*/}
+                                                                                                    {/*        // }*/}
+                                                                                                    {/*        // }*/}
+                                                                                                    {/*        bordered={true}*/}
+                                                                                                    {/*        columns={getMedicalInterventionROMConfigColumns(body_part)}/>*/}
+                                                                                                    {/*}*/}
                                                                                                     {
                                                                                                         body_part?.rom_config?.length > 0 &&
                                                                                                         <TableComponent
-                                                                                                            data={body_part?.rom_config?.filter((rom_config: any) => {
-                                                                                                                const bodyPartSides = body_part?.body_part_details?.sides;
-                                                                                                                const config = rom_config?.config;
-                                                                                                                if (config?.comments) {
-                                                                                                                    return rom_config;
-                                                                                                                } else {
-                                                                                                                    let romConfig = undefined;
-                                                                                                                    bodyPartSides?.forEach((side: any) => {
-                                                                                                                        const sideConfig = config[side];
-                                                                                                                        if (sideConfig?.arom || sideConfig?.prom || sideConfig?.strength) {
-                                                                                                                            romConfig = rom_config;
-                                                                                                                        }
-                                                                                                                    });
-                                                                                                                    return romConfig;
-                                                                                                                }
-                                                                                                            })}
-                                                                                                            showExpandColumn={false}
+                                                                                                            data={body_part?.rom_config}
+                                                                                                            bordered={true}
                                                                                                             className={'view-arom-prom-table'}
+                                                                                                            showExpandColumn={false}
                                                                                                             defaultExpandAllRows={true}
                                                                                                             canExpandRow={(row: any) => row?.config?.comments?.length > 0}
+                                                                                                            noDataText={body_part?.rom_config?.length === 0 ? 'No Range of Motion or Strength found.' : 'No Range of Motion or Strength found for this body part.'}
                                                                                                             // expandRowRenderer={
-                                                                                                            // (row: any) => {
-                                                                                                            // return (
-                                                                                                            // <div
-                                                                                                            // key={row?.config?._id}
-                                                                                                            // className={'comment-row'}>
-                                                                                                            // <div
-                                                                                                            // className={'comment-icon'}>
-                                                                                                            // <ImageConfig.CommentIcon/>
-                                                                                                            // </div>
-                                                                                                            // <div
-                                                                                                            // className={'comment-text'}>{row?.config?.comments ? CommonService.capitalizeFirstLetter(row?.config?.comments) : "-"}</div>
-                                                                                                            // </div>
-                                                                                                            // )
+                                                                                                            //     (row: any) => {
+                                                                                                            //         return (
+                                                                                                            //             <div
+                                                                                                            //                 key={row?.config?._id}
+                                                                                                            //                 className={'comment-row'}>
+                                                                                                            //                 <div
+                                                                                                            //                     className={'comment-icon'}>
+                                                                                                            //                     <ImageConfig.CommentIcon/>
+                                                                                                            //                 </div>
+                                                                                                            //                 <div
+                                                                                                            //                     className={'comment-text'}>{row?.config?.comments ? CommonService.capitalizeFirstLetter(row?.config?.comments) : "-"}</div>
+                                                                                                            //             </div>
+                                                                                                            //         )
+                                                                                                            //     }
                                                                                                             // }
-                                                                                                            // }
-                                                                                                            bordered={true}
                                                                                                             columns={getMedicalInterventionROMConfigColumns(body_part)}/>
                                                                                                     }
                                                                                                     {

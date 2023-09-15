@@ -208,7 +208,6 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
     const dateSwitcher = useCallback(
         (mode: 'increasing' | 'decreasing' | 'reset', duration: string) => {
             setSchedulingListFilterState((old: any) => {
-                console.log('old', old);
                 const startDate = (mode === 'decreasing' || mode === 'reset') ? moment(old.start_date) : moment(old.start_date);
                 let endDate;
                 if (mode === 'increasing') {
