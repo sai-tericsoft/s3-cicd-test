@@ -37,6 +37,11 @@
 
   .completed-wrapper {
     display: flex;
+    .body-part-card{
+      .card-header{
+        min-height: 40px !important;
+      }
+    }
 
     .card-component {
       .card-header {

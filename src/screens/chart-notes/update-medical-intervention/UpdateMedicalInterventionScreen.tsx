@@ -182,7 +182,6 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                         title: side,
                         className: side,
                         // fixed: 'left',
-                        width: 111,
                         align: 'center',
                         children: [
                             {
@@ -213,7 +212,7 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                                 key: side + 'strength',
                                 align: 'center',
                                 // fixed: 'left',
-                                width: 37,
+                                width: 43,
                                 render: (item: any) => {
                                     return <div className={'movement-name'}>{item?.config[side]?.strength || "-"}</div>
                                 }
@@ -609,6 +608,7 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                                                                                                         <TableComponent
                                                                                                             data={body_part?.rom_config}
                                                                                                             bordered={true}
+                                                                                                            className={'view-arom-prom-table'}
                                                                                                             showExpandColumn={false}
                                                                                                             defaultExpandAllRows={true}
                                                                                                             canExpandRow={(row: any) => row?.config?.comments?.length > 0}
@@ -703,6 +703,7 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                                                                                     </CardComponent>
                                                                                     <TableComponent
                                                                                         data={body_part.special_tests}
+                                                                                        className={'view-arom-prom-table'}
                                                                                         columns={SpecialTestsColumns}
                                                                                         bordered={true}
                                                                                     />

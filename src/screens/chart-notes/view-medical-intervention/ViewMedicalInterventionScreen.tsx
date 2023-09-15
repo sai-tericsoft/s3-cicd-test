@@ -178,7 +178,6 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                 title: side,
                 className: side,
                 // fixed: 'left',
-                width:281,
                 align: 'center',
                 children: [
                     {
@@ -187,7 +186,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                         key: side + 'arom',
                         align: 'center',
                         // fixed: 'left',
-                        width: 87,
+                        width: 37,
                         render: (item: any) => {
                             return <div className={'movement-name'}>{item?.config[side]?.arom || '-'}</div>
                         }
@@ -198,7 +197,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                         key: side + 'prom',
                         align: 'center',
                         // fixed: 'left',
-                        width: 87,
+                        width: 37,
                         render: (item: any) => {
                             return <div className={'movement-name'}>{item?.config[side]?.prom || "-"}</div>
                         }
@@ -209,7 +208,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                         key: side + 'strength',
                         align: 'center',
                         // fixed: 'left',
-                        width: 107,
+                        width: 41,
                         render: (item: any) => {
                             return <div className={'movement-name'}>{item?.config[side]?.strength || "-"}</div>
                         }
@@ -222,13 +221,13 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                 title: '',
                 key: 'comments-header',
                 fixed: 'right',
-                width: 147,
+                width: 300,
                 children: [
                     {
                         title: 'Comments',
                         dataIndex: 'comments',
                         key: 'comments',
-                        width: 147,
+                        width: 300,
                         render: (item: any) => {
                             return <div
                                 className={'comment-text'}>{item?.config?.comments ? CommonService.capitalizeFirstLetter(item?.config?.comments) : "-"}</div>
@@ -579,6 +578,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                                                                                 }
                                                                                                             })}
                                                                                                             showExpandColumn={false}
+                                                                                                            className={'view-arom-prom-table'}
                                                                                                             defaultExpandAllRows={true}
                                                                                                             canExpandRow={(row: any) => row?.config?.comments?.length > 0}
                                                                                                             // expandRowRenderer={
