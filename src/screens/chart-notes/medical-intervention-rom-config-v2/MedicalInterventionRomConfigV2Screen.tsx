@@ -178,9 +178,10 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
                                 mode === 'write' && <>
                                     {
                                         field.form?.values[bodyPart._id]?.rom_config?.[record?.name]?.comments && <>
-                                            <ToolTipComponent position={'bottom'} tooltip={field.form?.values[bodyPart._id]?.rom_config?.[record?.name]?.comments}>
+                                            <ToolTipComponent position={'bottom'}
+                                                              tooltip={field.form?.values[bodyPart._id]?.rom_config?.[record?.name]?.comments}>
                                                 <div className="movement-comment">
-                                                    {field.form?.values[bodyPart._id]?.rom_config?.[record?.name]?.comments.length >60 ? field.form?.values[bodyPart._id]?.rom_config?.[record?.name]?.comments.substring(0,60) + '...' : field.form?.values[bodyPart._id]?.rom_config?.[record?.name]?.comments}
+                                                    {field.form?.values[bodyPart._id]?.rom_config?.[record?.name]?.comments.length > 60 ? field.form?.values[bodyPart._id]?.rom_config?.[record?.name]?.comments.substring(0, 60) + '...' : field.form?.values[bodyPart._id]?.rom_config?.[record?.name]?.comments}
                                                 </div>
                                             </ToolTipComponent>
                                             &nbsp;
@@ -561,138 +562,142 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
                                                             const bodyPart = values[bodyPartId];
                                                             return (
                                                                 <div className={'body-part-rom-config-card-wrapper'}>
-                                                                    <CardComponent title={"Body Part: " + bodyPart?.name}
-                                                                                   className={'body-part-rom-config-card'}
-                                                                                   key={bodyPartId}
-                                                                                   actions={<>
-                                                                                       {bodyPart?.movements?.length > 0 &&
-                                                                                           <>
-                                                                                               {
-                                                                                                   (mode === 'read') && <>
-                                                                                                       <ButtonComponent
-                                                                                                           size={"small"}
-                                                                                                           prefixIcon={
-                                                                                                               <ImageConfig.EditIcon/>}
-                                                                                                           // onClick={handleBodyPartEdit}
-                                                                                                           // disabled={isSubmitting || isBodyPartBeingDeleted}
-                                                                                                       >
-                                                                                                           Edit
-                                                                                                       </ButtonComponent>&nbsp;&nbsp;
+                                                                    {
+                                                                        bodyPart?.movements?.length > 0 && <>
+
+                                                                            <CardComponent title={"Body Part: " + bodyPart?.name}
+                                                                                           className={'body-part-rom-config-card'}
+                                                                                           key={bodyPartId}
+                                                                                           actions={<>
+                                                                                               {bodyPart?.movements?.length > 0 &&
+                                                                                                   <>
+                                                                                                       {
+                                                                                                           (mode === 'read') && <>
+                                                                                                               <ButtonComponent
+                                                                                                                   size={"small"}
+                                                                                                                   prefixIcon={
+                                                                                                                       <ImageConfig.EditIcon/>}
+                                                                                                                   // onClick={handleBodyPartEdit}
+                                                                                                                   // disabled={isSubmitting || isBodyPartBeingDeleted}
+                                                                                                               >
+                                                                                                                   Edit
+                                                                                                               </ButtonComponent>&nbsp;&nbsp;
+                                                                                                           </>
+                                                                                                       }
+                                                                                                       {/*{*/}
+                                                                                                       {/*    (mode === 'write') &&*/}
+                                                                                                       {/*    <>*/}
+                                                                                                       {/*        <ButtonComponent*/}
+                                                                                                       {/*            size={"small"}*/}
+                                                                                                       {/*            prefixIcon={*/}
+                                                                                                       {/*                <ImageConfig.AddIcon/>}*/}
+                                                                                                       {/*            onClick={() => {*/}
+                                                                                                       {/*                openBodySideSelectionModal(bodyPart);*/}
+                                                                                                       {/*            }*/}
+                                                                                                       {/*            }*/}
+                                                                                                       {/*        >*/}
+                                                                                                       {/*            Add Body Side*/}
+                                                                                                       {/*        </ButtonComponent>&nbsp;&nbsp;*/}
+                                                                                                       {/*    </>*/}
+                                                                                                       {/*}*/}
                                                                                                    </>
                                                                                                }
-                                                                                               {/*{*/}
-                                                                                               {/*    (mode === 'write') &&*/}
-                                                                                               {/*    <>*/}
-                                                                                               {/*        <ButtonComponent*/}
-                                                                                               {/*            size={"small"}*/}
-                                                                                               {/*            prefixIcon={*/}
-                                                                                               {/*                <ImageConfig.AddIcon/>}*/}
-                                                                                               {/*            onClick={() => {*/}
-                                                                                               {/*                openBodySideSelectionModal(bodyPart);*/}
-                                                                                               {/*            }*/}
-                                                                                               {/*            }*/}
-                                                                                               {/*        >*/}
-                                                                                               {/*            Add Body Side*/}
-                                                                                               {/*        </ButtonComponent>&nbsp;&nbsp;*/}
-                                                                                               {/*    </>*/}
-                                                                                               {/*}*/}
-                                                                                           </>
-                                                                                       }
-                                                                                       <ButtonComponent
-                                                                                           size={"small"}
-                                                                                           color={"error"}
-                                                                                           variant={"outlined"}
-                                                                                           prefixIcon={
-                                                                                               <ImageConfig.DeleteIcon/>}
-                                                                                           onClick={() => {
-                                                                                               handleBodyPartDelete(bodyPartId);
-                                                                                           }}
-                                                                                           disabled={isSubmitting || isBodyPartBeingDeleted}
-                                                                                       >
-                                                                                           Delete
-                                                                                       </ButtonComponent>
-                                                                                   </>}>
-                                                                        <div className={'body-part-rom-config'}>
-                                                                            {
-                                                                                (!bodyPart?.movements || bodyPart?.movements?.length === 0) && <>
-                                                                                    <StatusCardComponent
-                                                                                        title={"The following body part does not have any Range of Motion or Strength " +
-                                                                                            "                                                measurements. \n Please choose another body part."}/>
-                                                                                </>
-                                                                            }
-                                                                            {
-                                                                                (bodyPart?.movements?.length > 0) && <>
-                                                                                    <div
-                                                                                        className={'rom-config-table-container'}>
-                                                                                        <TableComponent
-                                                                                            data={bodyPart?.movements || []}
-                                                                                            bordered={true}
-                                                                                            canExpandRow={()=>true}
-                                                                                            columns={bodyPart?.tableConfig}
-                                                                                        />
-                                                                                    </div>
-                                                                                </>
-                                                                            }
-                                                                        </div>
-                                                                        {
-                                                                            bodyPart?.movements?.map((movement: any) => {
-                                                                                if (showROMMovementCommentsModal && selectedBodyPartForComments?._id === bodyPartId && movement?.name === selectedROMMovementComments?.name) {
-                                                                                    return <ModalComponent
-                                                                                        key={bodyPartId + movement?.name}
-                                                                                        isOpen={showROMMovementCommentsModal}
-                                                                                        title={`${values?.[bodyPart._id]?.[selectedROMMovementComments?.name]?.comments ? "Edit Comments" : "Comments:"}`}
-                                                                                        closeOnBackDropClick={true}
-                                                                                        className={"intervention-comments-modal"}
-                                                                                        modalFooter={<>
-                                                                                            <ButtonComponent
-                                                                                                variant={"outlined"}
-                                                                                                onClick={() => {
-                                                                                                    const comment = values?.[bodyPart._id]?.rom_config?.[selectedROMMovementComments?.name]?.comments;
-                                                                                                    setShowROMMovementCommentsModal(false);
-                                                                                                    setFieldValue(`${bodyPart._id}.rom_config.${selectedROMMovementComments?.name}.commentsTemp`, comment);
-                                                                                                    setSelectedBodyPartForComments(undefined);
-                                                                                                    setSelectedROMMovementComments(undefined);
-                                                                                                }}>
-                                                                                                Cancel
-                                                                                            </ButtonComponent>&nbsp;
-                                                                                            <ButtonComponent
-                                                                                                className={'mrg-left-15'}
-                                                                                                onClick={() => {
-                                                                                                    const newComment = values?.[bodyPart._id]?.rom_config?.[selectedROMMovementComments?.name]?.commentsTemp;
-                                                                                                    setShowROMMovementCommentsModal(false);
-                                                                                                    setFieldValue(`${bodyPart._id}.rom_config.${selectedROMMovementComments?.name}.comments`, newComment);
-                                                                                                    setSelectedBodyPartForComments(undefined);
-                                                                                                    setSelectedROMMovementComments(undefined);
-                                                                                                }}>
-                                                                                                {
-                                                                                                    values?.[bodyPart._id]?.rom_config?.[selectedROMMovementComments?.name]?.comments ? "Save" : "Add"
-                                                                                                }
-                                                                                            </ButtonComponent>
+                                                                                               <ButtonComponent
+                                                                                                   size={"small"}
+                                                                                                   color={"error"}
+                                                                                                   variant={"outlined"}
+                                                                                                   prefixIcon={
+                                                                                                       <ImageConfig.DeleteIcon/>}
+                                                                                                   onClick={() => {
+                                                                                                       handleBodyPartDelete(bodyPartId);
+                                                                                                   }}
+                                                                                                   disabled={isSubmitting || isBodyPartBeingDeleted}
+                                                                                               >
+                                                                                                   Delete
+                                                                                               </ButtonComponent>
+                                                                                           </>}>
+                                                                                <div className={'body-part-rom-config'}>
+                                                                                    {/*{*/}
+                                                                                    {/*    (!bodyPart?.movements || bodyPart?.movements?.length === 0) && <>*/}
+                                                                                    {/*        <StatusCardComponent*/}
+                                                                                    {/*            title={"The following body part does not have any Range of Motion or Strength " +*/}
+                                                                                    {/*                "                                                measurements. \n Please choose another body part."}/>*/}
+                                                                                    {/*    </>*/}
+                                                                                    {/*}*/}
+                                                                                    {
+                                                                                        (bodyPart?.movements?.length > 0) && <>
+                                                                                            <div
+                                                                                                className={'rom-config-table-container'}>
+                                                                                                <TableComponent
+                                                                                                    data={bodyPart?.movements || []}
+                                                                                                    bordered={true}
+                                                                                                    canExpandRow={() => true}
+                                                                                                    columns={bodyPart?.tableConfig}
+                                                                                                />
+                                                                                            </div>
                                                                                         </>
-                                                                                        }>
-                                                                                        <Field
-                                                                                            name={`${bodyPart._id}.rom_config.${selectedROMMovementComments?.name}.commentsTemp`}
-                                                                                            className="t-form-control">
-                                                                                            {
-                                                                                                (field: FieldProps) => (
-                                                                                                    <FormikTextAreaComponent
-                                                                                                        label={selectedROMMovementComments?.name}
-                                                                                                        placeholder={"Enter your comments here..."}
-                                                                                                        formikField={field}
-                                                                                                        size={"small"}
-                                                                                                        autoFocus={true}
-                                                                                                        fullWidth={true}
-                                                                                                    />
-                                                                                                )
-                                                                                            }
-                                                                                        </Field>
-                                                                                    </ModalComponent>
-                                                                                } else {
-                                                                                    return <></>
+                                                                                    }
+                                                                                </div>
+                                                                                {
+                                                                                    bodyPart?.movements?.map((movement: any) => {
+                                                                                        if (showROMMovementCommentsModal && selectedBodyPartForComments?._id === bodyPartId && movement?.name === selectedROMMovementComments?.name) {
+                                                                                            return <ModalComponent
+                                                                                                key={bodyPartId + movement?.name}
+                                                                                                isOpen={showROMMovementCommentsModal}
+                                                                                                title={`${values?.[bodyPart._id]?.[selectedROMMovementComments?.name]?.comments ? "Edit Comments" : "Comments:"}`}
+                                                                                                closeOnBackDropClick={true}
+                                                                                                className={"intervention-comments-modal"}
+                                                                                                modalFooter={<>
+                                                                                                    <ButtonComponent
+                                                                                                        variant={"outlined"}
+                                                                                                        onClick={() => {
+                                                                                                            const comment = values?.[bodyPart._id]?.rom_config?.[selectedROMMovementComments?.name]?.comments;
+                                                                                                            setShowROMMovementCommentsModal(false);
+                                                                                                            setFieldValue(`${bodyPart._id}.rom_config.${selectedROMMovementComments?.name}.commentsTemp`, comment);
+                                                                                                            setSelectedBodyPartForComments(undefined);
+                                                                                                            setSelectedROMMovementComments(undefined);
+                                                                                                        }}>
+                                                                                                        Cancel
+                                                                                                    </ButtonComponent>&nbsp;
+                                                                                                    <ButtonComponent
+                                                                                                        className={'mrg-left-15'}
+                                                                                                        onClick={() => {
+                                                                                                            const newComment = values?.[bodyPart._id]?.rom_config?.[selectedROMMovementComments?.name]?.commentsTemp;
+                                                                                                            setShowROMMovementCommentsModal(false);
+                                                                                                            setFieldValue(`${bodyPart._id}.rom_config.${selectedROMMovementComments?.name}.comments`, newComment);
+                                                                                                            setSelectedBodyPartForComments(undefined);
+                                                                                                            setSelectedROMMovementComments(undefined);
+                                                                                                        }}>
+                                                                                                        {
+                                                                                                            values?.[bodyPart._id]?.rom_config?.[selectedROMMovementComments?.name]?.comments ? "Save" : "Add"
+                                                                                                        }
+                                                                                                    </ButtonComponent>
+                                                                                                </>
+                                                                                                }>
+                                                                                                <Field
+                                                                                                    name={`${bodyPart._id}.rom_config.${selectedROMMovementComments?.name}.commentsTemp`}
+                                                                                                    className="t-form-control">
+                                                                                                    {
+                                                                                                        (field: FieldProps) => (
+                                                                                                            <FormikTextAreaComponent
+                                                                                                                label={selectedROMMovementComments?.name}
+                                                                                                                placeholder={"Enter your comments here..."}
+                                                                                                                formikField={field}
+                                                                                                                size={"small"}
+                                                                                                                autoFocus={true}
+                                                                                                                fullWidth={true}
+                                                                                                            />
+                                                                                                        )
+                                                                                                    }
+                                                                                                </Field>
+                                                                                            </ModalComponent>
+                                                                                        } else {
+                                                                                            return <></>
+                                                                                        }
+                                                                                    })
                                                                                 }
-                                                                            })
-                                                                        }
-                                                                    </CardComponent>
+                                                                            </CardComponent>
+                                                                        </>}
                                                                 </div>
 
                                                             );
