@@ -515,91 +515,95 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                                     }
                                                                     {
                                                                         medicalInterventionDetails?.rom_config?.length > 0 &&
-                                                                            <CardComponent className={'rom-header'}
-                                                                                           title={""}
-                                                                                           actions={
-                                                                                               <DraftReadonlySwitcherComponent
-                                                                                                   condition={true}
-                                                                                                   draft={<>
-                                                                                                       {
-                                                                                                           (medicalInterventionId && medicalRecordId) && medicalInterventionDetails?.status === 'draft' &&
-                                                                                                           <LinkComponent
-                                                                                                               route={CommonService._routeConfig.MedicalInterventionROMConfig(medicalRecordId, medicalInterventionId)}>
-                                                                                                               <ButtonComponent
-                                                                                                                   size={"small"}
-                                                                                                                   prefixIcon={(medicalInterventionDetails?.rom_config && medicalInterventionDetails?.rom_config.length > 0) ?
-                                                                                                                       <ImageConfig.EditIcon/> :
-                                                                                                                       <ImageConfig.AddIcon/>}>
-                                                                                                                   {medicalInterventionDetails?.rom_config && medicalInterventionDetails?.rom_config.length > 0 ? 'Edit' : 'Add'}
-                                                                                                               </ButtonComponent>
-                                                                                                           </LinkComponent>
-                                                                                                       }
-                                                                                                   </>} readonly={<></>}
-                                                                                               />
-                                                                                           }
-                                                                            >
+                                                                        <CardComponent className={'rom-header'}
+                                                                                       title={""}
+                                                                                       actions={
+                                                                                           <DraftReadonlySwitcherComponent
+                                                                                               condition={true}
+                                                                                               draft={<>
+                                                                                                   {
+                                                                                                       (medicalInterventionId && medicalRecordId) && medicalInterventionDetails?.status === 'draft' &&
+                                                                                                       <LinkComponent
+                                                                                                           route={CommonService._routeConfig.MedicalInterventionROMConfig(medicalRecordId, medicalInterventionId)}>
+                                                                                                           <ButtonComponent
+                                                                                                               size={"small"}
+                                                                                                               prefixIcon={(medicalInterventionDetails?.rom_config && medicalInterventionDetails?.rom_config.length > 0) ?
+                                                                                                                   <ImageConfig.EditIcon/> :
+                                                                                                                   <ImageConfig.AddIcon/>}>
+                                                                                                               {medicalInterventionDetails?.rom_config && medicalInterventionDetails?.rom_config.length > 0 ? 'Edit' : 'Add'}
+                                                                                                           </ButtonComponent>
+                                                                                                       </LinkComponent>
+                                                                                                   }
+                                                                                               </>} readonly={<></>}
+                                                                                           />
+                                                                                       }
+                                                                        >
 
-                                                                                {
-                                                                                    medicalInterventionDetails?.rom_config?.map((body_part: any) => {
-                                                                                        return (
-                                                                                            <>
-                                                                                                <CardComponent
-                                                                                                    className={'body-part-card'}
-                                                                                                    size={'sm'}
-                                                                                                    title={"Body Part: " + body_part?.body_part_details?.name || "-"}>
-                                                                                                </CardComponent>
-                                                                                                {
-                                                                                                    body_part?.rom_config?.length > 0 &&
-                                                                                                    <TableComponent
-                                                                                                        data={body_part?.rom_config?.filter((rom_config: any) => {
-                                                                                                            const bodyPartSides = body_part?.body_part_details?.sides;
-                                                                                                            const config = rom_config?.config;
-                                                                                                            if (config?.comments) {
-                                                                                                                return rom_config;
-                                                                                                            } else {
-                                                                                                                let romConfig = undefined;
-                                                                                                                bodyPartSides?.forEach((side: any) => {
-                                                                                                                    const sideConfig = config[side];
-                                                                                                                    if (sideConfig?.arom || sideConfig?.prom || sideConfig?.strength) {
-                                                                                                                        romConfig = rom_config;
-                                                                                                                    }
-                                                                                                                });
-                                                                                                                return romConfig;
-                                                                                                            }
-                                                                                                        })}
-                                                                                                        showExpandColumn={false}
-                                                                                                        defaultExpandAllRows={true}
-                                                                                                        canExpandRow={(row: any) => row?.config?.comments?.length > 0}
-                                                                                                        // expandRowRenderer={
-                                                                                                        //     (row: any) => {
-                                                                                                        //         return (
-                                                                                                        //             <div
-                                                                                                        //                 key={row?.config?._id}
-                                                                                                        //                 className={'comment-row'}>
-                                                                                                        //                 <div
-                                                                                                        //                     className={'comment-icon'}>
-                                                                                                        //                     <ImageConfig.CommentIcon/>
-                                                                                                        //                 </div>
-                                                                                                        //                 <div
-                                                                                                        //                     className={'comment-text'}>{row?.config?.comments ? CommonService.capitalizeFirstLetter(row?.config?.comments) : "-"}</div>
-                                                                                                        //             </div>
-                                                                                                        //         )
-                                                                                                        //     }
-                                                                                                        // }
-                                                                                                        bordered={true}
-                                                                                                        columns={getMedicalInterventionROMConfigColumns(body_part)}/>
-                                                                                                }
-                                                                                                {
-                                                                                                    body_part?.rom_config?.length === 0 &&
-                                                                                                    <StatusCardComponent
-                                                                                                        title={"The following body part does not have any Range of Motion or Strength " +
-                                                                                                            "                                                measurements. \n Please choose another body part."}/>
-                                                                                                }
-                                                                                            </>
-                                                                                        )
-                                                                                    })
-                                                                                }
-                                                                            </CardComponent>
+                                                                            {
+                                                                                medicalInterventionDetails?.rom_config?.map((body_part: any) => {
+                                                                                    return (
+                                                                                        <>
+                                                                                            {
+                                                                                                body_part?.rom_config?.length > 0 && <>
+                                                                                                    <CardComponent
+                                                                                                        className={'body-part-card'}
+                                                                                                        size={'sm'}
+                                                                                                        title={"Body Part: " + body_part?.body_part_details?.name || "-"}>
+                                                                                                    </CardComponent>
+                                                                                                    {
+                                                                                                        body_part?.rom_config?.length > 0 &&
+                                                                                                        <TableComponent
+                                                                                                            data={body_part?.rom_config?.filter((rom_config: any) => {
+                                                                                                                const bodyPartSides = body_part?.body_part_details?.sides;
+                                                                                                                const config = rom_config?.config;
+                                                                                                                if (config?.comments) {
+                                                                                                                    return rom_config;
+                                                                                                                } else {
+                                                                                                                    let romConfig = undefined;
+                                                                                                                    bodyPartSides?.forEach((side: any) => {
+                                                                                                                        const sideConfig = config[side];
+                                                                                                                        if (sideConfig?.arom || sideConfig?.prom || sideConfig?.strength) {
+                                                                                                                            romConfig = rom_config;
+                                                                                                                        }
+                                                                                                                    });
+                                                                                                                    return romConfig;
+                                                                                                                }
+                                                                                                            })}
+                                                                                                            showExpandColumn={false}
+                                                                                                            defaultExpandAllRows={true}
+                                                                                                            canExpandRow={(row: any) => row?.config?.comments?.length > 0}
+                                                                                                            // expandRowRenderer={
+                                                                                                            //     (row: any) => {
+                                                                                                            //         return (
+                                                                                                            //             <div
+                                                                                                            //                 key={row?.config?._id}
+                                                                                                            //                 className={'comment-row'}>
+                                                                                                            //                 <div
+                                                                                                            //                     className={'comment-icon'}>
+                                                                                                            //                     <ImageConfig.CommentIcon/>
+                                                                                                            //                 </div>
+                                                                                                            //                 <div
+                                                                                                            //                     className={'comment-text'}>{row?.config?.comments ? CommonService.capitalizeFirstLetter(row?.config?.comments) : "-"}</div>
+                                                                                                            //             </div>
+                                                                                                            //         )
+                                                                                                            //     }
+                                                                                                            // }
+                                                                                                            bordered={true}
+                                                                                                            columns={getMedicalInterventionROMConfigColumns(body_part)}/>
+                                                                                                    }
+                                                                                                    {
+                                                                                                        body_part?.rom_config?.length === 0 &&
+                                                                                                        <StatusCardComponent
+                                                                                                            title={"The following body part does not have any Range of Motion or Strength " +
+                                                                                                                "                                                measurements. \n Please choose another body part."}/>
+                                                                                                    }
+                                                                                                </>
+                                                                                            }
+                                                                                        </>
+                                                                                    )
+                                                                                })
+                                                                            }
+                                                                        </CardComponent>
                                                                     }
                                                                 </div>
                                                             </>

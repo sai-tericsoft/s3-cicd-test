@@ -306,7 +306,7 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                 }
             }
         }
-    }, [isMedicalInterventionDetailsLoaded, medicalInterventionDetails,setSearchParams, searchParams]);
+    }, [isMedicalInterventionDetailsLoaded, medicalInterventionDetails, setSearchParams, searchParams]);
 
 
     useEffect(() => {
@@ -585,43 +585,47 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                                                                                 medicalInterventionDetails?.rom_config?.map((body_part: any) => {
                                                                                     return (
                                                                                         <>
-                                                                                            <CardComponent
-                                                                                                className={'body-part-card'}
-                                                                                                size={'sm'}
-                                                                                                title={"Body Part: " + body_part?.body_part_details?.name || "-"}>
-                                                                                            </CardComponent>
                                                                                             {
-                                                                                                body_part?.rom_config?.length > 0 &&
-                                                                                                <TableComponent
-                                                                                                    data={body_part?.rom_config}
-                                                                                                    bordered={true}
-                                                                                                    showExpandColumn={false}
-                                                                                                    defaultExpandAllRows={true}
-                                                                                                    canExpandRow={(row: any) => row?.config?.comments?.length > 0}
-                                                                                                    noDataText={body_part?.rom_config?.length === 0 ? 'No Range of Motion or Strength found.' : 'No Range of Motion or Strength found for this body part.'}
-                                                                                                    // expandRowRenderer={
-                                                                                                    //     (row: any) => {
-                                                                                                    //         return (
-                                                                                                    //             <div
-                                                                                                    //                 key={row?.config?._id}
-                                                                                                    //                 className={'comment-row'}>
-                                                                                                    //                 <div
-                                                                                                    //                     className={'comment-icon'}>
-                                                                                                    //                     <ImageConfig.CommentIcon/>
-                                                                                                    //                 </div>
-                                                                                                    //                 <div
-                                                                                                    //                     className={'comment-text'}>{row?.config?.comments ? CommonService.capitalizeFirstLetter(row?.config?.comments) : "-"}</div>
-                                                                                                    //             </div>
-                                                                                                    //         )
-                                                                                                    //     }
-                                                                                                    // }
-                                                                                                    columns={getMedicalInterventionROMConfigColumns(body_part)}/>
-                                                                                            }
-                                                                                            {
-                                                                                                body_part?.rom_config?.length === 0 &&
-                                                                                                <StatusCardComponent
-                                                                                                    title={"The following body part does not have any Range of Motion or Strength " +
-                                                                                                        "                                                measurements. \n Please choose another body part."}/>
+                                                                                                body_part?.rom_config?.length > 0 && <>
+                                                                                                    <CardComponent
+                                                                                                        className={'body-part-card'}
+                                                                                                        size={'sm'}
+                                                                                                        title={"Body Part: " + body_part?.body_part_details?.name || "-"}>
+                                                                                                    </CardComponent>
+                                                                                                    {
+                                                                                                        body_part?.rom_config?.length > 0 &&
+                                                                                                        <TableComponent
+                                                                                                            data={body_part?.rom_config}
+                                                                                                            bordered={true}
+                                                                                                            showExpandColumn={false}
+                                                                                                            defaultExpandAllRows={true}
+                                                                                                            canExpandRow={(row: any) => row?.config?.comments?.length > 0}
+                                                                                                            noDataText={body_part?.rom_config?.length === 0 ? 'No Range of Motion or Strength found.' : 'No Range of Motion or Strength found for this body part.'}
+                                                                                                            // expandRowRenderer={
+                                                                                                            //     (row: any) => {
+                                                                                                            //         return (
+                                                                                                            //             <div
+                                                                                                            //                 key={row?.config?._id}
+                                                                                                            //                 className={'comment-row'}>
+                                                                                                            //                 <div
+                                                                                                            //                     className={'comment-icon'}>
+                                                                                                            //                     <ImageConfig.CommentIcon/>
+                                                                                                            //                 </div>
+                                                                                                            //                 <div
+                                                                                                            //                     className={'comment-text'}>{row?.config?.comments ? CommonService.capitalizeFirstLetter(row?.config?.comments) : "-"}</div>
+                                                                                                            //             </div>
+                                                                                                            //         )
+                                                                                                            //     }
+                                                                                                            // }
+                                                                                                            columns={getMedicalInterventionROMConfigColumns(body_part)}/>
+                                                                                                    }
+                                                                                                    {/*{*/}
+                                                                                                    {/*    body_part?.rom_config?.length === 0 &&*/}
+                                                                                                    {/*    <StatusCardComponent*/}
+                                                                                                    {/*        title={"The following body part does not have any Range of Motion or Strength " +*/}
+                                                                                                    {/*            "                                                measurements. \n Please choose another body part."}/>*/}
+                                                                                                    {/*}*/}
+                                                                                                </>
                                                                                             }
                                                                                         </>
                                                                                     )
