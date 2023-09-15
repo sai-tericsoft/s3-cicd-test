@@ -32,31 +32,31 @@ const viewExerciseRecordColumn: any = [
         title: 'Exercise Name',
         key: 'exercise_name',
         dataIndex: 'name',
-        align:'center'
+        align: 'center'
     },
     {
         title: "SET",
         key: "set",
         dataIndex: 'no_of_sets',
-        align:'center'
+        align: 'center'
     },
     {
         title: "REP",
         key: "rep",
         dataIndex: 'no_of_reps',
-        align:'center'
+        align: 'center'
     },
     {
         title: "Time",
         key: "time",
         dataIndex: 'time',
-        align:'center'
+        align: 'center'
     },
     {
         title: "Resistance",
         key: "resistance",
         dataIndex: 'resistance',
-        align:'center'
+        align: 'center'
     }
 ];
 
@@ -135,28 +135,31 @@ const ViewExerciseRecordScreen = (props: ViewExerciseLogComponentProps) => {
                             </CardComponent>
                             {/*<div className={'horizontal-line'}></div>*/}
                             {/*<PageHeaderComponent title={'View Exercise Record'}/>*/}
-                            {medicalRecordViewExerciseRecord?.exercise_logs?.map((item: any,index:number) => {
+                            {medicalRecordViewExerciseRecord?.exercise_logs?.map((item: any, index: number) => {
 
-                                return <>  <CardComponent color={'primary'}>
-                                    <div className={'ts-row'}>
-                                        <div className={'ts-col-4'}>
-                                            <DataLabelValueComponent label={'Date of Intervention'}>
-                                                {item?.intervention_date ? CommonService.getSystemFormatTimeStamp(item?.intervention_date) : "N/A"}
-                                            </DataLabelValueComponent>
-                                        </div>
-                                        <div className={'ts-col-4'}>
-                                            <DataLabelValueComponent label={'Provider Name'}>
-                                                {item?.provider_details?.first_name} {item?.provider_details?.last_name}
-                                            </DataLabelValueComponent>
-                                        </div>
-                                        {/*<div className={'print-button-wrapper'}>*/}
-                                        {/*    <ButtonComponent prefixIcon={<ImageConfig.PrintIcon/>}*/}
-                                        {/*                     onClick={() => {*/}
-                                        {/*                         CommonService._alert.showToast('Coming Soon', 'info');*/}
-                                        {/*                     }}>Print</ButtonComponent>*/}
-                                        {/*</div>*/}
+                                return <>
+                                    <div className={'details-card-wrapper'}>
+                                        <CardComponent>
+                                            <div className={'ts-row'}>
+                                                <div className={'ts-col-4'}>
+                                                    <DataLabelValueComponent label={'Date of Intervention'}>
+                                                        {item?.intervention_date ? CommonService.getSystemFormatTimeStamp(item?.intervention_date) : "N/A"}
+                                                    </DataLabelValueComponent>
+                                                </div>
+                                                <div className={'ts-col-4'}>
+                                                    <DataLabelValueComponent label={'Provider Name'}>
+                                                        {item?.provider_details?.first_name} {item?.provider_details?.last_name}
+                                                    </DataLabelValueComponent>
+                                                </div>
+                                                {/*<div className={'print-button-wrapper'}>*/}
+                                                {/*    <ButtonComponent prefixIcon={<ImageConfig.PrintIcon/>}*/}
+                                                {/*                     onClick={() => {*/}
+                                                {/*                         CommonService._alert.showToast('Coming Soon', 'info');*/}
+                                                {/*                     }}>Print</ButtonComponent>*/}
+                                                {/*</div>*/}
+                                            </div>
+                                        </CardComponent>
                                     </div>
-                                </CardComponent>
                                     <CardComponent title={'Attachments'} className={'attachment-card-wrapper'}>
                                         <div className={'ts-col-md-2'}>
                                             {item?.attachments?.length > 0 && item?.attachments?.map((attachment: any) => {
