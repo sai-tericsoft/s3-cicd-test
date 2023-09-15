@@ -166,7 +166,7 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
 
     const generateTimeSlots = useCallback(
         (times: any[], duration = undefined) => {
-            duration = duration || formRef.current?.values.duration.duration;
+            duration = duration || formRef.current?.values?.duration?.duration;
             const date = formRef.current?.values.date;
             if (duration && times) {
                 const slots: any[] = [];
@@ -629,9 +629,9 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
                                                     <FormikSelectComponent
                                                         formikField={field}
                                                         required={true}
-                                                        disabled={!values?.appointment_type || ((durationList && durationList[values?.appointment_type]) || []).length === 0}
+                                                        disabled={!values?.appointment_type || ((durationList && durationList[values?.appointment_type]) || [])?.length === 0}
                                                         options={(durationList && durationList[values?.appointment_type]) || null}
-                                                        displayWith={(option: any) => (option.title)}
+                                                        displayWith={(option: any) => (option?.title)}
                                                         valueExtractor={(option: any) => option}
                                                         label={'Duration'}
                                                         fullWidth={true}
