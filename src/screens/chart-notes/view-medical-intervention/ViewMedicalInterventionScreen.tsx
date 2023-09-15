@@ -156,7 +156,8 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
         const ROMColumns: any[] = [
             {
                 title: '',
-                // fixed: 'left',
+                fixed: 'left',
+                width: 180,
                 children: [
                     {
                         title: 'Movement',
@@ -177,6 +178,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                 title: side,
                 className: side,
                 // fixed: 'left',
+                width:281,
                 align: 'center',
                 children: [
                     {
@@ -217,14 +219,21 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
         });
         ROMColumns.push(
             {
-                title: 'Comments',
-                dataIndex: 'comments',
-                key: 'comments',
+                title: '',
+                key: 'comments-header',
+                fixed: 'right',
                 width: 147,
-                render: (item: any) => {
-                    return <div
-                        className={'comment-text'}>{item?.config?.comments ? CommonService.capitalizeFirstLetter(item?.config?.comments) : "-"}</div>
-                }
+                children: [
+                    {
+                        title: 'Comments',
+                        dataIndex: 'comments',
+                        key: 'comments',
+                        width: 147,
+                        render: (item: any) => {
+                            return <div
+                                className={'comment-text'}>{item?.config?.comments ? CommonService.capitalizeFirstLetter(item?.config?.comments) : "-"}</div>
+                        }
+                    }]
             }
         )
         return ROMColumns;
@@ -327,10 +336,10 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                         enableReinitialize={true}
                         validateOnMount={true}>
                         {(formik) => {
-                            // eslint-disable-next-line react-hooks/rules-of-hooks
+// eslint-disable-next-line react-hooks/rules-of-hooks
                             useEffect(() => {
                                 formik.validateForm();
-                                // eslint-disable-next-line react-hooks/exhaustive-deps
+// eslint-disable-next-line react-hooks/exhaustive-deps
                             }, [formik.validateForm, formik.values]);
                             return (
                                 <Form className="t-form" noValidate={true}>
@@ -473,17 +482,17 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                         {
                                                             medicalRecordId && medicalInterventionId && <>
                                                                 {/*{*/}
-                                                                {/*    medicalInterventionDetails?.rom_config?.length === 0 &&*/}
-                                                                {/*    <LinkComponent*/}
-                                                                {/*        route={CommonService._routeConfig.MedicalInterventionROMConfig(medicalRecordId, medicalInterventionId)}>*/}
-                                                                {/*        <ButtonComponent*/}
-                                                                {/*            fullWidth={true}*/}
-                                                                {/*            variant={'outlined'}*/}
-                                                                {/*            size={"large"}*/}
-                                                                {/*        >*/}
-                                                                {/*            Add Range of Motion and Strength*/}
-                                                                {/*        </ButtonComponent>*/}
-                                                                {/*    </LinkComponent>*/}
+                                                                {/* medicalInterventionDetails?.rom_config?.length === 0 &&*/}
+                                                                {/* <LinkComponent*/}
+                                                                {/* route={CommonService._routeConfig.MedicalInterventionROMConfig(medicalRecordId, medicalInterventionId)}>*/}
+                                                                {/* <ButtonComponent*/}
+                                                                {/* fullWidth={true}*/}
+                                                                {/* variant={'outlined'}*/}
+                                                                {/* size={"large"}*/}
+                                                                {/* >*/}
+                                                                {/* Add Range of Motion and Strength*/}
+                                                                {/* </ButtonComponent>*/}
+                                                                {/* </LinkComponent>*/}
                                                                 {/*}*/}
                                                                 {/*{*/}
 
@@ -573,20 +582,20 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                                                                             defaultExpandAllRows={true}
                                                                                                             canExpandRow={(row: any) => row?.config?.comments?.length > 0}
                                                                                                             // expandRowRenderer={
-                                                                                                            //     (row: any) => {
-                                                                                                            //         return (
-                                                                                                            //             <div
-                                                                                                            //                 key={row?.config?._id}
-                                                                                                            //                 className={'comment-row'}>
-                                                                                                            //                 <div
-                                                                                                            //                     className={'comment-icon'}>
-                                                                                                            //                     <ImageConfig.CommentIcon/>
-                                                                                                            //                 </div>
-                                                                                                            //                 <div
-                                                                                                            //                     className={'comment-text'}>{row?.config?.comments ? CommonService.capitalizeFirstLetter(row?.config?.comments) : "-"}</div>
-                                                                                                            //             </div>
-                                                                                                            //         )
-                                                                                                            //     }
+                                                                                                            // (row: any) => {
+                                                                                                            // return (
+                                                                                                            // <div
+                                                                                                            // key={row?.config?._id}
+                                                                                                            // className={'comment-row'}>
+                                                                                                            // <div
+                                                                                                            // className={'comment-icon'}>
+                                                                                                            // <ImageConfig.CommentIcon/>
+                                                                                                            // </div>
+                                                                                                            // <div
+                                                                                                            // className={'comment-text'}>{row?.config?.comments ? CommonService.capitalizeFirstLetter(row?.config?.comments) : "-"}</div>
+                                                                                                            // </div>
+                                                                                                            // )
+                                                                                                            // }
                                                                                                             // }
                                                                                                             bordered={true}
                                                                                                             columns={getMedicalInterventionROMConfigColumns(body_part)}/>
@@ -595,7 +604,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                                                                         body_part?.rom_config?.length === 0 &&
                                                                                                         <StatusCardComponent
                                                                                                             title={"The following body part does not have any Range of Motion or Strength " +
-                                                                                                                "                                                measurements. \n Please choose another body part."}/>
+                                                                                                                " measurements. \n Please choose another body part."}/>
                                                                                                     }
                                                                                                 </>
                                                                                             }
@@ -614,18 +623,18 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                     {
                                                         medicalRecordId && medicalInterventionId && <>
                                                             {/*{*/}
-                                                            {/*    medicalInterventionDetails?.special_tests?.length === 0 &&*/}
-                                                            {/*    <LinkComponent*/}
-                                                            {/*        route={CommonService._routeConfig.MedicalInterventionSpecialTests(medicalRecordId, medicalInterventionId)}>*/}
-                                                            {/*        <ButtonComponent*/}
-                                                            {/*            fullWidth={true}*/}
-                                                            {/*            variant={'outlined'}*/}
-                                                            {/*            size={"large"}*/}
-                                                            {/*            className={'mrg-bottom-20'}*/}
-                                                            {/*        >*/}
-                                                            {/*            Add Special Test*/}
-                                                            {/*        </ButtonComponent>*/}
-                                                            {/*    </LinkComponent>*/}
+                                                            {/* medicalInterventionDetails?.special_tests?.length === 0 &&*/}
+                                                            {/* <LinkComponent*/}
+                                                            {/* route={CommonService._routeConfig.MedicalInterventionSpecialTests(medicalRecordId, medicalInterventionId)}>*/}
+                                                            {/* <ButtonComponent*/}
+                                                            {/* fullWidth={true}*/}
+                                                            {/* variant={'outlined'}*/}
+                                                            {/* size={"large"}*/}
+                                                            {/* className={'mrg-bottom-20'}*/}
+                                                            {/* >*/}
+                                                            {/* Add Special Test*/}
+                                                            {/* </ButtonComponent>*/}
+                                                            {/* </LinkComponent>*/}
                                                             {/*}*/}
                                                             {/*/!*{*!/*/}
                                                             {medicalInterventionDetails?.special_tests?.length === 0 &&
@@ -859,18 +868,18 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                     {
                                                         medicalRecordId && medicalInterventionId && <>
                                                             {/*{*/}
-                                                            {/*    medicalInterventionDetails?.linked_icd_codes?.length === 0 &&*/}
-                                                            {/*    <LinkComponent*/}
-                                                            {/*        route={CommonService._routeConfig.MedicalInterventionICDCodes(medicalRecordId, medicalInterventionId)}>*/}
-                                                            {/*        <ButtonComponent*/}
-                                                            {/*            fullWidth={true}*/}
-                                                            {/*            variant={'outlined'}*/}
-                                                            {/*            size={"large"}*/}
-                                                            {/*            className={'mrg-bottom-20'}*/}
-                                                            {/*        >*/}
-                                                            {/*            Add Medical Diagnosis / ICD-11 Codes*/}
-                                                            {/*        </ButtonComponent>*/}
-                                                            {/*    </LinkComponent>*/}
+                                                            {/* medicalInterventionDetails?.linked_icd_codes?.length === 0 &&*/}
+                                                            {/* <LinkComponent*/}
+                                                            {/* route={CommonService._routeConfig.MedicalInterventionICDCodes(medicalRecordId, medicalInterventionId)}>*/}
+                                                            {/* <ButtonComponent*/}
+                                                            {/* fullWidth={true}*/}
+                                                            {/* variant={'outlined'}*/}
+                                                            {/* size={"large"}*/}
+                                                            {/* className={'mrg-bottom-20'}*/}
+                                                            {/* >*/}
+                                                            {/* Add Medical Diagnosis / ICD-11 Codes*/}
+                                                            {/* </ButtonComponent>*/}
+                                                            {/* </LinkComponent>*/}
                                                             {/*}*/}
                                                             {/*{*/}
 
