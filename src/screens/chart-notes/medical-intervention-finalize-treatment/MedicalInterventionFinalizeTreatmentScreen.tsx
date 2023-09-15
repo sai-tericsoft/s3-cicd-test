@@ -217,7 +217,7 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
                 });
         }
     }, [navigate, medicalInterventionId, medicalRecordId]);
-    
+
     const handleCPTCodesSubmit = useCallback((values: any, {setSubmitting}: FormikHelpers<any>) => {
         const mode = (medicalInterventionDetails?.linked_cpt_codes?.length > 0) ? "edit" : "add";
         if (medicalInterventionId) {
@@ -246,7 +246,7 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
                     setSubmitting(false);
                 });
         }
-    }, [linkedCPTCodes, medicalInterventionId, handleInterventionCheckout, medicalInterventionDetails]);
+    }, [medicalInterventionId, handleInterventionCheckout, medicalInterventionDetails]);
 
     useEffect(() => {
         if (CPTCodes.length) {

@@ -27,7 +27,6 @@ import FormikTextAreaComponent from "../../../shared/components/form-controls/fo
 import FormikCheckBoxComponent from "../../../shared/components/form-controls/formik-check-box/FormikCheckBoxComponent";
 import ESignApprovalComponent from "../../../shared/components/e-sign-approval/ESignApprovalComponent";
 import TableComponent from "../../../shared/components/table/TableComponent";
-import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
 
 interface UpdateMedicalInterventionScreenProps {
 
