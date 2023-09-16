@@ -249,7 +249,7 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
     }, [medicalInterventionId, handleInterventionCheckout, medicalInterventionDetails]);
 
     useEffect(() => {
-        if (CPTCodes.length) {
+        if (CPTCodes?.length) {
             const linkedCPTCodesConfig: any = {};
 
             const linked_cpt_codes = CPTCodes
