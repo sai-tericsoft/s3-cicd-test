@@ -29,6 +29,7 @@ import DataLabelValueComponent from "../../../shared/components/data-label-value
 import {getClientMedicalRecord} from "../../../store/actions/client.action";
 import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
+import DrawerComponent from "../../../shared/components/drawer/DrawerComponent";
 
 interface MedicalInterventionICDCodesScreenProps {
 
@@ -55,6 +56,7 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
         clientMedicalRecord,
     } = useSelector((state: IRootReducerState) => state.client);
     const last_position: any = searchParams.get("last_position");
+    const [openIframe, setOpenIframe] = useState<boolean>(false);
 
     const [selectedICDCodes, setSelectedICDCodes] = useState<any[]>([]);
     const [searchICDCodes, setSearchICDCodes] = useState<any>({
@@ -340,6 +342,17 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
                 </div>
                 <div className="ts-col-6 text-right">
                     <ButtonComponent
+                        className={'white-space-nowrap mrg-right-10'}
+                        type={"button"}
+                        onClick={
+                            ()=>{
+                                setOpenIframe(true)
+                            }
+                        }
+                        >
+                            ICD Coding Tool
+                    </ButtonComponent>
+                    <ButtonComponent
                         className={'white-space-nowrap'}
                         type={"button"}
                         disabled={selectedICDCodes.length === 0}
@@ -414,6 +427,16 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
                     </ButtonComponent>
                 </div>
             </TabsWrapperComponent>
+            <DrawerComponent
+                isOpen={openIframe}
+                onClose={() => setOpenIframe(false)}
+            >
+                <iframe
+                    src={"https://icd.who.int/ct11/icd11_mms/en/release"}
+                    title={'ICD Codes'}
+                    className={'icd-iframe'}
+                />
+            </DrawerComponent>
         </div>
     );
 
