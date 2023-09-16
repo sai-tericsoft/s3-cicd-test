@@ -32,31 +32,45 @@ const viewExerciseRecordColumn: any = [
         title: 'Exercise Name',
         key: 'exercise_name',
         dataIndex: 'name',
-        align: 'center'
+        width: 500
+    },
+    {
+        title: '(B)',
+        key: 'bilateral',
+        dataIndex: 'bilateral',
+        align: 'center',
+        width: 20,
+        render: (item: any) => {
+            return <>{item?.bilateral ? "Y" : "-"}</>
+        }
     },
     {
         title: "SET",
         key: "set",
         dataIndex: 'no_of_sets',
-        align: 'center'
+        align: 'center',
+        width: 100
     },
     {
         title: "REP",
         key: "rep",
         dataIndex: 'no_of_reps',
-        align: 'center'
+        align: 'center',
+        width: 100
     },
     {
         title: "Time",
         key: "time",
         dataIndex: 'time',
-        align: 'center'
+        align: 'center',
+        width: 100
     },
     {
         title: "Resistance",
         key: "resistance",
         dataIndex: 'resistance',
-        align: 'center'
+        align: 'center',
+        width: 100
     }
 ];
 
