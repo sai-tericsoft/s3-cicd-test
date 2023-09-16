@@ -108,8 +108,8 @@ const ImportSoapNoteComponent = (props: ImportSoapNoteComponentProps) => {
 
     const handleImportSoapNote = useCallback((selectedIntervention: any) => {
         CommonService.onConfirm({
-            image: ImageConfig.PopupLottie,
-            showLottie:true,
+            image: ImageConfig.Confirm,
+            // showLottie:true,
             confirmationTitle: 'Import SOAP Note',
             confirmationSubTitle: 'Are you sure you want to import this SOAP Note?',
         }).then(() => {

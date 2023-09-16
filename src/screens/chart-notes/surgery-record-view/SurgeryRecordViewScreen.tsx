@@ -158,8 +158,8 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
     const deleteSurgeryAttachment = useCallback(
         (surgeryRecordId: string, attachmentId: string) => {
             CommonService.onConfirm({
-                image: ImageConfig.ConfirmationLottie,
-                showLottie: true,
+                image: ImageConfig.Confirm,
+                // showLottie: true,
                 confirmationTitle: "DELETE ATTACHMENT",
                 confirmationDescription:<div className="delete-document">
                     <div className={'delete-document-text text-center '}>Are you sure you want to delete this attachment <br/> from this file?</div>

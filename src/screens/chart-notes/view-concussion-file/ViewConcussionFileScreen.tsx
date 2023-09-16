@@ -93,8 +93,8 @@ const ViewConcussionFileScreen = (props: ViewConcussionFileScreenProps) => {
 
         const handleConcussionFileFileDelete = useCallback(() => {
             CommonService.onConfirm({
-                image: ImageConfig.PopupLottie,
-                showLottie: true,
+                image: ImageConfig.Confirm,
+                // showLottie: true,
                 confirmationTitle: "DELETE ATTACHMENT",
                 confirmationSubTitle: "Are you sure you want to delete this attachment\n" +
                     "from this file?"

@@ -201,7 +201,7 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
         const confirmTransferMedicalRecord = useCallback(() => {
             CommonService.onConfirm({
                 image: ImageConfig.Confirm,
-                showLottie: true,
+                // showLottie: true,
                 confirmationTitle: "TRANSFER COMPLETE RECORD",
                 confirmationSubTitle: "Are you sure you want to transfer the \n" +
                     "complete medical record?"
