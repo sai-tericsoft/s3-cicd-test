@@ -175,10 +175,11 @@ const ViewExerciseRecordScreen = (props: ViewExerciseLogComponentProps) => {
                                         </CardComponent>
                                     </div>
                                     <CardComponent title={'Attachments'} className={'attachment-card-wrapper'}>
-                                        <div className={'ts-col-md-2'}>
+                                        <div className={'ts-col-md-2 d-flex'}>
                                             {item?.attachments?.length > 0 && item?.attachments?.map((attachment: any) => {
                                                 return <ChipComponent label={attachment?.name}
                                                                       color={'success'}
+                                                                      className={'mrg-right-10'}
                                                                       key={attachment?._id}
                                                                       prefixIcon={ImageConfig.PDFIcon}/>
                                             })}
