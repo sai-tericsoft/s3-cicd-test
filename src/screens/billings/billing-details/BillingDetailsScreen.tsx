@@ -78,7 +78,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
     useEffect(() => {
         dispatch(getBillingFromAddress())
     }, [dispatch]);
-
+    
     useEffect(() => {
         const type: BillingType = searchParams.get("type") as BillingType;
         if (type && BillingTypes.includes(type)) {
@@ -180,9 +180,10 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
         closePaymentModeModal();
         setIsBillingBeingMarkedAsPaid(true);
         const payload = {
-            "payment_mode": selectedPaymentMode
+            payment_mode: selectedPaymentMode,
+            _id: billingDetails?._id
         }
-        CommonService._billingsService.MarkPaymentAsPaidAPICall(billingId, payload)
+         CommonService._billingsService.ProductMarkAsPaid(payload)
             .then((response: IAPIResponseType<any>) => {
                 setIsBillingBeingMarkedAsPaid(false);
                 CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY] || "Payment marked as paid successfully", "success");
