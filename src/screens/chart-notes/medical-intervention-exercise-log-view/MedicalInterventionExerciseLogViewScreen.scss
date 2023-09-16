@@ -14,14 +14,14 @@
     }
   }
   .medical-intervention-exercise-log-attachments-view-wrapper {
-    flex-wrap: wrap;
     display: flex;
+    margin-bottom: 10px;
 
     .medical-intervention-exercise-log-attachments-view {
       background: #F0F5F4;
       border-radius: 4px;
       padding: 10px;
-      margin: 10px 0;
+      margin: 10px 0px;
       display: flex;
       align-items: center;
       width: fit-content;
@@ -30,6 +30,7 @@
 
       .attachment-chip-view {
         margin-left: 10px;
+        margin-right: 10px;
       }
     }
   }

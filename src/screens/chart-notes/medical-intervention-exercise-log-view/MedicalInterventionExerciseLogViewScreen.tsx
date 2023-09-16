@@ -218,7 +218,7 @@ const MedicalInterventionExerciseLogViewScreen = (props: MedicalInterventionExer
                     {
                         medicalInterventionExerciseLogDetails.attachments.map((attachment: any) => {
                             return (
-                                <div className="medical-intervention-exercise-log-attachments-view-wrapper">
+                                <span className={'mrg-right-10 mrg-bottom-10'}>
                                     {/*<div className={'medical-intervention-exercise-log-attachments-view'}*/}
                                     {/*     onClick={() => handleView(attachment)}>*/}
                                     {/*    <div><ImageConfig.DocumentIcon/></div>*/}
@@ -229,7 +229,7 @@ const MedicalInterventionExerciseLogViewScreen = (props: MedicalInterventionExer
                                     <ChipComponent prefixIcon={<ImageConfig.DocumentIcon/>} color={'success'}
                                                    onClick={() => handleView(attachment)}
                                                    label={attachment.name} className={'attachment-chip-view'}/>
-                                </div>
+                                </span>
                             )
                         })
                     }
