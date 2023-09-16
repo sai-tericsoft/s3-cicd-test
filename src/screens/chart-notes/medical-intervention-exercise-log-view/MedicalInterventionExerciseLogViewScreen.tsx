@@ -37,7 +37,7 @@ const MedicalInterventionExerciseLogViewScreen = (props: MedicalInterventionExer
     const location = useLocation();
 
 
-    const medicalInterventionExerciseLogColumns:any = [
+    const medicalInterventionExerciseLogColumns: any = [
         {
             title: 'Exercise',
             dataIndex: 'id',
@@ -49,15 +49,25 @@ const MedicalInterventionExerciseLogViewScreen = (props: MedicalInterventionExer
             title: 'Exercise Name',
             key: 'name',
             dataIndex: 'name',
-            width: 500,
+            width: 450,
             // align:'center',
             fixed: 'left',
+        },
+        {
+            title: '(B)',
+            key: 'bilateral',
+            dataIndex: 'bilateral',
+            width: 100,
+            align: 'center',
+            render: (item: any) => {
+                return <div>{item?.bilateral ? 'Y' : '-'}</div>
+            }
         },
         {
             title: 'SET',
             key: 'no_of_sets',
             dataIndex: 'no_of_sets',
-            align:'center',
+            align: 'center',
             width: 100,
             render: (item: any) => {
                 return <div>{item?.no_of_sets || '-'}</div>
@@ -67,7 +77,7 @@ const MedicalInterventionExerciseLogViewScreen = (props: MedicalInterventionExer
             title: 'REP',
             key: 'no_of_reps',
             dataIndex: 'no_of_reps',
-            align:'center',
+            align: 'center',
             width: 100,
             render: (item: any) => {
                 return <div>{item?.no_of_reps || '-'}</div>
@@ -77,7 +87,7 @@ const MedicalInterventionExerciseLogViewScreen = (props: MedicalInterventionExer
             title: 'TIME',
             key: 'time',
             dataIndex: 'time',
-            align:'center',
+            align: 'center',
             width: 100,
             render: (item: any) => {
                 return <div>{item?.time || '-'}</div>
@@ -88,7 +98,7 @@ const MedicalInterventionExerciseLogViewScreen = (props: MedicalInterventionExer
             key: 'resistance',
             dataIndex: 'resistance',
             width: 100,
-            align:'center',
+            align: 'center',
             render: (item: any) => {
                 return <div>{item?.resistance || '-'}</div>
             }
@@ -151,7 +161,7 @@ const MedicalInterventionExerciseLogViewScreen = (props: MedicalInterventionExer
             }
 
             {
-                (isMedicalInterventionExerciseLogDetailsLoaded &&medicalInterventionExerciseLogDetails && medicalInterventionExerciseLogDetails?.medical_record_details) && <>
+                (isMedicalInterventionExerciseLogDetailsLoaded && medicalInterventionExerciseLogDetails && medicalInterventionExerciseLogDetails?.medical_record_details) && <>
                     <CardComponent color={'primary'}>
                         <div className={'client-name-button-wrapper'}>
                                     <span className={'client-name-wrapper'}>
@@ -216,7 +226,8 @@ const MedicalInterventionExerciseLogViewScreen = (props: MedicalInterventionExer
                                     {/*        {attachment.name}*/}
                                     {/*    </div>*/}
                                     {/*</div>*/}
-                                    <ChipComponent prefixIcon={<ImageConfig.DocumentIcon/>} color={'success'} onClick={() => handleView(attachment)}
+                                    <ChipComponent prefixIcon={<ImageConfig.DocumentIcon/>} color={'success'}
+                                                   onClick={() => handleView(attachment)}
                                                    label={attachment.name} className={'attachment-chip-view'}/>
                                 </div>
                             )
@@ -236,11 +247,12 @@ const MedicalInterventionExerciseLogViewScreen = (props: MedicalInterventionExer
 
             }
 
-            {isMedicalInterventionExerciseLogDetailsLoaded && <div className={'medical-intervention-exercise-log-view-table-container'}>
-                <TableComponent data={medicalInterventionExerciseLogDetails?.exercise_records}
-                    // loading={isMedicalInterventionExerciseLogDetailsLoading}
-                                columns={medicalInterventionExerciseLogColumns}/>
-            </div>
+            {isMedicalInterventionExerciseLogDetailsLoaded &&
+                <div className={'medical-intervention-exercise-log-view-table-container'}>
+                    <TableComponent data={medicalInterventionExerciseLogDetails?.exercise_records}
+                        // loading={isMedicalInterventionExerciseLogDetailsLoading}
+                                    columns={medicalInterventionExerciseLogColumns}/>
+                </div>
             }
             {isMedicalInterventionExerciseLogDetailsLoaded && medicalInterventionExerciseLogDetails && medicalInterventionExerciseLogDetails.comments &&
                 medicalInterventionExerciseLogDetails.comments.length > 0 &&
