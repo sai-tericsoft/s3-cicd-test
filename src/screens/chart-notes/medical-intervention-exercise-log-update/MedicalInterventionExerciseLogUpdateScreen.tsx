@@ -28,6 +28,7 @@ import moment from "moment-timezone";
 import InputComponent from "../../../shared/components/form-controls/input/InputComponent";
 import FormikTextAreaComponent from "../../../shared/components/form-controls/formik-text-area/FormikTextAreaComponent";
 import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
+import FormikCheckBoxComponent from "../../../shared/components/form-controls/formik-check-box/FormikCheckBoxComponent";
 
 
 interface MedicalInterventionExerciseLogScreenProps {
@@ -37,6 +38,7 @@ interface MedicalInterventionExerciseLogScreenProps {
 const MedicalInterventionExerciseLogRow = {
     key: undefined,
     name: undefined,
+    bilateral: false,
     no_of_sets: '-',
     no_of_reps: '-',
     time: '-',
@@ -175,6 +177,31 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                         }
                     </Field>
                 </div>
+            }
+        },
+        {
+            title: "(B)",
+            key: "bilateral",
+            dataIndex: 'bilateral',
+            align: 'center',
+            width: 20,
+            render: (record: any, index: any) => {
+                return <Field
+                    name={`exercise_records.${index}.bilateral`}
+                    className="t-form-control">
+                    {
+                        (field: FieldProps) => (
+                            <FormikCheckBoxComponent
+                                formikField={field}
+                                onChange={(isChecked: any) => {
+                                    if (isChecked) {
+                                        field.form.setFieldValue(`exercise_records.${index}.bilateral`, true);
+                                    }
+                                }}
+                            />
+                        )
+                    }
+                </Field>
             }
         },
         {
@@ -441,6 +468,7 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
         const new_exercise_records = exercise_records.map((record: any) => ({
             ...record,
             name: "",
+            bilateral: false,
             no_of_reps: "-",
             no_of_sets: "-",
             time: "-",
@@ -511,7 +539,7 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                         ref={hiddenFileInput}
                         accept={"application/pdf"}
                         onChange={(event: any) => {
-                            if(event.target.files.length > 0 ) {
+                            if (event.target.files.length > 0) {
                                 console.log(event);
                                 console.log(event.target.files[0]);
                                 const selectedFile = event.target.files[0];

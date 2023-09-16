@@ -224,14 +224,14 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                     {
                         title: '',
                         key: 'comments-header',
-                        fixed:'right',
+                        fixed: 'right',
                         width: 500,
                         children: [
                             {
                                 title: 'Comments',
                                 dataIndex: 'comments',
                                 key: 'comments',
-                                align:'center',
+                                align: 'center',
                                 width: 500,
                                 render: (item: any) => {
                                     return <div
