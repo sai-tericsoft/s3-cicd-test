@@ -1191,7 +1191,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                             }
             >
                 <ImageConfig.ConfirmIcon/>
-                <FormControlLabelComponent label={"Select Mode Of Payment"}/>
+                <FormControlLabelComponent label={"Select Mode of Payment"}/>
                 <SelectComponent
                     options={paymentModes || []}
                     fullWidth={true}

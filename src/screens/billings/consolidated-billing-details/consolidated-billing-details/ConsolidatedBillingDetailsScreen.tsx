@@ -957,7 +957,7 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                                 }
                 >
                     <ImageConfig.ConfirmIcon/>
-                    <FormControlLabelComponent label={"Select Mode Of Payment"}/>
+                    <FormControlLabelComponent label={"Select Mode of Payment"}/>
                     <SelectComponent
                         label={"Mode of Payment"}
                         className={'t-form-control'}

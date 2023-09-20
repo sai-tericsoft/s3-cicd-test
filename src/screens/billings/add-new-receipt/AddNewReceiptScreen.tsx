@@ -637,8 +637,6 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
     useEffect(() => {
         getClientList();
     }, [getClientList]);
-    
-
 
 
     return (
@@ -922,7 +920,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                                                         <div className={'d-flex ts-justify-content-end'}>
                                                             {
                                                                 //@ts-ignore
-                                                                (addNewReceiptFormInitialValues.discount &&  (CommonService.convertToDecimals((+total) - (addNewReceiptFormInitialValues.discount && (addNewReceiptFormInitialValues.discount))) < 0)) ? (
+                                                                (addNewReceiptFormInitialValues.discount && (CommonService.convertToDecimals((+total) - (addNewReceiptFormInitialValues.discount && (addNewReceiptFormInitialValues.discount))) < 0)) ? (
                                                                     <span className={'alert-error invalid-amount'}>Invalid Amount</span>
                                                                 ) : null
                                                             }
@@ -948,13 +946,11 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                                                             }
                                                         </Field>
                                                     </div>
-                                                    <div className={'ts-col-md-12'}>
-                                                        {(values.thankyou_note?.length) > 90 ?
-                                                            <div className={'alert-error'}>Characters
-                                                                Limit: {(values.thankyou_note?.length)}/90</div> :
-                                                            <div className={'no-alert'}>Characters
-                                                                Limit: {(values.thankyou_note?.length)}/90</div>}
-                                                    </div>
+                                                    {(values.thankyou_note?.length) > 90 ?
+                                                        <div className={'alert-error'}>Characters
+                                                            Limit: {(values.thankyou_note?.length)}/90</div> :
+                                                        <div className={'no-alert'}>Characters
+                                                            Limit: {(values.thankyou_note?.length)}/90</div>}
                                                 </CardComponent>
 
                                             </div>
@@ -1209,7 +1205,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                             }
             >
                 <ImageConfig.ConfirmIcon/>
-                <FormControlLabelComponent label={"Select Mode Of Payment"}/>
+                <FormControlLabelComponent label={"Select Mode of Payment"}/>
                 <SelectComponent
                     label={"Mode of Payment"}
                     className={'t-form-control'}
