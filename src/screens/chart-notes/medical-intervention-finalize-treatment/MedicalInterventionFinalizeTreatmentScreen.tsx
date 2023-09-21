@@ -23,6 +23,14 @@ import MedicalRecordBasicDetailsCardComponent
     from "../medical-record-basic-details-card/MedicalRecordBasicDetailsCardComponent";
 import PageHeaderComponent from "../../../shared/components/page-header/PageHeaderComponent";
 import FormikSelectComponent from "../../../shared/components/form-controls/formik-select/FormikSelectComponent";
+import {AddIcon} from "../../../constants/ImageConfig";
+import FormControlLabelComponent from "../../../shared/components/form-control-label/FormControlLabelComponent";
+import CheckBoxComponent from "../../../shared/components/form-controls/check-box/CheckBoxComponent";
+import TableV2Component from "../../../shared/components/table-v2/TableV2Component";
+import IconButtonComponent from "../../../shared/components/icon-button/IconButtonComponent";
+import { DeleteOutline} from "@mui/icons-material";
+import ClearIcon from '@mui/icons-material/Clear';
+import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 
 interface MedicalInterventionFinalizeTreatmentScreenProps {
 
@@ -38,56 +46,123 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
     const [cptCodesFormInitialValues, setCptCodesFormInitialValues] = useState<any>(_.cloneDeep(CPTCodesInitialValues));
     const [isInterventionCheckingOut, setIsInterventionCheckingOut] = useState<boolean>(false);
     const [isEightMinuteRuleChartDrawerOpen, setEightMinuteRuleChartDrawerOpen] = useState<boolean>(false);
+    const [selectCPTCodeDrawerOpen, setSelectCPTCodeDrawerOpen] = useState<boolean>(false);
+    const [selectedCptCodes, setSelectedCptCodes] = useState<any[]>([]);
+
     const {
         medicalInterventionDetails,
         isMedicalInterventionDetailsLoaded,
     } = useSelector((state: IRootReducerState) => state.chartNotes);
     // const [linkedCPTCodes, setLinkedCPTCodes] = useState<any[]>([]);
     const [totalMinutes, setTotalMinutes] = useState<number>(0);
-    const [CPTCodes, setCPTCodes] = useState<any[]>([]);
+    const [isCPTCodesLoading, setIsCPTCodesLoading] = useState<boolean>(false);
+
     const [extraPayload, setExtraPayload] = useState<any>({
         search: '',
         medical_record_id: medicalRecordId,
     });
 
-    const CPTCodesColumns: ITableColumn[] = [
+    const getCptCodes = useCallback((medicalInterventionId: string) => {
+        setIsCPTCodesLoading(true);
+        const payload = {};
+        CommonService._chartNotes.GetCPTCodesAPICall(medicalInterventionId, payload)
+            .then((response: any) => {
+                setSelectedCptCodes(response?.data?.cpt_codes || []);
+                setTotalMinutes(response?.data?.cpt_codes?.reduce((acc: number, cptCode: any) => {
+                    return acc + cptCode?.minutes;
+                }, 0));
+                setIsCPTCodesLoading(false);
+            })
+            .catch((error: any) => {
+                setIsCPTCodesLoading(false);
+            });
+    }, [])
+
+    useEffect(() => {
+        if (medicalInterventionId) {
+            getCptCodes(medicalInterventionId);
+        }
+    }, [medicalInterventionId, getCptCodes]);
+
+    const SelectCPTCodesColumns: ITableColumn[] = [
         {
             key: 'select',
-            title: 'CPT Codes',
+            title: 'CPT Code',
             dataIndex: 'select',
-            width: 390,
+            width: 490,
             fixed: 'left',
             render: (_: any, record: any) => (
-                <Field name={`${record._id}.is_selected`}>
-                    {(field: FieldProps) => {
-                        return (
-                            <FormikCheckBoxComponent
-                                formikField={field}
-                                label={record?.cpt_code}
-                                size={'small'}
-                                // disabled={record.is_selected}
-                                onChange={(isChecked) => {
-                                    field.form.setFieldValue(`${record?._id}.units_of_care`, "");
-                                    field.form.setFieldValue(`${record?._id}.minutes`, "");
-                                    field.form.setFieldValue(`${record?._id}.notes`, "");
-
-                                    const minutes = parseInt(field.form.values[record._id]?.minutes || "0");
-                                    if (!isChecked) {
-                                        setTotalMinutes((prevTotalMinutes) => prevTotalMinutes - minutes);
-                                    }
-                                }}
-                            />
-                        );
+                <CheckBoxComponent
+                    label={record?.cpt_code}
+                    size={'small'}
+                    checked={selectedCptCodes?.some((cptCode) => cptCode.cpt_code_id === record._id)}
+                    // disabled={record.is_selected}
+                    onChange={(isChecked) => {
+                        if (isChecked) {
+                            const tempCptCode = record?.linked_cpt_code_details ? {
+                                cpt_code_id: record._id,
+                                cpt_code: record.cpt_code,
+                                units_of_care: "",
+                                minutes: "",
+                                notes: ""
+                            } : {
+                                cpt_code_id: record._id,
+                                cpt_code: record.cpt_code,
+                                units_of_care: record?.linked_cpt_code_details?.units_of_care,
+                                minutes: record?.linked_cpt_code_details?.minutes,
+                                notes: record?.linked_cpt_code_details?.notes
+                            }
+                            setSelectedCptCodes((prevSelectedCptCodes) => [...prevSelectedCptCodes, {
+                                ...tempCptCode,
+                            }]);
+                        } else {
+                            setSelectedCptCodes((prevSelectedCptCodes) => prevSelectedCptCodes.filter((cptCode) => cptCode.cpt_code_id !== record._id));
+                        }
                     }}
-                </Field>
+                />
             )
         },
+
+    ];
+
+    const CPTCodesColumns: ITableColumn[] = [
         // {
-        //     key: 'cpt_code',
+        //     key: 'select',
         //     title: 'CPT Codes',
-        //     dataIndex: 'cpt_code',
-        //     width: 380,
+        //     dataIndex: 'select',
+        //     width: 390,
+        //     fixed: 'left',
+        //     render: (_: any, record: any) => (
+        //         <Field name={`${record._id}.is_selected`}>
+        //             {(field: FieldProps) => {
+        //                 return (
+        //                     <FormikCheckBoxComponent
+        //                         formikField={field}
+        //                         label={record?.cpt_code}
+        //                         size={'small'}
+        //                         // disabled={record.is_selected}
+        //                         onChange={(isChecked) => {
+        //                             field.form.setFieldValue(`${record?._id}.units_of_care`, "");
+        //                             field.form.setFieldValue(`${record?._id}.minutes`, "");
+        //                             field.form.setFieldValue(`${record?._id}.notes`, "");
+        //
+        //                             const minutes = parseInt(field.form.values[record._id]?.minutes || "0");
+        //                             if (!isChecked) {
+        //                                 setTotalMinutes((prevTotalMinutes) => prevTotalMinutes - minutes);
+        //                             }
+        //                         }}
+        //                     />
+        //                 );
+        //             }}
+        //         </Field>
+        //     )
         // },
+        {
+            key: 'cpt_code',
+            title: 'CPT Code',
+            dataIndex: 'cpt_code',
+            width: 380,
+        },
         {
             key: 'units_of_care',
             title: 'Units of Care',
@@ -111,24 +186,52 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
             width: 300,
             align: "center",
             render: (_: any, record: any) => renderNotesInput(record)
+        },
+        {
+            key: 'actions',
+            title: 'Action',
+            dataIndex: 'actions',
+            align: "center",
+            width: 100,
+            fixed: 'right',
+            render: (_: any, record: any) => (
+                <IconButtonComponent
+                    size={"large"}
+                    type={"button"}
+                    onClick={() => {
+                        const tempCptCodes = selectedCptCodes.filter((cptCode) => cptCode.cpt_code_id !== record.cpt_code_id);
+                        setTotalMinutes((prevTotalMinutes) => prevTotalMinutes - record.minutes);
+                        setSelectedCptCodes(tempCptCodes);
+                    }}
+                >
+                    <DeleteOutline color={"error"} fontSize={"inherit"}/>
+                </IconButtonComponent>
+            )
         }
     ];
 
 
     const renderUnitsOfCareInput = useCallback((record: any) => {
-
-        return <Field name={`${record._id}.units_of_care`}>
+        return <Field name={`${record.cpt_code_id}.units_of_care`}>
             {
                 (field: FieldProps) => (
                     <FormikSelectComponent
                         label={'Units'}
                         fullWidth={true}
                         options={CommonService._staticData.unitsOfCare}
+                        onUpdate={(value) => {
+                            setSelectedCptCodes((prevSelectedCptCodes) => {
+                                return prevSelectedCptCodes.map((cptCode) => {
+                                    if (cptCode.cpt_code_id === record.cpt_code_id) {
+                                        cptCode.units_of_care = value;
+                                    }
+                                    return cptCode;
+                                });
+                            });
+                        }}
                         displayWith={(option: any) => option}
                         valueExtractor={(option: any) => option}
                         size={'small'}
-                        className={!field.form.values[record._id]?.is_selected ? 'display-none' : ''}
-                        disabled={!field.form.values[record._id]?.is_selected}
                         formikField={field}
                     />
                 )
@@ -139,26 +242,28 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
     const renderMinutesInput = useCallback((record: any) => {
 
         return (
-            <Field name={`${record._id}.minutes`}>
+            <Field name={`${record.cpt_code_id}.minutes`}>
                 {(field: FieldProps) => (
                     <FormikInputComponent
                         size={'small'}
                         validationPattern={Patterns.THREE_DIGITS_ONLY}
-                        className={!field.form.values[record._id]?.is_selected ? 'display-none' : ''}
-                        disabled={!field.form.values[record._id]?.is_selected}
                         formikField={field}
                         // onBlur={() => {
                         //     const minutes = parseInt(field.form.values[record._id]?.minutes || "0");
-                        //     if (field.form.values[record._id]?.is_selected) {
-                        //         setTotalMinutes((prevTotalMinutes) => prevTotalMinutes + minutes);
-                        //     }
+                        //     setTotalMinutes((prevTotalMinutes) => prevTotalMinutes + minutes);
                         // }}
                         onChange={(value) => {
                             const minutes = parseInt(value || "0");
-                            if (field.form.values[record._id]?.is_selected) {
-                                setTotalMinutes((prevTotalMinutes) => prevTotalMinutes - field.form.values[record._id]?.minutes + minutes);
-                            }
-                            field.form.setFieldValue(`${record._id}.minutes`, value);
+                            setTotalMinutes((prevTotalMinutes) => prevTotalMinutes - parseInt(field.form.values[record.cpt_code_id]?.minutes || "0") + minutes);
+                            setSelectedCptCodes((prevSelectedCptCodes) => {
+                                return prevSelectedCptCodes.map((cptCode) => {
+                                    if (cptCode.cpt_code_id === record.cpt_code_id) {
+                                        cptCode.minutes = minutes;
+                                    }
+                                    return cptCode;
+                                });
+                            });
+                            field.form.setFieldValue(`${record.cpt_code_id}.minutes`, minutes);
                         }}
                     />
                 )}
@@ -168,14 +273,23 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
 
 
     const renderNotesInput = useCallback((record: any) => {
-        return <Field name={`${record._id}.notes`}>
+        return <Field name={`${record.cpt_code_id}.notes`}>
             {
                 (field: FieldProps) => (
                     <FormikInputComponent
                         size={'small'}
                         fullWidth={true}
-                        className={!field.form.values[record._id]?.is_selected ? 'display-none' : ''}
-                        disabled={!field.form.values[record._id]?.is_selected}
+                        onChange={(value) => {
+                            setSelectedCptCodes((prevSelectedCptCodes) => {
+                                return prevSelectedCptCodes.map((cptCode) => {
+                                    if (cptCode.cpt_code_id === record.cpt_code_id) {
+                                        cptCode.notes = value;
+                                    }
+                                    return cptCode;
+                                })
+                            });
+                        }
+                        }
                         formikField={field}
                     />
                 )
@@ -249,34 +363,23 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
     }, [medicalInterventionId, handleInterventionCheckout, medicalInterventionDetails]);
 
     useEffect(() => {
-        if (CPTCodes?.length) {
+        if (selectedCptCodes?.length) {
             const linkedCPTCodesConfig: any = {};
-
-            const linked_cpt_codes = CPTCodes
-                .filter((cptCode) => cptCode.is_selected && cptCode.linked_cpt_code_details)
-                .map((cptCode) => cptCode.linked_cpt_code_details);
-
-
-            let totalMinutesFromLinkedCodes = 0;
-            linked_cpt_codes?.forEach((cptCode: any) => {
-                totalMinutesFromLinkedCodes += cptCode?.minutes || 0;
-            });
-            setTotalMinutes(totalMinutesFromLinkedCodes);
-
+            const linked_cpt_codes = selectedCptCodes
             if (linked_cpt_codes?.length) {
                 linked_cpt_codes.forEach((cptCode: any) => {
                     linkedCPTCodesConfig[cptCode?.cpt_code_id] = {
-                        is_selected: true,
                         units_of_care: cptCode?.units_of_care,
                         minutes: cptCode?.minutes,
                         notes: cptCode?.notes
                     };
                 });
             }
+            console.log("linkedCPTCodesConfig", linkedCPTCodesConfig)
             // setLinkedCPTCodes(linked_cpt_codes);
             setCptCodesFormInitialValues(linkedCPTCodesConfig);
         }
-    }, [CPTCodes]);
+    }, [selectedCptCodes]);
 
 
     return (
@@ -296,23 +399,13 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
                         {({values, validateForm, isSubmitting, isValid, errors}) => {
                             // eslint-disable-next-line react-hooks/rules-of-hooks
                             useEffect(() => {
-                                validateForm();
+                                validateForm()
                             }, [validateForm, values]);
                             return (
                                 <Form className="t-form" noValidate={true}>
                                     <CardComponent className={'finalize-treatment-wrapper'}>
                                         <div className="ts-row display-flex align-items-center">
                                             <div className="ts-col ts-col-6 mrg-bottom-15">
-                                                <SearchComponent label={'Search'}
-                                                                 placeholder={'Search CPT Code'}
-                                                                 value={extraPayload.search}
-                                                                 onSearchChange={(value) => {
-                                                                     setExtraPayload((ov: any) => ({
-                                                                         ...ov,
-                                                                         search: value
-                                                                     }))
-                                                                 }}
-                                                />
                                             </div>
                                             <div className="ts-col-6 text-right mrg-bottom-20">
                                                 <ButtonComponent
@@ -323,30 +416,50 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
                                                 >
                                                     View 8-Minute Rule
                                                 </ButtonComponent>
+                                                <ButtonComponent
+                                                    className={'white-space-nowrap mrg-left-10'}
+                                                    type={"button"}
+                                                    color={"error"}
+                                                    variant={'outlined'}
+                                                    prefixIcon={<ClearIcon/>}
+                                                    onClick={() =>{
+                                                        setSelectedCptCodes([])
+                                                        setTotalMinutes(0);
+                                                    }
+                                                    }
+                                                >
+                                                    Clear All Code(s)
+                                                </ButtonComponent>
+                                                <ButtonComponent
+                                                    className={'white-space-nowrap mrg-left-10'}
+                                                    type={"button"}
+                                                    prefixIcon={<AddIcon/>}
+                                                    onClick={() => setSelectCPTCodeDrawerOpen(true)}
+                                                >
+                                                    Add CPT Code
+                                                </ButtonComponent>
                                             </div>
                                         </div>
                                         <div>
-                                            <TableWrapperComponent url={APIConfig.CPT_CODES_LIST.URL}
-                                                                   method={APIConfig.CPT_CODES_LIST.METHOD}
-                                                                   isPaginated={true}
-                                                                   extraPayload={extraPayload}
-                                                                   type={"ant"}
-                                                                   showFooter={true}
-                                                                   onDataLoaded={(data: any) => {
-                                                                       if (data) {
-                                                                           setCPTCodes(data);
-                                                                       }
-                                                                   }}
-                                                                   footer={
-                                                                       <div className='cpt-code-list-footer'>
-                                                                           <div className="total-heading">Total number
-                                                                               of minutes
-                                                                           </div>
-                                                                           <div
-                                                                               className="total-minutes-wrapper">{totalMinutes}</div>
-                                                                       </div>
-                                                                   }
-                                                                   columns={CPTCodesColumns}/>
+                                            {
+                                                isCPTCodesLoading ?
+                                                    <LoaderComponent/>
+                                                    :
+                                                    <TableV2Component
+                                                        data={selectedCptCodes}
+                                                        showFooter={true}
+                                                        footer={
+                                                            <div className='cpt-code-list-footer'>
+                                                                <div className="total-heading">Total number
+                                                                    of minutes
+                                                                </div>
+                                                                <div
+                                                                    className="total-minutes-wrapper">{totalMinutes}</div>
+                                                            </div>
+                                                        }
+                                                        columns={CPTCodesColumns}/>
+                                            }
+
                                         </div>
                                     </CardComponent>
                                     <div className="t-form-actions mrg-bottom-0">
@@ -376,14 +489,10 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
                                                 totalMinutes === 0 ||
                                                 !Object.keys(values).some((cptCodeId) => {
                                                     const cptDetails = values[cptCodeId];
-                                                    return !!(cptDetails?.is_selected && cptDetails?.units_of_care && cptDetails?.minutes);
+                                                    return !!(cptDetails?.units_of_care && cptDetails?.minutes);
                                                 }) || !Object.keys(values).every((cptCodeId) => {
                                                     const cptDetails = values[cptCodeId];
-                                                    if (cptDetails?.is_selected) {
-                                                        return !!(cptDetails?.units_of_care && cptDetails?.minutes);
-                                                    } else {
-                                                        return true;
-                                                    }
+                                                    return !!(cptDetails?.units_of_care && cptDetails?.minutes);
                                                 })
                                             }
                                         >
@@ -400,6 +509,31 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
                                      closeOnBackDropClick={true}
                                      onClose={() => setEightMinuteRuleChartDrawerOpen(false)}>
                         <Client8MinutesRuleChartComponent/>
+                    </DrawerComponent>
+                    <DrawerComponent isOpen={selectCPTCodeDrawerOpen}
+                                     showClose={true}
+                                     closeOnEsc={false}
+                                     closeOnBackDropClick={true}
+                                     onClose={() => setSelectCPTCodeDrawerOpen(false)}>
+                        <FormControlLabelComponent size={'lg'} label={'Add CPT Code'}/>
+                        <SearchComponent label={'Search'}
+                                         placeholder={'Search CPT Code'}
+                                         value={extraPayload.search}
+                                         onSearchChange={(value) => {
+                                             setExtraPayload((ov: any) => ({
+                                                 ...ov,
+                                                 search: value
+                                             }))
+                                         }}
+                        />
+                        <div className={'cpt-codes-select-list'}>
+                        <TableWrapperComponent url={APIConfig.CPT_CODES_LIST.URL}
+                                               method={APIConfig.CPT_CODES_LIST.METHOD}
+                                               isPaginated={true}
+                                               extraPayload={extraPayload}
+                                               type={"ant"}
+                                               columns={SelectCPTCodesColumns}/>
+                        </div>
                     </DrawerComponent>
                 </>
             }
