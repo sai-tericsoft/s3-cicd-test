@@ -357,6 +357,16 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
                                 </DataLabelValueComponent>
                             </div>
                         </div>
+                        {
+                            isFullCardOpen && <div className={'ts-row'}>
+                                <div className={'ts-col'}>
+                                    <DataLabelValueComponent label={'Injury/Condition Description'}>
+                                        {medicalInterventionDetails?.medical_record_details?.injury_description || "N/A"}
+                                    </DataLabelValueComponent>
+                                </div>
+                            </div>
+
+                        }
                         {isFullCardOpen && <div className={'ts-row'}>
                             <div className={'ts-col'}>
                                 <DataLabelValueComponent label={'Restrictions/Limitations'}>
