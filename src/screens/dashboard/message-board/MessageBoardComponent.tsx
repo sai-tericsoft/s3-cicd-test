@@ -75,7 +75,7 @@ const MessageBoardComponent = (props: MessageBoardComponentProps) => {
             .then((response: any) => {
                 setBirthdayListData(response.data)
             }).catch((error: any) => {
-            CommonService._alert.showToast(error.error, "error");
+            // CommonService._alert.showToast(error.error, "error");
         })
     }, []);
 
