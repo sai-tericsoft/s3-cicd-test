@@ -25,7 +25,7 @@ const BillingAddressFormValidationSchema = Yup.object({
     address_line: Yup.string().required("Address Line is required"),
     city: Yup.string().required("City is required"),
     state: Yup.string().required("State is required"),
-    zip_code: Yup.string().required("Zip Code is required"),
+    zip_code: Yup.string().required("ZIP Code is required"),
     country: Yup.string().required("Country is required"),
     phone: Yup.string().required("Phone Number is required")
 });
