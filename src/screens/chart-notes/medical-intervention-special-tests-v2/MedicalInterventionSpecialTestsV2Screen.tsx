@@ -590,7 +590,7 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
 
     return (
         <div className={'medical-intervention-rom-config-v2-screen'}>
-            <PageHeaderComponent title={'Special Test'}/>
+            <PageHeaderComponent title={'Special Tests'}/>
             <MedicalRecordBasicDetailsCardComponent/>
             <>
                 {
@@ -603,7 +603,7 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
                         {
                             (globalSpecialTestConfig?.length === 0) && <>
                                 <StatusCardComponent
-                                    title={"There are no body parts listed under the Special Test. Please add a body part."}>
+                                    title={"There are no body parts listed under the Special Tests. Please add a body part."}>
                                     <ButtonComponent
                                         prefixIcon={<ImageConfig.AddIcon/>}
                                         onClick={handleAddNewBodyPartOpenModal}
@@ -695,7 +695,7 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
                                                                                 data={Object.keys(bodyPart?.special_test_config) || []}
                                                                                 bordered={true}
                                                                                 columns={bodyPart?.tableConfig}
-                                                                                noDataText={"No special test have been added"}
+                                                                                noDataText={"No specials test have been added"}
                                                                             />
                                                                         </div>
                                                                     </div>
@@ -790,7 +790,7 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
                 }
             </>
             <ModalComponent isOpen={isAddSpecialTestModalOpen}
-                            title={"Add Special Test:"}
+                            title={"Add Special Tests:"}
                             className={"intervention-special-test-selection-modal"}
                             modalFooter={<div>
                                 <ButtonComponent

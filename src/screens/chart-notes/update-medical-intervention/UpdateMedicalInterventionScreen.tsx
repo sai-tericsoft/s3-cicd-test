@@ -670,7 +670,7 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                                                                     <div
                                                                         className={"card-styling padding-card-5 mrg-bottom-20 " + ((medicalInterventionDetails?.special_tests && medicalInterventionDetails?.special_tests.length > 0) ?
                                                                             ' white-card-header ' : '')}>
-                                                                        <CardComponent title={"Special Test"}
+                                                                        <CardComponent title={"Special Tests"}
                                                                                        className={'special-test-header'}
                                                                                        actions={
                                                                                            <DraftReadonlySwitcherComponent

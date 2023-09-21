@@ -215,7 +215,7 @@ const SpecialTestComponent = (props: SpecialTestComponentProps) => {
                 }));
             })
             .catch((error: any) => {
-                CommonService._alert.showToast(error.error || error.errors || 'Error saving Special Test', 'error');
+                CommonService._alert.showToast(error.error || error.errors || 'Error saving Special Tests', 'error');
                 setSubmitting(false);
             });
     }, [bodyPart, dispatch, medicalInterventionId]);
