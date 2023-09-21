@@ -193,7 +193,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                 CommonService._alert.showToast(error.error || error.errors || "Failed to mark payment as paid", "error");
                 setIsBillingBeingMarkedAsPaid(false);
             });
-    }, [billingId, closePaymentModeModal, selectedPaymentMode, handleBillingMarkAsPaidSuccess]);
+    }, [closePaymentModeModal,billingDetails?._id, selectedPaymentMode, handleBillingMarkAsPaidSuccess]);
 
     useEffect(() => {
         if (billingId && type) {
