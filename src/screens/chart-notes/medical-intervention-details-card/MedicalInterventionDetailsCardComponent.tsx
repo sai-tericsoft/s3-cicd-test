@@ -223,11 +223,11 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
         }
     }, [medicalInterventionId, handleNotifyAdminModalClose]);
 
-    const handleEditSoapNote = useCallback(() => {
-        if (medicalRecordId && medicalInterventionId) {
-            navigate(CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, medicalInterventionId));
-        }
-    }, [navigate, medicalRecordId, medicalInterventionId]);
+    // const handleEditSoapNote = useCallback(() => {
+    //     if (medicalRecordId && medicalInterventionId) {
+    //         navigate(CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, medicalInterventionId));
+    //     }
+    // }, [navigate, medicalRecordId, medicalInterventionId]);
 
     const [medicalInterventionDropDownOptions, setMedicalInterventionDropDownOptions] = useState<any>([]);
 
@@ -241,7 +241,7 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
             if (mode === 'view') {
                 options.unshift(<FilesUneditableMiddlewareComponent
                     timeStamp={medicalInterventionDetails?.completed_date}>
-                    <ListItem onClick={handleEditSoapNote}>Edit SOAP</ListItem>
+                    {/*<ListItem onClick={handleEditSoapNote}>Edit SOAP</ListItem>*/}
                 </FilesUneditableMiddlewareComponent>)
             }
             setMedicalInterventionDropDownOptions(options);
@@ -257,7 +257,7 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
                 <ListItem onClick={openImportSoapNoteDrawer}>Import SOAP Note</ListItem>]
             );
         }
-    }, [handleNotifyAdmin, handleNotifyAdminModalOpen, comingSoon, handleEditSoapNote, mode, openMedicalRecordDocumentAddDrawer, openTransferSoapNoteDrawer, openAddConcussionFileDrawer, openAddDryNeedlingFileDrawer, openImportSoapNoteDrawer, openViewPriorNoteDrawer, medicalInterventionDetails]);
+    }, [handleNotifyAdmin, handleNotifyAdminModalOpen, comingSoon, mode, openMedicalRecordDocumentAddDrawer, openTransferSoapNoteDrawer, openAddConcussionFileDrawer, openAddDryNeedlingFileDrawer, openImportSoapNoteDrawer, openViewPriorNoteDrawer, medicalInterventionDetails]);
 
     return (
         <div className={'client-medical-details-card-component'}>
