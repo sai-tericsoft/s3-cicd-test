@@ -315,6 +315,10 @@ const PrintProgressReportAPICall = (progressReportId: any) => {
     return ApiService[APIConfig.PRINT_PROGRESS_REPORT.METHOD](APIConfig.PRINT_PROGRESS_REPORT.URL(progressReportId));
 }
 
+const GetCPTCodesAPICall = (interventionID: string, payload: any) => {
+    return ApiService[APIConfig.GET_SELECTED_CPT_CODES.METHOD](APIConfig.GET_SELECTED_CPT_CODES.URL(interventionID), payload);
+}
+
 const ChartNotesService = {
     MedicalRecordAddAPICall,
     MedicalRecordEditAPICall,
@@ -380,7 +384,8 @@ const ChartNotesService = {
     SaveMedicalInterventionSpecialTestAPICall,
     DeleteDocument,
     SurgeryRecordDeleteAPICall,
-    PrintProgressReportAPICall
+    PrintProgressReportAPICall,
+    GetCPTCodesAPICall
 }
 
 export default ChartNotesService;

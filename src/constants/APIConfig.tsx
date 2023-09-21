@@ -386,6 +386,10 @@ const APIConfig: IAPIConfig = {
     // user end
 
     // chart notes start
+    GET_SELECTED_CPT_CODES: {
+        URL:(interventionID:string) => ENV.API_URL + "/intervention/"+interventionID+"/listLinkedCPTCodes",
+        METHOD: "get"
+    },
     MEDICAL_RECORD_ADD: {
         URL: (clientId: string) => ENV.API_URL + '/client/' + clientId + '/medicalRecord',
         METHOD: "post"
