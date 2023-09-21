@@ -297,6 +297,12 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
         });
     }, [onSubmit]);
 
+    const handleEditSoapNote = useCallback(() => {
+        if (medicalRecordId && medicalInterventionId) {
+            navigate(CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, medicalInterventionId));
+        }
+    }, [navigate, medicalRecordId, medicalInterventionId]);
+
 
     return (
         <div className={'add-medical-intervention-screen'}>
@@ -323,6 +329,9 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                     <MedicalInterventionDetailsCardComponent medicalInterventionDetails={medicalInterventionDetails}
                                                              mode={"view"}
                                                              showAction={true}/>
+                <div className={'d-flex ts-justify-content-sm-end'}>
+                    <ButtonComponent onClick={handleEditSoapNote} prefixIcon={<ImageConfig.EditIcon/>}>Edit SOAP Note</ButtonComponent>
+                </div>
                     <Formik
                         validationSchema={MedicalInterventionAddFormValidationSchema}
                         initialValues={addMedicalInterventionFormInitialValues}
