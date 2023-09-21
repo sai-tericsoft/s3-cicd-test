@@ -413,7 +413,7 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                             }, [formik.validateForm, formik.values]);
                             return (
                                 <Form className="t-form" noValidate={true}>
-                                    <FormAutoSave formikCtx={formik}/>
+                                    <FormAutoSave formikCtx={formik} delay={500}/>
                                     <div
                                         className={"display-flex align-items-center justify-content-space-between mrg-bottom-25"}>
                                         <FormControlLabelComponent label={"SOAP Note"} size={'lg'}
