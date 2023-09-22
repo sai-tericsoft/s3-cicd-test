@@ -60,6 +60,7 @@ const FormikInputComponent = (props: FormikInputComponentProps) => {
             onFocus={handleFocus}
             onBlur={handleOnBlur}
             hasError={hasError}
+            className={props.className}
             errorMessage={hasError && (_.get(errors, name))}
             {...otherProps}
         />

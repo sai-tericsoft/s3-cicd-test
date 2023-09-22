@@ -68,9 +68,10 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
         CommonService._chartNotes.GetCPTCodesAPICall(medicalInterventionId, payload)
             .then((response: any) => {
                 setSelectedCptCodes(response?.data?.cpt_codes || []);
-                setTotalMinutes(response?.data?.cpt_codes?.reduce((acc: number, cptCode: any) => {
+                const totalMinutes = response?.data?.cpt_codes?.reduce((acc: number, cptCode: any) => {
                     return acc + cptCode?.minutes;
-                }, 0));
+                }, 0) || 0;
+                setTotalMinutes(totalMinutes);
                 setIsCPTCodesLoading(false);
             })
             .catch((error: any) => {
@@ -375,7 +376,6 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
                     };
                 });
             }
-            console.log("linkedCPTCodesConfig", linkedCPTCodesConfig)
             // setLinkedCPTCodes(linked_cpt_codes);
             setCptCodesFormInitialValues(linkedCPTCodesConfig);
         }

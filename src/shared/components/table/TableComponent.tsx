@@ -77,7 +77,7 @@ const TableComponent = (props: TableComponentProps) => {
             colObject['width'] = column?.width;
         }
         if (column?.children) {
-            colObject['columns'] = column.children.map((child: ITableColumn) => TransformColumn(child));
+            colObject['columns'] = column?.children?.map((child: ITableColumn) => TransformColumn(child));
         }
         return colObject;
     }, [parseRender]);

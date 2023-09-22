@@ -1,4 +1,5 @@
 .rom-config-component {
+
   .t-form {
     .card-component .card-header .card-title-description-wrapper .card-title {
       text-transform: inherit;
@@ -40,4 +41,9 @@
     }
   }
 
+}
+.t-cell-Leftarom, .t-cell-Leftprom, .t-cell-Leftstrength, .t-cell-Rightarom, .t-cell-Rightprom, .t-cell-Rightstrength {
+  input{
+    text-align: center !important;
+  }
 }
