@@ -30,7 +30,7 @@ const FormDebuggerComponent = (props: FormDebuggerComponentProps) => {
     return (
         <>
             {
-                (  ENV.ENV_MODE === "dev" )&& <Draggable handle={".card-header"}>
+                (ENV.ENV_MODE === "dev" )&& <Draggable handle={".card-header"}>
                     <div className={`form-debugger`}>
                         <CardComponent title={"Form Debugger"}
                                        actions={<> <IconButtonComponent onClick={handleShowDebugger}>

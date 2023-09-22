@@ -22,10 +22,45 @@ import {setCurrentNavParams} from "../../../store/actions/navigation.action";
 import {getUserBasicDetails, getUserSlots, setUserSlots} from "../../../store/actions/user.action";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
+import * as Yup from "yup";
+import FormDebuggerComponent from "../../../shared/components/form-debugger/FormDebuggerComponent";
 
 interface UserSlotsEditComponentProps {
 
 }
+
+const allSlotsTimeValidationSchema = Yup.object({
+    start_time: Yup.string().required('Start time is required'),
+    end_time: Yup.string().required('End time is required'),
+    service_id: Yup.string().required('Service is required')
+});
+
+const validationSchema = Yup.object().shape({
+    is_same_slots: Yup.boolean(),
+    all_scheduled_slots: Yup.array().when('is_same_slots', {
+        is: true,
+        then: Yup.array().of(allSlotsTimeValidationSchema)
+            .min(1, 'Select at least one record').required('Select at least one record')
+    }),
+    scheduled_slots: Yup.array().of(
+        Yup.object().shape({
+            day: Yup.number(),
+            dayName: Yup.string(),
+            is_selected: Yup.boolean(),
+            slot_timings: Yup.array().when(['is_selected', 'is_same_slots'], {
+                is: (is_selected: boolean, is_same_slots: boolean) => !is_same_slots && is_selected,
+                then: Yup.array().of(allSlotsTimeValidationSchema).min(1, 'Select at least one record').required('Select at least one record'),
+                otherwise: Yup.array().min(0) // No validation when is_same_slots is true or is_selected is false
+            }),
+        })
+    )
+    .test('at-least-one-record', 'Select at least one record', function (value:any) {
+        const isSameSlots = this.parent.is_same_slots;
+        const isAllSelectedFalse = value.every((record:any) => record.is_selected === false);
+        return isSameSlots || !isAllSelectedFalse;
+    }),
+});
+
 
 const InitialValue: any = {
     is_same_slots: false,
@@ -364,6 +399,7 @@ const UserSlotsEditComponent = (props: UserSlotsEditComponentProps) => {
                                 <FormControlLabelComponent label={facility.name}/>
                                 <Formik initialValues={formInitialValues}
                                         onSubmit={onSlotAdd}
+                                        validationSchema={validationSchema}
                                         validateOnChange={false}
                                         validateOnBlur={true}
                                         enableReinitialize={true}
@@ -383,7 +419,8 @@ const UserSlotsEditComponent = (props: UserSlotsEditComponentProps) => {
                                         }, [validateForm, values]);
                                         return (
                                             <Form className="t-form" noValidate={true}>
-                                                {/*<FormDebuggerComponent values={values} errors={errors} showDebugger={true}/>*/}
+                                                <FormDebuggerComponent values={values} errors={errors}
+                                                                       showDebugger={true}/>
                                                 <div className={'ts-row'}>
                                                     <div className={'ts-col-2'}>
                                                         <Field name={'is_same_slots'}>
@@ -455,7 +492,7 @@ const UserSlotsEditComponent = (props: UserSlotsEditComponentProps) => {
                                                                                                     displayWith={(item) => item?.name}
                                                                                                     valueExtractor={(item) => item?._id}
                                                                                                     label={'Service Name'}
-                                                                                                    // required={true}
+                                                                                                    required={true}
                                                                                                     formikField={field}
                                                                                                     fullWidth={true}
                                                                                                 />
@@ -499,7 +536,7 @@ const UserSlotsEditComponent = (props: UserSlotsEditComponentProps) => {
                                                 {!values.is_same_slots && <div className="mrg-top-20">
                                                     <>
                                                         {values?.scheduled_slots?.map((item: any, index: any) => {
-                                                            const timings = facility.timings.filter((timing:any) => timing.day_name === item.dayName);
+                                                            const timings = facility.timings.filter((timing: any) => timing.day_name === item.dayName);
                                                             const start_time = parseInt(timings[0]?.timings?.start_time);
                                                             const end_time = parseInt(timings[0]?.timings?.end_time);
                                                             return (
@@ -544,7 +581,6 @@ const UserSlotsEditComponent = (props: UserSlotsEditComponentProps) => {
                                                                                                                         selectedValues={values?.scheduled_slots[index].slot_timings[slotIndex].start_time}
                                                                                                                         label={'From'}
                                                                                                                         disabled={!(values?.scheduled_slots[index].is_selected)}
-                                                                                                                        required={true}
                                                                                                                         formikField={field}
                                                                                                                         fullWidth={true}
                                                                                                                         onUpdate={(value: any) => {
@@ -569,7 +605,6 @@ const UserSlotsEditComponent = (props: UserSlotsEditComponentProps) => {
                                                                                                                         valueExtractor={(item) => item.code}
                                                                                                                         label={'To'}
                                                                                                                         disabled={!(values?.scheduled_slots[index].is_selected && values?.scheduled_slots[index].slot_timings[slotIndex].start_time)}
-                                                                                                                        required={true}
                                                                                                                         formikField={field}
                                                                                                                         fullWidth={true}
                                                                                                                     />
@@ -644,6 +679,7 @@ const UserSlotsEditComponent = (props: UserSlotsEditComponentProps) => {
                                                 <div className="t-form-actions">
                                                     <ButtonComponent
                                                         isLoading={isSubmitting}
+                                                        disabled={!isValid}
                                                         type='submit'>
                                                         Save details
                                                     </ButtonComponent>
