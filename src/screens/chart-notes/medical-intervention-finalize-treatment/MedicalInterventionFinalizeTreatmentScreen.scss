@@ -41,6 +41,15 @@
 
   .finalize-treatment-wrapper {
     padding-bottom: 24px;
+    .cpt-codes-viw-list-header{
+      display: flex;
+      justify-content: flex-end;
+      column-gap: 10px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      row-gap: 10px;
+    }
+
   }
 
   .input-component {

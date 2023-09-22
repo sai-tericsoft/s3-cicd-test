@@ -188,8 +188,8 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
                             {progressReportDetails?.linked_icd_codes?.length > 0 ?
                                 <>
                                     {progressReportDetails?.linked_icd_codes.map((icdCode: any) => (
-                                        <div key={icdCode.icd_code} className='d-flex ts-align-items-center mrg-top-5'>
-                                            <div className='width-5 mrg-right-10'>{icdCode.icd_code}</div>
+                                        <div key={icdCode.icdCode} className='d-flex ts-align-items-center mrg-top-5'>
+                                            <div className='width-5 mrg-right-10'>{icdCode.icdCode}</div>
                                             <div>:</div>
                                             <div className='mrg-left-10'>{icdCode.description}</div>
                                         </div>

@@ -17,7 +17,7 @@ import TableWrapperComponent from "../../../shared/components/table-wrapper/Tabl
 import {ITableColumn} from "../../../shared/models/table.model";
 import LinkComponent from "../../../shared/components/link/LinkComponent";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
-import {ClearSharp} from "@mui/icons-material";
+import {ClearSharp, DeleteOutline} from "@mui/icons-material";
 import SearchComponent from "../../../shared/components/search/SearchComponent";
 import PageHeaderComponent from "../../../shared/components/page-header/PageHeaderComponent";
 import CheckBoxComponent from "../../../shared/components/form-controls/check-box/CheckBoxComponent";
@@ -30,6 +30,9 @@ import {getClientMedicalRecord} from "../../../store/actions/client.action";
 import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 import DrawerComponent from "../../../shared/components/drawer/DrawerComponent";
+import {AddIcon} from "../../../constants/ImageConfig";
+import TableV2Component from "../../../shared/components/table-v2/TableV2Component";
+import IconButtonComponent from "../../../shared/components/icon-button/IconButtonComponent";
 
 interface MedicalInterventionICDCodesScreenProps {
 
@@ -52,6 +55,7 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
     const [searchParams, setSearchParams] = useSearchParams();
     const [refreshToken, setRefreshToken] = useState<string>('');
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+    const [isIcdCodesDrawerOpen, setIsIcdCodesDrawerOpen] = useState<boolean>(false);
     const {
         clientMedicalRecord,
     } = useSelector((state: IRootReducerState) => state.client);
@@ -134,6 +138,42 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
         }
     }, [navigate, dispatch, medicalRecordId, medicalInterventionId, searchParams, last_position]);
 
+    const selectesICDCodesColumns: ITableColumn[] = [
+        {
+            title: 'ICD Code',
+            dataIndex: 'icdCode',
+            key: 'icdCode',
+            width: 180,
+            // fixed: 'left',
+            // align: 'left',
+        },
+        {
+            title: 'Description',
+            dataIndex: 'description',
+            key: 'description',
+            width: 650,
+        },
+        {
+            key: 'actions',
+            title: 'Action',
+            dataIndex: 'actions',
+            align: "center",
+            width: 100,
+            fixed: 'right',
+            render: (_: any, record: any) => (
+                <IconButtonComponent
+                    size={"large"}
+                    type={"button"}
+                    onClick={() => {
+                        setSelectedICDCodes(selectedICDCodes.filter((code) => code?._id !== record?._id));
+                    }}
+                >
+                    <DeleteOutline color={"error"} fontSize={"inherit"}/>
+                </IconButtonComponent>
+            )
+        }
+    ]
+
 
     const codeListColumns: ITableColumn[] = [
         // {
@@ -156,20 +196,21 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
         // },
         {
             title: 'ICD Codes',
-            dataIndex: 'icd_code',
-            key: 'icd_code',
+            dataIndex: 'icdCode',
+            key: 'icdCode',
             width: 180,
             // fixed: 'left',
             // align: 'left',
 
             render: (item: any, record: any) => {
                 return <div className="icd-code-column">
-                    <CheckBoxComponent label={item} checked={selectedICDCodes.includes(record?._id)}
+                    <CheckBoxComponent label={item} checked={selectedICDCodes.some((code) => code?._id === record?._id)}
                                        onChange={(isChecked) => {
+                                           console.log(isChecked, record);
                                            if (isChecked) {
-                                               setSelectedICDCodes([...selectedICDCodes, record?._id]);
+                                               setSelectedICDCodes([...selectedICDCodes, record]);
                                            } else {
-                                               setSelectedICDCodes(selectedICDCodes.filter((code) => code !== record?._id));
+                                               setSelectedICDCodes(selectedICDCodes.filter((code) => code?._id !== record?._id));
                                            }
                                        }}/>
                 </div>
@@ -228,18 +269,21 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
         // },
         {
             title: 'ICD Codes',
-            dataIndex: 'icd_code',
-            key: 'icd_code',
+            dataIndex: 'icdCode',
+            key: 'icdCode',
             width: 180,
             fixed: 'left',
             render: (item: any, record: any) => {
-                return <CheckBoxComponent label={record?.icd_code_details?.icd_code}
+                return <CheckBoxComponent label={record?.icd_code_details?.icdCode}
                                           checked={selectedICDCodes.includes(record?.icd_code_id)}
                                           onChange={(isChecked) => {
                                               if (isChecked) {
-                                                  setSelectedICDCodes([...selectedICDCodes, record?.icd_code_id]);
+                                                  setSelectedICDCodes([...selectedICDCodes, {
+                                                      ...record,
+                                                      _id: record?.icd_code_id
+                                                  }]);
                                               } else {
-                                                  setSelectedICDCodes(selectedICDCodes.filter((code) => code !== record?.icd_code_id));
+                                                  setSelectedICDCodes(selectedICDCodes.filter((code) => code?._id !== record?.icd_code_id));
                                               }
                                           }}/>
             }
@@ -293,7 +337,7 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
 
     useEffect(() => {
         if (medicalInterventionDetails) {
-            setSelectedICDCodes((medicalInterventionDetails?.linked_icd_codes || []).map((v: any) => v?._id));
+            setSelectedICDCodes((medicalInterventionDetails?.linked_icd_codes || []).map((v: any) => v));
         }
     }, [medicalInterventionDetails]);
     return (
@@ -330,27 +374,21 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
                     </CardComponent>
                 </>
             }
-            <div className="ts-row">
-                <div className="ts-col ts-col-6">
-                    <SearchComponent label={'Search'}
-                                     placeholder={'Search ICD Code'}
-                                     value={searchICDCodes.search}
-                                     onSearchChange={(value) => {
-                                         setSearchICDCodes({...searchICDCodes, search: value})
-                                     }}
-                    />
+            <div className={'icd-codes-sub-title-and-actions-wrapper'}>
+                <div className={'icd-codes-sub-title'}>
+                    Selected ICD-11 Code(s)
                 </div>
-                <div className="ts-col-6 text-right">
+                <div className="icd-screen-actions-wrapper">
                     <ButtonComponent
-                        className={'white-space-nowrap mrg-right-10'}
+                        className={'white-space-nowrap'}
                         type={"button"}
                         onClick={
-                            ()=>{
+                            () => {
                                 setOpenIframe(true)
                             }
                         }
-                        >
-                            ICD Coding Tool
+                    >
+                        ICD Coding Tool
                     </ButtonComponent>
                     <ButtonComponent
                         className={'white-space-nowrap'}
@@ -361,72 +399,54 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
                                 setSelectedICDCodes([]);
                             }
                         }
+                        variant={"outlined"}
+                        color={"error"}
                     >
                         <ClearSharp/> Clear ICD Codes
                     </ButtonComponent>
-                </div>
-            </div>
-            <TabsWrapperComponent>
-                <TabsComponent
-                    value={currentTab}
-                    allowScrollButtonsMobile={false}
-                    variant={"fullWidth"}
-                    onUpdate={handleTabChange}
-                >
-                    <TabComponent label={'ALL ICD CODES'} value={'icdCodes'}/>
-                    <TabComponent label={'FAVOURITES'} value={'favourites'}/>
-                </TabsComponent>
-                <TabContentComponent value={'icdCodes'} selectedTab={currentTab}>
-                    <TableWrapperComponent
-                        extraPayload={searchICDCodes}
-                        refreshToken={refreshToken}
-                        url={APIConfig.ICD_CODE_LIST.URL}
-                        method={APIConfig.ICD_CODE_LIST.METHOD}
-                        columns={codeListColumns}
-                        noDataText={'No ICD Codes found for this search'}
-                        isPaginated={true}
-                        type={"ant"}
-                    />
-                </TabContentComponent>
-                <TabContentComponent value={'favourites'} selectedTab={currentTab}>
-                    <TableWrapperComponent
-                        extraPayload={searchICDCodes}
-                        refreshToken={refreshToken}
-                        url={APIConfig.ICD_CODE_FAVOURITE_LIST.URL}
-                        method={APIConfig.ICD_CODE_FAVOURITE_LIST.METHOD}
-                        columns={favouriteICDCodesColumns}
-                        isPaginated={true}
-                        type={"ant"}
-                    />
-                </TabContentComponent>
-                <div className="text-center">
-                    {(medicalRecordId && medicalInterventionId) && <LinkComponent
-                        route={CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, medicalInterventionId) + `?last_position=${last_position}`}>
-                        <ButtonComponent variant={"outlined"}
-                                         size={"large"}
-                                         className={isSubmitting ? 'mrg-right-15': ''}
-                                         disabled={isSubmitting}
-                        >
-                            Cancel
-                        </ButtonComponent>
-                    </LinkComponent>}
-                    &nbsp;&nbsp;
-                    <ButtonComponent type={"button"}
-                                     size={"large"}
-                                     className={'mrg-left-15'}
-                                     onClick={() => {
-                                         linkICDCodesToIntervention(
-                                             selectedICDCodes,
-                                             (medicalInterventionDetails.linked_icd_codes || []).length === 0 ? 'add' : 'edit'
-                                         )
-                                     }}
-                                     disabled={selectedICDCodes.length === 0 || isSubmitting}
-                                     isLoading={isSubmitting}
+                    <ButtonComponent
+                        className={'white-space-nowrap'}
+                        type={"button"}
+                        onClick={
+                            () => {
+                                setIsIcdCodesDrawerOpen(true)
+                            }
+                        }
                     >
-                        Save
+                        <AddIcon/> Add ICD Code
                     </ButtonComponent>
                 </div>
-            </TabsWrapperComponent>
+            </div>
+            <TableV2Component
+                data={selectedICDCodes}
+                columns={selectesICDCodesColumns}/>
+            <div className="text-center">
+                {(medicalRecordId && medicalInterventionId) && <LinkComponent
+                    route={CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, medicalInterventionId) + `?last_position=${last_position}`}>
+                    <ButtonComponent variant={"outlined"}
+                                     size={"large"}
+                                     className={isSubmitting ? 'mrg-right-15' : ''}
+                                     disabled={isSubmitting}
+                    >
+                        Cancel
+                    </ButtonComponent>
+                </LinkComponent>}
+                &nbsp;&nbsp;
+                <ButtonComponent type={"button"}
+                                 size={"large"}
+                                 className={'mrg-left-15'}
+                                 onClick={() => {
+                                     linkICDCodesToIntervention(
+                                         selectedICDCodes.map((code) => code?._id),
+                                         (medicalInterventionDetails.linked_icd_codes || []).length === 0 ? 'add' : 'edit'
+                                     )
+                                 }}
+                                 disabled={selectedICDCodes.length === 0 || isSubmitting}
+                                 isLoading={isSubmitting}
+                >
+                    Save
+                </ButtonComponent>
+            </div>
             <DrawerComponent
                 isOpen={openIframe}
                 onClose={() => setOpenIframe(false)}
@@ -436,6 +456,54 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
                     title={'ICD Codes'}
                     className={'icd-iframe'}
                 />
+            </DrawerComponent>
+            <DrawerComponent isOpen={isIcdCodesDrawerOpen}
+                             onClose={() => setIsIcdCodesDrawerOpen(false)}
+                             showClose={true}
+            >
+                <div className={'select-icd-codes-drawer'}>
+                    <SearchComponent label={'Search'}
+                                     placeholder={'Search ICD Code'}
+                                     value={searchICDCodes.search}
+                                     onSearchChange={(value) => {
+                                         setSearchICDCodes({...searchICDCodes, search: value})
+                                     }}
+                    />
+                    <TabsWrapperComponent className={''}>
+                        <TabsComponent
+                            value={currentTab}
+                            allowScrollButtonsMobile={false}
+                            variant={"fullWidth"}
+                            onUpdate={handleTabChange}
+                        >
+                            <TabComponent label={'ALL ICD CODES'} value={'icdCodes'}/>
+                            <TabComponent label={'FAVOURITES'} value={'favourites'}/>
+                        </TabsComponent>
+                        <TabContentComponent value={'icdCodes'} selectedTab={currentTab}>
+                            <TableWrapperComponent
+                                extraPayload={searchICDCodes}
+                                refreshToken={refreshToken}
+                                url={APIConfig.ICD_CODE_LIST.URL}
+                                method={APIConfig.ICD_CODE_LIST.METHOD}
+                                columns={codeListColumns}
+                                noDataText={'No ICD Codes found for this search'}
+                                isPaginated={true}
+                                type={"ant"}
+                            />
+                        </TabContentComponent>
+                        <TabContentComponent value={'favourites'} selectedTab={currentTab}>
+                            <TableWrapperComponent
+                                extraPayload={searchICDCodes}
+                                refreshToken={refreshToken}
+                                url={APIConfig.ICD_CODE_FAVOURITE_LIST.URL}
+                                method={APIConfig.ICD_CODE_FAVOURITE_LIST.METHOD}
+                                columns={favouriteICDCodesColumns}
+                                isPaginated={true}
+                                type={"ant"}
+                            />
+                        </TabContentComponent>
+                    </TabsWrapperComponent>
+                </div>
             </DrawerComponent>
         </div>
     );
