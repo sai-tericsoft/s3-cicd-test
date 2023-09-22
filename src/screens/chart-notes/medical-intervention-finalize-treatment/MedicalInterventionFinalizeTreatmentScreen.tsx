@@ -10,7 +10,6 @@ import DrawerComponent from "../../../shared/components/drawer/DrawerComponent";
 import {ITableColumn} from "../../../shared/models/table.model";
 import TableWrapperComponent from "../../../shared/components/table-wrapper/TableWrapperComponent";
 import {Field, FieldProps, Form, Formik, FormikHelpers} from "formik";
-import FormikCheckBoxComponent from "../../../shared/components/form-controls/formik-check-box/FormikCheckBoxComponent";
 import FormikInputComponent from "../../../shared/components/form-controls/formik-input/FormikInputComponent";
 import {CommonService} from "../../../shared/services";
 import {useNavigate, useParams} from "react-router-dom";
