@@ -54,12 +54,13 @@ const MedicalInterventionFormInitialValues: any = {
         treatment_response: ""
     },
     is_discharge: true,
-    is_link_to_appointment:false,
+    is_link_to_appointment: false,
 };
 
 interface ClientMedicalDetailsCardComponentProps {
     showAction?: boolean
-    setRefreshToken?:any;
+    setRefreshToken?: any;
+    onEditCompleteAction?: any;
 }
 
 const NotifyAdminInitialValues: any = {
@@ -68,7 +69,7 @@ const NotifyAdminInitialValues: any = {
 
 const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardComponentProps) => {
 
-    const {showAction,setRefreshToken} = props;
+    const {showAction, setRefreshToken, onEditCompleteAction} = props;
     const {medicalRecordId} = useParams();
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -127,7 +128,10 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
         if (medicalRecordId) {
             dispatch(getClientMedicalRecord(medicalRecordId));
         }
-    }, [dispatch, medicalRecordId, closeEditMedicalRecordDrawer]);
+        if (onEditCompleteAction) {
+            onEditCompleteAction();
+        }
+    }, [dispatch, medicalRecordId, closeEditMedicalRecordDrawer, onEditCompleteAction]);
 
     const openAddSurgeryRecord = useCallback(() => {
         setIsSurgeryAddOpen(true)
@@ -184,10 +188,10 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
         if (medicalRecordId) {
             CommonService._chartNotes.AddNewMedicalInterventionAPICall(medicalRecordId, MedicalInterventionFormInitialValues)
                 .then((response) => {
-                    CommonService._alert.showToast( "Discharge Summary created successfully", "success");
+                    CommonService._alert.showToast("Discharge Summary created successfully", "success");
                     navigate(CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, response.data._id));
                 }).catch((error) => {
-                CommonService._alert.showToast( "Existing notes must be completed for case discharge.", "error");
+                CommonService._alert.showToast("Existing notes must be completed for case discharge.", "error");
             });
         }
     }, [medicalRecordId, navigate]);
@@ -197,7 +201,7 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
         if (medicalRecordId) {
             CommonService._chartNotes.MedicalRecordNotifyAdminAPICall(medicalRecordId, values)
                 .then((response) => {
-                    CommonService._alert.showToast( "Admin has been notified.", "success");
+                    CommonService._alert.showToast("Admin has been notified.", "success");
                     setIsNotifyAdminProgressIsLoading(false);
                     setIsNotifyAdminProgressIsLoading(false);
                     handleNotifyAdminModalClose();
@@ -326,7 +330,7 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
                                             <MenuDropdownComponent menuBase={
                                                 <ButtonComponent variant={'outlined'}
                                                                  suffixIcon={<ImageConfig.SelectDropDownIcon/>}
-                                                                 >
+                                                >
                                                     Select Action
                                                 </ButtonComponent>
                                             } menuOptions={medicalRecordMenuOptions}/>
@@ -408,7 +412,7 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
                         <AddSurgeryRecordComponent medicalRecordId={medicalRecordId}
                                                    medicalRecordDetails={clientMedicalRecord}
                                                    onSave={handleSurgeryRecordAdd}
-                                                  setRefreshToken={setRefreshToken}
+                                                   setRefreshToken={setRefreshToken}
                                                    onCancel={() => setIsSurgeryAddOpen(false)}/>
                     </DrawerComponent>
                     {/*Add Surgery Record end*/}
@@ -442,7 +446,8 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
                                     className={'case-statistics-modal'}
                                     onClose={closeMedicalRecordStatsModal}
                                     modalFooter={<>
-                                        <ButtonComponent className={'close-btn'} onClick={closeMedicalRecordStatsModal}>Close</ButtonComponent>
+                                        <ButtonComponent className={'close-btn'}
+                                                         onClick={closeMedicalRecordStatsModal}>Close</ButtonComponent>
                                     </>
                                     }
                     >
@@ -514,7 +519,7 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
                                         </div>
                                         <div className={'ts-action display-flex ts-justify-content-center'}>
                                             <ButtonComponent variant={'outlined'}
-                                                             className={isNotifyAdminProgressIsLoading ? "mrg-right-15":''}
+                                                             className={isNotifyAdminProgressIsLoading ? "mrg-right-15" : ''}
                                                              onClick={() => {
                                                                  handleNotifyAdminModalClose();
                                                                  resetForm(); // TODO : check if this is required compare with Inventory stock update form

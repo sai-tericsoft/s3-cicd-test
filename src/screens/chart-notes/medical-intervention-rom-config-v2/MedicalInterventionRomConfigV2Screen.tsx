@@ -24,6 +24,7 @@ import FormikTextAreaComponent from "../../../shared/components/form-controls/fo
 import CheckBoxComponent from "../../../shared/components/form-controls/check-box/CheckBoxComponent";
 import {RadioButtonComponent} from "../../../shared/components/form-controls/radio-button/RadioButtonComponent";
 import {setCurrentNavParams} from "../../../store/actions/navigation.action";
+import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 
 interface MedicalInterventionRomConfigV2ScreenProps {
 
@@ -38,6 +39,7 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
     const dispatch = useDispatch();
     const {
         medicalInterventionDetails,
+        isMedicalInterventionDetailsLoading,
         isMedicalInterventionDetailsLoaded,
     } = useSelector((state: IRootReducerState) => state.chartNotes);
     const {bodyPartList} = useSelector((state: IRootReducerState) => state.staticData);
@@ -307,6 +309,12 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
         }
     }, [medicalInterventionId, medicalInterventionDetails, dispatch]);
 
+    const onEditSuccess = useCallback(() => {
+        if (medicalInterventionId) {
+            dispatch(getMedicalInterventionDetails(medicalInterventionId));
+        }
+    }, [medicalInterventionId, medicalInterventionDetails, dispatch]);
+
     useEffect(() => {
         if (medicalRecordId && medicalInterventionId) {
             const referrer: any = searchParams.get("referrer");
@@ -525,13 +533,13 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
     return (
         <div className={'medical-intervention-rom-config-v2-screen'}>
             <PageHeaderComponent title={'Range of Motion and Strength'}/>
-            <MedicalRecordBasicDetailsCardComponent/>
+            <MedicalRecordBasicDetailsCardComponent onEditCompleteAction={onEditSuccess}/>
             <>
-                {/*{*/}
-                {/* (isMedicalInterventionDetailsLoading) && <>*/}
-                {/* <LoaderComponent/>*/}
-                {/* </>*/}
-                {/*}*/}
+                {
+                    (isMedicalInterventionDetailsLoading) && <>
+                        <LoaderComponent/>
+                    </>
+                }
                 {
                     (isMedicalInterventionDetailsLoaded && medicalInterventionId) && <>
                         {
@@ -573,57 +581,58 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
                                                                     {
                                                                         bodyPart?.movements?.length > 0 && <>
 
-                                                                            <CardComponent title={"Body Part: " + bodyPart?.name}
-                                                                                           className={'body-part-rom-config-card'}
-                                                                                           key={bodyPartId}
-                                                                                           actions={<>
-                                                                                               {bodyPart?.movements?.length > 0 &&
-                                                                                                   <>
-                                                                                                       {
-                                                                                                           (mode === 'read') && <>
-                                                                                                               <ButtonComponent
-                                                                                                                   size={"small"}
-                                                                                                                   prefixIcon={
-                                                                                                                       <ImageConfig.EditIcon/>}
-                                                                                                                   // onClick={handleBodyPartEdit}
-                                                                                                                   // disabled={isSubmitting || isBodyPartBeingDeleted}
-                                                                                                               >
-                                                                                                                   Edit
-                                                                                                               </ButtonComponent>&nbsp;&nbsp;
-                                                                                                           </>
-                                                                                                       }
-                                                                                                       {/*{*/}
-                                                                                                       {/* (mode === 'write') &&*/}
-                                                                                                       {/* <>*/}
-                                                                                                       {/* <ButtonComponent*/}
-                                                                                                       {/* size={"small"}*/}
-                                                                                                       {/* prefixIcon={*/}
-                                                                                                       {/* <ImageConfig.AddIcon/>}*/}
-                                                                                                       {/* onClick={() => {*/}
-                                                                                                       {/* openBodySideSelectionModal(bodyPart);*/}
-                                                                                                       {/* }*/}
-                                                                                                       {/* }*/}
-                                                                                                       {/* >*/}
-                                                                                                       {/* Add Body Side*/}
-                                                                                                       {/* </ButtonComponent>&nbsp;&nbsp;*/}
-                                                                                                       {/* </>*/}
-                                                                                                       {/*}*/}
-                                                                                                   </>
-                                                                                               }
-                                                                                               <ButtonComponent
-                                                                                                   size={"small"}
-                                                                                                   color={"error"}
-                                                                                                   variant={"outlined"}
-                                                                                                   prefixIcon={
-                                                                                                       <ImageConfig.DeleteIcon/>}
-                                                                                                   onClick={() => {
-                                                                                                       handleBodyPartDelete(bodyPartId);
-                                                                                                   }}
-                                                                                                   disabled={isSubmitting || isBodyPartBeingDeleted}
-                                                                                               >
-                                                                                                   Delete
-                                                                                               </ButtonComponent>
-                                                                                           </>}>
+                                                                            <CardComponent
+                                                                                title={"Body Part: " + bodyPart?.name}
+                                                                                className={'body-part-rom-config-card'}
+                                                                                key={bodyPartId}
+                                                                                actions={<>
+                                                                                    {bodyPart?.movements?.length > 0 &&
+                                                                                    <>
+                                                                                        {
+                                                                                            (mode === 'read') && <>
+                                                                                                <ButtonComponent
+                                                                                                    size={"small"}
+                                                                                                    prefixIcon={
+                                                                                                        <ImageConfig.EditIcon/>}
+                                                                                                    // onClick={handleBodyPartEdit}
+                                                                                                    // disabled={isSubmitting || isBodyPartBeingDeleted}
+                                                                                                >
+                                                                                                    Edit
+                                                                                                </ButtonComponent>&nbsp;&nbsp;
+                                                                                            </>
+                                                                                        }
+                                                                                        {/*{*/}
+                                                                                        {/* (mode === 'write') &&*/}
+                                                                                        {/* <>*/}
+                                                                                        {/* <ButtonComponent*/}
+                                                                                        {/* size={"small"}*/}
+                                                                                        {/* prefixIcon={*/}
+                                                                                        {/* <ImageConfig.AddIcon/>}*/}
+                                                                                        {/* onClick={() => {*/}
+                                                                                        {/* openBodySideSelectionModal(bodyPart);*/}
+                                                                                        {/* }*/}
+                                                                                        {/* }*/}
+                                                                                        {/* >*/}
+                                                                                        {/* Add Body Side*/}
+                                                                                        {/* </ButtonComponent>&nbsp;&nbsp;*/}
+                                                                                        {/* </>*/}
+                                                                                        {/*}*/}
+                                                                                    </>
+                                                                                    }
+                                                                                    <ButtonComponent
+                                                                                        size={"small"}
+                                                                                        color={"error"}
+                                                                                        variant={"outlined"}
+                                                                                        prefixIcon={
+                                                                                            <ImageConfig.DeleteIcon/>}
+                                                                                        onClick={() => {
+                                                                                            handleBodyPartDelete(bodyPartId);
+                                                                                        }}
+                                                                                        disabled={isSubmitting || isBodyPartBeingDeleted}
+                                                                                    >
+                                                                                        Delete
+                                                                                    </ButtonComponent>
+                                                                                </>}>
                                                                                 <div className={'body-part-rom-config'}>
                                                                                     {/*{*/}
                                                                                     {/* (!bodyPart?.movements || bodyPart?.movements?.length === 0) && <>*/}
