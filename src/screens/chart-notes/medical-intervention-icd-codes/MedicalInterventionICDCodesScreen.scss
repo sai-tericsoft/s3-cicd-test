@@ -1,17 +1,41 @@
 .medical-intervention-icd-codes-screen {
+  .icd-codes-sub-title-and-actions-wrapper {
+    display: flex;
+    justify-content: space-between;
+    column-gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 24px;
+    row-gap: 10px;
+    align-items: center;
+
+    .icd-codes-sub-title {
+      font-size: 1.4286rem;
+      font-weight: 700;
+      color: #6D6D6D;
+    }
+
+    .icd-screen-actions-wrapper {
+      display: flex;
+      justify-content: flex-end;
+      column-gap: 10px;
+    }
+  }
+
   .ant-table-wrapper {
     .ant-table {
       min-height: 500px !important;
     }
-    .ant-table-empty{
-      .ant-table-tbody{
-        .status-card-component{
+
+    .ant-table-empty {
+      .ant-table-tbody {
+        .status-card-component {
           min-height: 500px !important;
         }
       }
     }
   }
-  .text-center{
+
+  .text-center {
     margin-top: 12px;
   }
 
@@ -30,15 +54,37 @@
     }
   }
 }
-.drawer-container:has(.icd-iframe){
+
+.drawer-container:has(.icd-iframe) {
   height: 100%;
   width: 800px;
-  .drawer-body{
+
+  .drawer-body {
     height: 100%;
-    .icd-iframe{
+
+    .icd-iframe {
       height: 100%;
       width: 100%;
     }
   }
 }
 
+.select-icd-codes-drawer {
+  margin-top: 30px;
+}
+
+.drawer-container:has(.select-icd-codes-drawer) {
+  height: 100%;
+  width: 800px;
+}
+.select-icd-codes-drawer{
+  .drawer-body{
+    height: calc(100vh - 310px) !important;
+  }
+  .table-v2-component{
+    height: calc(100vh - 310px);
+    .ant-table-content{
+      height: calc(100vh - 310px);
+    }
+  }
+}

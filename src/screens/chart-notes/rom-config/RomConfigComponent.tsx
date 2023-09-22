@@ -113,7 +113,9 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
                     align: 'center',
                     width: 80,
                     render: (record: any) => {
-                        return <Field
+                        return
+                        <span className={'strength-input'}>
+                        <Field
                             name={`${bodyPart._id}.${record?.name}.${side}.strength`}
                             className="t-form-control">
                             {
@@ -127,7 +129,8 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
                                         size={"small"}/>
                                 )
                             }
-                        </Field>;
+                        </Field>
+                            </span>;
                     }
                 },
             ]
@@ -271,7 +274,7 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
     const handleBodyPartDelete = useCallback(() => {
         CommonService.onConfirm({
             image: ImageConfig.PopupLottie,
-            showLottie:true,
+            showLottie: true,
             confirmationTitle: "REMOVE BODY PART",
             confirmationSubTitle: "Are you sure you want to remove this body part?",
         }).then(() => {
@@ -409,7 +412,7 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
                     return (
                         <Form className="t-form" noValidate={true}>
                             {/*<FormDebuggerComponent form={formik} showDebugger={false}/>*/}
-                                <CardComponent title={"Body Part: " + romConfigValues?.name}
+                            <CardComponent title={"Body Part: " + romConfigValues?.name}
                                            actions={<>
                                                {values?.movements?.length > 0 &&
                                                    <>

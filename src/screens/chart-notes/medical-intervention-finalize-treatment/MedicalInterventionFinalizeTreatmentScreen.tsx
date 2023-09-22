@@ -10,7 +10,6 @@ import DrawerComponent from "../../../shared/components/drawer/DrawerComponent";
 import {ITableColumn} from "../../../shared/models/table.model";
 import TableWrapperComponent from "../../../shared/components/table-wrapper/TableWrapperComponent";
 import {Field, FieldProps, Form, Formik, FormikHelpers} from "formik";
-import FormikCheckBoxComponent from "../../../shared/components/form-controls/formik-check-box/FormikCheckBoxComponent";
 import FormikInputComponent from "../../../shared/components/form-controls/formik-input/FormikInputComponent";
 import {CommonService} from "../../../shared/services";
 import {useNavigate, useParams} from "react-router-dom";
@@ -28,7 +27,7 @@ import FormControlLabelComponent from "../../../shared/components/form-control-l
 import CheckBoxComponent from "../../../shared/components/form-controls/check-box/CheckBoxComponent";
 import TableV2Component from "../../../shared/components/table-v2/TableV2Component";
 import IconButtonComponent from "../../../shared/components/icon-button/IconButtonComponent";
-import { DeleteOutline} from "@mui/icons-material";
+import {DeleteOutline} from "@mui/icons-material";
 import ClearIcon from '@mui/icons-material/Clear';
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 
@@ -68,9 +67,10 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
         CommonService._chartNotes.GetCPTCodesAPICall(medicalInterventionId, payload)
             .then((response: any) => {
                 setSelectedCptCodes(response?.data?.cpt_codes || []);
-                setTotalMinutes(response?.data?.cpt_codes?.reduce((acc: number, cptCode: any) => {
+                const totalMinutes = response?.data?.cpt_codes?.reduce((acc: number, cptCode: any) => {
                     return acc + cptCode?.minutes;
-                }, 0));
+                }, 0) || 0;
+                setTotalMinutes(totalMinutes);
                 setIsCPTCodesLoading(false);
             })
             .catch((error: any) => {
@@ -375,7 +375,6 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
                     };
                 });
             }
-            console.log("linkedCPTCodesConfig", linkedCPTCodesConfig)
             // setLinkedCPTCodes(linked_cpt_codes);
             setCptCodesFormInitialValues(linkedCPTCodesConfig);
         }
@@ -404,41 +403,40 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
                             return (
                                 <Form className="t-form" noValidate={true}>
                                     <CardComponent className={'finalize-treatment-wrapper'}>
-                                        <div className="ts-row display-flex align-items-center">
-                                            <div className="ts-col ts-col-6 mrg-bottom-15">
-                                            </div>
-                                            <div className="ts-col-6 text-right mrg-bottom-20">
-                                                <ButtonComponent
-                                                    className={'white-space-nowrap'}
-                                                    type={"button"}
-                                                    prefixIcon={<ImageConfig.EyeIcon/>}
-                                                    onClick={() => setEightMinuteRuleChartDrawerOpen(true)}
-                                                >
-                                                    View 8-Minute Rule
-                                                </ButtonComponent>
-                                                <ButtonComponent
-                                                    className={'white-space-nowrap mrg-left-10'}
-                                                    type={"button"}
-                                                    color={"error"}
-                                                    variant={'outlined'}
-                                                    prefixIcon={<ClearIcon/>}
-                                                    onClick={() =>{
-                                                        setSelectedCptCodes([])
-                                                        setTotalMinutes(0);
-                                                    }
-                                                    }
-                                                >
-                                                    Clear All Code(s)
-                                                </ButtonComponent>
-                                                <ButtonComponent
-                                                    className={'white-space-nowrap mrg-left-10'}
-                                                    type={"button"}
-                                                    prefixIcon={<AddIcon/>}
-                                                    onClick={() => setSelectCPTCodeDrawerOpen(true)}
-                                                >
-                                                    Add CPT Code
-                                                </ButtonComponent>
-                                            </div>
+                                        <div className="cpt-codes-viw-list-header">
+
+                                            <ButtonComponent
+                                                className={'white-space-nowrap'}
+                                                type={"button"}
+                                                prefixIcon={<ImageConfig.EyeIcon/>}
+                                                onClick={() => setEightMinuteRuleChartDrawerOpen(true)}
+                                            >
+                                                View 8-Minute Rule
+                                            </ButtonComponent>
+                                            <ButtonComponent
+                                                className={'white-space-nowrap'}
+                                                type={"button"}
+                                                color={"error"}
+                                                variant={'outlined'}
+                                                disabled={isSubmitting || isInterventionCheckingOut || selectedCptCodes?.length === 0}
+                                                prefixIcon={<ClearIcon/>}
+                                                onClick={() => {
+                                                    setSelectedCptCodes([])
+                                                    setTotalMinutes(0);
+                                                }
+                                                }
+                                            >
+                                                Clear All Code(s)
+                                            </ButtonComponent>
+                                            <ButtonComponent
+                                                className={'white-space-nowrap'}
+                                                type={"button"}
+                                                disabled={isSubmitting || isInterventionCheckingOut}
+                                                prefixIcon={<AddIcon/>}
+                                                onClick={() => setSelectCPTCodeDrawerOpen(true)}
+                                            >
+                                                Add CPT Code
+                                            </ButtonComponent>
                                         </div>
                                         <div>
                                             {
@@ -527,12 +525,12 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
                                          }}
                         />
                         <div className={'cpt-codes-select-list'}>
-                        <TableWrapperComponent url={APIConfig.CPT_CODES_LIST.URL}
-                                               method={APIConfig.CPT_CODES_LIST.METHOD}
-                                               isPaginated={true}
-                                               extraPayload={extraPayload}
-                                               type={"ant"}
-                                               columns={SelectCPTCodesColumns}/>
+                            <TableWrapperComponent url={APIConfig.CPT_CODES_LIST.URL}
+                                                   method={APIConfig.CPT_CODES_LIST.METHOD}
+                                                   isPaginated={true}
+                                                   extraPayload={extraPayload}
+                                                   type={"ant"}
+                                                   columns={SelectCPTCodesColumns}/>
                         </div>
                     </DrawerComponent>
                 </>

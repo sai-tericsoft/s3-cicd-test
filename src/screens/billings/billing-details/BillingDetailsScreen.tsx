@@ -78,7 +78,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
     useEffect(() => {
         dispatch(getBillingFromAddress())
     }, [dispatch]);
-    
+
     useEffect(() => {
         const type: BillingType = searchParams.get("type") as BillingType;
         if (type && BillingTypes.includes(type)) {
@@ -246,8 +246,8 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
     const ICDCodesColumns: ITableColumn[] = useMemo<ITableColumn[]>(() => [
         {
             title: 'ICD Code',
-            dataIndex: 'icd_code',
-            key: 'icd_code',
+            dataIndex: 'icdCode',
+            key: 'icdCode',
             fixed: 'left',
         },
         {

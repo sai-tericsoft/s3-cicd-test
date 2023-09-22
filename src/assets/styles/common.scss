@@ -1112,3 +1112,22 @@
     }
   }
 }
+.icd-codes-wrapper{
+  .t-body {
+    .t-td {
+      min-height: 40px !important;
+    }
+  }
+  .t-thead {
+    .t-th {
+      min-height: 40px !important;
+      height: 40px !important;
+    }
+  }
+  .t-th, .t-td {
+
+    &:first-child {
+      padding-left: 16px !important;
+    }
+  }
+}
