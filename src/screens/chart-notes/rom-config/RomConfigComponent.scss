@@ -42,8 +42,13 @@
   }
 
 }
-.t-cell-Leftarom, .t-cell-Leftprom, .t-cell-Leftstrength, .t-cell-Rightarom, .t-cell-Rightprom, .t-cell-Rightstrength {
-  input{
-    text-align: center !important;
+.rom-config-table-container{
+  .t-cell {
+    &:not(&.strength-input) {
+      input {
+        text-align: center !important;
+      }
+    }
   }
 }
+
