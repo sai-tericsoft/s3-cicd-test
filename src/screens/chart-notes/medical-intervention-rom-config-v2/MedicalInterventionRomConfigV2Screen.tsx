@@ -333,8 +333,10 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
     useEffect(() => {
         const romConfig: any = [];
         const rom_config = medicalInterventionDetails?.rom_config;
+        console.log(medicalInterventionDetails);
+        console.log(medicalInterventionDetails?.rom_config);
         const injury_details = medicalInterventionDetails?.medical_record_details?.injury_details;
-        if (medicalInterventionDetails?.is_rom_configured) {
+        if (romConfig?.length > 0) {
             rom_config?.forEach((injury: any) => {
                 if (!romConfig?.find((item: any) => item?.body_part?._id === injury?.body_part_id)) {
                     romConfig.push({

@@ -381,8 +381,10 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
     useEffect(() => {
         const specialTestConfig: any = [];
         const special_test_config = medicalInterventionDetails?.special_tests;
+        console.log(medicalInterventionDetails);
+        console.log(special_test_config);
         const injury_details = medicalInterventionDetails?.medical_record_details?.injury_details;
-        if (medicalInterventionDetails?.is_special_test_configured) {
+        if (special_test_config.length > 0) {
             special_test_config?.forEach((injury: any) => {
                 console.log(injury.special_tests);
                 const configArray = injury?.special_tests || [];
