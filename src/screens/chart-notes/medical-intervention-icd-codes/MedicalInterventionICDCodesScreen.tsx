@@ -376,7 +376,7 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
             }
             <div className={'icd-codes-sub-title-and-actions-wrapper'}>
                 <div className={'icd-codes-sub-title'}>
-                    Selected ICD-11 Code(s)
+                    Selected ICD Code(s)
                 </div>
                 <div className="icd-screen-actions-wrapper">
                     <ButtonComponent
