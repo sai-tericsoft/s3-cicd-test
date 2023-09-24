@@ -40,6 +40,10 @@ import _ from "lodash";
 import LottieFileGenerationComponent
     from "../../../shared/components/lottie-file-generation/LottieFileGenerationComponent";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
+import IconButtonComponent from "../../../shared/components/icon-button/IconButtonComponent";
+import FormikDatePickerComponent
+    from "../../../shared/components/form-controls/formik-date-picker/FormikDatePickerComponent";
+import moment from "moment";
 
 interface MedicalInterventionDetailsCardComponentProps {
     showAction?: boolean,
@@ -49,6 +53,10 @@ interface MedicalInterventionDetailsCardComponentProps {
 
 const NotifyAdminInitialValues: any = {
     message: "",
+}
+
+const dateInterventionInitialValues: any = {
+    intervention_date: "",
 }
 
 const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetailsCardComponentProps) => {
@@ -69,8 +77,10 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
     const [isMedicalRecordDocumentAddDrawerOpen, setIsMedicalRecordDocumentAddDrawerOpen] = useState<boolean>(false);
     const [isNotifyModalOpen, setIsNotifyModalOpen] = useState<boolean>(false);
     const [notifyAdminFormInitialValues, setNotifyAdminFormInitialValues] = useState<any>(_.cloneDeep(NotifyAdminInitialValues));
+    const [editInterventionDateInitialValues, setEditInterventionDateInitialValues] = useState<any>(_.cloneDeep(dateInterventionInitialValues));
     const [isNotifyAdminProgressIsLoading, setIsNotifyAdminProgressIsLoading] = useState<boolean>(false);
     const [isFullCardOpen, setIsFullCardOpen] = useState<boolean>(false);
+    const [isEditInterventionDateOpen, setIsEditInterventionDateOpen] = useState<boolean>(false);
 
     const {
         clientMedicalRecord,
@@ -223,6 +233,22 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
         }
     }, [medicalInterventionId, handleNotifyAdminModalClose]);
 
+    const onInterventionDateEdit = useCallback((values: any, {setErrors, setSubmitting}: FormikHelpers<any>) => {
+        setSubmitting(true)
+        if (medicalInterventionId) {
+            CommonService._chartNotes.MedicalInterventionBasicDetailsUpdateAPICall(medicalInterventionId, values)
+                .then((response) => {
+                    CommonService._alert.showToast("Details edited", "success");
+                    setSubmitting(false);
+                    setIsEditInterventionDateOpen(false);
+                    dispatch(getMedicalInterventionDetails(medicalInterventionId));
+                }).catch((error) => {
+                CommonService.handleErrors(setErrors, error, true);
+                setSubmitting(false);
+            });
+        }
+    }, [medicalInterventionId]);
+
     // const handleEditSoapNote = useCallback(() => {
     //     if (medicalRecordId && medicalInterventionId) {
     //         navigate(CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, medicalInterventionId));
@@ -277,19 +303,19 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
 
             }
             {medicalRecordId &&
-                <DrawerComponent isOpen={isSurgeryAddOpen}
-                                 showClose={true}
-                                 onClose={setIsSurgeryAddOpen.bind(null, false)}
-                                 className={"t-surgery-record-drawer"}
-                >
-                    <AddSurgeryRecordComponent medicalRecordId={medicalRecordId}
-                                               medicalRecordDetails={medicalInterventionDetails?.medical_record_details}
-                                               onCancel={() => setIsSurgeryAddOpen(false)}
-                                               onSave={() => {
-                                                   dispatch(getClientMedicalRecord(medicalRecordId));
-                                                   setIsSurgeryAddOpen(false);
-                                               }}/>
-                </DrawerComponent>
+            <DrawerComponent isOpen={isSurgeryAddOpen}
+                             showClose={true}
+                             onClose={setIsSurgeryAddOpen.bind(null, false)}
+                             className={"t-surgery-record-drawer"}
+            >
+                <AddSurgeryRecordComponent medicalRecordId={medicalRecordId}
+                                           medicalRecordDetails={medicalInterventionDetails?.medical_record_details}
+                                           onCancel={() => setIsSurgeryAddOpen(false)}
+                                           onSave={() => {
+                                               dispatch(getClientMedicalRecord(medicalRecordId));
+                                               setIsSurgeryAddOpen(false);
+                                           }}/>
+            </DrawerComponent>
             }
             {
                 (isClientMedicalRecordLoaded && medicalRecordId) &&
@@ -334,6 +360,14 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
                             <div className={'ts-col'}>
                                 <DataLabelValueComponent label={'Date of Intervention'}>
                                     {medicalInterventionDetails?.intervention_date ? CommonService.convertDateFormat2(medicalInterventionDetails?.intervention_date) : "N/A"}
+                                    <IconButtonComponent
+                                        onClick={() => {
+                                            setIsEditInterventionDateOpen(true);
+                                        }}
+                                        id={"edit"}
+                                    >
+                                        <ImageConfig.EditIcon/>
+                                    </IconButtonComponent>
                                 </DataLabelValueComponent>
                             </div>
                             <div className={'ts-col'}>
@@ -436,7 +470,7 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
             </DrawerComponent>
 
             <DrawerComponent isOpen={isAddConcussionFileDrawerOpen}
-                             // showClose={true}
+                // showClose={true}
                              onClose={closeAddConcussionFileDrawer}>
                 <AddConcussionFileComponent
                     medicalRecordDetails={medicalInterventionDetails?.medical_record_details}
@@ -528,6 +562,69 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
                 </Formik>
             </ModalComponent>
             {/*Notify admin for medical record modal end*/}
+
+            <ModalComponent
+                title={'Edit Intervention Date'}
+                size={'xs'}
+                isOpen={isEditInterventionDateOpen}
+                closeOnBackDropClick={true}
+                className={'edit-intervention-date-modal'}
+            >
+                <Formik initialValues={editInterventionDateInitialValues}
+                        onSubmit={onInterventionDateEdit}
+                        validateOnChange={false}
+                        validateOnBlur={true}
+                        enableReinitialize={true}
+                        validateOnMount={true}>
+                    {({values, isValid, isSubmitting, validateForm}) => {
+                        // eslint-disable-next-line react-hooks/rules-of-hooks
+                        useEffect(() => {
+                            validateForm();
+                        }, [values, validateForm]);
+                        return (
+                            <Form className={'t-form'} noValidate={true}>
+                                <div className={'ts-row ts-justify-content-center'}>
+                                    <div className={'ts-col-lg-12'}>
+                                        <Field name={'intervention_date'}>
+                                            {
+                                                (field: FieldProps) => (
+                                                    <FormikDatePickerComponent
+                                                        label={'Intervention Date'}
+                                                        placeholder={'Enter Intervention Date'}
+                                                        formikField={field}
+                                                        required={true}
+                                                        minDate={moment()}
+                                                        fullWidth={true}
+                                                    />
+                                                )
+                                            }
+                                        </Field>
+                                    </div>
+                                </div>
+                                <div className={'ts-action display-flex ts-justify-content-center'}>
+                                    <ButtonComponent variant={'outlined'}
+                                                     className={isSubmitting ? 'mrg-right-15' : ""}
+                                                     disabled={isSubmitting}
+                                                     onClick={() => {
+                                                         setIsEditInterventionDateOpen(false);
+                                                     }}>
+                                        Cancel
+                                    </ButtonComponent>
+                                    &nbsp;&nbsp;
+                                    <ButtonComponent variant={'contained'} color={'primary'}
+                                                     className={'mrg-left-15'}
+                                                     isLoading={isSubmitting}
+                                                     disabled={!isValid || isSubmitting}
+                                                     type={'submit'}>
+                                        Submit
+                                    </ButtonComponent>
+                                </div>
+                            </Form>
+                        )
+                    }}
+                </Formik>
+
+            </ModalComponent>
         </div>
     );
 }
