@@ -327,7 +327,8 @@ const UserPersonalDetailsEditComponent = (props: UserPersonalDetailsEditComponen
                                         <ErrorComponent
                                             errorText={(_.get(errors, "signature"))}/>
                                     }
-                                </div>}
+                                </div>
+                                }
 
                                 {(values?.signature && userBasicDetails?.signature) && <div className="ts-row">
                                     <div className="ts-col-4">

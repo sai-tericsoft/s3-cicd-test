@@ -68,7 +68,8 @@ const AddMedicalRecordDocumentComponent = (props: AddMedicalRecordDocumentCompon
                 onAdd(response.data);
             })
             .catch((error: any) => {
-                CommonService.handleErrors(setErrors, error, true);
+                // CommonService.handleErrors(setErrors, error, true);
+                CommonService._alert.showToast(error, "error");
                 setIsMedicalRecordDocumentFileAddInProgress(false);
             })
     }, [medicalRecordId, onAdd,setRefreshToken]);
