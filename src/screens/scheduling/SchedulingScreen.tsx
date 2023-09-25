@@ -1004,7 +1004,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                                 schedulingListFilterState.duration === '3day' ? 3 :
                                                     schedulingListFilterState.duration === '5day' ? 5 : 1)
                                         }, (v, i) => moment(schedulingListFilterState.start_date).add(i, 'days')).map((day, index) => {
-                                            const date = day.format('DD-MMM-YYYY');
+                                            const date = day.format('YYYY-MM-DD');
                                             return <div key={index}
                                                         className={"scheduling-calendar-day-wise-item view-" + schedulingListFilterState.duration}>
                                                 <div className="scheduling-calendar-day-wise-item-header">
