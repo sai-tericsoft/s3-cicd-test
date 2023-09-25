@@ -22,7 +22,6 @@ import FormikInputComponent from "../../../shared/components/form-controls/formi
 import ModalComponent from "../../../shared/components/modal/ModalComponent";
 import FormikTextAreaComponent from "../../../shared/components/form-controls/formik-text-area/FormikTextAreaComponent";
 import CheckBoxComponent from "../../../shared/components/form-controls/check-box/CheckBoxComponent";
-import {RadioButtonComponent} from "../../../shared/components/form-controls/radio-button/RadioButtonComponent";
 import {setCurrentNavParams} from "../../../store/actions/navigation.action";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 
@@ -54,7 +53,7 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
     const [isBodyPartBeingDeleted, setIsBodyPartBeingDeleted] = useState<boolean>(false);
     const [isBodySidesModalOpen, setIsBodySidesModalOpen] = useState<boolean>(false);
     const [showAddBodyPartModal, setShowAddBodyPartModal] = useState<boolean>(false);
-    const [selectedBodyPartToBeAdded, setSelectedBodyPartToBeAdded] = useState<any>(undefined);
+    const [selectedBodyPartsToBeAdded, setSelectedBodyPartsToBeAdded] = useState<any[]>([]);
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
     const last_position: any = searchParams.get("last_position");
@@ -285,23 +284,34 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
 
     const handleAddNewBodyPartOpenModal = useCallback(() => {
         setShowAddBodyPartModal(true);
-        setSelectedBodyPartToBeAdded(undefined);
+        setSelectedBodyPartsToBeAdded([]);
     }, []);
 
     const handleAddNewBodyPart = useCallback(() => {
         setShowAddBodyPartModal(false);
-        const updatedGlobalRomConfig: any = [...globalRomConfig, {
-            body_part: selectedBodyPartToBeAdded,
-            rom_config: [],
-            selected_sides: [selectedBodyPartToBeAdded.default_body_side],
-            mode: 'write'
-        }];
+        const updatedGlobalRomConfig: any = [...globalRomConfig];
+        for (const selectedBodyPart of selectedBodyPartsToBeAdded) {
+            updatedGlobalRomConfig.push({
+                body_part: selectedBodyPart,
+                rom_config: [],
+                selected_sides: [selectedBodyPart.default_body_side],
+                mode: 'write'
+            });
+        }
         setGlobalRomConfig(updatedGlobalRomConfig);
+
         const romFormValuesCopy = _.cloneDeep(romFormValues);
-        romFormValuesCopy[selectedBodyPartToBeAdded._id] = generateROMConfigForAnInjury(selectedBodyPartToBeAdded, [selectedBodyPartToBeAdded?.default_body_side], []);
+        for (const selectedBodyPart of selectedBodyPartsToBeAdded) {
+            romFormValuesCopy[selectedBodyPart._id] = generateROMConfigForAnInjury(
+                selectedBodyPart,
+                [selectedBodyPart?.default_body_side],
+                []
+            );
+        }
         setRomFormValues(romFormValuesCopy);
-        setSelectedBodyPartToBeAdded(undefined);
-    }, [romFormValues, globalRomConfig, selectedBodyPartToBeAdded, generateROMConfigForAnInjury]);
+
+        setSelectedBodyPartsToBeAdded([]); // Clear the selected items
+    }, [romFormValues, globalRomConfig, selectedBodyPartsToBeAdded, generateROMConfigForAnInjury]);
 
     useEffect(() => {
         if (medicalInterventionId && !medicalInterventionDetails) {
@@ -803,33 +813,37 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
                     </ButtonComponent>&nbsp;
                     <ButtonComponent onClick={handleAddNewBodyPart}
                                      className={'mrg-left-15'}
-                                     disabled={!selectedBodyPartToBeAdded}
+                                     disabled={!selectedBodyPartsToBeAdded}
                     >
                         Add
                     </ButtonComponent>
                 </>}
             >
                 <div className="ts-row">
-                    {
-
-                        bodyPartList.map((item: any, index: number) => {
-                            return <>{
-                                item?.movements?.length > 0 &&
-                                <div className="ts-col-md-6 ts-col-lg-3"
-                                     key={item._id}>
-                                    <RadioButtonComponent
-                                        name={"intervention-rom-config-add-body-part"}
-                                        key={index + item?.name}
-                                        label={item?.name}
-                                        checked={selectedBodyPartToBeAdded?._id === item?._id}
-                                        disabled={globalRomConfig.findIndex((bodyPart) => bodyPart.body_part._id === item._id) !== -1}
-                                        onChange={() => {
-                                            setSelectedBodyPartToBeAdded(item);
-                                        }}/>
-                                </div>
-                            }</>
-                        })
-                    }
+                    {bodyPartList.map((item: any, index: number) => (
+                        item?.movements?.length > 0 && (
+                            <div className="ts-col-md-6 ts-col-lg-3" key={item._id}>
+                                <CheckBoxComponent
+                                    name={`intervention-rom-config-add-body-part-${item._id}`}
+                                    label={item?.name}
+                                    checked={selectedBodyPartsToBeAdded.some((selectedItem) => selectedItem._id === item._id)}
+                                    disabled={globalRomConfig.some((bodyPart) => bodyPart.body_part._id === item._id)}
+                                    onChange={() => {
+                                        const isSelected = selectedBodyPartsToBeAdded.some((selectedItem) => selectedItem._id === item._id);
+                                        if (isSelected) {
+                                            // Remove the item from the selected items
+                                            setSelectedBodyPartsToBeAdded((prevSelected) =>
+                                                prevSelected.filter((selectedItem) => selectedItem._id !== item._id)
+                                            );
+                                        } else {
+                                            // Add the item to the selected items
+                                            setSelectedBodyPartsToBeAdded((prevSelected) => [...prevSelected, item]);
+                                        }
+                                    }}
+                                />
+                            </div>
+                        )
+                    ))}
 
                 </div>
             </ModalComponent>

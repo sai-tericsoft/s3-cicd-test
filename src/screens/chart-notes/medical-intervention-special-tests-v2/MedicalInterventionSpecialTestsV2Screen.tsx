@@ -56,7 +56,7 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
     const [isBodyPartBeingDeleted, setIsBodyPartBeingDeleted] = useState<boolean>(false);
     const [isAddSpecialTestModalOpen, setIsAddSpecialTestModalOpen] = useState<boolean>(false);
     const [showAddBodyPartModal, setShowAddBodyPartModal] = useState<boolean>(false);
-    const [selectedBodyPartToBeAdded, setSelectedBodyPartToBeAdded] = useState<any>(undefined);
+    const [selectedBodyPartsToBeAdded, setSelectedBodyPartsToBeAdded] = useState<any[]>([]);
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
     const last_position: any = searchParams.get("last_position");
@@ -339,23 +339,36 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
 
     const handleAddNewBodyPartOpenModal = useCallback(() => {
         setShowAddBodyPartModal(true);
-        setSelectedBodyPartToBeAdded(undefined);
+        setSelectedBodyPartsToBeAdded([]);
     }, []);
+
 
     const handleAddNewBodyPart = useCallback(() => {
         setShowAddBodyPartModal(false);
-        const updatedGloablSpecialTestConfig: any = [...globalSpecialTestConfig, {
-            body_part: selectedBodyPartToBeAdded,
-            special_test_config: [],
-            selected_sides: SPECIAL_TEST_APPLICABLE_BODY_SIDES,
-            mode: 'write'
-        }];
-        setGlobalSpecialTestConfig(updatedGloablSpecialTestConfig);
+        const updatedGlobalRomConfig: any = [...globalSpecialTestConfig];
+        for (const selectedBodyPart of selectedBodyPartsToBeAdded) {
+            updatedGlobalRomConfig.push({
+                body_part: selectedBodyPart,
+                rom_config: [],
+                selected_sides: [selectedBodyPart.default_body_side],
+                mode: 'write'
+            });
+        }
+        setGlobalSpecialTestConfig(updatedGlobalRomConfig);
+
         const specialTestFormValuesCopy = _.cloneDeep(specialTestFormValues);
-        specialTestFormValuesCopy[selectedBodyPartToBeAdded._id] = generateSpecialTestConfigForAnInjury(selectedBodyPartToBeAdded, SPECIAL_TEST_APPLICABLE_BODY_SIDES, []);
+        for (const selectedBodyPart of selectedBodyPartsToBeAdded) {
+            specialTestFormValuesCopy[selectedBodyPart._id] = generateSpecialTestConfigForAnInjury(
+                selectedBodyPart,
+                [selectedBodyPart?.default_body_side],
+                []
+            );
+        }
         setSpecialTestFormValues(specialTestFormValuesCopy);
-        setSelectedBodyPartToBeAdded(undefined);
-    }, [specialTestFormValues, globalSpecialTestConfig, selectedBodyPartToBeAdded, generateSpecialTestConfigForAnInjury]);
+
+        setSelectedBodyPartsToBeAdded([]); // Clear the selected items
+    }, [specialTestFormValues, globalSpecialTestConfig, selectedBodyPartsToBeAdded, generateSpecialTestConfigForAnInjury]);
+
 
     useEffect(() => {
         if (medicalInterventionId && !medicalInterventionDetails) {
@@ -845,33 +858,37 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
                     </ButtonComponent>&nbsp;
                     <ButtonComponent onClick={handleAddNewBodyPart}
                                      className={'mrg-left-15'}
-                                     disabled={!selectedBodyPartToBeAdded}
+                                     disabled={!selectedBodyPartsToBeAdded}
                     >
                         Add
                     </ButtonComponent>
                 </>}
             >
                 <div className="ts-row">
-                    {
-
-                        bodyPartList.map((item: any, index: number) => {
-                            return <>{
-                                item?.movements?.length > 0 &&
-                                <div className="ts-col-md-6 ts-col-lg-3"
-                                     key={item._id}>
-                                    <RadioButtonComponent
-                                        name={"intervention-rom-config-add-body-part"}
-                                        key={index + item?.name}
-                                        label={item?.name}
-                                        checked={selectedBodyPartToBeAdded?._id === item?._id}
-                                        disabled={globalSpecialTestConfig.findIndex((bodyPart) => bodyPart.body_part._id === item._id) !== -1}
-                                        onChange={() => {
-                                            setSelectedBodyPartToBeAdded(item);
-                                        }}/>
-                                </div>
-                            }</>
-                        })
-                    }
+                    {bodyPartList.map((item: any, index: number) => (
+                        item?.movements?.length > 0 && (
+                            <div className="ts-col-md-6 ts-col-lg-3" key={item._id}>
+                                <CheckBoxComponent
+                                    name={`intervention-rom-config-add-body-part-${item._id}`}
+                                    label={item?.name}
+                                    checked={selectedBodyPartsToBeAdded.some((selectedItem) => selectedItem._id === item._id)}
+                                    disabled={globalSpecialTestConfig.some((bodyPart) => bodyPart.body_part._id === item._id)}
+                                    onChange={() => {
+                                        const isSelected = selectedBodyPartsToBeAdded.some((selectedItem) => selectedItem._id === item._id);
+                                        if (isSelected) {
+                                            // Remove the item from the selected items
+                                            setSelectedBodyPartsToBeAdded((prevSelected) =>
+                                                prevSelected.filter((selectedItem) => selectedItem._id !== item._id)
+                                            );
+                                        } else {
+                                            // Add the item to the selected items
+                                            setSelectedBodyPartsToBeAdded((prevSelected) => [...prevSelected, item]);
+                                        }
+                                    }}
+                                />
+                            </div>
+                        )
+                    ))}
 
                 </div>
             </ModalComponent>
