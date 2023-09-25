@@ -58,8 +58,8 @@ const MedicalInterventionAddFormInitialValues: any = { // TODO type properly
 const ICDTableColumns: any = [
     {
         title: 'ICD Code',
-        dataIndex: 'icdCode',
-        key: 'icdCode',
+        dataIndex: 'icd_code',
+        key: 'icd_code',
         width: 150,
         fixed: 'left'
     },

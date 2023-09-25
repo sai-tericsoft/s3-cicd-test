@@ -246,8 +246,8 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
     const ICDCodesColumns: ITableColumn[] = useMemo<ITableColumn[]>(() => [
         {
             title: 'ICD Code',
-            dataIndex: 'icdCode',
-            key: 'icdCode',
+            dataIndex: 'icd_code',
+            key: 'icd_code',
             fixed: 'left',
         },
         {

@@ -29,8 +29,8 @@ const AllAddedICD11CodesComponent = (props: AllAddedIcd11CodesComponentProps) =>
     const AddedICDCodesColumns: any = useMemo(() => [
         {
             title: 'ICD Code',
-            key: 'icdCode',
-            dataIndex: 'icdCode',
+            key: 'icd_code',
+            dataIndex: 'icd_code',
             fixed: 'left',
             width: 150,
         },

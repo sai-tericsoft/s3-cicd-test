@@ -141,8 +141,8 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
     const selectesICDCodesColumns: ITableColumn[] = [
         {
             title: 'ICD Code',
-            dataIndex: 'icdCode',
-            key: 'icdCode',
+            dataIndex: 'icd_code',
+            key: 'icd_code',
             width: 180,
             // fixed: 'left',
             // align: 'left',
@@ -196,8 +196,8 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
         // },
         {
             title: 'ICD Codes',
-            dataIndex: 'icdCode',
-            key: 'icdCode',
+            dataIndex: 'icd_code',
+            key: 'icd_code',
             width: 180,
             // fixed: 'left',
             // align: 'left',
@@ -206,7 +206,6 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
                 return <div className="icd-code-column">
                     <CheckBoxComponent label={item} checked={selectedICDCodes.some((code) => code?._id === record?._id)}
                                        onChange={(isChecked) => {
-                                           console.log(isChecked, record);
                                            if (isChecked) {
                                                setSelectedICDCodes([...selectedICDCodes, record]);
                                            } else {
@@ -269,12 +268,12 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
         // },
         {
             title: 'ICD Codes',
-            dataIndex: 'icdCode',
-            key: 'icdCode',
+            dataIndex: 'icd_code',
+            key: 'icd_code',
             width: 180,
             fixed: 'left',
             render: (item: any, record: any) => {
-                return <CheckBoxComponent label={record?.icd_code_details?.icdCode}
+                return <CheckBoxComponent label={record?.icd_code_details?.icd_code}
                                           checked={selectedICDCodes.includes(record?.icd_code_id)}
                                           onChange={(isChecked) => {
                                               if (isChecked) {
