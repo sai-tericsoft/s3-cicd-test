@@ -113,8 +113,7 @@ const RomConfigComponent = (props: RomConfigComponentProps) => {
                     align: 'center',
                     width: 80,
                     render: (record: any) => {
-                        return
-                        <span className={'strength-input'}>
+                        return <span className={'strength-input'}>
                         <Field
                             name={`${bodyPart._id}.${record?.name}.${side}.strength`}
                             className="t-form-control">

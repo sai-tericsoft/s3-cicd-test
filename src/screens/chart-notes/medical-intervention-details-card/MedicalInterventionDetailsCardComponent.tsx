@@ -77,7 +77,7 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
     const [isMedicalRecordDocumentAddDrawerOpen, setIsMedicalRecordDocumentAddDrawerOpen] = useState<boolean>(false);
     const [isNotifyModalOpen, setIsNotifyModalOpen] = useState<boolean>(false);
     const [notifyAdminFormInitialValues, setNotifyAdminFormInitialValues] = useState<any>(_.cloneDeep(NotifyAdminInitialValues));
-    const [editInterventionDateInitialValues, setEditInterventionDateInitialValues] = useState<any>(_.cloneDeep(dateInterventionInitialValues));
+    const [editInterventionDateInitialValues] = useState<any>(_.cloneDeep(dateInterventionInitialValues));
     const [isNotifyAdminProgressIsLoading, setIsNotifyAdminProgressIsLoading] = useState<boolean>(false);
     const [isFullCardOpen, setIsFullCardOpen] = useState<boolean>(false);
     const [isEditInterventionDateOpen, setIsEditInterventionDateOpen] = useState<boolean>(false);
@@ -247,7 +247,7 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
                 setSubmitting(false);
             });
         }
-    }, [medicalInterventionId]);
+    }, [medicalInterventionId, dispatch]);
 
     // const handleEditSoapNote = useCallback(() => {
     //     if (medicalRecordId && medicalInterventionId) {

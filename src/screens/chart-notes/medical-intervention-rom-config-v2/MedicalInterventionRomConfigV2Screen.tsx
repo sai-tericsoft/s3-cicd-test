@@ -313,7 +313,7 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
         if (medicalInterventionId) {
             dispatch(getMedicalInterventionDetails(medicalInterventionId));
         }
-    }, [medicalInterventionId, medicalInterventionDetails, dispatch]);
+    }, [medicalInterventionId, dispatch]);
 
     useEffect(() => {
         if (medicalRecordId && medicalInterventionId) {
