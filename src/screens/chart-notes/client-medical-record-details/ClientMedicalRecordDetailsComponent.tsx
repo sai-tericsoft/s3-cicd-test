@@ -80,7 +80,8 @@ const ClientMedicalRecordDetailsComponent = (props: ClientMedicalDetailsComponen
             const payload = {
                 client_id: clientMedicalRecord.client_id,
                 medicalRecordId: medicalRecordId,
-                is_link_to_intervention: true
+                is_link_to_intervention: true,
+                appointment_type: 'followup_consultation',
             };
             dispatch(getAppointmentListLite(payload));
         }
