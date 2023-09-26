@@ -5,6 +5,7 @@ import AuthLayout from "../layouts/auth-layout/AuthLayout";
 import TestScreen from "../screens/test/TestScreen";
 import DesignSystemScreen from "../screens/design-system/DesignSystemScreen";
 import LoginScreen from "../screens/auth/login/LoginScreen";
+import ForgotPasswordScreen from "../screens/auth/forgot-password/ForgotPasswordScreen";
 import AppLayout from "../layouts/app-layout/AppLayout";
 import ComingSoonScreen from "../screens/coming-soon/ComingSoonScreen";
 import {useDispatch, useSelector} from "react-redux";
@@ -70,6 +71,7 @@ import {
     INVENTORY_LIST,
     INVENTORY_PRODUCT_VIEW_DETAILS,
     LOGIN_ROUTE,
+    FORGOT_PASSWORD_ROUTE,
     MEDICAL_INTERVENTION_EXERCISE_LOG_UPDATE,
     MEDICAL_INTERVENTION_EXERCISE_LOG_VIEW,
     MEDICAL_INTERVENTION_FINALIZE_TREATMENT,
@@ -935,6 +937,9 @@ const Navigator = (props: NavigatorProps) => {
                             </UnProtectedRoute>
                         }
                     />
+                    <Route path={FORGOT_PASSWORD_ROUTE} element={<UnProtectedRoute>
+                        <ForgotPasswordScreen/>
+                    </UnProtectedRoute>}/>
                 </Route>
                 <Route path={TEST_ROUTE} element={<TestScreen/>}/>
                 <Route path={DESIGN_SYSTEM_ROUTE} element={<DesignSystemScreen/>}/>

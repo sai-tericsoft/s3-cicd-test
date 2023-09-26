@@ -13,6 +13,7 @@ import {
     HELP,
     INVENTORY,
     LOGIN_ROUTE,
+    FORGOT_PASSWORD_ROUTE,
     NOT_FOUND_ROUTE,
     REPORT_AN_ISSUE,
     SCHEDULING_VIEW,
@@ -34,6 +35,9 @@ const DefaultRoute = () => {
 
 const LoginRoute = () => {
     return LOGIN_ROUTE;
+}
+const ForgotPasswordRoute = () => {
+    return FORGOT_PASSWORD_ROUTE;
 }
 
 const NotFoundRoute = () => {
@@ -215,7 +219,7 @@ const MedicalInterventionConcussionFileViewDetails = (medicalRecordId: string, c
     return "/chart-notes/" + medicalRecordId + "/" + concussionFileId + '/concussion-file-view-details';
 }
 
-const MedicalRecordDocumentViewDetails = (medicalRecordId: string, medicalRecordDocumentId: string ) => {
+const MedicalRecordDocumentViewDetails = (medicalRecordId: string, medicalRecordDocumentId: string) => {
     return "/chart-notes/" + medicalRecordId + "/" + medicalRecordDocumentId + '/medical-record-document-view-details';
 
 }
@@ -348,6 +352,7 @@ const BillingSettings = () => {
 const RouteConfigService = {
     DefaultRoute,
     LoginRoute,
+    ForgotPasswordRoute,
     NotFoundRoute,
     TestRoute,
     ComingSoonRoute,
