@@ -67,6 +67,8 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
         search: "",
     });
 
+    console.log("selectedICDCodes", selectedICDCodes);
+
     useEffect(() => {
         if (medicalInterventionId) {
             dispatch(getMedicalInterventionDetails(medicalInterventionId));
@@ -274,12 +276,11 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
             fixed: 'left',
             render: (item: any, record: any) => {
                 return <CheckBoxComponent label={record?.icd_code_details?.icd_code}
-                                          checked={selectedICDCodes.includes(record?.icd_code_id)}
+                                          checked={selectedICDCodes.some((code) => code?._id === record?.icd_code_id)}
                                           onChange={(isChecked) => {
                                               if (isChecked) {
                                                   setSelectedICDCodes([...selectedICDCodes, {
-                                                      ...record,
-                                                      _id: record?.icd_code_id
+                                                      ...record.icd_code_details,
                                                   }]);
                                               } else {
                                                   setSelectedICDCodes(selectedICDCodes.filter((code) => code?._id !== record?.icd_code_id));
