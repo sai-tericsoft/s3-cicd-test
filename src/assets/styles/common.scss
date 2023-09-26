@@ -207,6 +207,17 @@
       overflow-x: hidden;
       overflow-y: auto;
     }
+
+    .page-content-holder:has(.no-internet-component) {
+      //background:#FFF;
+      background: url("./../../assets/images/semi_circled_rectangle.svg");
+      background-position: bottom;
+      background-repeat: no-repeat;
+      background-size: auto 60%;
+      @include xl(){
+        background-size: auto 70%;
+      }
+    }
   }
 }
 
@@ -853,7 +864,7 @@
       .data-label, .data-value {
         font-weight: $font-weight-bold;
         color: $body-color !important;
-        margin-left: 110px!important;
+        margin-left: 110px !important;
       }
     }
 
@@ -1099,18 +1110,21 @@
   color: #6D6D6D;
   align-items: center;
 }
-.view-arom-prom-table{
+
+.view-arom-prom-table {
   .t-body {
     .t-td {
       min-height: 40px !important;
     }
   }
+
   .t-thead {
     .t-th {
       min-height: 40px !important;
       height: 40px !important;
     }
   }
+
   .t-th, .t-td {
 
     &:first-child {
@@ -1118,18 +1132,21 @@
     }
   }
 }
-.icd-codes-wrapper{
+
+.icd-codes-wrapper {
   .t-body {
     .t-td {
       min-height: 40px !important;
     }
   }
+
   .t-thead {
     .t-th {
       min-height: 40px !important;
       height: 40px !important;
     }
   }
+
   .t-th, .t-td {
 
     &:first-child {

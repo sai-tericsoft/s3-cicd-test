@@ -86,7 +86,7 @@ const UserAddressDetailsEditComponent = (props: UserAddressDetailsEditComponentP
                         }, [validateForm, values]);
                         return (
                             <Form noValidate={true} className={"t-form"} autoComplete="off">
-                                <FormDebuggerComponent showDebugger={true} values={values} errors={errors}/>
+                                {/*<FormDebuggerComponent showDebugger={true} values={values} errors={errors}/>*/}
                                 <div className="ts-row">
                                     <div className="ts-col">
                                         <Field name={'address.address_line'}>

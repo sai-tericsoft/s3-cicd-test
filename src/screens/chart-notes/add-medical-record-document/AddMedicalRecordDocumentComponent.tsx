@@ -64,7 +64,7 @@ const AddMedicalRecordDocumentComponent = (props: AddMedicalRecordDocumentCompon
             .then((response: IAPIResponseType<any>) => {
                 CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                 setIsMedicalRecordDocumentFileAddInProgress(false);
-                setRefreshToken(Math.random().toString(36).substring(7));
+                setRefreshToken && setRefreshToken(Math.random().toString(36).substring(7));
                 onAdd(response.data);
             })
             .catch((error: any) => {

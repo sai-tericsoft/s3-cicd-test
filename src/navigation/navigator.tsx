@@ -190,6 +190,7 @@ import UserSlotsEditComponent from "../screens/settings/user-slots-edit/UserSlot
 import ThankYouNoteComponent from "../screens/admin/billing-settings/thank-you-note/ThankYouNoteComponent";
 import ConsolidatedBillingDetailsScreen
     from "../screens/billings/consolidated-billing-details/consolidated-billing-details/ConsolidatedBillingDetailsScreen";
+import NoInternetComponent from "../shared/components/no-internet/NoInternetComponent";
 
 
 const ProtectedRoute = (props: React.PropsWithChildren<any>) => {
@@ -207,7 +208,11 @@ const ProtectedRoute = (props: React.PropsWithChildren<any>) => {
         }
     }, [token, navigate, location, dispatch]);
 
-    return children;
+    return (
+       <NoInternetComponent>
+           {children}
+       </NoInternetComponent>
+    ) ;
 }
 
 const UnProtectedRoute = (props: React.PropsWithChildren<any>) => {
@@ -228,7 +233,11 @@ const UnProtectedRoute = (props: React.PropsWithChildren<any>) => {
         }
     }, [token, navigate, location])
 
-    return children;
+    return(
+        <NoInternetComponent>
+            {children}
+        </NoInternetComponent>
+    );
 }
 
 export interface NavigatorProps {

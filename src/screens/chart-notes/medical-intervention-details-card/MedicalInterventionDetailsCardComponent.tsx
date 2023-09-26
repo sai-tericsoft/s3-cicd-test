@@ -155,10 +155,12 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
     }, []);
 
     const closeMedicalRecordDocumentAddDrawer = useCallback(() => {
+        console.log('closeMedicalRecordDocumentAddDrawer');
         setIsMedicalRecordDocumentAddDrawerOpen(false);
     }, []);
 
     const handleMedicalRecordDocumentAdd = useCallback(() => {
+        console.log('handleMedicalRecordDocumentAdd');
         dispatch(refreshMedicalRecordAttachmentList());
         closeMedicalRecordDocumentAddDrawer();
     }, [dispatch, closeMedicalRecordDocumentAddDrawer]);

@@ -419,8 +419,8 @@ const UserSlotsEditComponent = (props: UserSlotsEditComponentProps) => {
                                         }, [validateForm, values]);
                                         return (
                                             <Form className="t-form" noValidate={true}>
-                                                <FormDebuggerComponent values={values} errors={errors}
-                                                                       showDebugger={true}/>
+                                                {/*<FormDebuggerComponent values={values} errors={errors}*/}
+                                                {/*                       showDebugger={true}/>*/}
                                                 <div className={'ts-row'}>
                                                     <div className={'ts-col-2'}>
                                                         <Field name={'is_same_slots'}>

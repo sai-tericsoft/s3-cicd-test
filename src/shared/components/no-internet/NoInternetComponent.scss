@@ -1,0 +1,24 @@
+.no-internet-component {
+  height: calc(100vh - 115px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  .no-internet-icon-wrapper{
+    margin-bottom: 80px;
+  }
+  .no-internet-title {
+    color: #212B36;
+    text-align: center;
+    font-size: 24px;
+    font-weight: 500;
+    margin-bottom: 10px;
+  }
+  .no-internet-description {
+    color: #6D6D6D;
+    text-align: center;
+    font-size: 16px;
+    font-weight: 400;
+    margin-bottom: 100px;
+  }
+}

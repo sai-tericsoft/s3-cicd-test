@@ -95,7 +95,7 @@ const UserProfessionalDetailsEditComponent = (props: UserProfessionalDetailsEdit
                         }, [validateForm, values]);
                         return (
                             <Form noValidate={true} className={"t-form"}>
-                                <FormDebuggerComponent showDebugger={true} values={values} errors={errors}/>
+                                {/*<FormDebuggerComponent showDebugger={true} values={values} errors={errors}/>*/}
 
                                 <FieldArray
                                     name="professional_details"
