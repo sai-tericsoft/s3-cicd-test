@@ -4,7 +4,7 @@ import {useCallback, useEffect, useState} from "react";
 import FormikInputComponent from "../../../shared/components/form-controls/formik-input/FormikInputComponent";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import LinkComponent from "../../../shared/components/link/LinkComponent";
-import {LOGIN_ROUTE, OTP_VERIFICATION_ROUTE} from "../../../constants/RoutesConfig";
+import {LOGIN_ROUTE, OTP_VERIFICATION_ROUTE, RESET_PASSWORD_ROUTE} from "../../../constants/RoutesConfig";
 import {ImageConfig} from "../../../constants";
 import FormikOTPComponent from "../../../shared/components/form-controls/formik-otp/FormikOtpComponent";
 import {IAccountLoginCredentials, ILoginResponse} from "../../../shared/models/account.model";
@@ -28,8 +28,6 @@ const loginFormValidationSchema = Yup.object({
 
 const OtpVerificationScreen = (props: OtpVerificationScreenProps) => {
     const [loginFormInitialValues, setLoginFormInitialValues] = useState<any>({
-        email: "",
-        password: "",
         otp: ""
     });
     const [isLoggingIn, setIsLoggingIn] = useState(false);
@@ -50,7 +48,7 @@ const OtpVerificationScreen = (props: OtpVerificationScreenProps) => {
                 // CommonService.handleErrors(setErrors, error);
                 setIsLoggingIn(false);
             }).finally(() => {
-            navigate(OTP_VERIFICATION_ROUTE)
+            navigate(RESET_PASSWORD_ROUTE)
         })
     }, [dispatch]);
 

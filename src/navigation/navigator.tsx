@@ -73,6 +73,7 @@ import {
     LOGIN_ROUTE,
     FORGOT_PASSWORD_ROUTE,
     OTP_VERIFICATION_ROUTE,
+    RESET_PASSWORD_ROUTE,
     MEDICAL_INTERVENTION_EXERCISE_LOG_UPDATE,
     MEDICAL_INTERVENTION_EXERCISE_LOG_VIEW,
     MEDICAL_INTERVENTION_FINALIZE_TREATMENT,
@@ -194,6 +195,7 @@ import ThankYouNoteComponent from "../screens/admin/billing-settings/thank-you-n
 import ConsolidatedBillingDetailsScreen
     from "../screens/billings/consolidated-billing-details/consolidated-billing-details/ConsolidatedBillingDetailsScreen";
 import OtpVerificationScreen from "../screens/auth/otp-verification-screen/OtpVerificationScreen";
+import ResetPasswordScreen from "../screens/auth/reset-password/ResetPasswordScreen";
 
 
 const ProtectedRoute = (props: React.PropsWithChildren<any>) => {
@@ -951,6 +953,13 @@ const Navigator = (props: NavigatorProps) => {
                         element={
                             <UnProtectedRoute>
                                 <OtpVerificationScreen/>
+                            </UnProtectedRoute>
+                        }/>
+                    <Route
+                        path={RESET_PASSWORD_ROUTE}
+                        element={
+                            <UnProtectedRoute>
+                                <ResetPasswordScreen/>
                             </UnProtectedRoute>
                         }/>
                 </Route>
