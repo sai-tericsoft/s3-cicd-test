@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import {Navigate, Route, Routes, useLocation, useNavigate} from 'react-router-dom';
-import NotFoundScreen from "../screens/not-found/notFoundScreen";
+import NotFoundScreen from "../shared/components/not-found/notFoundScreen";
 import AuthLayout from "../layouts/auth-layout/AuthLayout";
 import TestScreen from "../screens/test/TestScreen";
 import DesignSystemScreen from "../screens/design-system/DesignSystemScreen";

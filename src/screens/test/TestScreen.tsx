@@ -2,6 +2,7 @@ import './TestScreen.scss';
 import React from "react";
 import ConsolidatedBillingDetailsScreen
     from "../billings/consolidated-billing-details/consolidated-billing-details/ConsolidatedBillingDetailsScreen";
+import IcdCodingToolComponent from "../../shared/components/icd-coding-tool/IcdCodingToolComponent";
 // import ColorPickerComponent from "../../shared/components/form-controls/color-picker/ColorPickerComponent";
 
 
@@ -91,7 +92,7 @@ const TestScreen = () => {
             {/*    <InputComponent name={'Accordion'} value={'aa'}/>*/}
             {/*</AccordionComponent>*/}
 
-     <ConsolidatedBillingDetailsScreen/>
+            <IcdCodingToolComponent/>
         </div>
     );
 };

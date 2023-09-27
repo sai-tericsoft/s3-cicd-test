@@ -40,6 +40,8 @@ import {ReactComponent as ConfirmIcon} from './../assets/confirmation/confirm.sv
 import {ReactComponent as FORWARD_ICON} from './../assets/icons/forward_icon.svg';
 import {ReactComponent as CloudIcon} from "./../assets/icons/cloud_done.svg";
 import {ReactComponent as NoInternetIcon} from "./../assets/icons/no_internet.svg";
+import {ReactComponent as PageNotFound} from "./../assets/icons/page_not_found.svg";
+import {ReactComponent as AccessDenied} from "./../assets/icons/access_denied.svg";
 
 import {ReactComponent as CircleCheck} from './../assets/icons/check_circle.svg';
 import {ReactComponent as CircleInfo} from './../assets/icons/info_circle.svg';
@@ -233,5 +235,7 @@ export {
     CloudIcon,
     confirmImage,
     NewLogo,
-    NoInternetIcon
+    NoInternetIcon,
+    PageNotFound,
+    AccessDenied
 }

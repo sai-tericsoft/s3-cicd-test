@@ -3291,6 +3291,11 @@
     "@webassemblyjs/ast" "1.11.1"
     "@xtuc/long" "4.2.2"
 
+"@whoicd/icd11ect@^1.6.1":
+  version "1.6.1"
+  resolved "https://registry.yarnpkg.com/@whoicd/icd11ect/-/icd11ect-1.6.1.tgz#e65d696d3792c7fc2981c12b314bc45f73bb7d00"
+  integrity sha512-vjG+S7R0TYK6ez+sqsZlzaeIbobI4mmbXSUWOUON+Mo5bTcsHsw7xCIOGCa8lsaXIatnGxRLAEXCbK6xDLn2nQ==
+
 "@wojtekmaj/date-utils@^1.0.2", "@wojtekmaj/date-utils@^1.0.3":
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/@wojtekmaj/date-utils/-/date-utils-1.0.3.tgz#2dcfd92881425c5923e429c2aec86fb3609032a1"
