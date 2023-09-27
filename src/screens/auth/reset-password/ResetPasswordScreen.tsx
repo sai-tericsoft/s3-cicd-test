@@ -5,7 +5,7 @@ import FormikInputComponent from "../../../shared/components/form-controls/formi
 import FormikPasswordInputComponent
     from "../../../shared/components/form-controls/formik-password-input/FormikPasswordInputComponent";
 import LinkComponent from "../../../shared/components/link/LinkComponent";
-import {FORGOT_PASSWORD_ROUTE} from "../../../constants/RoutesConfig";
+import {FORGOT_PASSWORD_ROUTE, PASSWORD_RESET_SUCCESS_ROUTE} from "../../../constants/RoutesConfig";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import {
     IAccountLoginCredentials,
@@ -19,6 +19,7 @@ import {IAPIResponseType} from "../../../shared/models/api.model";
 import {setLoggedInUserData, setLoggedInUserToken} from "../../../store/actions/account.action";
 import * as Yup from "yup";
 import PasswordValidationComponent from "../../../shared/components/password-validation/PasswordValidationComponent";
+import {useNavigate} from "react-router-dom";
 
 interface ResetPasswordScreenProps {
 
@@ -42,10 +43,9 @@ const ResetPasswordScreen = (props: ResetPasswordScreenProps) => {
         new_password: "",
         confirm_password: "",
     });
-    const formikRef = useRef<any>(null);
+    const navigate = useNavigate();
     const [isLoggingIn, setIsLoggingIn] = useState(false);
     const dispatch = useDispatch();
-    console.log(formikRef, "formikRef")
 
     const onSubmit = useCallback((values: any, {setSubmitting, setErrors}: FormikHelpers<any>) => {
         setIsLoggingIn(true);
@@ -60,7 +60,10 @@ const ResetPasswordScreen = (props: ResetPasswordScreenProps) => {
                 CommonService._alert.showToast(error.error || error.errors, 'error');
                 // CommonService.handleErrors(setErrors, error);
                 setIsLoggingIn(false);
-            })
+            }).finally(() => {
+            console.log("navigate");
+            navigate(PASSWORD_RESET_SUCCESS_ROUTE)
+        });
     }, [dispatch]);
     return (
         <div className="login-screen reset-password-screen">
@@ -78,7 +81,6 @@ const ResetPasswordScreen = (props: ResetPasswordScreenProps) => {
                     validateOnBlur={true}
                     enableReinitialize={true}
                     validateOnMount={true}
-                    innerRef={formikRef}
                     onSubmit={onSubmit}
                 >
                     {({values, validateForm}) => {

@@ -3,6 +3,7 @@ const LOGIN_ROUTE = "/login";
 const FORGOT_PASSWORD_ROUTE = "/forgot-password";
 const OTP_VERIFICATION_ROUTE = "/otp-verification";
 const RESET_PASSWORD_ROUTE = "/reset-password";
+const PASSWORD_RESET_SUCCESS_ROUTE = "/password-reset-success";
 
 // NON-AUTH ROUTES
 const TEST_ROUTE = "/test";
@@ -110,6 +111,7 @@ export {
     FORGOT_PASSWORD_ROUTE,
     OTP_VERIFICATION_ROUTE,
     RESET_PASSWORD_ROUTE,
+    PASSWORD_RESET_SUCCESS_ROUTE,
     COMING_SOON_ROUTE,
     NOT_FOUND_ROUTE,
     GUEST_ROUTES,

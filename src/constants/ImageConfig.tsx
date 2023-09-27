@@ -73,7 +73,8 @@ import {ReactComponent as HorizontalMore} from './../assets/icons/horizontal_mor
 import {ReactComponent as DocumentIcon} from './../assets/icons/file-types/unknown_file_type.svg';
 
 
-
+//auth
+import {ReactComponent as SuccessAvatar} from "./../assets/icons/auth/success_avatar.svg";
 //file types
 import PDFIcon from './../assets/icons/file-types/pdf.svg';
 import WordDocIcon from './../assets/icons/file-types/doc.svg';
@@ -232,4 +233,5 @@ export {
     CloudIcon,
     confirmImage,
     NewLogo,
+    SuccessAvatar,
 }

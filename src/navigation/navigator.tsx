@@ -111,7 +111,7 @@ import {
     USER_SLOTS,
     USER_SLOTS_DETAILS,
     USER_SLOTS_EDIT,
-    VIEW_MEDICAL_INTERVENTION,
+    VIEW_MEDICAL_INTERVENTION, PASSWORD_RESET_SUCCESS_ROUTE,
 } from "../constants/RoutesConfig";
 import MedicalInterventionRomConfigScreen
     from "../screens/chart-notes/medical-intervention-rom-config/MedicalInterventionRomConfigScreen";
@@ -196,6 +196,7 @@ import ConsolidatedBillingDetailsScreen
     from "../screens/billings/consolidated-billing-details/consolidated-billing-details/ConsolidatedBillingDetailsScreen";
 import OtpVerificationScreen from "../screens/auth/otp-verification-screen/OtpVerificationScreen";
 import ResetPasswordScreen from "../screens/auth/reset-password/ResetPasswordScreen";
+import PasswordResetSuccessfulScreen from "../screens/auth/password-reset-successful/PasswordResetSuccessfulScreen";
 
 
 const ProtectedRoute = (props: React.PropsWithChildren<any>) => {
@@ -960,6 +961,13 @@ const Navigator = (props: NavigatorProps) => {
                         element={
                             <UnProtectedRoute>
                                 <ResetPasswordScreen/>
+                            </UnProtectedRoute>
+                        }/>
+                    <Route
+                        path={PASSWORD_RESET_SUCCESS_ROUTE}
+                        element={
+                            <UnProtectedRoute>
+                                <PasswordResetSuccessfulScreen/>
                             </UnProtectedRoute>
                         }/>
                 </Route>
