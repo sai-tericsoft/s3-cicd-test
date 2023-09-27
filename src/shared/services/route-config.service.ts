@@ -14,6 +14,7 @@ import {
     INVENTORY,
     LOGIN_ROUTE,
     FORGOT_PASSWORD_ROUTE,
+    OTP_VERIFICATION_ROUTE,
     NOT_FOUND_ROUTE,
     REPORT_AN_ISSUE,
     SCHEDULING_VIEW,
@@ -38,6 +39,9 @@ const LoginRoute = () => {
 }
 const ForgotPasswordRoute = () => {
     return FORGOT_PASSWORD_ROUTE;
+}
+const OtpVerificationRoute = () => {
+    return OTP_VERIFICATION_ROUTE;
 }
 
 const NotFoundRoute = () => {
@@ -353,6 +357,7 @@ const RouteConfigService = {
     DefaultRoute,
     LoginRoute,
     ForgotPasswordRoute,
+    OtpVerificationRoute,
     NotFoundRoute,
     TestRoute,
     ComingSoonRoute,

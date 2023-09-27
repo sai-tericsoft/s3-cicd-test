@@ -1,35 +1,36 @@
-import "./ForgotPasswordScreen.scss";
+import "./OtpVerificationScreen.scss";
 import {Field, FieldProps, Form, Formik, FormikHelpers} from "formik";
 import {useCallback, useEffect, useState} from "react";
 import FormikInputComponent from "../../../shared/components/form-controls/formik-input/FormikInputComponent";
-import FormikPasswordInputComponent
-    from "../../../shared/components/form-controls/formik-password-input/FormikPasswordInputComponent";
-import LinkComponent from "../../../shared/components/link/LinkComponent";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
-import * as Yup from "yup";
+import LinkComponent from "../../../shared/components/link/LinkComponent";
+import {LOGIN_ROUTE, OTP_VERIFICATION_ROUTE} from "../../../constants/RoutesConfig";
+import {ImageConfig} from "../../../constants";
+import FormikOTPComponent from "../../../shared/components/form-controls/formik-otp/FormikOtpComponent";
 import {IAccountLoginCredentials, ILoginResponse} from "../../../shared/models/account.model";
+import {useDispatch} from "react-redux";
+import {useNavigate} from "react-router-dom";
 import {CommonService} from "../../../shared/services";
 import {IAPIResponseType} from "../../../shared/models/api.model";
 import {setLoggedInUserData, setLoggedInUserToken} from "../../../store/actions/account.action";
-import {useDispatch} from "react-redux";
-import {OTP_VERIFICATION_ROUTE, LOGIN_ROUTE} from "../../../constants/RoutesConfig";
-import {ImageConfig} from "../../../constants";
-import {useNavigate} from "react-router-dom";
+import * as Yup from "yup";
 
-interface ForgotPasswordScreenProps {
+interface OtpVerificationScreenProps {
 
 }
 
 const loginFormValidationSchema = Yup.object({
-    email: Yup.string()
-        .email("Email is invalid")
-        .required("Email is required"),
+    otp: Yup.string()
+        .min(6, "OTP must be 6 digits")
+        .max(6, "OTP must be 6 digits")
+        .required("OTP is required")
 });
 
-const ForgotPasswordScreen = (props: ForgotPasswordScreenProps) => {
-    const [loginFormInitialValues, setLoginFormInitialValues] = useState<IAccountLoginCredentials>({
+const OtpVerificationScreen = (props: OtpVerificationScreenProps) => {
+    const [loginFormInitialValues, setLoginFormInitialValues] = useState<any>({
         email: "",
         password: "",
+        otp: ""
     });
     const [isLoggingIn, setIsLoggingIn] = useState(false);
     const dispatch = useDispatch();
@@ -54,19 +55,18 @@ const ForgotPasswordScreen = (props: ForgotPasswordScreenProps) => {
     }, [dispatch]);
 
     return (
-        <div className="login-screen forgot-password-screen">
+        <div className="login-screen otp-verification-screen">
             <div className="login-form-container">
                 <div className="login-form-helper-text">
-                    Forgot your password?
+                    One Time Password (OTP) Verification
                 </div>
                 <div className="login-form-welcome-text">
-                    Please enter your phone number/email address to receive a
-                    One Time Password (OTP).
+                    Please enter the OTP we sent to you.
                 </div>
                 <Formik
                     validationSchema={loginFormValidationSchema}
                     initialValues={loginFormInitialValues}
-                    validateOnChange={false}
+                    // validateOnChange={false}
                     validateOnBlur={true}
                     enableReinitialize={true}
                     validateOnMount={true}
@@ -80,17 +80,15 @@ const ForgotPasswordScreen = (props: ForgotPasswordScreenProps) => {
                         return (
                             <Form className="t-form" noValidate={true}>
                                 <div className="t-form-controls">
-                                    <Field name={'email'} className="t-form-control">
+                                    <Field name={'otp'} className="t-form-control">
                                         {
                                             (field: FieldProps) => (
-                                                <FormikInputComponent
-                                                    label={'Email'}
-                                                    placeholder={'Enter Email Address'}
-                                                    type={"email"}
+                                                <FormikOTPComponent
+                                                    label={'OTP'}
+                                                    // placeholder={'Enter Email Address'}
                                                     required={true}
                                                     formikField={field}
                                                     fullWidth={true}
-                                                    id={"email_input"}
                                                 />
                                             )
                                         }
@@ -106,19 +104,8 @@ const ForgotPasswordScreen = (props: ForgotPasswordScreenProps) => {
                                         fullWidth={true}
                                         id={"login_btn"}
                                     >
-                                        {isLoggingIn ? "Sending OTP" : "Send OTP"}
+                                        {isLoggingIn ? "Submitting" : "Submit"}
                                     </ButtonComponent>
-                                </div>
-                                <div className="t-form-actions mrg-top-10">
-                                    <LinkComponent route={LOGIN_ROUTE}>
-                                        <ButtonComponent
-                                            prefixIcon={<ImageConfig.LeftArrow/>}
-                                            fullWidth={true}
-                                            variant={"text"}
-                                        >
-                                            Back to Login
-                                        </ButtonComponent>
-                                    </LinkComponent>
                                 </div>
                             </Form>
                         )
@@ -130,4 +117,4 @@ const ForgotPasswordScreen = (props: ForgotPasswordScreenProps) => {
 
 };
 
-export default ForgotPasswordScreen;
+export default OtpVerificationScreen;

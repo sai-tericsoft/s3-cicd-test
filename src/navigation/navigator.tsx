@@ -72,6 +72,7 @@ import {
     INVENTORY_PRODUCT_VIEW_DETAILS,
     LOGIN_ROUTE,
     FORGOT_PASSWORD_ROUTE,
+    OTP_VERIFICATION_ROUTE,
     MEDICAL_INTERVENTION_EXERCISE_LOG_UPDATE,
     MEDICAL_INTERVENTION_EXERCISE_LOG_VIEW,
     MEDICAL_INTERVENTION_FINALIZE_TREATMENT,
@@ -192,6 +193,7 @@ import UserSlotsEditComponent from "../screens/settings/user-slots-edit/UserSlot
 import ThankYouNoteComponent from "../screens/admin/billing-settings/thank-you-note/ThankYouNoteComponent";
 import ConsolidatedBillingDetailsScreen
     from "../screens/billings/consolidated-billing-details/consolidated-billing-details/ConsolidatedBillingDetailsScreen";
+import OtpVerificationScreen from "../screens/auth/otp-verification-screen/OtpVerificationScreen";
 
 
 const ProtectedRoute = (props: React.PropsWithChildren<any>) => {
@@ -937,9 +939,20 @@ const Navigator = (props: NavigatorProps) => {
                             </UnProtectedRoute>
                         }
                     />
-                    <Route path={FORGOT_PASSWORD_ROUTE} element={<UnProtectedRoute>
-                        <ForgotPasswordScreen/>
-                    </UnProtectedRoute>}/>
+                    <Route
+                        path={FORGOT_PASSWORD_ROUTE}
+                        element={
+                            <UnProtectedRoute>
+                                <ForgotPasswordScreen/>
+                            </UnProtectedRoute>
+                        }/>
+                    <Route
+                        path={OTP_VERIFICATION_ROUTE}
+                        element={
+                            <UnProtectedRoute>
+                                <OtpVerificationScreen/>
+                            </UnProtectedRoute>
+                        }/>
                 </Route>
                 <Route path={TEST_ROUTE} element={<TestScreen/>}/>
                 <Route path={DESIGN_SYSTEM_ROUTE} element={<DesignSystemScreen/>}/>
