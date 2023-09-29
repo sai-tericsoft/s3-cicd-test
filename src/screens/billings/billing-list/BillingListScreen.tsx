@@ -84,6 +84,12 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
         }
     }, [selectedPayments]);
 
+    useEffect(() => {
+        setClientListFilterState((oldstate: any) => {
+            return {...oldstate, client_id: clientId}
+        })
+    }, [clientId])
+
     const openMarkAsPaidModal = useCallback(() => {
         setShowMarkAsPaidModal(true);
     }, []);
@@ -255,7 +261,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                 </LinkComponent>
             }
         }
-    ], [handlePaymentSelection, selectedPayments, location,clientListFilterState]);
+    ], [handlePaymentSelection, selectedPayments, location, clientListFilterState]);
 
     const clientPendingPaymentColumn: ITableColumn[] = useMemo<any>(() => [
         {
@@ -350,7 +356,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                 </LinkComponent>
             }
         }
-    ], [handlePaymentSelection, selectedPayments, location,clientListFilterState]);
+    ], [handlePaymentSelection, selectedPayments, location, clientListFilterState]);
 
     const clientCompletePaymentListColumn: ITableColumn[] = useMemo<any>(() => [
         {
@@ -446,7 +452,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                 </LinkComponent>
             }
         }
-    ], [selectedPayments, location, handlePaymentSelection,clientListFilterState]);
+    ], [selectedPayments, location, handlePaymentSelection, clientListFilterState]);
 
     const completePaymentListColumn: ITableColumn[] = useMemo<any>(() => [
         {
@@ -567,7 +573,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                 </LinkComponent>
             }
         }
-    ], [location, selectedPayments, handlePaymentSelection,clientListFilterState]);
+    ], [location, selectedPayments, handlePaymentSelection, clientListFilterState]);
 
     const consolidatedPayments: ITableColumn[] = useMemo<any>(() => [
         {
@@ -749,10 +755,10 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
     const handleTabChange = useCallback((e: any, value: any) => {
         searchParams.set("activeTab", value);
         setSelectedPayments([])
-        setClientListFilterState(ClientListFilterStateInitialValues);
+        setClientListFilterState({...ClientListFilterStateInitialValues, client_id: clientId});
         setSearchParams(searchParams);
         setCurrentTab(value);
-    }, [searchParams, setSearchParams]);
+    }, [searchParams, setSearchParams, clientId]);
 
     useEffect(() => {
         const step: PaymentsListTabType = searchParams.get("activeTab") as PaymentsListTabType;
@@ -953,7 +959,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                         <div className="ts-col-lg-1"/>
                         <div className="ts-col-lg-5 d-flex ts-justify-content-end btn-wrapper">
                             {
-                                (currentTab === 'completedPayments' || currentTab === 'pendingPayments') &&
+                                (currentTab === 'completedPayments' || currentTab === 'pendingPayments') && !clientId &&
                                 <>
                                     <ButtonComponent variant={'outlined'}
                                                      className={'mrg-right-10'}
@@ -986,38 +992,40 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                     </div>
                 </div>
             </div>
-
-            <div className={'consolidation-switch-wrapper'}>
-                <div className={'consolidation-switch'}>
-                    <SwitchComponent
-                        label={''}
-                        disabled={selectedPayments?.length === 0 || currentTab === 'consolidatedPayments' || selectedPayments[0]?.payment_for === "products"}
-                        checked={clientListFilterState.linked_invoices}
-                        onChange={(value) => {
-                            if (!value) {
-                                setClientListFilterState(
-                                    {
+            {
+                !clientId &&
+                <div className={'consolidation-switch-wrapper'}>
+                    <div className={'consolidation-switch'}>
+                        <SwitchComponent
+                            label={''}
+                            disabled={selectedPayments?.length === 0 || currentTab === 'consolidatedPayments' || selectedPayments[0]?.payment_for === "products"}
+                            checked={clientListFilterState.linked_invoices}
+                            onChange={(value) => {
+                                if (!value) {
+                                    setClientListFilterState(
+                                        {
+                                            ...clientListFilterState,
+                                            linked_invoices: value,
+                                            client_id: undefined
+                                        }
+                                    );
+                                } else {
+                                    setClientListFilterState({
                                         ...clientListFilterState,
                                         linked_invoices: value,
-                                        client_id: undefined
-                                    }
-                                );
-                            } else {
-                                setClientListFilterState({
-                                    ...clientListFilterState,
-                                    linked_invoices: value,
-                                    client_id: selectedPayments[0]?.client_id
-                                })
+                                        client_id: selectedPayments[0]?.client_id
+                                    })
+                                }
                             }
-                        }
-                        }
-                    />
+                            }
+                        />
+                    </div>
+                    <div
+                        className={`consolidation-switch-label-component ${(selectedPayments?.length === 0 || currentTab === 'consolidatedPayments' || selectedPayments[0]?.payment_for === "products") && " disabled"}`}>
+                        Display all payments linked with the selected client
+                    </div>
                 </div>
-                <div
-                    className={`consolidation-switch-label-component ${(selectedPayments?.length === 0 || currentTab === 'consolidatedPayments' || selectedPayments[0]?.payment_for === "products") && " disabled"}`}>
-                    Display all payments linked with the selected client
-                </div>
-            </div>
+            }
             {clientId &&
                 <div>
                     {
@@ -1064,7 +1072,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                     }
                 </div>
             }
-            <TabsWrapperComponent>
+            <TabsWrapperComponent className={clientId ? "client-billing":"admin-billing"}>
                 <TabsComponent value={currentTab}
                                allowScrollButtonsMobile={false}
                                variant={"fullWidth"}
@@ -1075,8 +1083,11 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                         value={'pendingPayments'}/>
                     <TabComponent className={'payment-details-tab'} label={'Completed Payments'}
                                   value={'completedPayments'}/>
-                    <TabComponent className={'payment-details-tab'} label={'Consolidated Payments'}
-                                  value={'consolidatedPayments'}/>
+                    {
+                        !clientId &&
+                        <TabComponent className={'payment-details-tab'} label={'Consolidated Payments'}
+                                      value={'consolidatedPayments'}/>
+                    }
                 </TabsComponent>
                 <TabContentComponent value={'pendingPayments'} selectedTab={currentTab}>
                     <TableWrapperComponent url={APIConfig.PENDING_PAYMENT_LIST.URL}
@@ -1097,17 +1108,20 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                                            columns={clientId ? clientCompletePaymentListColumn : completePaymentListColumn}
                     />
                 </TabContentComponent>
-                <TabContentComponent value={'consolidatedPayments'} selectedTab={currentTab}>
-                    <TableWrapperComponent
-                        url={APIConfig.CONSOLIDATED_PAYMENT_LIST.URL}
-                        extraPayload={
-                            clientListFilterState
-                        }
-                        noDataText={'Currently there is no consolidated payments.'}
-                        method={APIConfig.CONSOLIDATED_PAYMENT_LIST.METHOD}
-                        columns={consolidatedPayments}
-                    />
-                </TabContentComponent>
+                {
+                    !clientId &&
+                    <TabContentComponent value={'consolidatedPayments'} selectedTab={currentTab}>
+                        <TableWrapperComponent
+                            url={APIConfig.CONSOLIDATED_PAYMENT_LIST.URL}
+                            extraPayload={
+                                clientListFilterState
+                            }
+                            noDataText={'Currently there is no consolidated payments.'}
+                            method={APIConfig.CONSOLIDATED_PAYMENT_LIST.METHOD}
+                            columns={consolidatedPayments}
+                        />
+                    </TabContentComponent>
+                }
             </TabsWrapperComponent>
             {/*Outstanding Balance Modal start*/}
             <ModalComponent isOpen={showMarkAsPaidModal}

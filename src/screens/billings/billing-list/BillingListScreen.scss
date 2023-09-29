@@ -32,6 +32,27 @@
     }
 
   }
+  .client-billing{
+    .t-tabs-wrapper {
+      height: calc(100vh - 280px) !important;
+    }
+    .t-tab-panel{
+      padding: 0 !important;
+    }
+    .table-component{
+      margin-top: 30px !important;
+    }
+
+    .t-table-wrapper .t-table {
+      height: calc(100vh - 420px) !important;
+
+
+      .table-no-data-wrapper {
+        min-height: calc(100vh - 500px) !important;
+      }
+
+    }
+  }
   .search-component{
     margin-left: -10px !important;
   }

@@ -3,6 +3,9 @@
 .client-details-screen {
   height: calc(100vh - 144px);
 
+  .t-tabs-wrapper {
+    height: calc(100vh - 280px) !important;
+  }
   .client-details-layout {
     display: flex;
 
