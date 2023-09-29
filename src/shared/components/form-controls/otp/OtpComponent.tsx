@@ -26,7 +26,6 @@ const OtpComponent = (props: OtpComponentProps) => {
         onChange,
         value
     } = props;
-    console.log({hasError, errorMessage, value})
 
     const noOfDigits = props.noOfDigits || 6;
 
