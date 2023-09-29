@@ -6,22 +6,28 @@ import RefreshIcon from '@mui/icons-material/Refresh';
 
 const NoInternetComponent = (props: React.PropsWithChildren<any>) => {
     const [isOffline, setIsOffline] = useState(false);
-    const [isChecking, setIsChecking] = useState(false);
 
     useEffect(() => {
-        window.addEventListener('offline', () => setIsOffline(true));
-        window.addEventListener('online', () => setIsOffline(false));
+        const handleOnline = () => {
+            setIsOffline(false);
+        };
+
+        const handleOffline = () => {
+            setIsOffline(true);
+        };
+
+        window.addEventListener('online', handleOnline);
+        window.addEventListener('offline', handleOffline);
+
+        // Clean up event listeners when the component unmounts
+        return () => {
+            window.removeEventListener('online', handleOnline);
+            window.removeEventListener('offline', handleOffline);
+        };
     }, []);
 
     const retryConnection = () => {
-        setIsChecking(true);
-        if (navigator.onLine) {
-            setIsOffline(false);
-            setIsChecking(false);
-        } else {
-            setIsOffline(true);
-            setIsChecking(false);
-        }
+        window.location.reload();
     }
 
     return (
@@ -41,10 +47,9 @@ const NoInternetComponent = (props: React.PropsWithChildren<any>) => {
                     <div className={'refresh-page-action-wrapper'}>
                         <ButtonComponent
                             prefixIcon={<RefreshIcon/>}
-                            onClick={() => retryConnection}
+                            onClick={() => retryConnection()}
                             variant={"contained"}
                             color={"primary"}
-                            isLoading={isChecking}
                             >
                             Refresh Page
                         </ButtonComponent>

@@ -248,7 +248,7 @@ const Navigator = (props: NavigatorProps) => {
     const {currentUser}: any = useSelector((state: IRootReducerState) => state.account);
 
     return (
-        <>
+        <NoInternetComponent>
             <Routes>
                 <Route element={<AppLayout/>}>
                     {currentUser?.is_new_user === true ?
@@ -950,7 +950,7 @@ const Navigator = (props: NavigatorProps) => {
                 <Route path={NOT_FOUND_ROUTE} element={<NotFoundScreen/>}/>
                 <Route path="*" element={<Navigate to={NOT_FOUND_ROUTE}/>}/>
             </Routes>
-        </>
+        </NoInternetComponent>
     )
 
 }
