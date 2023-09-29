@@ -15,6 +15,8 @@ import {
     LOGIN_ROUTE,
     FORGOT_PASSWORD_ROUTE,
     OTP_VERIFICATION_ROUTE,
+    RESET_PASSWORD_ROUTE,
+    PASSWORD_RESET_SUCCESS_ROUTE,
     NOT_FOUND_ROUTE,
     REPORT_AN_ISSUE,
     SCHEDULING_VIEW,
@@ -42,6 +44,12 @@ const ForgotPasswordRoute = () => {
 }
 const OtpVerificationRoute = () => {
     return OTP_VERIFICATION_ROUTE;
+}
+const ResetPasswordRoute = () => {
+    return RESET_PASSWORD_ROUTE;
+}
+const PasswordResetSuccessRoute = () => {
+    return PASSWORD_RESET_SUCCESS_ROUTE;
 }
 
 const NotFoundRoute = () => {
@@ -358,6 +366,8 @@ const RouteConfigService = {
     LoginRoute,
     ForgotPasswordRoute,
     OtpVerificationRoute,
+    ResetPasswordRoute,
+    PasswordResetSuccessRoute,
     NotFoundRoute,
     TestRoute,
     ComingSoonRoute,

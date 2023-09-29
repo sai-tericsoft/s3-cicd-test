@@ -1,31 +1,24 @@
 import "./ResetPasswordScreen.scss";
 import {Field, FieldProps, Form, Formik, FormikHelpers} from "formik";
-import {useCallback, useEffect, useState, useRef} from "react";
-import FormikInputComponent from "../../../shared/components/form-controls/formik-input/FormikInputComponent";
+import {useCallback, useEffect, useState} from "react";
 import FormikPasswordInputComponent
     from "../../../shared/components/form-controls/formik-password-input/FormikPasswordInputComponent";
-import LinkComponent from "../../../shared/components/link/LinkComponent";
-import {FORGOT_PASSWORD_ROUTE, PASSWORD_RESET_SUCCESS_ROUTE} from "../../../constants/RoutesConfig";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import {
-    IAccountLoginCredentials,
-    ILoginResponse,
     IPasswordResetCredentials
 } from "../../../shared/models/account.model";
 import {useDispatch} from "react-redux";
-import {ENV} from "../../../constants";
 import {CommonService} from "../../../shared/services";
-import {IAPIResponseType} from "../../../shared/models/api.model";
-import {setLoggedInUserData, setLoggedInUserToken} from "../../../store/actions/account.action";
 import * as Yup from "yup";
 import PasswordValidationComponent from "../../../shared/components/password-validation/PasswordValidationComponent";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useLocation} from "react-router-dom";
+import commonService from "../../../shared/services/common.service";
 
 interface ResetPasswordScreenProps {
 
 }
 
-const loginFormValidationSchema = Yup.object({
+const resetFormValidationSchema = Yup.object({
     new_password: Yup.string()
         .required('Password is required')
         .min(8, 'Password must be at least 8 characters')
@@ -36,33 +29,40 @@ const loginFormValidationSchema = Yup.object({
         .matches(/[^A-Za-z0-9]/, 'Password must contain at least one special character'),
     confirm_password: Yup.string()
         .required('Confirm Password is required')
-
+        .oneOf([Yup.ref('new_password'), null], 'Passwords must match'),
 });
+const resetFormInitialValues: IPasswordResetCredentials = {
+    new_password: "",
+    confirm_password: "",
+}
 const ResetPasswordScreen = (props: ResetPasswordScreenProps) => {
-    const [loginFormInitialValues, setLoginFormInitialValues] = useState<IPasswordResetCredentials>({
-        new_password: "",
-        confirm_password: "",
-    });
-    const navigate = useNavigate();
-    const [isLoggingIn, setIsLoggingIn] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const location = useLocation();
+
+    const handleNavigation = useCallback((route: string) => {
+        let returnUrl = CommonService._routeConfig.Dashboard();
+        const query = CommonService.parseQueryString(location.search);
+        if (Object.keys(query).includes('returnUrl')) {
+            returnUrl = query.returnUrl;
+        }
+        navigate(route + `?returnUrl=${returnUrl}`);
+    }, [location, navigate]);
 
     const onSubmit = useCallback((values: any, {setSubmitting, setErrors}: FormikHelpers<any>) => {
-        setIsLoggingIn(true);
-        CommonService._account.LoginAPICall(values)
-            .then((response: IAPIResponseType<ILoginResponse>) => {
+        setIsLoading(true);
+        CommonService._account.SetNewPassword(values)
+            .then((response: any) => {
                 // CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
-                dispatch(setLoggedInUserData(response.data.user));
-                dispatch(setLoggedInUserToken(response.data.token));
-                setIsLoggingIn(false);
+                setIsLoading(false);
             })
             .catch((error: any) => {
                 CommonService._alert.showToast(error.error || error.errors, 'error');
                 // CommonService.handleErrors(setErrors, error);
-                setIsLoggingIn(false);
+                setIsLoading(false);
             }).finally(() => {
-            console.log("navigate");
-            navigate(PASSWORD_RESET_SUCCESS_ROUTE)
+            handleNavigation(commonService._routeConfig.PasswordResetSuccessRoute())
         });
     }, [dispatch]);
     return (
@@ -75,8 +75,8 @@ const ResetPasswordScreen = (props: ResetPasswordScreenProps) => {
                     Choose a new and secure password. Please do not share this with anyone.
                 </div>
                 <Formik
-                    validationSchema={loginFormValidationSchema}
-                    initialValues={loginFormInitialValues}
+                    validationSchema={resetFormValidationSchema}
+                    initialValues={resetFormInitialValues}
                     validateOnChange={false}
                     validateOnBlur={true}
                     enableReinitialize={true}
@@ -127,12 +127,12 @@ const ResetPasswordScreen = (props: ResetPasswordScreenProps) => {
                                 </div>
                                 <div className="t-form-actions">
                                     <ButtonComponent
-                                        isLoading={isLoggingIn}
+                                        isLoading={isLoading}
                                         type={"submit"}
                                         fullWidth={true}
-                                        id={"login_btn"}
+                                        id={"reset_btn"}
                                     >
-                                        {isLoggingIn ? "Saving" : "Save"}
+                                        {isLoading ? "Saving" : "Save"}
                                     </ButtonComponent>
                                 </div>
                             </Form>

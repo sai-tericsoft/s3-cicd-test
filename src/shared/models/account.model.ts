@@ -2,6 +2,9 @@ export interface IAccountLoginCredentials {
     email: string;
     password: string;
 }
+export interface IForgotPasswordCredentials {
+    email: string;
+}
 
 export interface IPasswordResetCredentials {
     new_password: string;

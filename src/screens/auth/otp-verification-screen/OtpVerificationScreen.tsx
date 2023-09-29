@@ -5,52 +5,57 @@ import FormikInputComponent from "../../../shared/components/form-controls/formi
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import LinkComponent from "../../../shared/components/link/LinkComponent";
 import {LOGIN_ROUTE, OTP_VERIFICATION_ROUTE, RESET_PASSWORD_ROUTE} from "../../../constants/RoutesConfig";
-import {ImageConfig} from "../../../constants";
 import FormikOTPComponent from "../../../shared/components/form-controls/formik-otp/FormikOtpComponent";
-import {IAccountLoginCredentials, ILoginResponse} from "../../../shared/models/account.model";
 import {useDispatch} from "react-redux";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useLocation} from "react-router-dom";
 import {CommonService} from "../../../shared/services";
-import {IAPIResponseType} from "../../../shared/models/api.model";
-import {setLoggedInUserData, setLoggedInUserToken} from "../../../store/actions/account.action";
 import * as Yup from "yup";
+import commonService from "../../../shared/services/common.service";
 
 interface OtpVerificationScreenProps {
 
 }
 
-const loginFormValidationSchema = Yup.object({
+const otpFormValidationSchema = Yup.object({
     otp: Yup.string()
         .min(6, "OTP must be 6 digits")
         .max(6, "OTP must be 6 digits")
         .required("OTP is required")
 });
 
+const otpFormInitialValues = {
+    otp: ""
+}
+
 const OtpVerificationScreen = (props: OtpVerificationScreenProps) => {
-    const [loginFormInitialValues, setLoginFormInitialValues] = useState<any>({
-        otp: ""
-    });
-    const [isLoggingIn, setIsLoggingIn] = useState(false);
-    const dispatch = useDispatch();
+    const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
+    const location = useLocation();
+
+    const handleNavigation = useCallback((route: string) => {
+        let returnUrl = CommonService._routeConfig.Dashboard();
+        const query = CommonService.parseQueryString(location.search);
+        if (Object.keys(query).includes('returnUrl')) {
+            returnUrl = query.returnUrl;
+        }
+        navigate(route + `?returnUrl=${returnUrl}`);
+    }, [location, navigate]);
 
     const onSubmit = useCallback((values: any, {setSubmitting, setErrors}: FormikHelpers<any>) => {
-        setIsLoggingIn(true);
-        CommonService._account.LoginAPICall(values)
-            .then((response: IAPIResponseType<ILoginResponse>) => {
+        setIsLoading(true);
+        CommonService._account.SendVerificationOtp(values)
+            .then((response: any) => {
                 // CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
-                dispatch(setLoggedInUserData(response.data.user));
-                dispatch(setLoggedInUserToken(response.data.token));
-                setIsLoggingIn(false);
+                setIsLoading(false);
             })
             .catch((error: any) => {
                 CommonService._alert.showToast(error.error || error.errors, 'error');
                 // CommonService.handleErrors(setErrors, error);
-                setIsLoggingIn(false);
+                setIsLoading(false);
             }).finally(() => {
-            navigate(RESET_PASSWORD_ROUTE)
+            handleNavigation(commonService._routeConfig.ResetPasswordRoute());
         })
-    }, [dispatch]);
+    }, []);
 
     return (
         <div className="login-screen otp-verification-screen">
@@ -62,8 +67,8 @@ const OtpVerificationScreen = (props: OtpVerificationScreenProps) => {
                     Please enter the OTP we sent to you.
                 </div>
                 <Formik
-                    validationSchema={loginFormValidationSchema}
-                    initialValues={loginFormInitialValues}
+                    validationSchema={otpFormValidationSchema}
+                    initialValues={otpFormInitialValues}
                     // validateOnChange={false}
                     validateOnBlur={true}
                     enableReinitialize={true}
@@ -97,12 +102,12 @@ const OtpVerificationScreen = (props: OtpVerificationScreenProps) => {
                                 </div>
                                 <div className="t-form-actions">
                                     <ButtonComponent
-                                        isLoading={isLoggingIn}
+                                        isLoading={isLoading}
                                         type={"submit"}
                                         fullWidth={true}
-                                        id={"login_btn"}
+                                        id={"otp_btn"}
                                     >
-                                        {isLoggingIn ? "Submitting" : "Submit"}
+                                        {isLoading ? "Submitting" : "Submit"}
                                     </ButtonComponent>
                                 </div>
                             </Form>

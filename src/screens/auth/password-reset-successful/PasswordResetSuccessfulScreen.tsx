@@ -1,19 +1,28 @@
 import "./PasswordResetSuccessfulScreen.scss";
-import {Field, FieldProps, Form, Formik} from "formik";
-import {useEffect} from "react";
-import FormikInputComponent from "../../../shared/components/form-controls/formik-input/FormikInputComponent";
-import FormikPasswordInputComponent
-    from "../../../shared/components/form-controls/formik-password-input/FormikPasswordInputComponent";
+import {useCallback} from "react";
 import LinkComponent from "../../../shared/components/link/LinkComponent";
-import {FORGOT_PASSWORD_ROUTE, LOGIN_ROUTE} from "../../../constants/RoutesConfig";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import {ImageConfig} from "../../../constants";
+import {CommonService} from "../../../shared/services";
+import {useNavigate, useLocation} from "react-router-dom";
+import commonService from "../../../shared/services/common.service";
 
 interface PasswordResetSuccessfulScreenProps {
 
 }
 
 const PasswordResetSuccessfulScreen = (props: PasswordResetSuccessfulScreenProps) => {
+    const navigate = useNavigate();
+    const location = useLocation();
+
+    const handleNavigation = useCallback((route: string) => {
+        let returnUrl = CommonService._routeConfig.Dashboard();
+        const query = CommonService.parseQueryString(location.search);
+        if (Object.keys(query).includes('returnUrl')) {
+            returnUrl = query.returnUrl;
+        }
+        navigate(route + `?returnUrl=${returnUrl}`);
+    }, [location, navigate]);
 
     return (
         <div className="login-screen password-reset-successful-screen">
@@ -27,7 +36,7 @@ const PasswordResetSuccessfulScreen = (props: PasswordResetSuccessfulScreenProps
                 <div className="success_avatar">
                     {<ImageConfig.SuccessAvatar className="d-block"/>}
                 </div>
-                <LinkComponent route={LOGIN_ROUTE}>
+                <LinkComponent onClick={() => handleNavigation(commonService._routeConfig.LoginRoute())}>
                     <ButtonComponent
                         fullWidth
                     >

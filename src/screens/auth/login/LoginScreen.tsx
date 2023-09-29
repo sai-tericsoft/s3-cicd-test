@@ -14,6 +14,7 @@ import {useDispatch} from "react-redux";
 import {ENV} from "../../../constants";
 import LinkComponent from "../../../shared/components/link/LinkComponent";
 import {FORGOT_PASSWORD_ROUTE} from "../../../constants/RoutesConfig";
+import {useNavigate, useLocation} from "react-router-dom";
 
 interface LoginScreenProps {
 
@@ -38,6 +39,8 @@ const LoginScreen = (props: LoginScreenProps) => {
     });
     const [isLoggingIn, setIsLoggingIn] = useState(false);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const location = useLocation();
 
     useEffect(() => {
         if (ENV.ENV_MODE === "dev") {
@@ -63,6 +66,14 @@ const LoginScreen = (props: LoginScreenProps) => {
                 setIsLoggingIn(false);
             })
     }, [dispatch]);
+    const handleNavigation = useCallback((route: string) => {
+        let returnUrl = CommonService._routeConfig.Dashboard();
+        const query = CommonService.parseQueryString(location.search);
+        if (Object.keys(query).includes('returnUrl')) {
+            returnUrl = query.returnUrl;
+        }
+        navigate(route + `?returnUrl=${returnUrl}`);
+    }, [location, navigate]);
 
     return (
         <div className="login-screen">
@@ -121,7 +132,8 @@ const LoginScreen = (props: LoginScreenProps) => {
                                         }
                                     </Field>
                                     <div className="form-option">
-                                        <LinkComponent route={FORGOT_PASSWORD_ROUTE}>Forgot Password?</LinkComponent>
+                                        <LinkComponent onClick={() => handleNavigation(FORGOT_PASSWORD_ROUTE)}>Forgot
+                                            Password?</LinkComponent>
                                     </div>
                                 </div>
                                 <div className="t-form-actions">

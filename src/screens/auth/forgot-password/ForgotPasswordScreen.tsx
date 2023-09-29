@@ -2,54 +2,61 @@ import "./ForgotPasswordScreen.scss";
 import {Field, FieldProps, Form, Formik, FormikHelpers} from "formik";
 import {useCallback, useEffect, useState} from "react";
 import FormikInputComponent from "../../../shared/components/form-controls/formik-input/FormikInputComponent";
-import FormikPasswordInputComponent
-    from "../../../shared/components/form-controls/formik-password-input/FormikPasswordInputComponent";
 import LinkComponent from "../../../shared/components/link/LinkComponent";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import * as Yup from "yup";
-import {IAccountLoginCredentials, ILoginResponse} from "../../../shared/models/account.model";
 import {CommonService} from "../../../shared/services";
-import {IAPIResponseType} from "../../../shared/models/api.model";
 import {setLoggedInUserData, setLoggedInUserToken} from "../../../store/actions/account.action";
 import {useDispatch} from "react-redux";
-import {OTP_VERIFICATION_ROUTE, LOGIN_ROUTE} from "../../../constants/RoutesConfig";
+import {OTP_VERIFICATION_ROUTE, LOGIN_ROUTE, FORGOT_PASSWORD_ROUTE} from "../../../constants/RoutesConfig";
 import {ImageConfig} from "../../../constants";
-import {useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
+import commonService from "../../../shared/services/common.service";
 
 interface ForgotPasswordScreenProps {
 
 }
 
-const loginFormValidationSchema = Yup.object({
+const forgotFormValidationSchema = Yup.object({
     email: Yup.string()
         .email("Email is invalid")
+        .matches(/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/, "Enter a valid Email ID")
         .required("Email is required"),
 });
+const forgotFormInitialValues = {
+    email: ""
+}
 
 const ForgotPasswordScreen = (props: ForgotPasswordScreenProps) => {
-    const [loginFormInitialValues, setLoginFormInitialValues] = useState<IAccountLoginCredentials>({
-        email: "",
-        password: "",
-    });
-    const [isLoggingIn, setIsLoggingIn] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const location = useLocation();
+
+    const handleNavigation = useCallback((route: string) => {
+        let returnUrl = CommonService._routeConfig.Dashboard();
+        const query = CommonService.parseQueryString(location.search);
+        if (Object.keys(query).includes('returnUrl')) {
+            returnUrl = query.returnUrl;
+        }
+        navigate(route + `?returnUrl=${returnUrl}`);
+    }, [location, navigate]);
 
     const onSubmit = useCallback((values: any, {setSubmitting, setErrors}: FormikHelpers<any>) => {
-        setIsLoggingIn(true);
-        CommonService._account.LoginAPICall(values)
-            .then((response: IAPIResponseType<ILoginResponse>) => {
-                // CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
-                dispatch(setLoggedInUserData(response.data.user));
-                dispatch(setLoggedInUserToken(response.data.token));
-                setIsLoggingIn(false);
+        setIsLoading(true);
+        CommonService._account.SendForgotPasswordMail(values)
+            .then((response: any) => {
+                //CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+                setIsLoading(false);
+                handleNavigation(commonService._routeConfig.OtpVerificationRoute());
             })
             .catch((error: any) => {
                 CommonService._alert.showToast(error.error || error.errors, 'error');
                 // CommonService.handleErrors(setErrors, error);
-                setIsLoggingIn(false);
+                setIsLoading(false);
             }).finally(() => {
-            navigate(OTP_VERIFICATION_ROUTE)
+            //navigate(OTP_VERIFICATION_ROUTE)
+            handleNavigation(commonService._routeConfig.OtpVerificationRoute());
         })
     }, [dispatch]);
 
@@ -64,8 +71,8 @@ const ForgotPasswordScreen = (props: ForgotPasswordScreenProps) => {
                     One Time Password (OTP).
                 </div>
                 <Formik
-                    validationSchema={loginFormValidationSchema}
-                    initialValues={loginFormInitialValues}
+                    validationSchema={forgotFormValidationSchema}
+                    initialValues={forgotFormInitialValues}
                     validateOnChange={false}
                     validateOnBlur={true}
                     enableReinitialize={true}
@@ -101,16 +108,16 @@ const ForgotPasswordScreen = (props: ForgotPasswordScreenProps) => {
                                 </div>
                                 <div className="t-form-actions">
                                     <ButtonComponent
-                                        isLoading={isLoggingIn}
+                                        isLoading={isLoading}
                                         type={"submit"}
                                         fullWidth={true}
-                                        id={"login_btn"}
+                                        id={"forgot_btn"}
                                     >
-                                        {isLoggingIn ? "Sending OTP" : "Send OTP"}
+                                        {isLoading ? "Sending OTP" : "Send OTP"}
                                     </ButtonComponent>
                                 </div>
                                 <div className="t-form-actions mrg-top-10">
-                                    <LinkComponent route={LOGIN_ROUTE}>
+                                    <LinkComponent onClick={() => handleNavigation(LOGIN_ROUTE)}>
                                         <ButtonComponent
                                             prefixIcon={<ImageConfig.LeftArrow/>}
                                             fullWidth={true}
