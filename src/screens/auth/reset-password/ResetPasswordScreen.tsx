@@ -11,8 +11,8 @@ import {useDispatch} from "react-redux";
 import {CommonService} from "../../../shared/services";
 import * as Yup from "yup";
 import PasswordValidationComponent from "../../../shared/components/password-validation/PasswordValidationComponent";
-import {useNavigate, useLocation} from "react-router-dom";
 import commonService from "../../../shared/services/common.service";
+import useHandleNavigation from "../../../shared/hooks/useHandleNavigation";
 
 interface ResetPasswordScreenProps {
 
@@ -38,17 +38,7 @@ const resetFormInitialValues: IPasswordResetCredentials = {
 const ResetPasswordScreen = (props: ResetPasswordScreenProps) => {
     const [isLoading, setIsLoading] = useState(false);
     const dispatch = useDispatch();
-    const navigate = useNavigate();
-    const location = useLocation();
-
-    const handleNavigation = useCallback((route: string) => {
-        let returnUrl = CommonService._routeConfig.Dashboard();
-        const query = CommonService.parseQueryString(location.search);
-        if (Object.keys(query).includes('returnUrl')) {
-            returnUrl = query.returnUrl;
-        }
-        navigate(route + `?returnUrl=${returnUrl}`);
-    }, [location, navigate]);
+    const handleNavigation = useHandleNavigation();
 
     const onSubmit = useCallback((values: any, {setSubmitting, setErrors}: FormikHelpers<any>) => {
         setIsLoading(true);

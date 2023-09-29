@@ -14,7 +14,7 @@ import {useDispatch} from "react-redux";
 import {ENV} from "../../../constants";
 import LinkComponent from "../../../shared/components/link/LinkComponent";
 import {FORGOT_PASSWORD_ROUTE} from "../../../constants/RoutesConfig";
-import {useNavigate, useLocation} from "react-router-dom";
+import useHandleNavigation from "../../../shared/hooks/useHandleNavigation";
 
 interface LoginScreenProps {
 
@@ -38,9 +38,8 @@ const LoginScreen = (props: LoginScreenProps) => {
         password: "",
     });
     const [isLoggingIn, setIsLoggingIn] = useState(false);
+    const handleNavigation = useHandleNavigation();
     const dispatch = useDispatch();
-    const navigate = useNavigate();
-    const location = useLocation();
 
     useEffect(() => {
         if (ENV.ENV_MODE === "dev") {
@@ -66,14 +65,6 @@ const LoginScreen = (props: LoginScreenProps) => {
                 setIsLoggingIn(false);
             })
     }, [dispatch]);
-    const handleNavigation = useCallback((route: string) => {
-        let returnUrl = CommonService._routeConfig.Dashboard();
-        const query = CommonService.parseQueryString(location.search);
-        if (Object.keys(query).includes('returnUrl')) {
-            returnUrl = query.returnUrl;
-        }
-        navigate(route + `?returnUrl=${returnUrl}`);
-    }, [location, navigate]);
 
     return (
         <div className="auth-screen login-screen">

@@ -6,12 +6,13 @@ import LinkComponent from "../../../shared/components/link/LinkComponent";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import * as Yup from "yup";
 import {CommonService} from "../../../shared/services";
-import {setLoggedInUserData, setLoggedInUserToken} from "../../../store/actions/account.action";
 import {useDispatch} from "react-redux";
-import {OTP_VERIFICATION_ROUTE, LOGIN_ROUTE, FORGOT_PASSWORD_ROUTE} from "../../../constants/RoutesConfig";
+import { LOGIN_ROUTE} from "../../../constants/RoutesConfig";
 import {ImageConfig} from "../../../constants";
 import {useLocation, useNavigate} from "react-router-dom";
 import commonService from "../../../shared/services/common.service";
+import useHandleNavigation from "../../../shared/hooks/useHandleNavigation";
+
 
 interface ForgotPasswordScreenProps {
 
@@ -29,19 +30,7 @@ const forgotFormInitialValues = {
 
 const ForgotPasswordScreen = (props: ForgotPasswordScreenProps) => {
     const [isLoading, setIsLoading] = useState(false);
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
-    const location = useLocation();
-
-    const handleNavigation = useCallback((route: string) => {
-        let returnUrl = CommonService._routeConfig.Dashboard();
-        const query = CommonService.parseQueryString(location.search);
-        if (Object.keys(query).includes('returnUrl')) {
-            returnUrl = query.returnUrl;
-        }
-        navigate(route + `?returnUrl=${returnUrl}`);
-    }, [location, navigate]);
-
+    const handleNavigation = useHandleNavigation();
     const onSubmit = useCallback((values: any, {setSubmitting, setErrors}: FormikHelpers<any>) => {
         setIsLoading(true);
         CommonService._account.SendForgotPasswordMail(values)
@@ -58,7 +47,7 @@ const ForgotPasswordScreen = (props: ForgotPasswordScreenProps) => {
             //navigate(OTP_VERIFICATION_ROUTE)
             handleNavigation(commonService._routeConfig.OtpVerificationRoute());
         })
-    }, [dispatch]);
+    }, []);
 
     return (
         <div className="auth-screen forgot-password-screen">
