@@ -25,12 +25,12 @@ const PasswordResetSuccessfulScreen = (props: PasswordResetSuccessfulScreenProps
     }, [location, navigate]);
 
     return (
-        <div className="login-screen password-reset-successful-screen">
-            <div className="login-form-container">
-                <div className="login-form-helper-text">
+        <div className="auth-screen password-reset-successful-screen">
+            <div className="auth-form-container">
+                <div className="auth-form-helper-text">
                     Password Reset
                 </div>
-                <div className="login-form-welcome-text">
+                <div className="auth-form-welcome-text">
                     Your password has been successfully reset. Please proceed to login.
                 </div>
                 <div className="success_avatar">

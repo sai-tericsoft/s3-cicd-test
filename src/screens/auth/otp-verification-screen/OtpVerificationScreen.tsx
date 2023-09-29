@@ -58,12 +58,12 @@ const OtpVerificationScreen = (props: OtpVerificationScreenProps) => {
     }, []);
 
     return (
-        <div className="login-screen otp-verification-screen">
-            <div className="login-form-container">
-                <div className="login-form-helper-text">
+        <div className="auth-screen otp-verification-screen">
+            <div className="auth-form-container">
+                <div className="auth-form-helper-text">
                     One Time Password (OTP) Verification
                 </div>
-                <div className="login-form-welcome-text">
+                <div className="auth-form-welcome-text">
                     Please enter the OTP we sent to you.
                 </div>
                 <Formik

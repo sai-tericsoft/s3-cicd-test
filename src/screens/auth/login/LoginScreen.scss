@@ -1,17 +1,17 @@
 @import "src/assets/styles/common";
 
-.login-screen {
+.auth-screen {
   height: 100%;
   width: 100%;
 
-  .login-form-container {
+  .auth-form-container {
 
-    .login-form-welcome-text {
+    .auth-form-welcome-text {
       color: $text-light-1;
       font-size: 1.143rem;
     }
 
-    .login-form-helper-text {
+    .auth-form-helper-text {
       font-size: 1.714rem;
       padding: 10px 0;
       font-weight: $font-weight-bold;

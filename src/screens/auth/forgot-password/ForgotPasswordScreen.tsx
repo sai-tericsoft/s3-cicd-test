@@ -61,12 +61,12 @@ const ForgotPasswordScreen = (props: ForgotPasswordScreenProps) => {
     }, [dispatch]);
 
     return (
-        <div className="login-screen forgot-password-screen">
-            <div className="login-form-container">
-                <div className="login-form-helper-text">
+        <div className="auth-screen forgot-password-screen">
+            <div className="auth-form-container">
+                <div className="auth-form-helper-text">
                     Forgot your password?
                 </div>
-                <div className="login-form-welcome-text">
+                <div className="auth-form-welcome-text">
                     Please enter your phone number/email address to receive a
                     One Time Password (OTP).
                 </div>

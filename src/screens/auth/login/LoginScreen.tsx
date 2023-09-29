@@ -76,12 +76,12 @@ const LoginScreen = (props: LoginScreenProps) => {
     }, [location, navigate]);
 
     return (
-        <div className="login-screen">
-            <div className="login-form-container">
-                <div className="login-form-welcome-text">
+        <div className="auth-screen login-screen">
+            <div className="auth-form-container">
+                <div className="auth-form-welcome-text">
                     Welcome!
                 </div>
-                <div className="login-form-helper-text">
+                <div className="auth-form-helper-text">
                     Login to continue
                 </div>
                 <Formik

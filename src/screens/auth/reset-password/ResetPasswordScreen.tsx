@@ -66,12 +66,12 @@ const ResetPasswordScreen = (props: ResetPasswordScreenProps) => {
         });
     }, [dispatch]);
     return (
-        <div className="login-screen reset-password-screen">
-            <div className="login-form-container">
-                <div className="login-form-welcome-text">
+        <div className="auth-screen reset-password-screen">
+            <div className="auth-form-container">
+                <div className="auth-form-welcome-text">
                     Reset Password
                 </div>
-                <div className="login-form-helper-text">
+                <div className="auth-form-helper-text">
                     Choose a new and secure password. Please do not share this with anyone.
                 </div>
                 <Formik
