@@ -96,9 +96,10 @@ const OtpVerificationScreen = (props: OtpVerificationScreenProps) => {
                                             )
                                         }
                                     </Field>
-                                    {/*<div className="form-option">*/}
-                                    {/*    <LinkComponent route={"/forgot-password"}>Enter Email Address</LinkComponent>*/}
-                                    {/*</div>*/}
+                                    <div className="form-option otp-option">
+                                        <div className="error-message">Entered wrong code please try again</div>
+                                        <div className="resend-otp">Resend</div>
+                                    </div>
                                 </div>
                                 <div className="t-form-actions">
                                     <ButtonComponent
