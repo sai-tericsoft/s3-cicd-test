@@ -358,7 +358,7 @@ const UserPersonalDetailsEditComponent = (props: UserPersonalDetailsEditComponen
                                         variant={"outlined"}
                                         size={'large'}
                                         className={'submit-cta'}
-                                        disabled={isSubmitting || !(isSubmitting || !isValid || CommonService.isEqual(values, initialValues))}
+                                        disabled={isSubmitting || !(!isValid || CommonService.isEqual(values, initialValues))}
                                         onClick={handleNext}
                                     >
                                         Next

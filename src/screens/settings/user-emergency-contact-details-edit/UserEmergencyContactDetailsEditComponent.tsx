@@ -174,7 +174,7 @@ const UserEmergencyContactDetailsEditComponent = (props: UserEmergencyContactDet
                         }, [validateForm, values]);
                         return (
                             <Form noValidate={true} className={"t-form"} autoComplete="off">
-                                <FormDebuggerComponent showDebugger={true} values={values} errors={errors}/>
+                                <FormDebuggerComponent showDebugger={false} values={values} errors={errors}/>
 
                                 <FormControlLabelComponent label={"Primary Emergency Contact"} size={'sm'}/>
                                 <div className="ts-row">
@@ -562,7 +562,7 @@ const UserEmergencyContactDetailsEditComponent = (props: UserEmergencyContactDet
                                         variant={"outlined"}
                                         size={'large'}
                                         className={'submit-cta'}
-                                        disabled={isSubmitting}
+                                        disabled={isSubmitting || !(!isValid || CommonService.isEqual(values, initialValues))}
                                         onClick={handleNext}
                                     >
                                         Next

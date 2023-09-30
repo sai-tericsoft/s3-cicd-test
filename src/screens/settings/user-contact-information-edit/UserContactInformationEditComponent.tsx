@@ -347,7 +347,7 @@ const UserContactInformationEditComponent = (props: UserContactInformationEditCo
                                         variant={"outlined"}
                                         size={'large'}
                                         className={'submit-cta'}
-                                        disabled={isSubmitting}
+                                        disabled={isSubmitting || !(!isValid || CommonService.isEqual(values, initialValues))}
                                         onClick={handleNext}
                                     >
                                         Next
