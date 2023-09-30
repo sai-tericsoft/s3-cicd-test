@@ -137,7 +137,6 @@ const UserPersonalDetailsEditComponent = (props: UserPersonalDetailsEditComponen
                         return (
                             <Form noValidate={true} className={"t-form"}>
                                 {/*<FormDebuggerComponent showDebugger={true} values={values} errors={errors}/>*/}
-
                                 <div className="ts-row">
                                     <div className="ts-col">
                                         <Field name={'first_name'}>
@@ -330,8 +329,7 @@ const UserPersonalDetailsEditComponent = (props: UserPersonalDetailsEditComponen
                                 </div>
                                 }
 
-                                {(values?.signature && userBasicDetails?.signature) && <div className="ts-row">
-                                    <div className="ts-col-4">
+                                {(values?.signature && userBasicDetails?.signature) && <div className="">
                                         <ESignApprovalComponent isSigned={true}
                                                                 signature_url={values?.signature}
                                         /> <br/>
@@ -342,7 +340,6 @@ const UserPersonalDetailsEditComponent = (props: UserPersonalDetailsEditComponen
                                         }>
                                             Remove Signature
                                         </LinkComponent>
-                                    </div>
                                 </div>}
 
                                 <div className="t-form-actions">
@@ -361,7 +358,7 @@ const UserPersonalDetailsEditComponent = (props: UserPersonalDetailsEditComponen
                                         variant={"outlined"}
                                         size={'large'}
                                         className={'submit-cta'}
-                                        disabled={isSubmitting}
+                                        disabled={isSubmitting || !(isSubmitting || !isValid || CommonService.isEqual(values, initialValues))}
                                         onClick={handleNext}
                                     >
                                         Next

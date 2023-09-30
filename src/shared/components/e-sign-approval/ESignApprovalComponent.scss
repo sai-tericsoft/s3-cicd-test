@@ -4,15 +4,15 @@
   position: relative;
 
   .e-sign-image-action-wrapper {
-    height: 110px;
-    width: 350px;
+    height: auto;
+    width: 100%;
     border: 1px solid #ABB6BE;
     border-radius: 8px;
     position: relative;
     @include display-center();
 
     .e-sign-image-container {
-      height: 100px;
+      height: 190px;
       width: auto;
       opacity: 0.2;
 
