@@ -126,7 +126,6 @@ const UserProfessionalDetailsEditComponent = (props: UserProfessionalDetailsEdit
                                                                                 label={'Company Name'}
                                                                                 placeholder={'Enter Company Name'}
                                                                                 type={"text"}
-                                                                                titleCase={true}
                                                                                 formikField={field}
                                                                                 fullWidth={true}
                                                                             />
@@ -143,7 +142,6 @@ const UserProfessionalDetailsEditComponent = (props: UserProfessionalDetailsEdit
                                                                                 label={'Company Location'}
                                                                                 placeholder={'Enter Company Location'}
                                                                                 type={"text"}
-                                                                                titleCase={true}
                                                                                 formikField={field}
                                                                                 fullWidth={true}
                                                                             />
@@ -161,7 +159,6 @@ const UserProfessionalDetailsEditComponent = (props: UserProfessionalDetailsEdit
                                                                                 label={'Position Title'}
                                                                                 placeholder={'Enter Position Title'}
                                                                                 type={"text"}
-                                                                                titleCase={true}
                                                                                 formikField={field}
                                                                                 fullWidth={true}
                                                                             />
