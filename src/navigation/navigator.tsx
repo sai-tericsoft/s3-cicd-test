@@ -5,6 +5,7 @@ import AuthLayout from "../layouts/auth-layout/AuthLayout";
 import TestScreen from "../screens/test/TestScreen";
 import DesignSystemScreen from "../screens/design-system/DesignSystemScreen";
 import LoginScreen from "../screens/auth/login/LoginScreen";
+import ForgotPasswordScreen from "../screens/auth/forgot-password/ForgotPasswordScreen";
 import AppLayout from "../layouts/app-layout/AppLayout";
 import ComingSoonScreen from "../screens/coming-soon/ComingSoonScreen";
 import {useDispatch, useSelector} from "react-redux";
@@ -70,6 +71,9 @@ import {
     INVENTORY_LIST,
     INVENTORY_PRODUCT_VIEW_DETAILS,
     LOGIN_ROUTE,
+    FORGOT_PASSWORD_ROUTE,
+    OTP_VERIFICATION_ROUTE,
+    RESET_PASSWORD_ROUTE,
     MEDICAL_INTERVENTION_EXERCISE_LOG_UPDATE,
     MEDICAL_INTERVENTION_EXERCISE_LOG_VIEW,
     MEDICAL_INTERVENTION_FINALIZE_TREATMENT,
@@ -107,7 +111,7 @@ import {
     USER_SLOTS,
     USER_SLOTS_DETAILS,
     USER_SLOTS_EDIT,
-    VIEW_MEDICAL_INTERVENTION,
+    VIEW_MEDICAL_INTERVENTION, PASSWORD_RESET_SUCCESS_ROUTE,
 } from "../constants/RoutesConfig";
 import MedicalInterventionRomConfigScreen
     from "../screens/chart-notes/medical-intervention-rom-config/MedicalInterventionRomConfigScreen";
@@ -191,6 +195,9 @@ import ThankYouNoteComponent from "../screens/admin/billing-settings/thank-you-n
 import ConsolidatedBillingDetailsScreen
     from "../screens/billings/consolidated-billing-details/consolidated-billing-details/ConsolidatedBillingDetailsScreen";
 import NoInternetComponent from "../shared/components/no-internet/NoInternetComponent";
+import OtpVerificationScreen from "../screens/auth/otp-verification-screen/OtpVerificationScreen";
+import ResetPasswordScreen from "../screens/auth/reset-password/ResetPasswordScreen";
+import PasswordResetSuccessfulScreen from "../screens/auth/password-reset-successful/PasswordResetSuccessfulScreen";
 
 
 const ProtectedRoute = (props: React.PropsWithChildren<any>) => {
@@ -944,6 +951,34 @@ const Navigator = (props: NavigatorProps) => {
                             </UnProtectedRoute>
                         }
                     />
+                    <Route
+                        path={FORGOT_PASSWORD_ROUTE}
+                        element={
+                            <UnProtectedRoute>
+                                <ForgotPasswordScreen/>
+                            </UnProtectedRoute>
+                        }/>
+                    <Route
+                        path={OTP_VERIFICATION_ROUTE}
+                        element={
+                            <UnProtectedRoute>
+                                <OtpVerificationScreen/>
+                            </UnProtectedRoute>
+                        }/>
+                    <Route
+                        path={RESET_PASSWORD_ROUTE}
+                        element={
+                            <UnProtectedRoute>
+                                <ResetPasswordScreen/>
+                            </UnProtectedRoute>
+                        }/>
+                    <Route
+                        path={PASSWORD_RESET_SUCCESS_ROUTE}
+                        element={
+                            <UnProtectedRoute>
+                                <PasswordResetSuccessfulScreen/>
+                            </UnProtectedRoute>
+                        }/>
                 </Route>
                 <Route path={TEST_ROUTE} element={<TestScreen/>}/>
                 <Route path={DESIGN_SYSTEM_ROUTE} element={<DesignSystemScreen/>}/>

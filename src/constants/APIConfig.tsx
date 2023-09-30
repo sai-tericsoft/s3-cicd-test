@@ -124,6 +124,18 @@ const APIConfig: IAPIConfig = {
         URL: ENV.API_URL + "/verifyPassword",
         METHOD: "post"
     },
+    SEND_FORGOT_PASSWORD_MAIL: {
+        URL: ENV.API_URL + "/sendForgotPasswordMail",
+        METHOD: "post"
+    },
+    SEND_VERIFICATION_OTP: {
+        URL: ENV.API_URL + "/sendVerificationOTP",
+        METHOD: "post"
+    },
+    UPDATE_PASSWORD: {
+        URL: ENV.API_URL + "/updatePassword",
+        METHOD: "put"
+    },
     // authentication end
 
     // service category start
@@ -387,7 +399,7 @@ const APIConfig: IAPIConfig = {
 
     // chart notes start
     GET_SELECTED_CPT_CODES: {
-        URL:(interventionID:string) => ENV.API_URL + "/intervention/"+interventionID+"/listLinkedCPTCodes",
+        URL: (interventionID: string) => ENV.API_URL + "/intervention/" + interventionID + "/listLinkedCPTCodes",
         METHOD: "get"
     },
     MEDICAL_RECORD_ADD: {
@@ -760,7 +772,7 @@ const APIConfig: IAPIConfig = {
         METHOD: 'post'
     },
     MARK_AS_PAID_FOR_PRODUCT: {
-        URL:  ENV.API_URL + '/singleInvoice/markPaid',
+        URL: ENV.API_URL + '/singleInvoice/markPaid',
         METHOD: 'post'
     },
     ADD_NEW_RECEIPT: {

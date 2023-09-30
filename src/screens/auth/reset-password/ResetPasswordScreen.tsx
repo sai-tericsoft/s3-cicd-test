@@ -1,83 +1,72 @@
-import "./LoginScreen.scss";
-import * as Yup from "yup";
-import {useCallback, useEffect, useState} from "react";
+import "./ResetPasswordScreen.scss";
 import {Field, FieldProps, Form, Formik, FormikHelpers} from "formik";
-import FormikInputComponent from "../../../shared/components/form-controls/formik-input/FormikInputComponent";
+import {useCallback, useEffect, useState} from "react";
 import FormikPasswordInputComponent
     from "../../../shared/components/form-controls/formik-password-input/FormikPasswordInputComponent";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
-import {CommonService} from "../../../shared/services";
-import {setLoggedInUserData, setLoggedInUserToken} from "../../../store/actions/account.action";
-import {IAPIResponseType} from "../../../shared/models/api.model";
-import {IAccountLoginCredentials, ILoginResponse} from "../../../shared/models/account.model";
+import {
+    IPasswordResetCredentials
+} from "../../../shared/models/account.model";
 import {useDispatch} from "react-redux";
-import {ENV} from "../../../constants";
-import LinkComponent from "../../../shared/components/link/LinkComponent";
-import {FORGOT_PASSWORD_ROUTE} from "../../../constants/RoutesConfig";
+import {CommonService} from "../../../shared/services";
+import * as Yup from "yup";
+import PasswordValidationComponent from "../../../shared/components/password-validation/PasswordValidationComponent";
+import commonService from "../../../shared/services/common.service";
 import useHandleNavigation from "../../../shared/hooks/useHandleNavigation";
 
-interface LoginScreenProps {
+interface ResetPasswordScreenProps {
 
 }
 
-const loginFormValidationSchema = Yup.object({
-    email: Yup.string()
-        .email("Email is invalid")
-        .required("Email is required"),
-    password: Yup.string()
-        .min(8, "Password must be 8 characters")
-        .max(16, "Password must be max 16 characters")
-        .required("Password is required")
+const resetFormValidationSchema = Yup.object({
+    new_password: Yup.string()
+        .required('Password is required')
+        .min(8, 'Password must be at least 8 characters')
+        .max(16, 'Password must be no more than 16 characters')
+        .matches(/[A-Z]/, 'Password must contain at least one uppercase letter')
+        .matches(/[a-z]/, 'Password must contain at least one lowercase letter')
+        .matches(/[0-9]/, 'Password must contain at least one digit')
+        .matches(/[^A-Za-z0-9]/, 'Password must contain at least one special character'),
+    confirm_password: Yup.string()
+        .required('Confirm Password is required')
+        .oneOf([Yup.ref('new_password'), null], 'Passwords must match'),
 });
-
-
-const LoginScreen = (props: LoginScreenProps) => {
-
-    const [loginFormInitialValues, setLoginFormInitialValues] = useState<IAccountLoginCredentials>({
-        email: "",
-        password: "",
-    });
-    const [isLoggingIn, setIsLoggingIn] = useState(false);
-    const handleNavigation = useHandleNavigation();
+const resetFormInitialValues: IPasswordResetCredentials = {
+    new_password: "",
+    confirm_password: "",
+}
+const ResetPasswordScreen = (props: ResetPasswordScreenProps) => {
+    const [isLoading, setIsLoading] = useState(false);
     const dispatch = useDispatch();
-
-    useEffect(() => {
-        if (ENV.ENV_MODE === "dev") {
-            setLoginFormInitialValues({
-                email: "terrill@gmail.com",
-                password: "12345678",
-            })
-        }
-    }, []);
+    const handleNavigation = useHandleNavigation();
 
     const onSubmit = useCallback((values: any, {setSubmitting, setErrors}: FormikHelpers<any>) => {
-        setIsLoggingIn(true);
-        CommonService._account.LoginAPICall(values)
-            .then((response: IAPIResponseType<ILoginResponse>) => {
+        setIsLoading(true);
+        CommonService._account.SetNewPassword(values)
+            .then((response: any) => {
                 // CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
-                dispatch(setLoggedInUserData(response.data.user));
-                dispatch(setLoggedInUserToken(response.data.token));
-                setIsLoggingIn(false);
+                setIsLoading(false);
             })
             .catch((error: any) => {
                 CommonService._alert.showToast(error.error || error.errors, 'error');
                 // CommonService.handleErrors(setErrors, error);
-                setIsLoggingIn(false);
-            })
+                setIsLoading(false);
+            }).finally(() => {
+            handleNavigation(commonService._routeConfig.PasswordResetSuccessRoute())
+        });
     }, [dispatch]);
-
     return (
-        <div className="auth-screen login-screen">
+        <div className="auth-screen reset-password-screen">
             <div className="auth-form-container">
                 <div className="auth-form-welcome-text">
-                    Welcome!
+                    Reset Password
                 </div>
                 <div className="auth-form-helper-text">
-                    Login to continue
+                    Choose a new and secure password. Please do not share this with anyone.
                 </div>
                 <Formik
-                    validationSchema={loginFormValidationSchema}
-                    initialValues={loginFormInitialValues}
+                    validationSchema={resetFormValidationSchema}
+                    initialValues={resetFormInitialValues}
                     validateOnChange={false}
                     validateOnBlur={true}
                     enableReinitialize={true}
@@ -92,49 +81,48 @@ const LoginScreen = (props: LoginScreenProps) => {
                         return (
                             <Form className="t-form" noValidate={true}>
                                 <div className="t-form-controls">
-                                    <Field name={'email'} className="t-form-control">
-                                        {
-                                            (field: FieldProps) => (
-                                                <FormikInputComponent
-                                                    label={'Email'}
-                                                    placeholder={'Enter Email'}
-                                                    type={"email"}
-                                                    required={true}
-                                                    formikField={field}
-                                                    fullWidth={true}
-                                                    id={"email_input"}
-                                                />
-                                            )
-                                        }
-                                    </Field>
-                                    <Field name={'password'} className="t-form-control">
+                                    <Field name={'new_password'} className="t-form-control">
                                         {
                                             (field: FieldProps) => (
                                                 <FormikPasswordInputComponent
-                                                    label={'Password'}
-                                                    placeholder={'Enter Password'}
+                                                    label={'New Password'}
+                                                    placeholder={'New Password'}
                                                     required={true}
                                                     formikField={field}
                                                     fullWidth={true}
                                                     canToggle={true}
-                                                    id={"password_input"}
+                                                    id={"new_password_input"}
                                                 />
                                             )
                                         }
                                     </Field>
-                                    <div className="form-option">
-                                        <LinkComponent onClick={() => handleNavigation(FORGOT_PASSWORD_ROUTE)}>Forgot
-                                            Password?</LinkComponent>
+                                    <Field name={'confirm_password'} className="t-form-control">
+                                        {
+                                            (field: FieldProps) => (
+                                                <FormikPasswordInputComponent
+                                                    label={'Confirm Password'}
+                                                    placeholder={'Confirm Password'}
+                                                    required={true}
+                                                    formikField={field}
+                                                    fullWidth={true}
+                                                    canToggle={true}
+                                                    id={"confirm_password_input"}
+                                                />
+                                            )
+                                        }
+                                    </Field>
+                                    <div className="password-validator-container">
+                                        <PasswordValidationComponent password={values.new_password}/>
                                     </div>
                                 </div>
                                 <div className="t-form-actions">
                                     <ButtonComponent
-                                        isLoading={isLoggingIn}
+                                        isLoading={isLoading}
                                         type={"submit"}
                                         fullWidth={true}
-                                        id={"login_btn"}
+                                        id={"reset_btn"}
                                     >
-                                        {isLoggingIn ? "Logging in" : "Login"}
+                                        {isLoading ? "Saving" : "Save"}
                                     </ButtonComponent>
                                 </div>
                             </Form>
@@ -143,8 +131,8 @@ const LoginScreen = (props: LoginScreenProps) => {
                 </Formik>
             </div>
         </div>
-    )
+    );
 
 };
 
-export default LoginScreen;
+export default ResetPasswordScreen;

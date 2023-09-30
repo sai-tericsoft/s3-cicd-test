@@ -1,0 +1,23 @@
+@import "../../../assets/styles/variables";
+
+.otp-verification-screen {
+  .t-form-controls {
+    height: 225.5px !important;
+
+    .otp-option {
+      display: flex;
+      justify-content: space-between;
+
+      .error-message {
+        font-weight: 700;
+        color: #FA6187;
+      }
+
+      .resend-otp {
+        font-weight: 700;
+        text-decoration: underline;
+        color: $primary-color;
+      }
+    }
+  }
+}

@@ -1,33 +1,46 @@
 @import "src/assets/styles/common";
 
-.login-screen {
+.auth-screen {
   height: 100%;
   width: 100%;
-  .login-form-container {
 
-    .login-form-welcome-text {
+  .auth-form-container {
+
+    .auth-form-welcome-text {
       color: $text-light-1;
       font-size: 1.143rem;
     }
 
-    .login-form-helper-text {
+    .auth-form-helper-text {
       font-size: 1.714rem;
-      padding: 10px 0 30px;
+      padding: 10px 0;
       font-weight: $font-weight-bold;
     }
 
-    .t-form-controls {
-      height:200px;
-      @include md() {
-        height: 220px;
-      }
-      @include lg() {
-        height: 255px;
-      }
-    }
+    .t-form {
+      margin-top: 20px;
 
-    .t-form-actions {
-      margin: 0;
+      .t-form-controls {
+        .form-option {
+          text-align: right;
+
+          .link-component {
+            font-weight: 400;
+          }
+        }
+
+        height: 200px;
+        @include md() {
+          height: 220px;
+        }
+        @include lg() {
+          height: 255px;
+        }
+      }
+
+      .t-form-actions {
+        margin: 0;
+      }
     }
   }
 }

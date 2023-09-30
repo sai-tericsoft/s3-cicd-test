@@ -13,6 +13,10 @@ import {
     HELP,
     INVENTORY,
     LOGIN_ROUTE,
+    FORGOT_PASSWORD_ROUTE,
+    OTP_VERIFICATION_ROUTE,
+    RESET_PASSWORD_ROUTE,
+    PASSWORD_RESET_SUCCESS_ROUTE,
     NOT_FOUND_ROUTE,
     REPORT_AN_ISSUE,
     SCHEDULING_VIEW,
@@ -34,6 +38,18 @@ const DefaultRoute = () => {
 
 const LoginRoute = () => {
     return LOGIN_ROUTE;
+}
+const ForgotPasswordRoute = () => {
+    return FORGOT_PASSWORD_ROUTE;
+}
+const OtpVerificationRoute = () => {
+    return OTP_VERIFICATION_ROUTE;
+}
+const ResetPasswordRoute = () => {
+    return RESET_PASSWORD_ROUTE;
+}
+const PasswordResetSuccessRoute = () => {
+    return PASSWORD_RESET_SUCCESS_ROUTE;
 }
 
 const NotFoundRoute = () => {
@@ -215,7 +231,7 @@ const MedicalInterventionConcussionFileViewDetails = (medicalRecordId: string, c
     return "/chart-notes/" + medicalRecordId + "/" + concussionFileId + '/concussion-file-view-details';
 }
 
-const MedicalRecordDocumentViewDetails = (medicalRecordId: string, medicalRecordDocumentId: string ) => {
+const MedicalRecordDocumentViewDetails = (medicalRecordId: string, medicalRecordDocumentId: string) => {
     return "/chart-notes/" + medicalRecordId + "/" + medicalRecordDocumentId + '/medical-record-document-view-details';
 
 }
@@ -348,6 +364,10 @@ const BillingSettings = () => {
 const RouteConfigService = {
     DefaultRoute,
     LoginRoute,
+    ForgotPasswordRoute,
+    OtpVerificationRoute,
+    ResetPasswordRoute,
+    PasswordResetSuccessRoute,
     NotFoundRoute,
     TestRoute,
     ComingSoonRoute,

@@ -2,6 +2,14 @@ export interface IAccountLoginCredentials {
     email: string;
     password: string;
 }
+export interface IForgotPasswordCredentials {
+    email: string;
+}
+
+export interface IPasswordResetCredentials {
+    new_password: string;
+    confirm_password: string;
+}
 
 export interface ILoginResponse {
     token: string;
@@ -34,7 +42,7 @@ export interface ISystemSettingsConfig {
         buffer_time?: any
         admin_email: string
     },
-    default_message?:string
+    default_message?: string
 }
 
 

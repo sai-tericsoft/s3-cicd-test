@@ -302,3 +302,18 @@ export interface IColorPickerProps {
     className?: any;
     disabled?: boolean;
 }
+
+export interface IOTPFieldProps {
+    required?: boolean;
+    label?: string;
+    className?: string;
+    disabled?: boolean;
+    noOfDigits?: number;
+    hasError?: boolean;
+    errorMessage?: any;
+    isMasked?: boolean;
+    placeholder?: string;
+    fullWidth?: boolean;
+    readOnly?: boolean;
+    onChange?: (value: any) => void;
+}
