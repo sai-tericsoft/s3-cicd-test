@@ -1,17 +1,28 @@
+@import "src/assets/styles/common";
+
 .link-component {
-  font-weight: 700;
+  font-weight: $font-weight-medium;
   font-size: 14px;
   line-height: 16px;
   letter-spacing: 0.002em;
-
+  text-decoration-line: underline;
+  color: $primary-color;
+  display: flex;
+  align-items: center;
   &:not(&:has(button)) {
     text-decoration: underline;
-    color: #00534F;
+    color: $primary-color;
   }
 
   &:hover {
-    color: #00534F;
+    color: $primary-color;
     cursor: pointer;
     text-decoration: none !important;
+  }
+
+
+  &.disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
   }
 }
