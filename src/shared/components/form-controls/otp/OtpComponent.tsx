@@ -51,6 +51,9 @@ const OtpComponent = (props: OtpComponentProps) => {
             {/*{(errorMessage && hasError) && (*/}
             {/*    <ErrorTextComponent error={errorMessage}/>*/}
             {/*)}*/}
+            {(errorMessage && hasError) && (
+                <div className="error-text">{errorMessage}</div>
+            )}
         </div>
     );
 
