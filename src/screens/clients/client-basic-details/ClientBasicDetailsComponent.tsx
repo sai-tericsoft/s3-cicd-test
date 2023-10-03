@@ -111,7 +111,7 @@ const ClientBasicDetailsComponent = (props: ClientBasicDetailsComponentProps) =>
                             {/*    &&  <HorizontalLineComponent className={'alternate-heading-horizontal-line'}/>}*/}
                             <div className="ts-col-6">
                                 {
-                                    clientBasicDetails?.secondary_contact_info?.length > 0 &&
+                                    clientBasicDetails?.secondary_contact_info &&  clientBasicDetails?.secondary_contact_info?.length > 0 &&
                                     clientBasicDetails?.secondary_contact_info[0]?.phone !== "" &&
                                     <>
                                         {/*<FormControlLabelComponent size={'sm'} label={'Alternate Phone:'}/>*/}
@@ -143,7 +143,7 @@ const ClientBasicDetailsComponent = (props: ClientBasicDetailsComponentProps) =>
                                 }
                             </div>
                             <div className="ts-col-4">
-                                {clientBasicDetails?.secondary_emails?.length > 0 &&
+                                {clientBasicDetails?.secondary_emails && clientBasicDetails?.secondary_emails?.length > 0 &&
                                     clientBasicDetails?.secondary_emails[0]?.email !== "" &&
                                     <>
                                         {/*<FormControlLabelComponent size={'sm'} label={'Alternate Email:'}/>*/}
@@ -224,7 +224,7 @@ const ClientBasicDetailsComponent = (props: ClientBasicDetailsComponentProps) =>
                         {/*}*/}
                         <div className="ts-row">
                             <div className="ts-col-6">
-                                {clientBasicDetails?.emergency_contact_info?.primary_emergency?.secondary_contact_info?.length > 0 &&
+                                {clientBasicDetails?.emergency_contact_info?.primary_emergency?.secondary_contact_info && clientBasicDetails?.emergency_contact_info?.primary_emergency?.secondary_contact_info?.length > 0 &&
                                     clientBasicDetails?.emergency_contact_info?.primary_emergency?.secondary_contact_info[0]?.phone !== "" &&
                                     <div className={'phone-email-heading'}>Alternate:</div>
                                 }
@@ -294,7 +294,7 @@ const ClientBasicDetailsComponent = (props: ClientBasicDetailsComponentProps) =>
                                 </div>
                             </>
                         }
-                        {clientBasicDetails?.emergency_contact_info?.secondary_emergency?.secondary_contact_info?.length > 0 &&
+                        {clientBasicDetails?.emergency_contact_info?.secondary_emergency?.secondary_contact_info && clientBasicDetails?.emergency_contact_info?.secondary_emergency?.secondary_contact_info?.length > 0 &&
                             clientBasicDetails?.emergency_contact_info?.secondary_emergency?.secondary_contact_info[0]?.phone !== "" &&
                             <>
                                 {/*< HorizontalLineComponent className={'alternate-heading-horizontal-line'}/>*/}

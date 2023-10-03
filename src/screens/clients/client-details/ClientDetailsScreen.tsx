@@ -67,12 +67,9 @@ const ClientDetailsScreen = (props: ClientDetailsScreenProps) => {
     return (
         <>
             <div className={'client-details-screen'}>
-                <>
-                    {
-                        !clientId && <StatusCardComponent title={"Client ID missing. cannot fetch details"}/>
-                    }
-                </>
-
+                {
+                    !clientId && <StatusCardComponent title={"Client ID missing. cannot fetch details"}/>
+                }
                 <>
                     {
                         clientId && <>

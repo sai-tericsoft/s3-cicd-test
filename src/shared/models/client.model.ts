@@ -56,9 +56,9 @@ export interface IClientBasicDetails {
     is_active?: boolean;
     primary_email: string;
     show_secondary_emergency_form: boolean;
-    secondary_emails: IEmail[];
+    secondary_emails?: IEmail[];
     primary_contact_info: IContactInfo;
-    secondary_contact_info: IContactInfo[];
+    secondary_contact_info?: IContactInfo[];
     emergency_contact_info: IEmergencyContactInfo;
     work_info: IWorkInfo;
     address: IAddress;
@@ -118,7 +118,7 @@ export interface IEmergencyContact {
     language: string;
     language_details?: ILanguage;
     primary_contact_info: IContactInfo;
-    secondary_contact_info: IContactInfo[];
+    secondary_contact_info?: IContactInfo[];
 }
 
 export interface IClientMedicalDetails {
