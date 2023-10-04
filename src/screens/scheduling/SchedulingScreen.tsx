@@ -1109,12 +1109,10 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                         (schedulingListFilterState?.search && !(schedulingListFilterState.start_date || schedulingListFilterState.category_id || schedulingListFilterState.service_id || schedulingListFilterState.provider_id || schedulingListFilterState.status) ?
                                             <div className={'no-appointment-text-wrapper'}>
                                                 <div><img src={ImageConfig.Search} alt="client-search"/></div>
-                                                <div className={'no-appointment-heading'}>No Client Found!
+                                                <div className={'no-appointment-heading'}>Sorry, no results found!
                                                 </div>
                                                 <div className={'no-appointment-description'}>
-                                                    Oops! It seems like there are no appointments available
-                                                    for the
-                                                    client name you have searched.
+                                                    There is no client available by the name you have searched.
                                                 </div>
                                             </div> : '')
                                     }
