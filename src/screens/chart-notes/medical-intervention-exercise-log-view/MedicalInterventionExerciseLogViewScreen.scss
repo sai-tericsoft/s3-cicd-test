@@ -35,6 +35,23 @@
     }
   }
 }
+.last-updated-status {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  height: 20px;
+  padding-bottom: 10px;
+
+  .last-updated-status-text {
+    font-size: 14px;
+  }
+
+  .last-updated-status-bold {
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: capitalize;
+  }
+}
 
 .client-name-button-wrapper {
   display: flex;

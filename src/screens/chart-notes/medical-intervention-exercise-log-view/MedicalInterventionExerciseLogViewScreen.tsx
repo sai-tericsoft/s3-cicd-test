@@ -18,6 +18,7 @@ import MedicalInterventionLinkedToComponent
 import DataLabelValueComponent from "../../../shared/components/data-label-value/DataLabelValueComponent";
 import LinkComponent from "../../../shared/components/link/LinkComponent";
 import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
+import moment from "moment-timezone";
 
 interface MedicalInterventionExerciseLogViewScreenProps {
 
@@ -152,7 +153,17 @@ const MedicalInterventionExerciseLogViewScreen = (props: MedicalInterventionExer
 
     return (
         <div className={'medical-intervention-exercise-log-view-screen'}>
-            <PageHeaderComponent title={"View Exercise Log"}/>
+            <PageHeaderComponent className={'page-header'} title={"View Exercise Log"} actions={
+                <div className="last-updated-status">
+                    <div className="last-updated-status-text">Last updated on:&nbsp;</div>
+                    {isMedicalInterventionExerciseLogDetailsLoaded &&
+                        <div
+                            className="last-updated-status-bold">
+                            {(medicalInterventionExerciseLogDetails?.updated_at ? moment(medicalInterventionExerciseLogDetails.updated_at).tz(moment.tz.guess()).format('DD-MMM-YYYY | hh:mm A z') : 'N/A')}&nbsp;-&nbsp;
+                            {medicalInterventionExerciseLogDetails?.last_updated_by_details?.first_name ? medicalInterventionExerciseLogDetails?.last_updated_by_details?.first_name + ' ' + medicalInterventionExerciseLogDetails?.last_updated_by_details?.last_name : ' NA'}
+                        </div>
+                    }
+                </div>}/>
 
             {
                 isMedicalInterventionExerciseLogDetailsLoading && <div>
