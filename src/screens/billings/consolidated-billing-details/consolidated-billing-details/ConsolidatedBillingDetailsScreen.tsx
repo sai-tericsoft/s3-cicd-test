@@ -209,7 +209,10 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                 dataIndex: 'created_at',
                 width: 120,
                 render: (item: any) => {
-                    return <>{CommonService.convertDateFormat2(item?.created_at, "DD-MMM-YYYY  hh:mm A") || '-'}</>
+                    return <>
+                        {CommonService.convertDateFormat2(item?.created_at, "DD-MMM-YYYY") || '-'}<br/>
+                            {CommonService.convertDateFormat2(item?.created_at, "hh:mm A") || '-'}
+                    </>
                 }
 
             },
