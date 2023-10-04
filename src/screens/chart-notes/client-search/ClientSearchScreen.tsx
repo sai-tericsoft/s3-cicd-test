@@ -3,7 +3,7 @@ import CardComponent from "../../../shared/components/card/CardComponent";
 import SearchComponent from "../../../shared/components/search/SearchComponent";
 import {IClientBasicDetails, IClientListFilterState} from "../../../shared/models/client.model";
 import React, {useCallback, useEffect, useState} from "react";
-import {APIConfig} from "../../../constants";
+import {APIConfig, ImageConfig} from "../../../constants";
 import {useDispatch} from "react-redux";
 import {setCurrentNavParams} from "../../../store/actions/navigation.action";
 import {ITableColumn} from "../../../shared/models/table.model";
@@ -162,6 +162,13 @@ const ClientSearchScreen = (props: ClientSearchScreenProps) => {
                 <TableWrapperComponent
                     id={"client_search"}
                     url={APIConfig.CLIENT_LIST.URL}
+                    noDataText={ (<div className={'no-client-text-wrapper'}>
+                        <div>{clientListFilterState.search?<img src={ImageConfig.Search} alt="client-search"/>:''}</div>
+                        <div className={'no-client-heading mrg-bottom-15'}>{clientListFilterState.search? 'Sorry, no results found!':''}</div>
+                        <div className={'no-client-description'}>
+                            {clientListFilterState.search ? 'There is no client available by the name you have searched.' : 'Currently, there is no client added.'}
+                        </div>
+                    </div>)}
                     method={APIConfig.CLIENT_LIST.METHOD}
                     columns={ClientListTableColumns}
                     extraPayload={clientListFilterState}

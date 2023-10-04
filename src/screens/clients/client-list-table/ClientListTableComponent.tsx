@@ -116,9 +116,9 @@ const ClientListTableComponent = (props: ClientListTableComponentProps) => {
                 columns={ClientListTableColumns}
                 noDataText={ (<div className={'no-client-text-wrapper'}>
                     <div>{clientListFilterState.search?<img src={ImageConfig.Search} alt="client-search"/>:''}</div>
-                    <div className={'no-client-heading'}>{clientListFilterState.search? 'No Results Found':''}</div>
+                    <div className={'no-client-heading'}>{clientListFilterState.search? 'Sorry, no results found!':''}</div>
                     <div className={'no-client-description'}>
-                        {clientListFilterState.search ? 'Oops! It seems like there are no clients available for the name you have searched.' : 'Currently, there is no client added.'}
+                        {clientListFilterState.search ? 'There is no client available by the name you have searched.' : 'Currently, there is no client added.'}
                     </div>
                 </div>)}
                 refreshToken={refreshToken}

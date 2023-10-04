@@ -1094,7 +1094,13 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                                            extraPayload={
                                                clientListFilterState
                                            }
-                                           noDataText={'Currently there is no pending payments.'}
+                                           noDataText={ (<div className={'no-client-text-wrapper'}>
+                                               <div>{clientListFilterState.search?<img src={ImageConfig.Search} alt="client-search"/>:''}</div>
+                                               <div className={'no-client-heading mrg-bottom-15'}>{clientListFilterState.search? 'Sorry, no results found!':''}</div>
+                                               <div className={'no-client-description'}>
+                                                   {clientListFilterState.search ? 'There is no payment available by the client name you have searched.' : 'Currently there is no pending payments.'}
+                                               </div>
+                                           </div>)}
                                            method={APIConfig.PENDING_PAYMENT_LIST.METHOD}
                                            columns={clientId ? clientPendingPaymentColumn : pendingPaymentColumn}
                                            moduleName={PENDING_PAYMENTS_MODULE}
@@ -1102,7 +1108,13 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                 </TabContentComponent>
                 <TabContentComponent value={'completedPayments'} selectedTab={currentTab}>
                     <TableWrapperComponent url={APIConfig.COMPLETE_PAYMENT_LIST.URL}
-                                           noDataText={'Currently there is no completed payments.'}
+                                           noDataText={ (<div className={'no-client-text-wrapper'}>
+                                               <div>{clientListFilterState.search?<img src={ImageConfig.Search} alt="client-search"/>:''}</div>
+                                               <div className={'no-client-heading mrg-bottom-15'}>{clientListFilterState.search? 'Sorry, no results found!':''}</div>
+                                               <div className={'no-client-description'}>
+                                                   {clientListFilterState.search ? 'There is no payment available by the client name you have searched.' : 'Currently there is no completed payments.'}
+                                               </div>
+                                           </div>)}
                                            method={APIConfig.COMPLETE_PAYMENT_LIST.METHOD}
                                            extraPayload={clientListFilterState}
                                            columns={clientId ? clientCompletePaymentListColumn : completePaymentListColumn}
@@ -1116,7 +1128,13 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                             extraPayload={
                                 clientListFilterState
                             }
-                            noDataText={'Currently there is no consolidated payments.'}
+                            noDataText={ (<div className={'no-client-text-wrapper'}>
+                                <div>{clientListFilterState.search?<img src={ImageConfig.Search} alt="client-search"/>:''}</div>
+                                <div className={'no-client-heading mrg-bottom-15'}>{clientListFilterState.search? 'Sorry, no results found!':''}</div>
+                                <div className={'no-client-description'}>
+                                    {clientListFilterState.search ? 'There is no payment available by the client name you have searched.' : 'Currently there is no consolidated payments.'}
+                                </div>
+                            </div>)}
                             method={APIConfig.CONSOLIDATED_PAYMENT_LIST.METHOD}
                             columns={consolidatedPayments}
                         />
