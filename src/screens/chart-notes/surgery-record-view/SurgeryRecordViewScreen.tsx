@@ -152,7 +152,6 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
         }
     }, [getSurgeryRecord, surgeryRecordId]);
 
-    const [showAddAttachment, setShowAddAttachment] = useState<boolean>(false);
     const [isAttachAddInProgress, setIsAttachAddInProgress] = useState<boolean>(false);
 
     const deleteSurgeryAttachment = useCallback(
@@ -161,8 +160,10 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
                 image: ImageConfig.Confirm,
                 // showLottie: true,
                 confirmationTitle: "DELETE ATTACHMENT",
-                confirmationDescription:<div className="delete-document">
-                    <div className={'delete-document-text text-center '}>Are you sure you want to delete this attachment <br/> from this file?</div>
+                confirmationDescription: <div className="delete-document">
+                    <div className={'delete-document-text text-center '}>Are you sure you want to delete this
+                        attachment <br/> from this file?
+                    </div>
                 </div>
             }).then((response: any) => {
                 CommonService._chartNotes.RemoveSurgeryRecordAttachmentAPICall(surgeryRecordId, attachmentId)
@@ -189,7 +190,7 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
                 CommonService._chartNotes.AddSurgeryRecordAttachmentAPICall(surgeryRecordDetails._id, formData)
                     .then((response: IAPIResponseType<any>) => {
                         CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
-                        setShowAddAttachment(false);
+                        // setShowAddAttachment(false);
                         getSurgeryRecord(surgeryRecordDetails._id);
                     })
                     .catch((error: any) => {
@@ -230,8 +231,10 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
             image: ImageConfig.ConfirmationLottie,
             showLottie: true,
             confirmationTitle: "DELETE SURGERY RECORD",
-            confirmationDescription:<div className="delete-document">
-                <div className={'delete-document-text text-center '}>Are you sure you want to delete this surgery record <br/> from this file?</div>
+            confirmationDescription: <div className="delete-document">
+                <div className={'delete-document-text text-center '}>Are you sure you want to delete this surgery
+                    record <br/> from this file?
+                </div>
             </div>
         }).then((response: any) => {
                 if (surgeryRecordId) {
@@ -247,7 +250,6 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
             }
         )
     }, [medicalRecordId, surgeryRecordId, navigate]);
-    console.log('surgeryRecordDetails',surgeryRecordDetails);
     return (
         <div className={'medical-intervention-surgery-record-screen'}>
 
@@ -459,14 +461,15 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
                         </div>
                     </CardComponent>
 
-                    <div className="ts-col-12 text-right">
-                        <ButtonComponent
-                            disabled={surgeryRecordDetails?.attachments?.length > 0}
-                            onClick={setShowAddAttachment.bind(null, true)}
-                        >
-                            Add Attachment
-                        </ButtonComponent>
-                    </div>
+                    {/*<div className="ts-col-12 text-right">*/}
+                    {/*    <ButtonComponent*/}
+                    {/*        disabled={surgeryRecordDetails?.attachments?.length > 0}*/}
+                    {/*        onClick={setShowAddAttachment.bind(null, true)}*/}
+                    {/*    >*/}
+                    {/*        Add Attachment*/}
+                    {/*    </ButtonComponent>*/}
+                    {/*</div>*/}
+
                 </>
             }
             <div className="ts-row mrg-top-20">
@@ -483,8 +486,9 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
                 </div>
             </div>
 
-            <DrawerComponent isOpen={showAddAttachment} showClose={true} className={'edit-medical-record-drawer'}
-                             onClose={setShowAddAttachment.bind(null, false)}>
+            {/*<DrawerComponent isOpen={showAddAttachment} showClose={true} className={'edit-medical-record-drawer'}*/}
+            {/*                 onClose={setShowAddAttachment.bind(null, false)}>*/}
+            {surgeryRecordDetails &&!surgeryRecordDetails?.attachments?.length &&
                 <div className={'edit-medical-record-component'}>
                     <Formik
                         validationSchema={addSurgeryRecordAttachmentValidationSchema}
@@ -501,7 +505,7 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
                             }, [validateForm, values]);
                             return (
                                 <Form className="t-form" noValidate={true}>
-                                    <FormControlLabelComponent label={"Add Surgery Attachment"}/>
+                                    <FormControlLabelComponent label={"Attachment"} className={'attachment-heading'} />
                                     <div className={"t-surgery-record-drawer-form-controls"}>
                                         <FieldArray
                                             name="attachment"
@@ -510,7 +514,6 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
                                                     {values?.attachment && values?.attachment?.map((item: any, index: any) => {
                                                         return (
                                                             <FilePreviewThumbnailComponent file={item}
-                                                                                           variant={"compact"}
                                                                                            key={item.name + index}
                                                                                            onRemove={() => {
                                                                                                arrayHelpers.remove(index);
@@ -520,7 +523,7 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
                                                     })}
                                                 </>
                                             )}/>
-                                        {values?.attachment.length===0 && <FilePickerComponent
+                                        {values?.attachment.length === 0 && <FilePickerComponent
                                             maxFileCount={1}
                                             id={"sv_upload_btn"}
                                             onFilesDrop={(acceptedFiles, rejectedFiles) => {
@@ -534,7 +537,14 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
                                         />}
                                     </div>
                                     <div className="t-form-actions mrg-top-20">
-                                        <ButtonComponent fullWidth={true} type={'submit'}
+                                        <ButtonComponent
+                                            variant={"outlined"}
+                                            onClick={ ()=>setFieldValue('attachment', [])}
+                                            disabled={values?.attachment?.length===0}
+                                        >
+                                            Cancel
+                                        </ButtonComponent>&nbsp;&nbsp;
+                                        <ButtonComponent  type={'submit'}
                                                          isLoading={isAttachAddInProgress}
                                                          disabled={!isValid || isAttachAddInProgress}>
                                             Save
@@ -545,7 +555,8 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
                         }
                     </Formik>
                 </div>
-            </DrawerComponent>
+            }
+            {/*</DrawerComponent>*/}
 
         </div>
     );
