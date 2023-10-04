@@ -17,13 +17,13 @@ interface BookAppointmentOverviewComponentProps {
 }
 
 const BookAppointmentOverviewComponent = (props: BookAppointmentOverviewComponentProps) => {
-    const { onComplete, bookingDraft} = props;
+    const {onComplete, bookingDraft} = props;
     const {appointmentTypes} = useSelector((state: IRootReducerState) => state.staticData);
     // const [serviceDetails, setServiceDetails] = useState<any | null>(null);
     const [bookType, setBookType] = useState<any | null>(null);
     const [isBookingLoading, setIsBookingLoading] = useState<boolean>(false);
 
-    console.log('bookingDraft',bookingDraft);
+    console.log('bookingDraft', bookingDraft);
 
 
     // const getServiceView = useCallback(
@@ -63,7 +63,7 @@ const BookAppointmentOverviewComponent = (props: BookAppointmentOverviewComponen
                 facility_id: booking.facility._id,
                 appointment_type: booking.appointment_type,
                 consultation_id: booking.duration._id,
-                appointment_date:  CommonService.convertDateFormat(booking.date),
+                appointment_date: CommonService.convertDateFormat(booking.date),
                 duration: parseInt(booking.duration.duration),
                 start_time: booking.time.start_min,
                 end_time: booking.time.end_min,
@@ -163,10 +163,14 @@ const BookAppointmentOverviewComponent = (props: BookAppointmentOverviewComponen
                                 <div
                                     className="item-value">
                                     {bookingDraft?.service_category?.name || 'N/A'} / {bookingDraft?.service?.name || 'N/A'}
-                                    <div className="mrg-top-10">
-                                        <ChipComponent color={'success'} label={bookType?.title}/>&nbsp;&nbsp;
-                                        <ChipComponent className={'minutes-chip'} color={'success'}
-                                                       label={bookingDraft?.service?.name + " - " +bookingDraft?.duration.duration + ' mins'}/>
+                                    <div className="ts-row mrg-top-5">
+                                        <div className={'ts-col-6'}>
+                                            <ChipComponent color={'success'} label={bookType?.title}/>&nbsp;&nbsp;
+                                        </div>
+                                        <div className={'ts-col-6'}>
+                                            <ChipComponent className={'minutes-chip'} color={'success'}
+                                                           label={bookingDraft?.service?.name + " - " + bookingDraft?.duration.duration + ' mins'}/>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
