@@ -19,7 +19,6 @@ import DrawerComponent from "../../../shared/components/drawer/DrawerComponent";
 import {Field, FieldArray, FieldProps, Form, Formik, FormikHelpers} from "formik";
 import FormikDatePickerComponent
     from "../../../shared/components/form-controls/formik-date-picker/FormikDatePickerComponent";
-import moment from "moment";
 import FormikInputComponent from "../../../shared/components/form-controls/formik-input/FormikInputComponent";
 import FormikTextAreaComponent from "../../../shared/components/form-controls/formik-text-area/FormikTextAreaComponent";
 import FilePreviewThumbnailComponent
@@ -30,6 +29,7 @@ import AttachmentComponent from "../../../shared/attachment/AttachmentComponent"
 import InputComponent from "../../../shared/components/form-controls/input/InputComponent";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 import PageHeaderComponent from "../../../shared/components/page-header/PageHeaderComponent";
+import moment from "moment-timezone";
 
 interface SurgeryRecordViewScreenProps {
 
@@ -247,6 +247,7 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
             }
         )
     }, [medicalRecordId, surgeryRecordId, navigate]);
+    console.log('surgeryRecordDetails',surgeryRecordDetails);
     return (
         <div className={'medical-intervention-surgery-record-screen'}>
 
@@ -380,7 +381,18 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
                     <ButtonComponent variant={'contained'} onClick={closeBodyPartsModal}>Close</ButtonComponent>
                 </div>
             </ModalComponent>
-            <PageHeaderComponent title={'View Surgery Record'}/>
+            <PageHeaderComponent title={'View Surgery Record'}
+                                 actions={
+                                     <div className="last-updated-status">
+                                         <div className="last-updated-status-text">Last updated on:&nbsp;</div>
+                                         {isClientMedicalRecordLoaded &&
+                                             <div
+                                                 className="last-updated-status-bold">
+                                                 {(surgeryRecordDetails?.updated_at ? moment(surgeryRecordDetails.updated_at).tz(moment.tz.guess()).format('DD-MMM-YYYY | hh:mm A z') : 'N/A')}&nbsp;-&nbsp;
+                                                 {surgeryRecordDetails?.last_updated_by_details?.first_name ? surgeryRecordDetails?.last_updated_by_details?.first_name + ' ' + surgeryRecordDetails?.last_updated_by_details?.last_name : ' NA'}
+                                             </div>
+                                         }
+                                     </div>}/>
             {
                 isSurgeryRecordDetailsLoading && <div>
                     <LoaderComponent/>
