@@ -671,7 +671,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                         }
                         <div className={'add-new-invoice__comments__payment__block__wrapper'}>
                             <div className="ts-row">
-                                <div className="ts-col-lg-4 add-new-invoice__comments__block">
+                                <div className="ts-col-lg-5 add-new-invoice__comments__block">
                                     <DataLabelValueComponent className={'comments'} label={""}>
                                         {type === 'invoice' ? <TextAreaComponent label={'Comments'}
                                                                                  placeholder={'Please add your comments here'}
@@ -706,7 +706,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                                     {/*    </DataLabelValueComponent>*/}
                                     {/*}*/}
                                 </div>
-                                <div className="ts-col-lg-2"/>
+                                <div className="ts-col-lg-1"/>
                                 <div className="ts-col-lg-6">
                                     <div className="add-new-invoice__payment__block">
                                         <div className="add-new-invoice__payment__block__row subtotal">

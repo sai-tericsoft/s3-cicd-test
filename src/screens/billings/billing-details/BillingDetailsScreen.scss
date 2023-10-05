@@ -168,6 +168,8 @@
         .comment-wrapper{
           border:  1px solid #ABB6BE;
           border-radius: 4px;
+          min-height: 100px;
+          min-width: 300px;
           .comment-heading{
             font-weight: 500;
             padding-top: 5px;
