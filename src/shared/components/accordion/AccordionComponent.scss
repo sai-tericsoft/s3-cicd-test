@@ -1,0 +1,87 @@
+@import "src/assets/styles/common";
+
+.accordion-component {
+  .MuiAccordionDetails-root {
+    border-right: 1px solid #D2D2D2;
+    border-left: 1px solid #D2D2D2;
+  }
+
+  .MuiAccordion-root {
+    .MuiAccordionSummary-expandIconWrapper {
+      margin-right: 10px !important;
+      margin-left: 15px !important;
+    }
+
+    .MuiAccordionSummary-root {
+      //border: 1px solid #D2D2D2;
+      //border-radius: 5px;
+      //height: 48px;
+      //padding: 0px !important;
+      .MuiAccordionSummary-content {
+        display: flex;
+        justify-content: space-between;
+      }
+
+      &.Mui-expanded {
+        //min-height: 48px !important;
+        //max-height: 48px !important;
+      }
+    }
+
+    :not(&.Mui-expanded) {
+      //box-shadow: none;
+    }
+
+    .accordion-summary {
+      .accordian-title-status-wrapper{
+        display: flex;
+        justify-content: space-between;
+        column-gap: 30px;
+      }
+      //background: #EEF4FF;
+      //border: 0.5px solid #B4B4B4;
+
+      //.accordion-header {
+      //  padding: 0 20px;
+      //  display: flex;
+      //  flex: 1 1;
+      //  justify-content: space-between;
+      //
+      //  .accordian-title-status-wrapper {
+      //    display: flex;
+      //    align-items: center;
+      //
+      //    .accordian-tile {
+      //      font-weight: 700;
+      //      font-size: 16px;
+      //      color: #636363;
+      //    }
+      //
+      //    .accordian-sub-tile {
+      //      font-weight: 400;
+      //      font-size: 16px;
+      //      margin-left: 15px;
+      //    }
+      //
+      //    .accordian-user-name {
+      //      margin-left: 20px;
+      //      font-weight: 700;
+      //      font-size: 16px;
+      //      color: #636363;
+      //    }
+      //
+      //    .accordian-status {
+      //      margin-left: 20px;
+      //    }
+      //  }
+      //
+      //  .accordian-actions {
+      //    display: flex;
+      //    align-items: center;
+      //    //margin-right: 20px;
+      //  }
+      //}
+
+    }
+  }
+}

@@ -1,0 +1,39 @@
+
+.activity-logs-timeline-component {
+  .accordian-actions{
+    margin-right:0px !important;
+  }
+  .MuiTimelineConnector-root {
+    background: #BDE8CA;
+  }
+
+  .MuiTimelineDot-root {
+    margin-top: 0px !important;
+    margin-bottom: 0px !important;
+  }
+
+  .initial-timeline-connector {
+    max-height: 23px;
+    //margin-top: 5px;
+  }
+
+  .log-item {
+    display: flex;
+    justify-content: space-between;
+    column-gap: 30px;
+
+    .log-item-body {
+      flex: 1;
+    }
+
+    .log-item-header {
+      margin-top: 15px;
+      font-weight: 700;
+    }
+    .log-status-wrapper{
+      display: flex;
+      align-items: center;
+    }
+  }
+
+}
