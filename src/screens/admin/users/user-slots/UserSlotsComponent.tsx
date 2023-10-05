@@ -22,7 +22,6 @@ import {CommonService} from "../../../../shared/services";
 import ButtonComponent from "../../../../shared/components/button/ButtonComponent";
 
 import './UserSlotsComponent.scss';
-import FormDebuggerComponent from "../../../../shared/components/form-debugger/FormDebuggerComponent";
 import _ from "lodash";
 import {setCurrentNavParams} from "../../../../store/actions/navigation.action";
 import * as Yup from "yup";

@@ -55,7 +55,7 @@ const IcdCodingToolComponent = (props: IcdCodingToolComponentProps) => {
         ECT.Handler.configure(settings, callbacks);
         ECT.Handler.bind(iNo); // bind after mount
 
-    }, []); // empty deps array to run only on mount
+    }, [iNo]); // empty deps array to run only on mount
 
     return (
         <div className={'icd-coding-tool-component'}>

@@ -75,7 +75,7 @@ const OtpVerificationScreen = (props: OtpVerificationScreenProps) => {
             }).finally(() => {
             handleNavigation(commonService._routeConfig.ResetPasswordRoute());
         })
-    }, []);
+    }, [handleNavigation]);
 
     return (
         <div className="auth-screen otp-verification-screen">

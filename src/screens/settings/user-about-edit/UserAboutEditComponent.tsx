@@ -8,7 +8,6 @@ import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
 import FormikSelectComponent from "../../../shared/components/form-controls/formik-select/FormikSelectComponent";
 import _ from "lodash";
-import FormDebuggerComponent from "../../../shared/components/form-debugger/FormDebuggerComponent";
 import {CommonService} from "../../../shared/services";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import FormikTextAreaComponent from "../../../shared/components/form-controls/formik-text-area/FormikTextAreaComponent";

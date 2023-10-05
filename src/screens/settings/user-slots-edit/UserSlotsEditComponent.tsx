@@ -23,7 +23,6 @@ import {getUserBasicDetails, getUserSlots, setUserSlots} from "../../../store/ac
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
 import * as Yup from "yup";
-import FormDebuggerComponent from "../../../shared/components/form-debugger/FormDebuggerComponent";
 
 interface UserSlotsEditComponentProps {
 

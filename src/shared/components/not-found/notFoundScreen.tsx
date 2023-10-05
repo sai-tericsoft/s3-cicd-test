@@ -1,10 +1,9 @@
 import React from 'react';
-import {Link, useNavigate} from "react-router-dom";
+import { useNavigate} from "react-router-dom";
 import "./notFoundScreen.scss";
 import ButtonComponent from "../button/ButtonComponent";
 import {ImageConfig} from "../../../constants";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import commonService from "../../services/common.service";
 
 export interface NotFoundScreenProps {
     backUrl?: string

@@ -54,7 +54,8 @@ const ResetPasswordScreen = (props: ResetPasswordScreenProps) => {
             }).finally(() => {
             handleNavigation(commonService._routeConfig.PasswordResetSuccessRoute())
         });
-    }, [dispatch]);
+    }, [dispatch,handleNavigation]);
+
     return (
         <div className="auth-screen reset-password-screen">
             <div className="auth-form-container">

@@ -6,10 +6,8 @@ import LinkComponent from "../../../shared/components/link/LinkComponent";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import * as Yup from "yup";
 import {CommonService} from "../../../shared/services";
-import {useDispatch} from "react-redux";
 import { LOGIN_ROUTE} from "../../../constants/RoutesConfig";
 import {ImageConfig} from "../../../constants";
-import {useLocation, useNavigate} from "react-router-dom";
 import commonService from "../../../shared/services/common.service";
 import useHandleNavigation from "../../../shared/hooks/useHandleNavigation";
 
@@ -47,7 +45,7 @@ const ForgotPasswordScreen = (props: ForgotPasswordScreenProps) => {
             //navigate(OTP_VERIFICATION_ROUTE)
             handleNavigation(commonService._routeConfig.OtpVerificationRoute());
         })
-    }, []);
+    }, [handleNavigation]);
 
     return (
         <div className="auth-screen forgot-password-screen">

@@ -15,9 +15,7 @@ const OtpComponent = (props: OtpComponentProps) => {
 
     const {
         className,
-        label,
         hasError,
-        required,
         errorMessage,
         placeholder,
         isMasked,

@@ -12,7 +12,6 @@ import FormControlLabelComponent from "../../../shared/components/form-control-l
 import _ from "lodash";
 import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
-import FormDebuggerComponent from "../../../shared/components/form-debugger/FormDebuggerComponent";
 import {IAPIResponseType} from "../../../shared/models/api.model";
 import {setUserBasicDetails} from "../../../store/actions/user.action";
 
