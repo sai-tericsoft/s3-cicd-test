@@ -135,7 +135,9 @@ const GetClientBillingAddress = (clientId: any) => {
 const UpdateClientBillingAddress = (addressId: any, payload: any) => {
     return ApiService[APIConfig.UPDATE_CLIENT_BILLING_ADDRESS.METHOD](APIConfig.UPDATE_CLIENT_BILLING_ADDRESS.URL(addressId), payload);
 }
-
+const getClientActivityLogs = (clientId: any,payload?:any) => {
+    return ApiService[APIConfig.CLIENT_ACTIVITY_LOG.METHOD](APIConfig.CLIENT_ACTIVITY_LOG.URL(clientId),payload);
+}
 const ClientService = {
     ClientBasicDetailsAddAPICall,
     ClientBasicDetailsAPICall,
@@ -164,7 +166,8 @@ const ClientService = {
     ClientListLiteAPICall,
     ResendInviteToClient,
     GetClientBillingAddress,
-    UpdateClientBillingAddress
+    UpdateClientBillingAddress,
+    getClientActivityLogs
 }
 
 export default ClientService;

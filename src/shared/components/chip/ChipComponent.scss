@@ -4,3 +4,43 @@
 .MuiChip-root{
   width: 150px !important;
 }
+.chip {
+  text-transform: capitalize;
+
+  &.active {
+    background: #BDE8CA;
+    color: #00534F;
+  }
+
+  &.inactive {
+    background: #F4F4F8;
+    color: #787879;
+  }
+
+  &.completed {
+    background: #E4F6EA;
+    color: #00534F;
+  }
+
+  &.out_of_stock {
+    background: #FFE2E9;
+    color: #DE1C4E;
+  }
+
+  &.draft {
+    background: #FFEDDD;
+    color: #EF7300;
+  }
+  &.Modified{
+    background: #FFEDDD;
+    color: #EF7300;
+  }
+  &.Removed{
+    background: #FFE2E9;
+    color: #DE1C4E;
+  }
+  &.Added{
+    background: #E4F6EA;
+    color: #00534F;
+  }
+}

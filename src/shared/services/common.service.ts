@@ -281,7 +281,9 @@ const capitalizeFirstLetter = (string: string | undefined) => {
     if (!string) return '';
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
-
+const capitalizeFirstLetterOfEachWord = (string: string) => {
+    return string?.split(' ').map((word: string) => capitalizeFirstLetter(word)).join(' ');
+}
 const kFormatter = (num: any) => {
     // @ts-ignore
     return Math.abs(num) > 999 ? Math.sign(num) * ((Math.abs(num) / 1000).toFixed(1)) + 'k' : Math.sign(num) * Math.abs(num)
@@ -748,6 +750,7 @@ const CommonService = {
     generateTimeSlots,
     EndTimingsList,
     openConfirmationDialog,
+    capitalizeFirstLetterOfEachWord,
     // createValidationsObject,
     // createYupSchema,
 

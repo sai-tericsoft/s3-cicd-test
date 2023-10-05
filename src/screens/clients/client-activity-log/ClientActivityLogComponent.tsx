@@ -4,6 +4,10 @@ import {APIConfig} from "../../../constants";
 import {CommonService} from "../../../shared/services";
 import {ITableColumn} from "../../../shared/models/table.model";
 import {IClientActivityLog} from "../../../shared/models/client.model";
+import {useCallback, useEffect, useState} from "react";
+import commonService from "../../../shared/services/common.service";
+import ActivityLogTimelineComponent
+    from "../../../shared/components/activity-log-timeline/ActivityLogTimelineComponent";
 
 interface ClientActivityLogComponentProps {
     clientId: string;
@@ -12,48 +16,41 @@ interface ClientActivityLogComponentProps {
 const ClientActivityLogComponent = (props: ClientActivityLogComponentProps) => {
 
     const {clientId} = props;
-    const ClientActivityLogColumns: ITableColumn[] = [
-        {
-            key: 'activity',
-            title: 'Activity',
-            width: '600',
-            fixed: "left",
-            render: (item: IClientActivityLog) => {
-                return <span className={'module-field-name'}>
-                    {item?.module_name} &gt; {item?.field_name}
-                </span>
-            }
-        },
-        {
-            key: 'staff',
-            title: 'Staff',
-            width: "150",
-            align:'center',
-            render: (item: IClientActivityLog) => {
-                return <>{CommonService.capitalizeFirstLetter(item?.updated_by?.name)}</>
-            }
-        },
-        {
-            key: 'date_time',
-            title: 'Date/Time Stamp',
-            width: "200",
-            fixed: "right",
-            render: (item: IClientActivityLog) => {
-                return <>
-                    {CommonService.transformTimeStamp(item?.updated_at)}
-                </>
-            }
-        }
-    ]
+    const [clientsActivityLogs, setClientsActivityLogs] = useState<IClientActivityLog[]>();
+    const [clientsActivityLogsLoading, setClientsActivityLogsLoading] = useState<boolean>();
+    const [clientsActivityLogsLoadingFailed, setClientsActivityLogsLoadingFailed] = useState<boolean>();
+    const [clientsActivityLogsLoaded, setClientsActivityLogsLoaded] = useState<boolean>();
+
+    const getClientActivityLogs = useCallback((clientId:any) => {
+        const payload = {}
+        setClientsActivityLogsLoaded(false);
+        setClientsActivityLogsLoading(true);
+        setClientsActivityLogsLoadingFailed(false);
+        commonService._client.getClientActivityLogs(clientId, payload)
+            .then((res: any) => {
+                setClientsActivityLogsLoaded(true);
+                setClientsActivityLogsLoading(false);
+                setClientsActivityLogsLoadingFailed(false);
+                setClientsActivityLogs(res?.data?.docs);
+                console.log(res);
+            })
+            .catch((err: any) => {
+                setClientsActivityLogsLoaded(true);
+                setClientsActivityLogsLoading(false);
+                setClientsActivityLogsLoadingFailed(true);
+                commonService._alert.showToast(err?.error)
+            })
+    }, []);
+
+    useEffect(() => {
+        clientId && getClientActivityLogs(clientId);
+    }, [getClientActivityLogs, clientId]);
 
     return (
         <div className={'client-activity-log-component'}>
-            <TableWrapperComponent
-                url={APIConfig.CLIENT_ACTIVITY_LOG.URL(clientId)}
-                method={APIConfig.CLIENT_ACTIVITY_LOG.METHOD}
-                isPaginated={true}
-                fixedHeader={true}
-                columns={ClientActivityLogColumns}/>
+            <ActivityLogTimelineComponent
+                logsData={clientsActivityLogs}
+            />
         </div>
     );
 

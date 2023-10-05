@@ -20,7 +20,6 @@ import IconButtonComponent from "../../../../shared/components/icon-button/IconB
 import {ImageConfig, Misc} from "../../../../constants";
 import {CommonService} from "../../../../shared/services";
 import ButtonComponent from "../../../../shared/components/button/ButtonComponent";
-
 import './UserSlotsComponent.scss';
 import _ from "lodash";
 import {setCurrentNavParams} from "../../../../store/actions/navigation.action";
@@ -197,7 +196,6 @@ const UserSlotsComponent = (props: UserSlotsComponentProps) => {
             }
         }, [dispatch, userId, currentTab]);
 
-
         useEffect(() => {
             if (isUserSlotsLoaded && userSlots && Object.keys(userSlots).length) {
                 if (userSlots?.is_same_slots) {
@@ -210,9 +208,7 @@ const UserSlotsComponent = (props: UserSlotsComponentProps) => {
                         })),
                         scheduled_slots: InitialValue.scheduled_slots
                     };
-
                     setFormInitialValues(allScheduledSlots);
-
                 } else {
                     const allSlots = _.cloneDeep(InitialValue.scheduled_slots);
                     const dayScheduledSlots = {
