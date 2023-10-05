@@ -80,7 +80,11 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
         if (isChecked) {
             setSelectedPayments([...selectedPayments, payment]);
         } else {
+            let tempSelectedPayments = selectedPayments.filter((item: any) => item._id !== payment._id);
             setSelectedPayments(selectedPayments.filter((item: any) => item._id !== payment._id));
+            tempSelectedPayments?.length === 0 && setClientListFilterState((oldstate: any) => {
+                return {...oldstate, linked_invoices: false,client_id:undefined}
+            })
         }
     }, [selectedPayments]);
 
@@ -999,7 +1003,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                         <SwitchComponent
                             label={''}
                             disabled={selectedPayments?.length === 0 || currentTab === 'consolidatedPayments' || selectedPayments[0]?.payment_for === "products"}
-                            checked={clientListFilterState.linked_invoices}
+                            checked={selectedPayments?.length > 0 && clientListFilterState.linked_invoices}
                             onChange={(value) => {
                                 if (!value) {
                                     setClientListFilterState(
