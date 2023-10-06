@@ -90,7 +90,7 @@ const TestScreen = () => {
             {/*    <InputComponent name={'Accordion'} value={'aa'}/>*/}
             {/*</AccordionComponent>*/}
 
-            <IcdCodingToolComponent/>
+            {/*<IcdCodingToolComponent/>*/}
         </div>
     );
 };

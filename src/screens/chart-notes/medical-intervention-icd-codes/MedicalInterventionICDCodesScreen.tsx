@@ -33,6 +33,7 @@ import DrawerComponent from "../../../shared/components/drawer/DrawerComponent";
 import {AddIcon} from "../../../constants/ImageConfig";
 import TableV2Component from "../../../shared/components/table-v2/TableV2Component";
 import IconButtonComponent from "../../../shared/components/icon-button/IconButtonComponent";
+import IcdCodingToolComponent from "../../../shared/components/icd-coding-tool/IcdCodingToolComponent";
 
 interface MedicalInterventionICDCodesScreenProps {
 
@@ -66,8 +67,6 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
     const [searchICDCodes, setSearchICDCodes] = useState<any>({
         search: "",
     });
-
-    console.log("selectedICDCodes", selectedICDCodes);
 
     useEffect(() => {
         if (medicalInterventionId) {
@@ -340,6 +339,7 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
             setSelectedICDCodes((medicalInterventionDetails?.linked_icd_codes || []).map((v: any) => v));
         }
     }, [medicalInterventionDetails]);
+
     return (
         <div className={'medical-intervention-icd-codes-screen'}>
             <PageHeaderComponent title={'Add ICD Code'}/>
@@ -451,11 +451,13 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
                 isOpen={openIframe}
                 onClose={() => setOpenIframe(false)}
             >
-                <iframe
-                    src={"https://icd.who.int/ct11/icd11_mms/en/release"}
-                    title={'ICD Codes'}
-                    className={'icd-iframe'}
-                />
+                <IcdCodingToolComponent onSelection={(selectedIcdCode: any) => {
+                    setSelectedICDCodes([...selectedICDCodes, {
+                        _id: selectedIcdCode.code,
+                        icd_code: selectedIcdCode.code,
+                        description: selectedIcdCode.selectedText
+                    }]);
+                }}/>
             </DrawerComponent>
             <DrawerComponent isOpen={isIcdCodesDrawerOpen}
                              onClose={() => setIsIcdCodesDrawerOpen(false)}

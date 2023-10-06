@@ -4,10 +4,11 @@ import * as ECT from "@whoicd/icd11ect";
 import "@whoicd/icd11ect/style.css";
 
 interface IcdCodingToolComponentProps {
-
+    onSelection:Function;
 }
 
 const IcdCodingToolComponent = (props: IcdCodingToolComponentProps) => {
+    const {onSelection} = props;
     const [iNo] = useState(1); // instance number
 
     useEffect(() => {
@@ -19,35 +20,8 @@ const IcdCodingToolComponent = (props: IcdCodingToolComponentProps) => {
 
         const callbacks = {
             selectedEntityFunction: (selectedEntity: any) => {
-                // bestMatchText
-                //     :
-                //     "Muscle dysmorphia"
-                // code
-                //     :
-                //     "6B21.Z"
-                // foundationUri
-                //     :
-                //     "http://id.who.int/icd/entity/178847963"
-                // iNo
-                //     :
-                //     1
-                // linearizationUri
-                //     :
-                //     "http://id.who.int/icd/release/11/2023-01/mms/731724655/unspecified"
-                // searchQuery
-                //     :
-                //     "muscle"
-                // selectedText
-                //     :
-                //     "Muscle dysmorphia"
-                // title
-                //     :
-                //     "Body dysmorphic disorder, unspecified"
-                // uri
-                //     :
-                //     "http://id.who.int/icd/release/11/2023-01/mms/731724655/unspecified"
-                // console.log(selectedEntity);
-                alert(`ICD-11 code selected: ${selectedEntity.code}`);
+                onSelection(selectedEntity);
+                console.log(selectedEntity);
                 ECT.Handler.clear(iNo);
             }
         }
@@ -55,7 +29,7 @@ const IcdCodingToolComponent = (props: IcdCodingToolComponentProps) => {
         ECT.Handler.configure(settings, callbacks);
         ECT.Handler.bind(iNo); // bind after mount
 
-    }, [iNo]); // empty deps array to run only on mount
+    }, [iNo,onSelection]); // empty deps array to run only on mount
 
     return (
         <div className={'icd-coding-tool-component'}>
@@ -69,7 +43,7 @@ const IcdCodingToolComponent = (props: IcdCodingToolComponentProps) => {
                         placeholder={'Type for starting the search'}
                         data-ctw-ino={iNo}
                     />
-                    <span className="clear" onClick={ECT.Handler.clear('1')}>❌ </span>
+                    {/*<span className="clear" onClick={ECT.Handler.clear('1')}>❌ </span>*/}
                 </div>
                 <div className="ctw-window" data-ctw-ino={iNo}></div>
             </div>
