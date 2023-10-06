@@ -6,10 +6,11 @@ import LinkComponent from "../../../shared/components/link/LinkComponent";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import * as Yup from "yup";
 import {CommonService} from "../../../shared/services";
-import { LOGIN_ROUTE} from "../../../constants/RoutesConfig";
+import {LOGIN_ROUTE} from "../../../constants/RoutesConfig";
 import {ImageConfig} from "../../../constants";
 import commonService from "../../../shared/services/common.service";
 import useHandleNavigation from "../../../shared/hooks/useHandleNavigation";
+import {Misc} from "../../../constants";
 
 
 interface ForgotPasswordScreenProps {
@@ -33,18 +34,15 @@ const ForgotPasswordScreen = (props: ForgotPasswordScreenProps) => {
         setIsLoading(true);
         CommonService._account.SendForgotPasswordMail(values)
             .then((response: any) => {
-                //CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+                CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                 setIsLoading(false);
-                handleNavigation(commonService._routeConfig.OtpVerificationRoute());
+                handleNavigation(commonService._routeConfig.OtpVerificationRoute(), `email=${values.email}`);
             })
             .catch((error: any) => {
                 CommonService._alert.showToast(error.error || error.errors, 'error');
                 // CommonService.handleErrors(setErrors, error);
                 setIsLoading(false);
-            }).finally(() => {
-            //navigate(OTP_VERIFICATION_ROUTE)
-            handleNavigation(commonService._routeConfig.OtpVerificationRoute());
-        })
+            })
     }, [handleNavigation]);
 
     return (
