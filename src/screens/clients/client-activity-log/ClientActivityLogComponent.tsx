@@ -1,8 +1,4 @@
 import "./ClientActivityLogComponent.scss";
-import TableWrapperComponent from "../../../shared/components/table-wrapper/TableWrapperComponent";
-import {APIConfig} from "../../../constants";
-import {CommonService} from "../../../shared/services";
-import {ITableColumn} from "../../../shared/models/table.model";
 import {IClientActivityLog} from "../../../shared/models/client.model";
 import {useCallback, useEffect, useState} from "react";
 import commonService from "../../../shared/services/common.service";
@@ -48,9 +44,18 @@ const ClientActivityLogComponent = (props: ClientActivityLogComponentProps) => {
 
     return (
         <div className={'client-activity-log-component'}>
-            <ActivityLogTimelineComponent
-                logsData={clientsActivityLogs}
-            />
+            {
+                clientsActivityLogsLoading && <div className={'loading'}>Loading...</div>
+            }
+            {
+                clientsActivityLogsLoadingFailed && <div className={'loading'}>Loading Failed</div>
+            }
+            {
+                clientsActivityLogsLoaded && <ActivityLogTimelineComponent
+                    logsData={clientsActivityLogs}
+                />
+            }
+
         </div>
     );
 

@@ -58,7 +58,7 @@ const ResetPasswordScreen = (props: ResetPasswordScreenProps) => {
                 // CommonService.handleErrors(setErrors, error);
                 setIsLoading(false);
             })
-    }, [dispatch,handleNavigation]);
+    }, [handleNavigation,token]);
 
     return (
         <div className="auth-screen reset-password-screen">

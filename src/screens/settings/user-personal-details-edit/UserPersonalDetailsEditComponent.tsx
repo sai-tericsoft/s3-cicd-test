@@ -13,7 +13,7 @@ import {IRootReducerState} from "../../../store/reducers";
 import FormikAutoCompleteComponent
     from "../../../shared/components/form-controls/formik-auto-complete/FormikAutoCompleteComponent";
 import * as Yup from "yup";
-import FormDebuggerComponent from "../../../shared/components/form-debugger/FormDebuggerComponent";
+// import FormDebuggerComponent from "../../../shared/components/form-debugger/FormDebuggerComponent";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import _ from "lodash";
 import {IAPIResponseType} from "../../../shared/models/api.model";

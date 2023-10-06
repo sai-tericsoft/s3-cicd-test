@@ -64,7 +64,7 @@ const OtpVerificationScreen = (props: OtpVerificationScreenProps) => {
             runOTPCountdown();
             setIsOTPBeingRequested(false);
         });
-    }, [runOTPCountdown]);
+    }, [runOTPCountdown,email]);
 
     const onSubmit = useCallback((values: any, {setSubmitting, setErrors}: FormikHelpers<any>) => {
         const payload = {
@@ -86,7 +86,7 @@ const OtpVerificationScreen = (props: OtpVerificationScreenProps) => {
                 setErrorMessage(error.errors||"Entered wrong code please try again")
                 setIsLoading(false);
             })
-    }, [handleNavigation]);
+    }, [handleNavigation,email]);
 
     return (
         <div className="auth-screen otp-verification-screen">

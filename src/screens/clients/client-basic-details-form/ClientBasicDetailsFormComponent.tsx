@@ -252,8 +252,8 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                     email: "",
                 }];
             }
-            clientBasicDetails?.secondary_emails?.some((item: any) => item.email !== "") ? clientBasicDetails.secondary_emails = clientBasicDetails.secondary_emails : clientBasicDetails.secondary_emails = undefined;
-            clientBasicDetails?.secondary_contact_info?.some((item: any) => item.phone !== "" || item.phone_type !== "") ? clientBasicDetails.secondary_contact_info = clientBasicDetails.secondary_contact_info : clientBasicDetails.secondary_contact_info = undefined;
+            if(!clientBasicDetails?.secondary_emails?.some((item: any) => item.email !== "") ) clientBasicDetails.secondary_emails = undefined;
+            if(!clientBasicDetails?.secondary_contact_info?.some((item: any) => item.phone !== "" || item.phone_type !== ""))  clientBasicDetails.secondary_contact_info = undefined;
             if (!clientBasicDetails?.primary_email) {
                 clientBasicDetails.primary_email = "";
             }
