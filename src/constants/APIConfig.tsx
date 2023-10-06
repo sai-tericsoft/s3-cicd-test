@@ -125,16 +125,16 @@ const APIConfig: IAPIConfig = {
         METHOD: "post"
     },
     SEND_FORGOT_PASSWORD_MAIL: {
-        URL: ENV.API_URL + "/sendForgotPasswordMail",
+        URL: ENV.API_URL + "/forgetPassword",
         METHOD: "post"
     },
     SEND_VERIFICATION_OTP: {
-        URL: ENV.API_URL + "/sendVerificationOTP",
+        URL: ENV.API_URL + "/verifyOTP",
         METHOD: "post"
     },
     UPDATE_PASSWORD: {
-        URL: ENV.API_URL + "/updatePassword",
-        METHOD: "put"
+        URL: ENV.API_URL + "/resetPassword",
+        METHOD: "post"
     },
     // authentication end
 

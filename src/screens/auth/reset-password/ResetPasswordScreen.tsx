@@ -13,6 +13,8 @@ import * as Yup from "yup";
 import PasswordValidationComponent from "../../../shared/components/password-validation/PasswordValidationComponent";
 import commonService from "../../../shared/services/common.service";
 import useHandleNavigation from "../../../shared/hooks/useHandleNavigation";
+import {useLocation} from "react-router-dom";
+import {Misc} from "../../../constants";
 
 interface ResetPasswordScreenProps {
 
@@ -39,21 +41,23 @@ const ResetPasswordScreen = (props: ResetPasswordScreenProps) => {
     const [isLoading, setIsLoading] = useState(false);
     const dispatch = useDispatch();
     const handleNavigation = useHandleNavigation();
+    const location = useLocation();
+    const {token} = CommonService.parseQueryString(location.search)
 
     const onSubmit = useCallback((values: any, {setSubmitting, setErrors}: FormikHelpers<any>) => {
+        const payload={...values,token};
         setIsLoading(true);
-        CommonService._account.SetNewPassword(values)
+        CommonService._account.SetNewPassword(payload)
             .then((response: any) => {
-                // CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+                CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                 setIsLoading(false);
+                handleNavigation(commonService._routeConfig.PasswordResetSuccessRoute());
             })
             .catch((error: any) => {
                 CommonService._alert.showToast(error.error || error.errors, 'error');
                 // CommonService.handleErrors(setErrors, error);
                 setIsLoading(false);
-            }).finally(() => {
-            handleNavigation(commonService._routeConfig.PasswordResetSuccessRoute())
-        });
+            })
     }, [dispatch,handleNavigation]);
 
     return (

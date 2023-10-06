@@ -8,6 +8,9 @@ import {CommonService} from "../../../shared/services";
 import * as Yup from "yup";
 import commonService from "../../../shared/services/common.service";
 import useHandleNavigation from "../../../shared/hooks/useHandleNavigation";
+import {useLocation} from "react-router-dom";
+import {Misc} from "../../../constants";
+
 
 interface OtpVerificationScreenProps {
 
@@ -29,9 +32,11 @@ const OTP_VALIDITY = 60;
 const OtpVerificationScreen = (props: OtpVerificationScreenProps) => {
     const [isLoading, setIsLoading] = useState(false);
     const [otpTimer, setOtpTimer] = useState(0);
+    const [errorMessage,setErrorMessage]=useState("");
     const [isOTPBeingRequested, setIsOTPBeingRequested] = useState<boolean>(false);
     const handleNavigation = useHandleNavigation();
-
+    const location = useLocation();
+    const {email} = CommonService.parseQueryString(location.search)
     const runOTPCountdown = useCallback(() => {
         let timer = OTP_VALIDITY;
         setOtpTimer(timer);
@@ -46,9 +51,9 @@ const OtpVerificationScreen = (props: OtpVerificationScreenProps) => {
 
     const handleResendOTP = useCallback((values: any) => {
         setIsOTPBeingRequested(true);
-        CommonService._account.SendVerificationOtp(values)
+        CommonService._account.SendForgotPasswordMail({email})
             .then((response: any) => {
-                // CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+                CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                 runOTPCountdown();
                 setIsOTPBeingRequested(false);
             })
@@ -62,19 +67,25 @@ const OtpVerificationScreen = (props: OtpVerificationScreenProps) => {
     }, [runOTPCountdown]);
 
     const onSubmit = useCallback((values: any, {setSubmitting, setErrors}: FormikHelpers<any>) => {
+        const payload = {
+            username: email,
+            login_mode: "email",
+            otp: values.otp,
+        }
         setIsLoading(true);
-        CommonService._account.SendVerificationOtp(values)
+        CommonService._account.SendVerificationOtp(payload)
             .then((response: any) => {
-                // CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+                CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                 setIsLoading(false);
+                const token = response.data?.token;
+                handleNavigation(commonService._routeConfig.ResetPasswordRoute(), `token=${token}`);
             })
             .catch((error: any) => {
                 CommonService._alert.showToast(error.error || error.errors, 'error');
                 // CommonService.handleErrors(setErrors, error);
+                setErrorMessage(error.errors||"Entered wrong code please try again")
                 setIsLoading(false);
-            }).finally(() => {
-            handleNavigation(commonService._routeConfig.ResetPasswordRoute());
-        })
+            })
     }, [handleNavigation]);
 
     return (
@@ -117,8 +128,9 @@ const OtpVerificationScreen = (props: OtpVerificationScreenProps) => {
                                         }
                                     </Field>
                                     <div className="form-option otp-option">
-                                        <div className="error-message">Entered wrong code please try again</div>
                                         {
+                                            errorMessage && <div className="error-message">{errorMessage}</div>
+                                        }                                        {
                                             otpTimer > 0 ?
                                                 <LinkComponent
                                                     disabled={true}
