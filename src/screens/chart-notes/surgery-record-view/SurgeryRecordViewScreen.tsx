@@ -181,6 +181,28 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
         [getSurgeryRecord],
     );
 
+    const handleShareSurgeryRecord = useCallback((surgeryRecordId: string) => {
+        CommonService.onConfirm({
+            image: ImageConfig.PopupLottie,
+            showLottie: true,
+            confirmationTitle: "SHARE WITH CLIENT",
+            confirmationDescription: <div className="delete-document">
+                <div className={'delete-document-text text-center '}>Are you sure you want to share this
+                    document <br/> with the client?
+                </div>
+            </div>
+        }).then(() => {
+            CommonService._chartNotes.UpdateSurgeryRecordAPICall(surgeryRecordId, {is_shared: true})
+                .then((response: IAPIResponseType<any>) => {
+                    CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+                    medicalRecordId && navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId) + '?activeTab=medicalRecord');
+                }).catch((error: any) => {
+                CommonService._alert.showToast(error, "error");
+            })
+        })
+
+    }, [medicalRecordId, navigate]);
+
 
     const onAttachmentSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
         if (surgeryRecordDetails) {
@@ -413,6 +435,11 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
                                                        label={clientMedicalRecord?.status_details?.title || "-"}/>
                                     </span>
                             <div className="ts-row width-auto">
+                                {surgeryRecordId && <ButtonComponent prefixIcon={<ImageConfig.ShareIcon/>}
+                                                                     onClick={() => handleShareSurgeryRecord(surgeryRecordId)}
+                                                                     className={'mrg-right-20'}>
+                                    Share
+                                </ButtonComponent>}
                                 <ButtonComponent variant={'outlined'} color={'error'} className={'mrg-right-20'}
                                                  onClick={handleDeleteSurgeryRecord}
                                                  prefixIcon={<ImageConfig.DeleteIcon/>}>Delete Surgery
@@ -488,7 +515,7 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
 
             {/*<DrawerComponent isOpen={showAddAttachment} showClose={true} className={'edit-medical-record-drawer'}*/}
             {/*                 onClose={setShowAddAttachment.bind(null, false)}>*/}
-            {surgeryRecordDetails &&!surgeryRecordDetails?.attachments?.length &&
+            {surgeryRecordDetails && !surgeryRecordDetails?.attachments?.length &&
                 <div className={'edit-medical-record-component'}>
                     <Formik
                         validationSchema={addSurgeryRecordAttachmentValidationSchema}
@@ -505,7 +532,7 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
                             }, [validateForm, values]);
                             return (
                                 <Form className="t-form" noValidate={true}>
-                                    <FormControlLabelComponent label={"Attachment"} className={'attachment-heading'} />
+                                    <FormControlLabelComponent label={"Attachment"} className={'attachment-heading'}/>
                                     <div className={"t-surgery-record-drawer-form-controls"}>
                                         <FieldArray
                                             name="attachment"
@@ -539,12 +566,12 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
                                     <div className="t-form-actions mrg-top-20">
                                         <ButtonComponent
                                             variant={"outlined"}
-                                            onClick={ ()=>setFieldValue('attachment', [])}
-                                            disabled={values?.attachment?.length===0}
+                                            onClick={() => setFieldValue('attachment', [])}
+                                            disabled={values?.attachment?.length === 0}
                                         >
                                             Cancel
                                         </ButtonComponent>&nbsp;&nbsp;
-                                        <ButtonComponent  type={'submit'}
+                                        <ButtonComponent type={'submit'}
                                                          isLoading={isAttachAddInProgress}
                                                          disabled={!isValid || isAttachAddInProgress}>
                                             Save

@@ -200,6 +200,29 @@ const ViewMedicalRecordDocumentScreen = (props: ViewMedicalRecordDocumentScreenP
 
         }, [medicalRecordDocumentId, navigate, searchParams, medicalRecordId])
 
+        const handleShareDocument = useCallback(() => {
+            CommonService.onConfirm({
+                image: ImageConfig.PopupLottie,
+                showLottie: true,
+                confirmationTitle: "SHARE WITH CLIENT",
+                confirmationDescription: <div className="delete-document">
+                    <div className={'delete-document-text text-center '}>Are you sure you want to share this
+                        document <br/> with the client?
+                    </div>
+                </div>
+            }).then(() => {
+                if (medicalRecordDocumentId) {
+                    CommonService._chartNotes.MedicalRecordDocumentEditAPICall(medicalRecordDocumentId, {is_shared: true})
+                        .then((response: any) => {
+                            CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY] || "Document shared successfully", "success");
+                            medicalRecordId && navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId) + '?activeTab=attachmentList')
+                        }).catch((error: any) => {
+                        CommonService._alert.showToast(error?.error || "Error sharing document", "success");
+                    })
+                }
+            })
+        }, [medicalRecordDocumentId, navigate, medicalRecordId]);
+
 
         return (
             <div className={'view-medical-record-details-screen'}>
@@ -220,6 +243,7 @@ const ViewMedicalRecordDocumentScreen = (props: ViewMedicalRecordDocumentScreenP
                             showEdit={module === 'client_documents' ? false : true}
                             onEdit={openEditMedicalRecordDocumentDrawer}
                             onDelete={handleDocumentDelete}
+                            onShare={handleShareDocument}
                         />
                         <div className={'medical-record-document-attachment'}>
                             {
