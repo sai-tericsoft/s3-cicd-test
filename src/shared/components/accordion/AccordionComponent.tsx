@@ -24,7 +24,18 @@ interface AccordionComponentProps {
 
 const AccordionComponent = (props: React.PropsWithChildren<AccordionComponentProps>) => {
 
-    const {className,statusLabel,actions, title,name, children,subTitle, onChange,disableExpanding,forActivityLog} = props;
+    const {
+        className,
+        statusLabel,
+        actions,
+        title,
+        name,
+        children,
+        subTitle,
+        onChange,
+        disableExpanding,
+        forActivityLog
+    } = props;
     let {isExpand, disabled, disableGutters} = props;
     const [isExpanded, setIsExpanded] = React.useState<any>(props.isExpand);
 
@@ -57,21 +68,22 @@ const AccordionComponent = (props: React.PropsWithChildren<AccordionComponentPro
                        }}
                        disableGutters={disableGutters}>
                 <AccordionSummary
-                    expandIcon={!disableExpanding ? <ExpandMoreIcon/> : <span className={'MuiAccordionSummary-expandIconWrapper'}></span>}
+                    expandIcon={!disableExpanding ? <ExpandMoreIcon/> :
+                        <span className={'MuiAccordionSummary-expandIconWrapper'}></span>}
                     className="accordion-summary"
                 >
-                    <div className={"accordian-title-status-wrapper"}>
+                    <div className={"accordion-header"}>
                         <div className="accordian-tile">
-                            {title && (!forActivityLog ? CommonService.Capitalize(title): CommonService.capitalizeFirstLetterOfEachWord(title))}
+                            {title && (!forActivityLog ? title : CommonService.capitalizeFirstLetterOfEachWord(title))}
+                            <span className="accordian-sub-tile">
+                                    {subTitle}
+                                </span>
+                            {
+                                name && <span className="accordian-user-name">
+                                        {CommonService.capitalizeFirstLetterOfEachWord(name)}
+                                    </span>
+                            }
                         </div>
-                        <div className="accordian-sub-tile">
-                            {subTitle}
-                        </div>
-                        {
-                            name && <div className="accordian-user-name">
-                                {CommonService.capitalizeFirstLetterOfEachWord( name)}
-                            </div>
-                        }
                         {statusLabel && <div className="accordian-status">
                             <ChipComponent
                                 label={statusLabel}/>

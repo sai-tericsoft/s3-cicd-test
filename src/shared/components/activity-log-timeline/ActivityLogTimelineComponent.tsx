@@ -6,7 +6,7 @@ import TimelineContent from '@mui/lab/TimelineContent';
 import TimelineDot from '@mui/lab/TimelineDot';
 import TimelineItem from '@mui/lab/TimelineItem';
 import TimelineSeparator from '@mui/lab/TimelineSeparator';
-import React from 'react';
+import React, {useCallback} from 'react';
 import {timelineItemClasses} from "@mui/lab/TimelineItem";
 import ChipComponent from "../chip/ChipComponent";
 import moment from "moment";
@@ -46,9 +46,151 @@ const ActivityLogTimelineComponent = (props: ActivityLogTimelineComponentProps) 
         return time.join(''); // return adjusted time or original string
     }
 
-    const generateAccordionContent = (logItem: any) => {
+    const generateAccordionContent = useCallback((logItem: any) => {
+        let {
+            updated_value,
+            field_name,
+            old_value
+        } = logItem;
+        field_name = field_name === "Surgeries" || field_name === "Medical History" ? "list of titles" : field_name;
+        switch (field_name) {
+            case "Musculoskeletal History":
+                return (
+                    <div className={'musculoskeletal-activity-log'}>
+                        <DataLabelValueComponent label={"From"}
+                        >
+                            {old_value && old_value?.length ? <>
+                                <div>
+                                    {
+                                       old_value?.map((item: any, index: number) => {
+                                           return (
+                                               <div key={index}>
+                                                   <div>{item?.title}</div>
+                                                   <span>{item?.value ? "Yes ," : "No"} {
+                                                       item?.value  && <span>{item?.text}
+                                                        </span>
+                                                   }</span>
 
-    }
+                                               </div>
+                                           )
+                                       })
+                                    }
+                                </div>
+                            </> : 'N/A'}
+                        </DataLabelValueComponent>
+                        <DataLabelValueComponent label={"To"}
+                        >
+                            {updated_value && updated_value?.length ? <>
+                                <div>
+                                    {
+                                        updated_value?.map((item: any, index: number) => {
+                                            return (
+                                                <div key={index}>
+                                                    <div>{item?.title}</div>
+                                                    <span>{item?.value ? "Yes ," : "No"} {
+                                                        item?.value  && <span>{item?.text}
+                                                        </span>
+                                                    }</span>
+
+                                                </div>
+                                            )
+                                        })
+                                    }
+                                </div>
+                            </> : 'N/A'}
+                        </DataLabelValueComponent>
+                    </div>
+                )
+            case "list of titles":
+                return (
+                    <div className={'medication-activity-log'}>
+                        <DataLabelValueComponent label={"From"}
+                        >
+                            {old_value && old_value?.length > 0 ? <>
+                                <div>
+                                    {
+                                        old_value?.map((item: any, index: number) => {
+                                            return (
+                                                <div key={index}>
+                                                    {item?.title}
+                                                </div>
+                                            )
+                                        })
+                                    }
+                                </div>
+                            </> : 'N/A'}
+                        </DataLabelValueComponent>
+                        <DataLabelValueComponent label={"To"}
+                        >
+
+                            {updated_value ? <>
+                                <div>
+                                    {
+                                        updated_value?.map((item: any, index: number) => {
+                                            return (
+                                                <div key={index}>
+                                                    {item?.title}
+                                                </div>
+                                            )
+                                        })
+                                    }
+                                </div>
+                            </> : 'N/A'}
+                        </DataLabelValueComponent>
+                    </div>
+                )
+            case "Work Information":
+                return (
+                    <div className={'work-information-activity-log'}>
+                        <DataLabelValueComponent label={"From"}
+                        >
+                            {old_value && old_value !=={} ? <>
+                                <div>
+                                    <div className={''}>{old_value?.employment_status}</div>
+                                    <div className={''}>{old_value?.occupation}</div>
+                                </div>
+                            </> : 'N/A'}
+                        </DataLabelValueComponent>
+                        <DataLabelValueComponent label={"To"}
+                        >
+                            {updated_value ? <>
+                                <div>
+                                    <div className={''}>{updated_value?.employment_status}</div>
+                                    <div className={''}>{updated_value?.occupation}</div>
+                                </div>
+                            </> : 'N/A'}
+                        </DataLabelValueComponent>
+                    </div>
+                )
+            default:
+                return (
+                    <div className={'default-activity-log'}>
+                        <DataLabelValueComponent label={"From"}
+                        >
+                            {old_value ? <>
+                                <div>
+                                    {
+                                        JSON.stringify(old_value)
+                                    }
+                                </div>
+                            </> : 'N/A'}
+                        </DataLabelValueComponent>
+                        <DataLabelValueComponent label={"To"}
+                        >
+                            {updated_value ? <>
+                                <div className={'updated-value-log'}>
+                                    {
+                                        JSON.stringify(updated_value)
+                                    }
+                                </div>
+                            </> : 'N/A'}
+                        </DataLabelValueComponent>
+                    </div>
+                )
+        }
+
+    }, [])
+
     return (
         <div className={'activity-logs-timeline-component'}>
             <Timeline
@@ -80,8 +222,8 @@ const ActivityLogTimelineComponent = (props: ActivityLogTimelineComponentProps) 
                                                         forActivityLog={true}
                                                         title={getLogsStringWithArrows(log)}
                                                         disableExpanding={log.action !== 'Modified' ? true : false}
-                                                        subTitle={log?.actionMessage || ''}
-                                                        name={log?.userDetails ? (log?.userDetails?.firstName + ' ' + log?.userDetails?.lastName) : ''}
+                                                        subTitle={` was ${log?.action?.toLowerCase()} by `}
+                                                        name={log?.updated_by ? log?.updated_by?.name : ''}
                                                         actions={<div className={'log-status-wrapper'}>
                                                             <div className={'log-item-action'}>
                                                                 <ChipComponent
@@ -93,14 +235,7 @@ const ActivityLogTimelineComponent = (props: ActivityLogTimelineComponentProps) 
                                                             </div>
                                                         </div>}
                                                     >
-                                                        {
-                                                            log.action === 'edit' && <>
-                                                                <DataLabelValueComponent
-                                                                    label={"From"}> {log?.data?.from || '-'} </DataLabelValueComponent>
-                                                                <DataLabelValueComponent
-                                                                    label={"To"}> {log?.data?.to || '-'} </DataLabelValueComponent>
-                                                            </>
-                                                        }
+                                                        {generateAccordionContent(log)}
                                                     </AccordionComponent>
                                                 </div>
 
