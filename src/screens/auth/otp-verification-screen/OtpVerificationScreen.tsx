@@ -91,7 +91,7 @@ const OtpVerificationScreen = (props: OtpVerificationScreenProps) => {
         if (OTP_VALIDITY > 0) {
             runOTPCountdown();
         }
-    }, [])
+    }, [runOTPCountdown])
 
     return (
         <div className="auth-screen otp-verification-screen">

@@ -7,7 +7,6 @@ import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import {
     IPasswordResetCredentials
 } from "../../../shared/models/account.model";
-import {useDispatch} from "react-redux";
 import {CommonService} from "../../../shared/services";
 import * as Yup from "yup";
 import PasswordValidationComponent from "../../../shared/components/password-validation/PasswordValidationComponent";
@@ -39,7 +38,6 @@ const resetFormInitialValues: IPasswordResetCredentials = {
 }
 const ResetPasswordScreen = (props: ResetPasswordScreenProps) => {
     const [isLoading, setIsLoading] = useState(false);
-    const dispatch = useDispatch();
     const handleNavigation = useHandleNavigation();
     const location = useLocation();
     const {token} = CommonService.parseQueryString(location.search)
