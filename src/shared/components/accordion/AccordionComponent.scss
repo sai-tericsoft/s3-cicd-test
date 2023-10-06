@@ -1,19 +1,40 @@
 @import "src/assets/styles/common";
 
 .accordion-component {
+
   .MuiAccordionDetails-root {
-    border-right: 1px solid #D2D2D2;
-    border-left: 1px solid #D2D2D2;
+    padding: 20px 24px !important;
+  }
+
+  .MuiAccordion-root {
+    //border-right: 1px solid #D2D2D2;
+    //border-left: 1px solid #D2D2D2;
+    border-radius: 4px;
+    border: 1px solid #E1EBEA;
+    background: #FDFDFD;
+    box-shadow: 0px 4px 15px 0px #EBEBEB;
+    .data-label{
+      color: #212B36;
+      font-size: 14px;
+      font-weight: 700;
+    }
+    .data-value{
+      color: #212B36;
+      font-size: 14px;
+      font-weight: 400;
+    }
   }
 
   .MuiAccordion-root {
     .MuiAccordionSummary-expandIconWrapper {
-      margin-right: 10px !important;
+      margin-right: 20px !important;
       margin-left: 15px !important;
     }
 
     .MuiAccordionSummary-root {
-      //border: 1px solid #D2D2D2;
+      border-bottom: 1px solid #E1EBEA;
+      box-shadow: 0px 4px 15px 0px #EBEBEB;
+      padding: 0;
       //border-radius: 5px;
       //height: 48px;
       //padding: 0px !important;
@@ -33,55 +54,41 @@
     }
 
     .accordion-summary {
-      .accordian-title-status-wrapper{
-        display: flex;
-        justify-content: space-between;
-        column-gap: 30px;
-      }
       //background: #EEF4FF;
       //border: 0.5px solid #B4B4B4;
 
-      //.accordion-header {
-      //  padding: 0 20px;
-      //  display: flex;
-      //  flex: 1 1;
-      //  justify-content: space-between;
-      //
-      //  .accordian-title-status-wrapper {
-      //    display: flex;
-      //    align-items: center;
-      //
-      //    .accordian-tile {
-      //      font-weight: 700;
-      //      font-size: 16px;
-      //      color: #636363;
-      //    }
-      //
-      //    .accordian-sub-tile {
-      //      font-weight: 400;
-      //      font-size: 16px;
-      //      margin-left: 15px;
-      //    }
-      //
-      //    .accordian-user-name {
-      //      margin-left: 20px;
-      //      font-weight: 700;
-      //      font-size: 16px;
-      //      color: #636363;
-      //    }
-      //
-      //    .accordian-status {
-      //      margin-left: 20px;
-      //    }
-      //  }
-      //
-      //  .accordian-actions {
-      //    display: flex;
-      //    align-items: center;
-      //    //margin-right: 20px;
-      //  }
-      //}
+      .accordion-header {
+        padding: 0 20px;
+        display: flex;
+        justify-content: space-between;
+        column-gap: 30px;
 
+        .accordian-tile {
+          font-weight: 400;
+          font-size: 14px;
+          color: #212B36;
+        }
+
+        .accordian-sub-tile {
+          color: #83909D;
+          font-weight: 400;
+          font-size: 12px;
+        }
+
+        .accordian-user-name {
+          font-weight: 700;
+          font-size: 12px;
+          color: #83909D;
+        }
+      }
+
+      .accordian-actions {
+        display: flex;
+        align-items: center;
+        //margin-right: 20px;
+      }
     }
+
   }
+
 }

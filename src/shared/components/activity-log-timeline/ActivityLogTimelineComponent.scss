@@ -1,8 +1,9 @@
 
 .activity-logs-timeline-component {
-  .accordian-actions{
-    margin-right:0px !important;
+  .accordian-actions {
+    margin-right: 0px !important;
   }
+
   .MuiTimelineConnector-root {
     background: #BDE8CA;
   }
@@ -30,10 +31,14 @@
       margin-top: 15px;
       font-weight: 700;
     }
-    .log-status-wrapper{
+
+    .log-status-wrapper {
       display: flex;
       align-items: center;
     }
   }
 
+  .default-activity-log .data-label-value:last-child {
+      margin-bottom: 0px;
+  }
 }
