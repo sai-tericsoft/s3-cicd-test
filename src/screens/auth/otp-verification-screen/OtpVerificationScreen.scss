@@ -6,7 +6,11 @@
 
     .otp-option {
       display: flex;
-      justify-content: space-between;
+      justify-content: flex-end;
+
+      &.space-between {
+        justify-content: space-between;
+      }
 
       .error-message {
         font-weight: 700;
