@@ -829,8 +829,6 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
         })
     }, [clientListFilterState, clientId]);
 
-    console.log('selectedPayments', selectedPayments);
-
     const markPaymentsAsPaid = useCallback(() => {
         const payload = {
             invoice_ids: selectedPayments.map((payment: any) => payment?._id),
@@ -898,6 +896,11 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                 commonService._alert.showToast(error?.error || error?.errors || "Failed to consolidate payments", "error");
             });
     }, [currentTab, handleTabChange]);
+
+    const handleBack = useCallback(() => {
+        setIsPaymentModeModalOpen(false);
+        setShowMarkAsPaidModal(true);
+    }, []);
 
     const handleConsolidatePayments = useCallback(() => {
         commonService.openConfirmationDialog({
@@ -1082,7 +1085,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                     }
                 </div>
             }
-            <TabsWrapperComponent className={clientId ? "client-billing":"admin-billing"}>
+            <TabsWrapperComponent className={clientId ? "client-billing" : "admin-billing"}>
                 <TabsComponent value={currentTab}
                                allowScrollButtonsMobile={false}
                                variant={"fullWidth"}
@@ -1104,9 +1107,11 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                                            extraPayload={
                                                clientListFilterState
                                            }
-                                           noDataText={ (<div className={'no-client-text-wrapper'}>
-                                               <div>{clientListFilterState.search?<img src={ImageConfig.Search} alt="client-search"/>:''}</div>
-                                               <div className={'no-client-heading mrg-bottom-15'}>{clientListFilterState.search? 'Sorry, no results found!':''}</div>
+                                           noDataText={(<div className={'no-client-text-wrapper'}>
+                                               <div>{clientListFilterState.search ?
+                                                   <img src={ImageConfig.Search} alt="client-search"/> : ''}</div>
+                                               <div
+                                                   className={'no-client-heading mrg-bottom-15'}>{clientListFilterState.search ? 'Sorry, no results found!' : ''}</div>
                                                <div className={'no-client-description'}>
                                                    {clientListFilterState.search ? 'There is no payment available by the client name you have searched.' : 'Currently there is no pending payments.'}
                                                </div>
@@ -1118,9 +1123,11 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                 </TabContentComponent>
                 <TabContentComponent value={'completedPayments'} selectedTab={currentTab}>
                     <TableWrapperComponent url={APIConfig.COMPLETE_PAYMENT_LIST.URL}
-                                           noDataText={ (<div className={'no-client-text-wrapper'}>
-                                               <div>{clientListFilterState.search?<img src={ImageConfig.Search} alt="client-search"/>:''}</div>
-                                               <div className={'no-client-heading mrg-bottom-15'}>{clientListFilterState.search? 'Sorry, no results found!':''}</div>
+                                           noDataText={(<div className={'no-client-text-wrapper'}>
+                                               <div>{clientListFilterState.search ?
+                                                   <img src={ImageConfig.Search} alt="client-search"/> : ''}</div>
+                                               <div
+                                                   className={'no-client-heading mrg-bottom-15'}>{clientListFilterState.search ? 'Sorry, no results found!' : ''}</div>
                                                <div className={'no-client-description'}>
                                                    {clientListFilterState.search ? 'There is no payment available by the client name you have searched.' : 'Currently there is no completed payments.'}
                                                </div>
@@ -1138,9 +1145,11 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                             extraPayload={
                                 clientListFilterState
                             }
-                            noDataText={ (<div className={'no-client-text-wrapper'}>
-                                <div>{clientListFilterState.search?<img src={ImageConfig.Search} alt="client-search"/>:''}</div>
-                                <div className={'no-client-heading mrg-bottom-15'}>{clientListFilterState.search? 'Sorry, no results found!':''}</div>
+                            noDataText={(<div className={'no-client-text-wrapper'}>
+                                <div>{clientListFilterState.search ?
+                                    <img src={ImageConfig.Search} alt="client-search"/> : ''}</div>
+                                <div
+                                    className={'no-client-heading mrg-bottom-15'}>{clientListFilterState.search ? 'Sorry, no results found!' : ''}</div>
                                 <div className={'no-client-description'}>
                                     {clientListFilterState.search ? 'There is no payment available by the client name you have searched.' : 'Currently there is no consolidated payments.'}
                                 </div>
@@ -1232,6 +1241,11 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                             </>
                             }
             >
+                <div className={'modal-content-wrapper back-button'}>
+                    <IconButtonComponent onClick={handleBack}>
+                        <ImageConfig.NavigateBack/>
+                    </IconButtonComponent>
+                </div>
                 <ImageConfig.ConfirmIcon/>
                 <FormControlLabelComponent label={"Select Mode of Payment"}/>
                 <SelectComponent
