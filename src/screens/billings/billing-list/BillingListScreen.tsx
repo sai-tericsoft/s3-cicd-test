@@ -80,11 +80,17 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
         if (isChecked) {
             setSelectedPayments([...selectedPayments, payment]);
         } else {
-            let tempSelectedPayments = selectedPayments.filter((item: any) => item._id !== payment._id);
-            setSelectedPayments(selectedPayments.filter((item: any) => item._id !== payment._id));
-            tempSelectedPayments?.length === 0 && setClientListFilterState((oldstate: any) => {
-                return {...oldstate, linked_invoices: false,client_id:undefined}
-            })
+
+            const tempSelectedPayments = selectedPayments.filter((item: any) => item._id !== payment._id);
+            setSelectedPayments(tempSelectedPayments);
+
+            if (tempSelectedPayments.length === 0) {
+                setClientListFilterState((oldstate: any) => ({
+                    ...oldstate,
+                    linked_invoices: false,
+                    client_id: undefined
+                }));
+            }
         }
     }, [selectedPayments]);
 

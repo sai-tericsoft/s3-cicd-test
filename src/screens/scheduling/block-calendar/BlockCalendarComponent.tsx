@@ -182,8 +182,8 @@ const BlockCalendarComponent = (props: BlockCalenderComponentProps) => {
 
     const handleBlockCalenderConfirmation = useCallback((blockCalenderFormDetails: any) => {
         CommonService.onConfirm({
-            image: ImageConfig.RemoveBodyPartConfirmationIcon,
-            // showLottie: true,
+            image: ImageConfig.ConfirmationLottie,
+            showLottie: true,
             confirmationTitle: 'BLOCK CALENDAR',
             confirmationSubTitle: "Are you sure you want to block your calendar",
             confirmationDescription: <div className='block-calender-confirmation-description'>
