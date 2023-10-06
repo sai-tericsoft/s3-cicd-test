@@ -32,7 +32,7 @@ const OTP_VALIDITY = 60;
 const OtpVerificationScreen = (props: OtpVerificationScreenProps) => {
     const [isLoading, setIsLoading] = useState(false);
     const [otpTimer, setOtpTimer] = useState(0);
-    const [errorMessage,setErrorMessage]=useState("");
+    const [errorMessage, setErrorMessage] = useState("");
     const [isOTPBeingRequested, setIsOTPBeingRequested] = useState<boolean>(false);
     const handleNavigation = useHandleNavigation();
     const location = useLocation();
@@ -83,10 +83,15 @@ const OtpVerificationScreen = (props: OtpVerificationScreenProps) => {
             .catch((error: any) => {
                 CommonService._alert.showToast(error.error || error.errors, 'error');
                 // CommonService.handleErrors(setErrors, error);
-                setErrorMessage(error.errors||"Entered wrong code please try again")
+                setErrorMessage(error.errors || "Entered wrong code please try again")
                 setIsLoading(false);
             })
     }, [handleNavigation,email]);
+    useEffect(() => {
+        if (OTP_VALIDITY > 0) {
+            runOTPCountdown();
+        }
+    }, [])
 
     return (
         <div className="auth-screen otp-verification-screen">
@@ -127,26 +132,26 @@ const OtpVerificationScreen = (props: OtpVerificationScreenProps) => {
                                             )
                                         }
                                     </Field>
-                                    <div className="form-option otp-option">
+                                    <div className={`form-option otp-option ${errorMessage ? "space-between" : ""}`}>
                                         {
                                             errorMessage && <div className="error-message">{errorMessage}</div>
-                                        }                                        {
-                                            otpTimer > 0 ?
-                                                <LinkComponent
-                                                    disabled={true}
-                                                    className={'otp-info text-decoration-none'}>
-                                                    {"Resend OTP in "}
-                                                    {CommonService.getMinsAndSecondsFromSeconds(otpTimer).minutes + " : " + CommonService.getMinsAndSecondsFromSeconds(otpTimer).seconds}
-                                                </LinkComponent>
-                                                :
-                                                <LinkComponent
-                                                    onClick={() => handleResendOTP(values)}
-                                                    disabled={isOTPBeingRequested}
-                                                    className={'otp-info'}
-                                                >
-                                                    {isOTPBeingRequested ? "Sending OTP" : "Resend OTP"}
-                                                </LinkComponent>
-                                        }
+                                        } {
+                                        otpTimer > 0 ?
+                                            <LinkComponent
+                                                disabled={true}
+                                                className={'otp-info text-decoration-none'}>
+                                                {"Resend OTP in "}
+                                                {CommonService.getMinsAndSecondsFromSeconds(otpTimer).minutes + " : " + CommonService.getMinsAndSecondsFromSeconds(otpTimer).seconds}
+                                            </LinkComponent>
+                                            :
+                                            <LinkComponent
+                                                onClick={() => handleResendOTP(values)}
+                                                disabled={isOTPBeingRequested}
+                                                className={'otp-info'}
+                                            >
+                                                {isOTPBeingRequested ? "Sending OTP" : "Resend OTP"}
+                                            </LinkComponent>
+                                    }
                                     </div>
                                 </div>
                                 <div className="t-form-actions">
