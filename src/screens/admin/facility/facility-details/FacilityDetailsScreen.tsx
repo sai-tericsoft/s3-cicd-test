@@ -163,8 +163,8 @@ const FacilityDetailsScreen = (props: FacilityDetailsScreenProps) => {
                     <CardComponent title={"Address Information"}>
                         <div className={'facility-details-information'}>
                             <DataLabelValueComponent label={'Address'}>
-                                {facilityDetails?.address?.address_line}, {facilityDetails?.address?.city},
-                                {facilityDetails.address?.zip_code},{facilityDetails?.address?.country}
+                                {facilityDetails?.address?.address_line}, {facilityDetails?.address?.city},{facilityDetails?.address?.country},
+                                {facilityDetails.address?.zip_code}
                             </DataLabelValueComponent>
                         </div>
                     </CardComponent>

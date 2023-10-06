@@ -71,11 +71,26 @@ const ClientBasicDetailsFormValidationSchema = Yup.object({
         })
     }),
     address: Yup.object({
-        address_line: Yup.string().required('Address Line is required'),
-        city: Yup.string().required('City is required'),
-        country: Yup.string().required('Country is required'),
-        zip_code: Yup.string().required('ZIP Code is required'),
-        state: Yup.string().required('State is required'),
+        address_line: Yup.string()
+            .min(1, 'Address line is required')
+            .max(100, 'Address line cannot be more than 100 characters')
+            .required('Address Line is required'),
+        city: Yup.string()
+            .min(1, 'City is required')
+            .max(100, 'City cannot be more than 100 characters')
+            .required('City is required'),
+        state: Yup.string()
+            .min(1, 'State is required')
+            .max(100, 'State cannot be more than 100 characters')
+            .required('State is required'),
+        country: Yup.string()
+            .min(2, 'Country must be at least 2 characters')
+            .max(100, 'Country cannot be more than 100 characters')
+            .required('Country is required'),
+        zip_code: Yup.string()
+            .min(5, 'Enter a valid ZIP Code')
+            .max(6, 'Zipcode cannot be more than 6 digits')
+            .required('ZIP Code is required'),
     })
 });
 
