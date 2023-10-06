@@ -23,14 +23,15 @@
     height: calc(100vh - 240px);
   }
 
-  .t-table-wrapper .t-table {
-    height: calc(100vh - 360px) !important;
-
-
+  .t-table-wrapper {
+    height: calc(100vh - 330px) !important;
+  .t-table {
+    //height: calc(100vh - 360px) !important;
+    min-height: calc(100vh - 330px) !important;
     .table-no-data-wrapper {
       min-height: calc(100vh - 440px) !important;
     }
-
+  }
   }
   .client-billing{
     .t-tabs-wrapper {

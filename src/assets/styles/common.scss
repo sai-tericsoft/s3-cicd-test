@@ -846,12 +846,15 @@
 .payment-mode-modal {
   .modal-content-wrapper {
     width: 416px !important;
+    &.back-button{
+      padding: 0 !important;
+      padding-left: 10px!important;
+    }
 
     .modal-body {
       display: flex;
       flex-direction: column;
       align-items: center;
-
       .generate-receipt-header {
         .form-control-label-component {
           margin: 0;

@@ -149,7 +149,8 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
 
         const handleDeleteConsolidatedBill = useCallback((type: any) => {
             CommonService.onConfirm({
-                image: ImageConfig.RemoveBodyPartConfirmationIcon,
+                image: ImageConfig.ConfirmationLottie,
+                showLottie: true,
                 confirmationTitle: `DELETE CONSOLIDATED ${type.toLocaleUpperCase()}`,
                 confirmationSubTitle: 'Are you sure you want to permanently delete this\n' +
                     'consolidated invoice? This action cannot be undone.'
