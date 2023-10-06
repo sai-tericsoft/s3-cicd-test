@@ -148,6 +148,29 @@ const ViewConcussionFileScreen = (props: ViewConcussionFileScreenProps) => {
             }
         }, [concussionFileAttachmentFile, concussionFileId]);
 
+        const handleConcussionFileShare = useCallback(() => {
+            CommonService.onConfirm({
+                image: ImageConfig.PopupLottie,
+                showLottie: true,
+                confirmationTitle: "SHARE WITH CLIENT",
+                confirmationDescription: <div className="delete-document">
+                    <div className={'delete-document-text text-center '}>Are you sure you want to share this
+                        document <br/> with the client?
+                    </div>
+                </div>
+            }).then(() => {
+                if (concussionFileId) {
+                    CommonService._chartNotes.ConcussionFileEditAPICall(concussionFileId, {is_shared: true})
+                        .then((response: any) => {
+                            CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY] || "Successfully shared document", "success");
+                            medicalRecordId && navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId) + '?activeTab=attachmentList');
+                        }).catch((error: any) => {
+                        CommonService._alert.showToast(error?.error || "Error sharing document", "success");
+                    });
+                }
+            })
+        }, [concussionFileId, medicalRecordId, navigate]);
+
         useEffect(() => {
             if (concussionFileId) {
                 getConcussionFileFileDetails();
@@ -172,6 +195,7 @@ const ViewConcussionFileScreen = (props: ViewConcussionFileScreenProps) => {
                             attachmentType={"concussionFile"}
                             onEdit={openEditConcussionFileFileDrawer}
                             showEdit={true}
+                            onConcussionFileShare={handleConcussionFileShare}
                         />
                         <div className={'concussion-attachment'}>
                             {
@@ -188,7 +212,8 @@ const ViewConcussionFileScreen = (props: ViewConcussionFileScreenProps) => {
                                 <div className={'t-form'}>
                                     <div className="t-form-controls">
                                         {
-                                            !concussionFileAttachmentFile && <FormControlLabelComponent label={'Upload Document*'}/>
+                                            !concussionFileAttachmentFile &&
+                                            <FormControlLabelComponent label={'Upload Document*'}/>
                                         }
                                         {
                                             concussionFileAttachmentFile &&
@@ -202,7 +227,7 @@ const ViewConcussionFileScreen = (props: ViewConcussionFileScreenProps) => {
                                                                  onFilesDrop={(files: any) => {
                                                                      setConcussionFileFileAttachmentFile(files[0]);
                                                                  }}
-                                                                 acceptedFileTypes={["pdf", "png","jpeg"]}
+                                                                 acceptedFileTypes={["pdf", "png", "jpeg"]}
                                                                  acceptedFilesText={"PNG,  JPEG and PDF files are allowed upto 100MB"}
                                             />
                                         }

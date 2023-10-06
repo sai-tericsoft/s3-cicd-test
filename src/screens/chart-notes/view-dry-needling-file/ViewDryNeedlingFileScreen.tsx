@@ -146,6 +146,29 @@ const ViewDryNeedlingFileScreen = (props: ViewDryNeedlingFileScreenProps) => {
             }
         }, [dryNeedlingFileAttachmentFile, dryNeedlingFileId]);
 
+        const handleDryNeedlingShare = useCallback(() => {
+            CommonService.onConfirm({
+                image: ImageConfig.PopupLottie,
+                showLottie: true,
+                confirmationTitle: "SHARE WITH CLIENT",
+                confirmationDescription: <div className="delete-document">
+                    <div className={'delete-document-text text-center '}>Are you sure you want to share this
+                        document <br/> with the client?
+                    </div>
+                </div>
+            }).then(() => {
+                if (dryNeedlingFileId) {
+                    CommonService._chartNotes.DryNeedlingFileEditAPICall(dryNeedlingFileId, {is_shared: true})
+                        .then((response: any) => {
+                            CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY] || "Successfully shared document", "success");
+                            medicalRecordId && navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId) + '?activeTab=attachmentList');
+                        }).catch((error: any) => {
+                        CommonService._alert.showToast(error?.error || "Error sharing document", "success");
+                    });
+                }
+            })
+        }, [dryNeedlingFileId, medicalRecordId, navigate]);
+
         useEffect(() => {
             if (dryNeedlingFileId) {
                 getDryNeedlingFileDetails();
@@ -170,6 +193,7 @@ const ViewDryNeedlingFileScreen = (props: ViewDryNeedlingFileScreenProps) => {
                             attachmentType={"dryNeedlingFile"}
                             onEdit={openEditDryNeedlingFileDrawer}
                             showEdit={true}
+                            onDryNeedingShare={handleDryNeedlingShare}
                         />
 
                         <div className={'dry-needling-attachment'}>
@@ -199,7 +223,7 @@ const ViewDryNeedlingFileScreen = (props: ViewDryNeedlingFileScreenProps) => {
                                                                      onFilesDrop={(files: any) => {
                                                                          setDryNeedlingFileAttachmentFile(files[0]);
                                                                      }}
-                                                                     acceptedFileTypes={["pdf", "png","jpeg"]}
+                                                                     acceptedFileTypes={["pdf", "png", "jpeg"]}
                                                                      acceptedFilesText={"PNG,JPEG and PDF files are allowed upto 100MB"}
                                                 />
                                             }

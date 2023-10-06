@@ -18,12 +18,26 @@ interface MedicalRecordAttachmentBasicDetailsCardComponentProps {
     medicalRecordDetails: any;
     onEdit?: () => void;
     showEdit?: boolean;
-    onDelete?:() => void;
+    onDelete?: () => void;
+    onShare?: () => void;
+    onDryNeedingShare?: () => void;
+    onConcussionFileShare?: () => void;
 }
 
 const MedicalRecordAttachmentBasicDetailsCardComponent = (props: MedicalRecordAttachmentBasicDetailsCardComponentProps) => {
 
-    const {pageTitle, medicalRecordDetails, attachmentDetails, attachmentType, onEdit,onDelete, showEdit} = props;
+    const {
+        pageTitle,
+        onShare,
+        onDryNeedingShare,
+        onConcussionFileShare,
+        medicalRecordDetails,
+        attachmentDetails,
+        attachmentType,
+        onEdit,
+        onDelete,
+        showEdit
+    } = props;
 
     const handleEdit = useCallback(() => {
         if (onEdit) {
@@ -50,22 +64,45 @@ const MedicalRecordAttachmentBasicDetailsCardComponent = (props: MedicalRecordAt
                                 {CommonService.extractName(medicalRecordDetails.client_details)}
                             </div>
                             <div className={"medical-record-attachment-basic-details-status"}>
-                                <ChipComponent label={attachmentDetails?.medical_record_details?.status ==="open" ? "Open - Unresolved" : 'Closed - Resolved'}
-                                               color={"success"}
-                                               className={attachmentDetails?.medical_record_details?.status === "open" ? 'active' : 'inactive'}/>
+                                <ChipComponent
+                                    label={attachmentDetails?.medical_record_details?.status === "open" ? "Open - Unresolved" : 'Closed - Resolved'}
+                                    color={"success"}
+                                    className={attachmentDetails?.medical_record_details?.status === "open" ? 'active' : 'inactive'}/>
                             </div>
                         </div>
                         <div className={"medical-record-attachment-basic-details-actions"}>
                             {
-                                pageTitle==="View Document" && <>
-                                <ButtonComponent
-                                    className={'mrg-right-10'}
-                                    onClick={onDelete}
-                                    variant={'outlined'}
-                                    color={'error'}
-                                    prefixIcon={<ImageConfig.DeleteIcon/>}>
-                                    Delete Document
-                                </ButtonComponent>
+                                (pageTitle === "View Document" || pageTitle === "View Dry Needling File") && <>
+                                    <ButtonComponent
+                                        prefixIcon={<ImageConfig.ShareIcon/>}
+                                        className={'mrg-right-10'}
+                                        onClick={pageTitle === "View Document" ? onShare : onDryNeedingShare}
+                                    >
+                                        Share
+                                    </ButtonComponent>
+                                </>
+                            }
+                            {
+                                attachmentType === "concussionFile" && <>
+                                    <ButtonComponent
+                                        prefixIcon={<ImageConfig.ShareIcon/>}
+                                        className={'mrg-right-10'}
+                                        onClick={onConcussionFileShare}
+                                    >
+                                        Share
+                                    </ButtonComponent>
+                                </>
+                            }
+                            {
+                                pageTitle === "View Document" && <>
+                                    <ButtonComponent
+                                        className={'mrg-right-10'}
+                                        onClick={onDelete}
+                                        variant={'outlined'}
+                                        color={'error'}
+                                        prefixIcon={<ImageConfig.DeleteIcon/>}>
+                                        Delete Document
+                                    </ButtonComponent>
                                 </>
                             }
                             {showEdit && <ButtonComponent
@@ -76,7 +113,8 @@ const MedicalRecordAttachmentBasicDetailsCardComponent = (props: MedicalRecordAt
                             </ButtonComponent>}
                         </div>
                     </div>
-                    <MedicalInterventionLinkedToComponent label={'Document Linked to:'} medicalRecordDetails={medicalRecordDetails}/>
+                    <MedicalInterventionLinkedToComponent label={'Document Linked to:'}
+                                                          medicalRecordDetails={medicalRecordDetails}/>
                     <div className={"ts-row"}>
                         <div className="ts-col-md-6 ts-col-lg-3">
                             <DataLabelValueComponent label={"Date of Document"}>
