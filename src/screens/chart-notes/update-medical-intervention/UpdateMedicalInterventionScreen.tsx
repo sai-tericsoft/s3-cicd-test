@@ -904,7 +904,7 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                                                         {
                                                             medicalRecordId && medicalInterventionId && <>
                                                                 {
-                                                                    medicalInterventionDetails?.linked_icd_codes?.length === 0 &&
+                                                                    (medicalInterventionDetails?.linked_icd_codes?.length === 0 || !medicalInterventionDetails?.linked_icd_codes) &&
                                                                     <LinkComponent
                                                                         route={CommonService._routeConfig.MedicalInterventionICDCodes(medicalRecordId, medicalInterventionId) + '?referrer=' + referrer + '&last_position=icd_codes'}>
                                                                         <ButtonComponent

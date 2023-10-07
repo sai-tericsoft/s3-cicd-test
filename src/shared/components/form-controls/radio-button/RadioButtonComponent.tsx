@@ -13,7 +13,7 @@ interface RadioButtonGroupComponentProps extends IRadioButtonGroupProps {
 
 const RadioButtonGroupComponent = (props: RadioButtonGroupComponentProps) => {
 
-    let {options, name, hasError, isValueBoolean, onChange, disabled, id, required} = props;
+    let {options, name, hasError, onChange, disabled, id, required} = props;
     const [value, setValue] = useState(props.value);
 
     const defaultDisplayWith = useCallback((item: any) => item?.title || '', []);

@@ -21,15 +21,14 @@ const IcdCodingToolComponent = (props: IcdCodingToolComponentProps) => {
         const callbacks = {
             selectedEntityFunction: (selectedEntity: any) => {
                 onSelection(selectedEntity);
-                console.log(selectedEntity);
                 ECT.Handler.clear(iNo);
             }
         }
 
         ECT.Handler.configure(settings, callbacks);
         ECT.Handler.bind(iNo); // bind after mount
-
-    }, []); // empty deps array to run only on mount
+        //@ts-ignore
+    }); // empty deps array to run only on mount
 
     return (
         <div className={'icd-coding-tool-component'}>

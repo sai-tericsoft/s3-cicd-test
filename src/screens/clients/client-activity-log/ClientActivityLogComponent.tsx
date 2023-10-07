@@ -1,9 +1,11 @@
 import "./ClientActivityLogComponent.scss";
 import {IClientActivityLog} from "../../../shared/models/client.model";
-import {useCallback, useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import commonService from "../../../shared/services/common.service";
 import ActivityLogTimelineComponent
     from "../../../shared/components/activity-log-timeline/ActivityLogTimelineComponent";
+import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
+import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
 
 interface ClientActivityLogComponentProps {
     clientId: string;
@@ -45,13 +47,18 @@ const ClientActivityLogComponent = (props: ClientActivityLogComponentProps) => {
     return (
         <div className={'client-activity-log-component'}>
             {
-                clientsActivityLogsLoading && <div className={'loading'}>Loading...</div>
+                clientsActivityLogsLoading && <div>
+                    <LoaderComponent/>
+                </div>
             }
             {
-                clientsActivityLogsLoadingFailed && <div className={'loading'}>Loading Failed</div>
+                clientsActivityLogsLoadingFailed &&  <StatusCardComponent title={"Failed to fetch client Activity logs"}/>
             }
             {
-                clientsActivityLogsLoaded && <ActivityLogTimelineComponent
+                clientsActivityLogsLoaded &&
+                (!clientsActivityLogs || clientsActivityLogs?.length === 0 ) ?
+                    <StatusCardComponent title={"No Activity logs found"}/> :
+                <ActivityLogTimelineComponent
                     logsData={clientsActivityLogs}
                 />
             }
