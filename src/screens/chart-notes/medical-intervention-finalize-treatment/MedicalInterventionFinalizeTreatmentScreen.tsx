@@ -47,7 +47,7 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
     const [isEightMinuteRuleChartDrawerOpen, setEightMinuteRuleChartDrawerOpen] = useState<boolean>(false);
     const [selectCPTCodeDrawerOpen, setSelectCPTCodeDrawerOpen] = useState<boolean>(false);
     const [selectedCptCodes, setSelectedCptCodes] = useState<any[]>([]);
-
+    
     const {
         medicalInterventionDetails,
         isMedicalInterventionDetailsLoaded,
@@ -463,15 +463,14 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
                                                     <>
                                                         {
                                                             medicalRecordId && <>
-                                                                <LinkComponent
-                                                                    route={CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId)}>
-                                                                    <ButtonComponent variant={"outlined"}
-                                                                                     size={'large'}
-                                                                                     className={isSubmitting ? 'mrg-right-15' : ''}
-                                                                                     disabled={isSubmitting || isInterventionCheckingOut}>
-                                                                        Home
-                                                                    </ButtonComponent>&nbsp;&nbsp;
-                                                                </LinkComponent>
+                                                                <ButtonComponent variant={"outlined"}
+                                                                                 size={'large'}
+                                                                                 className={isSubmitting ? 'mrg-right-15' : ''}
+                                                                                 disabled={isSubmitting || isInterventionCheckingOut}
+                                                                                 onClick={()=>navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId))}
+                                                                >
+                                                                    Home
+                                                                </ButtonComponent>&nbsp;&nbsp;
                                                             </>
                                                         }
                                                     </>
