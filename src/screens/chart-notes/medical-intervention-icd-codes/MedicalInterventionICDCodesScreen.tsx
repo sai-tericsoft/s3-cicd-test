@@ -52,11 +52,11 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
         medicalInterventionDetails
     } = useSelector((state: IRootReducerState) => state.chartNotes);
     const {medicalRecordId, medicalInterventionId} = useParams();
-    const [currentTab, setCurrentTab] = useState<any>("icdCodes");
+    // const [currentTab, setCurrentTab] = useState<any>("icdCodes");
     const [searchParams, setSearchParams] = useSearchParams();
-    const [refreshToken, setRefreshToken] = useState<string>('');
+    // const [refreshToken, setRefreshToken] = useState<string>('');
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-    const [isIcdCodesDrawerOpen, setIsIcdCodesDrawerOpen] = useState<boolean>(false);
+    // const [isIcdCodesDrawerOpen, setIsIcdCodesDrawerOpen] = useState<boolean>(false);
     const {
         clientMedicalRecord,
     } = useSelector((state: IRootReducerState) => state.client);
@@ -107,23 +107,22 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
             })
     }, [medicalInterventionId, medicalRecordId, navigate, last_position])
 
-    useEffect(() => {
-        let currentTab: any = searchParams.get("currentStep");
-        if (currentTab) {
-            if (!ICDCodesSteps.includes(currentTab)) {
-                currentTab = "icdCodes";
-            }
-        } else {
-            currentTab = "icdCodes";
-        }
-        setCurrentTab(currentTab);
-    }, [searchParams]);
+    // useEffect(() => {
+    //     let currentTab: any = searchParams.get("currentStep");
+    //     if (currentTab) {
+    //         if (!ICDCodesSteps.includes(currentTab)) {
+    //             currentTab = "icdCodes";
+    //         }
+    //     } else {
+    //         currentTab = "icdCodes";
+    //     }
+    // }, [searchParams]);
 
-    const handleTabChange = useCallback((e: any, value: any) => {
-        searchParams.set("currentStep", value);
-        setSearchParams(searchParams);
-        setCurrentTab(value);
-    }, [searchParams, setSearchParams]);
+    // const handleTabChange = useCallback((e: any, value: any) => {
+    //     searchParams.set("currentStep", value);
+    //     setSearchParams(searchParams);
+    //     setCurrentTab(value);
+    // }, [searchParams, setSearchParams]);
 
     useEffect(() => {
         if (medicalRecordId && medicalInterventionId) {
@@ -166,7 +165,7 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
                     size={"large"}
                     type={"button"}
                     onClick={() => {
-                        setSelectedICDCodes(selectedICDCodes.filter((code) => code?._id !== record?._id));
+                        setSelectedICDCodes(selectedICDCodes.filter((code) => code?.icd_code !== record?.icd_code));
                     }}
                 >
                     <DeleteOutline color={"error"} fontSize={"inherit"}/>
@@ -176,163 +175,163 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
     ]
 
 
-    const codeListColumns: ITableColumn[] = [
-        // {
-        //     key: 'select',
-        //     title: '',
-        //     dataIndex: 'select',
-        //     width: 20,
-        //     fixed: 'left',
-        //     render: (item: any, record: any) => {
-        //         return <CheckBoxComponent label={""} checked={selectedICDCodes.includes(record?._id)}
-        //                                   onChange={(isChecked) => {
-        //                                       if (isChecked) {
-        //                                           setSelectedICDCodes([...selectedICDCodes, record?._id]);
-        //                                       } else {
-        //                                           setSelectedICDCodes(selectedICDCodes.filter((code) => code !== record?._id));
-        //                                       }
-        //                                   }}/>
-        //
-        //     }
-        // },
-        {
-            title: 'ICD Codes',
-            dataIndex: 'icd_code',
-            key: 'icd_code',
-            width: 180,
-            // fixed: 'left',
-            // align: 'left',
+    // const codeListColumns: ITableColumn[] = [
+    //     // {
+    //     //     key: 'select',
+    //     //     title: '',
+    //     //     dataIndex: 'select',
+    //     //     width: 20,
+    //     //     fixed: 'left',
+    //     //     render: (item: any, record: any) => {
+    //     //         return <CheckBoxComponent label={""} checked={selectedICDCodes.includes(record?._id)}
+    //     //                                   onChange={(isChecked) => {
+    //     //                                       if (isChecked) {
+    //     //                                           setSelectedICDCodes([...selectedICDCodes, record?._id]);
+    //     //                                       } else {
+    //     //                                           setSelectedICDCodes(selectedICDCodes.filter((code) => code !== record?._id));
+    //     //                                       }
+    //     //                                   }}/>
+    //     //
+    //     //     }
+    //     // },
+    //     {
+    //         title: 'ICD Codes',
+    //         dataIndex: 'icd_code',
+    //         key: 'icd_code',
+    //         width: 180,
+    //         // fixed: 'left',
+    //         // align: 'left',
+    //
+    //         render: (item: any, record: any) => {
+    //             return <div className="icd-code-column">
+    //                 <CheckBoxComponent label={item} checked={selectedICDCodes.some((code) => code?._id === record?._id)}
+    //                                    onChange={(isChecked) => {
+    //                                        if (isChecked) {
+    //                                            setSelectedICDCodes([...selectedICDCodes, record]);
+    //                                        } else {
+    //                                            setSelectedICDCodes(selectedICDCodes.filter((code) => code?._id !== record?._id));
+    //                                        }
+    //                                    }}/>
+    //             </div>
+    //
+    //         }
+    //
+    //     },
+    //     {
+    //         title: 'Description',
+    //         dataIndex: 'description',
+    //         key: 'description',
+    //         width: 650,
+    //     },
+    //     {
+    //         title: 'Mark as Favourite',
+    //         dataIndex: 'is_fav',
+    //         key: 'favorite',
+    //         fixed: 'right',
+    //         align: 'center',
+    //         width: 220,
+    //         render: (_: any, item: any) => {
+    //             return <span>
+    //                 {
+    //                     !item?.is_fav &&
+    //                     <div className={'star-icon'} onClick={() => addFavouriteList(item?._id)}>
+    //                         <ImageConfig.StarIcon/>
+    //                     </div>
+    //                 }
+    //                 {
+    //                     item?.is_fav &&
+    //                     <div className={'star-icon'} onClick={() => removeFavouriteCode(item?._id)}>
+    //                         <ImageConfig.FilledStarIcon/></div>
+    //                 }
+    //            </span>
+    //         }
+    //     }
+    // ];
+    // const favouriteICDCodesColumns: ITableColumn[] = [
+    //     // {
+    //     //     key: 'select',
+    //     //     title: '',
+    //     //     dataIndex: 'select',
+    //     //     width: 20,
+    //     //     render: (item: any, record: any) => {
+    //     //         return <CheckBoxComponent label={""} checked={selectedICDCodes.includes(record?.icd_code_id)}
+    //     //                                   onChange={(isChecked) => {
+    //     //                                       if (isChecked) {
+    //     //                                           setSelectedICDCodes([...selectedICDCodes, record?.icd_code_id]);
+    //     //                                       } else {
+    //     //                                           setSelectedICDCodes(selectedICDCodes.filter((code) => code !== record?.icd_code_id));
+    //     //                                       }
+    //     //                                   }}/>
+    //     //
+    //     //     }
+    //     //
+    //     // },
+    //     {
+    //         title: 'ICD Codes',
+    //         dataIndex: 'icd_code',
+    //         key: 'icd_code',
+    //         width: 180,
+    //         fixed: 'left',
+    //         render: (item: any, record: any) => {
+    //             return <CheckBoxComponent label={record?.icd_code_details?.icd_code}
+    //                                       checked={selectedICDCodes.some((code) => code?._id === record?.icd_code_id)}
+    //                                       onChange={(isChecked) => {
+    //                                           if (isChecked) {
+    //                                               setSelectedICDCodes([...selectedICDCodes, {
+    //                                                   ...record.icd_code_details,
+    //                                               }]);
+    //                                           } else {
+    //                                               setSelectedICDCodes(selectedICDCodes.filter((code) => code?._id !== record?.icd_code_id));
+    //                                           }
+    //                                       }}/>
+    //         }
+    //
+    //     },
+    //     {
+    //         title: 'Description',
+    //         dataIndex: 'description',
+    //         key: 'description',
+    //         width: 650,
+    //         render: (_: any, item: any) => {
+    //             return <>{item?.icd_code_details?.description}</>
+    //         }
+    //     },
+    //     {
+    //         title: ' Favourite Code(s)',
+    //         dataIndex: 'favourite',
+    //         key: 'favorite',
+    //         fixed: 'right',
+    //         align: 'center',
+    //         width: 220,
+    //         render: (_: any, item: any) => {
+    //             return <span onClick={() => removeFavouriteCode(item?.icd_code_id)}>
+    //               <ImageConfig.FilledStarIcon className={'star-icon-favourite'}/>
+    //            </span>
+    //         }
+    //     }
+    // ];
 
-            render: (item: any, record: any) => {
-                return <div className="icd-code-column">
-                    <CheckBoxComponent label={item} checked={selectedICDCodes.some((code) => code?._id === record?._id)}
-                                       onChange={(isChecked) => {
-                                           if (isChecked) {
-                                               setSelectedICDCodes([...selectedICDCodes, record]);
-                                           } else {
-                                               setSelectedICDCodes(selectedICDCodes.filter((code) => code?._id !== record?._id));
-                                           }
-                                       }}/>
-                </div>
+    // const addFavouriteList = useCallback((codeId: string) => {
+    //     CommonService._client.AddFavouriteCode(codeId, {})
+    //         .then((response: IAPIResponseType<any>) => {
+    //             CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+    //             setRefreshToken(Math.random().toString(36).substring(7));
+    //         })
+    //         .catch((error: any) => {
+    //             CommonService._alert.showToast(error, "error");
+    //         })
+    // }, []);
 
-            }
-
-        },
-        {
-            title: 'Description',
-            dataIndex: 'description',
-            key: 'description',
-            width: 650,
-        },
-        {
-            title: 'Mark as Favourite',
-            dataIndex: 'is_fav',
-            key: 'favorite',
-            fixed: 'right',
-            align: 'center',
-            width: 220,
-            render: (_: any, item: any) => {
-                return <span>
-                    {
-                        !item?.is_fav &&
-                        <div className={'star-icon'} onClick={() => addFavouriteList(item?._id)}>
-                            <ImageConfig.StarIcon/>
-                        </div>
-                    }
-                    {
-                        item?.is_fav &&
-                        <div className={'star-icon'} onClick={() => removeFavouriteCode(item?._id)}>
-                            <ImageConfig.FilledStarIcon/></div>
-                    }
-               </span>
-            }
-        }
-    ];
-    const favouriteICDCodesColumns: ITableColumn[] = [
-        // {
-        //     key: 'select',
-        //     title: '',
-        //     dataIndex: 'select',
-        //     width: 20,
-        //     render: (item: any, record: any) => {
-        //         return <CheckBoxComponent label={""} checked={selectedICDCodes.includes(record?.icd_code_id)}
-        //                                   onChange={(isChecked) => {
-        //                                       if (isChecked) {
-        //                                           setSelectedICDCodes([...selectedICDCodes, record?.icd_code_id]);
-        //                                       } else {
-        //                                           setSelectedICDCodes(selectedICDCodes.filter((code) => code !== record?.icd_code_id));
-        //                                       }
-        //                                   }}/>
-        //
-        //     }
-        //
-        // },
-        {
-            title: 'ICD Codes',
-            dataIndex: 'icd_code',
-            key: 'icd_code',
-            width: 180,
-            fixed: 'left',
-            render: (item: any, record: any) => {
-                return <CheckBoxComponent label={record?.icd_code_details?.icd_code}
-                                          checked={selectedICDCodes.some((code) => code?._id === record?.icd_code_id)}
-                                          onChange={(isChecked) => {
-                                              if (isChecked) {
-                                                  setSelectedICDCodes([...selectedICDCodes, {
-                                                      ...record.icd_code_details,
-                                                  }]);
-                                              } else {
-                                                  setSelectedICDCodes(selectedICDCodes.filter((code) => code?._id !== record?.icd_code_id));
-                                              }
-                                          }}/>
-            }
-
-        },
-        {
-            title: 'Description',
-            dataIndex: 'description',
-            key: 'description',
-            width: 650,
-            render: (_: any, item: any) => {
-                return <>{item?.icd_code_details?.description}</>
-            }
-        },
-        {
-            title: ' Favourite Code(s)',
-            dataIndex: 'favourite',
-            key: 'favorite',
-            fixed: 'right',
-            align: 'center',
-            width: 220,
-            render: (_: any, item: any) => {
-                return <span onClick={() => removeFavouriteCode(item?.icd_code_id)}>
-                  <ImageConfig.FilledStarIcon className={'star-icon-favourite'}/>
-               </span>
-            }
-        }
-    ];
-
-    const addFavouriteList = useCallback((codeId: string) => {
-        CommonService._client.AddFavouriteCode(codeId, {})
-            .then((response: IAPIResponseType<any>) => {
-                CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
-                setRefreshToken(Math.random().toString(36).substring(7));
-            })
-            .catch((error: any) => {
-                CommonService._alert.showToast(error, "error");
-            })
-    }, []);
-
-    const removeFavouriteCode = useCallback((codeId: any) => {
-        CommonService._client.RemoveFavouriteCode(codeId, {})
-            .then((response: IAPIResponseType<any>) => {
-                CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
-                setRefreshToken(Math.random().toString(36).substring(7));
-            })
-            .catch((error: any) => {
-                CommonService._alert.showToast(error, "error");
-            });
-    }, []);
+    // const removeFavouriteCode = useCallback((codeId: any) => {
+    //     CommonService._client.RemoveFavouriteCode(codeId, {})
+    //         .then((response: IAPIResponseType<any>) => {
+    //             CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+    //             setRefreshToken(Math.random().toString(36).substring(7));
+    //         })
+    //         .catch((error: any) => {
+    //             CommonService._alert.showToast(error, "error");
+    //         });
+    // }, []);
 
     useEffect(() => {
         if (medicalInterventionDetails) {
@@ -404,17 +403,17 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
                     >
                         <ClearSharp/> Clear ICD Codes
                     </ButtonComponent>
-                    <ButtonComponent
-                        className={'white-space-nowrap'}
-                        type={"button"}
-                        onClick={
-                            () => {
-                                setIsIcdCodesDrawerOpen(true)
-                            }
-                        }
-                    >
-                        <AddIcon/> Add ICD Code
-                    </ButtonComponent>
+                    {/*<ButtonComponent*/}
+                    {/*    className={'white-space-nowrap'}*/}
+                    {/*    type={"button"}*/}
+                    {/*    onClick={*/}
+                    {/*        () => {*/}
+                    {/*            setIsIcdCodesDrawerOpen(true)*/}
+                    {/*        }*/}
+                    {/*    }*/}
+                    {/*>*/}
+                    {/*    <AddIcon/> Add ICD Code*/}
+                    {/*</ButtonComponent>*/}
                 </div>
             </div>
             <TableV2Component
@@ -437,7 +436,7 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
                                  className={'mrg-left-15'}
                                  onClick={() => {
                                      linkICDCodesToIntervention(
-                                         selectedICDCodes.map((code) => code?._id),
+                                         selectedICDCodes,
                                          (medicalInterventionDetails.linked_icd_codes || []).length === 0 ? 'add' : 'edit'
                                      )
                                  }}
@@ -453,60 +452,59 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
             >
                 <IcdCodingToolComponent onSelection={(selectedIcdCode: any) => {
                     setSelectedICDCodes([...selectedICDCodes, {
-                        _id: selectedIcdCode.code,
                         icd_code: selectedIcdCode.code,
                         description: selectedIcdCode.selectedText
                     }]);
                 }}/>
             </DrawerComponent>
-            <DrawerComponent isOpen={isIcdCodesDrawerOpen}
-                             onClose={() => setIsIcdCodesDrawerOpen(false)}
-                             showClose={true}
-            >
-                <div className={'select-icd-codes-drawer'}>
-                    <SearchComponent label={'Search'}
-                                     placeholder={'Search ICD Code'}
-                                     value={searchICDCodes.search}
-                                     onSearchChange={(value) => {
-                                         setSearchICDCodes({...searchICDCodes, search: value})
-                                     }}
-                    />
-                    <TabsWrapperComponent className={''}>
-                        <TabsComponent
-                            value={currentTab}
-                            allowScrollButtonsMobile={false}
-                            variant={"fullWidth"}
-                            onUpdate={handleTabChange}
-                        >
-                            <TabComponent label={'ALL ICD CODES'} value={'icdCodes'}/>
-                            <TabComponent label={'FAVOURITES'} value={'favourites'}/>
-                        </TabsComponent>
-                        <TabContentComponent value={'icdCodes'} selectedTab={currentTab}>
-                            <TableWrapperComponent
-                                extraPayload={searchICDCodes}
-                                refreshToken={refreshToken}
-                                url={APIConfig.ICD_CODE_LIST.URL}
-                                method={APIConfig.ICD_CODE_LIST.METHOD}
-                                columns={codeListColumns}
-                                noDataText={'No ICD Codes found for this search'}
-                                isPaginated={true}
-                                type={"ant"}
-                            />
-                        </TabContentComponent>
-                        <TabContentComponent value={'favourites'} selectedTab={currentTab}>
-                            <TableWrapperComponent
-                                extraPayload={searchICDCodes}
-                                refreshToken={refreshToken}
-                                url={APIConfig.ICD_CODE_FAVOURITE_LIST.URL}
-                                method={APIConfig.ICD_CODE_FAVOURITE_LIST.METHOD}
-                                columns={favouriteICDCodesColumns}
-                                isPaginated={true}
-                                type={"ant"}
-                            />
-                        </TabContentComponent>
-                    </TabsWrapperComponent>
-                </div>
-            </DrawerComponent>
+            {/*<DrawerComponent isOpen={isIcdCodesDrawerOpen}*/}
+            {/*                 onClose={() => setIsIcdCodesDrawerOpen(false)}*/}
+            {/*                 showClose={true}*/}
+            {/*>*/}
+            {/*    <div className={'select-icd-codes-drawer'}>*/}
+            {/*        <SearchComponent label={'Search'}*/}
+            {/*                         placeholder={'Search ICD Code'}*/}
+            {/*                         value={searchICDCodes.search}*/}
+            {/*                         onSearchChange={(value) => {*/}
+            {/*                             setSearchICDCodes({...searchICDCodes, search: value})*/}
+            {/*                         }}*/}
+            {/*        />*/}
+            {/*        <TabsWrapperComponent className={''}>*/}
+            {/*            <TabsComponent*/}
+            {/*                value={currentTab}*/}
+            {/*                allowScrollButtonsMobile={false}*/}
+            {/*                variant={"fullWidth"}*/}
+            {/*                onUpdate={handleTabChange}*/}
+            {/*            >*/}
+            {/*                <TabComponent label={'ALL ICD CODES'} value={'icdCodes'}/>*/}
+            {/*                <TabComponent label={'FAVOURITES'} value={'favourites'}/>*/}
+            {/*            </TabsComponent>*/}
+            {/*            <TabContentComponent value={'icdCodes'} selectedTab={currentTab}>*/}
+            {/*                <TableWrapperComponent*/}
+            {/*                    extraPayload={searchICDCodes}*/}
+            {/*                    refreshToken={refreshToken}*/}
+            {/*                    url={APIConfig.ICD_CODE_LIST.URL}*/}
+            {/*                    method={APIConfig.ICD_CODE_LIST.METHOD}*/}
+            {/*                    columns={codeListColumns}*/}
+            {/*                    noDataText={'No ICD Codes found for this search'}*/}
+            {/*                    isPaginated={true}*/}
+            {/*                    type={"ant"}*/}
+            {/*                />*/}
+            {/*            </TabContentComponent>*/}
+            {/*            <TabContentComponent value={'favourites'} selectedTab={currentTab}>*/}
+            {/*                <TableWrapperComponent*/}
+            {/*                    extraPayload={searchICDCodes}*/}
+            {/*                    refreshToken={refreshToken}*/}
+            {/*                    url={APIConfig.ICD_CODE_FAVOURITE_LIST.URL}*/}
+            {/*                    method={APIConfig.ICD_CODE_FAVOURITE_LIST.METHOD}*/}
+            {/*                    columns={favouriteICDCodesColumns}*/}
+            {/*                    isPaginated={true}*/}
+            {/*                    type={"ant"}*/}
+            {/*                />*/}
+            {/*            </TabContentComponent>*/}
+            {/*        </TabsWrapperComponent>*/}
+            {/*    </div>*/}
+            {/*</DrawerComponent>*/}
         </div>
     );
 
