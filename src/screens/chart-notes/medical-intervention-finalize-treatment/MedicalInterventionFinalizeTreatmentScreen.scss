@@ -49,6 +49,12 @@
       flex-wrap: wrap;
       row-gap: 10px;
     }
+    .ant-table-content{
+      height: 100%;
+      table{
+        height: 100%;
+      }
+    }
 
   }
 
