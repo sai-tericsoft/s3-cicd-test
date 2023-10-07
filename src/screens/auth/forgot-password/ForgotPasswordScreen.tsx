@@ -36,7 +36,7 @@ const ForgotPasswordScreen = (props: ForgotPasswordScreenProps) => {
             .then((response: any) => {
                 CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                 setIsLoading(false);
-                handleNavigation(commonService._routeConfig.OtpVerificationRoute(), `email=${values.email}`);
+                handleNavigation(commonService._routeConfig.OtpVerificationRoute(values.email));
             })
             .catch((error: any) => {
                 CommonService._alert.showToast(error.error || error.errors, 'error');

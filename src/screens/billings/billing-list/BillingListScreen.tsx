@@ -306,18 +306,18 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                 return <LinkComponent
                     route={CommonService._routeConfig.BillingDetails(item?._id) + '?referrer=' + location.pathname + '&type=invoice'}>
                     {
-                        (item?.appointment_details.appointment_number).length > 10 ?
+                        (item?.appointment_details?.appointment_number).length > 10 ?
                             <ToolTipComponent
-                                tooltip={item?.appointment_details.appointment_number}
+                                tooltip={item?.appointment_details?.appointment_number}
                                 showArrow={true}
                                 position={"top"}
                             >
                                 <div className={"ellipses-for-table-data"}>
-                                    {item?.appointment_details.appointment_number}
+                                    {item?.appointment_details?.appointment_number}
                                 </div>
                             </ToolTipComponent> :
                             <>
-                                {item?.appointment_details.appointment_number}
+                                {item?.appointment_details?.appointment_number}
                             </>
                     }
                 </LinkComponent>

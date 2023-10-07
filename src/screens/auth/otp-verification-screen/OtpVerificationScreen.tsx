@@ -8,7 +8,7 @@ import {CommonService} from "../../../shared/services";
 import * as Yup from "yup";
 import commonService from "../../../shared/services/common.service";
 import useHandleNavigation from "../../../shared/hooks/useHandleNavigation";
-import {useLocation} from "react-router-dom";
+import {useLocation, useParams} from "react-router-dom";
 import {Misc} from "../../../constants";
 
 
@@ -35,8 +35,7 @@ const OtpVerificationScreen = (props: OtpVerificationScreenProps) => {
     const [errorMessage, setErrorMessage] = useState("");
     const [isOTPBeingRequested, setIsOTPBeingRequested] = useState<boolean>(false);
     const handleNavigation = useHandleNavigation();
-    const location = useLocation();
-    const {email} = CommonService.parseQueryString(location.search)
+    const {email} = useParams();
     const runOTPCountdown = useCallback(() => {
         let timer = OTP_VALIDITY;
         setOtpTimer(timer);

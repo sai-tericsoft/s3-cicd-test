@@ -261,7 +261,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
             title: 'CPT Code(s)',
             dataIndex: 'treatment',
             key: 'treatment',
-            width: 500,
+            width: 700,
             fixed: 'left',
             render: (record: any) => {
                 return <>{record?.cpt_code_details?.cpt_code}</>
@@ -271,21 +271,28 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
             title: 'Units',
             dataIndex: 'units_of_care',
             key: 'units_of_care',
+            width: 100,
+            align: 'center',
         },
         {
             title: 'Rate',
-            dataIndex: 'rate',
+            dataIndex: 'price',
+            align: 'center',
+            width: 100,
             key: 'rate',
             render: (record: any) => {
-                return <>N/A</>
+                return <>{Misc.CURRENCY_SYMBOL}{CommonService.convertToDecimals(record?.cpt_code_details?.price)}</>
             }
         },
         {
             title: 'Amount',
             dataIndex: 'amount',
             key: 'amount',
+            align: 'center',
+            width: 100,
+            fixed: 'right',
             render: (record: any) => {
-                return <>N/A</>
+                return <>{Misc.CURRENCY_SYMBOL}{CommonService.convertToDecimals(record?.cpt_code_details?.price*record?.units_of_care)}</>
             }
         }
     ], []);

@@ -42,8 +42,8 @@ const LoginRoute = () => {
 const ForgotPasswordRoute = () => {
     return FORGOT_PASSWORD_ROUTE;
 }
-const OtpVerificationRoute = () => {
-    return OTP_VERIFICATION_ROUTE;
+const OtpVerificationRoute = (email:string) => {
+    return OTP_VERIFICATION_ROUTE+'/'+email;
 }
 const ResetPasswordRoute = () => {
     return RESET_PASSWORD_ROUTE;

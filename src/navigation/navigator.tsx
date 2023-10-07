@@ -959,7 +959,7 @@ const Navigator = (props: NavigatorProps) => {
                             </UnProtectedRoute>
                         }/>
                     <Route
-                        path={OTP_VERIFICATION_ROUTE}
+                        path={OTP_VERIFICATION_ROUTE+'/:email'}
                         element={
                             <UnProtectedRoute>
                                 <OtpVerificationScreen/>
