@@ -383,157 +383,158 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
 
     return (
         <div className={'medical-intervention-finalize-treatment-screen'}>
-            <PageHeaderComponent title={'Finalize Treatment'}/>
-            <MedicalRecordBasicDetailsCardComponent/>
-            {/*{*/}
-            {/*    isMedicalInterventionDetailsLoading && <>*/}
-            {/*        <LoaderComponent/>*/}
-            {/*    </>*/}
-            {/*}*/}
             {
-                isMedicalInterventionDetailsLoaded && <>
-                    <Formik initialValues={cptCodesFormInitialValues}
-                            enableReinitialize={true}
-                            onSubmit={handleCPTCodesSubmit}>
-                        {({values, validateForm, isSubmitting, isValid, errors}) => {
-                            // eslint-disable-next-line react-hooks/rules-of-hooks
-                            useEffect(() => {
-                                validateForm()
-                            }, [validateForm, values]);
-                            return (
-                                <Form className="t-form" noValidate={true}>
-                                    <CardComponent className={'finalize-treatment-wrapper'}>
-                                        <div className="cpt-codes-viw-list-header">
+                isCPTCodesLoading ?
+                    <LoaderComponent/>
+                    :
+                    <>
+                        <PageHeaderComponent title={'Finalize Treatment'}/>
+                        <MedicalRecordBasicDetailsCardComponent/>
+                        {/*{*/}
+                        {/*    isMedicalInterventionDetailsLoading && <>*/}
+                        {/*        <LoaderComponent/>*/}
+                        {/*    </>*/}
+                        {/*}*/}
+                        {
+                            isMedicalInterventionDetailsLoaded && <>
+                                <Formik initialValues={cptCodesFormInitialValues}
+                                        enableReinitialize={true}
+                                        onSubmit={handleCPTCodesSubmit}>
+                                    {({values, validateForm, isSubmitting, isValid, errors}) => {
+                                        // eslint-disable-next-line react-hooks/rules-of-hooks
+                                        useEffect(() => {
+                                            validateForm()
+                                        }, [validateForm, values]);
+                                        return (
+                                            <Form className="t-form" noValidate={true}>
+                                                <CardComponent className={'finalize-treatment-wrapper'}>
+                                                    <div className="cpt-codes-viw-list-header">
 
-                                            <ButtonComponent
-                                                className={'white-space-nowrap'}
-                                                type={"button"}
-                                                prefixIcon={<ImageConfig.EyeIcon/>}
-                                                onClick={() => setEightMinuteRuleChartDrawerOpen(true)}
-                                            >
-                                                View 8-Minute Rule
-                                            </ButtonComponent>
-                                            <ButtonComponent
-                                                className={'white-space-nowrap'}
-                                                type={"button"}
-                                                color={"error"}
-                                                variant={'outlined'}
-                                                disabled={isSubmitting || isInterventionCheckingOut || selectedCptCodes?.length === 0}
-                                                prefixIcon={<ClearIcon/>}
-                                                onClick={() => {
-                                                    setSelectedCptCodes([])
-                                                    setTotalMinutes(0);
-                                                }
-                                                }
-                                            >
-                                                Clear All Code(s)
-                                            </ButtonComponent>
-                                            <ButtonComponent
-                                                className={'white-space-nowrap'}
-                                                type={"button"}
-                                                disabled={isSubmitting || isInterventionCheckingOut}
-                                                prefixIcon={<AddIcon/>}
-                                                onClick={() => setSelectCPTCodeDrawerOpen(true)}
-                                            >
-                                                Add CPT Code
-                                            </ButtonComponent>
-                                        </div>
-                                        <div>
-                                            {
-                                                isCPTCodesLoading ?
-                                                    <LoaderComponent/>
-                                                    :
-                                                    <TableV2Component
-                                                        data={selectedCptCodes}
-                                                        showFooter={true}
-                                                        footer={
-                                                            <div className='cpt-code-list-footer'>
-                                                                <div className="total-heading">Total number
-                                                                    of minutes
+                                                        <ButtonComponent
+                                                            className={'white-space-nowrap'}
+                                                            type={"button"}
+                                                            prefixIcon={<ImageConfig.EyeIcon/>}
+                                                            onClick={() => setEightMinuteRuleChartDrawerOpen(true)}
+                                                        >
+                                                            View 8-Minute Rule
+                                                        </ButtonComponent>
+                                                        <ButtonComponent
+                                                            className={'white-space-nowrap'}
+                                                            type={"button"}
+                                                            color={"error"}
+                                                            variant={'outlined'}
+                                                            disabled={isSubmitting || isInterventionCheckingOut || selectedCptCodes?.length === 0}
+                                                            prefixIcon={<ClearIcon/>}
+                                                            onClick={() => {
+                                                                setSelectedCptCodes([])
+                                                                setTotalMinutes(0);
+                                                            }
+                                                            }
+                                                        >
+                                                            Clear All Code(s)
+                                                        </ButtonComponent>
+                                                        <ButtonComponent
+                                                            className={'white-space-nowrap'}
+                                                            type={"button"}
+                                                            disabled={isSubmitting || isInterventionCheckingOut}
+                                                            prefixIcon={<AddIcon/>}
+                                                            onClick={() => setSelectCPTCodeDrawerOpen(true)}
+                                                        >
+                                                            Add CPT Code
+                                                        </ButtonComponent>
+                                                    </div>
+                                                    <div>
+                                                        <TableV2Component
+                                                            data={selectedCptCodes}
+                                                            showFooter={true}
+                                                            footer={
+                                                                <div className='cpt-code-list-footer'>
+                                                                    <div className="total-heading">Total number
+                                                                        of minutes
+                                                                    </div>
+                                                                    <div
+                                                                        className="total-minutes-wrapper">{totalMinutes}</div>
                                                                 </div>
-                                                                <div
-                                                                    className="total-minutes-wrapper">{totalMinutes}</div>
-                                                            </div>
+                                                            }
+                                                            columns={CPTCodesColumns}/>
+                                                    </div>
+                                                </CardComponent>
+                                                <div className="t-form-actions mrg-bottom-0">
+                                                    <>
+                                                        {
+                                                            medicalRecordId && <>
+                                                                <LinkComponent
+                                                                    route={CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId)}>
+                                                                    <ButtonComponent variant={"outlined"}
+                                                                                     size={'large'}
+                                                                                     className={isSubmitting ? 'mrg-right-15' : ''}
+                                                                                     disabled={isSubmitting || isInterventionCheckingOut}>
+                                                                        Home
+                                                                    </ButtonComponent>&nbsp;&nbsp;
+                                                                </LinkComponent>
+                                                            </>
                                                         }
-                                                        columns={CPTCodesColumns}/>
-                                            }
-
-                                        </div>
-                                    </CardComponent>
-                                    <div className="t-form-actions mrg-bottom-0">
-                                        <>
-                                            {
-                                                medicalRecordId && <>
-                                                    <LinkComponent
-                                                        route={CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId)}>
-                                                        <ButtonComponent variant={"outlined"}
-                                                                         size={'large'}
-                                                                         className={isSubmitting ? 'mrg-right-15' : ''}
-                                                                         disabled={isSubmitting || isInterventionCheckingOut}>
-                                                            Home
-                                                        </ButtonComponent>&nbsp;&nbsp;
-                                                    </LinkComponent>
-                                                </>
-                                            }
-                                        </>
-                                        <ButtonComponent
-                                            type={"submit"}
-                                            className={'mrg-left-15'}
-                                            size={'large'}
-                                            isLoading={isSubmitting}
-                                            disabled={
-                                                isSubmitting ||
-                                                isInterventionCheckingOut ||
-                                                totalMinutes === 0 ||
-                                                !Object.keys(values).some((cptCodeId) => {
-                                                    const cptDetails = values[cptCodeId];
-                                                    return !!(cptDetails?.units_of_care && cptDetails?.minutes);
-                                                }) || !Object.keys(values).every((cptCodeId) => {
-                                                    const cptDetails = values[cptCodeId];
-                                                    return !!(cptDetails?.units_of_care && cptDetails?.minutes);
-                                                })
-                                            }
-                                        >
-                                            Checkout
-                                        </ButtonComponent>
-                                    </div>
-                                </Form>
-                            );
-                        }}
-                    </Formik>
-                    <DrawerComponent isOpen={isEightMinuteRuleChartDrawerOpen}
-                                     showClose={true}
-                                     closeOnEsc={false}
-                                     closeOnBackDropClick={true}
-                                     onClose={() => setEightMinuteRuleChartDrawerOpen(false)}>
-                        <Client8MinutesRuleChartComponent/>
-                    </DrawerComponent>
-                    <DrawerComponent isOpen={selectCPTCodeDrawerOpen}
-                                     showClose={true}
-                                     closeOnEsc={false}
-                                     closeOnBackDropClick={true}
-                                     onClose={() => setSelectCPTCodeDrawerOpen(false)}>
-                        <FormControlLabelComponent size={'lg'} label={'Add CPT Code'}/>
-                        <SearchComponent label={'Search'}
-                                         placeholder={'Search CPT Code'}
-                                         value={extraPayload.search}
-                                         onSearchChange={(value) => {
-                                             setExtraPayload((ov: any) => ({
-                                                 ...ov,
-                                                 search: value
-                                             }))
-                                         }}
-                        />
-                        <div className={'cpt-codes-select-list'}>
-                            <TableWrapperComponent url={APIConfig.CPT_CODES_LIST.URL}
-                                                   method={APIConfig.CPT_CODES_LIST.METHOD}
-                                                   isPaginated={true}
-                                                   extraPayload={extraPayload}
-                                                   type={"ant"}
-                                                   columns={SelectCPTCodesColumns}/>
-                        </div>
-                    </DrawerComponent>
-                </>
+                                                    </>
+                                                    <ButtonComponent
+                                                        type={"submit"}
+                                                        className={'mrg-left-15'}
+                                                        size={'large'}
+                                                        isLoading={isSubmitting}
+                                                        disabled={
+                                                            isSubmitting ||
+                                                            isInterventionCheckingOut ||
+                                                            totalMinutes === 0 ||
+                                                            !Object.keys(values).some((cptCodeId) => {
+                                                                const cptDetails = values[cptCodeId];
+                                                                return !!(cptDetails?.units_of_care && cptDetails?.minutes);
+                                                            }) || !Object.keys(values).every((cptCodeId) => {
+                                                                const cptDetails = values[cptCodeId];
+                                                                return !!(cptDetails?.units_of_care && cptDetails?.minutes);
+                                                            })
+                                                        }
+                                                    >
+                                                        Checkout
+                                                    </ButtonComponent>
+                                                </div>
+                                            </Form>
+                                        );
+                                    }}
+                                </Formik>
+                            </>
+                        }
+                        <DrawerComponent isOpen={isEightMinuteRuleChartDrawerOpen}
+                                         showClose={true}
+                                         closeOnEsc={false}
+                                         closeOnBackDropClick={true}
+                                         onClose={() => setEightMinuteRuleChartDrawerOpen(false)}>
+                            <Client8MinutesRuleChartComponent/>
+                        </DrawerComponent>
+                        <DrawerComponent isOpen={selectCPTCodeDrawerOpen}
+                                         showClose={true}
+                                         closeOnEsc={false}
+                                         closeOnBackDropClick={true}
+                                         onClose={() => setSelectCPTCodeDrawerOpen(false)}>
+                            <FormControlLabelComponent size={'lg'} label={'Add CPT Code'}/>
+                            <SearchComponent label={'Search'}
+                                             placeholder={'Search CPT Code'}
+                                             value={extraPayload.search}
+                                             onSearchChange={(value) => {
+                                                 setExtraPayload((ov: any) => ({
+                                                     ...ov,
+                                                     search: value
+                                                 }))
+                                             }}
+                            />
+                            <div className={'cpt-codes-select-list'}>
+                                <TableWrapperComponent url={APIConfig.CPT_CODES_LIST.URL}
+                                                       method={APIConfig.CPT_CODES_LIST.METHOD}
+                                                       isPaginated={true}
+                                                       extraPayload={extraPayload}
+                                                       type={"ant"}
+                                                       columns={SelectCPTCodesColumns}/>
+                            </div>
+                        </DrawerComponent>
+                    </>
             }
         </div>
     );
