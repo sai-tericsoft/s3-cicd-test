@@ -24,8 +24,11 @@
       font-weight: 400;
     }
   }
-
+  .MuiAccordion-root:has(.disable-expanding){
+    pointer-events: none;
+  }
   .MuiAccordion-root {
+
     .MuiAccordionSummary-expandIconWrapper {
       margin-right: 20px !important;
       margin-left: 15px !important;

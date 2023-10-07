@@ -46,8 +46,11 @@ const RadioButtonGroupComponent = (props: RadioButtonGroupComponentProps) => {
                             label={displayWith(option)}
                             onChange={(value: any) => {
                                 let selectedValue: any = value;
-                                if (isValueBoolean) {
+                                if (typeof valueExtractor(option) === "boolean") {
                                     selectedValue = selectedValue === true;
+                                }
+                                if (typeof valueExtractor(option) === "number") {
+                                    selectedValue = Number(selectedValue);
                                 }
                                 if (onChange) {
                                     onChange(selectedValue);

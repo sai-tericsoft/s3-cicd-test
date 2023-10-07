@@ -306,13 +306,12 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                                 (Object.keys(clientMedicalDetails?.musculoskeletal_history || {})?.map((question, index) => {
                                     return <div key={question + index} className={"musculoskeletal-history-block"}>
                                         <div className="ts-row musculoskeletal-history-question-list">
-
                                             <div className="ts-col-lg-2 font-weight-bold">
                                                 {clientMedicalDetails?.musculoskeletal_history[question]?.title}
                                             </div>
                                             <div
                                                 className="ts-col-lg-2 font-weight-bold text-primary">
-                                                {clientMedicalDetails?.musculoskeletal_history[question]?.value}
+                                                {clientMedicalDetails?.musculoskeletal_history[question]?.value ? "Yes" : "No"}
                                             </div>
                                             <div className="ts-col-lg-8 comments-section">
                                                 {
@@ -325,7 +324,7 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                                                         })}</div>
                                                 }
                                                 {
-                                                    clientMedicalDetails?.musculoskeletal_history[question]?.value === 'Yes' && !clientMedicalDetails?.musculoskeletal_history[question]?.text
+                                                    clientMedicalDetails?.musculoskeletal_history[question]?.value  && !clientMedicalDetails?.musculoskeletal_history[question]?.text
                                                     && <div className={'musculoskeletal-na'}>None Reported</div>
                                                 }
 

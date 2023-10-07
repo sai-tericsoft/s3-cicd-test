@@ -70,7 +70,8 @@ const AccordionComponent = (props: React.PropsWithChildren<AccordionComponentPro
                 <AccordionSummary
                     expandIcon={!disableExpanding ? <ExpandMoreIcon/> :
                         <span className={'MuiAccordionSummary-expandIconWrapper'}></span>}
-                    className="accordion-summary"
+                    className={"accordion-summary" + (disableExpanding ? " disable-expanding" : "")}
+
                 >
                     <div className={"accordion-header"}>
                         <div className="accordian-tile">

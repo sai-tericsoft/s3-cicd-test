@@ -102,7 +102,7 @@ const ClientMusculoskeletalHistoryFormComponent = (props: ClientMusculoskeletalF
                                                          key={_id}>
                                                         <div className="ts-col-md-3">
                                                             <div className={"mrg-bottom-10"}>
-                                                                {title + '?'}
+                                                                {title}
                                                             </div>
                                                             <Field name={`musculoskeletal_history.${_id}.value`}>
                                                                 {
@@ -110,13 +110,12 @@ const ClientMusculoskeletalHistoryFormComponent = (props: ClientMusculoskeletalF
                                                                         <FormikRadioButtonGroupComponent
                                                                             options={CommonService._staticData.yesNoOptions}
                                                                             displayWith={(option) => option.title}
-                                                                            valueExtractor={(option) => option.title}
+                                                                            valueExtractor={(option) => option.code}
                                                                             required={true}
                                                                             formikField={field}
                                                                             id={"musculos"}
                                                                             onChange={(value) => {
-                                                                                console.log(value);
-                                                                                if (value === "No") {
+                                                                                if (!value) {
                                                                                     setFieldValue(`musculoskeletal_history.${_id}.text`, undefined);
                                                                                 }
                                                                             }}
@@ -127,7 +126,7 @@ const ClientMusculoskeletalHistoryFormComponent = (props: ClientMusculoskeletalF
                                                         </div>
                                                         <div className={"ts-col-md-9"}>
                                                             {
-                                                                values.musculoskeletal_history[_id]?.value === "Yes" &&
+                                                                values.musculoskeletal_history[_id]?.value  &&
                                                                 <Field name={`musculoskeletal_history.${_id}.text`}>
                                                                     {
                                                                         (field: FieldProps) => (
