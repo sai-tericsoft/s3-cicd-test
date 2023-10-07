@@ -564,9 +564,9 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                         </>
                                                     )}/>  </> :
                                             <ButtonComponent variant={"text"}
-                                                             color={"info"}
+                                                             color={"primary"}
                                                              className={'mrg-bottom-20'}
-                                                             size={"small"}
+                                                             size={"medium"}
                                                              prefixIcon={<AddCircleIcon/>}
                                                              onClick={() => {
                                                                  setFieldValue('secondary_contact_info', [{
@@ -668,8 +668,8 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                         </>
                                                     )}/></> :
                                             <ButtonComponent variant={"text"}
-                                                             color={"info"}
-                                                             size={"small"}
+                                                             color={"primary"}
+                                                             size={"medium"}
                                                              className={'mrg-bottom-20'}
                                                              prefixIcon={<AddCircleIcon/>}
                                                              onClick={() => {
@@ -949,8 +949,8 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                     :
 
                                                     <ButtonComponent variant={"text"}
-                                                                     color={"info"}
-                                                                     size={"small"}
+                                                                     color={"primary"}
+                                                                     size={"medium"}
                                                                      prefixIcon={<AddCircleIcon/>}
                                                                      onClick={() => {
                                                                          setFieldValue('emergency_contact_info.primary_emergency.secondary_contact_info', [{
@@ -1166,8 +1166,8 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                                     })}
                                                                 </> :
                                                                 <ButtonComponent variant={"text"}
-                                                                                 color={"info"}
-                                                                                 size={"small"}
+                                                                                 color={"primary"}
+                                                                                 size={"medium"}
                                                                                  className={'mrg-bottom-15'}
                                                                                  prefixIcon={<AddCircleIcon/>}
                                                                                  onClick={() => {
