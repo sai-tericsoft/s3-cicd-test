@@ -1,6 +1,9 @@
 @import "src/assets/styles/common";
 
 .billing-details-screen {
+  .table-no-data-wrapper{
+    min-height: 200px;
+  }
   .card-component .card-header .card-title-description-wrapper .card-title {
     text-transform: capitalize;
   }

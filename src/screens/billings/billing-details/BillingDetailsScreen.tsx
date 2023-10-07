@@ -664,6 +664,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                                     <TableComponent
                                         columns={ICDCodesColumns}
                                         data={billingDetails?.linked_icd_codes || []}
+                                        noDataText={"No ICD Code has been added."}
                                         autoHeight={true}
                                     />
                                 </CardComponent>
@@ -671,6 +672,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                                     <TableComponent
                                         columns={TreatmentColumns}
                                         data={billingDetails?.linked_cpt_codes || []}
+                                        noDataText={"No CPT Code has been added."}
                                         autoHeight={true}
                                     />
                                 </CardComponent>
