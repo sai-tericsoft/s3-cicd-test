@@ -55,17 +55,12 @@
   }
 }
 
-.drawer-container:has(.icd-iframe) {
+.drawer-container:has(.icd-coding-tool-component) {
   height: 100%;
   width: 800px;
 
   .drawer-body {
     height: 100%;
-
-    .icd-iframe {
-      height: 100%;
-      width: 100%;
-    }
   }
 }
 
