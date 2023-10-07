@@ -329,7 +329,7 @@ const UserPersonalDetailsEditComponent = (props: UserPersonalDetailsEditComponen
                                 </div>
                                 }
 
-                                {(values?.signature && userBasicDetails?.signature) && <div className="">
+                                {(values?.signature && userBasicDetails?.signature) && <div className="user-signature">
                                         <ESignApprovalComponent isSigned={true}
                                                                 signature_url={values?.signature}
                                         /> <br/>
