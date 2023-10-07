@@ -8,7 +8,7 @@ import {CommonService} from "../../../shared/services";
 import * as Yup from "yup";
 import commonService from "../../../shared/services/common.service";
 import useHandleNavigation from "../../../shared/hooks/useHandleNavigation";
-import {useLocation, useParams} from "react-router-dom";
+import { useParams} from "react-router-dom";
 import {Misc} from "../../../constants";
 
 

@@ -17,7 +17,6 @@ import {setCurrentNavParams} from "../../../store/actions/navigation.action";
 import {getMedicalInterventionDetails} from "../../../store/actions/chart-notes.action";
 import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
-import LinkComponent from "../../../shared/components/link/LinkComponent";
 import MedicalRecordBasicDetailsCardComponent
     from "../medical-record-basic-details-card/MedicalRecordBasicDetailsCardComponent";
 import PageHeaderComponent from "../../../shared/components/page-header/PageHeaderComponent";
@@ -47,7 +46,7 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
     const [isEightMinuteRuleChartDrawerOpen, setEightMinuteRuleChartDrawerOpen] = useState<boolean>(false);
     const [selectCPTCodeDrawerOpen, setSelectCPTCodeDrawerOpen] = useState<boolean>(false);
     const [selectedCptCodes, setSelectedCptCodes] = useState<any[]>([]);
-    
+
     const {
         medicalInterventionDetails,
         isMedicalInterventionDetailsLoaded,

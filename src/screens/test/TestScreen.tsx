@@ -1,6 +1,5 @@
 import './TestScreen.scss';
 import React from "react";
-import IcdCodingToolComponent from "../../shared/components/icd-coding-tool/IcdCodingToolComponent";
 // import ColorPickerComponent from "../../shared/components/form-controls/color-picker/ColorPickerComponent";
 
 
