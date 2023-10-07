@@ -1054,7 +1054,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                                 <div className="ts-col-lg-3 ts-col-md-6 ts-col-sm-6 ">
                                     <BillingStatsCardComponent
                                         title={"Total Amount"}
-                                        amount={billingStats.total_payments}
+                                        amount={billingStats?.total_payments}
                                         icon={<ImageConfig.TotalAmount/>}
                                     />
                                 </div>
@@ -1062,21 +1062,21 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                                 <div className="ts-col-lg-3 ts-col-md-6 ts-col-sm-6">
                                     <BillingStatsCardComponent
                                         title={"Pending Payments"}
-                                        amount={billingStats.pending_payments}
+                                        amount={billingStats?.pending_payments}
                                         icon={<ImageConfig.PendingPayments/>}
                                     />
                                 </div>
                                 <div className="ts-col-lg-3 ts-col-md-6 ts-col-sm-6">
                                     <BillingStatsCardComponent
                                         title={"Completed Payments"}
-                                        amount={billingStats.completed_payments}
+                                        amount={billingStats?.completed_payments}
                                         icon={<ImageConfig.CompletedPayments/>}
                                     />
                                 </div>
                                 <div className="ts-col-lg-3 ts-col-md-6 ts-col-sm-6">
                                     <BillingStatsCardComponent
                                         title={"Discount Amount"}
-                                        amount={billingStats.discounts}
+                                        amount={billingStats?.discounts}
                                         icon={<ImageConfig.PendingAmount/>}
                                     />
                                 </div>
