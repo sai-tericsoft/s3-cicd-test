@@ -1,54 +1,58 @@
 import "./IcdCodingToolComponent.scss";
-import {useEffect, useState} from "react";
+import React from "react";
 import * as ECT from "@whoicd/icd11ect";
 import "@whoicd/icd11ect/style.css";
 
-interface IcdCodingToolComponentProps {
-    onSelection:Function;
+interface ParentComponentProps {
+    onCodeSelect: (selectedCode: any) => void;
 }
 
-const IcdCodingToolComponent = (props: IcdCodingToolComponentProps) => {
-    const {onSelection} = props;
-    const [iNo] = useState(1); // instance number
+class IcdCodingToolComponent extends React.Component<ParentComponentProps> {
+    iNo = 1;
 
-    useEffect(() => {
-        // configure ECT on mount
+    constructor(props: ParentComponentProps) {
+        super(props);
+
+        // configure the ECT
         const settings = {
             apiServerUrl: "https://icd11restapi-developer-test.azurewebsites.net",
-            autoBind: false
+            autoBind: false,
         };
-
         const callbacks = {
             selectedEntityFunction: (selectedEntity: any) => {
-                onSelection(selectedEntity);
-                ECT.Handler.clear(iNo);
-            }
-        }
+                // Call the parent component's callback function with the selected code
+                this.props.onCodeSelect(selectedEntity);
 
+                // Clear the search results
+                ECT.Handler.clear(this.iNo);
+            },
+        };
         ECT.Handler.configure(settings, callbacks);
-        ECT.Handler.bind(iNo); // bind after mount
-        //@ts-ignore
-    }); // empty deps array to run only on mount
+    }
 
-    return (
-        <div className={'icd-coding-tool-component'}>
-            <div className={'icd-coding-tool-title'}>ICD-11 Coding Tool v1.6</div>
-            <div className={'icd-coding-tool-content-window'}>
-                <div className={'icd-coding-search-component'}>
-                    <input
-                        type="text"
-                        className="ctw-input"
-                        autoComplete="off"
-                        placeholder={'Type for starting the search'}
-                        data-ctw-ino={iNo}
-                    />
-                    {/*<span className="clear" onClick={ECT.Handler.clear('1')}>❌ </span>*/}
+    componentDidMount() {
+        // Manual binding only after the component has been mounted
+        ECT.Handler.bind(this.iNo);
+    }
+
+    render() {
+        return (
+            <div className={'icd-coding-tool-component'}>
+                <div className={'icd-coding-tool-title'}>ICD-11 Coding Tool v1.6</div>
+                <div className={'icd-coding-tool-content-window'}>
+                    <div className={'icd-coding-search-component'}>
+                        <input
+                            type="text"
+                            className="ctw-input"
+                            autoComplete="off"
+                            data-ctw-ino={this.iNo}
+                        />
+                        <div className="ctw-window" data-ctw-ino={this.iNo}></div>
+                    </div>
                 </div>
-                <div className="ctw-window" data-ctw-ino={iNo}></div>
             </div>
-        </div>
-    );
-
-};
+        );
+    }
+}
 
 export default IcdCodingToolComponent;

@@ -250,7 +250,7 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
                 isOpen={openIframe}
                 onClose={() => setOpenIframe(false)}
             >
-                <IcdCodingToolComponent onSelection={(selectedIcdCode: any) => {
+                <IcdCodingToolComponent onCodeSelect={(selectedIcdCode: any) => {
                     setSelectedICDCodes([...selectedICDCodes, {
                         icd_code: selectedIcdCode.code,
                         description: selectedIcdCode.selectedText

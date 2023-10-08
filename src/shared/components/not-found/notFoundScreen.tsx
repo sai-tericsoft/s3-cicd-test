@@ -30,7 +30,7 @@ const NotFoundScreen = (props: NotFoundScreenProps) => {
                     variant={"contained"}
                     color={"primary"}
                 >
-                    Go back to Home
+                    Back to Home
                 </ButtonComponent>
             </div>
         </div>
