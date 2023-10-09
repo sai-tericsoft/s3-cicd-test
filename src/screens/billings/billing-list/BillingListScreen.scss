@@ -1,11 +1,16 @@
 .payment-list-component {
-  .consolidation-switch-wrapper{
+  .t-tab-panel {
+    margin: 0 0 0 0 !important;
+  }
+
+  .consolidation-switch-wrapper {
     display: flex;
     align-items: center;
     margin-top: -24px;
     margin-bottom: 3px;
     margin-left: 9px;
-    .consolidation-switch-label-component{
+
+    .consolidation-switch-label-component {
       color: #212B36;
       font-feature-settings: 'clig' off, 'liga' off;
       font-size: 14px;
@@ -13,47 +18,45 @@
       font-weight: 700;
       letter-spacing: 0.5px;
       margin-left: -10px;
-      &.disabled{
+
+      &.disabled {
         color: #212B36;
         opacity: 0.3;
       }
     }
   }
+
   .t-tabs-wrapper {
     height: calc(100vh - 240px);
   }
 
   .t-table-wrapper {
-    height: calc(100vh - 330px) !important;
-  .t-table {
-    min-height: calc(100vh - 330px) !important;
-    .table-no-data-wrapper {
-      min-height: calc(100vh - 440px) !important;
-    }
-  }
-  }
-  .client-billing{
-    .t-tabs-wrapper {
-      height: calc(100vh - 280px) !important;
-    }
-    .t-tab-panel{
-      padding: 0 !important;
-    }
-    .table-component{
-      margin-top: 30px !important;
-    }
+    height: calc(100vh - 420px) !important;
 
-    .t-table-wrapper .t-table {
-      height: calc(100vh - 420px) !important;
-
-
+    .t-table {
+      min-height: calc(100vh - 420px) !important;
       .table-no-data-wrapper {
         min-height: calc(100vh - 500px) !important;
       }
-
     }
   }
-  .search-component{
+
+  .t-tabs-wrapper {
+    height: calc(100vh - 280px) !important;
+  }
+
+  .t-tab-panel {
+    padding: 0 !important;
+  }
+
+  .t-table-wrapper .t-table {
+    height: calc(100vh - 420px) !important;
+
+
+
+  }
+
+  .search-component {
     margin-left: -10px !important;
   }
 

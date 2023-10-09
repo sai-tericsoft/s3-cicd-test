@@ -1047,8 +1047,8 @@
 
 .transfer-file-to {
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: left;
+  align-items: baseline;
   flex-direction: column;
   margin-bottom: 40px;
   margin-left: 35px;
@@ -1056,7 +1056,7 @@
 
   .client-case-name-title {
     font-weight: 600;
-
+    text-align: left;
   }
 }
 

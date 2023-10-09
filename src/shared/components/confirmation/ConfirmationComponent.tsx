@@ -91,10 +91,10 @@ const ConfirmationComponent = (props: ConfirmationComponentProps) => {
                     {config?.image && <div className="confirmation-dialog-image-container">
                         <div className={"confirmation-dialog-image"}>
                             {
-                                config.showLottie ? <LottieFileGenerationComponent
+                                config?.showLottie ? <LottieFileGenerationComponent
                                     loop={true}
                                     autoplay={true}
-                                    animationData={config.image}/> : <div>
+                                    animationData={config?.image}/> : <div>
 
                                     {(typeof (config?.image) === 'string') &&
                                     <img src={config?.image} alt={config?.confirmationTitle}/>}

@@ -54,7 +54,7 @@ const AllMessageHistoryComponent = (props: AllMessageHistoryComponentProps) => {
 
     const handleMessageDelete = useCallback((messageId: string) => {
         CommonService.onConfirm({
-            image: ImageConfig.DeleteAttachmentConfirmationIcon,
+            image: ImageConfig.ConfirmationLottie,
             confirmationTitle: "DELETE MESSAGE",
             confirmationSubTitle: "Are you sure you want to delete this message from\n" +
                 "message board? This action cannot be undone."

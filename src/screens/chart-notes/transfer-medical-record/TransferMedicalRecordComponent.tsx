@@ -221,10 +221,10 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
                 confirmationSubTitle: "Are you sure you want to transfer this file to : ",
                 confirmationDescription: <div className="transfer-file-to">
                         <div className={'mrg-bottom-10'}>
-                            <span className={'client-case-name-title'}>Client:</span> <span>{selectedClient?.first_name} {selectedClient?.last_name}</span>
+                            <span className={'client-case-name-title mrg-left-10'}>Client:</span> <span>{selectedClient?.first_name} {selectedClient?.last_name}</span>
                         </div>
                         <div>
-                            <span className={'client-case-name-title mrg-left-15'}>&nbsp;Case:</span> <span>{selectedMedicalRecordToTransferUnder?.injury_details?.map((injury: any, index: number) => {
+                            <span className={'client-case-name-title mrg-left-10'}>Case:</span> <span>{selectedMedicalRecordToTransferUnder?.injury_details?.map((injury: any, index: number) => {
                             return <>{injury.body_part_details.name} {injury.body_side ? `(${injury.body_side})` : ''} {index !== selectedMedicalRecordToTransferUnder?.injury_details.length - 1 ? <> | </> : ""}</>
                         })}</span>
                         </div>

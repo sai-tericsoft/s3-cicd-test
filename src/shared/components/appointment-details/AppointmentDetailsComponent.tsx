@@ -240,35 +240,35 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
                                 </div>
                                 <div className="block-content mrg-left-40">
                                     {details?.status === 'scheduled' &&
-                                    <MenuDropdownComponent menuBase={
-                                        <ButtonComponent size={'large'} className={'select-dropdown'}
-                                                         variant={'outlined'} fullWidth={true}>
-                                            Select Action &nbsp;<ImageConfig.SelectDropDownIcon/>
-                                        </ButtonComponent>
-                                    } menuOptions={
-                                        [
-                                            <ListItem onClick={onReschedule}>Reschedule Appointment</ListItem>,
-                                            <ListItem onClick={onCancelAppointment}>Cancel Appointment</ListItem>,
-                                            <ListItem onClick={onNoShow}>No Show</ListItem>,
-                                        ]
-                                    }
-                                    />}
+                                        <MenuDropdownComponent menuBase={
+                                            <ButtonComponent size={'large'} className={'select-dropdown'}
+                                                             variant={'outlined'} fullWidth={true}>
+                                                Select Action &nbsp;<ImageConfig.SelectDropDownIcon/>
+                                            </ButtonComponent>
+                                        } menuOptions={
+                                            [
+                                                <ListItem onClick={onReschedule}>Reschedule Appointment</ListItem>,
+                                                <ListItem onClick={onCancelAppointment}>Cancel Appointment</ListItem>,
+                                                <ListItem onClick={onNoShow}>No Show</ListItem>,
+                                            ]
+                                        }
+                                        />}
                                 </div>
 
                                 <div className="block-content">
                                     {details?.status === 'engaged' &&
-                                    <MenuDropdownComponent menuBase={
-                                        <ButtonComponent size={'large'} className={'select-dropdown'}
-                                                         variant={'outlined'}>
-                                            Select Action &nbsp;<ImageConfig.SelectDropDownIcon/>
-                                        </ButtonComponent>
-                                    } menuOptions={
-                                        [
-                                            <ListItem onClick={onReschedule}>Reschedule Appointment</ListItem>,
-                                            <ListItem onClick={onCancelAppointment}>Cancel Appointment</ListItem>,
-                                        ]
-                                    }
-                                    />}
+                                        <MenuDropdownComponent menuBase={
+                                            <ButtonComponent size={'large'} className={'select-dropdown'}
+                                                             variant={'outlined'}>
+                                                Select Action &nbsp;<ImageConfig.SelectDropDownIcon/>
+                                            </ButtonComponent>
+                                        } menuOptions={
+                                            [
+                                                <ListItem onClick={onReschedule}>Reschedule Appointment</ListItem>,
+                                                <ListItem onClick={onCancelAppointment}>Cancel Appointment</ListItem>,
+                                            ]
+                                        }
+                                        />}
                                 </div>
                             </div>
                         </div>
@@ -325,7 +325,7 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
                                             <ChipComponent className={'mrg-left-80'} color={'success'}
                                                            label={bookType?.title}/>&nbsp;&nbsp;
                                             <ChipComponent className={'minutes-chip'} color={'success'}
-                                                           label={details?.service_details?.name + ' - ' + details.duration + ' mins'}/>
+                                                           label={details.duration + ' mins'}/>
                                         </div>
                                     </div>
                                     <div className="details-body-block">

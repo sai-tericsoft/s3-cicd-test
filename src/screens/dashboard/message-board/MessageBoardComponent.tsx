@@ -53,7 +53,7 @@ const MessageBoardComponent = (props: MessageBoardComponentProps) => {
 
     const handleMessageDelete = useCallback((messageId: string) => {
         CommonService.onConfirm({
-            image: ImageConfig.PopupLottie,
+            image: ImageConfig.ConfirmationLottie,
             showLottie:true,
             confirmationTitle: "DELETE MESSAGE",
             confirmationSubTitle: "Are you sure you want to delete this message from\n" +

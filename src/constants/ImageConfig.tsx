@@ -153,7 +153,6 @@ export {
     CircleCheck,
     CircleCancel,
     CircleInfo,
-
     CloseIcon,
     LogoSM,
 

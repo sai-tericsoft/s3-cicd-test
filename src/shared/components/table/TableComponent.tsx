@@ -195,7 +195,7 @@ const TableComponent = (props: TableComponentProps) => {
                         {
                             !errored && <div {...getTableBodyProps()} className="body t-body">
                                 {
-                                    rows.length > 0 && rows.map((row: any, index) => {
+                                    rows?.length > 0 && rows.map((row: any, index) => {
                                         prepareRow(row);
                                         return (
                                             <>
@@ -224,7 +224,7 @@ const TableComponent = (props: TableComponentProps) => {
                                     })
                                 }
                                 {
-                                    (!loading && rows.length === 0) &&
+                                    (!loading && rows?.length === 0) &&
 
                                     <div className="table-no-data-wrapper">
                                         <>

@@ -545,10 +545,10 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                                                                            route={CommonService._routeConfig.MedicalInterventionROMConfig(medicalRecordId, medicalInterventionId)}>
                                                                                                            <ButtonComponent
                                                                                                                size={"small"}
-                                                                                                               prefixIcon={(medicalInterventionDetails?.rom_config && medicalInterventionDetails?.rom_config.length > 0) ?
+                                                                                                               prefixIcon={(medicalInterventionDetails?.rom_config && medicalInterventionDetails?.rom_config?.length > 0) ?
                                                                                                                    <ImageConfig.EditIcon/> :
                                                                                                                    <ImageConfig.AddIcon/>}>
-                                                                                                               {medicalInterventionDetails?.rom_config && medicalInterventionDetails?.rom_config.length > 0 ? 'Edit' : 'Add'}
+                                                                                                               {medicalInterventionDetails?.rom_config && medicalInterventionDetails?.rom_config?.length > 0 ? 'Edit' : 'Add'}
                                                                                                            </ButtonComponent>
                                                                                                        </LinkComponent>
                                                                                                    }

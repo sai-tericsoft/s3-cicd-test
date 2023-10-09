@@ -146,7 +146,7 @@ const TransferSoapNoteComponent = (props: TransferSoapNoteComponentProps) => {
 
     const handleTransferSoapNote = useCallback(() => {
         CommonService.onConfirm({
-            image: ImageConfig.Confirm,
+            image: ImageConfig.PopupLottie,
             showLottie: true,
             confirmationTitle: "TRANSFER SOAP TO",
             confirmationSubTitle: 'Are you sure you want to transfer this SOAP to:',

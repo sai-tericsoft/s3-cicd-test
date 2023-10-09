@@ -455,6 +455,7 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
                                                                         className="total-minutes-wrapper">{totalMinutes}</div>
                                                                 </div>
                                                             }
+                                                            noDataText={"No CPT code has been added yet."}
                                                             columns={CPTCodesColumns}/>
                                                     </div>
                                                 </CardComponent>

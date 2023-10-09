@@ -66,7 +66,7 @@ const TableV2Component = (props: TableV2ComponentProps) => {
     }, [props.columns]);
 
     const handleTableChange = useCallback((pagination: TablePaginationConfig, filters: any, sorter: any, extra: any) => {
-        if (Object.entries(sorter).length && onSort) {
+        if (Object.entries(sorter)?.length && onSort) {
             onSort(sorter.field, sorter.order);
         }
     }, [onSort]);

@@ -255,7 +255,6 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
                         icd_code: selectedIcdCode.code,
                         description: selectedIcdCode.selectedText
                     }]);
-                    setOpenIframe(false)
                 }}/>
             </DrawerComponent>
         </div>

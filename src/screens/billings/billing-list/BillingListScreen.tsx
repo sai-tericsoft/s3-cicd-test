@@ -24,7 +24,7 @@ import FormControlLabelComponent from "../../../shared/components/form-control-l
 import SelectComponent from "../../../shared/components/form-controls/select/SelectComponent";
 import {IRootReducerState} from "../../../store/reducers";
 import {IAPIResponseType} from "../../../shared/models/api.model";
-import {useLocation, useParams, useSearchParams} from "react-router-dom";
+import {useLocation, useNavigate, useParams, useSearchParams} from "react-router-dom";
 import ToolTipComponent from "../../../shared/components/tool-tip/ToolTipComponent";
 import DateRangePickerComponent
     from "../../../shared/components/form-controls/date-range-picker/DateRangePickerComponent";
@@ -71,6 +71,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
     const [isBillingStatsBeingLoading, setIsBillingStatsBeingLoading] = useState<boolean>(false);
     const [isBillingStatsBeingLoadingFailed, setIsBillingStatsBeingLoadingFailed] = useState<boolean>(false);
     const [billingStats, setBillingStats] = useState<any>(undefined);
+    const navigate = useNavigate();
 
     const [isPaymentsGettingConsolidated, setIsPaymentsGettingConsolidated] = useState<boolean>(false);
 
@@ -306,7 +307,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                 return <LinkComponent
                     route={CommonService._routeConfig.BillingDetails(item?._id) + '?referrer=' + location.pathname + '&type=invoice'}>
                     {
-                        (item?.appointment_details?.appointment_number).length > 10 ?
+                        (item?.appointment_details?.appointment_number)?.length > 10 ?
                             <ToolTipComponent
                                 tooltip={item?.appointment_details?.appointment_number}
                                 showArrow={true}
@@ -361,7 +362,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             dataIndex: 'action',
             render: (item: any) => {
                 return <LinkComponent
-                    route={CommonService._routeConfig.BillingDetails(item?._id) + '?referrer=' + location.pathname + '&type=invoice'}>
+                    route={CommonService._routeConfig.BillingDetails(item?._id) + '?referrer=' + location?.pathname + '&type=invoice'}>
                     View Details
                 </LinkComponent>
             }
@@ -995,13 +996,13 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                                     </ButtonComponent>&nbsp;&nbsp;
                                 </>
                             }
-                            {!clientId && <LinkComponent route={CommonService._routeConfig.AddNewReceipt()}>
-                                <ButtonComponent prefixIcon={<ImageConfig.AddIcon/>}>
+                            {!clientId &&
+                                <ButtonComponent prefixIcon={<ImageConfig.AddIcon/>}
+                                onClick={()=>navigate(CommonService._routeConfig.AddNewReceipt())}>
                                     New Receipt
                                 </ButtonComponent>
-                            </LinkComponent>}
+                           }
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -1111,9 +1112,9 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                                                <div>{clientListFilterState.search ?
                                                    <img src={ImageConfig.Search} alt="client-search"/> : ''}</div>
                                                <div
-                                                   className={'no-client-heading mrg-bottom-15'}>{clientListFilterState.search ? 'Sorry, no results found!' : ''}</div>
+                                                   className={'no-client-heading mrg-bottom-15'}>{clientListFilterState?.search ? 'Sorry, no results found!' : ''}</div>
                                                <div className={'no-client-description'}>
-                                                   {clientListFilterState.search ? 'There is no payment available by the client name you have searched.' : 'Currently there is no pending payments.'}
+                                                   {clientListFilterState?.search ? 'There is no payment available by the client name you have searched.' : 'Currently there is no pending payments.'}
                                                </div>
                                            </div>)}
                                            method={APIConfig.PENDING_PAYMENT_LIST.METHOD}
