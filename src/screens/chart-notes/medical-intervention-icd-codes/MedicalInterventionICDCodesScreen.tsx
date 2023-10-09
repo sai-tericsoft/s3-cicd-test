@@ -217,7 +217,9 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
             </div>
             <TableV2Component
                 data={selectedICDCodes}
-                columns={selectesICDCodesColumns}/>
+                columns={selectesICDCodesColumns}
+                noDataText={"No ICD Codes selected"}
+            />
 
             <div className="text-center d-flex align-items-center justify-content-center">
                 {(medicalRecordId && medicalInterventionId) && <LinkComponent
