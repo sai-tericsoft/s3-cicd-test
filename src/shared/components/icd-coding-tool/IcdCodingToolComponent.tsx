@@ -24,7 +24,7 @@ class IcdCodingToolComponent extends React.Component<ParentComponentProps> {
                 this.props.onCodeSelect(selectedEntity);
 
                 // Clear the search results
-                ECT.Handler.clear(this.iNo);
+                // ECT.Handler.clear(this.iNo);
             },
         };
         ECT.Handler.configure(settings, callbacks);
