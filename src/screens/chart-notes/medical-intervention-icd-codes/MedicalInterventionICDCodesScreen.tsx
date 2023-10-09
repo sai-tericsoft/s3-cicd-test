@@ -253,6 +253,11 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
                 onClose={() => setOpenIframe(false)}
             >
                 <IcdCodingToolComponent onCodeSelect={(selectedIcdCode: any) => {
+                    //check before adding
+                    if (selectedICDCodes.find((code) => code?.icd_code === selectedIcdCode.code)) {
+                        CommonService._alert.showToast('ICD Code already added', "error");
+                        return;
+                    }
                     setSelectedICDCodes([...selectedICDCodes, {
                         icd_code: selectedIcdCode.code,
                         description: selectedIcdCode.selectedText
