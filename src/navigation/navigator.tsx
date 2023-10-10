@@ -112,6 +112,7 @@ import {
     USER_SLOTS_DETAILS,
     USER_SLOTS_EDIT,
     VIEW_MEDICAL_INTERVENTION, PASSWORD_RESET_SUCCESS_ROUTE,
+    CLIENT_SHARED_DOCUMENTS
 } from "../constants/RoutesConfig";
 import MedicalInterventionRomConfigScreen
     from "../screens/chart-notes/medical-intervention-rom-config/MedicalInterventionRomConfigScreen";
@@ -198,6 +199,7 @@ import NoInternetComponent from "../shared/components/no-internet/NoInternetComp
 import OtpVerificationScreen from "../screens/auth/otp-verification-screen/OtpVerificationScreen";
 import ResetPasswordScreen from "../screens/auth/reset-password/ResetPasswordScreen";
 import PasswordResetSuccessfulScreen from "../screens/auth/password-reset-successful/PasswordResetSuccessfulScreen";
+import ClientSharedDocumentsComponent from "../screens/clients/client-shared-documents/ClientSharedDocumentsComponent";
 
 
 const ProtectedRoute = (props: React.PropsWithChildren<any>) => {
@@ -308,6 +310,12 @@ const Navigator = (props: NavigatorProps) => {
                                 </ProtectedRoute>
                             }
                         />
+                        <Route path={CLIENT_SHARED_DOCUMENTS} element={
+                            <ProtectedRoute>
+                                <ClientSharedDocumentsComponent/>
+                            </ProtectedRoute>
+                        }
+                               />
                         <Route path={CLIENT_DETAILS} element={<ClientDetailsScreen/>} {...props}>
                             <Route
                                 index

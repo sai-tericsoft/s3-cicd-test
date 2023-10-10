@@ -79,6 +79,7 @@ export interface IClientDocumentsFilterState {
     date_range: any;
     start_date: any;
     end_date: any;
+    is_shared?: any;
 }
 
 export interface IEmergencyContactInfo {

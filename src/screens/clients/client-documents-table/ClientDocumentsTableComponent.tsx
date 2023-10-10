@@ -10,6 +10,7 @@ import ToolTipComponent from "../../../shared/components/tool-tip/ToolTipCompone
 import {useLocation} from "react-router-dom";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
+import commonService from "../../../shared/services/common.service";
 interface ClientDocumentsTableComponentProps {
     clientId: string | undefined;
     clientDocumentListFilterState: IClientDocumentsFilterState
@@ -34,9 +35,40 @@ const ClientDocumentsTableComponent = (props: ClientDocumentsTableComponentProps
         }
     }, [clientDocumentListFilterState]);
 
-    const handleRemoveAccess = useCallback((item: any) => {
+    const removeAccess = useCallback((item:any)=>{
+        const payload = {
+            is_shared:false
+        }
+        CommonService._chartNotes.MedicalRecordDocumentEditAPICall(item?._id, payload)
+            .then((response: any) => {
+                CommonService._communications.TableWrapperRefreshSubject.next({
+                    moduleName: moduleName
+                });
+                commonService._alert.showToast("Access removed successfully", "success");
+            })
+            .catch((error: any) => {
+                CommonService._alert.showToast(error.error || "Error removing access", "error");
+            });
 
-    },[]);
+    },[moduleName])
+
+    const handleRemoveAccess = useCallback((item: any) => {
+        commonService.openConfirmationDialog({
+            confirmationTitle: "REMOVE SHARED DOCUMENT",
+            confirmationSubTitle: "Are you sure you want to remove the shared document from the client?",
+            image: `${ImageConfig.confirmImage}`,
+            yes: {
+                text: "Yes",
+                color: "primary"
+            },
+            no: {
+                text: "No",
+                color: "primary"
+            }
+        }).then((res: any) => {
+            removeAccess(item);
+        })
+    }, [removeAccess]);
 
     const ClientDocumentListTableColumns: ITableColumn[] = [
         {
@@ -246,8 +278,8 @@ const ClientDocumentsTableComponent = (props: ClientDocumentsTableComponentProps
         },
         {
             title: "",
-            dataIndex: "actions",
-            key: "actions",
+            dataIndex: "remove",
+            key: "remove",
             width: 120,
             fixed: "right",
             align: "center",
@@ -256,14 +288,14 @@ const ClientDocumentsTableComponent = (props: ClientDocumentsTableComponentProps
                     <ButtonComponent
                         prefixIcon={<CancelOutlinedIcon/>}
                         onClick={() => {
-
+                            handleRemoveAccess(item);
                         }
                         }
                         color={'error'}
+                        variant={'outlined'}
                     >
                         Remove Access
                     </ButtonComponent>
-
                 )
             }
         },
@@ -304,7 +336,7 @@ const ClientDocumentsTableComponent = (props: ClientDocumentsTableComponentProps
                     <TableWrapperComponent
                         url={APIConfig.GET_CLIENT_DOCUMENTS.URL(clientId)}
                         method={APIConfig.GET_CLIENT_DOCUMENTS.METHOD}
-                        columns={clientDocumentListFilterState ?ClientSharedDocumentListTableColumns : ClientDocumentListTableColumns}
+                        columns={clientDocumentListFilterState?.is_shared ? ClientSharedDocumentListTableColumns : ClientDocumentListTableColumns}
                         extraPayload={clientDocumentFilters}
                         moduleName={moduleName}
                         noDataText={'No Documents To Show'}
