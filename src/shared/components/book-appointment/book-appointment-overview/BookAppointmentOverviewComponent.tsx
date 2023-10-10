@@ -169,7 +169,7 @@ const BookAppointmentOverviewComponent = (props: BookAppointmentOverviewComponen
                                         </div>
                                         <div className={'ts-col-6'}>
                                             <ChipComponent className={'minutes-chip'} color={'success'}
-                                                           label={bookingDraft?.service?.name + " - " + bookingDraft?.duration.duration + ' mins'}/>
+                                                           label={ bookingDraft?.duration.duration + ' mins'}/>
                                         </div>
                                     </div>
                                 </div>

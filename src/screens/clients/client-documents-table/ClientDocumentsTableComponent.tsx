@@ -3,12 +3,13 @@ import {IClientDocumentsFilterState} from "../../../shared/models/client.model";
 import {ITableColumn} from "../../../shared/models/table.model";
 import TableWrapperComponent from "../../../shared/components/table-wrapper/TableWrapperComponent";
 import {APIConfig, ImageConfig} from "../../../constants";
-import React, {useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import {CommonService} from "../../../shared/services";
 import LinkComponent from "../../../shared/components/link/LinkComponent";
 import ToolTipComponent from "../../../shared/components/tool-tip/ToolTipComponent";
 import {useLocation} from "react-router-dom";
-
+import ButtonComponent from "../../../shared/components/button/ButtonComponent";
+import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
 interface ClientDocumentsTableComponentProps {
     clientId: string | undefined;
     clientDocumentListFilterState: IClientDocumentsFilterState
@@ -32,6 +33,10 @@ const ClientDocumentsTableComponent = (props: ClientDocumentsTableComponentProps
             setClientDocumentFilters(prePayload);
         }
     }, [clientDocumentListFilterState]);
+
+    const handleRemoveAccess = useCallback((item: any) => {
+
+    },[]);
 
     const ClientDocumentListTableColumns: ITableColumn[] = [
         {
@@ -152,6 +157,146 @@ const ClientDocumentsTableComponent = (props: ClientDocumentsTableComponentProps
         }
     ];
 
+    const ClientSharedDocumentListTableColumns: ITableColumn[] = [
+        {
+            title: "Case Name",
+            key: "case_name",
+            dataIndex: "case_name",
+            width: 300,
+            align: "left",
+            fixed: "left",
+            render: (item: any) => {
+                if (item?._id) {
+                    return <>
+                        {CommonService.generateUseCaseFromCaseDetails(item?.case_details).length > 30 ?
+                            <ToolTipComponent
+                                tooltip={item?.case_details && CommonService.generateUseCaseFromCaseDetails(item?.case_details)}
+                                position={"top"}
+                                showArrow={true}
+                            >
+                                <div>
+                                    {item?.case_details && CommonService.generateUseCaseFromCaseDetails(item?.case_details).substring(0, 30) + '...'}
+                                </div>
+                            </ToolTipComponent> :
+                            <>
+                                {item?.case_details && CommonService.generateUseCaseFromCaseDetails(item?.case_details)}
+                            </>
+                        }
+                    </>
+                }
+            }
+        },
+        {
+            title: "File Name",
+            key: "file_name",
+            dataIndex: "file_name",
+            // sortable: true,
+            width: 150,
+            render: (item: any) => {
+                return <>
+                    {item?.note_type?.length > 15 ?
+                        <ToolTipComponent
+                            tooltip={item?.note_type && item?.note_type}
+                            position={"top"}
+                            showArrow={true}>
+                            <div>{item?.note_type?.substring(0, 15) + '...'}</div>
+                        </ToolTipComponent> : item?.note_type}
+                </>
+            }
+        },
+
+        {
+            title: "Date of Attachment",
+            key: "date_of_attachment_date",
+            dataIndex: "dateOfAttachment",
+            width: 200,
+            align: "center",
+            render: (item: any) => {
+                return <span>
+                    {item?.created_at ? CommonService.getSystemFormatTimeStamp(item?.created_at) : "-"}
+                </span>
+            }
+        },
+
+        {
+            title: 'Posted by',
+            key: 'posted_by',
+            dataIndex: 'first_name',
+            width: 150,
+            align: 'center',
+            render: (item: any) => {
+                return <>
+                    {
+                        (item?.posted_by?.first_name + ' ' + item?.posted_by?.last_name).length > 20 ?
+                            <ToolTipComponent
+                                tooltip={(item?.posted_by?.first_name + ' ' + item?.posted_by?.last_name)}
+                                position={"top"}
+                                showArrow={true}
+                            >
+                                <div className={"ellipses-for-table-data"}>
+                                    {CommonService.capitalizeFirstLetter(item?.posted_by?.first_name)} {CommonService.capitalizeFirstLetter(item?.posted_by?.last_name)}
+                                </div>
+                            </ToolTipComponent> :
+                            <>
+                                {CommonService.capitalizeFirstLetter(item?.posted_by?.first_name)} {CommonService.capitalizeFirstLetter(item?.posted_by?.last_name)}
+                            </>
+                    }
+                </>
+            }
+        },
+        {
+            title: "",
+            dataIndex: "actions",
+            key: "actions",
+            width: 120,
+            fixed: "right",
+            align: "center",
+            render: (item: any) => {
+                return (
+                    <ButtonComponent
+                        prefixIcon={<CancelOutlinedIcon/>}
+                        onClick={() => {
+
+                        }
+                        }
+                        color={'error'}
+                    >
+                        Remove Access
+                    </ButtonComponent>
+
+                )
+            }
+        },
+
+        {
+            title: "",
+            dataIndex: "actions",
+            key: "actions",
+            width: 120,
+            fixed: "right",
+            align: "center",
+            render: (item: any) => {
+                let route = '';
+                if (item.note_type_category.toLowerCase() === 'surgery record') {
+                    route = CommonService._routeConfig.MedicalRecordSurgeryRecordDetails(item.medical_record_id, item._id) + '?referrer=' + location.pathname + '&module_name=client_module';
+                } else if (item.note_type_category.toLowerCase() === 'dry needling') {
+                    route = CommonService._routeConfig.MedicalInterventionDryNeedlingFileViewDetails(item.medical_record_id, item._id) + '?referrer=' + location.pathname + '&module_name=client_module';
+                } else if (item.note_type_category.toLowerCase() === 'concussion') {
+                    route = CommonService._routeConfig.MedicalInterventionConcussionFileViewDetails(item.medical_record_id, item._id) + '?referrer=' + location.pathname + '&module_name=client_module';
+                } else if (item.note_type_category.toLowerCase() === 'document') {
+                    route = CommonService._routeConfig.MedicalRecordDocumentViewDetails(item.medical_record_id, item?._id) + '?referrer=' + location.pathname + '&module_name=client_module';
+                } else if (item.note_type_category.toLowerCase() === 'progress report') {
+                    route = CommonService._routeConfig.MedicalRecordProgressReportViewDetails(item.medical_record_id, item?._id) + '?referrer=' + location.pathname + '&module_name=client_module';
+                } else {
+                }
+                return <LinkComponent route={route}>
+                    {
+                        route ? "View Details" : "Coming soon"
+                    }
+                </LinkComponent>
+            }
+        }
+    ];
     return (
         <div className={'client-documents-list-table-component'}>
             {clientDocumentFilters &&
@@ -159,7 +304,7 @@ const ClientDocumentsTableComponent = (props: ClientDocumentsTableComponentProps
                     <TableWrapperComponent
                         url={APIConfig.GET_CLIENT_DOCUMENTS.URL(clientId)}
                         method={APIConfig.GET_CLIENT_DOCUMENTS.METHOD}
-                        columns={ClientDocumentListTableColumns}
+                        columns={clientDocumentListFilterState ?ClientSharedDocumentListTableColumns : ClientDocumentListTableColumns}
                         extraPayload={clientDocumentFilters}
                         moduleName={moduleName}
                         noDataText={'No Documents To Show'}
