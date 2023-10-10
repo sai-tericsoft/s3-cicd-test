@@ -35,6 +35,7 @@ const CLIENT = "client";
 const CLIENT_LIST = "/client/client-list";
 const CLIENT_ADD = "/client/client-add";
 const CLIENT_DETAILS = "/client/:clientId";
+const CLIENT_SHARED_DOCUMENTS = "/client/:clientId/client-shared-documents";
 const CLIENT_PROFILE_DETAILS = "client-profile-details";
 const CLIENT_BILLING_DETAILS = "client-billing-details";
 const CLIENT_DOCUMENTS = "client-documents";
@@ -197,4 +198,5 @@ export {
     USER_SLOTS_EDIT,
     BILLING_SETTINGS,
     CONSOLIDATED_BILLING_DETAILS,
+    CLIENT_SHARED_DOCUMENTS
 };

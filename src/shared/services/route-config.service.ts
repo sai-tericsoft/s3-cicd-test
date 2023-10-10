@@ -135,6 +135,9 @@ const ClientBillingDetails = (clientId: string) => {
 const ClientDocuments = (clientId: string) => {
     return '/client/' + clientId + '/client-documents';
 }
+const ClientSharedDocuments = (clientId: string) => {
+    return '/client/' + clientId + '/client-shared-documents';
+}
 
 const clientDocumentViewDetails = (clientId: any, clientDocumentId: string) => {
     return "/client/" + clientId + "/" + clientDocumentId + '/client-document-view-details';
@@ -446,6 +449,7 @@ const RouteConfigService = {
     Settings,
     BillingSettings,
     ConsolidatedBillingDetails,
+    ClientSharedDocuments
 
 }
 

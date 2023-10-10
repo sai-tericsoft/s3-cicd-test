@@ -9,6 +9,8 @@ import DateRangePickerComponent
 import ClientDocumentsTableComponent from "../client-documents-table/ClientDocumentsTableComponent";
 import {useNavigate, useParams, useSearchParams} from "react-router-dom";
 import {CommonService} from "../../../shared/services";
+import ButtonComponent from "../../../shared/components/button/ButtonComponent";
+import RemoveRedEyeRoundedIcon from '@mui/icons-material/RemoveRedEyeRounded';
 
 const CLIENT_DOCUMENT_LIST_TABLE = "ClientListScreen";
 
@@ -42,7 +44,7 @@ const ClientDocumentsComponent = (props: ClientDocumentsComponentProps) => {
 
     return (
         <div className={'client-document-list-screen'}>
-            <div className="ts-row">
+            <div className="client-documents-header-wrapper">
                 {/*<div className="ts-col-md-6 ts-col-lg-5">*/}
                 {/*    <AutoCompleteComponent*/}
                 {/*        size={'small'}*/}
@@ -70,7 +72,7 @@ const ClientDocumentsComponent = (props: ClientDocumentsComponentProps) => {
                 {/*        }*/}
                 {/*    />*/}
                 {/*</div>*/}
-                <div className="ts-col-md-6 ts-col-lg-3 date-range-wrapper">
+                <div className="date-range-wrapper">
                     <DateRangePickerComponent
                         label={"Select Date Range"}
                         value={clientDocumentListFilterState.date_range}
@@ -85,6 +87,16 @@ const ClientDocumentsComponent = (props: ClientDocumentsComponentProps) => {
                             }
                         }}
                     />
+                </div>
+                <div>
+                    <ButtonComponent
+                        prefixIcon={<RemoveRedEyeRoundedIcon/>}
+                        onClick={() => {
+                            clientId && navigate(CommonService._routeConfig.ClientSharedDocuments(clientId));
+                        }}
+                    >
+                        View Shared Documents
+                    </ButtonComponent>
                 </div>
             </div>
             <>

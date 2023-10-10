@@ -1,4 +1,8 @@
 .client-document-list-screen{
+  .client-documents-header-wrapper{
+    display: flex;
+    justify-content: space-between;
+  }
   .date-range-wrapper{
     margin-bottom: 17px;
   }
