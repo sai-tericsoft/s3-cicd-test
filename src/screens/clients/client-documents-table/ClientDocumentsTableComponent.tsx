@@ -280,7 +280,7 @@ const ClientDocumentsTableComponent = (props: ClientDocumentsTableComponentProps
             title: "",
             dataIndex: "remove",
             key: "remove",
-            width: 120,
+            width: 150,
             fixed: "right",
             align: "center",
             render: (item: any) => {

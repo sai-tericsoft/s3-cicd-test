@@ -370,23 +370,28 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
                                 {isFullCardOpen && <>
                                     <div className={'ts-row'}>
                                         <div className={'ts-col-md-4 ts-col-lg'}>
+
                                             <DataLabelValueComponent label={'Injury/Condition Description'}>
-                                                {clientMedicalRecord?.injury_description ? clientMedicalRecord?.injury_description.split("\n").map((i: any, key: any) => {
-                                                    return <li key={key}>{i}</li>;
-                                                }) : "N/A"}
+                                                <ul>
+                                                    {clientMedicalRecord?.injury_description ? clientMedicalRecord?.injury_description.split("\n")?.filter((i: any) => i !== "")?.map((i: any, key: any) => {
+                                                        return <li key={key}>{i}</li>;
+                                                    }) : "N/A"}
+                                                </ul>
                                             </DataLabelValueComponent>
+
                                         </div>
                                     </div>
                                     <div className={'ts-row'}>
                                         <div className={'ts-col-md-4 ts-col-lg'}>
                                             <DataLabelValueComponent label={'Restrictions/Limitations'}>
-                                                {clientMedicalRecord?.limitations ? clientMedicalRecord?.limitations.split("\n").map((i: any, key: any) => {
-                                                    return <li key={key}>{i}</li>;
-                                                }) : "N/A"}
+                                                <ul>
+                                                    {clientMedicalRecord?.limitations ? clientMedicalRecord?.limitations.split("\n")?.filter((i: any) => i !== "")?.map((i: any, key: any) => {
+                                                        return <li key={key}>{i}</li>;
+                                                    }) : "N/A"}
+                                                </ul>
                                             </DataLabelValueComponent>
+
                                         </div>
-                                        <div className={'ts-col-md-4 ts-col-lg'}/>
-                                        <div className={'ts-col-md-4 ts-col-lg'}/>
                                     </div>
                                 </>
                                 }
