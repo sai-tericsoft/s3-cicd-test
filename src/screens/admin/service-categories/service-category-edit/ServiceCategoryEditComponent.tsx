@@ -27,7 +27,8 @@ interface ServiceCategoryEditComponentProps {
 
 const serviceCategoryEditFormValidationSchema = Yup.object({
     name: Yup.string()
-        .required("Service Category Name is required"),
+        .required("Service Category Name is required")
+        .max(100, "Service Category Name should not exceed 100 characters"),
     description: Yup.string()
         .required("Description is required"),
     image: Yup.mixed()
