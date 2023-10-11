@@ -133,7 +133,7 @@ const ServiceCategoryEditComponent = (props: ServiceCategoryEditComponentProps) 
                                         {
                                             (field: FieldProps) => (
                                                 <FormikInputComponent
-                                                    label={'Name'}
+                                                    label={'Service Category Name'}
                                                     placeholder={'Enter Service Category Name'}
                                                     type={"text"}
                                                     required={true}
