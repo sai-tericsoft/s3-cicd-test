@@ -286,7 +286,7 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
             console.log(serviceId, providerId);
             setIsFacilityListLoading(true);
             setFacilityList([]);
-            CommonService._facility.providerFacilityList(serviceId, providerId, {is_active:true})
+            CommonService._facility.providerFacilityList(serviceId, providerId, {is_active: true})
                 .then((response: IAPIResponseType<any>) => {
                     setFacilityList(response.data || []);
                 })
@@ -558,7 +558,7 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
 
                                                     <FormikSelectComponent
                                                         formikField={field}
-                                                        required={servicesList.length === 0 ? false : true}
+                                                        required={true}
                                                         disabled={isServiceListLoading || !values?.service_category || (servicesList || []).length === 0}
                                                         options={servicesList || []}
                                                         displayWith={(option: any) => (option?.name || '')}
