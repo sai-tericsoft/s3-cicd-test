@@ -60,11 +60,11 @@ const ServiceEditFormInitialValues: IService = {
 
 const serviceEditFormValidationSchema = Yup.object({
     name: Yup.string()
-        .required('Service Name field is required'),
+        .required('Service Name is required'),
     description: Yup.string()
         .required("Service Description is required"),
     image: Yup.mixed()
-        .required('Image field is required'),
+        .required('Image is required'),
     initial_consultation: Yup.array(Yup.object({
             title: Yup.string().nullable(),
             consultation_details: Yup.array(Yup.object({
