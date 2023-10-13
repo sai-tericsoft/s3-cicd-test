@@ -16,3 +16,6 @@
   }
 
 }
+.modal-content-wrapper:has(.send-cancelled-statement){
+  width: 1000px !important;
+}

@@ -20,6 +20,7 @@ import ModalComponent from "../../../shared/components/modal/ModalComponent";
 import TableComponent from "../../../shared/components/table/TableComponent";
 import {ITableColumn} from "../../../shared/models/table.model";
 import ErrorComponent from "../../../shared/components/error/ErrorComponent";
+import CheckBoxComponent from "../../../shared/components/form-controls/check-box/CheckBoxComponent";
 
 interface BlockCalenderComponentProps {
     onAddSuccess: Function
@@ -81,9 +82,32 @@ const BlockCalendarComponent = (props: BlockCalenderComponentProps) => {
     const [isBlockCalendarIsProgress, setIsBlockCalendarIsProgress] = useState<boolean>();
     const [showAppointmentsModel, setIsShowAppointmentModel] = useState<any>(false);
     const [appointmentList, setAppointmentList] = useState<any[]>([])
-
-
+    const [selectedAppointments, setSelectedAppointments] = useState<any[]>([])
     const appointmentColumns: ITableColumn[] = useMemo<ITableColumn[]>(() => [
+        {
+            title: "",
+            key: "checkbox",
+            dataIndex: "checkbox",
+            width: 50,
+            render: (item: any) => {
+                return <>
+                    <CheckBoxComponent
+                        checked={selectedAppointments.includes(item?._id)}
+                        onChange={(isChecked: any) => {
+                            setSelectedAppointments((appointmentList: any) => {
+                                    if (isChecked) {
+                                        return [...appointmentList, item?._id]
+                                    } else {
+                                        return appointmentList.filter((appointment_id: any) => appointment_id !== item?._id)
+                                    }
+                                }
+                            )
+                        }}
+                    />
+                </>
+            }
+
+        },
         {
             title: "Appointment ID",
             key: "appointment_number",
@@ -138,7 +162,7 @@ const BlockCalendarComponent = (props: BlockCalenderComponentProps) => {
             }
         },
 
-    ], []);
+    ], [selectedAppointments]);
 
 
     const getProvidersList = useCallback(
@@ -163,11 +187,7 @@ const BlockCalendarComponent = (props: BlockCalenderComponentProps) => {
         setIsBlockCalendarIsProgress(true);
         const payload = {...blockCalenderFormDetails}
         delete payload.provider_id;
-        if (appointmentList && appointmentList.length > 0) {
-            payload.appointment_ids = appointmentList.map((item: any) => item.appointment_id)
-        } else {
-            payload.appointment_ids = [];
-        }
+        payload.appointment_ids = selectedAppointments;
         CommonService._appointment.BlockCalender(blockCalenderFormDetails?.provider_id, payload)
             .then((response: IAPIResponseType<IServiceCategory>) => {
                 CommonService._alert.showToast('Calendar has been blocked', "success");
@@ -178,7 +198,7 @@ const BlockCalendarComponent = (props: BlockCalenderComponentProps) => {
                 CommonService._alert.showToast(error?.error || "", "error");
                 setIsBlockCalendarIsProgress(false);
             })
-    }, [onAddSuccess, appointmentList]);
+    }, [onAddSuccess, appointmentList, selectedAppointments]);
 
     const handleBlockCalenderConfirmation = useCallback((blockCalenderFormDetails: any) => {
         CommonService.onConfirm({
@@ -188,11 +208,11 @@ const BlockCalendarComponent = (props: BlockCalenderComponentProps) => {
             confirmationSubTitle: "Are you sure you want to block your calendar",
             confirmationDescription: <div className='block-calender-confirmation-description'>
                 <div>
-                    <b> From </b>: {blockCalenderFormDetails?.is_block_all_day ? moment(blockCalenderFormDetails?.start_date).format('DD-MMM-YYYY') : moment(blockCalenderFormDetails?.date).format('DD-MMM-YYYY') +', ' + CommonService.getHoursAndMinutesFromMinutes(blockCalenderFormDetails?.start_time)}
+                    <b> From </b>: {blockCalenderFormDetails?.is_block_all_day ? moment(blockCalenderFormDetails?.start_date).format('DD-MMM-YYYY') : moment(blockCalenderFormDetails?.date).format('DD-MMM-YYYY') + ', ' + CommonService.getHoursAndMinutesFromMinutes(blockCalenderFormDetails?.start_time)}
                 </div>
                 <div className="mrg-top-10">
                     <b> To </b><span
-                    className={'mrg-left-15'}>: {blockCalenderFormDetails?.is_block_all_day ? moment(blockCalenderFormDetails?.end_date).format('DD-MMM-YYYY') : moment(blockCalenderFormDetails?.date).format('DD-MMM-YYYY') +', '+ CommonService.getHoursAndMinutesFromMinutes(blockCalenderFormDetails?.end_time)}
+                    className={'mrg-left-15'}>: {blockCalenderFormDetails?.is_block_all_day ? moment(blockCalenderFormDetails?.end_date).format('DD-MMM-YYYY') : moment(blockCalenderFormDetails?.date).format('DD-MMM-YYYY') + ', ' + CommonService.getHoursAndMinutesFromMinutes(blockCalenderFormDetails?.end_time)}
                 </span></div>
             </div>,
             yes: {
@@ -241,6 +261,7 @@ const BlockCalendarComponent = (props: BlockCalenderComponentProps) => {
                 setSubmitting(false);
                 if (response?.data?.length > 0) {
                     setAppointmentList(response.data);
+                    setSelectedAppointments(response.data.map((item: any) => item?._id))
                     setIsShowAppointmentModel(true);
                 } else {
                     // Handle the case when the data is an empty array here
@@ -433,7 +454,7 @@ const BlockCalendarComponent = (props: BlockCalenderComponentProps) => {
 
             <ModalComponent
                 isOpen={showAppointmentsModel}
-                size={'lg'}
+                size={'xl'}
                 title={'Appointments'}
                 onClose={() => setIsShowAppointmentModel(false)}
                 modalFooter={<div className={'mrg-top-40'}>
@@ -445,6 +466,7 @@ const BlockCalendarComponent = (props: BlockCalenderComponentProps) => {
                     </ButtonComponent>
                     <ButtonComponent variant={'contained'}
                                      color={'primary'}
+                                     disabled={selectedAppointments.length === 0}
                                      onClick={handleAppointmentsPopup}
                     >
                         Proceed
@@ -453,7 +475,7 @@ const BlockCalendarComponent = (props: BlockCalenderComponentProps) => {
                 }
             >
 
-                <div className=' font-weight-bold mrg-bottom-15'>The following clients will be notified of
+                <div className='send-cancelled-statement font-weight-bold mrg-bottom-15'>The following clients will be notified of
                     your unavailability and will be asked to reschedule their
                     appointments.
                 </div>
