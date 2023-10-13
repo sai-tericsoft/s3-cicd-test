@@ -1,4 +1,4 @@
-import "./ViewExerciseRecordScreen.scss";
+    import "./ViewExerciseRecordScreen.scss";
 import {useNavigate, useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";

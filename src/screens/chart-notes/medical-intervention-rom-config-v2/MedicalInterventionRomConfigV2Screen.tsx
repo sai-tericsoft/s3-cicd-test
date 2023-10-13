@@ -294,7 +294,7 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
             updatedGlobalRomConfig.push({
                 body_part: selectedBodyPart,
                 rom_config: [],
-                selected_sides: [selectedBodyPart.default_body_side],
+                selected_sides: [...selectedBodyPart?.sides],
                 mode: 'write'
             });
         }
@@ -304,7 +304,7 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
         for (const selectedBodyPart of selectedBodyPartsToBeAdded) {
             romFormValuesCopy[selectedBodyPart._id] = generateROMConfigForAnInjury(
                 selectedBodyPart,
-                [selectedBodyPart?.default_body_side],
+                [...selectedBodyPart?.sides],
                 []
             );
         }
