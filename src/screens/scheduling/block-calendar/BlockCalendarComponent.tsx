@@ -198,7 +198,7 @@ const BlockCalendarComponent = (props: BlockCalenderComponentProps) => {
                 CommonService._alert.showToast(error?.error || "", "error");
                 setIsBlockCalendarIsProgress(false);
             })
-    }, [onAddSuccess, appointmentList, selectedAppointments]);
+    }, [onAddSuccess, selectedAppointments]);
 
     const handleBlockCalenderConfirmation = useCallback((blockCalenderFormDetails: any) => {
         CommonService.onConfirm({

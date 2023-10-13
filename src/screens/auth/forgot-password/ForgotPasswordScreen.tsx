@@ -2,7 +2,6 @@ import "./ForgotPasswordScreen.scss";
 import {Field, FieldProps, Form, Formik, FormikHelpers} from "formik";
 import {useCallback, useEffect, useState} from "react";
 import FormikInputComponent from "../../../shared/components/form-controls/formik-input/FormikInputComponent";
-import LinkComponent from "../../../shared/components/link/LinkComponent";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import * as Yup from "yup";
 import {CommonService} from "../../../shared/services";

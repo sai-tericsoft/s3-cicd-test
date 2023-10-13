@@ -1,5 +1,4 @@
 import "./PasswordResetSuccessfulScreen.scss";
-import LinkComponent from "../../../shared/components/link/LinkComponent";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import {ImageConfig} from "../../../constants";
 import commonService from "../../../shared/services/common.service";

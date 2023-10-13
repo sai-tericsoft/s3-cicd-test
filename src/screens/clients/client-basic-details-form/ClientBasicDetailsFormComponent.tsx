@@ -252,8 +252,8 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                     email: "",
                 }];
             }
-            if(!clientBasicDetails?.secondary_emails?.some((item: any) => item.email !== "") ) clientBasicDetails.secondary_emails = undefined;
-            if(!clientBasicDetails?.secondary_contact_info?.some((item: any) => item.phone !== "" || item.phone_type !== ""))  clientBasicDetails.secondary_contact_info = undefined;
+            if (!clientBasicDetails?.secondary_emails?.some((item: any) => item.email !== "")) clientBasicDetails.secondary_emails = undefined;
+            if (!clientBasicDetails?.secondary_contact_info?.some((item: any) => item.phone !== "" || item.phone_type !== "")) clientBasicDetails.secondary_contact_info = undefined;
             if (!clientBasicDetails?.primary_email) {
                 clientBasicDetails.primary_email = "";
             }
@@ -535,27 +535,29 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                                         </div>
                                                                         <div className="ts-col-1">
                                                                             <div className="d-flex">
-                                                                                <IconButtonComponent
-                                                                                    className={"form-helper-icon"}
-                                                                                    onClick={() => {
-                                                                                        arrayHelpers.push({
-                                                                                            phone_type: undefined,
-                                                                                            phone: undefined
-                                                                                        });
-                                                                                    }}
-                                                                                >
-                                                                                    <ImageConfig.AddCircleIcon/>
-                                                                                </IconButtonComponent>
-                                                                                {index > 0 &&
+                                                                                {
+                                                                                    values?.secondary_contact_info && (index === values?.secondary_contact_info?.length - 1) &&
                                                                                     <IconButtonComponent
                                                                                         className={"form-helper-icon"}
-                                                                                        color={"error"}
                                                                                         onClick={() => {
-                                                                                            arrayHelpers.remove(index);
+                                                                                            arrayHelpers.push({
+                                                                                                phone_type: undefined,
+                                                                                                phone: undefined
+                                                                                            });
                                                                                         }}
                                                                                     >
-                                                                                        <ImageConfig.DeleteIcon/>
-                                                                                    </IconButtonComponent>}
+                                                                                        <ImageConfig.AddCircleIcon/>
+                                                                                    </IconButtonComponent>
+                                                                                }
+                                                                                <IconButtonComponent
+                                                                                    className={"form-helper-icon"}
+                                                                                    color={"error"}
+                                                                                    onClick={() => {
+                                                                                        arrayHelpers.remove(index);
+                                                                                    }}
+                                                                                >
+                                                                                    <ImageConfig.DeleteIcon/>
+                                                                                </IconButtonComponent>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -639,26 +641,27 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                                         </div>
                                                                         <div className="ts-col-1">
                                                                             <div className="d-flex">
-                                                                                <IconButtonComponent
-                                                                                    className={"form-helper-icon"}
-                                                                                    onClick={() => {
-                                                                                        arrayHelpers.push({
-                                                                                            email: undefined,
-                                                                                        });
-                                                                                    }}
-                                                                                >
-                                                                                    <ImageConfig.AddCircleIcon/>
-                                                                                </IconButtonComponent>
-                                                                                {index > 0 &&
+                                                                                {values?.secondary_emails && (index === values?.secondary_emails?.length - 1) &&
                                                                                     <IconButtonComponent
                                                                                         className={"form-helper-icon"}
-                                                                                        color={"error"}
                                                                                         onClick={() => {
-                                                                                            arrayHelpers.remove(index);
+                                                                                            arrayHelpers.push({
+                                                                                                email: undefined,
+                                                                                            });
                                                                                         }}
                                                                                     >
-                                                                                        <ImageConfig.DeleteIcon/>
-                                                                                    </IconButtonComponent>}
+                                                                                        <ImageConfig.AddCircleIcon/>
+                                                                                    </IconButtonComponent>
+                                                                                }
+                                                                                <IconButtonComponent
+                                                                                    className={"form-helper-icon"}
+                                                                                    color={"error"}
+                                                                                    onClick={() => {
+                                                                                        arrayHelpers.remove(index);
+                                                                                    }}
+                                                                                >
+                                                                                    <ImageConfig.DeleteIcon/>
+                                                                                </IconButtonComponent>
                                                                             </div>
                                                                         </div>
                                                                         <div className="ts-col"/>
