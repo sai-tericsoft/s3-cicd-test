@@ -94,7 +94,7 @@ const MedicalRecordAttachmentBasicDetailsCardComponent = (props: MedicalRecordAt
                                 </>
                             }
                             {
-                                pageTitle === "View Document" && <>
+                                onDelete && <>
                                     <ButtonComponent
                                         className={'mrg-right-10'}
                                         onClick={onDelete}

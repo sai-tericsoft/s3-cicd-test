@@ -119,6 +119,38 @@ const ViewDryNeedlingFileScreen = (props: ViewDryNeedlingFileScreenProps) => {
             });
         }, [dryNeedlingFileId]);
 
+        const handleDryNeedlingDocumentDelete = useCallback(() => {
+            CommonService.onConfirm({
+                image: ImageConfig.ConfirmationLottie,
+                showLottie: true,
+                confirmationTitle: "DELETE DOCUMENT",
+                // confirmationSubTitle: "Are you sure you want to delete this document\n" +
+                //     "from this file?"
+                confirmationDescription: <div className="delete-document">
+                    <div className={'delete-document-text text-center '}>Are you sure you want to delete this
+                        document <br/> from this file?
+                    </div>
+                </div>
+            }).then(() => {
+                if (dryNeedlingFileId) {
+                    CommonService._chartNotes.DryNeedlingDocumentDelete(dryNeedlingFileId, {})
+                        .then((response: any) => {
+                                const referrer: any = searchParams.get("referrer");
+                                const module_name: any = searchParams.get("module_name");
+                                if (module_name === "client_module") {
+                                    navigate(referrer);
+                                } else {
+                                    medicalRecordId && navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId) + '?activeTab=attachmentList');
+                                }
+                                CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY] || "Successfully deleted document", "success");
+                            }
+                        ).catch((error: any) => {
+                        CommonService._alert.showToast(error?.error || "Error deleting document", "success");
+                    })
+                }
+            });
+        }, [dryNeedlingFileId, medicalRecordId, navigate]);
+
         const handleDryNeedlingFileAttachmentAdd = useCallback(() => {
             if (dryNeedlingFileId) {
                 const payload = {
@@ -191,6 +223,7 @@ const ViewDryNeedlingFileScreen = (props: ViewDryNeedlingFileScreenProps) => {
                             attachmentDetails={dryNeedlingFileDetails}
                             medicalRecordDetails={dryNeedlingFileDetails?.medical_record_details}
                             attachmentType={"dryNeedlingFile"}
+                            onDelete={handleDryNeedlingDocumentDelete}
                             onEdit={openEditDryNeedlingFileDrawer}
                             showEdit={true}
                             onDryNeedingShare={handleDryNeedlingShare}

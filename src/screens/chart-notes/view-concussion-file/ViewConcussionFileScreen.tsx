@@ -121,6 +121,40 @@ const ViewConcussionFileScreen = (props: ViewConcussionFileScreenProps) => {
             });
         }, [concussionFileId]);
 
+        const handleConcussionDocumentDelete = useCallback(() => {
+            CommonService.onConfirm({
+                image: ImageConfig.ConfirmationLottie,
+                showLottie: true,
+                confirmationTitle: "DELETE DOCUMENT",
+                // confirmationSubTitle: "Are you sure you want to delete this document\n" +
+                //     "from this file?"
+                confirmationDescription: <div className="delete-document">
+                    <div className={'delete-document-text text-center '}>Are you sure you want to delete this
+                        document <br/> from this file?
+                    </div>
+                </div>
+            }).then(() => {
+                if (concussionFileId) {
+                    CommonService._chartNotes.ConcussionFileDocumentDelete(concussionFileId, {})
+                        .then((response: any) => {
+                                const referrer: any = searchParams.get("referrer");
+                                const module_name: any = searchParams.get("module_name");
+                                if (module_name === "client_module") {
+                                    navigate(referrer);
+                                } else {
+                                    medicalRecordId && navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId) + '?activeTab=attachmentList');
+                                }
+                                CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY] || "Successfully deleted document", "success");
+                            }
+                        ).catch((error: any) => {
+                        CommonService._alert.showToast(error?.error || "Error deleting document", "success");
+                    })
+                }
+
+
+            });
+        }, [concussionFileId,medicalRecordId,navigate]);
+
         const handleConcussionFileFileAttachmentAdd = useCallback(() => {
             if (concussionFileId) {
                 const payload = {
@@ -196,6 +230,7 @@ const ViewConcussionFileScreen = (props: ViewConcussionFileScreenProps) => {
                             onEdit={openEditConcussionFileFileDrawer}
                             showEdit={true}
                             onConcussionFileShare={handleConcussionFileShare}
+                            onDelete={handleConcussionDocumentDelete}
                         />
                         <div className={'concussion-attachment'}>
                             {

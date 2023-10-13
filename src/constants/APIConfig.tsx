@@ -510,6 +510,14 @@ const APIConfig: IAPIConfig = {
         URL: (concussionFileId: string) => ENV.API_URL + "/concussion/" + concussionFileId + "/attachment",
         METHOD: "post"
     },
+    DELETE_CONCUSSION_DOCUMENT: {
+        URL: (concussionFileId: string) => ENV.API_URL + "/concussion/" + concussionFileId,
+        METHOD: "delete"
+    },
+    DELETE_DRY_NEEDLING_DOCUMENT: {
+        URL: (dryNeedlingFileId: string) => ENV.API_URL + "/dryNeedling/" + dryNeedlingFileId,
+        METHOD: "delete"
+    },
     CLIENT_MEDICAL_INTERVENTION_DETAILS: {
         URL: (medicalRecordId: string) => ENV.API_URL + "/intervention/" + medicalRecordId,
         METHOD: "get"

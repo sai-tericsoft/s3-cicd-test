@@ -221,6 +221,16 @@ const ConcussionFileAddAttachmentAPICall = (concussionFileId: string, payload: a
     return ApiService[APIConfig.CONCUSSION_FILE_ATTACHMENT_ADD.METHOD](APIConfig.CONCUSSION_FILE_ATTACHMENT_ADD.URL(concussionFileId), payload, {'Content-Type': 'multipart/form-data'});
 }
 
+const ConcussionFileDocumentDelete = (concussionFileId: string, payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.DELETE_CONCUSSION_DOCUMENT.METHOD](APIConfig.DELETE_CONCUSSION_DOCUMENT.URL(concussionFileId), payload);
+}
+
+const DryNeedlingDocumentDelete = (dryNeedlingFileId: string, payload: any) => {
+    // @ts-ignore
+    return ApiService[APIConfig.DELETE_DRY_NEEDLING_DOCUMENT.METHOD](APIConfig.DELETE_DRY_NEEDLING_DOCUMENT.URL(dryNeedlingFileId), payload);
+}
+
 const MedicalRecordDocumentAddAPICall = (medicalRecordId: string, payload: any) => {
     // @ts-ignore
     return ApiService[APIConfig.ADD_MEDICAL_RECORD_DOCUMENT.METHOD](APIConfig.ADD_MEDICAL_RECORD_DOCUMENT.URL(medicalRecordId), payload, {'Content-Type': 'multipart/form-data'});
@@ -385,7 +395,9 @@ const ChartNotesService = {
     DeleteDocument,
     SurgeryRecordDeleteAPICall,
     PrintProgressReportAPICall,
-    GetCPTCodesAPICall
+    GetCPTCodesAPICall,
+    ConcussionFileDocumentDelete,
+    DryNeedlingDocumentDelete
 }
 
 export default ChartNotesService;
