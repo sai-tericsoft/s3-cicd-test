@@ -102,15 +102,14 @@ const ForgotPasswordScreen = (props: ForgotPasswordScreenProps) => {
                                     </ButtonComponent>
                                 </div>
                                 <div className="t-form-actions mrg-top-10">
-                                    <LinkComponent onClick={() => handleNavigation(LOGIN_ROUTE)}>
-                                        <ButtonComponent
-                                            prefixIcon={<ImageConfig.LeftArrow/>}
-                                            fullWidth={true}
-                                            variant={"text"}
-                                        >
-                                            Back to Login
-                                        </ButtonComponent>
-                                    </LinkComponent>
+                                    <ButtonComponent
+                                        prefixIcon={<ImageConfig.LeftArrow/>}
+                                        fullWidth={true}
+                                        variant={"text"}
+                                        onClick={() => handleNavigation(LOGIN_ROUTE)}
+                                    >
+                                        Back to Login
+                                    </ButtonComponent>
                                 </div>
                             </Form>
                         )

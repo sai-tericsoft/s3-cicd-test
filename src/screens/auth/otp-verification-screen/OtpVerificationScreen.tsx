@@ -9,7 +9,8 @@ import * as Yup from "yup";
 import commonService from "../../../shared/services/common.service";
 import useHandleNavigation from "../../../shared/hooks/useHandleNavigation";
 import { useParams} from "react-router-dom";
-import {Misc} from "../../../constants";
+import {ImageConfig, Misc} from "../../../constants";
+import {LOGIN_ROUTE} from "../../../constants/RoutesConfig";
 
 
 interface OtpVerificationScreenProps {
@@ -99,7 +100,8 @@ const OtpVerificationScreen = (props: OtpVerificationScreenProps) => {
                     One Time Password (OTP) Verification
                 </div>
                 <div className="auth-form-welcome-text">
-                    Please enter the OTP we sent to you.
+                    Please enter the OTP we sent to you on <br/>
+                    <b>{email}</b>
                 </div>
                 <Formik
                     validationSchema={otpFormValidationSchema}
@@ -161,6 +163,16 @@ const OtpVerificationScreen = (props: OtpVerificationScreenProps) => {
                                         id={"otp_btn"}
                                     >
                                         {isLoading ? "Submitting" : "Submit"}
+                                    </ButtonComponent>
+                                </div>
+                                <div className="t-form-actions mrg-top-10">
+                                    <ButtonComponent
+                                        prefixIcon={<ImageConfig.LeftArrow/>}
+                                        fullWidth={true}
+                                        variant={"text"}
+                                        onClick={() => handleNavigation(LOGIN_ROUTE)}
+                                    >
+                                        Back to Login
                                     </ButtonComponent>
                                 </div>
                             </Form>

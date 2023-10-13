@@ -24,13 +24,12 @@ const PasswordResetSuccessfulScreen = (props: PasswordResetSuccessfulScreenProps
                 <div className="success_avatar">
                     {<ImageConfig.SuccessAvatar className="d-block"/>}
                 </div>
-                <LinkComponent onClick={() => handleNavigation(commonService._routeConfig.LoginRoute())}>
-                    <ButtonComponent
-                        fullWidth
-                    >
-                        Proceed to Login
-                    </ButtonComponent>
-                </LinkComponent>
+                <ButtonComponent
+                    fullWidth
+                    onClick={() => handleNavigation(commonService._routeConfig.LoginRoute())}
+                >
+                    Proceed to Login
+                </ButtonComponent>
             </div>
         </div>
     );
