@@ -153,7 +153,7 @@ const ViewConcussionFileScreen = (props: ViewConcussionFileScreenProps) => {
 
 
             });
-        }, [concussionFileId,medicalRecordId,navigate]);
+        }, [concussionFileId,medicalRecordId,navigate,searchParams]);
 
         const handleConcussionFileFileAttachmentAdd = useCallback(() => {
             if (concussionFileId) {

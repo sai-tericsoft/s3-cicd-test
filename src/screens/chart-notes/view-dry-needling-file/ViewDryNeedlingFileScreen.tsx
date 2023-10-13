@@ -149,7 +149,7 @@ const ViewDryNeedlingFileScreen = (props: ViewDryNeedlingFileScreenProps) => {
                     })
                 }
             });
-        }, [dryNeedlingFileId, medicalRecordId, navigate]);
+        }, [dryNeedlingFileId, medicalRecordId, navigate,searchParams]);
 
         const handleDryNeedlingFileAttachmentAdd = useCallback(() => {
             if (dryNeedlingFileId) {
