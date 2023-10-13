@@ -98,6 +98,7 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
             key: "status",
             align: 'center',
             width: 175,
+            sortable: true,
             render: (item: any) => {
                 return <ChipComponent label={item?.status}
                                       className={item?.status === 'Open - Unresolved' ? "active" : "inactive"}></ChipComponent>
@@ -109,6 +110,7 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
             dataIndex: "last_provider",
             align: "center",
             width: 140,
+            sortable: true,
             render: (item: IClientBasicDetails) => {
                 return <span>
                     {CommonService.capitalizeFirstLetter(item?.last_provider_details?.first_name) || '-'} {CommonService.capitalizeFirstLetter(item?.last_provider_details?.last_name)}
