@@ -572,8 +572,10 @@ const APIConfig: IAPIConfig = {
         URL: (surgeryRecordId: string, attachmentId: string) => ENV.API_URL + '/surgeryRecord/' + surgeryRecordId + '/attachment/' + attachmentId,
         METHOD: 'delete'
     },
-
-
+    GET_MEDICAL_RECORD_ACTIVITY_LOGS: {
+        URL: (medicalRecordId: string) => ENV.API_URL + '/medicalRecord/' + medicalRecordId + '/activityLog',
+        METHOD: 'get'
+    },
     // chart notes end
     CASE_STATUS_LIST: {
         URL: ENV.API_URL + "/caseStatus",

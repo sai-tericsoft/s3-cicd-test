@@ -83,6 +83,7 @@ import {
     MEDICAL_INTERVENTION_SURGERY_RECORD_DETAILS,
     MEDICAL_RECORD_DOCUMENT_VIEW_DETAILS,
     MEDICAL_RECORD_LIST,
+    MEDICAL_RECORD_ACTIVITY_LOG,
     MEDICAL_RECORD_PROGRESS_REPORT_ADVANCED_DETAILS_UPDATE,
     MEDICAL_RECORD_VIEW_EXERCISE_RECORD,
     NOT_FOUND_ROUTE,
@@ -200,6 +201,8 @@ import OtpVerificationScreen from "../screens/auth/otp-verification-screen/OtpVe
 import ResetPasswordScreen from "../screens/auth/reset-password/ResetPasswordScreen";
 import PasswordResetSuccessfulScreen from "../screens/auth/password-reset-successful/PasswordResetSuccessfulScreen";
 import ClientSharedDocumentsComponent from "../screens/clients/client-shared-documents/ClientSharedDocumentsComponent";
+import ChartNotesActivityLogsComponent
+    from "../screens/chart-notes/chart-notes-activity-logs/ChartNotesActivityLogsComponent";
 
 
 const ProtectedRoute = (props: React.PropsWithChildren<any>) => {
@@ -396,6 +399,12 @@ const Navigator = (props: NavigatorProps) => {
                                <MedicalRecordListScreen/>
                            </ProtectedRoute>
                            }
+                    />
+                    <Route path={MEDICAL_RECORD_ACTIVITY_LOG}
+                            element={<ProtectedRoute>
+                                <ChartNotesActivityLogsComponent/>
+                            </ProtectedRoute>
+                            }
                     />
                     <Route path={CLIENT_MEDICAL_RECORD_DETAILS} element={<ProtectedRoute>
                         <ClientMedicalRecordDetailsComponent/>

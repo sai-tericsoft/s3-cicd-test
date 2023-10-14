@@ -1,5 +1,8 @@
 
 .activity-logs-timeline-component {
+  .t-table:not(.t-table-wrapper .t-table.auto-height){
+    min-height: 100px !important;
+  }
   .accordian-actions {
     margin-right: 0px !important;
   }
@@ -40,5 +43,17 @@
 
   .default-activity-log .data-label-value:last-child {
       margin-bottom: 0px;
+  }
+  .MuiAccordionSummary-expandIconWrapper{
+    width: 20px;
+  }
+  .activity-log-key-value-wrapper{
+    margin-right: 20px;
+    .activity-log-key{
+
+    }
+    .activity-log-value{
+
+    }
   }
 }

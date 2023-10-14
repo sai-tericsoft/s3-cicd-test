@@ -364,6 +364,10 @@ const BillingSettings = () => {
     return '/admin/billing-settings';
 }
 
+const openMedicalRecordActivityLog = (medicalRecordId: string) => {
+    return '/chart-notes/' + medicalRecordId + '/activity-log';
+}
+
 const RouteConfigService = {
     DefaultRoute,
     LoginRoute,
@@ -449,8 +453,8 @@ const RouteConfigService = {
     Settings,
     BillingSettings,
     ConsolidatedBillingDetails,
-    ClientSharedDocuments
-
+    ClientSharedDocuments,
+    openMedicalRecordActivityLog
 }
 
 export default RouteConfigService;

@@ -257,10 +257,16 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
                     <ListItem onClick={handleNotifyAdminModalOpen}>
                         Notify Admin
                     </ListItem>,
+
                     <ListItem onClick={openMedicalRecordStatsModal}>
                         View Case Statistics
                     </ListItem>,
-
+                    <Link
+                        to={CommonService._routeConfig.openMedicalRecordActivityLog(medicalRecordId)}>
+                        <ListItem>
+                            View Activity Log
+                        </ListItem>
+                    </Link>,
                     <ListItem onClick={handleDischargeCase}>
                         Discharge Case
                     </ListItem>
@@ -274,6 +280,12 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
                         to={CommonService._routeConfig.MedicalRecordViewExerciseRecord(medicalRecordId)}>
                         <ListItem>
                             View Exercise Record
+                        </ListItem>
+                    </Link>,
+                    <Link
+                        to={CommonService._routeConfig.openMedicalRecordActivityLog(medicalRecordId)}>
+                        <ListItem>
+                            View Activity Log
                         </ListItem>
                     </Link>,
                     <ListItem onClick={handleMedicalRecordReOpen}>

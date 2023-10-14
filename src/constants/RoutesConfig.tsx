@@ -58,6 +58,8 @@ const MEDICAL_INTERVENTION_FINALIZE_TREATMENT = '/chart-notes/:medicalRecordId/:
 const MEDICAL_INTERVENTION_EXERCISE_LOG_UPDATE = '/chart-notes/:medicalRecordId/:medicalInterventionId/exercise-log-update/:mode';
 const MEDICAL_INTERVENTION_EXERCISE_LOG_VIEW = '/chart-notes/:medicalRecordId/:medicalInterventionId/exercise-log-view';
 const MEDICAL_RECORD_LIST = '/chart-notes/:clientId/medical-record-list';
+
+const MEDICAL_RECORD_ACTIVITY_LOG = '/chart-notes/:medicalRecordId/activity-log';
 const INTERVENTION_EXERCISE_LOG_ATTACHMENT_LIST = '/chart-notes/:interventionId/exercise-log';
 
 const MEDICAL_INTERVENTION_SURGERY_RECORD_DETAILS = '/chart-notes/:medicalRecordId/:surgeryRecordId/surgery-record';
@@ -198,5 +200,6 @@ export {
     USER_SLOTS_EDIT,
     BILLING_SETTINGS,
     CONSOLIDATED_BILLING_DETAILS,
-    CLIENT_SHARED_DOCUMENTS
+    CLIENT_SHARED_DOCUMENTS,
+    MEDICAL_RECORD_ACTIVITY_LOG
 };
