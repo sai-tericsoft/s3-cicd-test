@@ -47,15 +47,15 @@ const ActivityLogTimelineComponent = (props: ActivityLogTimelineComponentProps) 
     const {logsData} = props;
 
     const getLogsStringWithArrows = (log: any) => {
-        let str = log?.module_name && (log?.module_name + '?');
-        str += log?.sub_module && (log?.sub_module + '?');
-        str += log?.feature && (log?.feature + '?');
-        str += log?.section && (log?.section + '?');
-        str += log?.sub_section && (log?.sub_section + '?');
-        str += log?.field_name && (log?.field_name + '?');
+        let str = log?.module_name && (log?.module_name + '$');
+        str += log?.sub_module && (log?.sub_module + '$');
+        str += log?.feature && (log?.feature + '$');
+        str += log?.section && (log?.section + '$');
+        str += log?.sub_section && (log?.sub_section + '$');
+        str += log?.field_name && (log?.field_name + '$');
         str += log?.value ? (log?.value) : '';
-        str.charAt(str.length - 1) === '?' && (str = str.slice(0, -1));
-        str = str.replace(/\?+/g, ' > ');
+        str.charAt(str.length - 1) === '$' && (str = str.slice(0, -1));
+        str = str.replace(/\$+/g, ' > ');
         return str;
     }
 
