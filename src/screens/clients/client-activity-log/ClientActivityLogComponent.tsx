@@ -15,9 +15,9 @@ const ClientActivityLogComponent = (props: ClientActivityLogComponentProps) => {
 
     const {clientId} = props;
     const [clientsActivityLogs, setClientsActivityLogs] = useState<IClientActivityLog[]>();
-    const [clientsActivityLogsLoading, setClientsActivityLogsLoading] = useState<boolean>();
-    const [clientsActivityLogsLoadingFailed, setClientsActivityLogsLoadingFailed] = useState<boolean>();
-    const [clientsActivityLogsLoaded, setClientsActivityLogsLoaded] = useState<boolean>();
+    const [clientsActivityLogsLoading, setClientsActivityLogsLoading] = useState<boolean>(false);
+    const [clientsActivityLogsLoadingFailed, setClientsActivityLogsLoadingFailed] = useState<boolean>(false);
+    const [clientsActivityLogsLoaded, setClientsActivityLogsLoaded] = useState<boolean>(false);
 
     const getClientActivityLogs = useCallback((clientId:any) => {
         const payload = {}
