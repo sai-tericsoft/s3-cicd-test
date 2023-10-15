@@ -16,6 +16,8 @@ import DataLabelValueComponent from "../data-label-value/DataLabelValueComponent
 import {ITableColumn} from "../../models/table.model";
 import {CommonService} from "../../services";
 import TableComponent from "../table/TableComponent";
+import StatusCardComponent from "../status-card/StatusCardComponent";
+import CardComponent from "../card/CardComponent";
 
 interface ActivityLogTimelineComponentProps {
     logsData?: any;
@@ -35,13 +37,15 @@ const ICDTableColumns: any = [
         key: 'description',
 
     }
+];
+const objectTypes: any = [
+    "Personal Habits",
 ]
-
 const listOfObjectsFields: any = [
     "Contact Information",
     "Secondary Contact Information",
     "Email",
-    ]
+]
 
 const ActivityLogTimelineComponent = (props: ActivityLogTimelineComponentProps) => {
     const {logsData} = props;
@@ -219,8 +223,12 @@ const ActivityLogTimelineComponent = (props: ActivityLogTimelineComponentProps) 
         return time.join(''); // return adjusted time or original string
     }
 
+    // @ts-ignore
     const generateObjectsContent = useCallback((item: any) => {
         return Object.keys(item).map((key: any, index: number) => {
+            if(typeof item[key] === "object" ){
+               return  generateObjectsContent(item[key])
+            }
             return (
                 <span key={index} className={'activity-log-key-value-wrapper'}>
                                                                 <span className={'activity-log-key'}>{key} :</span>
@@ -235,10 +243,12 @@ const ActivityLogTimelineComponent = (props: ActivityLogTimelineComponentProps) 
         let {
             updated_value,
             field_name,
-            old_value
+            old_value,
+            section
         } = logItem;
         field_name = field_name === "Surgeries" || field_name === "Medical History" ? "list of titles" : field_name;
-        field_name = listOfObjectsFields.includes(field_name)? "List of objects" : field_name;
+        field_name = objectTypes.includes(section) ? "object" : field_name;
+        field_name = listOfObjectsFields.includes(field_name) ? "List of objects" : field_name;
         switch (field_name) {
             case "Musculoskeletal History":
                 return (
@@ -331,7 +341,7 @@ const ActivityLogTimelineComponent = (props: ActivityLogTimelineComponentProps) 
                         <DataLabelValueComponent label={"From"}
                         >
                             {old_value && old_value !== {} ? <>
-                            {generateObjectsContent(old_value)}
+                                {generateObjectsContent(old_value)}
                             </> : 'N/A'}
                         </DataLabelValueComponent>
                         <DataLabelValueComponent label={"To"}
@@ -498,6 +508,23 @@ const ActivityLogTimelineComponent = (props: ActivityLogTimelineComponentProps) 
                         </DataLabelValueComponent>
                     </div>
                 )
+            case 'object':
+                return (
+                    <>
+                        <DataLabelValueComponent label={"From"}
+                        >
+                            {old_value && old_value !== {} ? <>
+                                {generateObjectsContent(old_value)}
+                            </> : 'N/A'}
+                        </DataLabelValueComponent>
+                        <DataLabelValueComponent label={"To"}
+                        >
+                            {updated_value && updated_value !== {} ? <>
+                                {generateObjectsContent(updated_value)}</> : 'N/A'}
+                        </DataLabelValueComponent>
+                    </>
+                )
+
             default:
                 return (
                     <div className={'default-activity-log'}>
@@ -529,61 +556,71 @@ const ActivityLogTimelineComponent = (props: ActivityLogTimelineComponentProps) 
 
     return (
         <div className={'activity-logs-timeline-component'}>
-            <Timeline
-                sx={{
-                    [`& .${timelineItemClasses.root}:before`]: {
-                        flex: 0,
-                        padding: 0,
-                    },
-                }}>
-                <>
-                    {
-                        logsData?.map((log: any, index: number) => {
-                            return (
-                                <TimelineItem key={index}>
-                                    <TimelineSeparator>
-                                        <TimelineConnector className={'initial-timeline-connector'}/>
-                                        <TimelineDot color={"primary"}/>
-                                        <TimelineConnector/>
-                                    </TimelineSeparator>
-                                    <TimelineContent>
-                                        <div className={'log-item'}>
-                                            <div className={'log-item-header'}>
-                                                {log?.created_at && moment(log?.created_at).format('DD-MMM-YYYY')}
-                                            </div>
-                                            <div className={'log-item-body'}>
-                                                <div className={'mrg-bottom-20'} key={index}>
-                                                    <AccordionComponent
-                                                        key={index}
-                                                        forActivityLog={true}
-                                                        title={getLogsStringWithArrows(log)}
-                                                        disableExpanding={log.action !== 'Modified' ? true : false}
-                                                        subTitle={` was ${log?.action?.toLowerCase()} by `}
-                                                        name={log?.updated_by ? log?.updated_by?.name : ''}
-                                                        actions={<div className={'log-status-wrapper'}>
-                                                            <div className={'log-item-action'}>
-                                                                <ChipComponent
-                                                                    label={commonService.capitalizeFirstLetter(log.action)}
-                                                                    className={log.action}/>
-                                                            </div>
-                                                            <div className={'updated-date mrg-left-20'}>
-                                                                {tConvert(moment(log?.updated_at).format('HH:mm'))}
-                                                            </div>
-                                                        </div>}
-                                                    >
-                                                        {generateAccordionContent(log)}
-                                                    </AccordionComponent>
-                                                </div>
+            <CardComponent>
+                <Timeline
+                    sx={{
+                        [`& .${timelineItemClasses.root}:before`]: {
+                            flex: 0,
+                            padding: 0,
+                        },
+                    }}>
+                    <>
+                        {
+                            logsData && Object.keys(logsData)?.length > 0 ? Object.keys(logsData)?.map((date: any, index: number) => {
+                                    return (
+                                        <TimelineItem key={index}>
+                                            <TimelineSeparator>
+                                                <TimelineConnector className={'initial-timeline-connector'}/>
+                                                <TimelineDot color={"primary"}/>
+                                                <TimelineConnector/>
+                                            </TimelineSeparator>
+                                            <TimelineContent>
+                                                <div className={'log-item'}>
+                                                    <div className={'log-item-header'}>
+                                                        {date && moment(date).format('DD-MMM-YYYY')}
+                                                    </div>
+                                                    <div className={'log-item-body'}>
+                                                        {
+                                                            logsData[date]?.map((log: any, index: number) => {
 
-                                            </div>
-                                        </div>
-                                    </TimelineContent>
-                                </TimelineItem>
-                            )
-                        })
-                    }
-                </>
-            </Timeline>
+                                                                return (
+                                                                    <div className={'mrg-bottom-20'} key={index}>
+                                                                        <AccordionComponent
+                                                                            key={index}
+                                                                            forActivityLog={true}
+                                                                            title={getLogsStringWithArrows(log)}
+                                                                            disableExpanding={log.action !== 'Modified' ? true : false}
+                                                                            subTitle={` was ${log?.action?.toLowerCase()} by `}
+                                                                            name={log?.updated_by ? log?.updated_by?.name : ''}
+                                                                            actions={<div className={'log-status-wrapper'}>
+                                                                                <div className={'log-item-action'}>
+                                                                                    <ChipComponent
+                                                                                        label={commonService.capitalizeFirstLetter(log.action)}
+                                                                                        className={log.action}/>
+                                                                                </div>
+                                                                                <div className={'updated-date mrg-left-20'}>
+                                                                                    {tConvert(moment(log?.updated_at).format('HH:mm'))}
+                                                                                </div>
+                                                                            </div>}
+                                                                        >
+                                                                            {generateAccordionContent(log)}
+                                                                        </AccordionComponent>
+                                                                    </div>
+                                                                )
+                                                            })}
+                                                    </div>
+                                                </div>
+                                            </TimelineContent>
+                                        </TimelineItem>
+                                    )
+                                }) :
+                                <StatusCardComponent
+                                    title={"No Activity logs found"}
+                                />
+                        }
+                    </>
+                </Timeline>
+            </CardComponent>
         </div>
     );
 
