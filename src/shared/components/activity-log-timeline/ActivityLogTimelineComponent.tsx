@@ -552,7 +552,7 @@ const ActivityLogTimelineComponent = (props: ActivityLogTimelineComponentProps) 
                 )
         }
 
-    }, [])
+    }, [SpecialTestsColumns, getMedicalInterventionROMConfigColumns, generateObjectsContent])
 
     return (
         <div className={'activity-logs-timeline-component'}>

@@ -1,6 +1,6 @@
 import "./ChartNotesActivityLogsComponent.scss";
 import PageHeaderComponent from "../../../shared/components/page-header/PageHeaderComponent";
-import React, {useCallback, useEffect, useMemo, useRef, useState} from "react";
+import React, {useCallback, useEffect, useRef, useState} from "react";
 import commonService from "../../../shared/services/common.service";
 import {useNavigate, useParams} from "react-router-dom";
 import {IClientActivityLog} from "../../../shared/models/client.model";

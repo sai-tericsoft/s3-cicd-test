@@ -10,7 +10,6 @@ import SearchComponent from "../../../shared/components/search/SearchComponent";
 import DateRangePickerComponent
     from "../../../shared/components/form-controls/date-range-picker/DateRangePickerComponent";
 import moment from "moment/moment";
-import {CommonService} from "../../../shared/services";
 import CardsPaginationComponent from "../../../shared/components/cards-pagination/CardsPaginationComponent";
 
 interface ClientActivityLogComponentProps {
