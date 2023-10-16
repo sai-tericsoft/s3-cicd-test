@@ -258,7 +258,7 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
 
             CommonService._chartNotes.MedicalInterventionBasicDetailsUpdateAPICall(medicalInterventionId, payload)
                 .then((response: IAPIResponseType<any>) => {
-                    dispatch(setMedicalInterventionDetails(response.data));
+                    // dispatch(setMedicalInterventionDetails(response.data));
                     if (medicalInterventionDetails?.is_flagged !== payload.is_flagged) {
                         CommonService._alert.showToast(payload.is_flagged ? 'Note has been flagged.' : 'Note has been unflagged.', "success");
                     }

@@ -44,6 +44,7 @@ import IconButtonComponent from "../../../shared/components/icon-button/IconButt
 import FormikDatePickerComponent
     from "../../../shared/components/form-controls/formik-date-picker/FormikDatePickerComponent";
 import moment from "moment";
+import commonService from "../../../shared/services/common.service";
 
 interface MedicalInterventionDetailsCardComponentProps {
     showAction?: boolean,
@@ -326,7 +327,8 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
                         <div className={'client-name-button-wrapper'}>
                                     <span className={'client-name-wrapper'}>
                                         <span className={'client-name'}>
-                                               {clientMedicalRecord?.client_details?.first_name || "N/A"} {clientMedicalRecord?.client_details?.last_name || "N/A"}
+                                            <span className={clientMedicalRecord?.client_details?.is_alias_name_set ? "alias-name" : ""}></span>
+                                            {commonService.generateClientNameFromClientDetails(clientMedicalRecord?.client_details)}
                                         </span>
                                         <ChipComponent
                                             className={clientMedicalRecord?.status === 'open' ? "active" : "inactive"}
@@ -397,7 +399,11 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
                             isFullCardOpen && <div className={'ts-row'}>
                                 <div className={'ts-col'}>
                                     <DataLabelValueComponent label={'Injury/Condition Description'}>
-                                        {medicalInterventionDetails?.medical_record_details?.injury_description || "N/A"}
+                                        <ul>
+                                            {medicalInterventionDetails?.medical_record_details?.injury_description ? medicalInterventionDetails?.medical_record_details?.injury_description.split("\n")?.filter((i: any) => i !== "")?.map((i: any, key: any) => {
+                                                return <li key={key}>{i}</li>;
+                                            }) : "N/A"}
+                                        </ul>
                                     </DataLabelValueComponent>
                                 </div>
                             </div>
@@ -406,7 +412,11 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
                         {isFullCardOpen && <div className={'ts-row'}>
                             <div className={'ts-col'}>
                                 <DataLabelValueComponent label={'Restrictions/Limitations'}>
-                                    {medicalInterventionDetails?.medical_record_details?.limitations || "N/A"}
+                                    <ul>
+                                        {medicalInterventionDetails?.medical_record_details?.limitations ? medicalInterventionDetails?.medical_record_details?.limitations?.split("\n")?.filter((i: any) => i !== "")?.map((i: any, key: any) => {
+                                            return <li key={key}>{i}</li>;
+                                        }) : "N/A"}
+                                    </ul>
                                 </DataLabelValueComponent>
                             </div>
                         </div>}
