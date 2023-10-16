@@ -12,6 +12,7 @@ import {CommonService} from "../../../services";
 import {IAPIResponseType} from "../../../models/api.model";
 import moment from "moment/moment";
 import FormikDatePickerComponent from "../../form-controls/formik-date-picker/FormikDatePickerComponent";
+import commonService from "../../../services/common.service";
 
 interface BookAppointmentFormComponentProps {
     onClose?: () => void,
@@ -495,7 +496,7 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
                                                         placeholder={'Search using Name/ID '}
                                                         formikField={field}
                                                         dataListKey={'data'}
-                                                        displayWith={item => item ? item?.first_name + ' ' + item?.last_name + ' (ID: ' + item.client_id + ')' : ''}
+                                                        displayWith={item => item ? commonService.generateClientNameFromClientDetails(item) + ' (ID: ' + item.client_id + ')' : ''}
                                                         keyExtractor={item => item?._id}
                                                         valueExtractor={item => item}
                                                         searchMode={'serverSide'}

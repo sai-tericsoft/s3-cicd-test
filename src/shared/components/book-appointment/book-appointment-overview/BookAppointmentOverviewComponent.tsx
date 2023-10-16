@@ -7,6 +7,7 @@ import ButtonComponent from "../../button/ButtonComponent";
 import {useSelector} from "react-redux";
 import {IRootReducerState} from "../../../../store/reducers";
 import {IAPIResponseType} from "../../../models/api.model";
+import commonService from "../../../services/common.service";
 
 
 interface BookAppointmentOverviewComponentProps {
@@ -130,7 +131,9 @@ const BookAppointmentOverviewComponent = (props: BookAppointmentOverviewComponen
                             <div className="details-body-item">
                                 <div className="item-heading"><ImageConfig.PersonIcon/>&nbsp;&nbsp;Client Name</div>
                                 <div
-                                    className="item-value">{bookingDraft?.client?.first_name + ' ' + bookingDraft?.client?.last_name}</div>
+                                    className="item-value">
+                                    <span className={bookingDraft?.client?.is_alias_name_set ? "alias-name" : ""}>
+                                    {commonService.generateClientNameFromClientDetails(bookingDraft?.client)}</span></div>
                             </div>
                             <div className="details-body-item">
                                 <div className="item-heading"><ImageConfig.CallIcon/>&nbsp;&nbsp;Phone Number</div>

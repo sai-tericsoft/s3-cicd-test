@@ -13,6 +13,7 @@ import moment from "moment/moment";
 import InputComponent from "../../form-controls/input/InputComponent";
 import FormikDatePickerComponent from "../../form-controls/formik-date-picker/FormikDatePickerComponent";
 import LoaderComponent from "../../loader/LoaderComponent";
+import commonService from "../../../services/common.service";
 
 interface AppointmentRescheduleComponentProps {
     onClose?: () => void,
@@ -372,7 +373,7 @@ const AppointmentRescheduleComponent = (props: AppointmentRescheduleComponentPro
                                     <Form className="t-form" noValidate={true}>
                                         <div className={"t-appointment-drawer-form-controls"}>
                                             <InputComponent label={'Client'} disabled={true}
-                                                            value={details?.client_details?.first_name + ' ' + details?.client_details?.last_name}/>
+                                                            value={commonService.generateClientNameFromClientDetails( details?.client_details)}/>
 
 
                                             <InputComponent label={'Service Category'} disabled={true}
