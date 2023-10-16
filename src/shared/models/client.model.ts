@@ -47,6 +47,9 @@ export interface IClientBasicDetails {
     _id?: string;
     first_name: string;
     last_name: string;
+    alias_first_name?: string;
+    alias_last_name?: string;
+    is_alias_name_set?: boolean;
     gender: string;
     gender_details?: IGender;
     dob: string;

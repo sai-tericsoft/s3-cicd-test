@@ -29,6 +29,7 @@ import FormikPhoneInputComponent
     from "../../../shared/components/form-controls/formik-phone-input/FormikPhoneInputComponent";
 import LinkComponent from "../../../shared/components/link/LinkComponent";
 import {AddCircleIcon} from "../../../constants/ImageConfig";
+import FormikCheckBoxComponent from "../../../shared/components/form-controls/formik-check-box/FormikCheckBoxComponent";
 
 interface ClientBasicDetailsFormComponentProps {
     mode: "add" | "edit";
@@ -44,6 +45,15 @@ const PhoneObj = {
 const ClientBasicDetailsFormValidationSchema = Yup.object({
     first_name: Yup.string().required('First Name is required'),
     last_name: Yup.string().required('Last Name is required'),
+    is_alias_name_set: Yup.boolean(),
+    alias_first_name: Yup.string().when('is_alias_name_set', {
+        is: true,
+        then: Yup.string().required('Alias First Name is required'),
+    }),
+    alias_last_name: Yup.string().when('is_alias_name_set', {
+        is: true,
+        then: Yup.string().required('Alias Last Name is required'),
+    }),
     dob: Yup.mixed().required('Date of Birth is required'),
     ssn: Yup.string()
         // .required('SSN Number is required')
@@ -97,6 +107,9 @@ const ClientBasicDetailsFormValidationSchema = Yup.object({
 const ClientBasicDetailsFormInitialValues: IClientBasicDetails = {
     first_name: "",
     last_name: "",
+    alias_first_name: "",
+    alias_last_name: "",
+    is_alias_name_set: false,
     gender: "",
     dob: "",
     nick_name: "",
@@ -375,6 +388,65 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                         </div>
                                         <div className="ts-col-1"></div>
                                     </div>
+                                    <div className={'alias-name-check-box'}>
+                                        <Field name={'is_alias_name_set'}>
+                                            {
+                                                (field: FieldProps) => (
+                                                    <FormikCheckBoxComponent
+                                                        label={'Add Alias Name'}
+                                                        required={true}
+                                                        formikField={field}
+                                                        labelPlacement={"start"}
+                                                        onChange={(value: boolean) => {
+                                                            setFieldValue('alias_first_name', "");
+                                                            setFieldValue('alias_last_name', "");
+                                                        }
+                                                        }
+                                                    />
+                                                )
+                                            }
+                                        </Field>
+                                    </div>
+                                    {
+                                        values.is_alias_name_set &&
+                                        <div className="ts-row">
+                                            <div className="ts-col">
+                                                <Field name={'alias_first_name'}>
+                                                    {
+                                                        (field: FieldProps) => (
+                                                            <FormikInputComponent
+                                                                label={'Alias First Name'}
+                                                                placeholder={'E.g. John'}
+                                                                type={"text"}
+                                                                required={true}
+                                                                titleCase={true}
+                                                                formikField={field}
+                                                                fullWidth={true}
+                                                            />
+                                                        )
+                                                    }
+                                                </Field>
+                                            </div>
+                                            <div className="ts-col">
+                                                <Field name={'alias_last_name'}>
+                                                    {
+                                                        (field: FieldProps) => (
+                                                            <FormikInputComponent
+                                                                label={'Alias Last Name'}
+                                                                placeholder={'E.g. Doe'}
+                                                                type={"text"}
+                                                                required={true}
+                                                                titleCase={true}
+                                                                formikField={field}
+                                                                fullWidth={true}
+                                                            />
+                                                        )
+                                                    }
+                                                </Field>
+                                            </div>
+                                            <div className="ts-col-1"></div>
+                                        </div>
+                                    }
                                     <div className="ts-row">
                                         <div className="ts-col">
                                             <Field name={'nick_name'}>

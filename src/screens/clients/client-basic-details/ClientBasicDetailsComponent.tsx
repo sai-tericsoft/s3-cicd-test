@@ -27,6 +27,8 @@ const ClientBasicDetailsComponent = (props: ClientBasicDetailsComponentProps) =>
     } = useSelector((state: IRootReducerState) => state.client);
 
     const [isSSNMasked, setIsSSNMasked] = React.useState<boolean>(true);
+    const [isFirstNameMasked, setIsFirstNameMasked] = React.useState<boolean>(true);
+    const [isLastNameMasked, setIsLastNameMasked] = React.useState<boolean>(true);
 
     return (
         <div className={'client-basic-details-component'}>
@@ -43,19 +45,53 @@ const ClientBasicDetailsComponent = (props: ClientBasicDetailsComponentProps) =>
                 (isClientBasicDetailsLoaded && clientBasicDetails) && <>
                     <CardComponent title={'Personal Details'}>
                         <div className="ts-row">
-                            <div className="ts-col-md-6 ts-col-lg-3">
-                                <DataLabelValueComponent className={'patient-name'} label={'Last Name'}>
-                                    {clientBasicDetails?.last_name || 'N/A'}
-                                </DataLabelValueComponent>
-                            </div>
-                            <div className="ts-col-md-6 ts-col-lg-3">
-                                <DataLabelValueComponent className={'patient-name'} label={'First Name'}>
-                                    {clientBasicDetails?.first_name || "N/A"}
-                                </DataLabelValueComponent>
-                            </div>
+                            {
+                                clientBasicDetails?.is_alias_name_set ? <>
+                                        <div className="ts-col-md-6 ts-col-lg-3">
+                                            <DataLabelValueComponent
+                                                label={clientBasicDetails?.last_name ? `Last Name ${isLastNameMasked ? '(Click to view)' : ''}` : 'Last Name'}>
+                                                {clientBasicDetails?.last_name ?
+                                                    <MaskTextComponent value={clientBasicDetails?.last_name}
+                                                                       onToggle={setIsLastNameMasked}/> : 'N/A'}
+                                            </DataLabelValueComponent>
+                                        </div>
+                                        <div className="ts-col-md-6 ts-col-lg-3">
+                                            <DataLabelValueComponent
+                                                label={clientBasicDetails?.first_name ? `First Name ${isFirstNameMasked ? '(Click to view)' : ''}` : 'First Name'}>
+                                                {clientBasicDetails?.first_name ?
+                                                    <MaskTextComponent value={clientBasicDetails?.first_name}
+                                                                       onToggle={setIsFirstNameMasked}/> : 'N/A'}
+                                            </DataLabelValueComponent>
+                                        </div>
+                                        <div className="ts-col-md-6 ts-col-lg-3">
+                                            <DataLabelValueComponent
+                                                label={'Alias Last Name'}>
+                                                {clientBasicDetails?.alias_last_name || 'N/A'}
+                                            </DataLabelValueComponent>
+                                        </div>
+                                        <div className="ts-col-md-6 ts-col-lg-3">
+                                            <DataLabelValueComponent
+                                                label={'Alias First Name'}>
+                                                {clientBasicDetails?.alias_first_name || 'N/A'}
+                                            </DataLabelValueComponent>
+                                        </div>
+                                    </> :
+                                    <>
+                                        <div className="ts-col-md-6 ts-col-lg-3">
+                                            <DataLabelValueComponent className={'patient-name'} label={'Last Name'}>
+                                                {clientBasicDetails?.last_name || 'N/A'}
+                                            </DataLabelValueComponent>
+                                        </div>
+                                        <div className="ts-col-md-6 ts-col-lg-3">
+                                            <DataLabelValueComponent className={'patient-name'} label={'First Name'}>
+                                                {clientBasicDetails?.first_name || "N/A"}
+                                            </DataLabelValueComponent>
+                                        </div>
+                                    </>
+                            }
                             <div className="ts-col-md-6 ts-col-lg-3">
                                 <DataLabelValueComponent label={'Date of Birth'}>
-                                    {(clientBasicDetails?.dob===undefined || !clientBasicDetails?.dob) ? "N/A" :moment(clientBasicDetails?.dob).format('DD-MMM-YYYY') }
+                                    {(clientBasicDetails?.dob === undefined || !clientBasicDetails?.dob) ? "N/A" : moment(clientBasicDetails?.dob).format('DD-MMM-YYYY')}
                                 </DataLabelValueComponent>
                             </div>
                             <div className="ts-col-md-6 ts-col-lg-3">
@@ -69,8 +105,11 @@ const ClientBasicDetailsComponent = (props: ClientBasicDetailsComponentProps) =>
                                 </DataLabelValueComponent>
                             </div>
                             <div className="ts-col-md-6 ts-col-lg-3">
-                                <DataLabelValueComponent label={clientBasicDetails?.ssn ? `SSN ${isSSNMasked ? '(Click to view)' : ''}`:'SSN'}>
-                                    {clientBasicDetails?.ssn ?  <MaskTextComponent value={clientBasicDetails?.ssn} onToggle={setIsSSNMasked}/>:'N/A'}
+                                <DataLabelValueComponent
+                                    label={clientBasicDetails?.ssn ? `SSN ${isSSNMasked ? '(Click to view)' : ''}` : 'SSN'}>
+                                    {clientBasicDetails?.ssn ?
+                                        <MaskTextComponent value={clientBasicDetails?.ssn}
+                                                           onToggle={setIsSSNMasked}/> : 'N/A'}
                                 </DataLabelValueComponent>
                             </div>
                         </div>
@@ -111,7 +150,7 @@ const ClientBasicDetailsComponent = (props: ClientBasicDetailsComponentProps) =>
                             {/*    &&  <HorizontalLineComponent className={'alternate-heading-horizontal-line'}/>}*/}
                             <div className="ts-col-6">
                                 {
-                                    clientBasicDetails?.secondary_contact_info &&  clientBasicDetails?.secondary_contact_info?.length > 0 &&
+                                    clientBasicDetails?.secondary_contact_info && clientBasicDetails?.secondary_contact_info?.length > 0 &&
                                     clientBasicDetails?.secondary_contact_info[0]?.phone !== "" &&
                                     <>
                                         {/*<FormControlLabelComponent size={'sm'} label={'Alternate Phone:'}/>*/}
@@ -342,7 +381,8 @@ const ClientBasicDetailsComponent = (props: ClientBasicDetailsComponentProps) =>
                 </>
             }
         </div>
-    );
+    )
+        ;
 
 };
 

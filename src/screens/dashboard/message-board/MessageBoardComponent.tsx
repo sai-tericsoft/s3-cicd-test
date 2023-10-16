@@ -14,6 +14,7 @@ import {getAllMessageHistory} from "../../../store/actions/dashboard.action";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 import EditMessageComponent from "../edit-message/EditMessageComponent";
 import AvatarComponent from "../../../shared/components/avatar/AvatarComponent";
+import commonService from "../../../shared/services/common.service";
 
 interface MessageBoardComponentProps {
 
@@ -54,7 +55,7 @@ const MessageBoardComponent = (props: MessageBoardComponentProps) => {
     const handleMessageDelete = useCallback((messageId: string) => {
         CommonService.onConfirm({
             image: ImageConfig.ConfirmationLottie,
-            showLottie:true,
+            showLottie: true,
             confirmationTitle: "DELETE MESSAGE",
             confirmationSubTitle: "Are you sure you want to delete this message from\n" +
                 "message board? This action cannot be undone."
@@ -156,10 +157,10 @@ const MessageBoardComponent = (props: MessageBoardComponentProps) => {
                                         <div className={' ts-col-10 birthday-detail-wrapper'}>
                                             <div className={'avatar-container'}>
                                                 <AvatarComponent className={'avatar-name'}
-                                                                 title={birthday?.first_name + " " + birthday?.last_name}/>
+                                                                 title={commonService.generateClientNameFromClientDetails(birthday)}/>
                                             </div>
                                             <div
-                                                className={'client-name'}>{CommonService.capitalizeFirstLetter(birthday?.first_name)} {CommonService.capitalizeFirstLetter(birthday?.last_name)} (ID:{birthday?.client_id})
+                                                className={'client-name'}>{ CommonService.generateClientFirstNameFromClientDetails(birthday)} {CommonService.generateClientLastNameFromClientDetails(birthday)} (ID:{birthday?.client_id})
                                             </div>
                                         </div>
                                         <div className={'ts-col-1 icon-wrapper'}

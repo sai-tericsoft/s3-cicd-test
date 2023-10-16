@@ -97,18 +97,18 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
             // width: 160,
             render: (item: any) => {
                 return <>
-                    {CommonService.extractName(item?.client_details).length > 20 ?
+                    {CommonService.extractName(item?.client_details)?.length > 20 ?
                         <ToolTipComponent
                             tooltip={item?.client_details && CommonService.extractName(item?.client_details)}
                             position={"top"}
                             showArrow={true}
                         >
                             <div className={"ellipses-for-table-data"}>
-                                {item?.client_details && CommonService.extractName(item?.client_details)}
+                                <span className={item?.client_details?.is_alias_name_set ? "alias-name":""}> {item?.client_details && CommonService.extractName(item?.client_details)}</span>
                             </div>
                         </ToolTipComponent> :
                         <>
-                            {item?.client_details && CommonService.extractName(item?.client_details)}
+                            <span className={item?.client_details?.is_alias_name_set ? "alias-name":""}> {item?.client_details && CommonService.extractName(item?.client_details)}</span>
                         </>
                     }
                     {/*{CommonService.extractName(item?.client_details)}*/}

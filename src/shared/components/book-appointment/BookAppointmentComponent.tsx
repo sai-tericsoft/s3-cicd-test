@@ -96,7 +96,7 @@ const BookAppointmentComponent = (props: BookAppointmentComponentProps) => {
             render: (item: any) => {
                 return <RadioButtonComponent name={'selected-client'}
                                              value={item}
-                                             label={`${CommonService.extractName(item)} (ID: ${item.client_id || ''})`}
+                                             label={<><span className={item?.is_alias_name_set ? 'alias-name':''}>{`${CommonService.extractName(item)}`}</span> {`(ID: ${item.client_id || ''})`}</>}
                                              checked={selectedClient?._id === item?._id}
                                              onChange={(value: any) => {
                                                  setSelectedClient(value);

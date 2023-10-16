@@ -1,4 +1,4 @@
-import React, {InputHTMLAttributes} from "react";
+import React, {InputHTMLAttributes, ReactNode} from "react";
 import {AutocompleteRenderOptionState} from "@mui/material";
 import {Moment} from "moment/moment";
 
@@ -110,7 +110,7 @@ export interface IRadioButtonProps {
     errorMessage?: any;
     hasError?: boolean;
     id?: any;
-    label?: string;
+    label?: ReactNode;
     name?: string;
     onChange?: (value: any) => void;
     option?: any;

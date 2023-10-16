@@ -61,7 +61,7 @@ const MedicalRecordAttachmentBasicDetailsCardComponent = (props: MedicalRecordAt
                     <div className={"medical-record-attachment-basic-details-header"}>
                         <div className={"medical-record-attachment-basic-details-name-status-wrapper"}>
                             <div className={"medical-record-attachment-basic-details-name"}>
-                                {CommonService.extractName(medicalRecordDetails.client_details)}
+                                <span className={medicalRecordDetails.client_details?.is_alias_name_set ? 'alias-name':''}> {CommonService.extractName(medicalRecordDetails.client_details)}</span>
                             </div>
                             <div className={"medical-record-attachment-basic-details-status"}>
                                 <ChipComponent

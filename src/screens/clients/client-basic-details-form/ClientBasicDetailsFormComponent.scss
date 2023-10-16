@@ -1,38 +1,56 @@
-.client-basic-details-form-component{
-  .t-form{
-    .add-client-heading{
+.client-basic-details-form-component {
+  .t-form {
+    .alias-name-check-box {
+      margin-top: -10px;
+      margin-bottom: 10px;
+      margin-left: -10px;
+      .MuiFormControlLabel-root {
+        display: flex;
+        flex-direction: unset;
+      }
+    }
+
+    .add-client-heading {
       font-weight: 700;
       font-size: 1.2857rem;
       color: #00534F;
       margin-bottom: 20px;
     }
-    .edit-client-heading{
+
+    .edit-client-heading {
       font-weight: 700;
       font-size: 1.2857rem;
       color: #00534F;
     }
-    .primary-phone-divider{
-      border:1px solid #CECECE;
+
+    .primary-phone-divider {
+      border: 1px solid #CECECE;
     }
-    .alternate-phone-divider{
-      border:2px solid #CECECE;
+
+    .alternate-phone-divider {
+      border: 2px solid #CECECE;
     }
-    .remove-contact-button{
+
+    .remove-contact-button {
       margin-bottom: 24px;
       margin-left: 20px;
       align-items: center;
     }
-    .secondary-emergency-divider{
-      border:2px solid #CECECE;
+
+    .secondary-emergency-divider {
+      border: 2px solid #CECECE;
     }
-    .t-form-actions{
+
+    .t-form-actions {
       margin-top: 30px;
       margin-bottom: 0px;
-      .submit-cta{
+
+      .submit-cta {
         margin-left: 16px;
       }
     }
-    .add-another-contact-cta{
+
+    .add-another-contact-cta {
       margin-bottom: 24px;
     }
   }

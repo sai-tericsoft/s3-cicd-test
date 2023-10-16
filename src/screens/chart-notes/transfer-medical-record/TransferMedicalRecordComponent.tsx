@@ -47,7 +47,7 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
                 dataIndex: 'name',
                 render: (item: any) => {
                     return <RadioButtonComponent
-                        label={`${CommonService.extractName(item)} (ID: ${item.client_id || ''})`}
+                        label={<><span className={item?.is_alias_name_set ? 'alias-name':''}>{`${CommonService.extractName(item)}`}</span> {`(ID: ${item.client_id || ''})`}</>}
                         name={'client'} value={item?._id}
                         checked={selectedClient?._id === item?._id}
                         onChange={() => {
@@ -379,7 +379,7 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
                             <div className="client-mini-card">
                                 <AvatarComponent title={CommonService.extractName(selectedClient)} className={'avatar'}/>
                                 <div className="client-name">
-                                    {CommonService.extractName(selectedClient)}
+                                   <span className={selectedClient?.is_alias_name_set ? "alias-name":""}> {CommonService.extractName(selectedClient)}</span>
                                 </div>
                             </div>
                         </CardComponent>
@@ -417,7 +417,7 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
                             <div className="client-mini-card">
                                 <AvatarComponent title={CommonService.extractName(selectedClient)}/>
                                 <div className="client-name">
-                                    {CommonService.extractName(selectedClient)}
+                                    <span className={selectedClient?.is_alias_name_set ? "alias-name":""}>  {CommonService.extractName(selectedClient)}</span>
                                 </div>
                             </div>
                         </CardComponent>

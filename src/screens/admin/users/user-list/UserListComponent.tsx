@@ -34,7 +34,7 @@ const UserListComponent = (props: UserListComponentProps) => {
                 sortable: true,
                 width: 150,
                 render: (item: any) => {
-                    return <span>{CommonService.extractName(item)}</span>
+                    return <>{CommonService.extractName(item)}</>
                 }
             },
             {

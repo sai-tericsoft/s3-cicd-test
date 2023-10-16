@@ -47,7 +47,7 @@ const TransferSoapNoteComponent = (props: TransferSoapNoteComponentProps) => {
             render: (item: any) => {
                 return <RadioButtonComponent name={'selected-client'}
                                              value={item}
-                                             label={`${CommonService.extractName(item)} (ID: ${item.client_id || ''})`}
+                                             label={<><span className={item?.is_alias_name_set ? 'alias-name':''}>{`${CommonService.extractName(item)}`}</span> {`(ID: ${item.client_id || ''})`}</>}
                                              checked={selectedClient?._id === item?._id}
                                              onChange={(value: any) => {
                                                  setSelectedClient(value);
@@ -152,7 +152,7 @@ const TransferSoapNoteComponent = (props: TransferSoapNoteComponentProps) => {
             confirmationSubTitle: 'Are you sure you want to transfer this SOAP to:',
             confirmationDescription: <div className="transfer-file-to">
             <div className={'mrg-bottom-10'}>
-                <span className={'client-case-name-title'}>Client:</span> <span>{CommonService.extractName(selectedClient)}</span>
+                <span className={'client-case-name-title'}>Client:</span> <span className={selectedClient?.is_alias_name_set ? "alias-name":""}>  {CommonService.extractName(selectedClient)}</span>
             </div>
             <div>
                 <span className={'client-case-name-title'}>Case:</span> <span>{CommonService.generateInterventionNameFromMedicalRecord(selectedMedicalRecord)}</span>
@@ -271,7 +271,7 @@ const TransferSoapNoteComponent = (props: TransferSoapNoteComponentProps) => {
                                     </div>
                                     <div>
                                         <div
-                                            className={'client-name'}>{CommonService.extractName(selectedClient)}</div>
+                                            className={'client-name'}><span className={selectedClient?.is_alias_name_set ? "alias-name":""}>  {CommonService.extractName(selectedClient)}</span></div>
                                     </div>
                                 </div>
                             </CardComponent>

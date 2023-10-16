@@ -508,10 +508,6 @@ const validateDecimal = (input: any) => {
     }
 }
 
-const extractName = (data: any) => {
-    return (data?.first_name || data?.last_name ? data?.last_name + ', ' + data?.first_name : '-');
-};
-
 const getNormalizedFileType = (fileType: any) => {
     let type: any = fileType;
     if (type.includes('image')) {
@@ -690,6 +686,42 @@ const EndTimingsList = (time: any) => {
     });
 };
 
+const generateClientNameFromClientDetails = (clientDetails: any) => {
+    if (!clientDetails) return '';
+    else if (clientDetails?.is_alias_name_set) {
+        return clientDetails?.alias_first_name + ' ' + clientDetails?.alias_last_name;
+    } else {
+        return clientDetails?.first_name + ' ' + clientDetails?.last_name;
+    }
+}
+
+const generateClientFirstNameFromClientDetails = (clientDetails: any) => {
+    if (!clientDetails) return '';
+    else if (clientDetails?.is_alias_name_set) {
+        return capitalizeFirstLetterOfEachWord(clientDetails?.alias_first_name);
+    } else {
+        return capitalizeFirstLetterOfEachWord(clientDetails?.first_name);
+    }
+}
+
+const generateClientLastNameFromClientDetails = (clientDetails: any) => {
+    if (!clientDetails) return '';
+    else if (clientDetails?.is_alias_name_set) {
+        return capitalizeFirstLetterOfEachWord(clientDetails?.alias_last_name);
+    } else {
+        return capitalizeFirstLetterOfEachWord(clientDetails?.last_name);
+    }
+}
+
+const extractName = (data: any) => {
+    if (!data) return ('-');
+    else if(data?.is_alias_name_set){
+        return  (data?.alias_first_name || data?.alias_last_name ? data?.alias_last_name + ', ' + data?.alias_first_name : '-');
+    }
+    return (data?.first_name || data?.last_name ? data?.last_name + ', ' + data?.first_name : '-');
+};
+
+
 
 const CommonService = {
     LightenDarkenColor,
@@ -751,6 +783,9 @@ const CommonService = {
     EndTimingsList,
     openConfirmationDialog,
     capitalizeFirstLetterOfEachWord,
+    generateClientNameFromClientDetails,
+    generateClientFirstNameFromClientDetails,
+    generateClientLastNameFromClientDetails,
     // createValidationsObject,
     // createYupSchema,
 

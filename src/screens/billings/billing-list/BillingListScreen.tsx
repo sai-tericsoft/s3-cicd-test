@@ -186,19 +186,19 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             render: (item: any) => {
                 return <>
                     {
-                        (item?.client_details.first_name + ' ' + item?.client_details?.last_name).length > 20 ?
+                        commonService.generateClientNameFromClientDetails(item?.client_details).length > 20 ?
                             <ToolTipComponent
-                                tooltip={(item?.client_details.first_name + ' ' + item?.client_details?.last_name)}
+                                tooltip={commonService.generateClientNameFromClientDetails(item?.client_details)}
                                 position={"top"}
                                 showArrow={true}
                             >
-                                <div className={"ellipses-for-table-data"}>
-                                    {item?.client_details?.first_name} {item?.client_details?.last_name}
+                                <div className={item?.client_details?.is_alias_name_set ? "ellipses-for-table-data alias-name" : "ellipses-for-table-data alias-name"}>
+                                    {commonService.generateClientNameFromClientDetails(item?.client_details)}
                                 </div>
                             </ToolTipComponent> :
-                            <>
+                            <span className={item?.client_details?.is_alias_name_set ? 'alias-name':''}>
                                 {CommonService.extractName(item?.client_details)}
-                            </>
+                            </span>
                     }
                 </>
             }
@@ -519,9 +519,9 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             dataIndex: 'first_name',
             align: 'left',
             render: (item: any) => {
-                return <>
+                return  <span className={item?.client_details?.is_alias_name_set ? 'alias-name':''}>
                     {CommonService.extractName(item?.client_details)}
-                </>
+                </span>
             }
         },
         {
@@ -623,9 +623,9 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             align: 'left',
             width: 100,
             render: (item: any) => {
-                return <>
+                return  <span className={item?.client_details?.is_alias_name_set ? 'alias-name':''}>
                     {CommonService.extractName(item?.client_details) || '-'}
-                </>
+                </span>
             }
         },
         {
@@ -718,7 +718,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             width: 120,
             align: 'center',
             render: (item: any) => {
-                return <>{CommonService.extractName(item?.client_details)}</>
+                return  <span className={item?.client_details?.is_alias_name_set ? 'alias-name':''}>{CommonService.extractName(item?.client_details)}</span>
             }
         },
         {
@@ -998,10 +998,10 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                             }
                             {!clientId &&
                                 <ButtonComponent prefixIcon={<ImageConfig.AddIcon/>}
-                                onClick={()=>navigate(CommonService._routeConfig.AddNewReceipt())}>
+                                                 onClick={() => navigate(CommonService._routeConfig.AddNewReceipt())}>
                                     New Receipt
                                 </ButtonComponent>
-                           }
+                            }
                         </div>
                     </div>
                 </div>

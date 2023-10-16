@@ -21,7 +21,7 @@ const DraftNoteListComponent = (props: DraftNoteListComponentProps) => {
             dataIndex: 'first_name',
             width: 116,
             render: (item: any) => {
-                return <>{CommonService.extractName(item?.client_details)}</>
+                return <span className={item?.client_details?.is_alias_name_set ? "alias-name":""}>{CommonService.extractName(item?.client_details)}</span>
             }
         },
         {

@@ -41,7 +41,7 @@ const ClientListTableComponent = (props: ClientListTableComponentProps) => {
             sortable: true,
             width: 150,
             render: (item: IClientBasicDetails) => {
-                return <span>{CommonService.extractName(item)}</span>
+                return <span className={item?.is_alias_name_set ? 'alias-name':''}>{CommonService.extractName(item)}</span>
             }
         },
         {
