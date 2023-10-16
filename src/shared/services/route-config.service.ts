@@ -368,6 +368,10 @@ const openMedicalRecordActivityLog = (medicalRecordId: string) => {
     return '/chart-notes/' + medicalRecordId + '/activity-log';
 }
 
+const LinkProviderToSericeRoute = (serviceId: string) => {
+    return '/admin/link-provider-to-service/' + serviceId;
+}
+
 const RouteConfigService = {
     DefaultRoute,
     LoginRoute,
@@ -454,7 +458,8 @@ const RouteConfigService = {
     BillingSettings,
     ConsolidatedBillingDetails,
     ClientSharedDocuments,
-    openMedicalRecordActivityLog
+    openMedicalRecordActivityLog,
+    LinkProviderToSericeRoute
 }
 
 export default RouteConfigService;

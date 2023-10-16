@@ -113,7 +113,7 @@ import {
     USER_SLOTS_DETAILS,
     USER_SLOTS_EDIT,
     VIEW_MEDICAL_INTERVENTION, PASSWORD_RESET_SUCCESS_ROUTE,
-    CLIENT_SHARED_DOCUMENTS
+    CLIENT_SHARED_DOCUMENTS, LINK_PROVIDER_TO_SERVICE
 } from "../constants/RoutesConfig";
 import MedicalInterventionRomConfigScreen
     from "../screens/chart-notes/medical-intervention-rom-config/MedicalInterventionRomConfigScreen";
@@ -203,6 +203,8 @@ import PasswordResetSuccessfulScreen from "../screens/auth/password-reset-succes
 import ClientSharedDocumentsComponent from "../screens/clients/client-shared-documents/ClientSharedDocumentsComponent";
 import ChartNotesActivityLogsComponent
     from "../screens/chart-notes/chart-notes-activity-logs/ChartNotesActivityLogsComponent";
+import LinkProviderToServiceComponent
+    from "../screens/admin/service/link-provider-to-service/LinkProviderToServiceComponent";
 
 
 const ProtectedRoute = (props: React.PropsWithChildren<any>) => {
@@ -221,10 +223,10 @@ const ProtectedRoute = (props: React.PropsWithChildren<any>) => {
     }, [token, navigate, location, dispatch]);
 
     return (
-       <NoInternetComponent>
-           {children}
-       </NoInternetComponent>
-    ) ;
+        <NoInternetComponent>
+            {children}
+        </NoInternetComponent>
+    );
 }
 
 const UnProtectedRoute = (props: React.PropsWithChildren<any>) => {
@@ -245,7 +247,7 @@ const UnProtectedRoute = (props: React.PropsWithChildren<any>) => {
         }
     }, [token, navigate, location])
 
-    return(
+    return (
         <NoInternetComponent>
             {children}
         </NoInternetComponent>
@@ -318,7 +320,7 @@ const Navigator = (props: NavigatorProps) => {
                                 <ClientSharedDocumentsComponent/>
                             </ProtectedRoute>
                         }
-                               />
+                        />
                         <Route path={CLIENT_DETAILS} element={<ClientDetailsScreen/>} {...props}>
                             <Route
                                 index
@@ -401,10 +403,10 @@ const Navigator = (props: NavigatorProps) => {
                            }
                     />
                     <Route path={MEDICAL_RECORD_ACTIVITY_LOG}
-                            element={<ProtectedRoute>
-                                <ChartNotesActivityLogsComponent/>
-                            </ProtectedRoute>
-                            }
+                           element={<ProtectedRoute>
+                               <ChartNotesActivityLogsComponent/>
+                           </ProtectedRoute>
+                           }
                     />
                     <Route path={CLIENT_MEDICAL_RECORD_DETAILS} element={<ProtectedRoute>
                         <ClientMedicalRecordDetailsComponent/>
@@ -582,9 +584,15 @@ const Navigator = (props: NavigatorProps) => {
                             }
                         />
 
-
                     </Route>
-
+                    <Route
+                        path={LINK_PROVIDER_TO_SERVICE}
+                        element={
+                            <ProtectedRoute>
+                                <LinkProviderToServiceComponent/>
+                            </ProtectedRoute>
+                        }
+                    />
                     <Route path={USER} element={<UserDetailsLayoutComponent/>} {...props}>
                         <Route index element={<Navigate to={USER_PERSONAL_DETAILS}/>}/>
                         <Route path={USER_PERSONAL_DETAILS}
@@ -976,7 +984,7 @@ const Navigator = (props: NavigatorProps) => {
                             </UnProtectedRoute>
                         }/>
                     <Route
-                        path={OTP_VERIFICATION_ROUTE+'/:email'}
+                        path={OTP_VERIFICATION_ROUTE + '/:email'}
                         element={
                             <UnProtectedRoute>
                                 <OtpVerificationScreen/>

@@ -107,6 +107,7 @@ const USER_SLOTS_EDIT = "/admin/user-slots-edit";
 
 const BILLING_SETTINGS = "/admin/billing-settings";
 
+const LINK_PROVIDER_TO_SERVICE = '/admin/link-provider-to-service/:serviceId';
 const GUEST_ROUTES = [NOT_FOUND_ROUTE, DESIGN_SYSTEM_ROUTE, LOGIN_ROUTE];
 
 export {
@@ -201,5 +202,6 @@ export {
     BILLING_SETTINGS,
     CONSOLIDATED_BILLING_DETAILS,
     CLIENT_SHARED_DOCUMENTS,
-    MEDICAL_RECORD_ACTIVITY_LOG
+    MEDICAL_RECORD_ACTIVITY_LOG,
+    LINK_PROVIDER_TO_SERVICE
 };

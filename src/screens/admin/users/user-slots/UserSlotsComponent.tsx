@@ -26,6 +26,7 @@ import {setCurrentNavParams} from "../../../../store/actions/navigation.action";
 import * as Yup from "yup";
 
 interface UserSlotsComponentProps {
+    userId?: string;
 }
 
 const allSlotsTimeValidationSchema = Yup.object({
@@ -160,7 +161,8 @@ const InitialValue: any = {
 const UserSlotsComponent = (props: UserSlotsComponentProps) => {
 
         const dispatch = useDispatch();
-        const {userId}: any = useParams();
+        let {userId}: any = useParams();
+        if(!userId) userId = props.userId;
         const {
             isUserBasicDetailsLoaded,
             isUserBasicDetailsLoading,
