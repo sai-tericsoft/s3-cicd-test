@@ -94,8 +94,6 @@ const SystemSettingsScreen = (props: SystemSettingsScreenProps) => {
         }
     }, [dispatch]);
 
-    console.log('s', systemSettings);
-
     return (
         <div className={'system-settings-screen'}>
             <div>

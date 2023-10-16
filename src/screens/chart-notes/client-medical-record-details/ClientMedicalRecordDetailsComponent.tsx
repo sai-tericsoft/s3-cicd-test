@@ -79,7 +79,7 @@ const ClientMedicalRecordDetailsComponent = (props: ClientMedicalDetailsComponen
         if (clientMedicalRecord && clientMedicalRecord.client_id) {
             const payload = {
                 client_id: clientMedicalRecord.client_id,
-                medicalRecordId: medicalRecordId,
+                medical_record_id: medicalRecordId,
                 is_link_to_intervention: true,
                 appointment_type: 'followup_consultation',
             };

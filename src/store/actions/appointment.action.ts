@@ -5,7 +5,7 @@ export const GET_APPOINTMENT_SETTINGS = 'GET_APPOINTMENT_SETTINGS';
 export const SET_APPOINTMENT_SETTINGS = 'SET_APPOINTMENT_SETTINGS';
 
 export const getAppointmentListLite = (payload: any) => {
-    console.log(payload);
+
     return {
         type: GET_APPOINTMENT_LIST_LITE, payload: payload
     };

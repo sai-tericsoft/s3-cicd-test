@@ -57,7 +57,6 @@ const getAppointmentFormStatus = (appointmentId: string) => {
 
 const getAppointmentListLite = (payload: any) => {
     // @ts-ignore
-    console.log(payload);
     return ApiService[APIConfig.APPOINTMENT_LIST_LITE.METHOD](APIConfig.APPOINTMENT_LIST_LITE.URL, payload);
 }
 
