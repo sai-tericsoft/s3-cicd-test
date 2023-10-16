@@ -23,6 +23,7 @@ import {
     getClientMedicalDetails
 } from "../../../store/actions/client.action";
 import {IRootReducerState} from "../../../store/reducers";
+import commonService from "../../../shared/services/common.service";
 
 interface ClientProfileLayoutComponentProps {
 
@@ -92,7 +93,7 @@ const ClientProfileLayoutComponent = (props: ClientProfileLayoutComponentProps) 
                 confirmationSubTitle: 'Are you sure you want to resend the invite link',
                 confirmationDescription:<div className="transfer-file-to">
                     <div className={'mrg-bottom-15'}>
-                        <span className={'client-case-name-title '}>Client:</span> <span>{clientBasicDetails?.first_name} {clientBasicDetails?.last_name}</span>
+                        <span className={'client-case-name-title '}>Client:</span> <span className={clientBasicDetails?.is_alias_name_set ? "alias-name":""}>{commonService.generateClientNameFromClientDetails(clientBasicDetails)}</span>
                     </div>
                     <div>
                         <span className={'client-case-name-title'}>Email:</span> <span>{clientBasicDetails.primary_email}</span>

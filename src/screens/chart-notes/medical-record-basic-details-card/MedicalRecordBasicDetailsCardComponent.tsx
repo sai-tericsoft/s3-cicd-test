@@ -32,6 +32,7 @@ import _ from "lodash";
 import FormikTextAreaComponent from "../../../shared/components/form-controls/formik-text-area/FormikTextAreaComponent";
 import LottieFileGenerationComponent
     from "../../../shared/components/lottie-file-generation/LottieFileGenerationComponent";
+import commonService from "../../../shared/services/common.service";
 
 const MedicalInterventionFormInitialValues: any = {
     intervention_date: new Date(),
@@ -322,7 +323,10 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
                                 <div className={'client-name-button-wrapper'}>
                                     <span className={'client-name-wrapper'}>
                                         <span className={'client-name'}>
-                                                {clientMedicalRecord?.client_details?.first_name || "N/A"} {clientMedicalRecord?.client_details?.last_name || "N/A"}
+                                            <span
+                                                className={clientMedicalRecord?.client_details?.is_alias_name_set ? 'alias-name' : ''}>
+                                                {commonService.generateClientNameFromClientDetails(clientMedicalRecord?.client_details)}
+                                                </span>
                                         </span>
                                         <ChipComponent
                                             className={clientMedicalRecord?.status === "open" ? "active" : "inactive"}

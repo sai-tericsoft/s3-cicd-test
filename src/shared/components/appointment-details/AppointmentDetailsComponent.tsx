@@ -17,6 +17,7 @@ import AppointmentCancelComponent from "./appointment-cancel/AppointmentCancelCo
 import AppointmentRescheduleComponent from "./appointment-reschedule/AppointmentRescheduleComponent";
 import AppointmentPaymentComponent from "./appointment-payment/AppointmentPaymentComponent";
 import {useNavigate} from "react-router-dom";
+import commonService from "../../services/common.service";
 
 interface AppointmentDetailsComponentProps {
     onClose?: () => void
@@ -282,7 +283,13 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
                                                 Name
                                             </div>
                                             <div
-                                                className="item-value">{details?.client_details?.first_name + ' ' + details?.client_details?.last_name}</div>
+                                                className="item-value">
+                                                <span
+                                                    className={details?.client_details?.is_alias_name_set ? "alias-name" : ""}>
+                                                {commonService.generateClientNameFromClientDetails(details?.client_details)}
+                                                     </span>
+                                            </div>
+
                                         </div>
                                         <div className="details-body-item">
                                             <div className="item-heading"><ImageConfig.CallIcon/>&nbsp;&nbsp;Phone
