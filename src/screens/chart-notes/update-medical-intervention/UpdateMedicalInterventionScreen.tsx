@@ -251,13 +251,15 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
     const onSubmit = useCallback((values: any, {
         setSubmitting,
         setErrors,
-        setFieldValue
-    }: FormikHelpers<any>, announce = false, cb: any = null) => {
+        setFieldValue,
+    }: FormikHelpers<any>, announce = false, cb: any = null,is_signed?:boolean) => {
         if (medicalInterventionId) {
             setSubmitting(true);
             setIsSavingProgress(true);
-            const payload = {...CommonService.removeKeysFromJSON(_.cloneDeep(values), ['created_at', 'medical_record_id', 'treated_by', 'appointment_id', 'category_id', 'service_id'])};
-
+            let payload = {...CommonService.removeKeysFromJSON(_.cloneDeep(values), ['created_at', 'medical_record_id', 'treated_by', 'appointment_id', 'category_id', 'service_id'])};
+            if(is_signed){
+                payload.is_signed = true;
+            }
             CommonService._chartNotes.MedicalInterventionBasicDetailsUpdateAPICall(medicalInterventionId, payload)
                 .then((response: IAPIResponseType<any>) => {
                     // dispatch(setMedicalInterventionDetails(response.data));
@@ -265,8 +267,7 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                         is_signed: response.data?.is_signed,
                         signed_on: response.data?.signed_on
                     })
-                    setFieldValue('is_signed', response?.data?.is_signed);
-                    setFieldValue('signed_on', null);
+
                     if (medicalInterventionDetails?.is_flagged !== payload.is_flagged) {
                         CommonService._alert.showToast(payload.is_flagged ? 'Note has been flagged.' : 'Note has been unflagged.', "success");
                     }
@@ -302,7 +303,10 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                 is_signed: medicalInterventionDetails?.is_signed,
                 signed_on: medicalInterventionDetails?.signed_on
             })
-            setAddMedicalInterventionFormInitialValues(medicalInterventionDetails);
+            const medicalInterventionDetailsCopy = _.cloneDeep(medicalInterventionDetails);
+            delete medicalInterventionDetailsCopy.is_signed;
+            delete medicalInterventionDetailsCopy.signed_on;
+            setAddMedicalInterventionFormInitialValues(medicalInterventionDetailsCopy);
         }
     }, [medicalInterventionDetails]);
 
@@ -341,16 +345,14 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                     navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId));
                 }
             }));
-
         }
     }, [navigate, dispatch, medicalRecordId, searchParams]);
 
     const handleSign = useCallback((values: any, formik: FormikHelpers<any>) => {
         setIsSigningInProgress(true);
-        values['is_signed'] = true;
         onSubmit(values, formik, true, () => {
             setIsSigningInProgress(false);
-        });
+        },true);
     }, [onSubmit]);
 
     const handleDiscardNote = useCallback(() => {
