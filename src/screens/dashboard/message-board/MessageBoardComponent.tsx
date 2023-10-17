@@ -160,7 +160,7 @@ const MessageBoardComponent = (props: MessageBoardComponentProps) => {
                                                                  title={commonService.generateClientNameFromClientDetails(birthday)}/>
                                             </div>
                                             <div
-                                                className={'client-name'}>{ CommonService.generateClientFirstNameFromClientDetails(birthday)} {CommonService.generateClientLastNameFromClientDetails(birthday)} (ID:{birthday?.client_id})
+                                                className={'client-name'}><span className={birthday?.is_alias_name_set ? 'alias-name':""}> { CommonService.generateClientNameFromClientDetails(birthday)} </span>(ID:{birthday?.client_id})
                                             </div>
                                         </div>
                                         <div className={'ts-col-1 icon-wrapper'}

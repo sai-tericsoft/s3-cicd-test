@@ -91,6 +91,7 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
     const [isSigningInProgress, setIsSigningInProgress] = useState<boolean>(false);
     const [isSavingInProgress, setIsSavingProgress] = useState<boolean>(false);
     // const [isFormBeingUpdated, setIsFormBeingUpdated] = useState<boolean>(false);
+    const [signedObject, setSignedObject] = useState<any>(null);
 
     const SpecialTestsColumns: ITableColumn[] = useMemo<ITableColumn[]>(() => [
         {
@@ -249,7 +250,8 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
 
     const onSubmit = useCallback((values: any, {
         setSubmitting,
-        setErrors
+        setErrors,
+        setFieldValue
     }: FormikHelpers<any>, announce = false, cb: any = null) => {
         if (medicalInterventionId) {
             setSubmitting(true);
@@ -259,6 +261,12 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
             CommonService._chartNotes.MedicalInterventionBasicDetailsUpdateAPICall(medicalInterventionId, payload)
                 .then((response: IAPIResponseType<any>) => {
                     // dispatch(setMedicalInterventionDetails(response.data));
+                    setSignedObject({
+                        is_signed: response.data?.is_signed,
+                        signed_on: response.data?.signed_on
+                    })
+                    setFieldValue('is_signed', response?.data?.is_signed);
+                    setFieldValue('signed_on', null);
                     if (medicalInterventionDetails?.is_flagged !== payload.is_flagged) {
                         CommonService._alert.showToast(payload.is_flagged ? 'Note has been flagged.' : 'Note has been unflagged.', "success");
                     }
@@ -290,6 +298,10 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
 
     useEffect(() => {
         if (medicalInterventionDetails) {
+            setSignedObject({
+                is_signed: medicalInterventionDetails?.is_signed,
+                signed_on: medicalInterventionDetails?.signed_on
+            })
             setAddMedicalInterventionFormInitialValues(medicalInterventionDetails);
         }
     }, [medicalInterventionDetails]);
@@ -1231,11 +1243,11 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                                         </div>
                                         <div
                                             className={"display-flex flex-direction-row-reverse mrg-top-50 mrg-bottom-25"}>
-                                            <ESignApprovalComponent isSigned={medicalInterventionDetails?.is_signed}
+                                            <ESignApprovalComponent isSigned={signedObject?.is_signed}
                                                                     isSigning={isSigningInProgress}
                                                 // isLoading={formik.isSubmitting}
                                                                     canSign={true}
-                                                                    signedAt={medicalInterventionDetails?.signed_on}
+                                                                    signedAt={signedObject?.signed_on}
                                                                     onSign={() => {
                                                                         handleSign(formik.values, formik);
                                                                     }}/>
@@ -1251,7 +1263,7 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
 
                                         <ButtonComponent
                                             onClick={(event) => {
-                                                if (medicalInterventionDetails?.is_signed) {
+                                                if (signedObject?.is_signed) {
                                                     if (medicalRecordId && medicalInterventionId) {
                                                         navigate(CommonService._routeConfig.MedicalInterventionFinalizeTreatment(medicalRecordId, medicalInterventionId));
                                                     }
@@ -1270,11 +1282,11 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                                             // isLoading={formik.isSubmitting}
                                             size={'large'}
                                             className={(formik.isSubmitting ? 'mrg-right-10' : '') + 'mrg-left-15'}
-                                            type={medicalInterventionDetails?.is_signed ? "button" : "submit"}
+                                            type={signedObject?.is_signed ? "button" : "submit"}
                                             id={"medical_intervention_add_save_btn"}
                                             // disabled={isFormBeingUpdated}
                                         >
-                                            {medicalInterventionDetails?.is_signed ? "Finalize Treatment" : "Save"}
+                                            {signedObject?.is_signed ? "Finalize Treatment" : "Save"}
                                         </ButtonComponent>
                                     </div>
                                 </Form>

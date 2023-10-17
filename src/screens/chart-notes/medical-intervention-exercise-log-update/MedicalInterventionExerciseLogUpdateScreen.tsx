@@ -29,6 +29,7 @@ import InputComponent from "../../../shared/components/form-controls/input/Input
 import FormikTextAreaComponent from "../../../shared/components/form-controls/formik-text-area/FormikTextAreaComponent";
 import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
 import FormikCheckBoxComponent from "../../../shared/components/form-controls/formik-check-box/FormikCheckBoxComponent";
+import commonService from "../../../shared/services/common.service";
 
 
 interface MedicalInterventionExerciseLogScreenProps {
@@ -507,7 +508,10 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                         <div className={'client-name-button-wrapper'}>
                                     <span className={'client-name-wrapper'}>
                                         <span className={'client-name'}>
-                                                {clientMedicalRecord?.client_details?.first_name || "-"} {clientMedicalRecord?.client_details?.last_name || "-"}
+                                            <span
+                                                className={clientMedicalRecord?.client_details?.is_alias_name_set ? 'alias-name' : ''}>
+                                                {commonService.generateClientNameFromClientDetails(clientMedicalRecord?.client_details)}
+                                                </span>
                                         </span>
                                         <ChipComponent
                                             className={clientMedicalRecord?.status === "open" ? "active" : "inactive"}

@@ -327,8 +327,7 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
                         <div className={'client-name-button-wrapper'}>
                                     <span className={'client-name-wrapper'}>
                                         <span className={'client-name'}>
-                                            <span className={clientMedicalRecord?.client_details?.is_alias_name_set ? "alias-name" : ""}></span>
-                                            {commonService.generateClientNameFromClientDetails(clientMedicalRecord?.client_details)}
+                                            <span className={clientMedicalRecord?.client_details?.is_alias_name_set ? "alias-name" : ""}>  {commonService.generateClientNameFromClientDetails(clientMedicalRecord?.client_details)}</span>
                                         </span>
                                         <ChipComponent
                                             className={clientMedicalRecord?.status === 'open' ? "active" : "inactive"}
