@@ -19,6 +19,7 @@ import CheckBoxComponent from "../../../../shared/components/form-controls/check
 import InsertLinkIcon from '@mui/icons-material/InsertLink';
 import {useNavigate} from "react-router-dom";
 import commonService from "../../../../shared/services/common.service";
+
 interface ServiceProviderComponentProps {
     serviceId: string;
     serviceDetails: IService;
@@ -32,13 +33,6 @@ const ServiceProviderListComponent = (props: ServiceProviderComponentProps) => {
         serviceProviderList,
         isServiceProviderListLoading
     } = useSelector((state: IRootReducerState) => state.service);
-    const [isLinkProviderDrawerOpened, setIsLinkProviderDrawerOpened] = useState<boolean>(false);
-    const [isLinkProviderInProgress, setIsLinkProviderInProgress] = useState<boolean>(false);
-    // const [selectedProviderIDsForLinking, setSelectedProviderIDsForLinking] = useState<any[]>([]);
-    const [selectedProvider, setSelectedProvider] = useState<any[]>([]);
-    const [providerListFilterState, setProviderListFilterState] = useState<any>({
-        search: "",
-    });
     const navigate = useNavigate();
 
     const ClientListColumns: ITableColumn[] = [
@@ -62,41 +56,13 @@ const ServiceProviderListComponent = (props: ServiceProviderComponentProps) => {
                 return <IconButtonComponent
                     color={"error"}
                     onClick={() => {
-                    handleDeleteProvider(item);
-                }}
-                                            id={"pv_delete_btn_" + item.provider_name}>
-                    <ImageConfig.DeleteIcon />
+                        handleDeleteProvider(item);
+                    }}
+                    id={"pv_delete_btn_" + item.provider_name}>
+                    <ImageConfig.DeleteIcon/>
                 </IconButtonComponent>
             }
         }
-    ];
-
-    const LinkedClientListColumns: ITableColumn[] = [
-        {
-            key: 'select',
-            title: 'Provider Name',
-            dataIndex: 'provider_name',
-            width: 500,
-            fixed: 'left',
-            render: (item: any) => {
-                const label = `${CommonService.capitalizeFirstLetter(item?.first_name)} ${CommonService.capitalizeFirstLetter(item?.last_name)}`;
-                return (
-                    <CheckBoxComponent
-                        label={label}
-                        checked={selectedProvider.includes(item?._id) || item?.is_linked}
-                        disabled={item?.is_linked}
-                        onChange={(isChecked) => {
-                            if (isChecked) {
-                                setSelectedProvider([...selectedProvider, item?._id]);
-                            } else {
-                                setSelectedProvider(selectedProvider.filter((id: any) => id !== item?._id));
-                            }
-                        }}
-                    />
-                );
-            }
-        },
-
     ];
     const handleDeleteProvider = useCallback((item: any) => {
         CommonService.onConfirm({
@@ -114,29 +80,21 @@ const ServiceProviderListComponent = (props: ServiceProviderComponentProps) => {
         })
     }, [dispatch, serviceId, serviceDetails]);
 
-    const openProviderLinkFormDrawer = useCallback(() => {
-        setIsLinkProviderDrawerOpened(true);
-    }, []);
-
-    const closeProviderLinkFormDrawer = useCallback(() => {
-        setIsLinkProviderDrawerOpened(false);
-    }, []);
-
-    const handleProviderLinking = useCallback(() => {
-        const provider_ids = selectedProvider.map((item: any) => item);
-        setIsLinkProviderInProgress(true);
-        CommonService._service.ServiceProviderLinkAPICall(serviceId, {provider_ids, is_linked: true})
-            .then((response) => {
-                CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
-                dispatch(getServiceProviderList(serviceId));
-                // setSelectedProviderIDsForLinking([]);
-                closeProviderLinkFormDrawer();
-                setIsLinkProviderInProgress(false);
-            }).catch((error: any) => {
-            CommonService._alert.showToast(error.error || "Error linking provider", "error");
-            setIsLinkProviderInProgress(false);
-        })
-    }, [dispatch, serviceId, selectedProvider, closeProviderLinkFormDrawer]);
+    // const handleProviderLinking = useCallback(() => {
+    //     const provider_ids = selectedProvider.map((item: any) => item);
+    //     setIsLinkProviderInProgress(true);
+    //     CommonService._service.ServiceProviderLinkAPICall(serviceId, {provider_ids, is_linked: true})
+    //         .then((response) => {
+    //             CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+    //             dispatch(getServiceProviderList(serviceId));
+    //             // setSelectedProviderIDsForLinking([]);
+    //             closeProviderLinkFormDrawer();
+    //             setIsLinkProviderInProgress(false);
+    //         }).catch((error: any) => {
+    //         CommonService._alert.showToast(error.error || "Error linking provider", "error");
+    //         setIsLinkProviderInProgress(false);
+    //     })
+    // }, [dispatch, serviceId, selectedProvider, closeProviderLinkFormDrawer]);
 
     useEffect(() => {
         dispatch(getServiceProviderList(serviceId));
@@ -149,7 +107,9 @@ const ServiceProviderListComponent = (props: ServiceProviderComponentProps) => {
                     className={'add-provider-cta'}
                     size={"small"}
                     prefixIcon={<InsertLinkIcon/>}
-                    onClick={()=>{navigate(commonService._routeConfig.LinkProviderToSericeRoute(serviceId))}}
+                    onClick={() => {
+                        navigate(commonService._routeConfig.LinkProviderToSericeRoute(serviceId))
+                    }}
                     id={"pv_add_btn"}
                 >
                     Link Provider

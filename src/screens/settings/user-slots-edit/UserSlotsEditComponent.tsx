@@ -179,6 +179,14 @@ const UserSlotsEditComponent = (props: UserSlotsEditComponentProps) => {
         isUserSlotsLoading
     } = useSelector((state: IRootReducerState) => state.user);
 
+    const [userAvailableSlots, setUserAvailableSlots] = useState<any>([]);
+
+    useEffect(() => {
+        if (userSlots && Object.keys(userSlots).length) {
+            console.log(userSlots);
+        }
+    },[userSlots])
+
     useEffect(() => {
         if (userSlots && Object.keys(userSlots).length) {
             if (userSlots?.is_same_slots) {
@@ -278,7 +286,6 @@ const UserSlotsEditComponent = (props: UserSlotsEditComponentProps) => {
     const onSlotAdd = useCallback(
         (values: any, {setErrors, setSubmitting}: FormikHelpers<any>) => {
             const payload = {...values};
-            console.log(payload);
             if (payload.is_same_slots) {
                 delete payload.scheduled_slots;
                 payload.all_scheduled_slots.forEach((slot: any, index: any) => {
