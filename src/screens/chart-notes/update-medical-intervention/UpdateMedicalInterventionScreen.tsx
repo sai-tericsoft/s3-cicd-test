@@ -9,7 +9,7 @@ import {IAPIResponseType} from "../../../shared/models/api.model";
 import {ImageConfig} from "../../../constants";
 import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
-import {getMedicalInterventionDetails, setMedicalInterventionDetails} from "../../../store/actions/chart-notes.action";
+import {getMedicalInterventionDetails} from "../../../store/actions/chart-notes.action";
 import {setCurrentNavParams} from "../../../store/actions/navigation.action";
 import {ITableColumn} from "../../../shared/models/table.model";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
@@ -288,7 +288,7 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                     }
                 })
         }
-    }, [dispatch, medicalInterventionId, medicalInterventionDetails]);
+    }, [ medicalInterventionId, medicalInterventionDetails]);
 
 
     useEffect(() => {
