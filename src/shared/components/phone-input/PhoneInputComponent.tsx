@@ -48,7 +48,8 @@ const PhoneInputComponent = (props: PhoneInputComponentProps) => {
 
     const handleInput = useCallback((value: string) => {
         const phoneNumber = value.replace(/[^\d]/g, '');
-        onChange && onChange(phoneNumber);
+        const trimmedPhoneNumber = phoneNumber.slice(0, 10);
+        onChange && onChange(trimmedPhoneNumber);
     }, [onChange]);
 
     useEffect(() => {
