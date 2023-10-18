@@ -93,12 +93,13 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
     );
 
     const getAvailableDatesList = useCallback(
-        (providerId: string, serviceId: string, facilityId: string) => {
+        (providerId: string, serviceId: string, facilityId: string,duration?:any) => {
             setIsDatesListLoading(true);
             setAvailableDates([]);
             const payload = {
                 service_id: serviceId,
-                facility_id: facilityId
+                facility_id: facilityId,
+                duration: duration?.duration
             }
             CommonService._user.getUserAvailableDatesList(providerId, payload)
                 .then((response: IAPIResponseType<any>) => {
@@ -720,7 +721,7 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
                                                                 setFieldTouched('date', false);
                                                                 setFieldValue('time', undefined);
                                                                 setFieldTouched('time', false);
-                                                                getAvailableDatesList(values.provider._id, values.service._id, value._id);
+                                                                getAvailableDatesList(values.provider._id, values.service._id, value._id,values?.duration);
                                                             }
                                                         }}
                                                         fullWidth={true}
