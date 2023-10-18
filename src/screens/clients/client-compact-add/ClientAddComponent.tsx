@@ -38,10 +38,15 @@ const clientAddsValidationSchema = Yup.object({
     last_name: Yup.string().required('Last Name is required'),
     primary_email: Yup.string().email('Invalid email').required('Email Address is required'),
     primary_contact_info: Yup.object({
-        phone: Yup.string().required('Phone Number is required'),
+        phone: Yup.string()
+            .required('Phone Number is required')
+            .test('is-ten-digits', 'Phone number must contain exactly 10 digits', (value:any) => {
+                return value?.length === 10
+            }),
     }),
     is_onboarded: Yup.boolean().required('Onboarded is required'),
 });
+
 
 const ClientAddComponent = (props: ClientAddComponentProps) => {
 

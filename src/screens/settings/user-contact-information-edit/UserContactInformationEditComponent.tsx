@@ -30,8 +30,21 @@ const formValidationSchema = Yup.object({
     primary_email: Yup.string().required('Email is required').email('Invalid email'),
     primary_contact_info: Yup.object({
         phone_type: Yup.string().required('Phone Type is required'),
-        phone: Yup.string().required('Phone Number is required'),
+        phone: Yup.string()
+            .required('Phone Number is required')
+            .test('is-ten-digits', 'Phone number must contain exactly 10 digits', (value:any) => {
+                return value?.length === 10
+            }),
     }),
+    secondary_contact_info: Yup.array().of(
+        Yup.object().shape({
+            phone: Yup.string()
+                .test('is-ten-digits', 'Phone number must contain exactly 10 digits', (value:any) => {
+                    const digits = value.replace(/\D/g, ''); // Remove non-digits
+                    return digits.length === 10;
+                }),
+        })
+    ),
     secondary_emails: Yup.array(Yup.object({
             email: Yup.string().email('Invalid email')
         })
@@ -80,7 +93,6 @@ const UserContactInformationEditComponent = (props: UserContactInformationEditCo
     }, [userBasicDetails]);
 
     const onSubmit = useCallback((values: any, {setErrors, setSubmitting}: FormikHelpers<any>) => {
-        console.log(values);
         let payload = {
             ...CommonService.removeKeysFromJSON(_.cloneDeep(values), ['language_details']),
         };

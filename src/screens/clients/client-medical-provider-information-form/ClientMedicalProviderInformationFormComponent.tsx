@@ -16,6 +16,7 @@ import {IRootReducerState} from "../../../store/reducers";
 import FormikPhoneInputComponent
     from "../../../shared/components/form-controls/formik-phone-input/FormikPhoneInputComponent";
 import {getClientMedicalDetails} from "../../../store/actions/client.action";
+import * as Yup from "yup";
 
 interface ClientMedicalProviderInformationFormComponentProps {
     clientId: string;
@@ -25,15 +26,18 @@ interface ClientMedicalProviderInformationFormComponentProps {
     onNext?: () => void;
 }
 
-// const ClientMedicalProviderInformationValidationSchema = Yup.object({
-//     medical_provider_info: Yup.object({
-//         family_doctor_name: Yup.string().required('Name is required'),
-//         md_phone: Yup.string().required('MD Phone is required'),
-//         referring_doctor_name: Yup.string().required('Name is required'),
-//         primary_phone: Yup.string().required('Primary Phone is required'),
-//         last_examination_date: Yup.string().required('Last Examination Date is required'),
-//     }),
-// });
+const ClientMedicalProviderInformationValidationSchema = Yup.object({
+    medical_provider_info: Yup.object({
+        md_phone: Yup.string()
+            .test('is-ten-digits', 'Phone number must contain exactly 10 digits', (value:any) => {
+                return value?.length === 10
+            }),
+        primary_phone:Yup.string()
+            .test('is-ten-digits', 'Phone number must contain exactly 10 digits', (value:any) => {
+                return value?.length === 10
+            }),
+    }),
+});
 
 const ClientMedicalProviderInformationInitialValues: IClientMedicalProviderForm = {
     medical_provider_info: {
@@ -93,7 +97,7 @@ const ClientMedicalProviderInformationFormComponent = (props: ClientMedicalProvi
                                                    label={CommonService.capitalizeFirstLetter(mode) + " Medical Provider Information"}/>
                         <CardComponent title={"Medical Provider Information"}>
                             <Formik
-                                // validationSchema={ClientMedicalProviderInformationValidationSchema}
+                                validationSchema={ClientMedicalProviderInformationValidationSchema}
                                 initialValues={clientMedicalProviderInformationInitialValues}
                                 onSubmit={onSubmit}
                                 validateOnChange={false}

@@ -53,7 +53,11 @@ const ClientAccountDetailsValidationSchema = Yup.object({
         }),
         source_info_phone: Yup.string().when('source', {
             is: 'friends_family_colleague',
-            then: Yup.string().required('Phone Number is required'),
+            then: Yup.string()
+                .required('Phone Number is required')
+                .test('is-ten-digits', 'Phone number must contain exactly 10 digits', (value:any) => {
+                    return value?.length === 10
+                }),
             otherwise: Yup.string()
         }),
         source_info_email: Yup.string().when('source', {

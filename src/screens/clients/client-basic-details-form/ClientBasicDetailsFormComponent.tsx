@@ -64,11 +64,31 @@ const ClientBasicDetailsFormValidationSchema = Yup.object({
         occupation: Yup.string().required('Occupation is required'),
         employment_status: Yup.string().required('Employment Status is required'),
     }),
-    primary_email: Yup.string().required('Email is required'),
+    primary_email: Yup.string().email().required('Email is required'),
     primary_contact_info: Yup.object({
         phone_type: Yup.string().required('Phone Type is required'),
-        phone: Yup.string().required('Phone Number is required'),
+        phone: Yup.string()
+            .required('Phone Number is required')
+            .test('is-ten-digits', 'Phone number must contain exactly 10 digits', (value: any) => {
+                return value?.length === 10
+            }),
     }),
+    secondary_emails: Yup.array().of(
+        Yup.object().shape({
+            email: Yup.string()
+                .email('Invalid email')
+        })
+    ),
+    secondary_contact_info: Yup.array().of(
+        Yup.object().shape({
+            phone_type: Yup.string().required('Phone Type is required'),
+            phone: Yup.string()
+                .test('is-ten-digits', 'Phone number must contain exactly 10 digits', (value: any) => {
+                    const digits = value.replace(/\D/g, ''); // Remove non-digits
+                    return digits.length === 10;
+                }),
+        })
+    ),
     emergency_contact_info: Yup.object({
         primary_emergency: Yup.object({
             name: Yup.string().required('Full Name is required'),
@@ -76,10 +96,41 @@ const ClientBasicDetailsFormValidationSchema = Yup.object({
             language: Yup.string().required('Language is required'),
             primary_contact_info: Yup.object({
                 phone_type: Yup.string().required('Phone Type is required'),
-                phone: Yup.string().required('Phone Number is required'),
-            })
-        })
+                phone: Yup.string()
+                    .required('Phone Number is required')
+                    .test('is-ten-digits', 'Phone number must contain exactly 10 digits', (value: any) => {
+                        return value?.length === 10
+                    }),
+            }),
+            secondary_contact_info: Yup.array().of(
+                Yup.object().shape({
+                    phone: Yup.string()
+                        .test('is-ten-digits', 'Secondary Phone number must contain exactly 10 digits', (value: any) => {
+                            const digits = value.replace(/\D/g, ''); // Remove non-digits
+                            return digits.length === 10;
+                        }),
+                })
+            ),
+        }),
+        secondary_emergency: Yup.object().shape({
+            primary_contact_info: Yup.object({
+                phone: Yup.string()
+                    .test('is-ten-digits', 'Phone number must contain exactly 10 digits', (value: any) => {
+                        return value?.length === 10
+                    }),
+            }),
+            secondary_contact_info: Yup.array().of(
+                Yup.object().shape({
+                    phone: Yup.string()
+                        .test('is-ten-digits', 'Phone number must contain exactly 10 digits', (value: any) => {
+                            const digits = value.replace(/\D/g, ''); // Remove non-digits
+                            return digits.length === 10;
+                        }),
+                })
+            ),
+        }),
     }),
+
     address: Yup.object({
         address_line: Yup.string()
             .min(1, 'Address line is required')
@@ -116,19 +167,19 @@ const ClientBasicDetailsFormInitialValues: IClientBasicDetails = {
     ssn: "",
     primary_email: "",
     show_secondary_emergency_form: false,
-    // secondary_emails: [{
-    //     email: ""
-    // }],
+    secondary_emails: [{
+        email: ""
+    }],
     primary_contact_info: {
         phone_type: "",
         phone: ""
     },
-    // secondary_contact_info: [
-    //     {
-    //         phone_type: "",
-    //         phone: ""
-    //     }
-    // ],
+    secondary_contact_info: [
+        {
+            phone_type: "",
+            phone: ""
+        }
+    ],
     emergency_contact_info: {
         primary_emergency: {
             name: "",
