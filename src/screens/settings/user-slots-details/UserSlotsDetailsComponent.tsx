@@ -224,7 +224,7 @@ const UserSlotsDetailsComponent = (props: UserSlotsDetailsComponentProps) => {
                                                 }
 
                                                 {(userSlots && !userSlots?.all_scheduled_slots?.length && !userSlots?.day_scheduled_slots?.length) && <>
-                                                    <StatusCardComponent title={'No Slots Found'}/>
+                                                    <StatusCardComponent title={'No Service have been designated for this facility.'}/>
                                                 </>
 
                                                 }
