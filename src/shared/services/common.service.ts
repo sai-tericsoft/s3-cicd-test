@@ -665,8 +665,11 @@ const StartTimingsList = Array.from(Array(24).keys()).map((item: number) => {
 //     return timeSlots;
 // };
 
-const generateTimeSlots = (startTime: number, endTime: number) => {
+const generateTimeSlots = (startTime: number, endTime: number, to?: boolean) => {
     const timeSlots = [];
+    if (to) {
+        startTime += 60;
+    }
     while (startTime <= endTime) { // Update the condition to <=
         const hours = Math.floor(startTime / 60);
         const minutes = startTime % 60;
@@ -676,6 +679,41 @@ const generateTimeSlots = (startTime: number, endTime: number) => {
     }
     return timeSlots;
 };
+
+const generateDisabledSlots = (startTime: number, endTime: number, exclude?: any, to?: boolean, currentStart?: number, currentEnd?: number) => {
+    const timeSlots = [];
+    const tempStartTime = startTime;
+    while (startTime <= endTime) { // Update the condition to <=
+        const hours = Math.floor(startTime / 60);
+        const minutes = startTime % 60;
+        const formattedTime = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+        timeSlots.push({code: startTime, title: formattedTime});
+        startTime += 60; // Add one hour in minutes
+    }
+    let temp = timeSlots;
+    if (to) {
+        if (currentStart && currentEnd) {
+            temp = timeSlots.filter((item: any, index: number) =>
+                exclude[0].slots.some((slot: any) => (item.code > slot?.start_time && item.code <= slot?.end_time) || index === 0) && !(item.code > currentStart && item.code <= currentEnd))
+        } else {
+            temp = timeSlots.filter((item: any, index: number) =>
+                exclude[0].slots.some((slot: any) => item.code > slot?.start_time && item.code <= slot?.end_time) || index === 0)
+        }
+        if (temp.length > 0 && currentStart) {
+            const largestExcludedSlot = temp[temp.length - 1].code;
+            temp = [...temp, ...timeSlots.filter((item: any) => currentStart < largestExcludedSlot && item.code > largestExcludedSlot)]
+        }
+    } else {
+        if (currentStart && currentEnd) {
+            temp = timeSlots.filter((item: any, index: number) =>
+                exclude[0].slots.some((slot: any) => (item.code >= slot?.start_time && item.code < slot?.end_time) || index === timeSlots?.length - 1) && !(item.code >= currentStart && item.code < currentEnd))
+        } else {
+            temp = timeSlots.filter((item: any, index: number) =>
+                exclude[0].slots.some((slot: any) => item.code >= slot?.start_time && item.code < slot?.end_time) || index === timeSlots?.length - 1)
+        }
+    }
+    return temp;
+}
 
 const EndTimingsList = (time: any) => {
     const startTime = Math.floor(time / 60); // Convert selected start time to hours
@@ -751,6 +789,7 @@ const CommonService = {
     EndTimingsList,
     openConfirmationDialog,
     capitalizeFirstLetterOfEachWord,
+    generateDisabledSlots,
     // createValidationsObject,
     // createYupSchema,
 

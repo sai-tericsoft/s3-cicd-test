@@ -24,6 +24,7 @@ import './UserSlotsComponent.scss';
 import _ from "lodash";
 import {setCurrentNavParams} from "../../../../store/actions/navigation.action";
 import * as Yup from "yup";
+import commonService from "../../../../shared/services/common.service";
 
 interface UserSlotsComponentProps {
     userId?: string;
@@ -162,7 +163,7 @@ const UserSlotsComponent = (props: UserSlotsComponentProps) => {
 
         const dispatch = useDispatch();
         let {userId}: any = useParams();
-        if(!userId) userId = props.userId;
+        if (!userId) userId = props.userId;
         const {
             isUserBasicDetailsLoaded,
             isUserBasicDetailsLoading,
@@ -178,6 +179,7 @@ const UserSlotsComponent = (props: UserSlotsComponentProps) => {
         const [searchParams, setSearchParams] = useSearchParams();
         const [facilityId, setFacilityId] = useState<any>("")
         const [formInitialValues, setFormInitialValues] = useState(_.cloneDeep(InitialValue))
+        const [userSelectedSlots, setUserSelectedSlots] = useState<any>([]);
         const navigate = useNavigate();
 
         useEffect(() => {
@@ -185,6 +187,44 @@ const UserSlotsComponent = (props: UserSlotsComponentProps) => {
                 dispatch(getUserBasicDetails(userId));
             }
         }, [dispatch, userId]);
+
+        useEffect(() => {
+            if (isUserSlotsLoaded && userSlots && Object.keys(userSlots).length) {
+                if (userSlots?.is_same_slots) {
+                    setUserSelectedSlots((oldstate: any) => {
+                        const tepmSlots: any = [...oldstate];
+                        userSlots?.applicable_slot_days?.forEach((day: any) => {
+                            if (oldstate.find((item: any) => item.day === day)) {
+                                tepmSlots.find((item: any) => item.day === day).slots = [...tepmSlots.find((item: any) => item.day === day).slots, ...userSlots?.all_scheduled_slots]
+                            } else {
+                                tepmSlots.push({
+                                    day: day,
+                                    slots: userSlots?.all_scheduled_slots
+                                })
+                            }
+                        })
+                        return tepmSlots
+                    })
+                } else {
+                    setUserSelectedSlots((oldstate: any) => {
+                        const tepmSlots: any = [...oldstate];
+                        userSlots?.day_scheduled_slots?.forEach((day: any) => {
+                            if (oldstate.find((item: any) => item.day === day)) {
+                                tepmSlots.find((item: any) => item.day === day).slots = [...tepmSlots.find((item: any) => item.day === day).slots, day?.slot_timings]
+                            } else {
+                                tepmSlots.push({
+                                    day: day?.day,
+                                    slots: day?.slot_timings
+                                })
+                            }
+                        })
+                        return tepmSlots
+                    })
+                }
+            }
+        }, [isUserSlotsLoaded, userSlots])
+
+        console.log("jbjbu 22", userSelectedSlots);
 
         useEffect(() => {
             dispatch(setCurrentNavParams('User Slots', null, () => {
@@ -350,16 +390,68 @@ const UserSlotsComponent = (props: UserSlotsComponentProps) => {
             [facilityId, userId]
         );
 
+        const handleUserSlotsUpdate = useCallback((endTime: string, startTime: string, isSameSlots: boolean, faclityDays: any) => {
+            setUserSelectedSlots((oldstate: any) => {
+                if (isSameSlots) {
+                    const tempSlots: any = [...oldstate];
+                    tempSlots.forEach((slot: any) => {
+                        if (faclityDays?.some((day: any) => day.day === slot.day)) {
+                            slot.slots = [...slot.slots, {
+                                start_time: startTime,
+                                end_time: endTime
+                            }]
+                        }
+                    })
+                    return tempSlots;
+                } else {
+
+                }
+            })
+        }, [])
+        const handleUserSlotsRemove = useCallback((endTime: string, startTime: string, isSameSlots: boolean, faclityDays: any) => {
+            if(!endTime || !startTime) return;
+            setUserSelectedSlots((oldstate: any) => {
+                if (isSameSlots) {
+                    const tempSlots: any = [...oldstate];
+                    tempSlots.forEach((slot: any) => {
+                        if (faclityDays?.some((day: any) => day.day === slot.day)) {
+                            slot.slots = slot.slots.filter((item: any) => item.start_time !== startTime && item.end_time !== endTime)
+                        }
+                    })
+                    return tempSlots;
+                } else {
+
+                }
+            })
+        }, [])
+
+    const handleStartTimeReset = useCallback((endTime: string, isSameSlots: boolean, faclityDays: any) => {
+        if(!endTime) return;
+        setUserSelectedSlots((oldstate: any) => {
+            if (isSameSlots) {
+                const tempSlots: any = [...oldstate];
+                tempSlots.forEach((slot: any) => {
+                    if (faclityDays?.some((day: any) => day.day === slot.day)) {
+                        slot.slots = slot.slots.filter((item: any) => item.end_time !== endTime)
+                    }
+                })
+                return tempSlots;
+            } else {
+
+            }
+        })
+    },[])
+
         return (
             <div className="user-slots-component">
                 <>
                     {isUserBasicDetailsLoading &&
-                    <div>
-                        <LoaderComponent/>
-                    </div>
+                        <div>
+                            <LoaderComponent/>
+                        </div>
                     }
                     {isUserBasicDetailsLoadingFailed &&
-                    <StatusCardComponent title={"Failed to fetch Details"}/>
+                        <StatusCardComponent title={"Failed to fetch Details"}/>
                     }
                 </>
                 {isUserBasicDetailsLoaded && <>
@@ -449,13 +541,16 @@ const UserSlotsComponent = (props: UserSlotsComponentProps) => {
                                                                                                         options={CommonService.generateTimeSlots(start_time, end_time)}
                                                                                                         displayWith={(item) => item.title}
                                                                                                         valueExtractor={(item) => item.code}
-                                                                                                        selectedValues={values?.all_scheduled_slots[index].start_time}
+                                                                                                        selectedValues={commonService.generateDisabledSlots(start_time, end_time,
+                                                                                                            userSelectedSlots?.filter((slot: any) => facility?.timings.some((day: any) => day.day === slot.day)),false,values?.all_scheduled_slots[index]?.start_time, values?.all_scheduled_slots[index]?.end_time)
+                                                                                                            .map((item: any) => item.code)}
                                                                                                         label={'From'}
                                                                                                         required={true}
                                                                                                         formikField={field}
                                                                                                         fullWidth={true}
                                                                                                         onUpdate={(value: any) => {
                                                                                                             if (value) {
+                                                                                                                handleStartTimeReset( values.all_scheduled_slots[index].end_time, values.is_same_slots, facility?.timings)
                                                                                                                 setFieldValue(`all_scheduled_slots[${index}].end_time`, '')
                                                                                                             }
                                                                                                         }}
@@ -470,12 +565,21 @@ const UserSlotsComponent = (props: UserSlotsComponentProps) => {
                                                                                             {
                                                                                                 (field: FieldProps) => (
                                                                                                     <FormikSelectComponent
-                                                                                                        options={CommonService.generateTimeSlots(parseInt(values?.all_scheduled_slots[index].start_time), end_time)}
+                                                                                                        options={CommonService.generateTimeSlots(parseInt(values?.all_scheduled_slots[index].start_time), end_time, true)}
                                                                                                         displayWith={(item) => item.title}
                                                                                                         valueExtractor={(item) => item.code}
                                                                                                         label={'To'}
-                                                                                                        selectedValues={values?.all_scheduled_slots[index].end_time}
+                                                                                                        selectedValues={commonService.generateDisabledSlots(start_time, end_time,
+                                                                                                            userSelectedSlots?.filter((slot: any) => facility?.timings.some((day: any) => day.day === slot.day)), true,
+                                                                                                            values?.all_scheduled_slots[index]?.start_time, values?.all_scheduled_slots[index]?.end_time
+                                                                                                        ).map((item: any) => item.code)}
                                                                                                         // disabled={!(values.all_scheduled_slots[index].start_time)}
+                                                                                                        onUpdate={(value: any) => {
+                                                                                                            if (value) {
+                                                                                                                handleUserSlotsUpdate(value, values.all_scheduled_slots[index].start_time, values.is_same_slots, facility?.timings)
+                                                                                                            }
+                                                                                                        }
+                                                                                                        }
                                                                                                         required={true}
                                                                                                         formikField={field}
                                                                                                         fullWidth={true}
@@ -517,14 +621,15 @@ const UserSlotsComponent = (props: UserSlotsComponentProps) => {
                                                                                                 <ImageConfig.AddCircleIcon/>
                                                                                             </IconButtonComponent>
                                                                                             {index > 0 &&
-                                                                                            <IconButtonComponent
-                                                                                                className={"form-helper-icon"}
-                                                                                                onClick={() => {
-                                                                                                    arrayHelpers.remove(index);
-                                                                                                }}
-                                                                                            >
-                                                                                                <ImageConfig.DeleteIcon/>
-                                                                                            </IconButtonComponent>}
+                                                                                                <IconButtonComponent
+                                                                                                    className={"form-helper-icon"}
+                                                                                                    onClick={() => {
+                                                                                                        arrayHelpers.remove(index);
+                                                                                                        handleUserSlotsRemove(values.all_scheduled_slots[index]?.end_time, values.all_scheduled_slots[index]?.start_time, values.is_same_slots, facility?.timings)
+                                                                                                    }}
+                                                                                                >
+                                                                                                    <ImageConfig.DeleteIcon/>
+                                                                                                </IconButtonComponent>}
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>)
@@ -579,7 +684,7 @@ const UserSlotsComponent = (props: UserSlotsComponentProps) => {
                                                                                                                             options={CommonService.generateTimeSlots(start_time, end_time)}
                                                                                                                             displayWith={(item) => item.title}
                                                                                                                             valueExtractor={(item) => item.code}
-                                                                                                                            selectedValues={values?.scheduled_slots[index].slot_timings[slotIndex].start_time}
+                                                                                                                            // selectedValues={values?.scheduled_slots[index].slot_timings[slotIndex].start_time}
                                                                                                                             label={'From'}
                                                                                                                             disabled={!(values?.scheduled_slots[index].is_selected)}
                                                                                                                             required={true}
@@ -653,14 +758,14 @@ const UserSlotsComponent = (props: UserSlotsComponentProps) => {
                                                                                                                     <ImageConfig.AddCircleIcon/>
                                                                                                                 </IconButtonComponent>
                                                                                                                 {slotIndex > 0 &&
-                                                                                                                <IconButtonComponent
-                                                                                                                    className={"form-helper-icon"}
-                                                                                                                    onClick={() => {
-                                                                                                                        arrayHelpers.remove(slotIndex);
-                                                                                                                    }}
-                                                                                                                >
-                                                                                                                    <ImageConfig.DeleteIcon/>
-                                                                                                                </IconButtonComponent>}
+                                                                                                                    <IconButtonComponent
+                                                                                                                        className={"form-helper-icon"}
+                                                                                                                        onClick={() => {
+                                                                                                                            arrayHelpers.remove(slotIndex);
+                                                                                                                        }}
+                                                                                                                    >
+                                                                                                                        <ImageConfig.DeleteIcon/>
+                                                                                                                    </IconButtonComponent>}
                                                                                                             </div>
                                                                                                         </div>
                                                                                                     </div>)
