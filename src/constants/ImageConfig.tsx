@@ -19,6 +19,9 @@ import {ReactComponent as EyeIcon} from './../assets/icons/eye.svg';
 import {ReactComponent as CloseEyeIcon} from './../assets/icons/close_eye.svg';
 import {ReactComponent as NewLogo} from './../assets/icons/logo-new.svg';
 import {ReactComponent as ShareIcon} from "./../assets/icons/share_icon.svg";
+import {ReactComponent as PaymentStatusIcon} from "./../assets/icons/payment-status-icon.svg";
+
+
 
 
 import {ReactComponent as PrintIcon} from './../assets/icons/print.svg';
@@ -241,4 +244,5 @@ export {
     AccessDenied,
     SuccessAvatar,
     ShareIcon,
+    PaymentStatusIcon
 }

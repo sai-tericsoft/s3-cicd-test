@@ -274,6 +274,37 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
                             </div>
                         </div>
                         <div>
+                            <div className={"details-box mrg-bottom-10"}>
+                                <div className={"details-header"}>Payment Details</div>
+                                <div className={'details-body'}>
+                                    <div className="details-body-block">
+                                        <div
+                                            className="details-body-item ts-justify-content-center ts-align-items-center">
+                                            <div className="item-heading">
+                                                <ImageConfig.PaymentStatusIcon/>&nbsp;&nbsp;Payment Status
+                                            </div>
+                                            <div className={"item-value"}>
+                                                <ChipComponent size={'small'}
+                                                               prefixIcon={details?.payment_status === 'paid' ?
+                                                                   <ImageConfig.CircleCheck/> :
+                                                                   <ImageConfig.CancelIcon/>}
+                                                               label={details?.payment_status === 'paid' ? 'Paid' : 'Unpaid'}
+                                                               className={details?.payment_status === 'paid' ? 'paid' : 'unpaid'}/>
+                                            </div>
+                                        </div>
+                                        <div className={'details-body-item'}>
+                                            <div className={'item-heading'}>
+                                                <ImageConfig.AttachMoneyIcon/>&nbsp;&nbsp;Total Amount
+                                            </div>
+                                            <div className={"item-value"}>
+                                                ${CommonService.convertToDecimals(+(details?.amount))}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
                             <div className="details-box">
                                 <div className="details-header">Other Details</div>
                                 <div className="details-body">
@@ -333,22 +364,6 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
                                                            label={bookType?.title}/>&nbsp;&nbsp;
                                             <ChipComponent className={'minutes-chip'} color={'success'}
                                                            label={details.duration + ' mins'}/>
-                                        </div>
-                                    </div>
-                                    <div className="details-body-block">
-                                        <div
-                                            className="details-body-item ts-justify-content-center ts-align-items-center">
-                                            <div className="item-heading">
-                                                <ImageConfig.AttachMoneyIcon/>&nbsp;&nbsp;Payment Status
-                                            </div>
-                                            <div className={"item-value"}>
-                                                <ChipComponent size={'small'}
-                                                               prefixIcon={details?.payment_status === 'paid' ?
-                                                                   <ImageConfig.CircleCheck/> :
-                                                                   <ImageConfig.CancelIcon/>}
-                                                               label={details?.payment_status === 'paid' ? 'Paid' : 'Unpaid'}
-                                                               className={details?.payment_status === 'paid' ? 'paid' : 'unpaid'}/>
-                                            </div>
                                         </div>
                                     </div>
                                     {/*<div className="details-body-block">*/}
