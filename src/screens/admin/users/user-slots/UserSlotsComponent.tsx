@@ -240,7 +240,6 @@ const UserSlotsComponent = (props: UserSlotsComponentProps) => {
                         }
                     });
 
-                    console.log(updatedSlots);
                     const updatedFormInitialValues = {
                         is_same_slots: dayScheduledSlots.is_same_slots,
                         scheduled_slots: updatedSlots,
