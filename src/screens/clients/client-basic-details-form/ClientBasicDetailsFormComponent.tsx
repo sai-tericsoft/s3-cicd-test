@@ -75,8 +75,7 @@ const ClientBasicDetailsFormValidationSchema = Yup.object({
     }),
     secondary_emails: Yup.array().of(
         Yup.object().shape({
-            email: Yup.string()
-                .email('Invalid email')
+            email: Yup.string().email('Invalid email')
         })
     ),
     secondary_contact_info: Yup.array().of(
@@ -84,8 +83,7 @@ const ClientBasicDetailsFormValidationSchema = Yup.object({
             phone_type: Yup.string().required('Phone Type is required'),
             phone: Yup.string()
                 .test('is-ten-digits', 'Phone number must contain exactly 10 digits', (value: any) => {
-                    const digits = value.replace(/\D/g, ''); // Remove non-digits
-                    return digits.length === 10;
+                    return value.length === 10;
                 }),
         })
     ),
@@ -105,30 +103,28 @@ const ClientBasicDetailsFormValidationSchema = Yup.object({
             secondary_contact_info: Yup.array().of(
                 Yup.object().shape({
                     phone: Yup.string()
-                        .test('is-ten-digits', 'Secondary Phone number must contain exactly 10 digits', (value: any) => {
-                            const digits = value.replace(/\D/g, ''); // Remove non-digits
-                            return digits.length === 10;
-                        }),
+                        .test('is-ten-digits', 'Secondary Phone number must contain exactly 10 digits', (value: any) => {// Remove non-digits
+                            return value.length === 10;
+                        }).nullable(),
                 })
             ),
         }),
-        secondary_emergency: Yup.object().shape({
-            primary_contact_info: Yup.object({
-                phone: Yup.string()
-                    .test('is-ten-digits', 'Phone number must contain exactly 10 digits', (value: any) => {
-                        return value?.length === 10
-                    }),
-            }),
-            secondary_contact_info: Yup.array().of(
-                Yup.object().shape({
-                    phone: Yup.string()
-                        .test('is-ten-digits', 'Phone number must contain exactly 10 digits', (value: any) => {
-                            const digits = value.replace(/\D/g, ''); // Remove non-digits
-                            return digits.length === 10;
-                        }),
-                })
-            ),
-        }),
+        // secondary_emergency: Yup.object().shape({
+        //     primary_contact_info: Yup.object({
+        //         phone: Yup.string()
+        //             .test('is-ten-digits', 'Phone number must contain exactly 10 digits', (value: any) => {
+        //                 return value?.length === 10
+        //             }).nullable(),
+        //     }),
+        //     secondary_contact_info: Yup.array().of(
+        //         Yup.object().shape({
+        //             phone: Yup.string()
+        //                 .test('is-ten-digits', 'Phone number must contain exactly 10 digits', (value: any) => {
+        //                     return value?.length === 10;
+        //                 }).nullable(),
+        //         })
+        //     ),
+        // }),
     }),
 
     address: Yup.object({
@@ -1367,7 +1363,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                         size={'large'}
                                         className={'submit-cta'}
                                         isLoading={isClientBasicDetailsSavingInProgress}
-                                        disabled={isClientBasicDetailsSavingInProgress || !isValid || CommonService.isEqual(values, clientBasicDetailsFormInitialValues)}
+                                        disabled={isClientBasicDetailsSavingInProgress  || !isValid }
                                         type={"submit"}
                                     >
                                         {isClientBasicDetailsSavingInProgress ? "Saving" : "Save"}
