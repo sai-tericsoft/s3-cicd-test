@@ -109,22 +109,31 @@ const ClientBasicDetailsFormValidationSchema = Yup.object({
                 })
             ),
         }),
-        // secondary_emergency: Yup.object().shape({
-        //     primary_contact_info: Yup.object({
-        //         phone: Yup.string()
-        //             .test('is-ten-digits', 'Phone number must contain exactly 10 digits', (value: any) => {
-        //                 return value?.length === 10
-        //             }).nullable(),
-        //     }),
-        //     secondary_contact_info: Yup.array().of(
-        //         Yup.object().shape({
-        //             phone: Yup.string()
-        //                 .test('is-ten-digits', 'Phone number must contain exactly 10 digits', (value: any) => {
-        //                     return value?.length === 10;
-        //                 }).nullable(),
-        //         })
-        //     ),
-        // }),
+        secondary_emergency: Yup.object().shape({
+            primary_contact_info: Yup.object({
+                phone: Yup.string()
+                    .test('is-ten-digits', 'Phone number must contain exactly 10 digits', function (value) {
+                        if (value) {
+                            return value.length === 10;
+                        }
+                        return true; // Allow empty value
+                    })
+                    .notRequired(),
+            }),
+            secondary_contact_info: Yup.array().of(
+                Yup.object().shape({
+                    phone: Yup.string()
+                        .test('is-ten-digits', 'Phone number must contain exactly 10 digits', function (value) {
+                            if (value) {
+                                return value.length === 10;
+                            }
+                            return true; // Allow empty value
+                        })
+                        .notRequired(),
+                })
+            ),
+        }),
+
     }),
 
     address: Yup.object({
