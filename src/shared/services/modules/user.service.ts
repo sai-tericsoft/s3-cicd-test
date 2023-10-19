@@ -81,6 +81,9 @@ const slotDetailsAPICall = (userId: string, facilityId: string, payload: any) =>
     return ApiService[APIConfig.VIEW_USER_SLOTS.METHOD](APIConfig.VIEW_USER_SLOTS.URL(userId, facilityId), payload);
 }
 
+const getUserGlobalSlots = (userId: string, payload: any) => {
+    return ApiService[APIConfig.GET_USER_GLOBAL_SLOTS.METHOD](APIConfig.GET_USER_GLOBAL_SLOTS.URL(userId), payload);
+}
 
 const UserService = {
     getUserList,
@@ -100,7 +103,8 @@ const UserService = {
     toggleDeleteUser,
     slotDetailsAPICall,
     NavigateToSettingsSlotsEdit,
-    NavigateToUserSlotsEdit
+    NavigateToUserSlotsEdit,
+    getUserGlobalSlots
 }
 
 export default UserService;

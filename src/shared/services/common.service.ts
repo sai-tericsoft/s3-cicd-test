@@ -680,9 +680,11 @@ const generateTimeSlots = (startTime: number, endTime: number, to?: boolean) => 
     return timeSlots;
 };
 
-const generateDisabledSlots = (startTime: number, endTime: number, exclude?: any, to?: boolean, currentStart?: number, currentEnd?: number) => {
+const generateDisabledSlots = (startTime: number, endTime: number, exclude?: any, to?: boolean, currentStart?: number, currentEnd?: number, facilityDays?: any, isSameSlot?: boolean) => {
     const timeSlots = [];
-    const tempStartTime = startTime;
+    if(!exclude || exclude?.length === 0) {
+        return to ? [] : [{"title":endTime,"code":endTime}];
+    }
     while (startTime <= endTime) { // Update the condition to <=
         const hours = Math.floor(startTime / 60);
         const minutes = startTime % 60;
@@ -691,13 +693,17 @@ const generateDisabledSlots = (startTime: number, endTime: number, exclude?: any
         startTime += 60; // Add one hour in minutes
     }
     let temp = timeSlots;
+    let dayIndex = 0;
+    if (!isSameSlot && exclude?.length > 0) {
+        dayIndex = exclude.findIndex((item: any) => item.day === facilityDays.day);
+    }
     if (to) {
         if (currentStart && currentEnd) {
             temp = timeSlots.filter((item: any, index: number) =>
-                exclude[0].slots.some((slot: any) => (item.code > slot?.start_time && item.code <= slot?.end_time) || index === 0) && !(item.code > currentStart && item.code <= currentEnd))
+                exclude[dayIndex]?.slots.some((slot: any) => (item.code > slot?.start_time && item.code <= slot?.end_time) || index === 0) && !(item.code > currentStart && item.code <= currentEnd))
         } else {
             temp = timeSlots.filter((item: any, index: number) =>
-                exclude[0].slots.some((slot: any) => item.code > slot?.start_time && item.code <= slot?.end_time) || index === 0)
+                exclude[dayIndex]?.slots.some((slot: any) => item.code > slot?.start_time && item.code <= slot?.end_time) || index === 0)
         }
         if (temp.length > 0 && currentStart) {
             const largestExcludedSlot = temp[temp.length - 1].code;
@@ -706,10 +712,10 @@ const generateDisabledSlots = (startTime: number, endTime: number, exclude?: any
     } else {
         if (currentStart && currentEnd) {
             temp = timeSlots.filter((item: any, index: number) =>
-                exclude[0].slots.some((slot: any) => (item.code >= slot?.start_time && item.code < slot?.end_time) || index === timeSlots?.length - 1) && !(item.code >= currentStart && item.code < currentEnd))
+                exclude[dayIndex]?.slots.some((slot: any) => (item.code >= slot?.start_time && item.code < slot?.end_time) || index === timeSlots?.length - 1) && !(item.code >= currentStart && item.code < currentEnd))
         } else {
             temp = timeSlots.filter((item: any, index: number) =>
-                exclude[0].slots.some((slot: any) => item.code >= slot?.start_time && item.code < slot?.end_time) || index === timeSlots?.length - 1)
+                exclude[dayIndex]?.slots.some((slot: any) => item.code >= slot?.start_time && item.code < slot?.end_time) || index === timeSlots?.length - 1)
         }
     }
     return temp;

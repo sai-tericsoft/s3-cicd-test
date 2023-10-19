@@ -980,6 +980,10 @@ const APIConfig: IAPIConfig = {
         URL: (userId: any, facilityId: any) => ENV.API_URL + '/user/' + userId + '/facility/' + facilityId + '/globalSlots',
         METHOD: "get"
     },
+    GET_USER_GLOBAL_SLOTS: {
+        URL: (userId: any) => ENV.API_URL + '/user/' + userId + '/allLinkedGlobalSlots',
+        METHOD: "get"
+    },
     PROVIDERS_LINKED_TO_FACILITY: {
         URL: (serviceId: string, providerId: string) => ENV.API_URL + '/service/' + serviceId + '/provider/' + providerId + '/facilities',
         METHOD: "get"

@@ -2,8 +2,9 @@ import {IActionModel} from "../../shared/models/action.model";
 import {IUser} from "../../shared/models/user.model";
 import {
     GET_ALL_PROVIDERS_LIST,
-    GET_USER_BASIC_DETAILS,
+    GET_USER_BASIC_DETAILS, GET_USER_GLOBAL_SLOTS,
     GET_USER_SLOTS,
+    SET_USER_GLOBAL_SLOTS,
     SET_ALL_PROVIDERS_LIST,
     SET_USER_BASIC_DETAILS,
     SET_USER_SLOTS,
@@ -23,6 +24,11 @@ export interface IUserReducerState {
     isUserSlotsLoading: boolean,
     isUserSlotsLoaded: boolean,
     isUserSlotsLoadingFailed: boolean,
+
+    userGlobalSlots?: any
+    isUserGlobalSlotsLoading: boolean,
+    isUserGlobalSlotsLoaded: boolean,
+    isUserGlobalSlotsLoadingFailed: boolean,
 }
 
 
@@ -40,6 +46,11 @@ const initialData: IUserReducerState = {
     isUserSlotsLoading: false,
     isUserSlotsLoaded: false,
     isUserSlotsLoadingFailed: false,
+
+    userGlobalSlots: [],
+    isUserGlobalSlotsLoading: false,
+    isUserGlobalSlotsLoaded: false,
+    isUserGlobalSlotsLoadingFailed: false,
 };
 
 const UserReducer = (state = initialData, action: IActionModel): IUserReducerState => {
@@ -94,6 +105,24 @@ const UserReducer = (state = initialData, action: IActionModel): IUserReducerSta
                 isUserSlotsLoaded: !!action.payload.userSlots,
                 isUserSlotsLoadingFailed: !action.payload.userSlots,
                 userSlots: action.payload.userSlots
+            };
+            return state;
+        case GET_USER_GLOBAL_SLOTS:
+            state = {
+                ...state,
+                userGlobalSlots: undefined,
+                isUserGlobalSlotsLoading: true,
+                isUserGlobalSlotsLoaded: false,
+                isUserGlobalSlotsLoadingFailed: false,
+            };
+            return state;
+        case SET_USER_GLOBAL_SLOTS:
+            state = {
+                ...state,
+                isUserGlobalSlotsLoading: false,
+                isUserGlobalSlotsLoaded: !!action.payload.userGlobalSlots,
+                isUserGlobalSlotsLoadingFailed: !action.payload.userGlobalSlots,
+                userGlobalSlots: action.payload.userGlobalSlots
             };
             return state;
         default:
