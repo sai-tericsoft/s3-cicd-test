@@ -13,6 +13,7 @@ import {IAPIResponseType} from "../../../models/api.model";
 import moment from "moment/moment";
 import FormikDatePickerComponent from "../../form-controls/formik-date-picker/FormikDatePickerComponent";
 import commonService from "../../../services/common.service";
+import momentTimezone from "moment-timezone";
 
 interface BookAppointmentFormComponentProps {
     onClose?: () => void,
@@ -200,8 +201,8 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
                 available_on: CommonService.convertDateFormat(date, 'YYYY-MM-DD'),
                 service_id: serviceId,
                 facility_id: facilityId,
-                duration: duration
-            }
+                duration: duration,
+                timezone: momentTimezone.tz.guess(),            }
             CommonService._user.getUserAvailableTimesList(providerId, payload)
                 .then((response: IAPIResponseType<any>) => {
                     setAvailableRawTimes(response.data || []);
@@ -400,7 +401,6 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
             if (preFillData.provider_id && serviceProvidersList && currentServiceProvider?.provider_id !== preFillData.provider_id) {
                 const selectedProvider = (serviceProvidersList || []).find(value => value.provider_id === preFillData.provider_id);
                 if (selectedProvider) {
-                    console.log(selectedProvider, 'selectedProvider');
                     // setAvailableRawTimes([]);
                     // getAvailableDatesList(selectedProvider.provider_id);
                     formRef.current.setFieldValue('provider', selectedProvider);

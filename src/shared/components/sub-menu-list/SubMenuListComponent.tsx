@@ -4,12 +4,29 @@ import {NavLink} from "react-router-dom";
 import {CommonService} from "../../services";
 
 interface SubMenuListComponentProps {
-    menuItems: ISubMenuItem[]
+    menuItems: ISubMenuItem[];
+    pathIndex?: number;
+    isExternalHighLight?: boolean;
+
 }
 
 const SubMenuListComponent = (props: SubMenuListComponentProps) => {
 
-    const {menuItems, ...otherProps} = props;
+    const {menuItems, isExternalHighLight, pathIndex, ...otherProps} = props;
+    // const [currentRoute, setCurrentRoute] = useState<string>('');
+    // const location = useLocation();
+    //
+    // useEffect(() => {
+    //     if (isExternalHighLight && pathIndex) {
+    //         console.log("item",location.pathname.split('/')[pathIndex])
+    //         setCurrentRoute(location.pathname.split('/')[pathIndex]);
+    //     }
+    // }, [location]);
+    //
+    // const isItemActive = useCallback((item: ISubMenuItem,currentRoute:string) => {
+    //     // console.log("item",item,currentRoute)
+    //     return pathIndex && (item.path.split('/')[pathIndex-1] === currentRoute) ? 'sub-menu-item active' : 'sub-menu-item';
+    // }, []);
 
     return (
         <div className={'sub-menu-list-component'}>
@@ -24,6 +41,7 @@ const SubMenuListComponent = (props: SubMenuListComponentProps) => {
                                                 }}
                                                 key={item.title}
                                                 className="sub-menu-item"
+                                    //             className={isExternalHighLight ? isItemActive(item,currentRoute) : 'sub-menu-item'}
                                                 state={{title: item.title}}
                                                 {...otherProps}
                                 >
@@ -37,7 +55,8 @@ const SubMenuListComponent = (props: SubMenuListComponentProps) => {
                                     }
                                     }
                                     key={item.title}
-                                    className="sub-menu-item">
+                                    className="sub-menu-item"
+                                >
                                     {item.title}
                                 </div>
                             }

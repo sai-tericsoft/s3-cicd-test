@@ -1,8 +1,9 @@
 import "./SideMenuComponent.scss";
 import {ImageConfig} from "../../../../constants";
-import {NavLink} from "react-router-dom";
+import {NavLink, useLocation} from "react-router-dom";
 import {IMenuItem} from "../../../models/menu.model";
 import {CommonService} from "../../../services";
+import {useEffect, useState} from "react";
 
 interface SideMenuComponentProps {
 
@@ -58,12 +59,29 @@ const menuList: IMenuItem[] = [
 
 const SideMenuComponent = (props: SideMenuComponentProps) => {
 
+    const [currentRoute, setCurrentRoute] = useState<string>('');
+    const location = useLocation();
+
+    useEffect(() => {
+        setCurrentRoute(location.pathname.split('/')[1]);
+    }, [location]);
+
     return (
         <div className={'side-menu-component'}>
             <div className='menu-list'>
                 {
                     menuList.map((menu, index) => {
-                        return <NavLink key={menu.title} to={menu.path} className="menu-item"
+                        return <NavLink key={menu.title} to={menu.path}
+                                        // className="menu-item"
+                                        className={() => {
+                                            if(currentRoute === '' && menu.title === 'Dashboard') {
+                                                return "menu-item active";
+                                            }
+                                            else if (menu.title.toLowerCase().split(' ').join('-') === currentRoute ) {
+                                                return "menu-item active";
+                                            }
+                                            return "menu-item";
+                                        }}
                                         id={`${menu.title.toLowerCase().split(' ').join('_')}_menu`}
                                         {...props}
                         >

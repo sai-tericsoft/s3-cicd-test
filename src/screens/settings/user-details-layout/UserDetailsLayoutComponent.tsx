@@ -137,7 +137,7 @@ const UserDetailsLayoutComponent = (props: UserDetailsLayoutComponentProps) => {
                                         </div>
                                     </div>
                                     <div className={"user-details-sub-menu-holder"}>
-                                        <SubMenuListComponent menuItems={USER_MENU_ITEMS}/>
+                                        <SubMenuListComponent menuItems={USER_MENU_ITEMS} pathIndex={path.includes('admin') ? 4 : 2} isExternalHighLight={true}/>
                                     </div>
                                 </div>
                                 <div className="user-details-content-wrapper">

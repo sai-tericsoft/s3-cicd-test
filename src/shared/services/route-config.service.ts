@@ -121,39 +121,39 @@ const ClientAdd = (clientId: string) => {
 }
 
 const ClientDetails = (clientId: string) => {
-    return '/client/' + clientId;
+    return '/clients/' + clientId;
 }
 
 const ClientProfileDetails = (clientId: string) => {
-    return '/client/' + clientId + '/client-profile-details';
+    return '/clients/' + clientId + '/client-profile-details';
 }
 
 const ClientBillingDetails = (clientId: string) => {
-    return '/client/' + clientId + '/client-billing-details'
+    return '/clients/' + clientId + '/client-billing-details'
 }
 
 const ClientDocuments = (clientId: string) => {
-    return '/client/' + clientId + '/client-documents';
+    return '/clients/' + clientId + '/client-documents';
 }
 const ClientSharedDocuments = (clientId: string) => {
-    return '/client/' + clientId + '/client-shared-documents';
+    return '/clients/' + clientId + '/client-shared-documents';
 }
 
 const clientDocumentViewDetails = (clientId: any, clientDocumentId: string) => {
-    return "/client/" + clientId + "/" + clientDocumentId + '/client-document-view-details';
+    return "/clients/" + clientId + "/" + clientDocumentId + '/client-document-view-details';
 
 }
 
 const ClientAppointments = (clientId: string) => {
-    return '/client/' + clientId + '/client-appointments';
+    return '/clients/' + clientId + '/client-appointments';
 }
 
 const ClientAppointmentViewDetails = (clientId: any, clientAppointmentId: string) => {
-    return "/client/" + clientId + "/" + clientAppointmentId + '/client-appointment-view-details';
+    return "/clients/" + clientId + "/" + clientAppointmentId + '/client-appointment-view-details';
 }
 
 const ClientEdit = (clientId: string) => {
-    return '/client/client-edit/' + clientId;
+    return '/clients/client-edit/' + clientId;
 }
 
 const ClientSearch = () => {
