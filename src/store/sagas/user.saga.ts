@@ -4,9 +4,11 @@ import {
     GET_ALL_PROVIDERS_LIST,
     GET_USER_BASIC_DETAILS,
     GET_USER_SLOTS,
+    GET_USER_GLOBAL_SLOTS,
+
     setAllProvidersList,
     setUserBasicDetails,
-    setUserSlots,
+    setUserSlots, setUserGlobalSlots,
 } from "../actions/user.action";
 
 function* getAllProvidersList() {
@@ -39,8 +41,20 @@ function* getUserSlots(action: any) {
     }
 }
 
+function* getUserGlobalSlots(action: any) {
+    try {
+        // @ts-ignore
+        const resp = yield call(CommonService._user.getUserGlobalSlots, action.payload.userId);
+        yield put(setUserGlobalSlots(resp.data));
+    } catch (error) {
+        yield put(setUserGlobalSlots(undefined));
+    }
+}
+
+
 export default function* userSaga() {
     yield takeEvery(GET_USER_BASIC_DETAILS, getUserBasicDetails);
     yield takeEvery(GET_ALL_PROVIDERS_LIST, getAllProvidersList);
     yield takeEvery(GET_USER_SLOTS, getUserSlots);
+    yield takeEvery(GET_USER_GLOBAL_SLOTS, getUserGlobalSlots);
 }

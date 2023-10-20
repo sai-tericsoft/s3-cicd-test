@@ -9,6 +9,9 @@ export const SET_USER_BASIC_DETAILS = 'SET_USER_BASIC_DETAILS';
 export const GET_USER_SLOTS = "GET_USER_SLOTS";
 export const SET_USER_SLOTS = "SET_USER_SLOTS";
 
+export const GET_USER_GLOBAL_SLOTS = "GET_USER_GLOBAL_SLOTS";
+export const SET_USER_GLOBAL_SLOTS = "SET_USER_GLOBAL_SLOTS";
+
 export const getAllProvidersList = () => {
     return {type: GET_ALL_PROVIDERS_LIST};
 };
@@ -57,3 +60,19 @@ export const setUserSlots = (userSlots: any) => {
         }
     };
 };
+
+export const getUserGlobalSlots = (userId: string) => {
+    return {
+        type: GET_USER_GLOBAL_SLOTS, payload: {
+            userId
+        }
+    };
+}
+
+export const setUserGlobalSlots = (userGlobalSlots: any) => {
+    return {
+        type: SET_USER_GLOBAL_SLOTS, payload: {
+            userGlobalSlots
+        }
+    };
+}

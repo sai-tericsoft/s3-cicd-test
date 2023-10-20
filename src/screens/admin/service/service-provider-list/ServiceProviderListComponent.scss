@@ -1,4 +1,7 @@
 .service-provider{
+  .t-table, .table-no-data-wrapper {
+    min-height: 200px !important;
+  }
   .add-provider{
     display: flex;
     justify-content: end;

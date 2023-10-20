@@ -19,10 +19,11 @@ import {IRootReducerState} from "../../../store/reducers";
 import {useLocation, useNavigate, useParams, useSearchParams} from "react-router-dom";
 import _ from "lodash";
 import {setCurrentNavParams} from "../../../store/actions/navigation.action";
-import {getUserBasicDetails, getUserSlots, setUserSlots} from "../../../store/actions/user.action";
+import {getUserBasicDetails, getUserGlobalSlots, getUserSlots, setUserSlots} from "../../../store/actions/user.action";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
 import * as Yup from "yup";
+import commonService from "../../../shared/services/common.service";
 
 interface UserSlotsEditComponentProps {
 
@@ -53,11 +54,11 @@ const validationSchema = Yup.object().shape({
             }),
         })
     )
-    .test('at-least-one-record', 'Select at least one record', function (value:any) {
-        const isSameSlots = this.parent.is_same_slots;
-        const isAllSelectedFalse = value.every((record:any) => record.is_selected === false);
-        return isSameSlots || !isAllSelectedFalse;
-    }),
+        .test('at-least-one-record', 'Select at least one record', function (value: any) {
+            const isSameSlots = this.parent.is_same_slots;
+            const isAllSelectedFalse = value.every((record: any) => record.is_selected === false);
+            return isSameSlots || !isAllSelectedFalse;
+        }),
 });
 
 
@@ -159,550 +160,830 @@ const InitialValue: any = {
 }
 
 const UserSlotsEditComponent = (props: UserSlotsEditComponentProps) => {
-    const {serviceListLite} = useSelector((state: IRootReducerState) => state.service)
-    const [currentTab, setCurrentTab] = useState<any>();
-    const [searchParams, setSearchParams] = useSearchParams();
-    const [facilityId, setFacilityId] = useState<any>("");
-    const [formInitialValues, setFormInitialValues] = useState(_.cloneDeep(InitialValue))
-    const location: any = useLocation();
-    const path = location.pathname;
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
-    const {userId} = useParams()
+        const {serviceListLite} = useSelector((state: IRootReducerState) => state.service)
+        const [currentTab, setCurrentTab] = useState<any>();
+        const [searchParams, setSearchParams] = useSearchParams();
+        const [facilityId, setFacilityId] = useState<any>("");
+        const [formInitialValues, setFormInitialValues] = useState(_.cloneDeep(InitialValue))
+        const location: any = useLocation();
+        const [userSelectedSlots, setUserSelectedSlots] = useState<any>([]);
+        const path = location.pathname;
+        const dispatch = useDispatch();
+        const navigate = useNavigate();
+        const {userId} = useParams();
+        const formRef = React.useRef<any>(null);
 
-    const {
-        userBasicDetails,
-        isUserBasicDetailsLoaded,
-        userSlots,
-        isUserSlotsLoaded,
-        isUserSlotsLoadingFailed,
-        isUserSlotsLoading
-    } = useSelector((state: IRootReducerState) => state.user);
+        const {
+            userBasicDetails,
+            isUserBasicDetailsLoaded,
+            userSlots,
+            isUserSlotsLoaded,
+            isUserSlotsLoadingFailed,
+            isUserSlotsLoading,
 
-    useEffect(() => {
-        if (userSlots && Object.keys(userSlots).length) {
-            if (userSlots?.is_same_slots) {
-                const allScheduledSlots = {
-                    is_same_slots: true,
-                    all_scheduled_slots: userSlots?.all_scheduled_slots?.map((slot: any) => ({
-                        start_time: slot.start_time,
-                        end_time: slot.end_time,
-                        service_id: slot.service_id
-                    })),
-                    scheduled_slots: InitialValue.scheduled_slots
-                };
+            userGlobalSlots,
+            isUserGlobalSlotsLoading,
+            isUserGlobalSlotsLoaded,
+            isUserGlobalSlotsLoadingFailed,
 
-                setFormInitialValues(allScheduledSlots);
+        } = useSelector((state: IRootReducerState) => state.user);
 
-            } else {
-                const allSlots = _.cloneDeep(InitialValue.scheduled_slots);
-                const dayScheduledSlots = {
-                    is_same_slots: false,
-                    scheduled_slots: userSlots?.day_scheduled_slots?.map((slot: any) => ({
-                        day: parseInt(slot.day),
-                        dayName: slot.day_name,
-                        is_selected: true,
-                        slot_timings: slot.slot_timings?.map((timing: any) => ({
-                            start_time: timing.start_time,
-                            end_time: timing.end_time,
-                            service_id: timing.service_id
-                        }))
-                    }))
-                };
-
-                console.log(dayScheduledSlots);
-
-                const updatedSlots = allSlots?.map((slot: any) => {
-                    console.log(slot);
-                    const matchingSlot = dayScheduledSlots?.scheduled_slots?.find((daySlot: any) => daySlot.dayName === slot.dayName);
-                    console.log(matchingSlot)
-                    if (matchingSlot) {
-                        return matchingSlot;
-                    } else {
-                        return slot;
-                    }
-                });
-
-                const updatedFormInitialValues = {
-                    is_same_slots: dayScheduledSlots.is_same_slots,
-                    scheduled_slots: updatedSlots,
-                    all_scheduled_slots: InitialValue.all_scheduled_slots
-                };
-                setFormInitialValues(updatedFormInitialValues);
+        useEffect(() => {
+            if (userId) {
+                setUserSelectedSlots([]);
+                dispatch(getUserGlobalSlots(userId));
             }
-        }
-    }, [userSlots]);
+        }, [dispatch, userId]);
 
-    useEffect(() => {
-        const currentTab = searchParams.get("currentStepId");
-        setCurrentTab(currentTab);
-        setFacilityId(currentTab);
-        if (userId) {
-            dispatch(getUserBasicDetails(userId));
-        }
+        const handleSetUserSelectedSlots = useCallback((userSlots: any) => {
+            if (userSlots) {
+                setUserSelectedSlots((oldState: any) => {
+                    const newState = oldState ? [...oldState] : [];
 
-        if (currentTab && userId) {
-            dispatch(getUserSlots(userId, currentTab));
-        }
+                    userSlots.forEach((facilitySlots: any) => {
+                        const slotsToMerge = facilitySlots.is_same_slots
+                            ? facilitySlots.applicable_slot_days
+                            : facilitySlots.day_scheduled_slots;
+                        if (facilitySlots.is_same_slots) {
+                            slotsToMerge.forEach((day: any) => {
+                                const existingSlot = newState.find((item) => item.day === day);
+                                if (existingSlot) {
+                                    // Merge slots for the same day
+                                    const mergedSlots = [...existingSlot.slots, ...(day?.slot_timings || [])];
+                                    existingSlot.slots = Array.from(new Set(mergedSlots));
+                                } else {
+                                    newState.push({
+                                        day: day,
+                                        slots: facilitySlots.all_scheduled_slots,
+                                    });
+                                }
+                            })
+                        } else {
+                            slotsToMerge.forEach((day: any) => {
+                                const existingSlot = newState.find((item) => item.day === day.day);
+                                if (existingSlot) {
+                                    // Merge slots for the same day
+                                    const mergedSlots = [...existingSlot.slots, ...(day?.slot_timings || [])];
+                                    existingSlot.slots = Array.from(new Set(mergedSlots));
+                                } else {
+                                    newState.push({
+                                        day: day.day,
+                                        slots: day?.slot_timings || [],
+                                    });
+                                }
+                            })
+                        }
+                    })
+                    return newState;
+                })
+            }
+        }, [])
 
-    }, [searchParams, userId, dispatch]);
+        useEffect(() => {
+            if (isUserGlobalSlotsLoaded && userGlobalSlots) {
+                handleSetUserSelectedSlots(userGlobalSlots)
+            }
+        }, [isUserSlotsLoaded, userGlobalSlots, handleSetUserSelectedSlots, isUserGlobalSlotsLoaded])
 
-    const handleTabChange = useCallback((e: any, value: any) => {
-        const newSearchParams = new URLSearchParams(searchParams);
-        newSearchParams.set("currentStepId", value);
-        setSearchParams(newSearchParams.toString());
-        setCurrentTab(value);
-        setFacilityId(value);
-        dispatch(setUserSlots(InitialValue))
-    }, [searchParams, setSearchParams, dispatch]);
+        useEffect(() => {
+            if (userSlots && Object.keys(userSlots).length) {
+                if (userSlots?.is_same_slots) {
+                    const allScheduledSlots = {
+                        is_same_slots: true,
+                        all_scheduled_slots: userSlots?.all_scheduled_slots?.map((slot: any) => ({
+                            start_time: slot.start_time,
+                            end_time: slot.end_time,
+                            service_id: slot.service_id
+                        })),
+                        scheduled_slots: InitialValue.scheduled_slots
+                    };
 
-    useEffect(() => {
-        dispatch(setCurrentNavParams('Edit User', null, () => {
+                    setFormInitialValues(allScheduledSlots);
+
+                } else {
+                    const allSlots = _.cloneDeep(InitialValue.scheduled_slots);
+                    const dayScheduledSlots = {
+                        is_same_slots: false,
+                        scheduled_slots: userSlots?.day_scheduled_slots?.map((slot: any) => ({
+                            day: parseInt(slot.day),
+                            dayName: slot.day_name,
+                            is_selected: true,
+                            slot_timings: slot.slot_timings?.map((timing: any) => ({
+                                start_time: timing.start_time,
+                                end_time: timing.end_time,
+                                service_id: timing.service_id
+                            }))
+                        }))
+                    };
+
+                    const updatedSlots = allSlots?.map((slot: any) => {
+                        console.log(slot);
+                        const matchingSlot = dayScheduledSlots?.scheduled_slots?.find((daySlot: any) => daySlot.dayName === slot.dayName);
+                        console.log(matchingSlot)
+                        if (matchingSlot) {
+                            return matchingSlot;
+                        } else {
+                            return slot;
+                        }
+                    });
+
+                    const updatedFormInitialValues = {
+                        is_same_slots: dayScheduledSlots.is_same_slots,
+                        scheduled_slots: updatedSlots,
+                        all_scheduled_slots: InitialValue.all_scheduled_slots
+                    };
+                    setFormInitialValues(updatedFormInitialValues);
+                }
+            }
+        }, [userSlots]);
+
+
+        useEffect(() => {
+            const currentTab = searchParams.get("currentStepId");
+            setCurrentTab(currentTab);
+            setFacilityId(currentTab);
+            if (userId) {
+                dispatch(getUserBasicDetails(userId));
+            }
+
+            if (currentTab && userId) {
+                dispatch(getUserSlots(userId, currentTab));
+            }
+
+        }, [searchParams, userId, dispatch]);
+
+        const handleTabChange = useCallback((e: any, value: any) => {
+            setUserSelectedSlots([]);
+            if (userId) {
+                dispatch(getUserSlots(userId, value));
+                dispatch(getUserGlobalSlots(userId));
+            }
+            const newSearchParams = new URLSearchParams(searchParams);
+            newSearchParams.set("currentStepId", value);
+            setSearchParams(newSearchParams.toString());
+            setCurrentTab(value);
+            setFacilityId(value);
+            dispatch(setUserSlots(InitialValue))
+        }, [searchParams, setSearchParams, dispatch, userId]);
+
+        useEffect(() => {
+            dispatch(setCurrentNavParams('Edit User', null, () => {
+                if (path.includes('settings')) {
+                    navigate(CommonService._routeConfig.PersonalSlotsDetails(facilityId))
+                } else {
+                    navigate(CommonService._routeConfig.UserSlotsDetails(userBasicDetails?._id, facilityId))
+                }
+            }));
+        }, [dispatch, userBasicDetails, navigate, path, facilityId]);
+
+
+        const handleGoBack = useCallback(() => {
             if (path.includes('settings')) {
                 navigate(CommonService._routeConfig.PersonalSlotsDetails(facilityId))
             } else {
                 navigate(CommonService._routeConfig.UserSlotsDetails(userBasicDetails?._id, facilityId))
             }
-        }));
-    }, [dispatch, userBasicDetails, navigate, path, facilityId]);
+        }, [userBasicDetails, navigate, path, facilityId])
 
+        console.log(userSelectedSlots);
 
-    const handleGoBack = useCallback(() => {
-        if (path.includes('settings')) {
-            navigate(CommonService._routeConfig.PersonalSlotsDetails(facilityId))
-        } else {
-            navigate(CommonService._routeConfig.UserSlotsDetails(userBasicDetails?._id, facilityId))
-        }
-    }, [userBasicDetails, navigate, path, facilityId])
-
-    const onSlotAdd = useCallback(
-        (values: any, {setErrors, setSubmitting}: FormikHelpers<any>) => {
-            const payload = {...values};
-            console.log(payload);
-            if (payload.is_same_slots) {
-                delete payload.scheduled_slots;
-                payload.all_scheduled_slots.forEach((slot: any, index: any) => {
-                    if (!payload?.service_slots) {
-                        payload.service_slots = {};
-                    }
-                    if (!payload?.service_slots[slot.service_id]) {
-                        payload.service_slots[slot.service_id] = [];
-                    }
-                    payload.service_slots[slot.service_id].push({
-                        start_time: slot.start_time,
-                        end_time: slot.end_time
-                    });
-                })
-            } else {
-                delete payload.all_scheduled_slots;
-                payload.scheduled_slots = payload.scheduled_slots.filter(
-                    (slot: any) => slot.is_selected
-                );
-
-                payload.scheduled_slots.forEach((day_slots: any) => {
-                    const {day, slot_timings} = day_slots;
-
-                    // Convert slot_timings to the desired format
-                    const slots = slot_timings?.map((slot: any) => ({
-                        start_time: slot.start_time,
-                        end_time: slot.end_time,
-                        service_id: slot.service_id,
-                    }));
-
-                    // Update day_slots object
-                    if (!payload.day_slots) {
-                        payload.day_slots = {};
-                    }
-                    if (!payload.day_slots[day]) {
-                        payload.day_slots[day] = {};
-                    }
-                    slots.forEach((slot: any) => {
-                        if (!payload.day_slots[day][slot.service_id]) {
-                            payload.day_slots[day][slot.service_id] = [];
+        const onSlotAdd = useCallback(
+            (values: any, {setErrors, resetForm, setSubmitting}: FormikHelpers<any>) => {
+                const payload = {...values};
+                if (payload.is_same_slots) {
+                    delete payload.scheduled_slots;
+                    payload.all_scheduled_slots.forEach((slot: any, index: any) => {
+                        if (!payload?.service_slots) {
+                            payload.service_slots = {};
                         }
-                        payload.day_slots[day][slot.service_id].push({
+                        if (!payload?.service_slots[slot.service_id]) {
+                            payload.service_slots[slot.service_id] = [];
+                        }
+                        payload.service_slots[slot.service_id].push({
+                            start_time: slot.start_time,
+                            end_time: slot.end_time
+                        });
+                    })
+                } else {
+                    delete payload.all_scheduled_slots;
+                    payload.scheduled_slots = payload.scheduled_slots.filter(
+                        (slot: any) => slot.is_selected
+                    );
+
+                    payload.scheduled_slots.forEach((day_slots: any) => {
+                        const {day, slot_timings} = day_slots;
+
+                        // Convert slot_timings to the desired format
+                        const slots = slot_timings?.map((slot: any) => ({
                             start_time: slot.start_time,
                             end_time: slot.end_time,
+                            service_id: slot.service_id,
+                        }));
+
+                        // Update day_slots object
+                        if (!payload.day_slots) {
+                            payload.day_slots = {};
+                        }
+                        if (!payload.day_slots[day]) {
+                            payload.day_slots[day] = {};
+                        }
+                        slots.forEach((slot: any) => {
+                            if (!payload.day_slots[day][slot.service_id]) {
+                                payload.day_slots[day][slot.service_id] = [];
+                            }
+                            payload.day_slots[day][slot.service_id].push({
+                                start_time: slot.start_time,
+                                end_time: slot.end_time,
+                            });
                         });
+
+                        // Update day_scheduled_slots object
+                        if (!payload.day_scheduled_slots) {
+                            payload.day_scheduled_slots = {};
+                        }
+
+                        if (!payload.day_scheduled_slots[day]) {
+                            payload.day_scheduled_slots[day] = [];
+                        }
+                        payload.day_scheduled_slots[day].push(...slots);
                     });
+                    delete payload.scheduled_slots;
+                }
 
-                    // Update day_scheduled_slots object
-                    if (!payload.day_scheduled_slots) {
-                        payload.day_scheduled_slots = {};
+                setSubmitting(true);
+
+                // Perform the API request with the updated payload
+                CommonService._user
+                    .addUserSlots(userBasicDetails._id, facilityId, payload)
+                    .then((response) => {
+                        setSubmitting(false);
+                        // navigate(CommonService._routeConfig.UserList());
+                        CommonService._alert.showToast(
+                            response[Misc.API_RESPONSE_MESSAGE_KEY],
+                            'success'
+                        );
+                    })
+                    .catch((error) => {
+                        setSubmitting(false);
+                        CommonService.handleErrors(setErrors, error, true);
+                    });
+            },
+            [facilityId, userBasicDetails]
+        );
+
+        const handleUserSlotsUpdate = useCallback((endTime: string, startTime: string, isSameSlots: boolean, faclityDays: any) => {
+            setUserSelectedSlots((oldstate: any) => {
+                if (isSameSlots) {
+                    const tempSlots: any = oldstate ? [...oldstate] : [];
+                    if (!tempSlots || !tempSlots.length) {
+                        faclityDays.forEach((day: any) => {
+                            tempSlots.push({
+                                day: day.day,
+                                slots: [{
+                                    start_time: startTime,
+                                    end_time: endTime
+                                }]
+                            })
+                        })
+                    } else {
+                        tempSlots.forEach((slot: any) => {
+                            if (faclityDays?.some((day: any) => day.day === slot.day)) {
+                                const existingSlot = slot.slots.find((item: any) => item.start_time === startTime);
+                                if (existingSlot) {
+                                    existingSlot.end_time = endTime;
+                                } else {
+                                    slot.slots.push({
+                                        start_time: startTime,
+                                        end_time: endTime
+                                    })
+                                }
+                            }
+                        })
                     }
-
-                    if (!payload.day_scheduled_slots[day]) {
-                        payload.day_scheduled_slots[day] = [];
+                    return tempSlots;
+                } else {
+                    const tempSlots: any = oldstate ? [...oldstate] : [];
+                    if (!tempSlots || !tempSlots.length) {
+                        tempSlots.push({
+                            day: faclityDays?.day,
+                            slots: [{
+                                start_time: startTime,
+                                end_time: endTime
+                            }]
+                        })
+                    } else {
+                        tempSlots.forEach((slot: any) => {
+                            if (faclityDays?.day === slot.day) {
+                                const existingSlot = slot.slots.find((item: any) => item.start_time === startTime);
+                                if (existingSlot) {
+                                    existingSlot.end_time = endTime;
+                                } else {
+                                    slot.slots.push({
+                                        start_time: startTime,
+                                        end_time: endTime
+                                    })
+                                }
+                            }
+                        })
                     }
-                    payload.day_scheduled_slots[day].push(...slots);
-                });
-                delete payload.scheduled_slots;
-            }
+                    return tempSlots;
+                }
+            })
+        }, [])
 
-            setSubmitting(true);
+        const handleUserSlotsRemove = useCallback((endTime: string, startTime: string, isSameSlots: boolean, faclityDays: any) => {
+            if (!endTime || !startTime) return;
+            setUserSelectedSlots((oldstate: any) => {
+                if (isSameSlots) {
+                    const tempSlots: any = oldstate ? [...oldstate] : [];
+                    tempSlots.forEach((slot: any) => {
+                        if (faclityDays?.some((day: any) => day.day === slot.day)) {
+                            slot.slots = slot.slots.filter((item: any) => item.start_time !== startTime && item.end_time !== endTime)
+                        }
+                    })
+                    return tempSlots;
+                } else {
+                    const tempSlots: any = oldstate ? [...oldstate] : [];
+                    tempSlots.forEach((slot: any) => {
+                        if (faclityDays?.day === slot.day) {
+                            slot.slots = slot.slots.filter((item: any) => item.start_time !== startTime && item.end_time !== endTime)
+                        }
+                    })
+                    return tempSlots;
+                }
+            })
+        }, [])
 
-            // Perform the API request with the updated payload
-            CommonService._user
-                .addUserSlots(userBasicDetails._id, facilityId, payload)
-                .then((response) => {
-                    setSubmitting(false);
-                    // navigate(CommonService._routeConfig.UserList());
-                    CommonService._alert.showToast(
-                        response[Misc.API_RESPONSE_MESSAGE_KEY],
-                        'success'
-                    );
+        const handleStartTimeReset = useCallback((endTime: string, isSameSlots: boolean, faclityDays: any) => {
+
+            if (!endTime) return;
+            setUserSelectedSlots((oldstate: any) => {
+                if (isSameSlots) {
+                    const tempSlots: any = oldstate ? [...oldstate] : [];
+                    tempSlots.forEach((slot: any) => {
+                        if (faclityDays?.some((day: any) => day.day === slot.day)) {
+                            slot.slots = slot.slots.filter((item: any) => item.end_time !== endTime)
+                        }
+                    })
+                    return tempSlots;
+                } else {
+                    const tempSlots: any = oldstate ? [...oldstate] : [];
+                    tempSlots.forEach((slot: any) => {
+                        if (faclityDays?.day === slot.day) {
+                            slot.slots = slot.slots.filter((item: any) => item.end_time !== endTime)
+                        }
+                    })
+                    return tempSlots;
+                }
+            })
+        }, [])
+
+        const isSlotUnchecked = useCallback((isSameSlots: boolean, userSlots: any) => {
+            if (userSlots) {
+                setUserSelectedSlots((oldState: any) => {
+                    const newState = oldState ? [...oldState] : [];
+                    if (isSameSlots) {
+                        newState.forEach((slot: any) => {
+                            if (userSlots.applicable_slot_days?.some((day: any) => day === slot.day)) {
+                                slot.slots = slot?.slots?.filter((item: any) => userSlots?.all_scheduled_slots?.findIndex((userSlot: any) => userSlot.start_time === item.start_time && userSlot.end_time === item.end_time) < 0) || [];
+                            }
+                        })
+                    } else {
+                        newState.forEach((slot: any) => {
+                            const userFacilityDaySlots = userSlots?.day_scheduled_slots?.find((daySlot: any) => daySlot.day === slot.day);
+                            if (userFacilityDaySlots) {
+                                slot.slots = slot?.slots?.filter((item: any) => userFacilityDaySlots?.slot_timings?.findIndex((userSlot: any) => userSlot.start_time === item.start_time && userSlot.end_time === item.end_time) < 0) || [];
+                            }
+                        })
+                    }
+                    return newState;
                 })
-                .catch((error) => {
-                    setSubmitting(false);
-                    CommonService.handleErrors(setErrors, error, true);
-                });
-        },
-        [facilityId, userBasicDetails]
-    );
-
-    return (
-        <div className="user-slots-component">
-            <>
-                {isUserSlotsLoading && (
-                    <div>
-                        <LoaderComponent/>
-                    </div>
-                )}
-                {isUserSlotsLoadingFailed && (
-                    <StatusCardComponent title={"Failed to fetch Details"}/>
-                )}
-            </>
-            {(isUserSlotsLoaded && isUserBasicDetailsLoaded) && <>
-                <TabsWrapperComponent>
-                    <div className="tabs-wrapper">
-                        <TabsComponent
-                            value={currentTab}
-                            allowScrollButtonsMobile={false}
-                            variant={"fullWidth"}
-                            onUpdate={handleTabChange}
-                        >
-                            {userBasicDetails?.assigned_facility_details?.map((facility: any, index: any) => (
-                                <TabComponent className={'client-details-tab'} label={facility.name}
-                                              value={facility._id}/>
-                            ))}
-                        </TabsComponent>
-                    </div>
-
-                    {userBasicDetails?.assigned_facility_details?.map((facility: any, facilityIndex: any) => (
-                        <TabContentComponent
-                            key={facility._id}
-                            value={facility._id}
-                            selectedTab={currentTab}
-                        >
-                            <CardComponent title={'Available Hours and Service'}>
-                                <FormControlLabelComponent label={facility.name}/>
-                                <Formik initialValues={formInitialValues}
-                                        onSubmit={onSlotAdd}
-                                        validationSchema={validationSchema}
-                                        validateOnChange={false}
-                                        validateOnBlur={true}
-                                        enableReinitialize={true}
-                                        validateOnMount={true}>
-                                    {({
-                                          values,
-                                          isValid,
-                                          touched,
-                                          errors,
-                                          setFieldValue,
-                                          validateForm,
-                                          isSubmitting
-                                      }) => {
-                                        // eslint-disable-next-line react-hooks/rules-of-hooks
-                                        useEffect(() => {
-                                            validateForm();
-                                        }, [validateForm, values]);
-                                        return (
-                                            <Form className="t-form" noValidate={true}>
-                                                {/*<FormDebuggerComponent values={values} errors={errors}*/}
-                                                {/*                       showDebugger={true}/>*/}
-                                                <div className={'ts-row'}>
-                                                    <div className={'ts-col-2'}>
-                                                        <Field name={'is_same_slots'}>
-                                                            {
-                                                                (field: FieldProps) => (
-                                                                    <FormikCheckBoxComponent formikField={field}
-                                                                                             label={'Same for all days'}/>
-                                                                )
-                                                            }
-                                                        </Field>
-                                                    </div>
-                                                    {values.is_same_slots && <div className={'ts-col-10'}>
-                                                        <FieldArray
-                                                            name="all_scheduled_slots"
-                                                            render={(arrayHelpers) => (
-                                                                <>
-                                                                    {values?.all_scheduled_slots?.map((item: any, index: any) => {
-                                                                        const timings = facility.timings[0];
-                                                                        const start_time = parseInt(timings?.timings?.start_time);
-                                                                        const end_time = parseInt(timings?.timings?.end_time);
-                                                                        return (
-                                                                            <div className={'ts-row'}>
-                                                                                <div className={'ts-col'}>
-                                                                                    <Field
-                                                                                        name={`all_scheduled_slots[${index}].start_time`}>
-                                                                                        {
-                                                                                            (field: FieldProps) => (
-                                                                                                <FormikSelectComponent
-                                                                                                    options={CommonService.generateTimeSlots(start_time, end_time)}
-                                                                                                    displayWith={(item) => item.title}
-                                                                                                    valueExtractor={(item) => item.code}
-                                                                                                    selectedValues={values?.all_scheduled_slots[index].start_time}
-                                                                                                    label={'From'}
-                                                                                                    required={true}
-                                                                                                    formikField={field}
-                                                                                                    fullWidth={true}
-                                                                                                />
-                                                                                            )
-                                                                                        }
-                                                                                    </Field>
-                                                                                </div>
-                                                                                <div className={'ts-col'}>
-                                                                                    <Field
-                                                                                        name={`all_scheduled_slots[${index}].end_time`}>
-                                                                                        {
-                                                                                            (field: FieldProps) => (
-                                                                                                <FormikSelectComponent
-                                                                                                    options={CommonService.generateTimeSlots(parseInt(values?.all_scheduled_slots[index].start_time), end_time)}
-                                                                                                    displayWith={(item) => item.title}
-                                                                                                    valueExtractor={(item) => item.code}
-                                                                                                    label={'To'}
-                                                                                                    selectedValues={values?.all_scheduled_slots[index].end_time}
-                                                                                                    // disabled={!(values.all_scheduled_slots[index].start_time)}
-                                                                                                    required={true}
-                                                                                                    formikField={field}
-                                                                                                    fullWidth={true}
-                                                                                                />
-                                                                                            )
-                                                                                        }
-                                                                                    </Field>
-                                                                                </div>
-                                                                                <div className={'ts-col-4'}>
-                                                                                    <Field
-                                                                                        name={`all_scheduled_slots[${index}].service_id`}>
-                                                                                        {
-                                                                                            (field: FieldProps) => (
-                                                                                                <FormikSelectComponent
-                                                                                                    options={serviceListLite}
-                                                                                                    displayWith={(item) => item?.name}
-                                                                                                    valueExtractor={(item) => item?._id}
-                                                                                                    label={'Service Name'}
-                                                                                                    required={true}
-                                                                                                    formikField={field}
-                                                                                                    fullWidth={true}
-                                                                                                />
-                                                                                            )
-                                                                                        }
-                                                                                    </Field>
-                                                                                </div>
-                                                                                <div className="ts-col-1">
-                                                                                    <div className="d-flex">
-                                                                                        <IconButtonComponent
-                                                                                            className={"form-helper-icon"}
-                                                                                            onClick={() => {
-                                                                                                arrayHelpers.push({
-                                                                                                    start_time: "",
-                                                                                                    end_time: "",
-                                                                                                    service_id: ""
-                                                                                                });
-                                                                                            }}
-                                                                                        >
-                                                                                            <ImageConfig.AddCircleIcon/>
-                                                                                        </IconButtonComponent>
-                                                                                        {index > 0 &&
-                                                                                        <IconButtonComponent
-                                                                                            className={"form-helper-icon"}
-                                                                                            onClick={() => {
-                                                                                                arrayHelpers.remove(index);
-                                                                                            }}
-                                                                                        >
-                                                                                            <ImageConfig.DeleteIcon/>
-                                                                                        </IconButtonComponent>}
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>)
-                                                                    })
-                                                                    }
-                                                                </>)}
-                                                        />
-                                                    </div>}
-                                                </div>
-
-                                                {!values.is_same_slots && <div className="mrg-top-20">
-                                                    <>
-                                                        {values?.scheduled_slots?.map((item: any, index: any) => {
-                                                            const timings = facility.timings.filter((timing: any) => timing.day_name === item.dayName);
-                                                            const start_time = parseInt(timings[0]?.timings?.start_time);
-                                                            const end_time = parseInt(timings[0]?.timings?.end_time);
-                                                            return (
-                                                                <div className={'ts-row '}>
-                                                                    {facility.timings.find((timing: any) => {
-                                                                        return timing.day_name === item.dayName
-                                                                    }) && <>
-
-                                                                        <div className={'ts-col-2'}>
-                                                                            <Field
-                                                                                name={`scheduled_slots[${index}].is_selected`}>
-                                                                                {
-                                                                                    (field: FieldProps) => (
-                                                                                        <FormikCheckBoxComponent
-                                                                                            formikField={field}
-                                                                                            label={item.dayName}
-                                                                                        />
-                                                                                    )
-                                                                                }
-                                                                            </Field>
-                                                                        </div>
-
-                                                                        <div className={'ts-col-10'}>
-                                                                            <FieldArray
-                                                                                name={`scheduled_slots[${index}].slot_timings`}
-                                                                                render={(arrayHelpers) => (
-                                                                                    <>
-                                                                                        {item?.slot_timings?.map((item: any, slotIndex: any) => {
-                                                                                            return (
-                                                                                                <div
-                                                                                                    className={'ts-row'}>
-                                                                                                    <div
-                                                                                                        className={'ts-col'}>
-                                                                                                        <Field
-                                                                                                            name={`scheduled_slots[${index}].slot_timings[${slotIndex}].start_time`}>
-                                                                                                            {
-                                                                                                                (field: FieldProps) => (
-                                                                                                                    <FormikSelectComponent
-                                                                                                                        options={CommonService.generateTimeSlots(start_time, end_time)}
-                                                                                                                        displayWith={(item) => item.title}
-                                                                                                                        valueExtractor={(item) => item.code}
-                                                                                                                        selectedValues={values?.scheduled_slots[index].slot_timings[slotIndex].start_time}
-                                                                                                                        label={'From'}
-                                                                                                                        disabled={!(values?.scheduled_slots[index].is_selected)}
-                                                                                                                        formikField={field}
-                                                                                                                        fullWidth={true}
-                                                                                                                        onUpdate={(value: any) => {
-                                                                                                                            if (value) {
-                                                                                                                                setFieldValue(`scheduled_slots[${index}].slot_timings[${slotIndex}].end_time`, '')
-                                                                                                                            }
-                                                                                                                        }}
-                                                                                                                    />
-                                                                                                                )
-                                                                                                            }
-                                                                                                        </Field>
-                                                                                                    </div>
-                                                                                                    <div
-                                                                                                        className={'ts-col'}>
-                                                                                                        <Field
-                                                                                                            name={`scheduled_slots[${index}].slot_timings[${slotIndex}].end_time`}>
-                                                                                                            {
-                                                                                                                (field: FieldProps) => (
-                                                                                                                    <FormikSelectComponent
-                                                                                                                        options={CommonService.generateTimeSlots(parseInt(values?.scheduled_slots[index].slot_timings[slotIndex].start_time), end_time)}
-                                                                                                                        displayWith={(item) => item.title}
-                                                                                                                        valueExtractor={(item) => item.code}
-                                                                                                                        label={'To'}
-                                                                                                                        disabled={!(values?.scheduled_slots[index].is_selected && values?.scheduled_slots[index].slot_timings[slotIndex].start_time)}
-                                                                                                                        formikField={field}
-                                                                                                                        fullWidth={true}
-                                                                                                                    />
-                                                                                                                )
-                                                                                                            }
-                                                                                                        </Field>
-                                                                                                    </div>
-                                                                                                    <div
-                                                                                                        className={'ts-col-4'}>
-                                                                                                        <Field
-                                                                                                            name={`scheduled_slots[${index}].slot_timings[${slotIndex}].service_id`}>
-                                                                                                            {
-                                                                                                                (field: FieldProps) => (
-                                                                                                                    <FormikSelectComponent
-                                                                                                                        options={serviceListLite}
-                                                                                                                        displayWith={(item) => item?.name}
-                                                                                                                        valueExtractor={(item) => item?._id}
-                                                                                                                        label={'Service Name'}
-                                                                                                                        disabled={!(values?.scheduled_slots[index].is_selected)}
-                                                                                                                        formikField={field}
-                                                                                                                        fullWidth={true}
-                                                                                                                    />
-                                                                                                                )
-                                                                                                            }
-                                                                                                        </Field>
-                                                                                                    </div>
-                                                                                                    <div
-                                                                                                        className="ts-col-1">
-                                                                                                        <div
-                                                                                                            className="d-flex">
-                                                                                                            <IconButtonComponent
-                                                                                                                className={"form-helper-icon"}
-                                                                                                                disabled={!(values?.scheduled_slots[index].is_selected)}
-                                                                                                                onClick={() => {
-                                                                                                                    arrayHelpers.push({
-                                                                                                                        start_time: "",
-                                                                                                                        end_time: "",
-                                                                                                                        service_id: ""
-                                                                                                                    });
-                                                                                                                }}
-                                                                                                            >
-                                                                                                                <ImageConfig.AddCircleIcon/>
-                                                                                                            </IconButtonComponent>
-                                                                                                            {slotIndex > 0 &&
-                                                                                                            <IconButtonComponent
-                                                                                                                className={"form-helper-icon"}
-                                                                                                                onClick={() => {
-                                                                                                                    arrayHelpers.remove(slotIndex);
-                                                                                                                }}
-                                                                                                            >
-                                                                                                                <ImageConfig.DeleteIcon/>
-                                                                                                            </IconButtonComponent>}
-                                                                                                        </div>
-                                                                                                    </div>
-                                                                                                </div>)
-                                                                                        })
-                                                                                        }
-                                                                                    </>)}
-                                                                            />
-                                                                        </div>
-
-                                                                    </>
-                                                                    }
-                                                                </div>
-                                                            )
-                                                        })
-                                                        }
-                                                    </>
-                                                </div>}
-
-
-                                                <div className="t-form-actions">
-                                                    <ButtonComponent
-                                                        isLoading={isSubmitting}
-                                                        disabled={!isValid}
-                                                        type='submit'>
-                                                        Save details
-                                                    </ButtonComponent>
-                                                </div>
-                                            </Form>
-                                        )
-                                    }}
-
-                                </Formik>
-
-                            </CardComponent>
-                        </TabContentComponent>
-                    ))}
-                </TabsWrapperComponent>
-                <div className="h-v-center">
-                    <ButtonComponent onClick={handleGoBack}>
-                        Go Back
-                    </ButtonComponent>
-                </div>
-            </>
             }
-        </div>
-    );
+        }, [])
 
-};
+        const handleSetUserSelectedSlotsForFacility = useCallback((userSlots: any, isSameSlots: boolean) => {
+            if (userSlots) {
+                setUserSelectedSlots((oldState: any) => {
+                    const newState = oldState ? [...oldState] : [];
+                    // remove all user slots from global slots
+                    if (isSameSlots) {
+                        newState.forEach((slot: any) => {
+                            const userFacilityDaySlots = userSlots?.day_scheduled_slots?.find((daySlot: any) => daySlot.day === slot.day);
+                            if (userFacilityDaySlots) {
+                                slot.slots = slot?.slots?.filter((item: any) => userFacilityDaySlots?.slot_timings?.findIndex((userSlot: any) => userSlot.start_time === item.start_time && userSlot.end_time === item.end_time) < 0) || [];
+                            }
+                        })
+                    }
+                    return newState;
+                })
+            }
+        }, [])
+
+        const isSlotChecked = useCallback((isSameSlots: boolean, userSlots: any) => {
+            handleSetUserSelectedSlotsForFacility(userSlots, isSameSlots)
+        }, [handleSetUserSelectedSlotsForFacility])
+
+        return (
+            <div className="user-slots-component">
+                <>
+                    {isUserSlotsLoading && (
+                        <div>
+                            <LoaderComponent/>
+                        </div>
+                    )}
+                    {isUserSlotsLoadingFailed && (
+                        <StatusCardComponent title={"Failed to fetch Details"}/>
+                    )}
+                </>
+                {(isUserSlotsLoaded && isUserBasicDetailsLoaded) && <>
+                    <TabsWrapperComponent>
+                        <div className="tabs-wrapper">
+                            <TabsComponent
+                                value={currentTab}
+                                allowScrollButtonsMobile={false}
+                                variant={"fullWidth"}
+                                onUpdate={handleTabChange}
+                            >
+                                {userBasicDetails?.assigned_facility_details?.map((facility: any, index: any) => (
+                                    <TabComponent className={'client-details-tab'} label={facility.name}
+                                                  value={facility._id}/>
+                                ))}
+                            </TabsComponent>
+                        </div>
+
+                        {userBasicDetails?.assigned_facility_details?.map((facility: any, facilityIndex: any) => (
+                            <TabContentComponent
+                                key={facility._id}
+                                value={facility._id}
+                                selectedTab={currentTab}
+                            >
+                                <CardComponent title={'Available Hours and Service'}>
+                                    <FormControlLabelComponent label={facility.name}/>
+                                    <Formik initialValues={formInitialValues}
+                                            onSubmit={onSlotAdd}
+                                            innerRef={formRef}
+                                            validationSchema={validationSchema}
+                                            validateOnChange={false}
+                                            validateOnBlur={true}
+                                            enableReinitialize={true}
+                                            validateOnMount={true}>
+                                        {({
+                                              values,
+                                              isValid,
+                                              touched,
+                                              errors,
+                                              setFieldValue,
+                                              validateForm,
+                                              isSubmitting
+                                          }) => {
+                                            // eslint-disable-next-line react-hooks/rules-of-hooks
+                                            useEffect(() => {
+                                                validateForm();
+                                            }, [validateForm, values]);
+                                            return (
+                                                <Form className="t-form" noValidate={true}>
+                                                    {/*<FormDebuggerComponent values={values} errors={errors}*/}
+                                                    {/*                       showDebugger={true}/>*/}
+                                                    <div className={'ts-row'}>
+                                                        <div className={'ts-col-2'}>
+
+                                                            <Field name={'is_same_slots'}>
+                                                                {
+                                                                    (field: FieldProps) => (
+                                                                        <FormikCheckBoxComponent formikField={field}
+                                                                                                 label={'Same for all days'}
+                                                                                                 onChange={(value: any) => {
+                                                                                                     if (!value) {
+                                                                                                         isSlotUnchecked(true, userSlots)
+                                                                                                     } else {
+                                                                                                         isSlotChecked(true, userSlots)
+                                                                                                     }
+                                                                                                 }
+                                                                                                 }
+                                                                        />
+                                                                    )
+                                                                }
+                                                            </Field>
+                                                        </div>
+                                                        {values.is_same_slots && <div className={'ts-col-10'}>
+                                                            <FieldArray
+                                                                name="all_scheduled_slots"
+                                                                render={(arrayHelpers) => (
+                                                                    <>
+                                                                        {values?.all_scheduled_slots?.map((item: any, index: any) => {
+                                                                            const timings = facility.timings[0];
+                                                                            const start_time = parseInt(timings?.timings?.start_time);
+                                                                            const end_time = parseInt(timings?.timings?.end_time);
+                                                                            return (
+                                                                                <div className={'ts-row'}>
+                                                                                    <div className={'ts-col'}>
+                                                                                        <Field
+                                                                                            name={`all_scheduled_slots[${index}].start_time`}>
+                                                                                            {
+                                                                                                (field: FieldProps) => (
+                                                                                                    <FormikSelectComponent
+                                                                                                        options={CommonService.generateTimeSlots(start_time, end_time)}
+                                                                                                        displayWith={(item) => item.title}
+                                                                                                        valueExtractor={(item) => item.code}
+                                                                                                        selectedValues={commonService.generateDisabledSlots(start_time, end_time,
+                                                                                                            userSelectedSlots?.filter((slot: any) => facility.timings?.some((day: any) => day.day === slot.day))
+                                                                                                            , false, values?.all_scheduled_slots[index]?.start_time, values?.all_scheduled_slots[index]?.end_time, facility?.timings, true)
+                                                                                                            .map((item: any) => item.code)}
+                                                                                                        label={'From'}
+                                                                                                        required={true}
+                                                                                                        onUpdate={(value: any) => {
+                                                                                                            if (value) {
+                                                                                                                handleStartTimeReset(values.all_scheduled_slots[index].end_time, values.is_same_slots, facility?.timings)
+                                                                                                                setFieldValue(`all_scheduled_slots[${index}].end_time`, '')
+                                                                                                            }
+                                                                                                        }}
+                                                                                                        formikField={field}
+                                                                                                        fullWidth={true}
+                                                                                                    />
+                                                                                                )
+                                                                                            }
+                                                                                        </Field>
+                                                                                    </div>
+                                                                                    <div className={'ts-col'}>
+                                                                                        <Field
+                                                                                            name={`all_scheduled_slots[${index}].end_time`}>
+                                                                                            {
+                                                                                                (field: FieldProps) => (
+                                                                                                    <FormikSelectComponent
+                                                                                                        options={CommonService.generateTimeSlots(parseInt(values?.all_scheduled_slots[index].start_time), end_time, true)}
+                                                                                                        displayWith={(item) => item.title}
+                                                                                                        valueExtractor={(item) => item.code}
+                                                                                                        label={'To'}
+                                                                                                        selectedValues={commonService.generateDisabledSlots(start_time, end_time,
+                                                                                                            userSelectedSlots?.filter((slot: any) => facility.timings?.some((day: any) => slot.day === day.day))
+                                                                                                            , true,
+                                                                                                            values?.all_scheduled_slots[index]?.start_time, values?.all_scheduled_slots[index]?.end_time, facility?.timings, true
+                                                                                                        ).map((item: any) => item.code)}
+                                                                                                        // disabled={!(values.all_scheduled_slots[index].start_time)}
+                                                                                                        onUpdate={(value: any) => {
+                                                                                                            if (value) {
+                                                                                                                handleUserSlotsUpdate(value, values.all_scheduled_slots[index].start_time, values.is_same_slots, facility?.timings)
+                                                                                                            }
+                                                                                                        }
+                                                                                                        }
+                                                                                                        required={true}
+                                                                                                        formikField={field}
+                                                                                                        fullWidth={true}
+                                                                                                    />
+                                                                                                )
+                                                                                            }
+                                                                                        </Field>
+                                                                                    </div>
+                                                                                    <div className={'ts-col-4'}>
+                                                                                        <Field
+                                                                                            name={`all_scheduled_slots[${index}].service_id`}>
+                                                                                            {
+                                                                                                (field: FieldProps) => (
+                                                                                                    <FormikSelectComponent
+                                                                                                        options={serviceListLite}
+                                                                                                        displayWith={(item) => item?.name}
+                                                                                                        valueExtractor={(item) => item?._id}
+                                                                                                        label={'Service Name'}
+                                                                                                        required={true}
+                                                                                                        formikField={field}
+                                                                                                        fullWidth={true}
+                                                                                                    />
+                                                                                                )
+                                                                                            }
+                                                                                        </Field>
+                                                                                    </div>
+                                                                                    <div className="ts-col-1">
+                                                                                        <div className="d-flex">
+                                                                                            <IconButtonComponent
+                                                                                                className={"form-helper-icon"}
+                                                                                                onClick={() => {
+                                                                                                    arrayHelpers.push({
+                                                                                                        start_time: "",
+                                                                                                        end_time: "",
+                                                                                                        service_id: ""
+                                                                                                    });
+                                                                                                }}
+                                                                                            >
+                                                                                                <ImageConfig.AddCircleIcon/>
+                                                                                            </IconButtonComponent>
+                                                                                            {index > 0 &&
+                                                                                                <IconButtonComponent
+                                                                                                    className={"form-helper-icon"}
+                                                                                                    onClick={() => {
+                                                                                                        arrayHelpers.remove(index);
+                                                                                                    }}
+                                                                                                >
+                                                                                                    <ImageConfig.DeleteIcon/>
+                                                                                                </IconButtonComponent>}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>)
+                                                                        })
+                                                                        }
+                                                                    </>)}
+                                                            />
+                                                        </div>}
+                                                    </div>
+
+                                                    {!values.is_same_slots && <div className="mrg-top-20">
+                                                        <>
+                                                            {values?.scheduled_slots?.map((item: any, index: any) => {
+                                                                const timings = facility.timings.find((timing: any) => timing.day_name === item.dayName);
+                                                                const start_time = parseInt(timings?.timings?.start_time);
+                                                                const end_time = parseInt(timings?.timings?.end_time);
+                                                                return (
+                                                                    <div className={'ts-row '}>
+                                                                        {facility.timings.find((timing: any) => {
+                                                                            return timing.day_name === item.dayName
+                                                                        }) && <>
+
+                                                                            <div className={'ts-col-2'}>
+                                                                                <Field
+                                                                                    name={`scheduled_slots[${index}].is_selected`}>
+                                                                                    {
+                                                                                        (field: FieldProps) => (
+                                                                                            <FormikCheckBoxComponent
+                                                                                                formikField={field}
+                                                                                                label={item.dayName}
+                                                                                                onChange={(value: any) => {
+                                                                                                    if (!value) {
+                                                                                                        isSlotUnchecked(false, userSlots)
+                                                                                                    }
+                                                                                                }
+                                                                                                }
+                                                                                            />
+                                                                                        )
+                                                                                    }
+                                                                                </Field>
+                                                                            </div>
+
+                                                                            <div className={'ts-col-10'}>
+                                                                                <FieldArray
+                                                                                    name={`scheduled_slots[${index}].slot_timings`}
+                                                                                    render={(arrayHelpers) => (
+                                                                                        <>
+                                                                                            {item?.slot_timings?.map((item: any, slotIndex: any) => {
+                                                                                                return (
+                                                                                                    <div
+                                                                                                        className={'ts-row'}>
+                                                                                                        <div
+                                                                                                            className={'ts-col'}>
+                                                                                                            <Field
+                                                                                                                name={`scheduled_slots[${index}].slot_timings[${slotIndex}].start_time`}>
+                                                                                                                {
+                                                                                                                    (field: FieldProps) => (
+                                                                                                                        <FormikSelectComponent
+                                                                                                                            options={CommonService.generateTimeSlots(start_time, end_time)}
+                                                                                                                            displayWith={(item) => item.title}
+                                                                                                                            valueExtractor={(item) => item.code}
+                                                                                                                            // selectedValues={values?.scheduled_slots[index].slot_timings[slotIndex].start_time}
+                                                                                                                            selectedValues={commonService.generateDisabledSlots(start_time, end_time,
+                                                                                                                                userSelectedSlots?.filter((slot: any) => timings?.day === slot.day)
+                                                                                                                                , false,
+                                                                                                                                values?.scheduled_slots[index]?.slot_timings[slotIndex]?.start_time,
+                                                                                                                                values?.scheduled_slots[index]?.slot_timings[slotIndex]?.end_time, timings, false).map((item: any) => item.code)
+                                                                                                                            }
+                                                                                                                            label={'From'}
+                                                                                                                            disabled={!(values?.scheduled_slots[index].is_selected)}
+                                                                                                                            required={true}
+                                                                                                                            formikField={field}
+                                                                                                                            fullWidth={true}
+                                                                                                                            onUpdate={(value: any) => {
+                                                                                                                                if (value) {
+                                                                                                                                    handleStartTimeReset(values?.scheduled_slots[index]?.slot_timings[slotIndex]?.end_time, values?.is_same_slots, timings)
+                                                                                                                                    setFieldValue(`scheduled_slots[${index}].slot_timings[${slotIndex}].end_time`, '')
+                                                                                                                                }
+                                                                                                                            }}
+                                                                                                                        />
+                                                                                                                    )
+                                                                                                                }
+                                                                                                            </Field>
+                                                                                                        </div>
+                                                                                                        <div
+                                                                                                            className={'ts-col'}>
+                                                                                                            <Field
+                                                                                                                name={`scheduled_slots[${index}].slot_timings[${slotIndex}].end_time`}>
+                                                                                                                {
+                                                                                                                    (field: FieldProps) => (
+                                                                                                                        <FormikSelectComponent
+                                                                                                                            options={CommonService.generateTimeSlots(parseInt(values?.scheduled_slots[index].slot_timings[slotIndex].start_time), end_time, true)}
+                                                                                                                            displayWith={(item) => item.title}
+                                                                                                                            valueExtractor={(item) => item.code}
+                                                                                                                            label={'To'}
+                                                                                                                            selectedValues={commonService.generateDisabledSlots(start_time, end_time,
+                                                                                                                                userSelectedSlots?.filter((slot: any) => timings?.day === slot.day)
+                                                                                                                                , true,
+                                                                                                                                values?.scheduled_slots[index]?.slot_timings[slotIndex]?.start_time,
+                                                                                                                                values?.scheduled_slots[index]?.slot_timings[slotIndex]?.end_time, timings, false).map((item: any) => item.code)}
+                                                                                                                            disabled={!(values?.scheduled_slots[index].is_selected && values?.scheduled_slots[index].slot_timings[slotIndex].start_time)}
+                                                                                                                            onUpdate={(value: any) => {
+                                                                                                                                if (value) {
+                                                                                                                                    handleUserSlotsUpdate(value, values?.scheduled_slots[index]?.slot_timings[slotIndex]?.start_time, values?.is_same_slots, timings)
+                                                                                                                                }
+                                                                                                                            }
+                                                                                                                            }
+                                                                                                                            required={true}
+                                                                                                                            formikField={field}
+                                                                                                                            fullWidth={true}
+                                                                                                                        />
+                                                                                                                    )
+                                                                                                                }
+                                                                                                            </Field>
+                                                                                                        </div>
+                                                                                                        <div
+                                                                                                            className={'ts-col-4'}>
+                                                                                                            <Field
+                                                                                                                name={`scheduled_slots[${index}].slot_timings[${slotIndex}].service_id`}>
+                                                                                                                {
+                                                                                                                    (field: FieldProps) => (
+                                                                                                                        <FormikSelectComponent
+                                                                                                                            options={serviceListLite}
+                                                                                                                            displayWith={(item) => item?.name}
+                                                                                                                            valueExtractor={(item) => item?._id}
+                                                                                                                            label={'Service Name'}
+                                                                                                                            disabled={!(values?.scheduled_slots[index].is_selected)}
+                                                                                                                            formikField={field}
+                                                                                                                            fullWidth={true}
+                                                                                                                        />
+                                                                                                                    )
+                                                                                                                }
+                                                                                                            </Field>
+                                                                                                        </div>
+                                                                                                        <div
+                                                                                                            className="ts-col-1">
+                                                                                                            <div
+                                                                                                                className="d-flex">
+                                                                                                                <IconButtonComponent
+                                                                                                                    className={"form-helper-icon"}
+                                                                                                                    disabled={!(values?.scheduled_slots[index].is_selected)}
+                                                                                                                    onClick={() => {
+                                                                                                                        arrayHelpers.push({
+                                                                                                                            start_time: "",
+                                                                                                                            end_time: "",
+                                                                                                                            service_id: ""
+                                                                                                                        });
+                                                                                                                    }}
+                                                                                                                >
+                                                                                                                    <ImageConfig.AddCircleIcon/>
+                                                                                                                </IconButtonComponent>
+                                                                                                                {slotIndex > 0 &&
+                                                                                                                    <IconButtonComponent
+                                                                                                                        className={"form-helper-icon"}
+                                                                                                                        onClick={() => {
+                                                                                                                            arrayHelpers.remove(slotIndex);
+                                                                                                                            handleUserSlotsRemove(values?.scheduled_slots[index]?.slot_timings[slotIndex]?.end_time, values?.scheduled_slots[index]?.slot_timings[slotIndex]?.start_time, values?.is_same_slots, timings)
+                                                                                                                        }}
+                                                                                                                    >
+                                                                                                                        <ImageConfig.DeleteIcon/>
+                                                                                                                    </IconButtonComponent>}
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>)
+                                                                                            })
+                                                                                            }
+                                                                                        </>)}
+                                                                                />
+                                                                            </div>
+
+                                                                        </>
+                                                                        }
+                                                                    </div>
+                                                                )
+                                                            })
+                                                            }
+                                                        </>
+                                                    </div>}
+
+
+                                                    <div className="t-form-actions">
+                                                        <ButtonComponent
+                                                            isLoading={isSubmitting}
+                                                            disabled={!isValid}
+                                                            type='submit'>
+                                                            Save details
+                                                        </ButtonComponent>
+                                                    </div>
+                                                </Form>
+                                            )
+                                        }}
+
+                                    </Formik>
+
+                                </CardComponent>
+                            </TabContentComponent>
+                        ))}
+                    </TabsWrapperComponent>
+                    <div className="h-v-center">
+                        <ButtonComponent onClick={handleGoBack}>
+                            Go Back
+                        </ButtonComponent>
+                    </div>
+                </>
+                }
+            </div>
+        );
+
+    }
+;
 
 export default UserSlotsEditComponent;

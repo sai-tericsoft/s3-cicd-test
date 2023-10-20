@@ -1,21 +1,19 @@
 import "./ServiceProviderListComponent.scss";
 import CardComponent from "../../../../shared/components/card/CardComponent";
-import {APIConfig, ImageConfig, Misc} from "../../../../constants";
-import React, {useCallback, useEffect, useState} from "react";
+import {ImageConfig, Misc} from "../../../../constants";
+import React, {useCallback, useEffect} from "react";
 import {CommonService} from "../../../../shared/services";
 import {ITableColumn} from "../../../../shared/models/table.model";
 import {IService} from "../../../../shared/models/service.model";
 import IconButtonComponent from "../../../../shared/components/icon-button/IconButtonComponent";
 import ButtonComponent from "../../../../shared/components/button/ButtonComponent";
-import DrawerComponent from "../../../../shared/components/drawer/DrawerComponent";
-import FormControlLabelComponent from "../../../../shared/components/form-control-label/FormControlLabelComponent";
 import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "../../../../store/reducers";
 import TableComponent from "../../../../shared/components/table/TableComponent";
 import {getServiceProviderList} from "../../../../store/actions/service.action";
-import SearchComponent from "../../../../shared/components/search/SearchComponent";
-import TableWrapperComponent from "../../../../shared/components/table-wrapper/TableWrapperComponent";
-import CheckBoxComponent from "../../../../shared/components/form-controls/check-box/CheckBoxComponent";
+import InsertLinkIcon from '@mui/icons-material/InsertLink';
+import {useNavigate} from "react-router-dom";
+import commonService from "../../../../shared/services/common.service";
 
 interface ServiceProviderComponentProps {
     serviceId: string;
@@ -30,13 +28,7 @@ const ServiceProviderListComponent = (props: ServiceProviderComponentProps) => {
         serviceProviderList,
         isServiceProviderListLoading
     } = useSelector((state: IRootReducerState) => state.service);
-    const [isLinkProviderDrawerOpened, setIsLinkProviderDrawerOpened] = useState<boolean>(false);
-    const [isLinkProviderInProgress, setIsLinkProviderInProgress] = useState<boolean>(false);
-    // const [selectedProviderIDsForLinking, setSelectedProviderIDsForLinking] = useState<any[]>([]);
-    const [selectedProvider, setSelectedProvider] = useState<any[]>([]);
-    const [providerListFilterState, setProviderListFilterState] = useState<any>({
-        search: "",
-    });
+    const navigate = useNavigate();
 
     const ClientListColumns: ITableColumn[] = [
         {
@@ -46,7 +38,7 @@ const ServiceProviderListComponent = (props: ServiceProviderComponentProps) => {
             width: "90%",
             render: (item: any) => {
                 // return <>{item?.is_linked && item?.provider_name}</>
-                return <>{item?.provider_name}</>
+                return <>{item?.first_name + " " + item?.last_name}</>
             }
         },
         {
@@ -56,45 +48,17 @@ const ServiceProviderListComponent = (props: ServiceProviderComponentProps) => {
             fixed: 'right',
             align: 'center',
             render: (item: any) => {
-                return <IconButtonComponent onClick={() => {
-                    handleDeleteProvider(item);
-                }}
-                                            id={"pv_delete_btn_" + item.provider_name}>
+                return <IconButtonComponent
+                    color={"error"}
+                    onClick={() => {
+                        handleDeleteProvider(item);
+                    }}
+                    id={"pv_delete_btn_" + item.provider_name}>
                     <ImageConfig.DeleteIcon/>
                 </IconButtonComponent>
             }
         }
     ];
-
-    const LinkedClientListColumns: ITableColumn[] = [
-        {
-            key: 'select',
-            title: 'Provider Name',
-            dataIndex: 'provider_name',
-            width: 500,
-            fixed: 'left',
-            render: (item: any) => {
-                const label = `${CommonService.capitalizeFirstLetter(item?.first_name)} ${CommonService.capitalizeFirstLetter(item?.last_name)}`;
-                return (
-                    <CheckBoxComponent
-                        label={label}
-                        checked={selectedProvider.includes(item?._id) || item?.is_linked}
-                        disabled={item?.is_linked}
-                        onChange={(isChecked) => {
-                            if (isChecked) {
-                                setSelectedProvider([...selectedProvider, item?._id]);
-                            } else {
-                                setSelectedProvider(selectedProvider.filter((id: any) => id !== item?._id));
-                            }
-                        }}
-                    />
-                );
-            }
-        },
-
-    ];
-    console.log(selectedProvider)
-
     const handleDeleteProvider = useCallback((item: any) => {
         CommonService.onConfirm({
             confirmationTitle: "REMOVE USER",
@@ -111,29 +75,21 @@ const ServiceProviderListComponent = (props: ServiceProviderComponentProps) => {
         })
     }, [dispatch, serviceId, serviceDetails]);
 
-    const openProviderLinkFormDrawer = useCallback(() => {
-        setIsLinkProviderDrawerOpened(true);
-    }, []);
-
-    const closeProviderLinkFormDrawer = useCallback(() => {
-        setIsLinkProviderDrawerOpened(false);
-    }, []);
-
-    const handleProviderLinking = useCallback(() => {
-        const provider_ids = selectedProvider.map((item: any) => item);
-        setIsLinkProviderInProgress(true);
-        CommonService._service.ServiceProviderLinkAPICall(serviceId, {provider_ids, is_linked: true})
-            .then((response) => {
-                CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
-                dispatch(getServiceProviderList(serviceId));
-                // setSelectedProviderIDsForLinking([]);
-                closeProviderLinkFormDrawer();
-                setIsLinkProviderInProgress(false);
-            }).catch((error: any) => {
-            CommonService._alert.showToast(error.error || "Error linking provider", "error");
-            setIsLinkProviderInProgress(false);
-        })
-    }, [dispatch, serviceId, selectedProvider, closeProviderLinkFormDrawer]);
+    // const handleProviderLinking = useCallback(() => {
+    //     const provider_ids = selectedProvider.map((item: any) => item);
+    //     setIsLinkProviderInProgress(true);
+    //     CommonService._service.ServiceProviderLinkAPICall(serviceId, {provider_ids, is_linked: true})
+    //         .then((response) => {
+    //             CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+    //             dispatch(getServiceProviderList(serviceId));
+    //             // setSelectedProviderIDsForLinking([]);
+    //             closeProviderLinkFormDrawer();
+    //             setIsLinkProviderInProgress(false);
+    //         }).catch((error: any) => {
+    //         CommonService._alert.showToast(error.error || "Error linking provider", "error");
+    //         setIsLinkProviderInProgress(false);
+    //     })
+    // }, [dispatch, serviceId, selectedProvider, closeProviderLinkFormDrawer]);
 
     useEffect(() => {
         dispatch(getServiceProviderList(serviceId));
@@ -145,11 +101,13 @@ const ServiceProviderListComponent = (props: ServiceProviderComponentProps) => {
                 <ButtonComponent
                     className={'add-provider-cta'}
                     size={"small"}
-                    prefixIcon={<ImageConfig.AddIcon/>}
-                    onClick={openProviderLinkFormDrawer}
+                    prefixIcon={<InsertLinkIcon/>}
+                    onClick={() => {
+                        navigate(commonService._routeConfig.LinkProviderToSericeRoute(serviceId))
+                    }}
                     id={"pv_add_btn"}
                 >
-                    Add Provider
+                    Link Provider
                 </ButtonComponent>
             </div>
             <CardComponent title={'Providers'}>
@@ -160,64 +118,6 @@ const ServiceProviderListComponent = (props: ServiceProviderComponentProps) => {
                     loading={isServiceProviderListLoading}
                 />
             </CardComponent>
-            <DrawerComponent isOpen={isLinkProviderDrawerOpened}
-                             showClose={true}
-                             onClose={closeProviderLinkFormDrawer}
-                             className={"link-provider-drawer-container"}
-            >
-                <div className={"link-provider-drawer"}>
-                    <FormControlLabelComponent label={"Add Provider"}/>
-                    {/*<AutoCompleteComponent*/}
-                    {/*    label={"Providers"}*/}
-                    {/*    placeholder={"Search for provider by name"}*/}
-                    {/*    searchMode={"serverSide"}*/}
-                    {/*    value={selectedProviderIDsForLinking}*/}
-                    {/*    url={APIConfig.AVAILABLE_SERVICE_PROVIDERS_TO_LINK.URL(serviceDetails._id)}*/}
-                    {/*    method={APIConfig.AVAILABLE_SERVICE_PROVIDERS_TO_LINK.METHOD}*/}
-                    {/*    dataListKey={"data"}*/}
-                    {/*    multiple={true}*/}
-                    {/*    displayWith={item => item ? (item.first_name || "") + " " + (item.last_name || "") : ""}*/}
-                    {/*    // valueExtractor={item => item ? item._id : ""}*/}
-                    {/*    onUpdate={(value) => {*/}
-                    {/*        setSelectedProviderIDsForLinking(value);*/}
-                    {/*    }}*/}
-                    {/*/>*/}
-                    <SearchComponent size={'medium'}
-                                     className={'client-search-input mrg-top-20'}
-                                     label={'Search for Provider'}
-                                     value={providerListFilterState.search}
-                                     onSearchChange={(value) => {
-                                         setProviderListFilterState({...providerListFilterState, search: value})
-                                     }}/>
-                    <div className={"link-provider-existing-list"}>
-                        <FormControlLabelComponent label={"Added Providers"} size={"sm"}/>
-                        {/*<TableComponent*/}
-                        {/*    size={"small"}*/}
-                        {/*    columns={LinkedClientListColumns}*/}
-                        {/*    data={serviceProviderList}*/}
-                        {/*    hideHeader={true}*/}
-                        {/*    loading={isServiceProviderListLoading}*/}
-                        {/*/>*/}
-                        <div className={'table-container'}>
-                            <TableWrapperComponent url={APIConfig.AVAILABLE_SERVICE_PROVIDERS_TO_LINK.URL(serviceId)}
-                                                   method={APIConfig.AVAILABLE_SERVICE_PROVIDERS_TO_LINK.METHOD}
-                                                   extraPayload={providerListFilterState}
-                                                   isPaginated={false}
-                                                   columns={LinkedClientListColumns}/>
-                        </div>
-                    </div>
-                    <div className={"link-provider-actions"}>
-                        <ButtonComponent fullWidth={true}
-                                         isLoading={isLinkProviderInProgress}
-                                         disabled={selectedProvider.length === 0}
-                                         onClick={handleProviderLinking}
-                                         id={"pv_save_btn"}
-                        >
-                            Save
-                        </ButtonComponent>
-                    </div>
-                </div>
-            </DrawerComponent>
         </div>
     );
 
