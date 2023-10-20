@@ -4,7 +4,12 @@ import {useNavigate} from "react-router-dom";
 import {IRootReducerState} from "../../../../store/reducers";
 import React, {useCallback, useEffect, useState} from "react";
 import _ from "lodash";
-import {getUserBasicDetails, getUserGlobalSlots, getUserSlots} from "../../../../store/actions/user.action";
+import {
+    getUserBasicDetails,
+    getUserGlobalSlots,
+    getUserSlots,
+    setUserSlots
+} from "../../../../store/actions/user.action";
 import {setCurrentNavParams} from "../../../../store/actions/navigation.action";
 import {CommonService} from "../../../../shared/services";
 import {Field, FieldArray, FieldProps, Form, Formik, FormikHelpers} from "formik";
@@ -185,6 +190,19 @@ const ServiceSlotsComponent = (props: ServiceSlotsComponentProps) => {
     const navigate = useNavigate();
 
     useEffect(() => {
+        if (currentTab && userId) {
+            dispatch(getUserSlots(userId, currentTab));
+        }
+    }, [dispatch, userId, currentTab]);
+
+    useEffect(() => {
+        if (userId) {
+            setUserSelectedSlots([]);
+            dispatch(getUserGlobalSlots(userId));
+        }
+    }, [dispatch, userId]);
+
+    useEffect(() => {
         if (userId) {
             dispatch(getUserBasicDetails(userId));
         }
@@ -237,21 +255,14 @@ const ServiceSlotsComponent = (props: ServiceSlotsComponentProps) => {
         if (isUserGlobalSlotsLoaded && userGlobalSlots) {
             handleSetUserSelectedSlots(userGlobalSlots)
         }
-    }, [isUserSlotsLoaded, userGlobalSlots,handleSetUserSelectedSlots,isUserGlobalSlotsLoaded])
+    }, [isUserSlotsLoaded, userGlobalSlots, handleSetUserSelectedSlots, isUserGlobalSlotsLoaded])
 
-    useEffect(() => {
-        if (currentTab && userId) {
-            setUserSelectedSlots([]);
-            dispatch(getUserGlobalSlots(userId));
-            dispatch(getUserSlots(userId, currentTab));
-        }
-    }, [dispatch, userId, currentTab]);
 
     useEffect(() => {
         if (isUserSlotsLoaded && userSlots && Object.keys(userSlots).length && serviceId) {
-            if (serviceId ) {
+            if (serviceId) {
                 if (userSlots?.is_same_slots) {
-                    userSlots.all_scheduled_slots = userSlots?.all_scheduled_slots?.filter((slot: any) => slot.service_id === serviceId )
+                    userSlots.all_scheduled_slots = userSlots?.all_scheduled_slots?.filter((slot: any) => slot.service_id === serviceId)
                 } else {
                     userSlots.day_scheduled_slots = userSlots?.day_scheduled_slots?.map((slot: any) => {
                         slot.slot_timings = slot?.slot_timings?.filter((item: any) => item.service_id === serviceId)
@@ -262,8 +273,8 @@ const ServiceSlotsComponent = (props: ServiceSlotsComponentProps) => {
             }
             if (userSlots?.is_same_slots) {
                 const allScheduledSlots = {
-                    is_same_slots: true,
-                    all_scheduled_slots:userSlots?.all_scheduled_slots?.length > 0 ? userSlots?.all_scheduled_slots?.map((slot: any) => ({
+                    is_same_slots: userSlots?.all_scheduled_slots?.length > 0 ? true : false,
+                    all_scheduled_slots: userSlots?.all_scheduled_slots?.length > 0 ? userSlots?.all_scheduled_slots?.map((slot: any) => ({
                         start_time: slot.start_time,
                         end_time: slot.end_time,
                         service_id: slot.service_id
@@ -316,7 +327,7 @@ const ServiceSlotsComponent = (props: ServiceSlotsComponentProps) => {
                 setFormInitialValues(updatedFormInitialValues);
             }
         }
-    }, [userSlots, isUserSlotsLoaded,serviceId]);
+    }, [userSlots, isUserSlotsLoaded, serviceId]);
 
 
     useEffect(() => {
@@ -334,7 +345,8 @@ const ServiceSlotsComponent = (props: ServiceSlotsComponentProps) => {
         }
         setCurrentTab(value);
         setFacilityId(value);
-    }, [userId,dispatch]);
+        dispatch(setUserSlots(InitialValue))
+    }, [userId, dispatch]);
 
     const onSlotAdd = useCallback(
         (values: any, {setErrors, setSubmitting}: FormikHelpers<any>) => {
@@ -421,7 +433,7 @@ const ServiceSlotsComponent = (props: ServiceSlotsComponentProps) => {
                     });
             }
         },
-        [facilityId, userId, serviceId,dispatch]
+        [facilityId, userId, serviceId, dispatch]
     );
 
     const handleUserSlotsUpdate = useCallback((endTime: string, startTime: string, isSameSlots: boolean, faclityDays: any) => {
@@ -484,8 +496,30 @@ const ServiceSlotsComponent = (props: ServiceSlotsComponentProps) => {
         })
     }, [])
 
-    const handleStartTimeReset = useCallback((endTime: string, isSameSlots: boolean, faclityDays: any) => {
+    const handleUserSlotsRemove = useCallback((endTime: string, startTime: string, isSameSlots: boolean, faclityDays: any) => {
+        if (!endTime || !startTime) return;
+        setUserSelectedSlots((oldstate: any) => {
+            if (isSameSlots) {
+                const tempSlots: any = oldstate ? [...oldstate] : [];
+                tempSlots.forEach((slot: any) => {
+                    if (faclityDays?.some((day: any) => day.day === slot.day)) {
+                        slot.slots = slot.slots.filter((item: any) => item.start_time !== startTime && item.end_time !== endTime)
+                    }
+                })
+                return tempSlots;
+            } else {
+                const tempSlots: any = oldstate ? [...oldstate] : [];
+                tempSlots.forEach((slot: any) => {
+                    if (faclityDays?.day === slot.day) {
+                        slot.slots = slot.slots.filter((item: any) => item.start_time !== startTime && item.end_time !== endTime)
+                    }
+                })
+                return tempSlots;
+            }
+        })
+    }, [])
 
+    const handleStartTimeReset = useCallback((endTime: string, isSameSlots: boolean, faclityDays: any) => {
         if (!endTime) return;
         setUserSelectedSlots((oldstate: any) => {
             if (isSameSlots) {
@@ -508,64 +542,65 @@ const ServiceSlotsComponent = (props: ServiceSlotsComponentProps) => {
         })
     }, [])
 
-    const isSlotUnchecked = useCallback((isSameSlots: boolean, userSlots: any) => {
-        if (userSlots) {
-            if (serviceId) {
-                if (userSlots?.is_same_slots) {
-                    userSlots.all_scheduled_slots = userSlots?.all_scheduled_slots?.filter((slot: any) => slot.service_id === serviceId)
-                } else {
-                    userSlots.day_scheduled_slots = userSlots?.day_scheduled_slots?.map((slot: any) => {
-                        slot.slot_timings = slot?.slot_timings?.filter((item: any) => item.service_id === serviceId)
-                        return slot;
-                    })
-                    userSlots.day_scheduled_slots = userSlots?.day_scheduled_slots?.filter((slot: any) => slot.slot_timings.length)
+    const isSameSlotUnchecked = useCallback((values: any, facility?: any) => {
+        setUserSelectedSlots((oldState: any) => {
+            const newState = oldState ? [...oldState] : [];
+            newState.forEach((slot: any) => {
+                if (facility?.timings?.some((day: any) => day.day === slot.day)) {
+                    slot.slots = slot?.slots?.filter((item: any) => values?.all_scheduled_slots?.findIndex((userSlot: any) => userSlot.start_time === item.start_time && userSlot.end_time === item.end_time) < 0) || [];
                 }
-            }
-            console.log(userSlots)
-            setUserSelectedSlots((oldState: any) => {
-                const newState = oldState ? [...oldState] : [];
-                if (isSameSlots) {
-                    newState.forEach((slot: any) => {
-                        if (userSlots.applicable_slot_days?.some((day: any) => day === slot.day)) {
-                            slot.slots = slot?.slots?.filter((item: any) => userSlots?.all_scheduled_slots?.findIndex((userSlot: any) => userSlot.start_time === item.start_time && userSlot.end_time === item.end_time) < 0) || [];
-                        }
-                    })
-                } else {
-                    newState.forEach((slot: any) => {
-                        const userFacilityDaySlots = userSlots?.day_scheduled_slots?.find((daySlot: any) => daySlot.day === slot.day);
-                        if (userFacilityDaySlots) {
-                            slot.slots = slot?.slots?.filter((item: any) => userFacilityDaySlots?.slot_timings?.findIndex((userSlot: any) => userSlot.start_time === item.start_time && userSlot.end_time === item.end_time) < 0) || [];
-                        }
-                    })
-                }
-                return newState;
             })
-        }
-    }, [serviceId])
-
-
-    const handleSetUserSelectedSlotsForFacility = useCallback((userSlots: any, isSameSlots: boolean) => {
-        if (userSlots) {
-            setUserSelectedSlots((oldState: any) => {
-                const newState = oldState ? [...oldState] : [];
-                // remove all user slots from global slots
-                if (isSameSlots) {
-                    newState.forEach((slot: any) => {
-                        const userFacilityDaySlots = userSlots?.day_scheduled_slots?.find((daySlot: any) => daySlot.day === slot.day);
-                        if (userFacilityDaySlots) {
-                            slot.slots = slot?.slots?.filter((item: any) => userFacilityDaySlots?.slot_timings?.findIndex((userSlot: any) => userSlot.start_time === item.start_time && userSlot.end_time === item.end_time) < 0) || [];
-                        }
-                    })
-                }
-                return newState;
+            newState.forEach((slot: any) => {
+                const dayScheduledSlots = values?.scheduled_slots?.find((daySlot: any) => daySlot.day === slot.day || daySlot.day === parseInt(slot.day));
+                const mergedSlots = [...slot.slots, ...(dayScheduledSlots?.slot_timings || [])];
+                slot.slots = Array.from(new Set(mergedSlots));
             })
+            return newState;
+        })
 
-        }
-    }, [userId,currentTab])
+    }, [])
 
-    const isSlotChecked = useCallback((isSameSlots: boolean, userSlots: any) => {
-        handleSetUserSelectedSlotsForFacility(userSlots, isSameSlots)
-    }, [handleSetUserSelectedSlotsForFacility])
+    const isIndividualSlotUnchecked = useCallback((values: any, item?: any) => {
+        setUserSelectedSlots((oldState: any) => {
+            const newState = oldState ? [...oldState] : [];
+            newState.forEach((slot: any) => {
+                if (item?.day === slot.day || item?.day === parseInt(slot.day)) {
+                    slot.slots = slot?.slots?.filter((slotItem: any) => item?.slot_timings?.findIndex((userSlot: any) => userSlot.start_time === slotItem.start_time && userSlot.end_time === slotItem.end_time) < 0) || [];
+                }
+            })
+            return newState;
+        })
+    }, [])
+
+    const isIndividualSlotChecked = useCallback((values: any, item?: any) => {
+        setUserSelectedSlots((oldState: any) => {
+            const newState = oldState ? [...oldState] : [];
+            newState.forEach((slot: any) => {
+                if (item?.day === slot.day || item?.day === parseInt(slot.day)) {
+                    const mergedSlots = [...slot.slots, ...(item?.slot_timings || [])];
+                    slot.slots = Array.from(new Set(mergedSlots));
+                }
+            })
+            return newState;
+        })
+    }, [])
+
+    const isSameSlotChecked = useCallback((values: any) => {
+        setUserSelectedSlots((oldState: any) => {
+            const newState = oldState ? [...oldState] : [];
+            newState.forEach((slot: any) => {
+                const userFacilityDaySlots = values?.scheduled_slots?.find((daySlot: any) => daySlot.day === slot.day || daySlot.day === parseInt(slot.day));
+                if (userFacilityDaySlots) {
+                    slot.slots = slot?.slots?.filter((item: any) => userFacilityDaySlots.slot_timings?.findIndex((userSlot: any) => userSlot.start_time === item.start_time && userSlot.end_time === item.end_time) < 0) || [];
+                }
+            })
+            newState.forEach((slot: any) => {
+                const mergedSlots = [...slot.slots, ...(values?.all_scheduled_slots || [])];
+                slot.slots = Array.from(new Set(mergedSlots));
+            })
+            return newState;
+        })
+    }, [])
 
     return (
         <div className="user-slots-component">
@@ -647,9 +682,9 @@ const ServiceSlotsComponent = (props: ServiceSlotsComponentProps) => {
                                                                                                      label={'Same for all days'}
                                                                                                      onChange={(value: any) => {
                                                                                                          if (!value) {
-                                                                                                             isSlotUnchecked(true, userSlots)
+                                                                                                             isSameSlotUnchecked(values, facility)
                                                                                                          } else {
-                                                                                                             isSlotChecked(true, userSlots)
+                                                                                                             isSameSlotChecked(values)
                                                                                                          }
                                                                                                      }
                                                                                                      }
@@ -746,6 +781,7 @@ const ServiceSlotsComponent = (props: ServiceSlotsComponentProps) => {
                                                                                                         className={"form-helper-icon"}
                                                                                                         onClick={() => {
                                                                                                             arrayHelpers.remove(index);
+                                                                                                            handleUserSlotsRemove(values.all_scheduled_slots[index]?.end_time, values.all_scheduled_slots[index]?.start_time, values.is_same_slots, facility?.timings)
                                                                                                         }}
                                                                                                     >
                                                                                                         <ImageConfig.DeleteIcon/>
@@ -782,7 +818,9 @@ const ServiceSlotsComponent = (props: ServiceSlotsComponentProps) => {
                                                                                                     label={item.dayName}
                                                                                                     onChange={(value: any) => {
                                                                                                         if (!value) {
-                                                                                                            isSlotUnchecked(false, timings)
+                                                                                                            isIndividualSlotUnchecked(values, item)
+                                                                                                        } else {
+                                                                                                            isIndividualSlotChecked(values, item)
                                                                                                         }
                                                                                                     }
                                                                                                     }
@@ -865,8 +903,10 @@ const ServiceSlotsComponent = (props: ServiceSlotsComponentProps) => {
                                                                                                                     }
                                                                                                                 </Field>
                                                                                                             </div>
-                                                                                                            <div className="ts-col-1">
-                                                                                                                <div className="d-flex">
+                                                                                                            <div
+                                                                                                                className="ts-col-1">
+                                                                                                                <div
+                                                                                                                    className="d-flex">
                                                                                                                     <IconButtonComponent
                                                                                                                         className={"form-helper-icon"}
                                                                                                                         onClick={() => {
@@ -884,6 +924,7 @@ const ServiceSlotsComponent = (props: ServiceSlotsComponentProps) => {
                                                                                                                             className={"form-helper-icon"}
                                                                                                                             onClick={() => {
                                                                                                                                 arrayHelpers.remove(slotIndex);
+                                                                                                                                handleUserSlotsRemove(values?.scheduled_slots[index]?.slot_timings[slotIndex]?.end_time, values?.scheduled_slots[index]?.slot_timings[slotIndex]?.start_time, values?.is_same_slots, timings)
                                                                                                                             }}
                                                                                                                         >
                                                                                                                             <ImageConfig.DeleteIcon/>
@@ -924,7 +965,6 @@ const ServiceSlotsComponent = (props: ServiceSlotsComponentProps) => {
                                 </TabContentComponent>
                             ))}
                         </TabsWrapperComponent>
-
                     </>
                     }
                 </>

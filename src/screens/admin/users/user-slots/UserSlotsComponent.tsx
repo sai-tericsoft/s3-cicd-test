@@ -199,7 +199,6 @@ const UserSlotsComponent = (props: UserSlotsComponentProps) => {
             if (userSlots) {
                 setUserSelectedSlots((oldState: any) => {
                     const newState = oldState ? [...oldState] : [];
-
                     userSlots.forEach((facilitySlots: any) => {
                         const slotsToMerge = facilitySlots.is_same_slots
                             ? facilitySlots.applicable_slot_days
@@ -407,159 +406,173 @@ const UserSlotsComponent = (props: UserSlotsComponentProps) => {
             [facilityId, userId]
         );
 
-        const handleUserSlotsUpdate = useCallback((endTime: string, startTime: string, isSameSlots: boolean, faclityDays: any) => {
-            setUserSelectedSlots((oldstate: any) => {
-                if (isSameSlots) {
-                    const tempSlots: any = oldstate ? [...oldstate] : [];
-                    if (!tempSlots || !tempSlots.length) {
-                        faclityDays.forEach((day: any) => {
-                            tempSlots.push({
-                                day: day.day,
-                                slots: [{
-                                    start_time: startTime,
-                                    end_time: endTime
-                                }]
-                            })
-                        })
-                    } else {
-                        tempSlots.forEach((slot: any) => {
-                            if (faclityDays?.some((day: any) => day.day === slot.day)) {
-                                const existingSlot = slot.slots.find((item: any) => item.start_time === startTime);
-                                if (existingSlot) {
-                                    existingSlot.end_time = endTime;
-                                } else {
-                                    slot.slots.push({
-                                        start_time: startTime,
-                                        end_time: endTime
-                                    })
-                                }
-                            }
-                        })
-                    }
-                    return tempSlots;
-                } else {
-                    const tempSlots: any = oldstate ? [...oldstate] : [];
-                    if (!tempSlots || !tempSlots.length) {
+    const handleUserSlotsUpdate = useCallback((endTime: string, startTime: string, isSameSlots: boolean, faclityDays: any) => {
+        setUserSelectedSlots((oldstate: any) => {
+            if (isSameSlots) {
+                const tempSlots: any = oldstate ? [...oldstate] : [];
+                if (!tempSlots || !tempSlots.length) {
+                    faclityDays.forEach((day: any) => {
                         tempSlots.push({
-                            day: faclityDays?.day,
+                            day: day.day,
                             slots: [{
                                 start_time: startTime,
                                 end_time: endTime
                             }]
                         })
-                    } else {
-                        tempSlots.forEach((slot: any) => {
-                            if (faclityDays?.day === slot.day) {
-                                const existingSlot = slot.slots.find((item: any) => item.start_time === startTime);
-                                if (existingSlot) {
-                                    existingSlot.end_time = endTime;
-                                } else {
-                                    slot.slots.push({
-                                        start_time: startTime,
-                                        end_time: endTime
-                                    })
-                                }
-                            }
-                        })
-                    }
-                    return tempSlots;
-                }
-            })
-        }, [])
-
-        const handleUserSlotsRemove = useCallback((endTime: string, startTime: string, isSameSlots: boolean, faclityDays: any) => {
-            if (!endTime || !startTime) return;
-            setUserSelectedSlots((oldstate: any) => {
-                if (isSameSlots) {
-                    const tempSlots: any = oldstate ? [...oldstate] : [];
+                    })
+                } else {
                     tempSlots.forEach((slot: any) => {
                         if (faclityDays?.some((day: any) => day.day === slot.day)) {
-                            slot.slots = slot.slots.filter((item: any) => item.start_time !== startTime && item.end_time !== endTime)
+                            const existingSlot = slot.slots.find((item: any) => item.start_time === startTime);
+                            if (existingSlot) {
+                                existingSlot.end_time = endTime;
+                            } else {
+                                slot.slots.push({
+                                    start_time: startTime,
+                                    end_time: endTime
+                                })
+                            }
                         }
                     })
-                    return tempSlots;
+                }
+                return tempSlots;
+            } else {
+                const tempSlots: any = oldstate ? [...oldstate] : [];
+                if (!tempSlots || !tempSlots.length) {
+                    tempSlots.push({
+                        day: faclityDays?.day,
+                        slots: [{
+                            start_time: startTime,
+                            end_time: endTime
+                        }]
+                    })
                 } else {
-                    const tempSlots: any = oldstate ? [...oldstate] : [];
                     tempSlots.forEach((slot: any) => {
                         if (faclityDays?.day === slot.day) {
-                            slot.slots = slot.slots.filter((item: any) => item.start_time !== startTime && item.end_time !== endTime)
+                            const existingSlot = slot.slots.find((item: any) => item.start_time === startTime);
+                            if (existingSlot) {
+                                existingSlot.end_time = endTime;
+                            } else {
+                                slot.slots.push({
+                                    start_time: startTime,
+                                    end_time: endTime
+                                })
+                            }
                         }
                     })
-                    return tempSlots;
+                }
+                return tempSlots;
+            }
+        })
+    }, [])
+
+    const handleUserSlotsRemove = useCallback((endTime: string, startTime: string, isSameSlots: boolean, faclityDays: any) => {
+        if (!endTime || !startTime) return;
+        setUserSelectedSlots((oldstate: any) => {
+            if (isSameSlots) {
+                const tempSlots: any = oldstate ? [...oldstate] : [];
+                tempSlots.forEach((slot: any) => {
+                    if (faclityDays?.some((day: any) => day.day === slot.day)) {
+                        slot.slots = slot.slots.filter((item: any) => item.start_time !== startTime && item.end_time !== endTime)
+                    }
+                })
+                return tempSlots;
+            } else {
+                const tempSlots: any = oldstate ? [...oldstate] : [];
+                tempSlots.forEach((slot: any) => {
+                    if (faclityDays?.day === slot.day) {
+                        slot.slots = slot.slots.filter((item: any) => item.start_time !== startTime && item.end_time !== endTime)
+                    }
+                })
+                return tempSlots;
+            }
+        })
+    }, [])
+
+    const handleStartTimeReset = useCallback((endTime: string, isSameSlots: boolean, faclityDays: any) => {
+        if (!endTime) return;
+        setUserSelectedSlots((oldstate: any) => {
+            if (isSameSlots) {
+                const tempSlots: any = oldstate ? [...oldstate] : [];
+                tempSlots.forEach((slot: any) => {
+                    if (faclityDays?.some((day: any) => day.day === slot.day)) {
+                        slot.slots = slot.slots.filter((item: any) => item.end_time !== endTime)
+                    }
+                })
+                return tempSlots;
+            } else {
+                const tempSlots: any = oldstate ? [...oldstate] : [];
+                tempSlots.forEach((slot: any) => {
+                    if (faclityDays?.day === slot.day) {
+                        slot.slots = slot.slots.filter((item: any) => item.end_time !== endTime)
+                    }
+                })
+                return tempSlots;
+            }
+        })
+    }, [])
+
+    const isSameSlotUnchecked = useCallback((values: any, facility?: any) => {
+        setUserSelectedSlots((oldState: any) => {
+            const newState = oldState ? [...oldState] : [];
+            newState.forEach((slot: any) => {
+                if (facility?.timings?.some((day: any) => day.day === slot.day)) {
+                    slot.slots = slot?.slots?.filter((item: any) => values?.all_scheduled_slots?.findIndex((userSlot: any) => userSlot.start_time === item.start_time && userSlot.end_time === item.end_time) < 0) || [];
                 }
             })
-        }, [])
+            newState.forEach((slot: any) => {
+                const dayScheduledSlots = values?.scheduled_slots?.find((daySlot: any) => daySlot.day === slot.day || daySlot.day === parseInt(slot.day));
+                const mergedSlots = [...slot.slots, ...(dayScheduledSlots?.slot_timings || [])];
+                slot.slots = Array.from(new Set(mergedSlots));
+            })
+            return newState;
+        })
 
-        const handleStartTimeReset = useCallback((endTime: string, isSameSlots: boolean, faclityDays: any) => {
+    }, [])
 
-            if (!endTime) return;
-            setUserSelectedSlots((oldstate: any) => {
-                if (isSameSlots) {
-                    const tempSlots: any = oldstate ? [...oldstate] : [];
-                    tempSlots.forEach((slot: any) => {
-                        if (faclityDays?.some((day: any) => day.day === slot.day)) {
-                            slot.slots = slot.slots.filter((item: any) => item.end_time !== endTime)
-                        }
-                    })
-                    return tempSlots;
-                } else {
-                    const tempSlots: any = oldstate ? [...oldstate] : [];
-                    tempSlots.forEach((slot: any) => {
-                        if (faclityDays?.day === slot.day) {
-                            slot.slots = slot.slots.filter((item: any) => item.end_time !== endTime)
-                        }
-                    })
-                    return tempSlots;
+    const isIndividualSlotUnchecked = useCallback((values: any, item?: any) => {
+        setUserSelectedSlots((oldState: any) => {
+            const newState = oldState ? [...oldState] : [];
+            newState.forEach((slot: any) => {
+                if (item?.day === slot.day || item?.day === parseInt(slot.day)) {
+                    slot.slots = slot?.slots?.filter((slotItem: any) => item?.slot_timings?.findIndex((userSlot: any) => userSlot.start_time === slotItem.start_time && userSlot.end_time === slotItem.end_time) < 0) || [];
                 }
             })
-        }, [])
+            return newState;
+        })
+    }, [])
 
-        const isSlotUnchecked = useCallback((isSameSlots: boolean, userSlots: any) => {
-            if (userSlots) {
-                setUserSelectedSlots((oldState: any) => {
-                    const newState = oldState ? [...oldState] : [];
-                    if (isSameSlots) {
-                        newState.forEach((slot: any) => {
-                            if (userSlots.applicable_slot_days?.some((day: any) => day === slot.day)) {
-                                slot.slots = slot?.slots?.filter((item: any) => userSlots?.all_scheduled_slots?.findIndex((userSlot: any) => userSlot.start_time === item.start_time && userSlot.end_time === item.end_time) < 0) || [];
-                            }
-                        })
-                    } else {
-                        newState.forEach((slot: any) => {
-                            const userFacilityDaySlots = userSlots?.day_scheduled_slots?.find((daySlot: any) => daySlot.day === slot.day);
-                            if (userFacilityDaySlots) {
-                                slot.slots = slot?.slots?.filter((item: any) => userFacilityDaySlots?.slot_timings?.findIndex((userSlot: any) => userSlot.start_time === item.start_time && userSlot.end_time === item.end_time) < 0) || [];
-                            }
-                        })
-                    }
-                    return newState;
-                })
-            }
-        }, [])
+    const isIndividualSlotChecked = useCallback((values: any, item?: any) => {
+        setUserSelectedSlots((oldState: any) => {
+            const newState = oldState ? [...oldState] : [];
+            newState.forEach((slot: any) => {
+                if (item?.day === slot.day || item?.day === parseInt(slot.day)) {
+                    const mergedSlots = [...slot.slots, ...(item?.slot_timings || [])];
+                    slot.slots = Array.from(new Set(mergedSlots));
+                }
+            })
+            return newState;
+        })
+    }, [])
 
-        const handleSetUserSelectedSlotsForFacility = useCallback((userSlots: any, isSameSlots: boolean) => {
-            if (userSlots) {
-                setUserSelectedSlots((oldState: any) => {
-                    const newState = oldState ? [...oldState] : [];
-                    // remove all user slots from global slots
-                    if (isSameSlots) {
-                        newState.forEach((slot: any) => {
-                            const userFacilityDaySlots = userSlots?.day_scheduled_slots?.find((daySlot: any) => daySlot.day === slot.day);
-                            if (userFacilityDaySlots) {
-                                slot.slots = slot?.slots?.filter((item: any) => userFacilityDaySlots?.slot_timings?.findIndex((userSlot: any) => userSlot.start_time === item.start_time && userSlot.end_time === item.end_time) < 0) || [];
-                            }
-                        })
-                    }
-                    return newState;
-                })
-            }
-        }, [])
+    const isSameSlotChecked = useCallback((values: any) => {
+        setUserSelectedSlots((oldState: any) => {
+            const newState = oldState ? [...oldState] : [];
+            newState.forEach((slot: any) => {
+                const userFacilityDaySlots = values?.scheduled_slots?.find((daySlot: any) => daySlot.day === slot.day || daySlot.day === parseInt(slot.day));
+                if (userFacilityDaySlots) {
+                    slot.slots = slot?.slots?.filter((item: any) => userFacilityDaySlots.slot_timings?.findIndex((userSlot: any) => userSlot.start_time === item.start_time && userSlot.end_time === item.end_time) < 0) || [];
+                }
+            })
+            newState.forEach((slot: any) => {
+                const mergedSlots = [...slot.slots, ...(values?.all_scheduled_slots || [])];
+                slot.slots = Array.from(new Set(mergedSlots));
+            })
+            return newState;
+        })
+    }, [])
 
-        const isSlotChecked = useCallback((isSameSlots: boolean, userSlots: any) => {
-            handleSetUserSelectedSlotsForFacility(userSlots, isSameSlots)
-        }, [handleSetUserSelectedSlotsForFacility])
-
-        return (
+    return (
             <div className="user-slots-component">
                 <>
                     {isUserBasicDetailsLoading &&
@@ -634,9 +647,9 @@ const UserSlotsComponent = (props: UserSlotsComponentProps) => {
                                                                                                  label={'Same for all days'}
                                                                                                  onChange={(value: any) => {
                                                                                                      if (!value) {
-                                                                                                         isSlotUnchecked(true, userSlots)
+                                                                                                         isSameSlotUnchecked(values, facility)
                                                                                                      } else {
-                                                                                                         isSlotChecked(true, userSlots)
+                                                                                                         isSameSlotChecked(values)
                                                                                                      }
                                                                                                  }
                                                                                                  }
@@ -788,7 +801,9 @@ const UserSlotsComponent = (props: UserSlotsComponentProps) => {
                                                                                                 label={item.dayName}
                                                                                                 onChange={(value: any) => {
                                                                                                     if (!value) {
-                                                                                                        isSlotUnchecked(false, timings)
+                                                                                                        isIndividualSlotUnchecked(values, item)
+                                                                                                    } else {
+                                                                                                        isIndividualSlotChecked(values, item)
                                                                                                     }
                                                                                                 }
                                                                                                 }

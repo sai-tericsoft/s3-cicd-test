@@ -199,7 +199,6 @@ const UserSlotsEditComponent = (props: UserSlotsEditComponentProps) => {
             if (userSlots) {
                 setUserSelectedSlots((oldState: any) => {
                     const newState = oldState ? [...oldState] : [];
-
                     userSlots.forEach((facilitySlots: any) => {
                         const slotsToMerge = facilitySlots.is_same_slots
                             ? facilitySlots.applicable_slot_days
@@ -277,9 +276,7 @@ const UserSlotsEditComponent = (props: UserSlotsEditComponentProps) => {
                     };
 
                     const updatedSlots = allSlots?.map((slot: any) => {
-                        console.log(slot);
                         const matchingSlot = dayScheduledSlots?.scheduled_slots?.find((daySlot: any) => daySlot.dayName === slot.dayName);
-                        console.log(matchingSlot)
                         if (matchingSlot) {
                             return matchingSlot;
                         } else {
@@ -302,19 +299,17 @@ const UserSlotsEditComponent = (props: UserSlotsEditComponentProps) => {
             const currentTab = searchParams.get("currentStepId");
             setCurrentTab(currentTab);
             setFacilityId(currentTab);
-            if (userId) {
-                dispatch(getUserBasicDetails(userId));
-            }
+        }, [searchParams, userId, dispatch]);
 
+        useEffect(() => {
             if (currentTab && userId) {
                 dispatch(getUserSlots(userId, currentTab));
             }
-
-        }, [searchParams, userId, dispatch]);
+        }, [dispatch, userId, currentTab]);
 
         const handleTabChange = useCallback((e: any, value: any) => {
-            setUserSelectedSlots([]);
             if (userId) {
+                setUserSelectedSlots([]);
                 dispatch(getUserSlots(userId, value));
                 dispatch(getUserGlobalSlots(userId));
             }
@@ -344,8 +339,6 @@ const UserSlotsEditComponent = (props: UserSlotsEditComponentProps) => {
                 navigate(CommonService._routeConfig.UserSlotsDetails(userBasicDetails?._id, facilityId))
             }
         }, [userBasicDetails, navigate, path, facilityId])
-
-        console.log(userSelectedSlots);
 
         const onSlotAdd = useCallback(
             (values: any, {setErrors, resetForm, setSubmitting}: FormikHelpers<any>) => {
@@ -515,7 +508,6 @@ const UserSlotsEditComponent = (props: UserSlotsEditComponentProps) => {
         }, [])
 
         const handleStartTimeReset = useCallback((endTime: string, isSameSlots: boolean, faclityDays: any) => {
-
             if (!endTime) return;
             setUserSelectedSlots((oldstate: any) => {
                 if (isSameSlots) {
@@ -538,50 +530,65 @@ const UserSlotsEditComponent = (props: UserSlotsEditComponentProps) => {
             })
         }, [])
 
-        const isSlotUnchecked = useCallback((isSameSlots: boolean, userSlots: any) => {
-            if (userSlots) {
-                setUserSelectedSlots((oldState: any) => {
-                    const newState = oldState ? [...oldState] : [];
-                    if (isSameSlots) {
-                        newState.forEach((slot: any) => {
-                            if (userSlots.applicable_slot_days?.some((day: any) => day === slot.day)) {
-                                slot.slots = slot?.slots?.filter((item: any) => userSlots?.all_scheduled_slots?.findIndex((userSlot: any) => userSlot.start_time === item.start_time && userSlot.end_time === item.end_time) < 0) || [];
-                            }
-                        })
-                    } else {
-                        newState.forEach((slot: any) => {
-                            const userFacilityDaySlots = userSlots?.day_scheduled_slots?.find((daySlot: any) => daySlot.day === slot.day);
-                            if (userFacilityDaySlots) {
-                                slot.slots = slot?.slots?.filter((item: any) => userFacilityDaySlots?.slot_timings?.findIndex((userSlot: any) => userSlot.start_time === item.start_time && userSlot.end_time === item.end_time) < 0) || [];
-                            }
-                        })
+        const isSameSlotUnchecked = useCallback((values: any, facility?: any) => {
+            setUserSelectedSlots((oldState: any) => {
+                const newState = oldState ? [...oldState] : [];
+                newState.forEach((slot: any) => {
+                    if (facility?.timings?.some((day: any) => day.day === slot.day)) {
+                        slot.slots = slot?.slots?.filter((item: any) => values?.all_scheduled_slots?.findIndex((userSlot: any) => userSlot.start_time === item.start_time && userSlot.end_time === item.end_time) < 0) || [];
                     }
-                    return newState;
                 })
-            }
+                newState.forEach((slot: any) => {
+                    const dayScheduledSlots = values?.scheduled_slots?.find((daySlot: any) => daySlot.day === slot.day || daySlot.day === parseInt(slot.day));
+                    const mergedSlots = [...slot.slots, ...(dayScheduledSlots?.slot_timings || [])];
+                    slot.slots = Array.from(new Set(mergedSlots));
+                })
+                return newState;
+            })
+
         }, [])
 
-        const handleSetUserSelectedSlotsForFacility = useCallback((userSlots: any, isSameSlots: boolean) => {
-            if (userSlots) {
-                setUserSelectedSlots((oldState: any) => {
-                    const newState = oldState ? [...oldState] : [];
-                    // remove all user slots from global slots
-                    if (isSameSlots) {
-                        newState.forEach((slot: any) => {
-                            const userFacilityDaySlots = userSlots?.day_scheduled_slots?.find((daySlot: any) => daySlot.day === slot.day);
-                            if (userFacilityDaySlots) {
-                                slot.slots = slot?.slots?.filter((item: any) => userFacilityDaySlots?.slot_timings?.findIndex((userSlot: any) => userSlot.start_time === item.start_time && userSlot.end_time === item.end_time) < 0) || [];
-                            }
-                        })
+        const isIndividualSlotUnchecked = useCallback((values: any, item?: any) => {
+            setUserSelectedSlots((oldState: any) => {
+                const newState = oldState ? [...oldState] : [];
+                newState.forEach((slot: any) => {
+                    if (item?.day === slot.day || item?.day === parseInt(slot.day)) {
+                        slot.slots = slot?.slots?.filter((slotItem: any) => item?.slot_timings?.findIndex((userSlot: any) => userSlot.start_time === slotItem.start_time && userSlot.end_time === slotItem.end_time) < 0) || [];
                     }
-                    return newState;
                 })
-            }
+                return newState;
+            })
         }, [])
 
-        const isSlotChecked = useCallback((isSameSlots: boolean, userSlots: any) => {
-            handleSetUserSelectedSlotsForFacility(userSlots, isSameSlots)
-        }, [handleSetUserSelectedSlotsForFacility])
+        const isIndividualSlotChecked = useCallback((values: any, item?: any) => {
+            setUserSelectedSlots((oldState: any) => {
+                const newState = oldState ? [...oldState] : [];
+                newState.forEach((slot: any) => {
+                    if (item?.day === slot.day || item?.day === parseInt(slot.day)) {
+                        const mergedSlots = [...slot.slots, ...(item?.slot_timings || [])];
+                        slot.slots = Array.from(new Set(mergedSlots));
+                    }
+                })
+                return newState;
+            })
+        }, [])
+
+        const isSameSlotChecked = useCallback((values: any) => {
+            setUserSelectedSlots((oldState: any) => {
+                const newState = oldState ? [...oldState] : [];
+                newState.forEach((slot: any) => {
+                    const userFacilityDaySlots = values?.scheduled_slots?.find((daySlot: any) => daySlot.day === slot.day || daySlot.day === parseInt(slot.day));
+                    if (userFacilityDaySlots) {
+                        slot.slots = slot?.slots?.filter((item: any) => userFacilityDaySlots.slot_timings?.findIndex((userSlot: any) => userSlot.start_time === item.start_time && userSlot.end_time === item.end_time) < 0) || [];
+                    }
+                })
+                newState.forEach((slot: any) => {
+                    const mergedSlots = [...slot.slots, ...(values?.all_scheduled_slots || [])];
+                    slot.slots = Array.from(new Set(mergedSlots));
+                })
+                return newState;
+            })
+        }, [])
 
         return (
             <div className="user-slots-component">
@@ -654,9 +661,9 @@ const UserSlotsEditComponent = (props: UserSlotsEditComponentProps) => {
                                                                                                  label={'Same for all days'}
                                                                                                  onChange={(value: any) => {
                                                                                                      if (!value) {
-                                                                                                         isSlotUnchecked(true, userSlots)
+                                                                                                         isSameSlotUnchecked(values, facility)
                                                                                                      } else {
-                                                                                                         isSlotChecked(true, userSlots)
+                                                                                                         isSameSlotChecked(values)
                                                                                                      }
                                                                                                  }
                                                                                                  }
@@ -771,6 +778,7 @@ const UserSlotsEditComponent = (props: UserSlotsEditComponentProps) => {
                                                                                                     className={"form-helper-icon"}
                                                                                                     onClick={() => {
                                                                                                         arrayHelpers.remove(index);
+                                                                                                        handleUserSlotsRemove(values.all_scheduled_slots[index]?.end_time, values.all_scheduled_slots[index]?.start_time, values.is_same_slots, facility?.timings)
                                                                                                     }}
                                                                                                 >
                                                                                                     <ImageConfig.DeleteIcon/>
@@ -807,7 +815,9 @@ const UserSlotsEditComponent = (props: UserSlotsEditComponentProps) => {
                                                                                                 label={item.dayName}
                                                                                                 onChange={(value: any) => {
                                                                                                     if (!value) {
-                                                                                                        isSlotUnchecked(false, userSlots)
+                                                                                                        isIndividualSlotUnchecked(values, item)
+                                                                                                    } else {
+                                                                                                        isIndividualSlotChecked(values, item)
                                                                                                     }
                                                                                                 }
                                                                                                 }
