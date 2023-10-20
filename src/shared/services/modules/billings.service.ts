@@ -57,6 +57,11 @@ const GetConsolidatedBillingPDFDocument = (payload:any)=>{
     return ApiService[APIConfig.GENERATE_CONSOLIDATED_BILLING_DOCUMENT_PDF.METHOD](APIConfig.GENERATE_CONSOLIDATED_BILLING_DOCUMENT_PDF.URL,payload)
 }
 
+const GetDetailedBillingPDFDocument = (payload:any)=>{
+    // @ts-ignore
+    return ApiService[APIConfig.GENERATE_DETAILED_BILLING_PDF.METHOD](APIConfig.GENERATE_DETAILED_BILLING_PDF.URL,payload)
+}
+
 const GetBillingFromAddress = (payload: any) => {
     // @ts-ignore
     return ApiService[APIConfig.GET_BILLING_FROM_ADDRESS.METHOD](APIConfig.GET_BILLING_FROM_ADDRESS.URL, payload)
@@ -147,7 +152,8 @@ const BillingService = {
     GetProductBillingPDFDocument,
     GetAppointmentBillingPDFDocument,
     GetConsolidatedBillingPDFDocument,
-    ProductMarkAsPaid
+    ProductMarkAsPaid,
+    GetDetailedBillingPDFDocument
 }
 
 export default BillingService;

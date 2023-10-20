@@ -781,6 +781,10 @@ const APIConfig: IAPIConfig = {
         URL: ENV.API_URL + '/consolidatedBill/print',
         METHOD: 'post'
     },
+    GENERATE_DETAILED_BILLING_PDF: {
+        URL: ENV.API_URL + '/appointment/detailed/print',
+        METHOD: 'post'
+    },
     MARK_AS_PAID_FOR_PRODUCT: {
         URL: ENV.API_URL + '/singleInvoice/markPaid',
         METHOD: 'post'
