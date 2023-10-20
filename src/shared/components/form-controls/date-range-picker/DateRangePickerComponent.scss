@@ -53,7 +53,7 @@
 
   .react-daterange-picker__calendar {
     z-index: 10;
-    width: 600px
+    width: 650px
   }
 
   .react-daterange-picker__calendar .react-calendar {
@@ -106,6 +106,35 @@
   .react-calendar--selectRange .react-calendar__tile--hover {
     background-color: #e6e6e6;
   }
+
+  .react-calendar--doubleView{
+    padding: 10px;
+    .react-calendar__month-view__days__day{
+      font-size: 12px !important;
+      font-weight: 400 !important;
+      &.react-calendar__tile--now{
+        font-weight: 500 !important;
+      }
+    }
+    .react-calendar__month-view__weekdays__weekday{
+      color: #6F6F6F!important;
+    }
+    .react-calendar__viewContainer{
+      .react-calendar__month-view{
+        margin: 0 !important;
+        padding: 10px 10px 10px 10px !important;
+      }
+      .react-calendar__month-view:first-child{
+        border-right: 2px solid #E6E6E6 !important;
+        padding-right: 10px !important;
+      }
+      .react-calendar__month-view:last-child{
+        padding-left: 10px !important;
+      }
+
+    }
+  }
+
 
 }
 
