@@ -30,6 +30,7 @@ import {RadioButtonComponent} from "../../../shared/components/form-controls/rad
 import AddBillingAddressComponent from "../add-billing-address/AddBillingAddressComponent";
 import TextAreaComponent from "../../../shared/components/form-controls/text-area/TextAreaComponent";
 import momentTimezone from "moment-timezone";
+
 interface BillingDetailsScreenProps {
 
 }
@@ -183,7 +184,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
             payment_mode: selectedPaymentMode,
             _id: billingDetails?._id
         }
-         CommonService._billingsService.ProductMarkAsPaid(payload)
+        CommonService._billingsService.ProductMarkAsPaid(payload)
             .then((response: IAPIResponseType<any>) => {
                 setIsBillingBeingMarkedAsPaid(false);
                 CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY] || "Payment marked as paid successfully", "success");
@@ -193,7 +194,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                 CommonService._alert.showToast(error.error || error.errors || "Failed to mark payment as paid", "error");
                 setIsBillingBeingMarkedAsPaid(false);
             });
-    }, [closePaymentModeModal,billingDetails?._id, selectedPaymentMode, handleBillingMarkAsPaidSuccess]);
+    }, [closePaymentModeModal, billingDetails?._id, selectedPaymentMode, handleBillingMarkAsPaidSuccess]);
 
     useEffect(() => {
         if (billingId && type) {
@@ -209,8 +210,10 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
         setIsInterventionIncompleteModalOpen(false);
     }, []);
 
+    console.log("billingDetails", billingDetails);
+
     const handleViewModeChange = useCallback(() => {
-        if (!billingDetails?.is_intervention_complete) {
+        if (billingDetails?.is_intervention_complete === false) {
             openIncompleteInterventionInfoModal();
             return;
         }
@@ -292,7 +295,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
             width: 100,
             fixed: 'right',
             render: (record: any) => {
-                return <>{Misc.CURRENCY_SYMBOL}{CommonService.convertToDecimals(record?.cpt_code_details?.price*record?.units_of_care)}</>
+                return <>{Misc.CURRENCY_SYMBOL}{CommonService.convertToDecimals(record?.cpt_code_details?.price * record?.units_of_care)}</>
             }
         }
     ], []);
@@ -371,9 +374,12 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                 timezone: momentTimezone.tz.guess(),
             };
             let response;
-            if (billingDetails?.payment_for === "appointment") {
+            if (billingDetails?.payment_for === "appointment" && viewMode === 'general') {
                 response = await CommonService._billingsService.GetAppointmentBillingPDFDocument(payload);
-            } else {
+            } else if (billingDetails?.payment_for === "appointment" && viewMode === 'detailed') {
+                response = await CommonService._billingsService.GetDetailedBillingPDFDocument(payload);
+            }
+            else{
                 response = await CommonService._billingsService.GetProductBillingPDFDocument(payload);
             }
             cb(response?.data?.url);
