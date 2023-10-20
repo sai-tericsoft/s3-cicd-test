@@ -52,6 +52,7 @@ const ClientListFilterStateInitialValues = {
     start_date: null,
     end_date: null,
     linked_invoices: false,
+    sort: {},
 }
 const BillingListScreen = (props: PaymentListComponentProps) => {
 
@@ -639,6 +640,8 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
         {
             title: 'Bill Type',
             key: 'bill_type',
+            dataIndex: 'bill_type',
+            sortable: true,
             align: 'center',
             render: (item: any) => {
                 return <>{CommonService.capitalizeFirstLetter(item?.bill_type) || '-'}</>
@@ -924,6 +927,16 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
         })
     }, [selectedPayments, handleCreateConsolidatedPayment, currentTab]);
 
+    const handleSort = useCallback((key: string, order: string) => {
+        setClientListFilterState((oldState: any) => {
+            const newState = {...oldState};
+            newState["sort"] = {
+                key,
+                order
+            }
+            return newState;
+        });
+    }, []);
 
     return (
         <div className={'payment-list-component list-screen'}>
@@ -1156,6 +1169,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                                 </div>
                             </div>)}
                             method={APIConfig.CONSOLIDATED_PAYMENT_LIST.METHOD}
+                            onSort={handleSort}
                             columns={consolidatedPayments}
                         />
                     </TabContentComponent>

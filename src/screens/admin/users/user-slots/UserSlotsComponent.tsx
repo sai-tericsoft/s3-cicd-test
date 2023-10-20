@@ -293,7 +293,7 @@ const UserSlotsComponent = (props: UserSlotsComponentProps) => {
                         } else {
                             return slot;
                         }
-                    });
+                    })
                     const updatedFormInitialValues = {
                         is_same_slots: dayScheduledSlots.is_same_slots,
                         scheduled_slots: updatedSlots,
