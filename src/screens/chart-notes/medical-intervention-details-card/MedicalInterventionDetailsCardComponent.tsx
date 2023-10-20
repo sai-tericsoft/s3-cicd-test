@@ -156,12 +156,10 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
     }, []);
 
     const closeMedicalRecordDocumentAddDrawer = useCallback(() => {
-        console.log('closeMedicalRecordDocumentAddDrawer');
         setIsMedicalRecordDocumentAddDrawerOpen(false);
     }, []);
 
     const handleMedicalRecordDocumentAdd = useCallback(() => {
-        console.log('handleMedicalRecordDocumentAdd');
         dispatch(refreshMedicalRecordAttachmentList());
         closeMedicalRecordDocumentAddDrawer();
     }, [dispatch, closeMedicalRecordDocumentAddDrawer]);
@@ -306,19 +304,19 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
 
             }
             {medicalRecordId &&
-            <DrawerComponent isOpen={isSurgeryAddOpen}
-                             showClose={true}
-                             onClose={setIsSurgeryAddOpen.bind(null, false)}
-                             className={"t-surgery-record-drawer"}
-            >
-                <AddSurgeryRecordComponent medicalRecordId={medicalRecordId}
-                                           medicalRecordDetails={medicalInterventionDetails?.medical_record_details}
-                                           onCancel={() => setIsSurgeryAddOpen(false)}
-                                           onSave={() => {
-                                               dispatch(getClientMedicalRecord(medicalRecordId));
-                                               setIsSurgeryAddOpen(false);
-                                           }}/>
-            </DrawerComponent>
+                <DrawerComponent isOpen={isSurgeryAddOpen}
+                                 showClose={true}
+                                 onClose={setIsSurgeryAddOpen.bind(null, false)}
+                                 className={"t-surgery-record-drawer"}
+                >
+                    <AddSurgeryRecordComponent medicalRecordId={medicalRecordId}
+                                               medicalRecordDetails={medicalInterventionDetails?.medical_record_details}
+                                               onCancel={() => setIsSurgeryAddOpen(false)}
+                                               onSave={() => {
+                                                   dispatch(getClientMedicalRecord(medicalRecordId));
+                                                   setIsSurgeryAddOpen(false);
+                                               }}/>
+                </DrawerComponent>
             }
             {
                 (isClientMedicalRecordLoaded && medicalRecordId) &&
@@ -327,7 +325,8 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
                         <div className={'client-name-button-wrapper'}>
                                     <span className={'client-name-wrapper'}>
                                         <span className={'client-name'}>
-                                            <span className={clientMedicalRecord?.client_details?.is_alias_name_set ? "alias-name" : ""}>  {commonService.generateClientNameFromClientDetails(clientMedicalRecord?.client_details)}</span>
+                                            <span
+                                                className={clientMedicalRecord?.client_details?.is_alias_name_set ? "alias-name" : ""}>  {commonService.generateClientNameFromClientDetails(clientMedicalRecord?.client_details)}</span>
                                         </span>
                                         <ChipComponent
                                             className={clientMedicalRecord?.status === 'open' ? "active" : "inactive"}
@@ -362,15 +361,16 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
                         <div className={'ts-row'}>
                             <div className={'ts-col'}>
                                 <DataLabelValueComponent label={'Date of Intervention'}>
-                                    {medicalInterventionDetails?.intervention_date ? CommonService.convertDateFormat2(medicalInterventionDetails?.intervention_date) : "N/A"}
-                                    <IconButtonComponent
-                                        onClick={() => {
-                                            setIsEditInterventionDateOpen(true);
-                                        }}
-                                        id={"edit"}
-                                    >
-                                        <ImageConfig.EditIcon/>
-                                    </IconButtonComponent>
+                                    <div className={'cursor-pointer'} onClick={() => {
+                                        setIsEditInterventionDateOpen(true);
+                                    }}>
+                                        {medicalInterventionDetails?.intervention_date ? CommonService.convertDateFormat2(medicalInterventionDetails?.intervention_date) : "N/A"}
+
+                                        {/*<IconButtonComponent */}
+                                        {/*    id={"edit"}>*/}
+                                            <ImageConfig.EditIcon className={'mrg-left-5'} width={'16'} height={'16'}/>
+                                        {/*</IconButtonComponent>*/}
+                                    </div>
                                 </DataLabelValueComponent>
                             </div>
                             <div className={'ts-col'}>
@@ -604,7 +604,7 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
                                                         placeholder={'Enter Intervention Date'}
                                                         formikField={field}
                                                         required={true}
-                                                        minDate={moment()}
+                                                        // minDate={moment()}
                                                         fullWidth={true}
                                                     />
                                                 )
