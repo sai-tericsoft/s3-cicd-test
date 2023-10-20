@@ -1,6 +1,5 @@
 import "./LinkProviderToServiceComponent.scss";
 import {useNavigate, useParams} from "react-router-dom";
-import HeaderComponent from "../../../../shared/components/layout/header/HeaderComponent";
 import PageHeaderComponent from "../../../../shared/components/page-header/PageHeaderComponent";
 import React, {useCallback, useEffect, useState} from "react";
 import {IService} from "../../../../shared/models/service.model";
@@ -11,10 +10,10 @@ import {useDispatch} from "react-redux";
 import LoaderComponent from "../../../../shared/components/loader/LoaderComponent";
 import StatusCardComponent from "../../../../shared/components/status-card/StatusCardComponent";
 import BasicDetailsCardComponent from "../../../../shared/components/basic-details-card/BasicDetailsCardComponent";
-import {APIConfig, ImageConfig} from "../../../../constants";
+import {APIConfig} from "../../../../constants";
 import AutoCompleteDropdownComponent
     from "../../../../shared/components/form-controls/auto-complete/AutoCompleteComponent";
-import UserSlotsComponent from "../../users/user-slots/UserSlotsComponent";
+import ServiceSlotsComponent from "../service-slots/ServiceSlotsComponent";
 
 interface LinkProviderToServiceComponentProps {
 
@@ -99,7 +98,7 @@ const LinkProviderToServiceComponent = (props: LinkProviderToServiceComponentPro
                             />
                         </div>
                     </div>
-                    <UserSlotsComponent userId={selectedProviderIDForLinking?._id}/>
+                    <ServiceSlotsComponent userId={selectedProviderIDForLinking?._id} serviceId={serviceId}/>
                 </>
             }
         </div>

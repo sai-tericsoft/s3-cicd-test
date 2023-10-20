@@ -190,6 +190,7 @@ const UserSlotsEditComponent = (props: UserSlotsEditComponentProps) => {
 
         useEffect(() => {
             if (userId) {
+                setUserSelectedSlots([]);
                 dispatch(getUserGlobalSlots(userId));
             }
         }, [dispatch, userId]);
@@ -208,7 +209,8 @@ const UserSlotsEditComponent = (props: UserSlotsEditComponentProps) => {
                                 const existingSlot = newState.find((item) => item.day === day);
                                 if (existingSlot) {
                                     // Merge slots for the same day
-                                    existingSlot.slots = [...new Set([...existingSlot.slots, ...(facilitySlots.all_scheduled_slots)])];
+                                    const mergedSlots = [...existingSlot.slots, ...(day?.slot_timings || [])];
+                                    existingSlot.slots = Array.from(new Set(mergedSlots));
                                 } else {
                                     newState.push({
                                         day: day,
@@ -221,11 +223,12 @@ const UserSlotsEditComponent = (props: UserSlotsEditComponentProps) => {
                                 const existingSlot = newState.find((item) => item.day === day.day);
                                 if (existingSlot) {
                                     // Merge slots for the same day
-                                    existingSlot.slots = [...new Set([...existingSlot.slots, ...(day.slot_timings)])];
+                                    const mergedSlots = [...existingSlot.slots, ...(day?.slot_timings || [])];
+                                    existingSlot.slots = Array.from(new Set(mergedSlots));
                                 } else {
                                     newState.push({
                                         day: day.day,
-                                        slots: day.slot_timings,
+                                        slots: day?.slot_timings || [],
                                     });
                                 }
                             })
@@ -240,7 +243,7 @@ const UserSlotsEditComponent = (props: UserSlotsEditComponentProps) => {
             if (isUserGlobalSlotsLoaded && userGlobalSlots) {
                 handleSetUserSelectedSlots(userGlobalSlots)
             }
-        }, [isUserSlotsLoaded, userGlobalSlots])
+        }, [isUserSlotsLoaded, userGlobalSlots, handleSetUserSelectedSlots, isUserGlobalSlotsLoaded])
 
         useEffect(() => {
             if (userSlots && Object.keys(userSlots).length) {
@@ -321,7 +324,7 @@ const UserSlotsEditComponent = (props: UserSlotsEditComponentProps) => {
             setCurrentTab(value);
             setFacilityId(value);
             dispatch(setUserSlots(InitialValue))
-        }, [searchParams, setSearchParams, dispatch, formRef, userId]);
+        }, [searchParams, setSearchParams, dispatch, userId]);
 
         useEffect(() => {
             dispatch(setCurrentNavParams('Edit User', null, () => {
@@ -341,6 +344,8 @@ const UserSlotsEditComponent = (props: UserSlotsEditComponentProps) => {
                 navigate(CommonService._routeConfig.UserSlotsDetails(userBasicDetails?._id, facilityId))
             }
         }, [userBasicDetails, navigate, path, facilityId])
+
+        console.log(userSelectedSlots);
 
         const onSlotAdd = useCallback(
             (values: any, {setErrors, resetForm, setSubmitting}: FormikHelpers<any>) => {
@@ -446,8 +451,7 @@ const UserSlotsEditComponent = (props: UserSlotsEditComponentProps) => {
                                 const existingSlot = slot.slots.find((item: any) => item.start_time === startTime);
                                 if (existingSlot) {
                                     existingSlot.end_time = endTime;
-                                }
-                                else {
+                                } else {
                                     slot.slots.push({
                                         start_time: startTime,
                                         end_time: endTime
@@ -473,8 +477,7 @@ const UserSlotsEditComponent = (props: UserSlotsEditComponentProps) => {
                                 const existingSlot = slot.slots.find((item: any) => item.start_time === startTime);
                                 if (existingSlot) {
                                     existingSlot.end_time = endTime;
-                                }
-                                else {
+                                } else {
                                     slot.slots.push({
                                         start_time: startTime,
                                         end_time: endTime
@@ -541,12 +544,11 @@ const UserSlotsEditComponent = (props: UserSlotsEditComponentProps) => {
                     const newState = oldState ? [...oldState] : [];
                     if (isSameSlots) {
                         newState.forEach((slot: any) => {
-                            if(userSlots.applicable_slot_days?.some((day: any) => day === slot.day)){
+                            if (userSlots.applicable_slot_days?.some((day: any) => day === slot.day)) {
                                 slot.slots = slot?.slots?.filter((item: any) => userSlots?.all_scheduled_slots?.findIndex((userSlot: any) => userSlot.start_time === item.start_time && userSlot.end_time === item.end_time) < 0) || [];
                             }
                         })
-                    }
-                    else {
+                    } else {
                         newState.forEach((slot: any) => {
                             const userFacilityDaySlots = userSlots?.day_scheduled_slots?.find((daySlot: any) => daySlot.day === slot.day);
                             if (userFacilityDaySlots) {
@@ -579,7 +581,7 @@ const UserSlotsEditComponent = (props: UserSlotsEditComponentProps) => {
 
         const isSlotChecked = useCallback((isSameSlots: boolean, userSlots: any) => {
             handleSetUserSelectedSlotsForFacility(userSlots, isSameSlots)
-        }, [])
+        }, [handleSetUserSelectedSlotsForFacility])
 
         return (
             <div className="user-slots-component">

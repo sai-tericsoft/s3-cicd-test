@@ -29,6 +29,11 @@ export interface IUserReducerState {
     isUserGlobalSlotsLoading: boolean,
     isUserGlobalSlotsLoaded: boolean,
     isUserGlobalSlotsLoadingFailed: boolean,
+
+    userServiceSlots?: any
+    isUserServiceSlotsLoading: boolean,
+    isUserServiceSlotsLoaded: boolean,
+    isUserServiceSlotsLoadingFailed: boolean,
 }
 
 
@@ -51,6 +56,11 @@ const initialData: IUserReducerState = {
     isUserGlobalSlotsLoading: false,
     isUserGlobalSlotsLoaded: false,
     isUserGlobalSlotsLoadingFailed: false,
+
+    userServiceSlots: [],
+    isUserServiceSlotsLoading: false,
+    isUserServiceSlotsLoaded: false,
+    isUserServiceSlotsLoadingFailed: false,
 };
 
 const UserReducer = (state = initialData, action: IActionModel): IUserReducerState => {

@@ -27,7 +27,6 @@ import * as Yup from "yup";
 import commonService from "../../../../shared/services/common.service";
 
 interface UserSlotsComponentProps {
-    userId?: string;
 }
 
 const allSlotsTimeValidationSchema = Yup.object({
@@ -163,7 +162,7 @@ const UserSlotsComponent = (props: UserSlotsComponentProps) => {
 
         const dispatch = useDispatch();
         let {userId}: any = useParams();
-        if (!userId) userId = props.userId;
+
         const {
             isUserBasicDetailsLoaded,
             isUserBasicDetailsLoading,
@@ -189,6 +188,7 @@ const UserSlotsComponent = (props: UserSlotsComponentProps) => {
 
         useEffect(() => {
             if (userId) {
+                setUserSelectedSlots([]);
                 dispatch(getUserBasicDetails(userId));
                 dispatch(getUserGlobalSlots(userId));
             }
@@ -208,7 +208,8 @@ const UserSlotsComponent = (props: UserSlotsComponentProps) => {
                                 const existingSlot = newState.find((item) => item.day === day);
                                 if (existingSlot) {
                                     // Merge slots for the same day
-                                    existingSlot.slots = [...new Set([...existingSlot.slots, ...(facilitySlots.all_scheduled_slots)])];
+                                    const mergedSlots = [...existingSlot.slots, ...(day?.slot_timings || [])];
+                                    existingSlot.slots = Array.from(new Set(mergedSlots));
                                 } else {
                                     newState.push({
                                         day: day,
@@ -221,11 +222,12 @@ const UserSlotsComponent = (props: UserSlotsComponentProps) => {
                                 const existingSlot = newState.find((item) => item.day === day.day);
                                 if (existingSlot) {
                                     // Merge slots for the same day
-                                    existingSlot.slots = [...new Set([...existingSlot.slots, ...(day.slot_timings)])];
+                                    const mergedSlots = [...existingSlot.slots, ...(day?.slot_timings || [])];
+                                    existingSlot.slots = Array.from(new Set(mergedSlots));
                                 } else {
                                     newState.push({
                                         day: day.day,
-                                        slots: day.slot_timings,
+                                        slots: day?.slot_timings || [],
                                     });
                                 }
                             })
@@ -240,7 +242,7 @@ const UserSlotsComponent = (props: UserSlotsComponentProps) => {
             if (isUserGlobalSlotsLoaded && userGlobalSlots) {
                 handleSetUserSelectedSlots(userGlobalSlots)
             }
-        }, [isUserSlotsLoaded, userGlobalSlots])
+        }, [isUserSlotsLoaded, userGlobalSlots, handleSetUserSelectedSlots,isUserGlobalSlotsLoaded])
 
         useEffect(() => {
             dispatch(setCurrentNavParams('User Slots', null, () => {
@@ -248,7 +250,6 @@ const UserSlotsComponent = (props: UserSlotsComponentProps) => {
             }));
         }, [dispatch, navigate]);
 
-        // console.log(userSelectedSlots)
 
         useEffect(() => {
             if (currentTab && userId) {
@@ -310,8 +311,8 @@ const UserSlotsComponent = (props: UserSlotsComponentProps) => {
         }, [searchParams]);
 
         const handleTabChange = useCallback((e: any, value: any) => {
-            setUserSelectedSlots([]);
             if (userId) {
+                setUserSelectedSlots([]);
                 dispatch(getUserSlots(userId, value));
                 dispatch(getUserGlobalSlots(userId));
             }
@@ -319,7 +320,7 @@ const UserSlotsComponent = (props: UserSlotsComponentProps) => {
             setSearchParams(searchParams);
             setCurrentTab(value);
             setFacilityId(value);
-        }, [searchParams, setSearchParams, userId]);
+        }, [searchParams, setSearchParams, userId,dispatch]);
 
         const onSlotAdd = useCallback(
             (values: any, {setErrors, setSubmitting}: FormikHelpers<any>) => {
@@ -555,7 +556,7 @@ const UserSlotsComponent = (props: UserSlotsComponentProps) => {
 
         const isSlotChecked = useCallback((isSameSlots: boolean, userSlots: any) => {
             handleSetUserSelectedSlotsForFacility(userSlots, isSameSlots)
-        }, [])
+        }, [handleSetUserSelectedSlotsForFacility])
 
         return (
             <div className="user-slots-component">
