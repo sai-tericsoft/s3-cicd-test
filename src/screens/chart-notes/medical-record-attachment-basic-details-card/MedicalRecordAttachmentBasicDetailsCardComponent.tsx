@@ -8,8 +8,12 @@ import {ImageConfig} from "../../../constants";
 import MedicalInterventionLinkedToComponent
     from "../medical-intervention-linked-to/MedicalInterventionLinkedToComponent";
 import {CommonService} from "../../../shared/services";
-import {useCallback} from "react";
+import React, {useCallback, useEffect} from "react";
 import moment from "moment-timezone";
+import { ListItemButton} from "@mui/material";
+import MenuDropdownComponent from "../../../shared/components/menu-dropdown/MenuDropdownComponent";
+import LinkComponent from "../../../shared/components/link/LinkComponent";
+import commonService from "../../../shared/services/common.service";
 
 interface MedicalRecordAttachmentBasicDetailsCardComponentProps {
     attachmentType: "dryNeedlingFile" | "concussionFile" | "medicalRecordDocument";
@@ -22,6 +26,8 @@ interface MedicalRecordAttachmentBasicDetailsCardComponentProps {
     onShare?: () => void;
     onDryNeedingShare?: () => void;
     onConcussionFileShare?: () => void;
+    isDocumentShared?: boolean;
+    onRemoveAccess: Function;
 }
 
 const MedicalRecordAttachmentBasicDetailsCardComponent = (props: MedicalRecordAttachmentBasicDetailsCardComponentProps) => {
@@ -36,8 +42,18 @@ const MedicalRecordAttachmentBasicDetailsCardComponent = (props: MedicalRecordAt
         attachmentType,
         onEdit,
         onDelete,
-        showEdit
+        showEdit,
+        isDocumentShared,
+        onRemoveAccess
     } = props;
+
+    const [tempAttachmentDetails] = React.useState<any>(attachmentDetails);
+
+    const [isShared, setIsShared] = React.useState<boolean>(false);
+
+    useEffect(() => {
+        setIsShared(!!isDocumentShared);
+    }, [isDocumentShared]);
 
     const handleEdit = useCallback(() => {
         if (onEdit) {
@@ -45,72 +61,126 @@ const MedicalRecordAttachmentBasicDetailsCardComponent = (props: MedicalRecordAt
         }
     }, [onEdit]);
 
+    const handleRemoveAccess = useCallback((item: any) => {
+        commonService.openConfirmationDialog({
+            confirmationTitle: "REMOVE ACCESS",
+            confirmationSubTitle: "Are you sure you want to remove access for this shared document?",
+            image: `${ImageConfig.confirmImage}`,
+            yes: {
+                text: "Yes",
+                color: "primary"
+            },
+            no: {
+                text: "No",
+                color: "primary"
+            }
+        }).then((res: any) => {
+            onRemoveAccess(item);
+        })
+    }, [onRemoveAccess]);
 
     return (
         <div className={"medical-record-attachment-basic-details-card-component"}>
             <PageHeaderComponent title={pageTitle} actions={<>
                 <div className={"medical-attachment-last-updated-on-wrapper"}>
                     <DataLabelValueComponent className={'mrg-bottom-0'} label={"Last updated on: "} direction={"row"}>
-                        {(attachmentDetails.updated_at ? moment(attachmentDetails.updated_at).tz(moment.tz.guess()).format('DD-MMM-YYYY | hh:mm A z') : 'N/A')}&nbsp;-&nbsp;
-                        {attachmentDetails?.last_updated_by_details?.first_name ? attachmentDetails?.last_updated_by_details?.first_name + ' ' + attachmentDetails?.last_updated_by_details?.last_name : ' N/A'}
+                        {(tempAttachmentDetails.updated_at ? moment(tempAttachmentDetails.updated_at).tz(moment.tz.guess()).format('DD-MMM-YYYY | hh:mm A z') : 'N/A')}&nbsp;-&nbsp;
+                        {tempAttachmentDetails?.last_updated_by_details?.first_name ? tempAttachmentDetails?.last_updated_by_details?.first_name + ' ' + tempAttachmentDetails?.last_updated_by_details?.last_name : ' N/A'}
                     </DataLabelValueComponent>
                 </div>
             </>}/>
+            {
+                isShared &&
+                <div className={"medical-record-attachment-remove-access-wrapper"}>
+                    <div className={"medical-record-attachment-data-wrapper"}>
+                        This file was made available to the client via sharing
+                        on <b>{tempAttachmentDetails?.shared_at ? moment(tempAttachmentDetails.shared_at).tz(moment.tz.guess()).format('DD-MMM-YYYY') : 'N/A'}</b>.
+                    </div>
+                    <LinkComponent
+                        onClick={() => {
+                            handleRemoveAccess(tempAttachmentDetails);
+                        }}
+                    >
+                        Remove Access
+                    </LinkComponent>
+                </div>
+            }
             <div className={"medical-record-attachment-basic-details-wrapper"}>
                 <CardComponent color={"primary"}>
                     <div className={"medical-record-attachment-basic-details-header"}>
                         <div className={"medical-record-attachment-basic-details-name-status-wrapper"}>
                             <div className={"medical-record-attachment-basic-details-name"}>
-                                <span className={medicalRecordDetails.client_details?.is_alias_name_set ? 'alias-name':''}> {CommonService.extractName(medicalRecordDetails.client_details)}</span>
+                                <span
+                                    className={medicalRecordDetails.client_details?.is_alias_name_set ? 'alias-name' : ''}> {CommonService.extractName(medicalRecordDetails.client_details)}</span>
                             </div>
                             <div className={"medical-record-attachment-basic-details-status"}>
                                 <ChipComponent
-                                    label={attachmentDetails?.medical_record_details?.status === "open" ? "Open - Unresolved" : 'Closed - Resolved'}
+                                    label={tempAttachmentDetails?.medical_record_details?.status === "open" ? "Open - Unresolved" : 'Closed - Resolved'}
                                     color={"success"}
-                                    className={attachmentDetails?.medical_record_details?.status === "open" ? 'active' : 'inactive'}/>
+                                    className={tempAttachmentDetails?.medical_record_details?.status === "open" ? 'active' : 'inactive'}/>
                             </div>
                         </div>
                         <div className={"medical-record-attachment-basic-details-actions"}>
-                            {
-                                (pageTitle === "View Document" || pageTitle === "View Dry Needling File") && <>
-                                    <ButtonComponent
-                                        prefixIcon={<ImageConfig.ShareIcon/>}
-                                        className={'mrg-right-10'}
-                                        onClick={pageTitle === "View Document" ? onShare : onDryNeedingShare}
-                                    >
-                                        Share
-                                    </ButtonComponent>
-                                </>
-                            }
-                            {
-                                attachmentType === "concussionFile" && <>
-                                    <ButtonComponent
-                                        prefixIcon={<ImageConfig.ShareIcon/>}
-                                        className={'mrg-right-10'}
-                                        onClick={onConcussionFileShare}
-                                    >
-                                        Share
-                                    </ButtonComponent>
-                                </>
-                            }
-                            {
-                                onDelete && <>
-                                    <ButtonComponent
-                                        className={'mrg-right-10'}
-                                        onClick={onDelete}
-                                        variant={'outlined'}
-                                        color={'error'}
-                                        prefixIcon={<ImageConfig.DeleteIcon/>}>
-                                        Delete Document
-                                    </ButtonComponent>
-                                </>
-                            }
+                            {/*{*/}
+                            {/*    (pageTitle === "View Document" || pageTitle === "View Dry Needling File") && <>*/}
+                            {/*        <ButtonComponent*/}
+                            {/*            prefixIcon={<ImageConfig.ShareIcon/>}*/}
+                            {/*            className={'mrg-right-10'}*/}
+                            {/*            onClick={pageTitle === "View Document" ? onShare : onDryNeedingShare}*/}
+                            {/*        >*/}
+                            {/*            Share*/}
+                            {/*        </ButtonComponent>*/}
+                            {/*    </>*/}
+                            {/*}*/}
+                            {/*{*/}
+                            {/*    attachmentType === "concussionFile" && <>*/}
+                            {/*        <ButtonComponent*/}
+                            {/*            prefixIcon={<ImageConfig.ShareIcon/>}*/}
+                            {/*            className={'mrg-right-10'}*/}
+                            {/*            onClick={onConcussionFileShare}*/}
+                            {/*        >*/}
+                            {/*            Share*/}
+                            {/*        </ButtonComponent>*/}
+                            {/*    </>*/}
+                            {/*}*/}
+                            {/*{*/}
+                            {/*    onDelete && <>*/}
+                            {/*        <ButtonComponent*/}
+                            {/*            className={'mrg-right-10'}*/}
+                            {/*            onClick={onDelete}*/}
+                            {/*            variant={'outlined'}*/}
+                            {/*            color={'error'}*/}
+                            {/*            prefixIcon={<ImageConfig.DeleteIcon/>}>*/}
+                            {/*            Delete Document*/}
+                            {/*        </ButtonComponent>*/}
+                            {/*    </>*/}
+                            {/*}*/}
                             {showEdit && <ButtonComponent
                                 prefixIcon={<ImageConfig.EditIcon/>}
                                 onClick={handleEdit}
                             >
                                 Edit Details
                             </ButtonComponent>}
+
+                            <MenuDropdownComponent className={'billing-details-drop-down-menu'} menuBase={
+                                <ButtonComponent size={'large'} variant={'outlined'} fullWidth={true}
+                                >
+                                    Select Action &nbsp;<ImageConfig.SelectDropDownIcon/>
+                                </ButtonComponent>
+                            } menuOptions={[
+                                <ListItemButton
+                                    disabled={!onDelete}
+                                    onClick={onDelete}>
+                                    Delete Document
+                                </ListItemButton>,
+                                (pageTitle === "View Document" || pageTitle === "View Dry Needling File" || attachmentType === "concussionFile") &&
+                                <ListItemButton
+                                    disabled={isShared}
+                                    onClick={attachmentType === "concussionFile" ? onConcussionFileShare : (pageTitle === "View Document") ? onShare : onDryNeedingShare}>
+                                    Share
+                                </ListItemButton>
+                            ]}
+                            />
                         </div>
                     </div>
                     <MedicalInterventionLinkedToComponent label={'Document Linked to:'}
@@ -118,28 +188,28 @@ const MedicalRecordAttachmentBasicDetailsCardComponent = (props: MedicalRecordAt
                     <div className={"ts-row"}>
                         <div className="ts-col-md-6 ts-col-lg-3">
                             <DataLabelValueComponent label={"Date of Document"}>
-                                {attachmentDetails.document_date ? CommonService.getSystemFormatTimeStamp(attachmentDetails.document_date) : "-"}
+                                {tempAttachmentDetails.document_date ? CommonService.getSystemFormatTimeStamp(tempAttachmentDetails.document_date) : "-"}
                             </DataLabelValueComponent>
                         </div>
                         <>
                             {
                                 attachmentType === "medicalRecordDocument" && <div className="ts-col-md-6 ts-col-lg-3">
                                     <DataLabelValueComponent label={"Document Type"}>
-                                        {attachmentDetails?.document_type_details?.type}
+                                        {tempAttachmentDetails?.document_type_details?.type}
                                     </DataLabelValueComponent>
                                 </div>
                             }
                         </>
                         <div className="ts-col-md-6 ts-col-lg-3">
                             <DataLabelValueComponent label={"Attached by"}>
-                                {CommonService.extractName(attachmentDetails?.attached_by_details)}
+                                {CommonService.extractName(tempAttachmentDetails?.attached_by_details)}
                             </DataLabelValueComponent>
                         </div>
                     </div>
                     <div className={"ts-row"}>
                         <div className="ts-col-12">
                             <DataLabelValueComponent label={"Comments"}>
-                                {attachmentDetails.comments ? attachmentDetails.comments : "N/A"}
+                                {tempAttachmentDetails.comments ? tempAttachmentDetails.comments : "N/A"}
                             </DataLabelValueComponent>
                         </div>
                     </div>

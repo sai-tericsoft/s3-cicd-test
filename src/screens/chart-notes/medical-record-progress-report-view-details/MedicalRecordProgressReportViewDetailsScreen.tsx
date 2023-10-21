@@ -22,6 +22,7 @@ import {getClientMedicalRecord} from "../../../store/actions/client.action";
 import moment from "moment-timezone";
 import LinkComponent from "../../../shared/components/link/LinkComponent";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
+import commonService from "../../../shared/services/common.service";
 
 interface ProgressReportViewDetailsComponentProps {
 
@@ -149,7 +150,9 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
                     <div className={'client-name-button-wrapper'}>
                                     <span className={'client-name-wrapper'}>
                                         <span className={'client-name'}>
-                                                {progressReportDetails?.medical_record_details?.client_details?.first_name || "-"} {progressReportDetails?.medical_record_details?.client_details?.last_name || "-"}
+                                            <span className={progressReportDetails?.medical_record_details?.client_details?.is_alias_name_set?"alias-name":''}>
+                                                {commonService.generateClientNameFromClientDetails( progressReportDetails?.medical_record_details?.client_details)}
+                                                </span>
                                         </span>
                                         <ChipComponent
                                             className={clientMedicalRecord?.status === 'completed' ? "inactive" : "active"}

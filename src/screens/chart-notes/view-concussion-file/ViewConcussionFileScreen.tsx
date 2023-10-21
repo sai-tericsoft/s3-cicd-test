@@ -17,6 +17,7 @@ import FilePreviewThumbnailComponent
     from "../../../shared/components/file-preview-thumbnail/FilePreviewThumbnailComponent";
 import EditConcussionFileComponent from "../edit-concussion-file/EditConcussionFileComponent";
 import FormControlLabelComponent from "../../../shared/components/form-control-label/FormControlLabelComponent";
+import commonService from "../../../shared/services/common.service";
 
 interface ViewConcussionFileScreenProps {
 
@@ -36,6 +37,7 @@ const ViewConcussionFileScreen = (props: ViewConcussionFileScreenProps) => {
         const [isConcussionFileAttachmentAdding, setIsConcussionFileAttachmentAdding] = useState<boolean>(false);
         const [concussionFileAttachmentFile, setConcussionFileFileAttachmentFile] = useState<any>(undefined);
         const [searchParams] = useSearchParams();
+        const [isShared, setIsShared] = useState<boolean>(false);
 
         const openEditConcussionFileFileDrawer = useCallback(() => {
             setIsEditConcussionFileFileDrawerOpened(true);
@@ -53,6 +55,7 @@ const ViewConcussionFileScreen = (props: ViewConcussionFileScreenProps) => {
                 CommonService._chartNotes.ConcussionFileDetailsAPICall(concussionFileId, {})
                     .then((response: any) => {
                         setConcussionFileFileDetails(response.data);
+                        setIsShared(response.data.is_shared);
                         setIsConcussionFileFileDetailsLoading(false);
                         setIsConcussionFileFileDetailsLoadingFailed(false);
                         setIsConcussionFileFileDetailsLoaded(true);
@@ -153,7 +156,7 @@ const ViewConcussionFileScreen = (props: ViewConcussionFileScreenProps) => {
 
 
             });
-        }, [concussionFileId,medicalRecordId,navigate,searchParams]);
+        }, [concussionFileId, medicalRecordId, navigate, searchParams]);
 
         const handleConcussionFileFileAttachmentAdd = useCallback(() => {
             if (concussionFileId) {
@@ -197,7 +200,7 @@ const ViewConcussionFileScreen = (props: ViewConcussionFileScreenProps) => {
                     CommonService._chartNotes.ConcussionFileEditAPICall(concussionFileId, {is_shared: true})
                         .then((response: any) => {
                             CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY] || "Successfully shared document", "success");
-                            medicalRecordId && navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId) + '?activeTab=attachmentList');
+                            setIsShared(true);
                         }).catch((error: any) => {
                         CommonService._alert.showToast(error?.error || "Error sharing document", "success");
                     });
@@ -210,6 +213,21 @@ const ViewConcussionFileScreen = (props: ViewConcussionFileScreenProps) => {
                 getConcussionFileFileDetails();
             }
         }, [getConcussionFileFileDetails, concussionFileId]);
+
+        const removeAccess = useCallback((item: any) => {
+            const payload = {
+                is_shared: false
+            }
+            CommonService._chartNotes.ConcussionFileEditAPICall(item?._id, payload)
+                .then((response: any) => {
+                    commonService._alert.showToast("Access removed successfully", "success");
+                    setIsShared(false);
+                })
+                .catch((error: any) => {
+                    CommonService._alert.showToast(error.error || "Error removing access", "error");
+                });
+
+        }, [])
 
         return (
             <div className={'view-concussion-file-screen'}>
@@ -225,11 +243,13 @@ const ViewConcussionFileScreen = (props: ViewConcussionFileScreenProps) => {
                         <MedicalRecordAttachmentBasicDetailsCardComponent
                             pageTitle={`View ${concussionFileDetails?.concussion_type_details?.type} File`}
                             attachmentDetails={concussionFileDetails}
+                            isDocumentShared={isShared}
                             medicalRecordDetails={concussionFileDetails?.medical_record_details}
                             attachmentType={"concussionFile"}
                             onEdit={openEditConcussionFileFileDrawer}
                             showEdit={true}
                             onConcussionFileShare={handleConcussionFileShare}
+                            onRemoveAccess={removeAccess}
                             onDelete={handleConcussionDocumentDelete}
                         />
                         <div className={'concussion-attachment'}>

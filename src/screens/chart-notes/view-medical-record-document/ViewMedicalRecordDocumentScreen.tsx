@@ -17,6 +17,7 @@ import FilePreviewThumbnailComponent
     from "../../../shared/components/file-preview-thumbnail/FilePreviewThumbnailComponent";
 import EditMedicalRecordDocumentComponent from "../edit-medical-record-document/EditMedicalRecordDocumentComponent";
 import FormControlLabelComponent from "../../../shared/components/form-control-label/FormControlLabelComponent";
+import commonService from "../../../shared/services/common.service";
 
 interface ViewMedicalRecordDocumentScreenProps {
 
@@ -37,6 +38,7 @@ const ViewMedicalRecordDocumentScreen = (props: ViewMedicalRecordDocumentScreenP
         const [isMedicalRecordAttachmentDeleting, setIsMedicalRecordAttachmentDeleting] = useState<boolean>(false);
         const [isMedicalRecordAttachmentAdding, setIsMedicalRecordAttachmentAdding] = useState<boolean>(false);
         const [medicalRecordDocumentAttachmentFile, setMedicalRecordDocumentAttachmentFile] = useState<any>(undefined);
+        const [isShared, setIsShared] = useState<boolean>(false);
 
         useEffect(() => {
             if (medicalRecordId) {
@@ -74,6 +76,7 @@ const ViewMedicalRecordDocumentScreen = (props: ViewMedicalRecordDocumentScreenP
                 CommonService._chartNotes.MedicalRecordDocumentDetailsAPICall(medicalRecordDocumentId, {})
                     .then((response: any) => {
                         setMedicalRecordDocumentDetails(response?.data);
+                        setIsShared(response?.data?.is_shared);
                         setIsMedicalRecordDocumentDetailsLoading(false);
                         setIsMedicalRecordDocumentDetailsLoadingFailed(false);
                         setIsMedicalRecordDocumentDetailsLoaded(true);
@@ -215,13 +218,28 @@ const ViewMedicalRecordDocumentScreen = (props: ViewMedicalRecordDocumentScreenP
                     CommonService._chartNotes.MedicalRecordDocumentEditAPICall(medicalRecordDocumentId, {is_shared: true})
                         .then((response: any) => {
                             CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY] || "Document shared successfully", "success");
-                            medicalRecordId && navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId) + '?activeTab=attachmentList')
+                            setIsShared(true)
                         }).catch((error: any) => {
                         CommonService._alert.showToast(error?.error || "Error sharing document", "success");
                     })
                 }
             })
-        }, [medicalRecordDocumentId, navigate, medicalRecordId]);
+        }, [medicalRecordDocumentId]);
+
+        const removeAccess = useCallback((item: any) => {
+            const payload = {
+                is_shared: false
+            }
+            CommonService._chartNotes.MedicalRecordDocumentEditAPICall(item?._id, payload)
+                .then((response: any) => {
+                    commonService._alert.showToast("Access removed successfully", "success");
+                    setIsShared(false);
+                })
+                .catch((error: any) => {
+                    CommonService._alert.showToast(error.error || "Error removing access", "error");
+                });
+
+        }, [])
 
 
         return (
@@ -238,9 +256,11 @@ const ViewMedicalRecordDocumentScreen = (props: ViewMedicalRecordDocumentScreenP
                         <MedicalRecordAttachmentBasicDetailsCardComponent
                             pageTitle={"View Document"}
                             attachmentDetails={medicalRecordDocumentDetails}
+                            isDocumentShared={isShared}
                             medicalRecordDetails={medicalRecordDocumentDetails?.medical_record_details}
                             attachmentType={"medicalRecordDocument"}
                             showEdit={module === 'client_documents' ? false : true}
+                            onRemoveAccess={removeAccess}
                             onEdit={openEditMedicalRecordDocumentDrawer}
                             onDelete={handleDocumentDelete}
                             onShare={handleShareDocument}

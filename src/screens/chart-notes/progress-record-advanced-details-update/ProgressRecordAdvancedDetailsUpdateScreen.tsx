@@ -30,6 +30,7 @@ import DrawerComponent from "../../../shared/components/drawer/DrawerComponent";
 import EditProgressReportCardComponent from "../edit-progress-report-card/EditProgressReportCardComponent";
 import moment from "moment-timezone";
 import CheckBoxComponent from "../../../shared/components/form-controls/check-box/CheckBoxComponent";
+import commonService from "../../../shared/services/common.service";
 
 interface ProgressRecordAdvancedDetailsUpdateScreenProps {
 
@@ -283,7 +284,9 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
                         <div className={'client-name-button-wrapper'}>
                                     <span className={'client-name-wrapper'}>
                                         <span className={'client-name'}>
-                                                {clientMedicalRecordProgressReportDetails?.medical_record_details?.client_details?.first_name || "-"} {clientMedicalRecordProgressReportDetails?.medical_record_details?.client_details?.last_name || "-"}
+                                            <span className={clientMedicalRecordProgressReportDetails?.medical_record_details?.client_details?.is_alias_name_set ? "alias-name":""}>
+                                                {commonService.generateClientNameFromClientDetails( clientMedicalRecordProgressReportDetails?.medical_record_details?.client_details)}
+                                                </span>
                                         </span>
                                         <ChipComponent
                                             className={clientMedicalRecordProgressReportDetails?.medical_record_details?.status === "open" ? "active" : "inactive"}

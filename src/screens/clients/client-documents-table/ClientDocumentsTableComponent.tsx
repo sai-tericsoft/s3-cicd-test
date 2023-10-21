@@ -11,6 +11,7 @@ import {useLocation} from "react-router-dom";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
 import commonService from "../../../shared/services/common.service";
+
 interface ClientDocumentsTableComponentProps {
     clientId: string | undefined;
     clientDocumentListFilterState: IClientDocumentsFilterState
@@ -35,9 +36,9 @@ const ClientDocumentsTableComponent = (props: ClientDocumentsTableComponentProps
         }
     }, [clientDocumentListFilterState]);
 
-    const removeAccess = useCallback((item:any)=>{
+    const removeAccess = useCallback((item: any) => {
         const payload = {
-            is_shared:false
+            is_shared: false
         }
         CommonService._chartNotes.MedicalRecordDocumentEditAPICall(item?._id, payload)
             .then((response: any) => {
@@ -50,7 +51,41 @@ const ClientDocumentsTableComponent = (props: ClientDocumentsTableComponentProps
                 CommonService._alert.showToast(error.error || "Error removing access", "error");
             });
 
-    },[moduleName])
+    }, [moduleName])
+
+    const removeConcussionAccess = useCallback((item: any) => {
+        const payload = {
+            is_shared: false
+        }
+        CommonService._chartNotes.ConcussionFileEditAPICall(item?._id, payload)
+            .then((response: any) => {
+                commonService._alert.showToast("Access removed successfully", "success");
+                CommonService._communications.TableWrapperRefreshSubject.next({
+                    moduleName: moduleName
+                });
+            })
+            .catch((error: any) => {
+                CommonService._alert.showToast(error.error || "Error removing access", "error");
+            });
+
+    }, [moduleName])
+
+    const removeDryNeedlingAccess = useCallback((item: any) => {
+        const payload = {
+            is_shared: false
+        }
+        CommonService._chartNotes.DryNeedlingFileEditAPICall(item?._id, payload)
+            .then((response: any) => {
+                commonService._alert.showToast("Access removed successfully", "success");
+                CommonService._communications.TableWrapperRefreshSubject.next({
+                    moduleName: moduleName
+                });
+            })
+            .catch((error: any) => {
+                CommonService._alert.showToast(error.error || "Error removing access", "error");
+            });
+
+    }, [moduleName])
 
     const handleRemoveAccess = useCallback((item: any) => {
         commonService.openConfirmationDialog({
@@ -66,9 +101,19 @@ const ClientDocumentsTableComponent = (props: ClientDocumentsTableComponentProps
                 color: "primary"
             }
         }).then((res: any) => {
-            removeAccess(item);
+            switch (item?.note_type_category) {
+                case "Dry Needling":
+                    removeDryNeedlingAccess(item);
+                    break;
+                case "Concussion":
+                    removeConcussionAccess(item);
+                    break;
+                default:
+                    removeAccess(item);
+                    break;
+            }
         })
-    }, [removeAccess]);
+    }, [removeAccess,removeConcussionAccess,removeDryNeedlingAccess])
 
     const ClientDocumentListTableColumns: ITableColumn[] = [
         {

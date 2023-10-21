@@ -17,6 +17,7 @@ import TableComponent from "../../../shared/components/table/TableComponent";
 import MedicalInterventionLinkedToComponent
     from "../medical-intervention-linked-to/MedicalInterventionLinkedToComponent";
 import {setCurrentNavParams} from "../../../store/actions/navigation.action";
+    import commonService from "../../../shared/services/common.service";
 
 interface ViewExerciseLogComponentProps {
 
@@ -125,7 +126,9 @@ const ViewExerciseRecordScreen = (props: ViewExerciseLogComponentProps) => {
                                 <div className={'client-name-button-wrapper'}>
                                     <span className={'client-name-wrapper'}>
                                         <span className={'client-name'}>
-                                            {medicalRecordViewExerciseRecord?.medical_record_details?.client_details?.first_name} {medicalRecordViewExerciseRecord?.medical_record_details?.client_details?.last_name}
+                                            <span className={medicalRecordViewExerciseRecord?.medical_record_details?.client_details?.is_alias_name_set ? "alias-name":""}>
+                                            {commonService.generateClientNameFromClientDetails( medicalRecordViewExerciseRecord?.medical_record_details?.client_details)}
+                                                </span>
                                         </span>
                                         <ChipComponent
                                             className={medicalRecordViewExerciseRecord?.medical_record_details?.status ? "active" : "inactive"}

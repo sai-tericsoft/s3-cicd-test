@@ -17,6 +17,7 @@ import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import FilePreviewThumbnailComponent
     from "../../../shared/components/file-preview-thumbnail/FilePreviewThumbnailComponent";
 import FormControlLabelComponent from "../../../shared/components/form-control-label/FormControlLabelComponent";
+import commonService from "../../../shared/services/common.service";
 
 interface ViewDryNeedlingFileScreenProps {
 
@@ -36,6 +37,7 @@ const ViewDryNeedlingFileScreen = (props: ViewDryNeedlingFileScreenProps) => {
         const [isDryNeedlingAttachmentAdding, setIsDryNeedlingAttachmentAdding] = useState<boolean>(false);
         const [dryNeedlingFileAttachmentFile, setDryNeedlingFileAttachmentFile] = useState<any>(undefined);
         const [searchParams] = useSearchParams();
+        const [isDryNeedlingFileShared, setIsDryNeedlingFileShared] = useState<boolean>(false);
 
         const openEditDryNeedlingFileDrawer = useCallback(() => {
             setIsEditDryNeedlingFileDrawerOpened(true);
@@ -53,6 +55,7 @@ const ViewDryNeedlingFileScreen = (props: ViewDryNeedlingFileScreenProps) => {
                 CommonService._chartNotes.DryNeedlingFileDetailsAPICall(dryNeedlingFileId, {})
                     .then((response: any) => {
                         setDryNeedlingFileDetails(response.data);
+                        setIsDryNeedlingFileShared(response.data?.is_shared);
                         setIsDryNeedlingFileDetailsLoading(false);
                         setIsDryNeedlingFileDetailsLoadingFailed(false);
                         setIsDryNeedlingFileDetailsLoaded(true);
@@ -149,7 +152,7 @@ const ViewDryNeedlingFileScreen = (props: ViewDryNeedlingFileScreenProps) => {
                     })
                 }
             });
-        }, [dryNeedlingFileId, medicalRecordId, navigate,searchParams]);
+        }, [dryNeedlingFileId, medicalRecordId, navigate, searchParams]);
 
         const handleDryNeedlingFileAttachmentAdd = useCallback(() => {
             if (dryNeedlingFileId) {
@@ -193,19 +196,34 @@ const ViewDryNeedlingFileScreen = (props: ViewDryNeedlingFileScreenProps) => {
                     CommonService._chartNotes.DryNeedlingFileEditAPICall(dryNeedlingFileId, {is_shared: true})
                         .then((response: any) => {
                             CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY] || "Successfully shared document", "success");
-                            medicalRecordId && navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId) + '?activeTab=attachmentList');
+                            setIsDryNeedlingFileShared(true);
                         }).catch((error: any) => {
                         CommonService._alert.showToast(error?.error || "Error sharing document", "success");
                     });
                 }
             })
-        }, [dryNeedlingFileId, medicalRecordId, navigate]);
+        }, [dryNeedlingFileId]);
 
         useEffect(() => {
             if (dryNeedlingFileId) {
                 getDryNeedlingFileDetails();
             }
         }, [getDryNeedlingFileDetails, dryNeedlingFileId]);
+
+        const removeAccess = useCallback((item: any) => {
+            const payload = {
+                is_shared: false
+            }
+            CommonService._chartNotes.DryNeedlingFileEditAPICall(item?._id, payload)
+                .then((response: any) => {
+                    commonService._alert.showToast("Access removed successfully", "success");
+                    setIsDryNeedlingFileShared(false);
+                })
+                .catch((error: any) => {
+                    CommonService._alert.showToast(error.error || "Error removing access", "error");
+                });
+
+        }, [])
 
         return (
             <div className={'view-dry-needling-file-screen'}>
@@ -221,10 +239,12 @@ const ViewDryNeedlingFileScreen = (props: ViewDryNeedlingFileScreenProps) => {
                         <MedicalRecordAttachmentBasicDetailsCardComponent
                             pageTitle={"View Dry Needling File"}
                             attachmentDetails={dryNeedlingFileDetails}
+                            isDocumentShared={isDryNeedlingFileShared}
                             medicalRecordDetails={dryNeedlingFileDetails?.medical_record_details}
                             attachmentType={"dryNeedlingFile"}
                             onDelete={handleDryNeedlingDocumentDelete}
                             onEdit={openEditDryNeedlingFileDrawer}
+                            onRemoveAccess={removeAccess}
                             showEdit={true}
                             onDryNeedingShare={handleDryNeedlingShare}
                         />

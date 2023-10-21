@@ -19,6 +19,7 @@ import DataLabelValueComponent from "../../../shared/components/data-label-value
 import LinkComponent from "../../../shared/components/link/LinkComponent";
 import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
 import moment from "moment-timezone";
+import commonService from "../../../shared/services/common.service";
 
 interface MedicalInterventionExerciseLogViewScreenProps {
 
@@ -177,7 +178,9 @@ const MedicalInterventionExerciseLogViewScreen = (props: MedicalInterventionExer
                         <div className={'client-name-button-wrapper'}>
                                     <span className={'client-name-wrapper'}>
                                         <span className={'client-name'}>
-                                                {medicalInterventionExerciseLogDetails?.medical_record_details?.client_details?.first_name || "N/A"} {medicalInterventionExerciseLogDetails?.medical_record_details?.client_details?.last_name || "N/A"}
+                                            <span className={medicalInterventionExerciseLogDetails?.medical_record_details?.client_details.is_alias_name_set ? "alias-name":""}>
+                                                {commonService.generateClientNameFromClientDetails( medicalInterventionExerciseLogDetails?.medical_record_details?.client_details)}
+                                                </span>
                                         </span>
                                         <ChipComponent
                                             className={medicalInterventionExerciseLogDetails?.medical_record_details?.status === "open" ? "active" : "inactive"}
