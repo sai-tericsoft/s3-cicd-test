@@ -30,6 +30,7 @@ import LinkComponent from "../../shared/components/link/LinkComponent";
 import {DatePicker} from "@mui/x-date-pickers/DatePicker";
 import {AdapterDateFns} from '@mui/x-date-pickers/AdapterDateFns';
 import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider';
+import commonService from "../../shared/services/common.service";
 
 interface SchedulingScreenProps {
 
@@ -827,7 +828,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                                         return (
                                                             <ToolTipComponent key={index} tooltip={
                                                                 <>
-                                                                    <b>{value?.client_details?.first_name + ' ' + value?.client_details?.last_name || "No title"}</b><br/>
+                                                                    <b><span className={value?.client_details?.is_alias_name_set ? 'alias-name':''}>{commonService.generateClientNameFromClientDetails(value?.client_details) || "No title"}</span></b><br/>
                                                                     {value?.category_details?.name + ' / ' + value?.service_details?.name + ' - ' + (value?.provider_details?.first_name + ' ' + value?.provider_details?.last_name) || "-"}
                                                                     <br/>
                                                                     {CommonService.getHoursAndMinutesFromMinutes(value?.start_time) + ' - ' + CommonService.getHoursAndMinutesFromMinutes(value?.end_time) || "-"}
@@ -843,7 +844,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                                                     }}
                                                                     className={'appointment-mini-card ' + (value.status)}>
                                                                     <div
-                                                                        className="appointment-title">{value?.client_details?.first_name + ' ' + value?.client_details?.last_name}</div>
+                                                                        className="appointment-title"><span className={value?.client_details?.is_alias_name_set ? "alias-name":''}>{commonService.generateClientNameFromClientDetails( value?.client_details)}</span></div>
                                                                     <div
                                                                         className="appointment-status">{value.status || '-'}</div>
                                                                 </div>

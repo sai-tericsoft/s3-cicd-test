@@ -25,6 +25,7 @@ import DrawerComponent from "../../../shared/components/drawer/DrawerComponent";
 import TableV2Component from "../../../shared/components/table-v2/TableV2Component";
 import IconButtonComponent from "../../../shared/components/icon-button/IconButtonComponent";
 import IcdCodingToolComponent from "../../../shared/components/icd-coding-tool/IcdCodingToolComponent";
+import commonService from "../../../shared/services/common.service";
 
 interface MedicalInterventionICDCodesScreenProps {
 
@@ -164,7 +165,9 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
                         <div className={'client-name-button-wrapper'}>
                                     <span className={'client-name-wrapper'}>
                                         <span className={'client-name'}>
-                                                {clientMedicalRecord?.client_details?.first_name || "-"} {clientMedicalRecord?.client_details?.last_name || "-"}
+                                            <span className={clientMedicalRecord?.client_details?.is_alias_name_set ? 'alias-name' : ''}>
+                                                {commonService.generateClientNameFromClientDetails(clientMedicalRecord?.client_details || {})}
+                                            </span>
                                         </span>
                                         <ChipComponent
                                             className={clientMedicalRecord?.status === "open" ? "active" : "inactive"}

@@ -30,6 +30,7 @@ import InputComponent from "../../../shared/components/form-controls/input/Input
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 import PageHeaderComponent from "../../../shared/components/page-header/PageHeaderComponent";
 import moment from "moment-timezone";
+import commonService from "../../../shared/services/common.service";
 
 interface SurgeryRecordViewScreenProps {
 
@@ -428,7 +429,9 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
                         <div className={'client-name-button-wrapper'}>
                                     <span className={'client-name-wrapper'}>
                                         <span className={'client-name'}>
-                                        {clientMedicalRecord?.client_details?.first_name || "-"} {clientMedicalRecord?.client_details?.last_name || "-"}
+                                            <span className={clientMedicalRecord?.client_details?.is_alias_name_set ? 'alias-name':''}>
+                                                {commonService.generateClientNameFromClientDetails(clientMedicalRecord?.client_details)}
+                                                </span>
                                             </span>
                                         <ChipComponent className={clientMedicalRecord?.status ? "active" : "inactive"}
                                                        size={'small'}
