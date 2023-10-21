@@ -396,7 +396,7 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
         console.log(medicalInterventionDetails);
         console.log(special_test_config);
         const injury_details = medicalInterventionDetails?.medical_record_details?.injury_details;
-        if (special_test_config.length > 0) {
+        if (special_test_config?.length > 0) {
             special_test_config?.forEach((injury: any) => {
                 console.log(injury.special_tests);
                 const configArray = injury?.special_tests || [];
@@ -749,6 +749,10 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
                                                                                         </ButtonComponent>
                                                                                     </>
                                                                                     }>
+                                                                                    <div className={'clear-cta'}
+                                                                                         onClick={() => setFieldValue(`${bodyPart._id}.special_test_config.${selectedSpecialTestForComments}.commentsTemp`, '')}>
+                                                                                        Clear
+                                                                                    </div>
                                                                                     <Field
                                                                                         name={`${bodyPart._id}.special_test_config.${selectedSpecialTestForComments}.commentsTemp`}
                                                                                         className="t-form-control">
