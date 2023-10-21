@@ -206,7 +206,7 @@ const ViewConcussionFileScreen = (props: ViewConcussionFileScreenProps) => {
                     });
                 }
             })
-        }, [concussionFileId, medicalRecordId, navigate]);
+        }, [concussionFileId]);
 
         useEffect(() => {
             if (concussionFileId) {
