@@ -40,10 +40,8 @@ import _ from "lodash";
 import LottieFileGenerationComponent
     from "../../../shared/components/lottie-file-generation/LottieFileGenerationComponent";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
-import IconButtonComponent from "../../../shared/components/icon-button/IconButtonComponent";
 import FormikDatePickerComponent
     from "../../../shared/components/form-controls/formik-date-picker/FormikDatePickerComponent";
-import moment from "moment";
 import commonService from "../../../shared/services/common.service";
 
 interface MedicalInterventionDetailsCardComponentProps {

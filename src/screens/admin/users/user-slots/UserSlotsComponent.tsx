@@ -166,8 +166,6 @@ const UserSlotsComponent = (props: UserSlotsComponentProps) => {
 
         const {
             isUserBasicDetailsLoaded,
-            isUserBasicDetailsLoading,
-            isUserBasicDetailsLoadingFailed,
             userBasicDetails,
             userSlots,
             isUserSlotsLoading,
@@ -575,16 +573,16 @@ const UserSlotsComponent = (props: UserSlotsComponentProps) => {
     return (
             <div className="user-slots-component">
                 <>
-                    {isUserBasicDetailsLoading &&
+                    {(isUserSlotsLoading || isUserGlobalSlotsLoading) && (
                         <div>
                             <LoaderComponent/>
                         </div>
-                    }
-                    {isUserBasicDetailsLoadingFailed &&
+                    )}
+                    {(isUserSlotsLoadingFailed || isUserGlobalSlotsLoadingFailed) && (
                         <StatusCardComponent title={"Failed to fetch Details"}/>
-                    }
+                    )}
                 </>
-                {isUserBasicDetailsLoaded && <>
+                {(isUserSlotsLoaded && isUserBasicDetailsLoaded && isUserGlobalSlotsLoaded) && <>
                     <TabsWrapperComponent>
                         <div className="tabs-wrapper">
                             <TabsComponent

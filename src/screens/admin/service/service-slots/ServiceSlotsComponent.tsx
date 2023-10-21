@@ -1,6 +1,5 @@
 import "./ServiceSlotsComponent.scss";
 import {useDispatch, useSelector} from "react-redux";
-import {useNavigate} from "react-router-dom";
 import {IRootReducerState} from "../../../../store/reducers";
 import React, {useCallback, useEffect, useState} from "react";
 import _ from "lodash";
@@ -10,7 +9,6 @@ import {
     getUserSlots,
     setUserSlots
 } from "../../../../store/actions/user.action";
-import {setCurrentNavParams} from "../../../../store/actions/navigation.action";
 import {CommonService} from "../../../../shared/services";
 import {Field, FieldArray, FieldProps, Form, Formik, FormikHelpers} from "formik";
 import {ImageConfig, Misc} from "../../../../constants";
@@ -170,8 +168,6 @@ const ServiceSlotsComponent = (props: ServiceSlotsComponentProps) => {
 
     const {
         isUserBasicDetailsLoaded,
-        isUserBasicDetailsLoading,
-        isUserBasicDetailsLoadingFailed,
         userBasicDetails,
         userSlots,
         isUserSlotsLoading,
@@ -187,7 +183,6 @@ const ServiceSlotsComponent = (props: ServiceSlotsComponentProps) => {
     const [facilityId, setFacilityId] = useState<any>("")
     const [formInitialValues, setFormInitialValues] = useState(_.cloneDeep(InitialValue))
     const [userSelectedSlots, setUserSelectedSlots] = useState<any>([]);
-    const navigate = useNavigate();
 
     useEffect(() => {
         if (currentTab && userId) {
@@ -606,18 +601,17 @@ const ServiceSlotsComponent = (props: ServiceSlotsComponentProps) => {
         <div className="user-slots-component">
             {
                 userId && <>
-
                     <>
-                        {isUserBasicDetailsLoading &&
+                        {(isUserSlotsLoading || isUserGlobalSlotsLoading) && (
                             <div>
                                 <LoaderComponent/>
                             </div>
-                        }
-                        {isUserBasicDetailsLoadingFailed &&
+                        )}
+                        {(isUserSlotsLoadingFailed || isUserGlobalSlotsLoadingFailed) && (
                             <StatusCardComponent title={"Failed to fetch Details"}/>
-                        }
+                        )}
                     </>
-                    {isUserBasicDetailsLoaded && <>
+                    {(isUserSlotsLoaded && isUserBasicDetailsLoaded && isUserGlobalSlotsLoaded) && <>
                         <TabsWrapperComponent>
                             <div className="tabs-wrapper">
                                 <TabsComponent

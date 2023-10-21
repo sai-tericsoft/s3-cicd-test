@@ -19,6 +19,17 @@ interface UserDetailsLayoutComponentProps {
 
 }
 
+const UserMenuItemsMapping = {
+    "Personal Details": "personal-details",
+    "Available Hours & Service": "slots-details",
+    "Account Details": "account-details"
+}
+
+const AdminMenuItemsMapping = {
+    "Personal Details": "user-details",
+    "Available Hours & Service": "user-slots-details",
+    "Account Details": "user-account-details"
+}
 const UserDetailsLayoutComponent = (props: UserDetailsLayoutComponentProps) => {
 
     const dispatch = useDispatch();
@@ -98,7 +109,6 @@ const UserDetailsLayoutComponent = (props: UserDetailsLayoutComponentProps) => {
         })
     }, [userId, navigate]);
 
-
     return (
         <>
             <div className={'user-details-screen'}>
@@ -137,7 +147,7 @@ const UserDetailsLayoutComponent = (props: UserDetailsLayoutComponentProps) => {
                                         </div>
                                     </div>
                                     <div className={"user-details-sub-menu-holder"}>
-                                        <SubMenuListComponent menuItems={USER_MENU_ITEMS} pathIndex={path.includes('admin') ? 4 : 2} isExternalHighLight={true}/>
+                                        <SubMenuListComponent menuItems={USER_MENU_ITEMS} pathIndex={path.includes('admin') ? 4 : 2} isExternalHighLight={true} listMapping={path.includes('admin')?AdminMenuItemsMapping:UserMenuItemsMapping}/>
                                     </div>
                                 </div>
                                 <div className="user-details-content-wrapper">

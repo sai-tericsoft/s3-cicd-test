@@ -191,6 +191,7 @@ const UserSlotsEditComponent = (props: UserSlotsEditComponentProps) => {
         useEffect(() => {
             if (userId) {
                 setUserSelectedSlots([]);
+                dispatch(getUserBasicDetails(userId));
                 dispatch(getUserGlobalSlots(userId));
             }
         }, [dispatch, userId]);
@@ -593,16 +594,16 @@ const UserSlotsEditComponent = (props: UserSlotsEditComponentProps) => {
         return (
             <div className="user-slots-component">
                 <>
-                    {isUserSlotsLoading && (
+                    {(isUserSlotsLoading || isUserGlobalSlotsLoading) && (
                         <div>
                             <LoaderComponent/>
                         </div>
                     )}
-                    {isUserSlotsLoadingFailed && (
+                    {(isUserSlotsLoadingFailed || isUserGlobalSlotsLoadingFailed) && (
                         <StatusCardComponent title={"Failed to fetch Details"}/>
                     )}
                 </>
-                {(isUserSlotsLoaded && isUserBasicDetailsLoaded) && <>
+                {(isUserSlotsLoaded && isUserBasicDetailsLoaded && isUserGlobalSlotsLoaded) && <>
                     <TabsWrapperComponent>
                         <div className="tabs-wrapper">
                             <TabsComponent
