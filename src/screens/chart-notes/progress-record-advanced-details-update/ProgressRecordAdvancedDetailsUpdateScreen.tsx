@@ -374,7 +374,7 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
                         innerRef={formRef}
                 >
                     {(formik,) => {
-                        const {values} = formik
+                        const {values,setFieldValue,} = formik
                         // eslint-disable-next-line react-hooks/rules-of-hooks
                         useEffect(() => {
                             // if (values.synopsis || values.impression || values.plan) {
@@ -469,6 +469,10 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
                                                             </ButtonComponent>
                                                         </>
                                                         }>
+                                                        <div className={'clear-cta'}
+                                                             onClick={() => setFieldValue(`progress_stats.${selectedProgressStatComments?._id}.commentTemp`, '')}>
+                                                            Clear
+                                                        </div>
                                                         <Field
                                                             name={`progress_stats.${selectedProgressStatComments?._id}.commentTemp`}
                                                             className="t-form-control">

@@ -343,8 +343,6 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
     useEffect(() => {
         const romConfig: any = [];
         const rom_config = medicalInterventionDetails?.rom_config;
-        console.log(medicalInterventionDetails);
-        console.log(medicalInterventionDetails?.rom_config);
         const injury_details = medicalInterventionDetails?.medical_record_details?.injury_details;
         if (romConfig?.length > 0) {
             rom_config?.forEach((injury: any) => {
@@ -703,6 +701,7 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
                                                                                                     </ButtonComponent>
                                                                                                 </>
                                                                                                 }>
+                                                                                                <div className={'clear-cta'} onClick={()=>setFieldValue(`${bodyPart._id}.rom_config.${selectedROMMovementComments?.name}.commentsTemp`,'')}>Clear</div>
                                                                                                 <Field
                                                                                                     name={`${bodyPart._id}.rom_config.${selectedROMMovementComments?.name}.commentsTemp`}
                                                                                                     className="t-form-control">
