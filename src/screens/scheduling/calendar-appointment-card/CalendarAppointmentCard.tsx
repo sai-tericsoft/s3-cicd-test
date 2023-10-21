@@ -5,7 +5,7 @@ import {CommonService} from "../../../shared/services";
 
 interface CalendarAppointmentCardProps {
     style?: React.CSSProperties;
-    title?: string;
+    title?: any;
     timeSlot?: string;
     description?: string;
     status?: string;
@@ -19,7 +19,7 @@ const CalendarAppointmentCard = (props: CalendarAppointmentCardProps) => {
         <ToolTipComponent backgroundColor="#000000" textColor="#ffffff"
                           tooltip={
                               <>
-                                  <b>{CommonService.capitalizeFirstLetter(title) || "No title"}</b><br/>
+                                  <b><span className={title?.is_alias_name_set ? "alias-name" : ""}>{CommonService.generateClientNameFromClientDetails(title) || "No title"}</span></b><br/>
                                   <div>
                                       {status !== 'blocked' && description} <br/>
                                   </div>
@@ -40,7 +40,9 @@ const CalendarAppointmentCard = (props: CalendarAppointmentCardProps) => {
                  className={"calendar-appointment-card-component card-appointment-with-status " + status}>
                 <div className="card-appointment-header">
                     <div className="card-appointment-title">
-                        {CommonService.capitalizeFirstLetter(title) || "No title"}
+                        <span className={title?.is_alias_name_set ? "alias-name" : ""}>
+                        {CommonService.generateClientNameFromClientDetails(title) || "No title"}
+                            </span>
                     </div>
                     <div className="card-appointment-status">
                         {CommonService.capitalizeFirstLetter(status) || "-"}

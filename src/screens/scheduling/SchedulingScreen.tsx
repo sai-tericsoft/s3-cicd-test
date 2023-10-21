@@ -1043,7 +1043,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                                                                              height: appointment.end_time - appointment.start_time
                                                                                          }}>
                                                                                         <CalendarAppointmentCard
-                                                                                            title={appointment.client_details.first_name + ' ' + appointment.client_details.last_name}
+                                                                                            title={appointment.client_details}
                                                                                             timeSlot={CommonService.getHoursAndMinutesFromMinutes(appointment.start_time) + ' - ' + CommonService.getHoursAndMinutesFromMinutes(appointment.end_time)}
                                                                                             description={
                                                                                                 appointment.category_details.name + ' / ' + appointment.service_details.name + ' - ' + (appointment.provider_details.first_name + ' ' + appointment.provider_details.last_name)
@@ -1066,7 +1066,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                                                                          }}>
                                                                                         {nonFirstAllDayBlock &&
                                                                                             <CalendarAppointmentCard
-                                                                                                title={blocked_slot?.provider_details?.first_name + ' ' + blocked_slot?.provider_details?.last_name}
+                                                                                                title={blocked_slot?.provider_details}
                                                                                                 timeSlot={CommonService.getHoursAndMinutesFromMinutes(blocked_slot?.start_time) + ' - ' + CommonService.getHoursAndMinutesFromMinutes(blocked_slot?.end_time)}
                                                                                                 reason={blocked_slot?.reason}
                                                                                                 status={'blocked'}
