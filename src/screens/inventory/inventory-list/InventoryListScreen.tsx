@@ -48,7 +48,7 @@ const InventoryListScreen = (props: InventoryListScreenProps) => {
     
     const InventoryListTableColumns = useMemo<any>(() => [
         {
-            title: 'Product',
+            title: 'Product Name',
             dataIndex: 'name',
             key: 'name',
             width: 463,
@@ -172,8 +172,8 @@ const InventoryListScreen = (props: InventoryListScreenProps) => {
                 </div>
                 <div className="list-options">
                     <ButtonComponent id={"update_product_btn"} variant={'outlined'} onClick={handleUpdateQuantityModalOpen}
-                                     className={'mrg-right-10'}>
-                        Update Stock
+                                     className={'update_product_btn'}>
+                        Update Quantity
                     </ButtonComponent>
                     <LinkComponent route={CommonService._routeConfig.AddInventoryProduct()}>
                         <ButtonComponent id={'add_product_btn'} prefixIcon={<ImageConfig.AddIcon/>}>
