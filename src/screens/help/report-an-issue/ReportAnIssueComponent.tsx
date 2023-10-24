@@ -146,6 +146,7 @@ const ReportAnIssueComponent = (props: ReportAnIssueComponentProps) => {
                                 </div>
                                 <div className="t-form-actions">
                                     <ButtonComponent type={'submit'}
+                                                     size={'large'}
                                                      isLoading={isIssueSubmitting}
                                                      disabled={!isValid || isIssueSubmitting || (values.issue?.length === 0 && values.attachment?.length === 0)}>
                                         Submit
