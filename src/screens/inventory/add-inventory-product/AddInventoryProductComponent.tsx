@@ -167,7 +167,7 @@ const AddInventoryProductComponent = (props: AddInventoryProductComponentProps) 
                                     </div>
                                 </div>
                             </CardComponent>
-                            <CardComponent title={"Upload Image *"}>
+                            <CardComponent title={"Upload Image *"} className={'file-upload'}>
                                 <>
                                     {
 
@@ -211,6 +211,7 @@ const AddInventoryProductComponent = (props: AddInventoryProductComponentProps) 
                                     <ButtonComponent
                                         variant={"outlined"}
                                         id={"cancel_btn"}
+                                        className={'mrg-right-15'}
                                     >
                                         Cancel
                                     </ButtonComponent>
