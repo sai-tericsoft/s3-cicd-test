@@ -161,7 +161,6 @@ const AppointmentRescheduleComponent = (props: AppointmentRescheduleComponentPro
                 const currentTimeStamp = currentDate.getHours() * 60 + currentDate.getMinutes();
                 times.forEach(value => {
                     const slot = breakupTimeSlots(value, parseInt(duration || ''));
-                    console.log(date.getDate(), currentDate.getDate());
                     if (date.getDate() === currentDate.getDate()) { // Check if the date is equal to the current date
                         const filteredSlots = slot.filter((timeSlot: any) => {
                             return timeSlot.end_min >= currentTimeStamp;
