@@ -180,7 +180,7 @@ const AddInventoryProductComponent = (props: AddInventoryProductComponentProps) 
                                                                          setFieldValue('image', file);
                                                                      }
                                                                  }}
-                                                                 acceptedFilesText={"PNG, JPG and JPEG files are allowed"}
+                                                                 acceptedFilesText={"PNG and JPEG files are allowed"}
                                                                  acceptedFileTypes={["png", "jpg", "jpeg"]}
                                             />
                                             {
