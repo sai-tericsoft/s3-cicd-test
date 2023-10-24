@@ -119,7 +119,7 @@ const ReportAnIssueComponent = (props: ReportAnIssueComponentProps) => {
 
                                                                          }}
                                                                          acceptedFileTypes={["pdf", "png", "jpg", "jpeg"]}
-                                                                         acceptedFilesText={"PNG, JPG, JPEG, PDF files are allowed upto 5MB"}
+                                                                         acceptedFilesText={"PNG, JPEG, PDF files are allowed upto 5MB"}
                                                     />
                                                     {
                                                         (_.get(touched, "attachment") && !!(_.get(errors, "attachment"))) &&
