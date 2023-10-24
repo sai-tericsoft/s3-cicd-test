@@ -21,7 +21,6 @@ import TableComponent from "../../../shared/components/table/TableComponent";
 import {ITableColumn} from "../../../shared/models/table.model";
 import ErrorComponent from "../../../shared/components/error/ErrorComponent";
 import CheckBoxComponent from "../../../shared/components/form-controls/check-box/CheckBoxComponent";
-import commonService from "../../../shared/services/common.service";
 
 interface BlockCalenderComponentProps {
     onAddSuccess: Function

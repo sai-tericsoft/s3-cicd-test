@@ -14,6 +14,7 @@ import InputComponent from "../../form-controls/input/InputComponent";
 import FormikDatePickerComponent from "../../form-controls/formik-date-picker/FormikDatePickerComponent";
 import LoaderComponent from "../../loader/LoaderComponent";
 import commonService from "../../../services/common.service";
+import momentTimezone from "moment-timezone";
 
 interface AppointmentRescheduleComponentProps {
     onClose?: () => void,
@@ -150,14 +151,17 @@ const AppointmentRescheduleComponent = (props: AppointmentRescheduleComponentPro
 
     const generateTimeSlots = useCallback(
         (times: any[], duration: string) => {
+            console.log(times, duration);
             duration = duration || formRef.current?.values.duration.duration;
             const date = new Date(formRef.current?.values.date);
+            console.log(date, duration, times);
             if (duration && times) {
                 const slots: any[] = [];
                 const currentDate = new Date(); // Get the current date and time
                 const currentTimeStamp = currentDate.getHours() * 60 + currentDate.getMinutes();
                 times.forEach(value => {
                     const slot = breakupTimeSlots(value, parseInt(duration || ''));
+                    console.log(date.getDate(), currentDate.getDate());
                     if (date.getDate() === currentDate.getDate()) { // Check if the date is equal to the current date
                         const filteredSlots = slot.filter((timeSlot: any) => {
                             return timeSlot.end_min >= currentTimeStamp;
@@ -167,6 +171,7 @@ const AppointmentRescheduleComponent = (props: AppointmentRescheduleComponentPro
                         slots.push(...slot);
                     }
                 });
+                console.log(slots);
                 setAvailableTimeSlots(slots);
             }
         },
@@ -181,7 +186,8 @@ const AppointmentRescheduleComponent = (props: AppointmentRescheduleComponentPro
                 available_on: CommonService.convertDateFormat(date, 'YYYY-MM-DD'),
                 service_id: serviceId,
                 facility_id: facilityId,
-                duration: duration
+                duration: duration,
+                timezone: momentTimezone.tz.guess(),
             }
             CommonService._user.getUserAvailableTimesList(providerId, payload)
                 .then((response: IAPIResponseType<any>) => {
@@ -206,12 +212,13 @@ const AppointmentRescheduleComponent = (props: AppointmentRescheduleComponentPro
     );
 
     const getAvailableDatesList = useCallback(
-        (providerId: string, serviceId: string, facilityId: string) => {
+        (providerId: string, serviceId: string, facilityId: string, duration?: any) => {
             setIsDatesListLoading(true);
             setAvailableDates([]);
             const payload = {
                 service_id: serviceId,
-                facility_id: facilityId
+                facility_id: facilityId,
+                duration: duration?.duration
             }
             CommonService._user.getUserAvailableDatesList(providerId, payload)
                 .then((response: IAPIResponseType<any>) => {
@@ -234,7 +241,7 @@ const AppointmentRescheduleComponent = (props: AppointmentRescheduleComponentPro
                     setIsDatesListLoading(false);
                 })
         },
-        [details,getAvailableTimesList],
+        [details, getAvailableTimesList],
     );
 
     const getProviderFacilityList = useCallback(
@@ -250,7 +257,7 @@ const AppointmentRescheduleComponent = (props: AppointmentRescheduleComponentPro
                         formRef.current?.setFieldValue('facility', facility);
                         setAvailableRawTimes([]);
                         setAvailableDates([]);
-                        getAvailableDatesList(providerId, serviceId, facility._id);
+                        getAvailableDatesList(providerId, serviceId, facility._id, formRef.current?.values.duration);
                     }
                 })
                 .catch((error: any) => {
@@ -260,11 +267,8 @@ const AppointmentRescheduleComponent = (props: AppointmentRescheduleComponentPro
                     setIsFacilityListLoading(false);
                 })
         },
-        [details, getAvailableDatesList],
+        [details, getAvailableDatesList, formRef],
     );
-
-
-
 
 
     const getServiceProviderList = useCallback(
@@ -373,7 +377,7 @@ const AppointmentRescheduleComponent = (props: AppointmentRescheduleComponentPro
                                     <Form className="t-form" noValidate={true}>
                                         <div className={"t-appointment-drawer-form-controls"}>
                                             <InputComponent label={'Client'} disabled={true}
-                                                            value={commonService.generateClientNameFromClientDetails( details?.client_details)}/>
+                                                            value={commonService.generateClientNameFromClientDetails(details?.client_details)}/>
 
 
                                             <InputComponent label={'Service Category'} disabled={true}
@@ -425,8 +429,6 @@ const AppointmentRescheduleComponent = (props: AppointmentRescheduleComponentPro
                                                             valueExtractor={(option: any) => option}
                                                             onUpdate={value => {
                                                                 if (value) {
-                                                                    console.log(value);
-                                                                    console.log(values);
                                                                     getProviderFacilityList(details?.service_id, value?._id);
                                                                     setFieldValue('facility', undefined);
                                                                     setFieldTouched('facility', false);
@@ -462,7 +464,7 @@ const AppointmentRescheduleComponent = (props: AppointmentRescheduleComponentPro
                                                                     setFieldTouched('date', false);
                                                                     setFieldValue('time', undefined);
                                                                     setFieldTouched('time', false);
-                                                                    getAvailableDatesList(values.provider._id, details?.service_id, value._id);
+                                                                    getAvailableDatesList(values.provider._id, details?.service_id, value._id, values.duration);
                                                                 }
                                                             }}
                                                             fullWidth={true}
