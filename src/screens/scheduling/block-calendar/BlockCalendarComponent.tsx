@@ -466,7 +466,7 @@ const BlockCalendarComponent = (props: BlockCalenderComponentProps) => {
                     </ButtonComponent>
                     <ButtonComponent variant={'contained'}
                                      color={'primary'}
-                                     disabled={selectedAppointments.length === 0}
+                                     // disabled={selectedAppointments.length === 0}
                                      onClick={handleAppointmentsPopup}
                     >
                         Proceed
