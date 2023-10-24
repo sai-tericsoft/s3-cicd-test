@@ -5,19 +5,23 @@ import FormControlLabelComponent from "../../../shared/components/form-control-l
 import moment from "moment";
 import HorizontalLineComponent
     from "../../../shared/components/horizontal-line/horizontal-line/HorizontalLineComponent";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
-import React from "react";
+import React, {useEffect} from "react";
 import MaskTextComponent from "../../../shared/components/mask-text/MaskTextComponent";
 import {CommonService} from "../../../shared/services";
+import {getBillingAddressList} from "../../../store/actions/billings.action";
 
 interface ClientBasicDetailsComponentProps {
     clientId: string;
 }
 
 const ClientBasicDetailsComponent = (props: ClientBasicDetailsComponentProps) => {
+
+    const {clientId} = props;
+    const dispatch = useDispatch();
 
     const {
         clientBasicDetails,
@@ -26,9 +30,19 @@ const ClientBasicDetailsComponent = (props: ClientBasicDetailsComponentProps) =>
         isClientBasicDetailsLoadingFailed
     } = useSelector((state: IRootReducerState) => state.client);
 
+    const {
+        billingAddressList
+    } = useSelector((state: IRootReducerState) => state.billings);
+
     const [isSSNMasked, setIsSSNMasked] = React.useState<boolean>(true);
     const [isFirstNameMasked, setIsFirstNameMasked] = React.useState<boolean>(true);
     const [isLastNameMasked, setIsLastNameMasked] = React.useState<boolean>(true);
+
+    useEffect(() => {
+        if (clientId) {
+            dispatch(getBillingAddressList(clientId))
+        }
+    }, [dispatch,clientId]);
 
     return (
         <div className={'client-basic-details-component'}>
@@ -210,13 +224,33 @@ const ClientBasicDetailsComponent = (props: ClientBasicDetailsComponentProps) =>
 
                     </CardComponent>
                     <CardComponent title={'Address Information'}>
-                        <DataLabelValueComponent label={'Address'}>
+                        <DataLabelValueComponent label={'Residential Address'}>
                             {Object.keys(clientBasicDetails?.address).length ? (
                                 <>
                                     {clientBasicDetails.address.address_line}, {clientBasicDetails.address.city}, {clientBasicDetails.address.state}, {clientBasicDetails.address.country},{clientBasicDetails.address.zip_code}
                                 </>
                             ) : 'N/A'}
                         </DataLabelValueComponent>
+                        {
+                            billingAddressList?.length > 0 && <>
+                                <HorizontalLineComponent className={'alternate-heading-horizontal-line'}/>
+                                <DataLabelValueComponent label={'Billing Address(es)'}>
+                                    <div className={'ts-row'}>
+                                        {billingAddressList?.map((address: any, index: number) => {
+                                            return <>
+                                                <div className={'ts-col-lg-5 billing-address-list'} key={index}>
+                                                    <div>
+                                                        <b>{address?.name}&nbsp;{address?.is_default ? '(Default)' : ''}</b>
+                                                    </div>
+                                                    {address.address_line}, {address.city}, {address.state}, {address.country}, {address.zip_code}
+                                                </div>
+                                            </>
+
+                                        })}
+                                    </div>
+                                </DataLabelValueComponent>
+                            </>
+                        }
                     </CardComponent>
                     <CardComponent title={'Emergency Contact Information'}>
                         <FormControlLabelComponent className={'primary-emergency-contact'}
