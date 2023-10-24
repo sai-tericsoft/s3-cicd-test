@@ -156,8 +156,9 @@ const InventoryListScreen = (props: InventoryListScreenProps) => {
             <div className={'list-screen-header'}>
                 <div className={'list-search-filters'}>
                     <div className="ts-row">
-                        <div className="ts-col-md-8 ts-col-lg-4">
-                            <SearchComponent label={'Search Product'}
+                        <div className="ts-col-md-8 ts-col-lg-5">
+                            <SearchComponent label={'Search'}
+                                             placeholder={'Search using Product Name or Code'}
                                              value={inventoryListFilterState.search}
                                              onSearchChange={(value) => {
                                                  setInventoryListFilterState({
