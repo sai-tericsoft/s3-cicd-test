@@ -192,7 +192,7 @@ const InventoryListScreen = (props: InventoryListScreenProps) => {
                                            <div>{inventoryListFilterState.search?<img src={ImageConfig.Search} alt="client-search"/>:''}</div>
                                            <div className={'no-client-heading mrg-bottom-15'}>{inventoryListFilterState.search? 'Sorry, no results found!':''}</div>
                                            <div className={'no-client-description'}>
-                                               {inventoryListFilterState.search ? 'There is no product available by the name you have searched.' : 'Currently there is no product added.'}
+                                               {inventoryListFilterState.search ? 'There is no product available by the name or code you have searched.' : 'Currently there is no product added.'}
                                            </div>
                                        </div>)}
                                        refreshToken={refreshToken}
