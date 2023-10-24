@@ -211,7 +211,8 @@ const AddInventoryProductComponent = (props: AddInventoryProductComponentProps) 
                                     <ButtonComponent
                                         variant={"outlined"}
                                         id={"cancel_btn"}
-                                        className={'mrg-right-15'}
+                                        size={"large"}
+                                        className={"cancel-cta"}
                                     >
                                         Cancel
                                     </ButtonComponent>
@@ -219,6 +220,7 @@ const AddInventoryProductComponent = (props: AddInventoryProductComponentProps) 
                                 &nbsp;
                                 <ButtonComponent
                                     type={"submit"}
+                                    size={"large"}
                                     isLoading={isInventoryProductAddInProgress}
                                     disabled={!isValid || isInventoryProductAddInProgress}
                                     id={"save_btn"}
