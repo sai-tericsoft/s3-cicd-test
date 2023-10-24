@@ -1,8 +1,9 @@
 import {call, put, takeEvery} from "redux-saga/effects";
 import {CommonService} from "../../shared/services";
 import {
+    GET_BILLING_ADDRESS_LIST,
     GET_BILLING_FROM_ADDRESS,
-    GET_BILLING_SETTINGS,
+    GET_BILLING_SETTINGS, setBillingAddressList,
     setBillingFromAddress,
     setBillingSettings
 } from "../actions/billings.action";
@@ -27,7 +28,17 @@ function *getBillingSettings(action: any) {
     }
 }
 
+function *getBillingAddressList(action: any) {
+    try {
+        // @ts-ignore
+        const resp = yield call(CommonService._billingsService.GetBillingAddressList, action.payload.clientId);
+        yield put(setBillingAddressList(resp.data));
+    } catch (error) {
+        yield put(setBillingAddressList([]));
+    }
+}
 export default function* billingsSaga() {
     yield takeEvery(GET_BILLING_FROM_ADDRESS, getBillingFromAddress);
-    yield takeEvery(GET_BILLING_SETTINGS, getBillingSettings)
+    yield takeEvery(GET_BILLING_SETTINGS, getBillingSettings);
+    yield takeEvery(GET_BILLING_ADDRESS_LIST, getBillingAddressList);
 }
