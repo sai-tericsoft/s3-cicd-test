@@ -94,6 +94,7 @@ const AddInventoryProductComponent = (props: AddInventoryProductComponentProps) 
                                             <FormikInputComponent
                                                 titleCase={true}
                                                 label={'Product Name'}
+                                                placeholder={'Enter Product Name'}
                                                 formikField={field}
                                                 fullWidth={true}
                                                 required={true}
@@ -106,6 +107,7 @@ const AddInventoryProductComponent = (props: AddInventoryProductComponentProps) 
                                         (field: FieldProps) => (
                                             <FormikTextAreaComponent
                                                 label={'Description'}
+                                                placeholder={'Enter Description'}
                                                 formikField={field}
                                                 fullWidth={true}
                                             />
@@ -120,6 +122,7 @@ const AddInventoryProductComponent = (props: AddInventoryProductComponentProps) 
                                             <FormikInputComponent
                                                 titleCase={true}
                                                 label={'Product Code'}
+                                                placeholder={'Enter Product Code'}
                                                 formikField={field}
                                                 fullWidth={true}
                                                 required={true}
@@ -135,6 +138,7 @@ const AddInventoryProductComponent = (props: AddInventoryProductComponentProps) 
                                                     <FormikInputComponent
                                                         titleCase={true}
                                                         label={'Quantity'}
+                                                        placeholder={'Enter Quantity'}
                                                         formikField={field}
                                                         fullWidth={true}
                                                         required={true}
@@ -151,6 +155,7 @@ const AddInventoryProductComponent = (props: AddInventoryProductComponentProps) 
                                                     <FormikInputComponent
                                                         titleCase={true}
                                                         label={'Price (Inc.Tax)'}
+                                                        placeholder={'Enter Price (Inc.Tax)'}
                                                         formikField={field}
                                                         fullWidth={true}
                                                         required={true}
