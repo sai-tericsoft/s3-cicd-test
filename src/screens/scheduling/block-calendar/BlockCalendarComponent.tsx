@@ -21,6 +21,7 @@ import TableComponent from "../../../shared/components/table/TableComponent";
 import {ITableColumn} from "../../../shared/models/table.model";
 import ErrorComponent from "../../../shared/components/error/ErrorComponent";
 import CheckBoxComponent from "../../../shared/components/form-controls/check-box/CheckBoxComponent";
+import commonService from "../../../shared/services/common.service";
 
 interface BlockCalenderComponentProps {
     onAddSuccess: Function
@@ -195,7 +196,7 @@ const BlockCalendarComponent = (props: BlockCalenderComponentProps) => {
                 onAddSuccess();
             })
             .catch((error: any) => {
-                CommonService._alert.showToast(error?.error || "", "error");
+                CommonService._alert.showToast(error?.error || error?.message || '', "error");
                 setIsBlockCalendarIsProgress(false);
             })
     }, [onAddSuccess, selectedAppointments]);
@@ -272,7 +273,6 @@ const BlockCalendarComponent = (props: BlockCalenderComponentProps) => {
             })
             .catch((error: any) => {
                 // Handle other errors here
-                console.log(error);
                 CommonService.handleErrors(setErrors, error, true);
                 setSubmitting(false);
             });
