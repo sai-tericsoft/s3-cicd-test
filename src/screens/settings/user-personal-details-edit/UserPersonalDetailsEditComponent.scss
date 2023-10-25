@@ -1,19 +1,30 @@
-.user-personal-details-edit-component{
-  .edit-user-heading{
+.user-personal-details-edit-component {
+  .edit-user-heading {
     color: #00534F;
     font-size: 18px;
     font-weight: 700;
     text-transform: uppercase;
     margin-bottom: 24px;
   }
-  .t-form-actions{
+  .card-component {
+    .card-body {
+      .link-component {
+        float: right !important;
+        color: red;
+      }
+    }
+  }
+
+  .t-form-actions {
     margin-top: 30px !important;
     margin-bottom: 24px !important;
-    .submit-cta{
+
+    .submit-cta {
       margin-left: 16px;
     }
   }
-  .user-signature{
+
+  .user-signature {
     .e-sign-image-container {
       height: 190px;
     }
