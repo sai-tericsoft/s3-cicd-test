@@ -227,7 +227,7 @@ const UserAboutEditComponent = (props: UserAboutEditComponentProps) => {
                                                                 <ImageConfig.AddCircleIcon/>
                                                             </IconButtonComponent>
                                                             {index > 0 &&
-                                                            <IconButtonComponent className={"form-helper-icon"}
+                                                            <IconButtonComponent className={"form-helper-icon delete"}
                                                                                  onClick={() => {
                                                                                      arrayHelpers.remove(index);
                                                                                  }}
