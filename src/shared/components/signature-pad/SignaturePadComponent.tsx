@@ -59,7 +59,7 @@ const SignaturePadComponent = (props: SignaturePadComponentProps) => {
                     />
                     {
                         (!isDrawing && !signImage) && <div id={"sign_pad"} className={'signature-pad-helper-text'}>
-                            Sign Here
+                            Please sign here
                         </div>
                     }
                 </div>

@@ -86,7 +86,7 @@ const UserBasicDetailsComponent = (props: UserBasicDetailsComponentProps) => {
                                 </div>
                                 <div className="ts-col-md-6 ts-col-lg-3">
                                     <DataLabelValueComponent label={'Role'}>
-                                        {userBasicDetails?.role || "N/A"}
+                                        {CommonService.capitalizeFirstLetter(userBasicDetails?.role) || "N/A"}
                                     </DataLabelValueComponent>
                                 </div>
                                 <div className="ts-col-md-6 ts-col-lg-3">
