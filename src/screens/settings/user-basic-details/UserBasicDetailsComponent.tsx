@@ -273,11 +273,11 @@ const UserBasicDetailsComponent = (props: UserBasicDetailsComponentProps) => {
                                 </div>
                                 <div className="ts-col-4">
                                     {userBasicDetails?.secondary_emails?.length > 0 &&
-                                    userBasicDetails?.secondary_emails[0]?.email !== "" &&
-                                    <>
-                                        {/*<FormControlLabelComponent size={'sm'} label={'Alternate Email:'}/>*/}
-                                        <div className={'phone-email-heading'}>Alternate Email:</div>
-                                    </>
+                                        userBasicDetails?.secondary_emails[0]?.email !== "" &&
+                                        <>
+                                            {/*<FormControlLabelComponent size={'sm'} label={'Alternate Email:'}/>*/}
+                                            <div className={'phone-email-heading'}>Alternate Email:</div>
+                                        </>
 
                                     }
                                     <div className={'ts-row'}>
@@ -367,8 +367,8 @@ const UserBasicDetailsComponent = (props: UserBasicDetailsComponentProps) => {
                             <div className="ts-row">
                                 <div className="ts-col-6">
                                     {userBasicDetails?.emergency_contact_info?.primary_emergency?.secondary_contact_info?.length > 0 &&
-                                    userBasicDetails?.emergency_contact_info?.primary_emergency?.secondary_contact_info[0]?.phone !== "" &&
-                                    <div className={'phone-email-heading'}>Alternate:</div>
+                                        userBasicDetails?.emergency_contact_info?.primary_emergency?.secondary_contact_info[0]?.phone !== "" &&
+                                        <div className={'phone-email-heading'}>Alternate:</div>
                                     }
                                     {
                                         userBasicDetails?.emergency_contact_info?.primary_emergency?.secondary_contact_info?.map((phone_number: any, index: number) => {
@@ -437,11 +437,11 @@ const UserBasicDetailsComponent = (props: UserBasicDetailsComponentProps) => {
                                 </>
                             }
                             {userBasicDetails?.emergency_contact_info?.secondary_emergency?.secondary_contact_info?.length > 0 &&
-                            userBasicDetails?.emergency_contact_info?.secondary_emergency?.secondary_contact_info[0]?.phone !== "" &&
-                            <>
-                                {/*< HorizontalLineComponent className={'alternate-heading-horizontal-line'}/>*/}
-                                <div className={'phone-email-heading'}>Alternate:</div>
-                            </>
+                                userBasicDetails?.emergency_contact_info?.secondary_emergency?.secondary_contact_info[0]?.phone !== "" &&
+                                <>
+                                    {/*< HorizontalLineComponent className={'alternate-heading-horizontal-line'}/>*/}
+                                    <div className={'phone-email-heading'}>Alternate:</div>
+                                </>
                             }
                             {
                                 userBasicDetails?.emergency_contact_info?.secondary_emergency?.secondary_contact_info?.map((phone_number: any, index: number) => {
@@ -501,74 +501,76 @@ const UserBasicDetailsComponent = (props: UserBasicDetailsComponentProps) => {
                                             <DataLabelValueComponent label={'Start Date'}>
                                                 {/*{professional_details?.start_date || 'N/A'}*/}
                                                 {
-                                                    professional_details?.start_date==="Invalid date" ? "N/A":moment(professional_details?.start_date).format('DD-MMM-YYYY')
+                                                    professional_details?.start_date === "Invalid date" ? "N/A" : moment(professional_details?.start_date).format('DD-MMM-YYYY')
                                                 }
                                             </DataLabelValueComponent>
                                         </div>
 
                                         <div className="ts-col">
                                             <DataLabelValueComponent label={'End Date'}>
-                                                {professional_details?.end_date==="Invalid date"? 'N/A' : moment(professional_details?.end_date).format('DD-MMM-YYYY') }
+                                                {professional_details?.end_date === "Invalid date" ? 'N/A' : moment(professional_details?.end_date).format('DD-MMM-YYYY')}
                                             </DataLabelValueComponent>
                                         </div>
                                     </div>
                                     {index !== userBasicDetails.professional_details.length - 1 &&
-                                    <HorizontalLineComponent/>}
+                                        <HorizontalLineComponent/>}
                                 </>
                             }) : <StatusCardComponent title={'Professional Details Not Available'}/>
                             }
                         </CardComponent>
 
-                        <CardComponent title={'Education Details'} actions={<LinkComponent
-                            route={path.includes('settings') ? CommonService._user.NavigateToSettingEdit(userBasicDetails._id, "education_details") : CommonService._user.NavigateToUserEdit(userBasicDetails._id, "education_details")}>
-                            <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>} size={"small"}>
-                                Edit
-                            </ButtonComponent>
-                        </LinkComponent>
-                        }>
-                            {userBasicDetails?.education_details?.length ? userBasicDetails.education_details.map((education_details: any, index: any) => {
-                                    return <>
-                                        <div className={'ts-row'}>
-                                            <div
-                                                className="ts-col-12 font-weight-bold mrg-bottom-20">Experience {index + 1}:
-                                            </div>
-                                            <div className="ts-col">
-                                                <DataLabelValueComponent label={'Institution Name'}>
-                                                    {education_details.institution_name || 'N/A'}
-                                                </DataLabelValueComponent>
-                                            </div>
+                        <div className={'education-details-card'}>
+                            <CardComponent title={'Education Details'} actions={<LinkComponent
+                                route={path.includes('settings') ? CommonService._user.NavigateToSettingEdit(userBasicDetails._id, "education_details") : CommonService._user.NavigateToUserEdit(userBasicDetails._id, "education_details")}>
+                                <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>} size={"small"}>
+                                    Edit
+                                </ButtonComponent>
+                            </LinkComponent>
+                            }>
+                                {userBasicDetails?.education_details?.length ? userBasicDetails.education_details.map((education_details: any, index: any) => {
+                                        return <>
+                                            <div className={'ts-row'}>
+                                                <div
+                                                    className="ts-col-12 font-weight-bold mrg-bottom-20">Experience {index + 1}:
+                                                </div>
+                                                <div className="ts-col">
+                                                    <DataLabelValueComponent label={'Institution Name'}>
+                                                        {education_details.institution_name || 'N/A'}
+                                                    </DataLabelValueComponent>
+                                                </div>
 
-                                            <div className="ts-col">
-                                                <DataLabelValueComponent label={'Location'}>
-                                                    {education_details?.institution_location || 'N/A'}
-                                                </DataLabelValueComponent>
-                                            </div>
+                                                <div className="ts-col">
+                                                    <DataLabelValueComponent label={'Location'}>
+                                                        {education_details?.institution_location || 'N/A'}
+                                                    </DataLabelValueComponent>
+                                                </div>
 
-                                            <div className="ts-col">
-                                                <DataLabelValueComponent label={'Degree'}>
-                                                    {education_details?.degree || 'N/A'}
-                                                </DataLabelValueComponent>
-                                            </div>
+                                                <div className="ts-col">
+                                                    <DataLabelValueComponent label={'Degree'}>
+                                                        {education_details?.degree || 'N/A'}
+                                                    </DataLabelValueComponent>
+                                                </div>
 
-                                            <div className="ts-col">
-                                                <DataLabelValueComponent label={'Start Date'}>
-                                                    {education_details?.start_date==='Invalid date' ? 'N/A' : moment(education_details?.start_date).format('DD-MMM-YYYY')}
-                                                </DataLabelValueComponent>
-                                            </div>
+                                                <div className="ts-col">
+                                                    <DataLabelValueComponent label={'Start Date'}>
+                                                        {education_details?.start_date === 'Invalid date' ? 'N/A' : moment(education_details?.start_date).format('DD-MMM-YYYY')}
+                                                    </DataLabelValueComponent>
+                                                </div>
 
-                                            <div className="ts-col">
-                                                <DataLabelValueComponent label={'End Date'}>
-                                                    {education_details?.end_date==='Invalid date'? 'N/A' :moment(education_details?.end_date).format('DD-MMM-YYYY')}
-                                                </DataLabelValueComponent>
+                                                <div className="ts-col">
+                                                    <DataLabelValueComponent label={'End Date'}>
+                                                        {education_details?.end_date === 'Invalid date' ? 'N/A' : moment(education_details?.end_date).format('DD-MMM-YYYY')}
+                                                    </DataLabelValueComponent>
+                                                </div>
                                             </div>
-                                        </div>
-                                        {index !== userBasicDetails.education_details.length - 1 &&
-                                        <HorizontalLineComponent/>}
-                                    </>
-                                })
-                                : <StatusCardComponent title={'Education Details Not Available'}/>
-                            }
-                        </CardComponent>
+                                            {index !== userBasicDetails.education_details.length - 1 &&
+                                                <HorizontalLineComponent/>}
+                                        </>
+                                    })
+                                    : <StatusCardComponent title={'Education Details Not Available'}/>
+                                }
+                            </CardComponent>
+                        </div>
                     </>
                 }
             </div>
