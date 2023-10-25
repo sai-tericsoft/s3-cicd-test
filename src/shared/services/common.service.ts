@@ -281,6 +281,12 @@ const capitalizeFirstLetter = (string: string | undefined) => {
     if (!string) return '';
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
+
+ const capitalizeFirstLetterAndRemoveUnderScore = (string: string | undefined) => {
+    if (!string) return '';
+    return string.split('_').map((word: string) => capitalizeFirstLetter(word)).join(' ');
+ }
+
 const capitalizeFirstLetterOfEachWord = (string: string) => {
     return string?.split(' ').map((word: string) => capitalizeFirstLetter(word)).join(' ');
 }
@@ -831,6 +837,7 @@ const CommonService = {
     generateClientFirstNameFromClientDetails,
     generateClientLastNameFromClientDetails,
     generateDisabledSlots,
+    capitalizeFirstLetterAndRemoveUnderScore,
     // createValidationsObject,
     // createYupSchema,
 
