@@ -39,7 +39,7 @@ const formValidationSchema = Yup.object({
     gender: Yup.string().required('Gender is required'),
     // npi_number: Yup.string().required('NPI number is required'),
     assigned_facilities: Yup.array().required('Gender is required'),
-    signature: Yup.string().required()
+    // signature: Yup.string().required()
 });
 
 const formInitialValues: any = {
@@ -314,7 +314,7 @@ const UserPersonalDetailsEditComponent = (props: UserPersonalDetailsEditComponen
                                         <FormControlLabelComponent
                                             className={"font-weight-thin"}
                                             label={"Signature"}
-                                            required={true}/>
+                                            />
                                         <SignaturePadComponent
                                             image={values?.signature}
                                             onSign={(signImage) => {
