@@ -128,7 +128,7 @@ const UserBasicDetailsComponent = (props: UserBasicDetailsComponentProps) => {
                             </div>
                             <div className="ts-row">
                                 <div className="ts-col-md-6 ts-col-lg-6">
-                                    <div className="font-weight-bold mrg-bottom-20">Signature</div>
+                                    <div className="signature-heading">Signature</div>
                                     {userBasicDetails?.signature ? <div className="mrg-bottom-20">
                                         <ESignApprovalComponent isSigned={true}
                                                                 signature_url={userBasicDetails?.signature}
@@ -157,7 +157,7 @@ const UserBasicDetailsComponent = (props: UserBasicDetailsComponentProps) => {
                                 <div className="ts-col-12 font-weight-bold mrg-bottom-20">Specialities</div>
                                 {userBasicDetails?.specialities?.length ? userBasicDetails?.specialities?.map((speciality: any, index: any) => {
                                     return <div className="ts-col-md-6 ts-col-lg-3">
-                                        <DataLabelValueComponent label={`speciality ${index + 1}`}>
+                                        <DataLabelValueComponent label={`Speciality ${index + 1}`}>
                                             {speciality || 'N/A'}
                                         </DataLabelValueComponent>
                                     </div>
@@ -171,7 +171,7 @@ const UserBasicDetailsComponent = (props: UserBasicDetailsComponentProps) => {
                                     return <>
                                         <div className="ts-col-md-6 ts-col-lg-3">
                                             <DataLabelValueComponent label={`Language ${index + 1}`}>
-                                                {language.name || 'N/A'}
+                                                {CommonService.capitalizeFirstLetterAndRemoveUnderScore(language.name) || 'N/A'}
                                             </DataLabelValueComponent>
                                         </div>
 
