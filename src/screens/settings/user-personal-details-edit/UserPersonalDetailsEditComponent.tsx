@@ -313,7 +313,7 @@ const UserPersonalDetailsEditComponent = (props: UserPersonalDetailsEditComponen
                                     <div className="ts-col-12">
                                         <FormControlLabelComponent
                                             className={"font-weight-thin"}
-                                            label={"Signature"}
+                                            label={"Signature:"}
                                             />
                                         <SignaturePadComponent
                                             image={values?.signature}

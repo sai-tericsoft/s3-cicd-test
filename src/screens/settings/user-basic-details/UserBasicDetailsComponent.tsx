@@ -128,7 +128,7 @@ const UserBasicDetailsComponent = (props: UserBasicDetailsComponentProps) => {
                             </div>
                             <div className="ts-row">
                                 <div className="ts-col-md-6 ts-col-lg-6">
-                                    <div className="signature-heading">Signature</div>
+                                    <div className="signature-heading">Signature:</div>
                                     {userBasicDetails?.signature ? <div className="mrg-bottom-20">
                                         <ESignApprovalComponent isSigned={true}
                                                                 signature_url={userBasicDetails?.signature}
@@ -154,7 +154,7 @@ const UserBasicDetailsComponent = (props: UserBasicDetailsComponentProps) => {
                                 </div>
                             </div>
                             <div className="ts-row">
-                                <div className="ts-col-12 font-weight-bold mrg-bottom-20">Specialities</div>
+                                <div className="ts-col-12 font-weight-bold mrg-bottom-20">Specialities:</div>
                                 {userBasicDetails?.specialities?.length ? userBasicDetails?.specialities?.map((speciality: any, index: any) => {
                                     return <div className="ts-col-md-6 ts-col-lg-3">
                                         <DataLabelValueComponent label={`Speciality ${index + 1}`}>
@@ -166,7 +166,7 @@ const UserBasicDetailsComponent = (props: UserBasicDetailsComponentProps) => {
                             </div>
                             <HorizontalLineComponent className="user-details-horizontal-line"/>
                             <div className="ts-row">
-                                <div className="ts-col-12 font-weight-bold mrg-bottom-20">Languages</div>
+                                <div className="ts-col-12 font-weight-bold mrg-bottom-20">Languages:</div>
                                 {userBasicDetails?.languages?.length ? userBasicDetails?.languages?.map((language: any, index: any) => {
                                     return <>
                                         <div className="ts-col-md-6 ts-col-lg-3">
@@ -212,7 +212,7 @@ const UserBasicDetailsComponent = (props: UserBasicDetailsComponentProps) => {
                                     <div className={'ts-row'}>
                                         <div className={'ts-col-6'}>
                                             <DataLabelValueComponent label={'Phone Type'}>
-                                                {userBasicDetails?.primary_contact_info?.phone_type || "N/A"}
+                                                {CommonService.capitalizeFirstLetter(userBasicDetails?.primary_contact_info?.phone_type) || "N/A"}
                                             </DataLabelValueComponent>
                                         </div>
                                         <div className={'ts-col-4'}>
@@ -255,7 +255,7 @@ const UserBasicDetailsComponent = (props: UserBasicDetailsComponentProps) => {
                                                         <div className={'ts-row'}>
                                                             <div className={'ts-col-6'}>
                                                                 <DataLabelValueComponent label={'Phone Type'}>
-                                                                    {phone_number?.phone_type || "N/A"}
+                                                                    {CommonService.capitalizeFirstLetter(phone_number?.phone_type) || "N/A"}
                                                                 </DataLabelValueComponent>
                                                             </div>
                                                             <div className={'ts-col-4'}>
@@ -348,7 +348,7 @@ const UserBasicDetailsComponent = (props: UserBasicDetailsComponentProps) => {
                                     <div className={'ts-row'}>
                                         <div className={'ts-col-6'}>
                                             <DataLabelValueComponent label={'Phone Type'}>
-                                                {userBasicDetails?.emergency_contact_info?.primary_emergency?.primary_contact_info?.phone_type || 'N/A'}
+                                                {CommonService.capitalizeFirstLetter(userBasicDetails?.emergency_contact_info?.primary_emergency?.primary_contact_info?.phone_type) || 'N/A'}
                                             </DataLabelValueComponent>
                                         </div>
                                         <div className={'ts-col-6'}>
@@ -379,7 +379,7 @@ const UserBasicDetailsComponent = (props: UserBasicDetailsComponentProps) => {
                                                         <div className={'ts-row'}>
                                                             <div className={'ts-col-6'}>
                                                                 <DataLabelValueComponent label={'Phone Type'}>
-                                                                    {phone_number?.phone_type || "N/A"}
+                                                                    {CommonService.capitalizeFirstLetter(phone_number?.phone_type) || "N/A"}
                                                                 </DataLabelValueComponent>
                                                             </div>
                                                             <div className={'ts-col-6'}>
@@ -425,7 +425,7 @@ const UserBasicDetailsComponent = (props: UserBasicDetailsComponentProps) => {
                                     <div className={'ts-row'}>
                                         <div className={'ts-col-lg-3'}>
                                             <DataLabelValueComponent label={'Phone Type'}>
-                                                {userBasicDetails?.emergency_contact_info?.secondary_emergency?.primary_contact_info?.phone_type || "N/A"}
+                                                {CommonService.capitalizeFirstLetter(userBasicDetails?.emergency_contact_info?.secondary_emergency?.primary_contact_info?.phone_type) || "N/A"}
                                             </DataLabelValueComponent>
                                         </div>
                                         <div className={'ts-col-lg-3'}>
@@ -451,7 +451,7 @@ const UserBasicDetailsComponent = (props: UserBasicDetailsComponentProps) => {
                                                 <div className={'ts-row'}>
                                                     <div className={'ts-col-lg-3'}>
                                                         <DataLabelValueComponent label={'Phone Type'}>
-                                                            {phone_number?.phone_type || "N/A"}
+                                                            {CommonService.capitalizeFirstLetter(phone_number?.phone_type) || "N/A"}
                                                         </DataLabelValueComponent>
                                                     </div>
                                                     <div className={'ts-col-lg-3'}>

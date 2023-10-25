@@ -108,7 +108,7 @@ const UserAboutEditComponent = (props: UserAboutEditComponentProps) => {
                                         </Field>
                                     </div>
                                 </div>
-                                <FormControlLabelComponent label={'Specialities'}/>
+                                <FormControlLabelComponent label={'Specialities:'}/>
                                 <FieldArray
                                     name="specialities"
                                     render={(arrayHelpers) => (
@@ -156,7 +156,7 @@ const UserAboutEditComponent = (props: UserAboutEditComponentProps) => {
                                     )}
                                 />
 
-                                <FormControlLabelComponent label={'Languages'}/>
+                                <FormControlLabelComponent label={'Languages:'}/>
 
                                 <FieldArray
                                     name="languages"
