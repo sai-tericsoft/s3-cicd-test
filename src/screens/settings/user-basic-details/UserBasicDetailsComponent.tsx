@@ -171,7 +171,7 @@ const UserBasicDetailsComponent = (props: UserBasicDetailsComponentProps) => {
                                     return <>
                                         <div className="ts-col-md-6 ts-col-lg-3">
                                             <DataLabelValueComponent label={`Language ${index + 1}`}>
-                                                {language.name || 'N/A'}
+                                                {CommonService.capitalizeFirstLetterAndRemoveUnderScore(language.name) || 'N/A'}
                                             </DataLabelValueComponent>
                                         </div>
 
