@@ -59,8 +59,7 @@ const ICDTableColumns: any = [
         title: 'ICD Code',
         dataIndex: 'icd_code',
         key: 'icd_code',
-        width: 150,
-        fixed: 'left'
+        width: 180,
     },
     {
         title: 'Description',

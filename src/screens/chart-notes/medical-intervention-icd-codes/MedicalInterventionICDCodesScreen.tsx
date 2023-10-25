@@ -116,6 +116,7 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
             width: 180,
             // fixed: 'left',
             // align: 'left',
+
         },
         {
             title: 'Description',
