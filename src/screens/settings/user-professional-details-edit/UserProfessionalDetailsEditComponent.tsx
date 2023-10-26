@@ -14,6 +14,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
 import {IAPIResponseType} from "../../../shared/models/api.model";
 import {setUserBasicDetails} from "../../../store/actions/user.action";
+import moment from "moment";
 
 interface UserProfessionalDetailsEditComponentProps {
     handleNext: () => void
@@ -190,8 +191,8 @@ const UserProfessionalDetailsEditComponent = (props: UserProfessionalDetailsEdit
                                                                             <FormikDatePickerComponent
                                                                                 label={'End Date'}
                                                                                 placeholder={'MM-DD-YYYY'}
-                                                                                maxDate={CommonService._staticData.today}
                                                                                 formikField={field}
+                                                                                minDate={moment(values?.professional_details[index]?.start_date)}
                                                                                 fullWidth={true}
                                                                             />
                                                                         )
