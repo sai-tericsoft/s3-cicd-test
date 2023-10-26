@@ -241,7 +241,6 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
     }, [mode, generateRomConfigForBodySide]);
 
     const generateROMConfigForAnInjury = useCallback((bodyPart: IBodyPart, selectedBodySides: any, rom_config: any) => {
-        console.log(rom_config);
         const bodyPartConfig: any = _.cloneDeep(bodyPart);
         if (bodyPart?.movements && bodyPart?.movements?.length > 0) {
             bodyPartConfig.movements = bodyPart?.movements?.map((movement: any, index: number) => {
@@ -314,8 +313,8 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
     }, [romFormValues, globalRomConfig, selectedBodyPartsToBeAdded, generateROMConfigForAnInjury]);
 
     useEffect(() => {
-        if (medicalInterventionId && !medicalInterventionDetails) {
-            dispatch(getMedicalInterventionDetails(medicalInterventionId));
+        if (medicalInterventionId && (!medicalInterventionDetails || (medicalInterventionDetails?._id !== medicalInterventionId))) {
+           dispatch(getMedicalInterventionDetails(medicalInterventionId));
         }
     }, [medicalInterventionId, medicalInterventionDetails, dispatch]);
 
@@ -344,7 +343,7 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
         const romConfig: any = [];
         const rom_config = medicalInterventionDetails?.rom_config;
         const injury_details = medicalInterventionDetails?.medical_record_details?.injury_details;
-        if (romConfig?.length > 0) {
+        // if (romConfig?.length > 0) {
             rom_config?.forEach((injury: any) => {
                 if (!romConfig?.find((item: any) => item?.body_part?._id === injury?.body_part_id)) {
                     romConfig.push({
@@ -354,27 +353,26 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
                         mode: 'read'
                     });
                 } else {
-                    const bodyPart = romConfig?.find((item: any) => item?.body_part?._id === injury?.body_part_id);
-                    bodyPart.selected_sides.push(injury.body_side);
+                    const bodyPartIndex = romConfig.findIndex((item: any) => item?.body_part?._id === injury?.body_part_id);
+                    romConfig[bodyPartIndex].selected_sides.push(injury.body_side);
                 }
             });
-        } else {
-            if (injury_details?.length > 0) {
-                injury_details?.forEach((injury: any) => {
-                    if (!romConfig?.find((item: any) => item?.body_part?._id === injury?.body_part_id)) {
-                        romConfig.push({
-                            body_part: injury?.body_part_details,
-                            rom_config: [],
-                            selected_sides: [injury?.body_side],
-                            mode: 'write'
-                        });
-                    } else {
-                        const bodyPart = romConfig.find((item: any) => item?.body_part?._id === injury?.body_part_id);
-                        bodyPart.selected_sides.push(injury.body_side);
-                    }
-                });
-            }
-        }
+        // }
+        // else {
+        //     rom_config?.forEach((injury: any) => {
+        //             if (!romConfig?.find((item: any) => item?.body_part?._id === injury?.body_part_id)) {
+        //                 romConfig.push({
+        //                     body_part: injury?.body_part_details,
+        //                     rom_config: [],
+        //                     selected_sides: [injury?.body_side],
+        //                     mode: 'write'
+        //                 });
+        //             } else {
+        //                 const bodyPartIndex = romConfig.findIndex((item: any) => item?.body_part?._id === injury?.body_part_id);
+        //                 romConfig[bodyPartIndex].selected_sides.push(injury.body_side);
+        //             }
+        //         });
+        // }
         setGlobalRomConfig(romConfig);
         buildRomConfig(romConfig);
     }, [medicalInterventionDetails, buildRomConfig]);
@@ -597,37 +595,37 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
                                                                                 key={bodyPartId}
                                                                                 actions={<>
                                                                                     {bodyPart?.movements?.length > 0 &&
-                                                                                    <>
-                                                                                        {
-                                                                                            (mode === 'read') && <>
-                                                                                                <ButtonComponent
-                                                                                                    size={"small"}
-                                                                                                    prefixIcon={
-                                                                                                        <ImageConfig.EditIcon/>}
-                                                                                                    // onClick={handleBodyPartEdit}
-                                                                                                    // disabled={isSubmitting || isBodyPartBeingDeleted}
-                                                                                                >
-                                                                                                    Edit
-                                                                                                </ButtonComponent>&nbsp;&nbsp;
-                                                                                            </>
-                                                                                        }
-                                                                                        {/*{*/}
-                                                                                        {/* (mode === 'write') &&*/}
-                                                                                        {/* <>*/}
-                                                                                        {/* <ButtonComponent*/}
-                                                                                        {/* size={"small"}*/}
-                                                                                        {/* prefixIcon={*/}
-                                                                                        {/* <ImageConfig.AddIcon/>}*/}
-                                                                                        {/* onClick={() => {*/}
-                                                                                        {/* openBodySideSelectionModal(bodyPart);*/}
-                                                                                        {/* }*/}
-                                                                                        {/* }*/}
-                                                                                        {/* >*/}
-                                                                                        {/* Add Body Side*/}
-                                                                                        {/* </ButtonComponent>&nbsp;&nbsp;*/}
-                                                                                        {/* </>*/}
-                                                                                        {/*}*/}
-                                                                                    </>
+                                                                                        <>
+                                                                                            {
+                                                                                                (mode === 'read') && <>
+                                                                                                    <ButtonComponent
+                                                                                                        size={"small"}
+                                                                                                        prefixIcon={
+                                                                                                            <ImageConfig.EditIcon/>}
+                                                                                                        // onClick={handleBodyPartEdit}
+                                                                                                        // disabled={isSubmitting || isBodyPartBeingDeleted}
+                                                                                                    >
+                                                                                                        Edit
+                                                                                                    </ButtonComponent>&nbsp;&nbsp;
+                                                                                                </>
+                                                                                            }
+                                                                                            {/*{*/}
+                                                                                            {/* (mode === 'write') &&*/}
+                                                                                            {/* <>*/}
+                                                                                            {/* <ButtonComponent*/}
+                                                                                            {/* size={"small"}*/}
+                                                                                            {/* prefixIcon={*/}
+                                                                                            {/* <ImageConfig.AddIcon/>}*/}
+                                                                                            {/* onClick={() => {*/}
+                                                                                            {/* openBodySideSelectionModal(bodyPart);*/}
+                                                                                            {/* }*/}
+                                                                                            {/* }*/}
+                                                                                            {/* >*/}
+                                                                                            {/* Add Body Side*/}
+                                                                                            {/* </ButtonComponent>&nbsp;&nbsp;*/}
+                                                                                            {/* </>*/}
+                                                                                            {/*}*/}
+                                                                                        </>
                                                                                     }
                                                                                     <ButtonComponent
                                                                                         size={"small"}
@@ -701,7 +699,9 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
                                                                                                     </ButtonComponent>
                                                                                                 </>
                                                                                                 }>
-                                                                                                <div className={'clear-cta'} onClick={()=>setFieldValue(`${bodyPart._id}.rom_config.${selectedROMMovementComments?.name}.commentsTemp`,'')}>Clear</div>
+                                                                                                <div className={'clear-cta'}
+                                                                                                     onClick={() => setFieldValue(`${bodyPart._id}.rom_config.${selectedROMMovementComments?.name}.commentsTemp`, '')}>Clear
+                                                                                                </div>
                                                                                                 <Field
                                                                                                     name={`${bodyPart._id}.rom_config.${selectedROMMovementComments?.name}.commentsTemp`}
                                                                                                     className="t-form-control">
