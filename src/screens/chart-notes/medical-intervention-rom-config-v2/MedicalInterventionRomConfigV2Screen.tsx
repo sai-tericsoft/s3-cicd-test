@@ -342,7 +342,7 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
     useEffect(() => {
         const romConfig: any = [];
         const rom_config = medicalInterventionDetails?.rom_config;
-        const injury_details = medicalInterventionDetails?.medical_record_details?.injury_details;
+        // const injury_details = medicalInterventionDetails?.medical_record_details?.injury_details;
         // if (romConfig?.length > 0) {
             rom_config?.forEach((injury: any) => {
                 if (!romConfig?.find((item: any) => item?.body_part?._id === injury?.body_part_id)) {
