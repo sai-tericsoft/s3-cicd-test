@@ -481,19 +481,19 @@ const UserBasicDetailsComponent = (props: UserBasicDetailsComponentProps) => {
                                         </div>
                                         <div className="ts-col">
                                             <DataLabelValueComponent label={'Company Name'}>
-                                                {professional_details.company_name || 'N/A'}
+                                                {CommonService.capitalizeFirstLetter(professional_details.company_name) || 'N/A'}
                                             </DataLabelValueComponent>
                                         </div>
 
                                         <div className="ts-col">
                                             <DataLabelValueComponent label={'Location'}>
-                                                {professional_details?.company_location || 'N/A'}
+                                                {CommonService.capitalizeFirstLetter(professional_details?.company_location) || 'N/A'}
                                             </DataLabelValueComponent>
                                         </div>
 
                                         <div className="ts-col">
                                             <DataLabelValueComponent label={'Position Title'}>
-                                                {professional_details?.position || 'N/A'}
+                                                {CommonService.capitalizeFirstLetter(professional_details?.position) || 'N/A'}
                                             </DataLabelValueComponent>
                                         </div>
 
