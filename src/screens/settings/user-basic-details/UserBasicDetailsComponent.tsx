@@ -310,7 +310,7 @@ const UserBasicDetailsComponent = (props: UserBasicDetailsComponentProps) => {
                                 {Object.keys(userBasicDetails?.address).length ? (
                                     <>
                                         {userBasicDetails.address.address_line}, {userBasicDetails.address.city},&nbsp;
-                                        {userBasicDetails.address.state}, {userBasicDetails.address.country}, {userBasicDetails.address.zip_code}
+                                        {userBasicDetails.address.state}, {userBasicDetails.address.country} {userBasicDetails.address.zip_code}
                                     </>
                                 ) : 'N/A'}
                             </DataLabelValueComponent>
