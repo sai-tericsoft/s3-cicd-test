@@ -23,7 +23,9 @@ const formValidationSchema = Yup.object({
         address_line: Yup.string().required('Address Line is required'),
         city: Yup.string().required('City is required'),
         country: Yup.string().required('Country is required'),
-        zip_code: Yup.string().required('ZIP Code is required'),
+        zip_code: Yup.string()
+            .matches(/^[0-9]{5}$/, 'Enter a valid ZIP Code')
+            .required('ZIP Code is required'),
         state: Yup.string().required('State is required'),
     }),
 });

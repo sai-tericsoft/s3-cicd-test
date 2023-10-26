@@ -154,8 +154,7 @@ const ClientBasicDetailsFormValidationSchema = Yup.object({
             .max(100, 'Country cannot be more than 100 characters')
             .required('Country is required'),
         zip_code: Yup.string()
-            .min(5, 'Enter a valid ZIP Code')
-            .max(6, 'Zipcode cannot be more than 6 digits')
+            .matches(/^[0-9]{5}$/, 'Enter a valid ZIP Code')
             .required('ZIP Code is required'),
     })
 });
