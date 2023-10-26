@@ -106,24 +106,25 @@ const UserSlotsDetailsComponent = (props: UserSlotsDetailsComponentProps) => {
                             value={facility._id}
                             selectedTab={currentTab}
                         >
-                            <CardComponent title={'Available Hours and Service'} actions={<LinkComponent
-                                route={path.includes('settings') ? CommonService._user.NavigateToSettingsSlotsEdit(userBasicDetails._id, currentTab) : CommonService._user.NavigateToUserSlotsEdit(userBasicDetails._id, currentTab)}>
-                                <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>} size={"small"}>
-                                    Edit
-                                </ButtonComponent>
-                            </LinkComponent>
-                            }>
-                                <>
-                                    {isUserSlotsLoading && (
-                                        <div>
-                                            <LoaderComponent/>
-                                        </div>
-                                    )}
-                                    {isUserSlotsLoadingFailed && (
-                                        <StatusCardComponent title={"Failed to fetch client Details"}/>
-                                    )}
+                            {isUserSlotsLoading && (
+                                <div>
+                                    <LoaderComponent/>
+                                </div>
+                            )}
+                            {isUserSlotsLoadingFailed && (
+                                <StatusCardComponent title={"Failed to fetch client Details"}/>
+                            )}
+                            <>
 
-                                    {isUserSlotsLoaded &&
+                                {isUserSlotsLoaded &&
+                                    <CardComponent title={'Available Hours and Service'} actions={<LinkComponent
+                                        route={path.includes('settings') ? CommonService._user.NavigateToSettingsSlotsEdit(userBasicDetails._id, currentTab) : CommonService._user.NavigateToUserSlotsEdit(userBasicDetails._id, currentTab)}>
+                                        <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>} size={"small"}>
+                                            Edit
+                                        </ButtonComponent>
+                                    </LinkComponent>
+                                    }>
+
                                         <>
                                             {/*{userSlots.is_same_slots &&*/}
                                             {/*    <div className='same-for-all-details-title'>Same for all days</div>}*/}
@@ -144,25 +145,31 @@ const UserSlotsDetailsComponent = (props: UserSlotsDetailsComponentProps) => {
                                                     {
                                                         facility?.timings?.map((day: any) => {
                                                             return (
-                                                                <div className='ts-row slots-timings-row-wrapper' key={`row-${day}`}>
-                                                                    <div className={'ts-col-2 mrg-top-10 mrg-bottom-10'}>
+                                                                <div className='ts-row slots-timings-row-wrapper'
+                                                                     key={`row-${day}`}>
+                                                                    <div
+                                                                        className={'ts-col-2 mrg-top-10 mrg-bottom-10'}>
                                                                         {day.day_name}
                                                                     </div>
                                                                     <div className="ts-col-10">
                                                                         {
                                                                             userSlots?.all_scheduled_slots?.map((filteredSlot: any, index: number) => (
-                                                                                <div className='ts-row slots-timings-sub-row-wrapper' key={`slot-${day}-${index}`}>
-                                                                                    <div className='ts-col-3 mrg-left-15 mrg-top-10'>
+                                                                                <div
+                                                                                    className='ts-row slots-timings-sub-row-wrapper'
+                                                                                    key={`slot-${day}-${index}`}>
+                                                                                    <div
+                                                                                        className='ts-col-3 mrg-left-15 mrg-top-10'>
                                                                                         {CommonService.getHoursAndMinutesFromMinutes(filteredSlot.start_time)} - {CommonService.getHoursAndMinutesFromMinutes(filteredSlot.end_time)}
                                                                                     </div>
-                                                                                    <div className='ts-col-5 mrg-left-50 mrg-top-10'>
+                                                                                    <div
+                                                                                        className='ts-col-5 mrg-left-50 mrg-top-10'>
                                                                                         {filteredSlot?.service_details?.name}
                                                                                     </div>
                                                                                 </div>
                                                                             ))
                                                                         }
                                                                     </div>
-                                                                    <HorizontalLineComponent key={`line-${day}`} />
+                                                                    <HorizontalLineComponent key={`line-${day}`}/>
                                                                 </div>
                                                             );
                                                         })
@@ -210,7 +217,7 @@ const UserSlotsDetailsComponent = (props: UserSlotsDetailsComponentProps) => {
 
                                                                         </div>
                                                                         {/*{index !== userSlots.day_scheduled_slots?.length - 1 &&*/}
-                                                                            <HorizontalLineComponent/>
+                                                                        <HorizontalLineComponent/>
                                                                         {/*}*/}
 
                                                                     </div>
@@ -224,16 +231,19 @@ const UserSlotsDetailsComponent = (props: UserSlotsDetailsComponentProps) => {
                                                 }
 
                                                 {(userSlots && !userSlots?.all_scheduled_slots?.length && !userSlots?.day_scheduled_slots?.length) && <>
-                                                    <StatusCardComponent title={'No Service have been designated for this facility.'}/>
+                                                    <StatusCardComponent
+                                                        title={'No Service have been designated for this facility.'}/>
                                                 </>
 
                                                 }
 
                                             </div>
                                         </>
-                                    }
-                                </>
-                            </CardComponent>
+
+
+                                    </CardComponent>
+                                }
+                            </>
                         </TabContentComponent>
                     ))}
                 </TabsWrapperComponent>
