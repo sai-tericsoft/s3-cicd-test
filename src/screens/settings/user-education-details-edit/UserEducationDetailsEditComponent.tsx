@@ -15,10 +15,24 @@ import {IRootReducerState} from "../../../store/reducers";
 import {IAPIResponseType} from "../../../shared/models/api.model";
 import {setUserBasicDetails} from "../../../store/actions/user.action";
 import {useLocation, useNavigate} from "react-router-dom";
+import * as Yup from "yup";
+import moment from "moment";
+import HorizontalLineComponent
+    from "../../../shared/components/horizontal-line/horizontal-line/HorizontalLineComponent";
 
 interface UserEducationDetailsEditComponentProps {
     handlePrevious: () => void
 }
+
+const UserEducationDetailsValidationSchema = Yup.object().shape({
+    education_details: Yup.array().of(
+        Yup.object().shape({
+            institution_name: Yup.string().required('Company name is required'),
+            start_date: Yup.mixed().required('Start date is required'),
+            end_date: Yup.mixed().required('End date is required'),
+        })
+    ),
+});
 
 const formInitialValues: any = {
     education_details: [
@@ -89,6 +103,7 @@ const UserEducationDetailsEditComponent = (props: UserEducationDetailsEditCompon
                 <Formik
                     initialValues={initialValues}
                     onSubmit={onSubmit}
+                    validationSchema={UserEducationDetailsValidationSchema}
                     validateOnChange={false}
                     validateOnBlur={true}
                     enableReinitialize={true}
@@ -114,13 +129,13 @@ const UserEducationDetailsEditComponent = (props: UserEducationDetailsEditCompon
                                                             <FormControlLabelComponent
                                                                 label={`Education ${index + 1}:`}/>
                                                             {values?.education_details.length > 1 &&
-                                                            <ButtonComponent className={'remove-contact-button'}
-                                                                             prefixIcon={<ImageConfig.CloseIcon/>}
-                                                                             variant={'contained'} color={'error'}
-                                                                             onClick={() => {
-                                                                                 arrayHelpers.remove(index);
-                                                                             }}
-                                                            >Remove</ButtonComponent>}
+                                                                <ButtonComponent className={'remove-contact-button'}
+                                                                                 prefixIcon={<ImageConfig.CloseIcon/>}
+                                                                                 variant={'contained'} color={'error'}
+                                                                                 onClick={() => {
+                                                                                     arrayHelpers.remove(index);
+                                                                                 }}
+                                                                >Remove</ButtonComponent>}
                                                         </div>
                                                         <div className="ts-row">
                                                             <div className="ts-col">
@@ -135,6 +150,7 @@ const UserEducationDetailsEditComponent = (props: UserEducationDetailsEditCompon
                                                                                 // titleCase={true}
                                                                                 formikField={field}
                                                                                 fullWidth={true}
+                                                                                required={true}
                                                                             />
                                                                         )
                                                                     }
@@ -184,6 +200,7 @@ const UserEducationDetailsEditComponent = (props: UserEducationDetailsEditCompon
                                                                                 placeholder={'MM-DD-YYYY'}
                                                                                 maxDate={CommonService._staticData.today}
                                                                                 formikField={field}
+                                                                                required={true}
                                                                                 fullWidth={true}
                                                                             />
                                                                         )
@@ -199,7 +216,8 @@ const UserEducationDetailsEditComponent = (props: UserEducationDetailsEditCompon
                                                                             <FormikDatePickerComponent
                                                                                 label={'End Date'}
                                                                                 placeholder={'MM-DD-YYYY'}
-                                                                                maxDate={CommonService._staticData.today}
+                                                                                required={true}
+                                                                                minDate={moment(values?.education_details[index]?.start_date)}
                                                                                 formikField={field}
                                                                                 fullWidth={true}
                                                                             />
@@ -209,23 +227,29 @@ const UserEducationDetailsEditComponent = (props: UserEducationDetailsEditCompon
                                                             </div>
                                                             <div className="ts-col"/>
                                                         </div>
+                                                        {
+                                                            index + 1 !== values?.education_details?.length &&
+                                                            <HorizontalLineComponent
+                                                                className={'secondary-emergency-divider'}/>
+                                                        }
 
                                                         {index + 1 === values?.education_details.length &&
-                                                        <div className={'display-flex justify-content-center flex-1'}>
-                                                            <ButtonComponent
-                                                                className={'add-another-contact-cta'}
-                                                                onClick={() => {
-                                                                    arrayHelpers.push({
-                                                                        institution_name: "",
-                                                                        institution_location: "",
-                                                                        degree: "",
-                                                                        start_date: "",
-                                                                        end_date: ""
-                                                                    });
-                                                                }}
-                                                                prefixIcon={<ImageConfig.AddIcon/>}>
-                                                                Add Another Education</ButtonComponent>
-                                                        </div>}
+                                                            <div
+                                                                className={'display-flex justify-content-center flex-1'}>
+                                                                <ButtonComponent
+                                                                    className={'add-another-contact-cta'}
+                                                                    onClick={() => {
+                                                                        arrayHelpers.push({
+                                                                            institution_name: "",
+                                                                            institution_location: "",
+                                                                            degree: "",
+                                                                            start_date: "",
+                                                                            end_date: ""
+                                                                        });
+                                                                    }}
+                                                                    prefixIcon={<ImageConfig.AddIcon/>}>
+                                                                    Add Another Education</ButtonComponent>
+                                                            </div>}
                                                     </>
                                                 )
                                             })
