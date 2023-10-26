@@ -29,6 +29,8 @@ const UserProfessionalDetailsValidationSchema = Yup.object().shape({
     professional_details: Yup.array().of(
         Yup.object().shape({
             company_name: Yup.string().required('Company name is required'),
+            start_date: Yup.mixed().required('Start date is required'),
+            end_date: Yup.mixed().required('End date is required'),
         })
     ),
 });
@@ -192,6 +194,7 @@ const UserProfessionalDetailsEditComponent = (props: UserProfessionalDetailsEdit
                                                                                 maxDate={CommonService._staticData.today}
                                                                                 formikField={field}
                                                                                 fullWidth={true}
+                                                                                required={true}
                                                                             />
                                                                         )
                                                                     }
@@ -209,6 +212,7 @@ const UserProfessionalDetailsEditComponent = (props: UserProfessionalDetailsEdit
                                                                                 formikField={field}
                                                                                 minDate={moment(values?.professional_details[index]?.start_date)}
                                                                                 fullWidth={true}
+                                                                                required={true}
                                                                             />
                                                                         )
                                                                     }
