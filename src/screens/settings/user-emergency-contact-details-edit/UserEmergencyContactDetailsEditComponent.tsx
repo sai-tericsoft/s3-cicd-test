@@ -207,7 +207,7 @@ const UserEmergencyContactDetailsEditComponent = (props: UserEmergencyContactDet
                             <Form noValidate={true} className={"t-form"} autoComplete="off">
                                 <FormDebuggerComponent showDebugger={false} values={values} errors={errors}/>
 
-                                <FormControlLabelComponent label={"Primary Emergency Contact"} size={'sm'}/>
+                                <FormControlLabelComponent label={"Primary Emergency Contact"} size={'md'}/>
                                 <div className="ts-row">
                                     <div className="ts-col">
                                         <Field name={'emergency_contact_info.primary_emergency.name'}>
