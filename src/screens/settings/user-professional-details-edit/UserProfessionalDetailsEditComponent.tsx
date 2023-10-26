@@ -15,6 +15,8 @@ import {IRootReducerState} from "../../../store/reducers";
 import {IAPIResponseType} from "../../../shared/models/api.model";
 import {setUserBasicDetails} from "../../../store/actions/user.action";
 import moment from "moment";
+import HorizontalLineComponent
+    from "../../../shared/components/horizontal-line/horizontal-line/HorizontalLineComponent";
 
 interface UserProfessionalDetailsEditComponentProps {
     handleNext: () => void
@@ -201,7 +203,10 @@ const UserProfessionalDetailsEditComponent = (props: UserProfessionalDetailsEdit
                                                             </div>
                                                             <div className="ts-col"/>
                                                         </div>
-
+                                                        {
+                                                            index + 1 !== values?.professional_details?.length &&
+                                                            <HorizontalLineComponent className={'secondary-emergency-divider'}/>
+                                                        }
                                                         {index + 1 === values?.professional_details.length &&
                                                         <div className={'display-flex justify-content-center flex-1'}>
                                                             <ButtonComponent
