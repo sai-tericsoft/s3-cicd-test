@@ -15,6 +15,7 @@ import {IRootReducerState} from "../../../store/reducers";
 import {IAPIResponseType} from "../../../shared/models/api.model";
 import {setUserBasicDetails} from "../../../store/actions/user.action";
 import moment from "moment";
+import * as Yup from "yup";
 import HorizontalLineComponent
     from "../../../shared/components/horizontal-line/horizontal-line/HorizontalLineComponent";
 
@@ -22,6 +23,16 @@ interface UserProfessionalDetailsEditComponentProps {
     handleNext: () => void
     handlePrevious: () => void
 }
+
+
+const UserProfessionalDetailsValidationSchema = Yup.object().shape({
+    professional_details: Yup.array().of(
+        Yup.object().shape({
+            company_name: Yup.string().required('Company name is required'),
+        })
+    ),
+});
+
 
 const formInitialValues: any = {
     professional_details: [
@@ -86,6 +97,7 @@ const UserProfessionalDetailsEditComponent = (props: UserProfessionalDetailsEdit
                 <Formik
                     initialValues={initialValues}
                     onSubmit={onSubmit}
+                    validationSchema={UserProfessionalDetailsValidationSchema}
                     validateOnChange={false}
                     validateOnBlur={true}
                     enableReinitialize={true}
@@ -110,13 +122,13 @@ const UserProfessionalDetailsEditComponent = (props: UserProfessionalDetailsEdit
                                                             <FormControlLabelComponent
                                                                 label={`Experience ${index + 1}:`}/>
                                                             {values?.professional_details.length > 1 &&
-                                                            <ButtonComponent className={'remove-contact-button'}
-                                                                             prefixIcon={<ImageConfig.CloseIcon/>}
-                                                                             variant={'contained'} color={'error'}
-                                                                             onClick={() => {
-                                                                                 arrayHelpers.remove(index);
-                                                                             }}
-                                                            >Remove</ButtonComponent>}
+                                                                <ButtonComponent className={'remove-contact-button'}
+                                                                                 prefixIcon={<ImageConfig.CloseIcon/>}
+                                                                                 variant={'contained'} color={'error'}
+                                                                                 onClick={() => {
+                                                                                     arrayHelpers.remove(index);
+                                                                                 }}
+                                                                >Remove</ButtonComponent>}
                                                         </div>
                                                         <div className="ts-row">
                                                             <div className="ts-col">
@@ -130,6 +142,7 @@ const UserProfessionalDetailsEditComponent = (props: UserProfessionalDetailsEdit
                                                                                 type={"text"}
                                                                                 formikField={field}
                                                                                 fullWidth={true}
+                                                                                required={true}
                                                                             />
                                                                         )
                                                                     }
@@ -205,24 +218,26 @@ const UserProfessionalDetailsEditComponent = (props: UserProfessionalDetailsEdit
                                                         </div>
                                                         {
                                                             index + 1 !== values?.professional_details?.length &&
-                                                            <HorizontalLineComponent className={'secondary-emergency-divider'}/>
+                                                            <HorizontalLineComponent
+                                                                className={'secondary-emergency-divider'}/>
                                                         }
                                                         {index + 1 === values?.professional_details.length &&
-                                                        <div className={'display-flex justify-content-center flex-1'}>
-                                                            <ButtonComponent
-                                                                className={'add-another-contact-cta'}
-                                                                onClick={() => {
-                                                                    arrayHelpers.push({
-                                                                        company_name: "",
-                                                                        company_location: "",
-                                                                        position: "",
-                                                                        start_date: "",
-                                                                        end_date: ""
-                                                                    });
-                                                                }}
-                                                                prefixIcon={<ImageConfig.AddIcon/>}>
-                                                                Add Another Experience</ButtonComponent>
-                                                        </div>}
+                                                            <div
+                                                                className={'display-flex justify-content-center flex-1'}>
+                                                                <ButtonComponent
+                                                                    className={'add-another-contact-cta'}
+                                                                    onClick={() => {
+                                                                        arrayHelpers.push({
+                                                                            company_name: "",
+                                                                            company_location: "",
+                                                                            position: "",
+                                                                            start_date: "",
+                                                                            end_date: ""
+                                                                        });
+                                                                    }}
+                                                                    prefixIcon={<ImageConfig.AddIcon/>}>
+                                                                    Add Another Experience</ButtonComponent>
+                                                            </div>}
                                                     </>
                                                 )
                                             })
