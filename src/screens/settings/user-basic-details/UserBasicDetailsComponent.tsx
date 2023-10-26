@@ -531,23 +531,23 @@ const UserBasicDetailsComponent = (props: UserBasicDetailsComponentProps) => {
                                         return <>
                                             <div className={'ts-row'}>
                                                 <div
-                                                    className="ts-col-12 font-weight-bold mrg-bottom-20">Experience {index + 1}:
+                                                    className="ts-col-12 font-weight-bold mrg-bottom-20">Education {index + 1}:
                                                 </div>
                                                 <div className="ts-col">
                                                     <DataLabelValueComponent label={'Institution Name'}>
-                                                        {education_details.institution_name || 'N/A'}
+                                                        {CommonService.capitalizeFirstLetter(education_details.institution_name) || 'N/A'}
                                                     </DataLabelValueComponent>
                                                 </div>
 
                                                 <div className="ts-col">
                                                     <DataLabelValueComponent label={'Location'}>
-                                                        {education_details?.institution_location || 'N/A'}
+                                                        {CommonService.capitalizeFirstLetter(education_details?.institution_location) || 'N/A'}
                                                     </DataLabelValueComponent>
                                                 </div>
 
                                                 <div className="ts-col">
                                                     <DataLabelValueComponent label={'Degree'}>
-                                                        {education_details?.degree || 'N/A'}
+                                                        {CommonService.capitalizeFirstLetter(education_details?.degree) || 'N/A'}
                                                     </DataLabelValueComponent>
                                                 </div>
 
