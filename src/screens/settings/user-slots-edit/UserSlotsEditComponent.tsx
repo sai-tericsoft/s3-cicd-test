@@ -416,6 +416,7 @@ const UserSlotsEditComponent = (props: UserSlotsEditComponentProps) => {
                             response[Misc.API_RESPONSE_MESSAGE_KEY],
                             'success'
                         );
+                        handleGoBack();
                     })
                     .catch((error) => {
                         setSubmitting(false);
@@ -968,10 +969,11 @@ const UserSlotsEditComponent = (props: UserSlotsEditComponentProps) => {
 
                                                     <div className="t-form-actions">
                                                         <ButtonComponent
+                                                            size={'large'}
                                                             isLoading={isSubmitting}
                                                             disabled={!isValid}
                                                             type='submit'>
-                                                            Save details
+                                                            Save
                                                         </ButtonComponent>
                                                     </div>
                                                 </Form>
@@ -984,11 +986,11 @@ const UserSlotsEditComponent = (props: UserSlotsEditComponentProps) => {
                             </TabContentComponent>
                         ))}
                     </TabsWrapperComponent>
-                    <div className="h-v-center">
-                        <ButtonComponent onClick={handleGoBack}>
-                            Go Back
-                        </ButtonComponent>
-                    </div>
+                    {/*<div className="h-v-center">*/}
+                    {/*    <ButtonComponent size={'large'} onClick={handleGoBack}>*/}
+                    {/*        Go Back*/}
+                    {/*    </ButtonComponent>*/}
+                    {/*</div>*/}
                 </>
                 }
             </div>
