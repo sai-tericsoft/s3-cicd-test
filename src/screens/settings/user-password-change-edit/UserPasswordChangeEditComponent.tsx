@@ -11,8 +11,9 @@ import * as Yup from "yup";
 import FormikPasswordInputComponent
     from "../../../shared/components/form-controls/formik-password-input/FormikPasswordInputComponent";
 import PasswordValidationComponent from "../../../shared/components/password-validation/PasswordValidationComponent";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
+import {setCurrentNavParams} from "../../../store/actions/navigation.action";
 
 interface UserPasswordChangeEditComponentProps {
 
@@ -37,12 +38,22 @@ const validationSchema = Yup.object().shape({
 const UserPasswordChangeEditComponent = (props: UserPasswordChangeEditComponentProps) => {
     const navigate = useNavigate();
     const location: any = useLocation();
+    const dispatch = useDispatch();
     const path = location.pathname;
     const {
         userBasicDetails,
     } = useSelector((state: IRootReducerState) => state.user);
     const [initialValues] = useState<any>(_.cloneDeep(formInitialValues));
 
+    useEffect(() => {
+        dispatch(setCurrentNavParams('Edit User', null, () => {
+            if (path.includes('settings')) {
+                navigate(CommonService._routeConfig.PersonalAccountDetails());
+            } else {
+                navigate(CommonService._routeConfig.UserAccountDetails(userBasicDetails._id));
+            }
+        }));
+    }, [dispatch, navigate, path, userBasicDetails]);
 
     const onSubmit = useCallback((values: any, {setErrors, setSubmitting}: FormikHelpers<any>) => {
         setSubmitting(true)
