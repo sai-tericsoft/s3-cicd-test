@@ -29,7 +29,7 @@ const validationSchema = Yup.object().shape({
     old_password: Yup.string().required('Old Password is required'),
     new_password: Yup.string().required('New Password is required'),
     confirm_password: Yup.string()
-        .required('Confirm Password is required')
+        .required('Re-entering New Password is required')
         .oneOf([Yup.ref('new_password'), null], 'Passwords must match'),
 });
 
@@ -89,6 +89,7 @@ const UserPasswordChangeEditComponent = (props: UserPasswordChangeEditComponentP
                                                     (field: FieldProps) => (
                                                         <FormikPasswordInputComponent
                                                             label={'Old Password'}
+                                                            placeholder={'Enter Old Password'}
                                                             required={true}
                                                             canToggle={true}
                                                             formikField={field}
@@ -104,6 +105,7 @@ const UserPasswordChangeEditComponent = (props: UserPasswordChangeEditComponentP
                                                     (field: FieldProps) => (
                                                         <FormikPasswordInputComponent
                                                             label={'New Password'}
+                                                            placeholder={'Enter New Password'}
                                                             required={true}
                                                             canToggle={true}
                                                             formikField={field}
@@ -118,7 +120,7 @@ const UserPasswordChangeEditComponent = (props: UserPasswordChangeEditComponentP
                                                 {
                                                     (field: FieldProps) => (
                                                         <FormikPasswordInputComponent
-                                                            label={'Confirm Password'}
+                                                            label={'Re-enter New Password'}
                                                             required={true}
                                                             canToggle={true}
                                                             formikField={field}
