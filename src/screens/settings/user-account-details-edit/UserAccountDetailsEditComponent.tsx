@@ -38,15 +38,15 @@ const UserAccountDetailsEditComponent = (props: UserAccountDetailsEditComponentP
         }
     }, [dispatch, userId])
 
-    useEffect(() => {
-        dispatch(setCurrentNavParams('Edit User', null, () => {
-            if (path.includes('settings')) {
-                navigate(CommonService._routeConfig.PersonalDetails());
-            } else {
-                navigate(CommonService._routeConfig.UserPersonalDetails(userBasicDetails?._id))
-            }
-        }));
-    }, [dispatch, userBasicDetails, navigate, path]);
+    // useEffect(() => {
+    //     dispatch(setCurrentNavParams('Edit User', null, () => {
+    //         if (path.includes('settings')) {
+    //             navigate(CommonService._routeConfig.PersonalDetails());
+    //         } else {
+    //             navigate(CommonService._routeConfig.UserPersonalDetails(userBasicDetails?._id))
+    //         }
+    //     }));
+    // }, [dispatch, userBasicDetails, navigate, path]);
 
     useEffect(() => {
         let currentStep: any = searchParams.get("currentStep");
