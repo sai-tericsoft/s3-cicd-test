@@ -21,6 +21,7 @@ import {CommonService} from "../../../../shared/services";
 import {IAPIResponseType} from "../../../../shared/models/api.model";
 import {IServiceCategory} from "../../../../shared/models/service-category.model";
 import {getAppointmentSettings} from "../../../../store/actions/appointment.action";
+import {Misc} from "../../../../constants";
 
 interface AppointmentSettingsLayoutComponentProps {
 
@@ -101,6 +102,7 @@ const AppointmentSettingsLayoutComponent = (props: AppointmentSettingsLayoutComp
         }
         CommonService._appointment.setAppointmentSetting(payload)
             .then((response: IAPIResponseType<IServiceCategory>) => {
+                CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                 setIsTemplateSaveInProgress(false);
                 dispatch(getAppointmentSettings())
             })
