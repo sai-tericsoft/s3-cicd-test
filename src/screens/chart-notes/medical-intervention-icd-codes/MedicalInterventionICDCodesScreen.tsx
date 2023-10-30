@@ -166,7 +166,8 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
                         <div className={'client-name-button-wrapper'}>
                                     <span className={'client-name-wrapper'}>
                                         <span className={'client-name'}>
-                                            <span className={clientMedicalRecord?.client_details?.is_alias_name_set ? 'alias-name' : ''}>
+                                            <span
+                                                className={clientMedicalRecord?.client_details?.is_alias_name_set ? 'alias-name' : ''}>
                                                 {commonService.generateClientNameFromClientDetails(clientMedicalRecord?.client_details || {})}
                                             </span>
                                         </span>
@@ -246,7 +247,7 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
                                          (medicalInterventionDetails.linked_icd_codes || []).length === 0 ? 'add' : 'edit'
                                      )
                                  }}
-                                 disabled={selectedICDCodes.length === 0 || isSubmitting}
+                                 disabled={isSubmitting}
                                  isLoading={isSubmitting}
                 >
                     Save
