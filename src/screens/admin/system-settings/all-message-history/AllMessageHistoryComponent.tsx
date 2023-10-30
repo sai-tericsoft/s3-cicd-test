@@ -53,12 +53,6 @@ const AllMessageHistoryComponent = (props: AllMessageHistoryComponentProps) => {
     }, []);
 
     const handleMessageDelete = useCallback((messageId: string) => {
-        CommonService.onConfirm({
-            image: ImageConfig.ConfirmationLottie,
-            confirmationTitle: "DELETE MESSAGE",
-            confirmationSubTitle: "Are you sure you want to delete this message from\n" +
-                "message board? This action cannot be undone."
-        }).then(() => {
             CommonService._dashboardService.deleteDashboardMessage(messageId, {})
                 .then((response: any) => {
                     CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
@@ -66,7 +60,6 @@ const AllMessageHistoryComponent = (props: AllMessageHistoryComponentProps) => {
                 }).catch((error: any) => {
                 CommonService._alert.showToast(error.error, "error");
             });
-        });
     }, [dispatch])
     return (
         <div className={'all-message-history-component'}>
