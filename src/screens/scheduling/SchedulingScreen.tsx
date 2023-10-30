@@ -1034,13 +1034,15 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                                                         (calendarDaysData && calendarDaysData[date]?.appointments && calendarDaysData[date]?.appointments[value?.label] ? calendarDaysData[date]?.appointments[value?.label] : [])
                                                                             .map((appointment: any) => {
                                                                                 return (
-                                                                                    <div className="card-item"
+                                                                                    <div className="card-item appointment"
                                                                                          onClick={() => {
                                                                                              setOpenedAppointmentDetails(appointment);
                                                                                          }}
                                                                                          style={{
-                                                                                             top: appointment.start_time - value.start,
-                                                                                             height: appointment.end_time - appointment.start_time
+                                                                                             top: (appointment.start_time - value.start)*2 ,
+                                                                                             height: (appointment.end_time - appointment.start_time)*2,
+                                                                                             minHeight: (appointment.end_time - appointment.start_time)*2,
+                                                                                             maxHeight: (appointment.end_time - appointment.start_time)*2
                                                                                          }}>
                                                                                         <CalendarAppointmentCard
                                                                                             title={appointment.client_details}
@@ -1059,10 +1061,10 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                                                             .map((blocked_slot: any) => {
                                                                                 const nonFirstAllDayBlock = !(index !== 0 && blocked_slot.is_block_all_day);
                                                                                 return (
-                                                                                    <div className="card-item"
+                                                                                    <div className="card-item blocked"
                                                                                          style={{
-                                                                                             top: nonFirstAllDayBlock ? blocked_slot.start_time - value.start : 0,
-                                                                                             height: nonFirstAllDayBlock ? blocked_slot.end_time - blocked_slot.start_time : 0
+                                                                                             top: nonFirstAllDayBlock ? (blocked_slot.start_time - value.start)*2  : 0,
+                                                                                             height: nonFirstAllDayBlock ? (blocked_slot.end_time - blocked_slot.start_time)*2  : 0
                                                                                          }}>
                                                                                         {nonFirstAllDayBlock &&
                                                                                             <CalendarAppointmentCard

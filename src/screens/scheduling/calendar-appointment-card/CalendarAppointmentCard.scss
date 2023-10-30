@@ -10,7 +10,7 @@
   &.card-appointment-with-status {
     display: flex;
     flex-direction: column;
-    //padding: 6px;
+    padding: 5px;
     overflow: hidden;
     width: 100%;
     margin: 1px;
@@ -84,7 +84,6 @@
 
     &.blocked {
       color: #F2F6F6;
-      padding: 2px;
     }
 
     color: #00534F;
