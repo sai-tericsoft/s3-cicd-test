@@ -57,6 +57,7 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
     const last_position: any = searchParams.get("last_position");
+
     const generateRomConfigForBodySide = useCallback((bodyPart: any, side: string) => {
         return {
             title: side,

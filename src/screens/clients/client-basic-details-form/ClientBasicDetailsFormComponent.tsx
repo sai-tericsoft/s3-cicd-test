@@ -260,6 +260,9 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
             mode
         };
         payload['dob'] = CommonService.convertDateFormat(payload['dob']);
+        if (payload.show_secondary_emergency_form === false) {
+            payload.emergency_contact_info.secondary_emergency = undefined;
+        }
         setIsClientBasicDetailsSavingInProgress(true);
         if (clientId) {
             if (mode === 'add' || mode === 'edit') {
@@ -770,7 +773,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                                         <div className="ts-col-1">
                                                                             <div className="d-flex">
                                                                                 {values?.secondary_emails && (index === values?.secondary_emails?.length - 1) &&
-                                                                                values.secondary_emails.length < 3 &&
+                                                                                    values.secondary_emails.length < 3 &&
                                                                                     <IconButtonComponent
                                                                                         className={"form-helper-icon"}
                                                                                         onClick={() => {
@@ -1052,19 +1055,19 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                                     </div>
                                                                     <div className="ts-col-1">
                                                                         <div className="d-flex">
-                                                                            {  values?.emergency_contact_info?.primary_emergency?.secondary_contact_info && (index === values?.emergency_contact_info?.primary_emergency?.secondary_contact_info?.length - 1) &&
+                                                                            {values?.emergency_contact_info?.primary_emergency?.secondary_contact_info && (index === values?.emergency_contact_info?.primary_emergency?.secondary_contact_info?.length - 1) &&
                                                                                 values.emergency_contact_info.primary_emergency.secondary_contact_info.length < 3 &&
                                                                                 <IconButtonComponent
-                                                                                className={"form-helper-icon"}
-                                                                                onClick={() => {
-                                                                                    arrayHelpers.push({
-                                                                                        phone_type: undefined,
-                                                                                        phone: undefined
-                                                                                    });
-                                                                                }}
-                                                                            >
-                                                                                <ImageConfig.AddCircleIcon/>
-                                                                            </IconButtonComponent>}
+                                                                                    className={"form-helper-icon"}
+                                                                                    onClick={() => {
+                                                                                        arrayHelpers.push({
+                                                                                            phone_type: undefined,
+                                                                                            phone: undefined
+                                                                                        });
+                                                                                    }}
+                                                                                >
+                                                                                    <ImageConfig.AddCircleIcon/>
+                                                                                </IconButtonComponent>}
                                                                             {index > 0 &&
                                                                                 <IconButtonComponent
                                                                                     className={"form-helper-icon"}
@@ -1082,19 +1085,19 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                         })}
                                                     </>
                                                     :
-                                                        <ButtonComponent variant={"text"}
-                                                                         color={"primary"}
-                                                                         size={"medium"}
-                                                                         prefixIcon={<AddCircleIcon/>}
-                                                                         onClick={() => {
-                                                                             setFieldValue('emergency_contact_info.primary_emergency.secondary_contact_info', [{
-                                                                                 phone_type: "",
-                                                                                 phone: ""
-                                                                             }]);
-                                                                         }}
-                                                        >
-                                                            Add Alternate Phone
-                                                        </ButtonComponent>
+                                                    <ButtonComponent variant={"text"}
+                                                                     color={"primary"}
+                                                                     size={"medium"}
+                                                                     prefixIcon={<AddCircleIcon/>}
+                                                                     onClick={() => {
+                                                                         setFieldValue('emergency_contact_info.primary_emergency.secondary_contact_info', [{
+                                                                             phone_type: "",
+                                                                             phone: ""
+                                                                         }]);
+                                                                     }}
+                                                    >
+                                                        Add Alternate Phone
+                                                    </ButtonComponent>
 
                                                 }
                                             </>
@@ -1274,19 +1277,19 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                                                 </div>
                                                                                 <div className="ts-col-1">
                                                                                     <div className="d-flex">
-                                                                                        { values?.emergency_contact_info?.secondary_emergency?.secondary_contact_info && (index === values?.emergency_contact_info?.secondary_emergency?.secondary_contact_info?.length - 1) &&
+                                                                                        {values?.emergency_contact_info?.secondary_emergency?.secondary_contact_info && (index === values?.emergency_contact_info?.secondary_emergency?.secondary_contact_info?.length - 1) &&
                                                                                             values.emergency_contact_info.secondary_emergency.secondary_contact_info.length < 3 &&
                                                                                             <IconButtonComponent
-                                                                                            className={"form-helper-icon"}
-                                                                                            onClick={() => {
-                                                                                                arrayHelpers.push({
-                                                                                                    phone_type: undefined,
-                                                                                                    phone: undefined
-                                                                                                });
-                                                                                            }}
-                                                                                        >
-                                                                                            <ImageConfig.AddCircleIcon/>
-                                                                                        </IconButtonComponent>}
+                                                                                                className={"form-helper-icon"}
+                                                                                                onClick={() => {
+                                                                                                    arrayHelpers.push({
+                                                                                                        phone_type: undefined,
+                                                                                                        phone: undefined
+                                                                                                    });
+                                                                                                }}
+                                                                                            >
+                                                                                                <ImageConfig.AddCircleIcon/>
+                                                                                            </IconButtonComponent>}
                                                                                         {index > 0 &&
                                                                                             <IconButtonComponent
                                                                                                 className={"form-helper-icon"}
@@ -1379,7 +1382,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                         size={'large'}
                                         className={'submit-cta'}
                                         isLoading={isClientBasicDetailsSavingInProgress}
-                                        disabled={isClientBasicDetailsSavingInProgress  || !isValid }
+                                        disabled={isClientBasicDetailsSavingInProgress || !isValid}
                                         type={"submit"}
                                     >
                                         {isClientBasicDetailsSavingInProgress ? "Saving" : "Save"}
