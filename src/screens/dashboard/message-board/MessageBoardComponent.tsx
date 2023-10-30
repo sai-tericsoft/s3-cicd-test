@@ -202,7 +202,7 @@ const MessageBoardComponent = (props: MessageBoardComponentProps) => {
                                                 color={'error'}><ImageConfig.DeleteIcon/></IconButtonComponent></span>
                                         </div>
                                         <div
-                                            className={'created-at-time-stamp'}>{CommonService.transformTimeStamp(message?.created_at)}</div>
+                                            className={'created-at-time-stamp message-timestamp'}>{CommonService.transformTimeStamp(message?.created_at)}</div>
                                     </div>
                                 )
                             })}
