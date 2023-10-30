@@ -68,12 +68,13 @@ const SystemSettingsScreen = (props: SystemSettingsScreenProps) => {
             .then((response: IAPIResponseType<ISystemSettingsConfig>) => {
                 CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                 setIsSaving(false);
+                dispatch(getSystemSettings());
             })
             .catch((error: any) => {
                 CommonService.handleErrors(setErrors, error);
                 setIsSaving(false);
             });
-    }, []);
+    }, [dispatch]);
 
     useEffect(() => {
         if (systemSettings) {

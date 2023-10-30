@@ -1,7 +1,7 @@
 import React from 'react';
 import {ToastContainer} from "react-toastify";
 import {CommonService} from "../../services";
-import {ImageConfig} from "../../../constants";
+// import {ImageConfig} from "../../../constants";
 
 interface AlertComponentProps {
 
@@ -16,12 +16,12 @@ const AlertComponent = (props: AlertComponentProps) => {
 
 export default AlertComponent;
 
-export const AlertCloseButton = ({...props}: any) => {
-    return <span className="toast-close-btn"
-                 {...props}
-                 id={"toast-close-btn"}
-    >
-            <ImageConfig.ToastCloseIcon/>
-    </span>
-};
+// export const AlertCloseButton = ({...props}: any) => {
+//     return <span className="toast-close-btn"
+//                  {...props}
+//                  id={"toast-close-btn"}
+//     >
+//             <ImageConfig.ToastCloseIcon/>
+//     </span>
+// };
 
