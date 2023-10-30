@@ -15,6 +15,7 @@ import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 import EditMessageComponent from "../edit-message/EditMessageComponent";
 import AvatarComponent from "../../../shared/components/avatar/AvatarComponent";
 import commonService from "../../../shared/services/common.service";
+import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 
 interface MessageBoardComponentProps {
 
@@ -153,8 +154,9 @@ const MessageBoardComponent = (props: MessageBoardComponentProps) => {
                             }
                             {
                                 birthdayListData.length > 0 && birthdayListData?.map((birthday: any) => {
+                                    console.log('birthday', birthday);
                                     return <div className={'ts-row'}>
-                                        <div className={' ts-col-10 birthday-detail-wrapper'}>
+                                        <div className={' ts-col-9 birthday-detail-wrapper'}>
                                             <div className={'avatar-container'}>
                                                 <AvatarComponent className={'avatar-name'}
                                                                  title={commonService.generateClientNameFromClientDetails(birthday)}/>
@@ -163,10 +165,11 @@ const MessageBoardComponent = (props: MessageBoardComponentProps) => {
                                                 className={'client-name'}><span className={birthday?.is_alias_name_set ? 'alias-name':""}> { CommonService.generateClientNameFromClientDetails(birthday)} </span>(ID:{birthday?.client_id})
                                             </div>
                                         </div>
-                                        <div className={'ts-col-1 icon-wrapper'}
-                                             onClick={() => handleSendWishes(birthday?._id)}>
+                                        <ButtonComponent color={"primary"}  className={'ts-col-1 icon-wrapper'}
+                                                         disabled={birthday?.is_wishes_sent}
+                                                         onClick={() => handleSendWishes(birthday?._id)}>
                                             <ImageConfig.FORWARD_ICON/>
-                                        </div>
+                                        </ButtonComponent>
                                     </div>
                                 })
                             }
