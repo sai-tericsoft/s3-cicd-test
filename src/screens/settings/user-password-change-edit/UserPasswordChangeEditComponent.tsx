@@ -14,6 +14,7 @@ import PasswordValidationComponent from "../../../shared/components/password-val
 import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
 import {setCurrentNavParams} from "../../../store/actions/navigation.action";
+import {Misc} from "../../../constants";
 
 interface UserPasswordChangeEditComponentProps {
 
@@ -60,6 +61,7 @@ const UserPasswordChangeEditComponent = (props: UserPasswordChangeEditComponentP
         CommonService._user.userPasswordEdit({...values})
             .then((response: IAPIResponseType<any>) => {
                 setSubmitting(false);
+                CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                 if (path.includes('admin')) {
                     navigate(CommonService._routeConfig.UserAccountDetails(userBasicDetails._id));
                 } else {
