@@ -288,7 +288,7 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                     }
                 })
         }
-    }, [medicalInterventionId, medicalInterventionDetails]);
+    }, [medicalInterventionId, medicalInterventionDetails,dispatch]);
 
 
     useEffect(() => {

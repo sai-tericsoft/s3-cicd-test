@@ -2,7 +2,7 @@ import "./SystemSettingsScreen.scss";
 import CardComponent from "../../../shared/components/card/CardComponent";
 import * as Yup from "yup";
 import {useCallback, useEffect, useState} from "react";
-import {ISystemSettingsConfig} from "../../../shared/models/account.model";
+import {ILoggedInUser, ISystemSettingsConfig} from "../../../shared/models/account.model";
 import {Field, FieldProps, Form, Formik, FormikHelpers} from "formik";
 import {CommonService} from "../../../shared/services";
 import {IAPIResponseType} from "../../../shared/models/api.model";
@@ -19,6 +19,7 @@ import HorizontalLineComponent
 import {getSystemSettings} from "../../../store/actions/settings.action";
 import DefaultMessageComponent from "./default-message/DefaultMessageComponent";
 import FormikInputComponent from "../../../shared/components/form-controls/formik-input/FormikInputComponent";
+import {setLoggedInUserData} from "../../../store/actions/account.action";
 
 const SystemSettingsFormValidationSchema = Yup.object({
     other_settings: Yup.object({
@@ -52,6 +53,7 @@ const SystemSettingsScreen = (props: SystemSettingsScreenProps) => {
     const [systemSettingsFormInitialValues, setSystemSettingsFormInitialValues] = useState<ISystemSettingsConfig>(_.cloneDeep(SystemSettingsFormInitialValues));
     const [isSaving, setIsSaving] = useState(false);
     const dispatch = useDispatch();
+    const {currentUser} = useSelector((state: IRootReducerState) => state.account);
     const {
         systemAutoLockDurationOptionList,
         filesUneditableAfterOptionList,
@@ -68,13 +70,13 @@ const SystemSettingsScreen = (props: SystemSettingsScreenProps) => {
             .then((response: IAPIResponseType<ISystemSettingsConfig>) => {
                 CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                 setIsSaving(false);
-                dispatch(getSystemSettings());
+                dispatch(setLoggedInUserData({...currentUser,auto_lock_minutes:values.other_settings.auto_lock_minutes} as ILoggedInUser));
             })
             .catch((error: any) => {
                 CommonService.handleErrors(setErrors, error);
                 setIsSaving(false);
             });
-    }, [dispatch]);
+    }, [dispatch,currentUser]);
 
     useEffect(() => {
         if (systemSettings) {
