@@ -252,6 +252,8 @@ const AutoCompleteDropdownComponent = (props: AutoCompleteDropdownComponentProps
             // matchSorter(options, inputValue),
             [filteredOptions, filteredOptionKey]);
 
+        console.log('value', value);
+
         return (
             <FormControl className="autoComplete-component-wrapper"
                          fullWidth color={color}
@@ -274,7 +276,7 @@ const AutoCompleteDropdownComponent = (props: AutoCompleteDropdownComponentProps
                                    error={hasError}
                                    required={required}
                                    color={color}
-                                   placeholder={placeholder}
+                                   placeholder={value?.length > 0 ? '': placeholder}
                                    onBlur={onBlur}
                                    onClick={() => {
                                        if ((dropDownData && dropDownData.length > 0) && !disabled) {
