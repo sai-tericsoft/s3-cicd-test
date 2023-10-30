@@ -252,7 +252,6 @@ const AutoCompleteDropdownComponent = (props: AutoCompleteDropdownComponentProps
             // matchSorter(options, inputValue),
             [filteredOptions, filteredOptionKey]);
 
-        console.log('value', value);
 
         return (
             <FormControl className="autoComplete-component-wrapper"

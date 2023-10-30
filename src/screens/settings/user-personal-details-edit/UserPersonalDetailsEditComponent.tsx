@@ -112,7 +112,6 @@ const UserPersonalDetailsEditComponent = (props: UserPersonalDetailsEditComponen
                 dispatch(setUserBasicDetails(response.data));
             }).catch((error: any) => {
             CommonService.handleErrors(setErrors, error, true);
-            console.log('errors', error);
             setSubmitting(false);
         })
     }, [userBasicDetails, dispatch, initialValues]);
@@ -315,7 +314,7 @@ const UserPersonalDetailsEditComponent = (props: UserPersonalDetailsEditComponen
                                         <FormControlLabelComponent
                                             className={"font-weight-thin"}
                                             label={"Signature:"}
-                                            />
+                                        />
                                         <SignaturePadComponent
                                             image={values?.signature}
                                             onSign={(signImage) => {
@@ -331,16 +330,15 @@ const UserPersonalDetailsEditComponent = (props: UserPersonalDetailsEditComponen
                                 }
 
                                 {(values?.signature && userBasicDetails?.signature) && <div className="user-signature">
-                                        <ESignApprovalComponent isSigned={true}
-                                                                signature_url={values?.signature}
-                                        /> <br/>
-                                        <LinkComponent onClick={() => {
-                                            setFieldValue('signature', "");
-                                            dispatch(setUserBasicDetails({...userBasicDetails, signature: ""}))
-                                        }
-                                        }>
-                                            Remove Signature
-                                        </LinkComponent>
+                                    <ESignApprovalComponent isSigned={true}
+                                                            signature_url={values?.signature}
+                                    /> <br/>
+                                    <LinkComponent onClick={() => {
+                                        setFieldValue('signature', "");
+                                    }
+                                    }>
+                                        Remove Signature
+                                    </LinkComponent>
                                 </div>}
 
                                 <div className="t-form-actions">
