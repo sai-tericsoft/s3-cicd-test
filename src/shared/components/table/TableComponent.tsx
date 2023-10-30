@@ -128,10 +128,10 @@ const TableComponent = (props: TableComponentProps) => {
         if (column?.sortable) {
             classes += " sortable";
             if (sort && sort.key === column.key) {
-                if (sort.order === "asc") {
-                    classes += " sort-asc";
-                } else {
+                if (sort.order === "desc") {
                     classes += " sort-desc";
+                } else {
+                    classes += " sort-asc";
                 }
             }
         }
