@@ -295,6 +295,7 @@ const UserPersonalDetailsEditComponent = (props: UserPersonalDetailsEditComponen
                                                     <FormikAutoCompleteComponent
                                                         options={facilityListLite}
                                                         label={'Assigned Facilities'}
+                                                        placeholder={'Assigned Facilities'}
                                                         formikField={field}
                                                         required={true}
                                                         fullWidth={true}
