@@ -1017,7 +1017,7 @@ const APIConfig: IAPIConfig = {
         METHOD: "post"
     },
     CREATE_CONSOLIDATED_PAYMENT: {
-        URL: ENV.API_URL + '/consolidatedBill',
+        URL: ENV.API_URL + '/addConsolidatedBill',
         METHOD: "post"
     },
     GET_LINKED_CLIENT_LIST: {

@@ -9,7 +9,7 @@ import {IAPIResponseType} from "../../../shared/models/api.model";
 import {ImageConfig} from "../../../constants";
 import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
-import {getMedicalInterventionDetails} from "../../../store/actions/chart-notes.action";
+import {getMedicalInterventionDetails, setMedicalInterventionDetails} from "../../../store/actions/chart-notes.action";
 import {setCurrentNavParams} from "../../../store/actions/navigation.action";
 import {ITableColumn} from "../../../shared/models/table.model";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
@@ -251,23 +251,24 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
         setSubmitting,
         setErrors,
         setFieldValue,
-    }: FormikHelpers<any>, announce = false, cb: any = null,is_signed?:boolean) => {
+    }: FormikHelpers<any>, announce = false, cb: any = null, is_signed?: boolean) => {
         if (medicalInterventionId) {
             setSubmitting(true);
             setIsSavingProgress(true);
             let payload = {...CommonService.removeKeysFromJSON(_.cloneDeep(values), ['created_at', 'medical_record_id', 'treated_by', 'appointment_id', 'category_id', 'service_id'])};
-            if(is_signed){
+            if (is_signed) {
                 payload.is_signed = true;
             }
             CommonService._chartNotes.MedicalInterventionBasicDetailsUpdateAPICall(medicalInterventionId, payload)
                 .then((response: IAPIResponseType<any>) => {
-                    // dispatch(setMedicalInterventionDetails(response.data));
+                    dispatch(setMedicalInterventionDetails(response.data));
                     setSignedObject({
                         is_signed: response.data?.is_signed,
                         signed_on: response.data?.signed_on
                     })
 
                     if (medicalInterventionDetails?.is_flagged !== payload.is_flagged) {
+
                         CommonService._alert.showToast(payload.is_flagged ? 'Note has been flagged.' : 'Note has been unflagged.', "success");
                     }
                     if (announce) {
@@ -287,7 +288,7 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                     }
                 })
         }
-    }, [ medicalInterventionId, medicalInterventionDetails]);
+    }, [medicalInterventionId, medicalInterventionDetails]);
 
 
     useEffect(() => {
@@ -351,7 +352,7 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
         setIsSigningInProgress(true);
         onSubmit(values, formik, true, () => {
             setIsSigningInProgress(false);
-        },true);
+        }, true);
     }, [onSubmit]);
 
     const handleDiscardNote = useCallback(() => {
@@ -514,6 +515,9 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                                                                            formikField={field}
                                                                            required={false}
                                                                            labelPlacement={"start"}
+                                                                           // onChange={(isChecked: any) => {
+                                                                           //     CommonService._alert.showToast(isChecked ? 'This note has been marked as flagged' : '', "success");
+                                                                           // }}
                                                                        />
                                                                    )
                                                                }
