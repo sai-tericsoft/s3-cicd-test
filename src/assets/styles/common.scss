@@ -575,6 +575,9 @@
           font-size: 12px;
           margin-top: 10px;
           margin-bottom: 24px;
+          &.message-timestamp{
+            font-weight: 400 !important;
+          }
         }
       }
     }
