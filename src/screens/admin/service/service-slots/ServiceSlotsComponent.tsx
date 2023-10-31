@@ -421,6 +421,7 @@ const ServiceSlotsComponent = (props: ServiceSlotsComponentProps) => {
                         );
                         setUserSelectedSlots([]);
                         dispatch(getUserGlobalSlots(userId));
+                        dispatch(getUserSlots(userId, facilityId));
                     })
                     .catch((error) => {
                         setSubmitting(false);
