@@ -1,7 +1,10 @@
 @import "src/assets/styles/common";
-
+.MuiTypography-root:has(.mentions){
+  line-height: unset !important;
+}
 .mentions {
   margin: 1em 0;
+
 }
 
 .mentions--singleLine .mentions__control {
@@ -18,22 +21,28 @@
   border: 2px inset;
 }
 
-.mentions--multiLine .mentions__control {
-  font-family: $font-family;
-  font-size: 16px;
-  border: 1px solid silver;
+.mentions--multiLine {
+  .mentions__control {
+    font-family: $font-family;
+    font-size: 16px;
+    border: 1px solid silver;
+  }
 }
 
-.mentions--multiLine .mentions__highlighter {
-  padding: 9px;
-  line-height: 1.320rem;
+.mentions--multiLine {
+  .mentions__highlighter {
+    padding: 9px;
+    //line-height: 1.320rem;
+  }
 }
 
-.mentions--multiLine .mentions__input {
-  padding: 9px;
-  min-height: 63px;
-  outline: 0;
-  border: 0;
+.mentions--multiLine {
+  .mentions__input {
+    padding: 9px;
+    min-height: 63px;
+    outline: 0;
+    border: 0;
+  }
 }
 
 .mentions__suggestions__list {
