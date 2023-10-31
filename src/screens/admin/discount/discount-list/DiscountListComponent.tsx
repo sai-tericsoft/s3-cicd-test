@@ -131,6 +131,7 @@ const DiscountListComponent = (props: DiscountListComponentProps) => {
                                     label={"Status"}
                                     size={"small"}
                                     fullWidth={true}
+                                    isClear={true}
                                     options={statusList}
                                     value={discountListFilterState.is_active}
                                     keyExtractor={(item) => item.code}
