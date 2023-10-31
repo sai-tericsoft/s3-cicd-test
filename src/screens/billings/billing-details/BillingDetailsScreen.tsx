@@ -440,7 +440,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
             .then((response: IAPIResponseType<any>) => {
                 setIsSubmitting(false);
                 CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY] || "Note and comment added successfully", "success");
-                navigate(CommonService._routeConfig.BillingList() + '?referrer=' + location.pathname + '&type=' + type);
+                // navigate(CommonService._routeConfig.BillingList() + '?referrer=' + location.pathname + '&type=' + type);
             })
             .catch((error: any) => {
                 setIsSubmitting(false);

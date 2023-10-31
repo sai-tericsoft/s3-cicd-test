@@ -380,7 +380,7 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
             consolidatedBillingId && CommonService._billingsService.EditConsolidatedBill(consolidatedBillingId, payload)
                 .then((response) => {
                     CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY] || "Billing updated successfully", "success");
-                    navigate(CommonService._routeConfig.BillingList() + '?activeTab=consolidatedPayments');
+                    // navigate(CommonService._routeConfig.BillingList() + '?activeTab=consolidatedPayments');
                 }).catch((error) => {
                     CommonService._alert.showToast(error.error || error.errors || "Failed to update billing", "error");
                 })
