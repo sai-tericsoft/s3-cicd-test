@@ -28,6 +28,8 @@ import FormikCheckBoxComponent from "../../../shared/components/form-controls/fo
 import ESignApprovalComponent from "../../../shared/components/e-sign-approval/ESignApprovalComponent";
 import TableComponent from "../../../shared/components/table/TableComponent";
 import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
+import FilesUneditableMiddlewareComponent
+    from "../../../shared/components/files-uneditable-middleware/FilesUneditableMiddlewareComponent";
 
 interface ViewMedicalInterventionScreenProps {
 
@@ -328,9 +330,15 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                     <MedicalInterventionDetailsCardComponent medicalInterventionDetails={medicalInterventionDetails}
                                                              mode={"view"}
                                                              showAction={true}/>
-                <div className={'d-flex ts-justify-content-sm-end'}>
-                    <ButtonComponent onClick={handleEditSoapNote} prefixIcon={<ImageConfig.EditIcon/>}>Edit SOAP Note</ButtonComponent>
-                </div>
+                    <div className={'d-flex ts-justify-content-sm-end'}>
+
+                        <FilesUneditableMiddlewareComponent
+                            timeStamp={medicalInterventionDetails?.completed_date}>
+                            <ButtonComponent onClick={handleEditSoapNote} prefixIcon={<ImageConfig.EditIcon/>}>Edit SOAP
+                                Note</ButtonComponent>
+                        </FilesUneditableMiddlewareComponent>
+
+                    </div>
                     <Formik
                         validationSchema={MedicalInterventionAddFormValidationSchema}
                         initialValues={addMedicalInterventionFormInitialValues}
