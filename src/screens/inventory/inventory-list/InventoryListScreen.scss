@@ -2,12 +2,17 @@
   .t-cell-code, .t-cell-quantity, .t-cell-price {
     text-align: center !important;
   }
+  .t-cell-action{
+    padding-right: 30px !important;
+  }
+
 
   .t-table-wrapper .t-table {
     .t-th, .t-td {
       &:first-child {
-        padding-left: 40px;
+        padding-left: 30px;
       }
+
     }
   }
 
