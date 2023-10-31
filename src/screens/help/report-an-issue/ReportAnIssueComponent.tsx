@@ -85,7 +85,7 @@ const ReportAnIssueComponent = (props: ReportAnIssueComponentProps) => {
                             <CardComponent className={'report-an-issue-wrapper'}>
                                 <div className={'ts-row'}>
 
-                                    <FormControlLabelComponent className={'issue-heading'} label={'Issue'}/>
+                                    <FormControlLabelComponent className={'issue-heading'} label={'Issue*'}/>
                                     <div className={'ts-col-md-12'}>
                                         <Field name={'issue'}>
                                             {
@@ -95,6 +95,7 @@ const ReportAnIssueComponent = (props: ReportAnIssueComponentProps) => {
                                                         placeholder={' '}
                                                         formikField={field}
                                                         fullWidth={true}
+                                                        required={true}
                                                     />
                                                 )
                                             }
@@ -148,7 +149,7 @@ const ReportAnIssueComponent = (props: ReportAnIssueComponentProps) => {
                                     <ButtonComponent type={'submit'}
                                                      size={'large'}
                                                      isLoading={isIssueSubmitting}
-                                                     disabled={!isValid || isIssueSubmitting || (values.issue?.length === 0 && values.attachment?.length === 0)}>
+                                                     disabled={!isValid || isIssueSubmitting || (values.issue?.length === 0)}>
                                         Submit
                                     </ButtonComponent>
                                 </div>
