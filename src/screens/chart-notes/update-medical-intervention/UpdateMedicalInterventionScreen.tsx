@@ -288,7 +288,7 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                     }
                 })
         }
-    }, [medicalInterventionId, medicalInterventionDetails,dispatch]);
+    }, [medicalInterventionId, medicalInterventionDetails, dispatch]);
 
 
     useEffect(() => {
@@ -1246,16 +1246,18 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                                                 />
                                             </div>
                                         </div>
-                                        <div
-                                            className={"display-flex flex-direction-row-reverse mrg-top-50 mrg-bottom-25"}>
-                                            <ESignApprovalComponent isSigned={signedObject?.is_signed}
-                                                                    isSigning={isSigningInProgress}
-                                                // isLoading={formik.isSubmitting}
-                                                                    canSign={true}
-                                                                    signedAt={signedObject?.signed_on}
-                                                                    onSign={() => {
-                                                                        handleSign(formik.values, formik);
-                                                                    }}/>
+                                        <div className={'ts-row'}>
+                                            <div className={'ts-col-lg-8 ts-col-md-9 ts-col-sm-10'}/>
+                                            <div className={'ts-col-lg-4 ts-col-md-3 ts-col-sm-2 mrg-top-50 mrg-bottom-25'}>
+                                                <ESignApprovalComponent isSigned={signedObject?.is_signed}
+                                                                        isSigning={isSigningInProgress}
+                                                    // isLoading={formik.isSubmitting}
+                                                                        canSign={true}
+                                                                        signedAt={signedObject?.signed_on}
+                                                                        onSign={() => {
+                                                                            handleSign(formik.values, formik);
+                                                                        }}/>
+                                            </div>
                                         </div>
                                     </CardComponent>
                                     <div className="t-form-actions">
