@@ -29,8 +29,7 @@ const SystemSettingsFormValidationSchema = Yup.object({
             .required("Input is required"),
         buffer_time: Yup.string()
             .required("Buffer Time is required"),
-        admin_email: Yup.string()
-            .required("Admin Email is required"),
+        admin_email: Yup.string().email("Invalid Email"),
     })
 });
 
