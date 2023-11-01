@@ -267,10 +267,10 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                         signed_on: response.data?.signed_on
                     })
 
-                    if (medicalInterventionDetails?.is_flagged !== payload.is_flagged) {
-
-                        CommonService._alert.showToast(payload.is_flagged ? 'Note has been flagged.' : 'Note has been unflagged.', "success");
-                    }
+                    // if (medicalInterventionDetails?.is_flagged !== payload.is_flagged) {
+                    //
+                    //     CommonService._alert.showToast(payload.is_flagged ? 'Note has been flagged.' : 'Note has been unflagged.', "success");
+                    // }
                     if (announce) {
                     }
                     setIsSavingProgress(false);
@@ -288,7 +288,7 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                     }
                 })
         }
-    }, [medicalInterventionId, medicalInterventionDetails, dispatch]);
+    }, [medicalInterventionId, dispatch]);
 
 
     useEffect(() => {
@@ -376,6 +376,20 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                 });
         });
     }, [medicalInterventionId, medicalRecordId, navigate]);
+
+    const handleFlagNoteChange = useCallback((isChecked: boolean) => {
+        if (medicalInterventionId) {
+            CommonService._chartNotes.MedicalInterventionBasicDetailsUpdateAPICall(medicalInterventionId, {
+                is_flagged: isChecked
+            }).then((response: IAPIResponseType<any>) => {
+                // dispatch(setMedicalInterventionDetails(response.data));
+                CommonService._alert.showToast(isChecked ? 'Note has been flagged.' : 'Note has been unflagged.', "success");
+            }).catch((error: any) => {
+                CommonService._alert.showToast(error.error, "error");
+            });
+        }
+
+    },[medicalInterventionId]);
 
     return (
         <div className={'add-medical-intervention-screen'}>
@@ -515,9 +529,9 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                                                                            formikField={field}
                                                                            required={false}
                                                                            labelPlacement={"start"}
-                                                                           // onChange={(isChecked: any) => {
-                                                                           //     CommonService._alert.showToast(isChecked ? 'This note has been marked as flagged' : '', "success");
-                                                                           // }}
+                                                                           onChange={(isChecked: boolean) => {
+                                                                               handleFlagNoteChange(isChecked);
+                                                                           }}
                                                                        />
                                                                    )
                                                                }

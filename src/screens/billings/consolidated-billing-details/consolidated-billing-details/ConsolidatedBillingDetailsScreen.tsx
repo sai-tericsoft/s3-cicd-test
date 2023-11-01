@@ -385,7 +385,7 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                     CommonService._alert.showToast(error.error || error.errors || "Failed to update billing", "error");
                 })
 
-        }, [consolidatedBillingId, navigate]);
+        }, [consolidatedBillingId]);
 
         const getLinkedClientList = useCallback(() => {
             CommonService._billingsService.LinkedClientListAPICall(billingDetails?.client_id, {})
