@@ -359,14 +359,14 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
                         <div className={'ts-row'}>
                             <div className={'ts-col'}>
                                 <DataLabelValueComponent label={'Date of Intervention'}>
-                                    <div className={'cursor-pointer'} onClick={() => {
+                                    <div className={'cursor-pointer d-flex'} onClick={() => {
                                         setIsEditInterventionDateOpen(true);
                                     }}>
                                         {medicalInterventionDetails?.intervention_date ? CommonService.convertDateFormat2(medicalInterventionDetails?.intervention_date) : "N/A"}
 
                                         {/*<IconButtonComponent */}
                                         {/*    id={"edit"}>*/}
-                                            <ImageConfig.EditIcon className={'mrg-left-5'} width={'16'} height={'16'}/>
+                                            <ImageConfig.EditIcon className={'edit-icon'} width={'16'} height={'16'}/>
                                         {/*</IconButtonComponent>*/}
                                     </div>
                                 </DataLabelValueComponent>
