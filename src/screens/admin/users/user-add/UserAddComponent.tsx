@@ -194,7 +194,7 @@ const UserAddComponent = (props: UserAddComponentProps) => {
                                                     <FormikAutoCompleteComponent
                                                         options={facilityListLite}
                                                         isDataLoading={isFacilityListLiteLoading}
-                                                        label={'Select Facility'}
+                                                        label={'Assigned Facilities'}
                                                         formikField={field}
                                                         required={true}
                                                         fullWidth={true}
