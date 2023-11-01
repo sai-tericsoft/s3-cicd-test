@@ -27,6 +27,7 @@ import FormikTextAreaComponent from "../../../shared/components/form-controls/fo
 import FormikCheckBoxComponent from "../../../shared/components/form-controls/formik-check-box/FormikCheckBoxComponent";
 import ESignApprovalComponent from "../../../shared/components/e-sign-approval/ESignApprovalComponent";
 import TableComponent from "../../../shared/components/table/TableComponent";
+import ToolTipComponent from "../../../shared/components/tool-tip/ToolTipComponent";
 
 interface UpdateMedicalInterventionScreenProps {
 
@@ -148,7 +149,15 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
             // fixed: 'right',
             render: (item: any) => {
                 return <div className={'comments'}>
-                    {item?.config?.comments || "N/A"}
+                    {
+                        item?.config?.comments ?
+                            <ToolTipComponent tooltip={item?.config?.comments}>
+                                <div
+                                    className={'comment-text'}>{item?.config?.comments?.length ? CommonService.capitalizeFirstLetter(item?.config?.comments?.substring(0, 60) + '...') : item?.config?.comments}
+                                </div>
+                            </ToolTipComponent> : '-'
+                    }
+
                 </div>
             }
         }
@@ -234,8 +243,14 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                                 align: 'center',
                                 width: 500,
                                 render: (item: any) => {
-                                    return <div
-                                        className={'comment-text'}>{item?.config?.comments ? CommonService.capitalizeFirstLetter(item?.config?.comments) : "-"}</div>
+                                    return <>
+                                        {item?.config?.comments ?
+                                            <ToolTipComponent tooltip={item?.config?.comments}>
+                                                <div
+                                                    className={'comment-text'}>{item?.config?.comments?.length ? CommonService.capitalizeFirstLetter(item?.config?.comments?.substring(0, 60) + '...') : item?.config?.comments}
+                                                </div>
+                                            </ToolTipComponent> : '-'}
+                                    </>
                                 }
                             }
                         ]
@@ -389,7 +404,7 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
             });
         }
 
-    },[medicalInterventionId]);
+    }, [medicalInterventionId]);
 
     return (
         <div className={'add-medical-intervention-screen'}>
