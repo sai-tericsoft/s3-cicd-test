@@ -30,6 +30,7 @@ import TableComponent from "../../../shared/components/table/TableComponent";
 import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
 import FilesUneditableMiddlewareComponent
     from "../../../shared/components/files-uneditable-middleware/FilesUneditableMiddlewareComponent";
+import ToolTipComponent from "../../../shared/components/tool-tip/ToolTipComponent";
 
 interface ViewMedicalInterventionScreenProps {
 
@@ -147,7 +148,14 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
             // fixed: 'right',
             render: (item: any) => {
                 return <div className={'comments'}>
-                    {item?.config?.comments || "N/A"}
+                    {
+                        item?.config?.comments ?
+                            <ToolTipComponent tooltip={item?.config?.comments}>
+                                <div
+                                    className={'comment-text'}>{item?.config?.comments?.length ? CommonService.capitalizeFirstLetter(item?.config?.comments?.substring(0, 60) + '...') : item?.config?.comments}
+                                </div>
+                            </ToolTipComponent> : '-'
+                    }
                 </div>
             }
         }
@@ -231,8 +239,14 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                         key: 'comments',
                         width: 300,
                         render: (item: any) => {
-                            return <div
-                                className={'comment-text'}>{item?.config?.comments ? CommonService.capitalizeFirstLetter(item?.config?.comments) : "-"}</div>
+                            return <>
+                                {item?.config?.comments ?
+                                    <ToolTipComponent tooltip={item?.config?.comments}>
+                                        <div
+                                            className={'comment-text'}>{item?.config?.comments?.length ? CommonService.capitalizeFirstLetter(item?.config?.comments?.substring(0, 60) + '...') : item?.config?.comments}
+                                        </div>
+                                    </ToolTipComponent> : '-'}
+                            </>
                         }
                     }]
             }
