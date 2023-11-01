@@ -89,6 +89,7 @@ const MessageBoardComponent = (props: MessageBoardComponentProps) => {
         CommonService._dashboardService.sendBirthdayWishes(id)
             .then((response: any) => {
                 CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+                getBirthdayList();
             }).catch((error: any) => {
             CommonService._alert.showToast(error.error, "error");
         })
@@ -154,7 +155,6 @@ const MessageBoardComponent = (props: MessageBoardComponentProps) => {
                             }
                             {
                                 birthdayListData.length > 0 && birthdayListData?.map((birthday: any) => {
-                                    console.log('birthday', birthday);
                                     return <div className={'ts-row'}>
                                         <div className={' ts-col-9 birthday-detail-wrapper'}>
                                             <div className={'avatar-container'}>
@@ -166,7 +166,7 @@ const MessageBoardComponent = (props: MessageBoardComponentProps) => {
                                             </div>
                                         </div>
                                         <ButtonComponent color={"primary"}  className={'ts-col-1 icon-wrapper'}
-                                                         disabled={birthday?.is_wishes_sent}
+                                                         disabled={birthday?.is_notified}
                                                          onClick={() => handleSendWishes(birthday?._id)}>
                                             <ImageConfig.FORWARD_ICON/>
                                         </ButtonComponent>
