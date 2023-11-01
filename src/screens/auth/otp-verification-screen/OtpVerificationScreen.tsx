@@ -83,7 +83,7 @@ const OtpVerificationScreen = (props: OtpVerificationScreenProps) => {
             .catch((error: any) => {
                 CommonService._alert.showToast(error.error || error.errors, 'error');
                 // CommonService.handleErrors(setErrors, error);
-                setErrorMessage(error.errors || "Entered wrong code please try again")
+                setErrorMessage(error.errors || "Invalid OTP")
                 setIsLoading(false);
             })
     }, [handleNavigation,email]);
