@@ -446,7 +446,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                 setIsSubmitting(false);
                 CommonService._alert.showToast(error.error || error.errors || "Failed to add note and comment", "error");
             });
-    }, [billingId, navigate, location.pathname, type]);
+    }, [billingId]);
 
 
     return (
