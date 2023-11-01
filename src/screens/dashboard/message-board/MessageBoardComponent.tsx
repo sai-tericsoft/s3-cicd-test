@@ -93,7 +93,7 @@ const MessageBoardComponent = (props: MessageBoardComponentProps) => {
             }).catch((error: any) => {
             CommonService._alert.showToast(error.error, "error");
         })
-    }, [])
+    }, [getBirthdayList])
 
     return (
         <div className={'message-board-component'}>
