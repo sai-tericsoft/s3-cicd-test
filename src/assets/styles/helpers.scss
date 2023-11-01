@@ -112,7 +112,7 @@ $alignments: (center, left, right, justify, inherit);
 // text align helpers --< End
 
 // element float helpers --> Start
-$floats: (none, left, right, inherit);
+$floats: ( left, right, inherit);
 @each $float in $floats {
   .pull-#{$float} {
     float: #{$float} !important;
@@ -122,7 +122,7 @@ $floats: (none, left, right, inherit);
 // element float helpers --< End
 
 // element position helpers --> Start
-$positions: (static, relative, absolute, sticky, fixed);
+$positions: ( relative, absolute, sticky, fixed);
 @each $position in $positions {
   .position-#{$position} {
     position: #{$position} !important;
@@ -132,7 +132,7 @@ $positions: (static, relative, absolute, sticky, fixed);
 // element position helpers --< End
 
 // element display helpers ---> Start
-$display-options: (inline, block, contents, flex, grid, inline-block, inline-flex, inline-grid, inline-table, list-item, run-in, table, table-caption, table-column-group, table-header-group, table-footer-group, table-row-group, table-cell, table-column, table-row, none, initial, inherit);
+$display-options: (inline, block, contents, flex, grid, inline-block, inline-flex, table, table-cell, table-column, table-row, none, initial, inherit);
 @each $display-option in $display-options {
   .display-#{$display-option} {
     display: #{$display-option} !important;
@@ -163,7 +163,7 @@ $overflow-options: (visible, hidden, scroll, auto, none);
 
 
 // element overflow helpers ---> Start
-$cursor-options: (alias, all, auto, cell, context-menu, col-resize, copy, crosshair, default, e-resize, ew-resize, grab, grabbing, help, move, n-resize, ne-resize, nesw-resize, ns-resize, nw-resize, nwse-resize, no-drop, none, not-allowed, pointer, progress, row-resize, s-resize, se-resize, sw-resize, text, url, w-resize, wait, zoom-in, zoom-out);
+$cursor-options: (  default, grab, grabbing, move, no-drop, none, not-allowed, pointer);
 @each $cursor-option in $cursor-options {
   .cursor-#{$cursor-option} {
     cursor: #{$cursor-option} !important;
@@ -206,7 +206,7 @@ $fdir-options: (column, row, column-reverse, row-reverse, revert, unset, inherit
 // flex direction helpers ---< End
 
 //  justify-content helpers ---> Start
-$justify-content-options: (center, start, end, flex-start, flex-end, left, right, normal, space-between, space-around, space-evenly, stretch, safe center, unsafe center, inherit, initial, revert, unse);
+$justify-content-options: (center, start, end, flex-start, flex-end, left, right, normal, space-between, space-around, space-evenly, stretch, inherit, initial, revert, unse);
 @each $justify-content-option in $justify-content-options {
   .justify-content-#{$justify-content-option} {
     justify-content: #{$justify-content-option} !important;
@@ -216,7 +216,7 @@ $justify-content-options: (center, start, end, flex-start, flex-end, left, right
 // justify-content helpers ---< End
 
 //  align-items helpers ---> Start
-$align-items-options: (normal, stretch, center, start, end, flex-start, flex-end, baseline, first baseline, last baseline, safe center, unsafe center, inherit, initial, revert, unset);
+$align-items-options: (normal, stretch, center, start, end, flex-start, flex-end, baseline, inherit, initial, revert, unset);
 @each $align-items-option in $align-items-options {
   .align-items-#{$align-items-option} {
     align-items: #{$align-items-option} !important;
@@ -226,7 +226,7 @@ $align-items-options: (normal, stretch, center, start, end, flex-start, flex-end
 // align-items helpers ---< End
 
 //  text-decoration helpers ---> Start
-$text-decoration-options: (underline, overline red, none, inherit, initial, revert, unset);
+$text-decoration-options: (underline, none, inherit, initial, revert, unset);
 @each $text-decoration-option in $text-decoration-options {
   .text-decoration-#{$text-decoration-option} {
     text-decoration: #{$text-decoration-option} !important;
@@ -246,7 +246,7 @@ $text-transform-options: (none, capitalize, uppercase, lowercase, full-width, fu
 // text-transform helpers ---< End
 
 //  visibility helpers ---> Start
-$visibility-options: (visible, hidden, collapse, inherit, initial, revert, revert-layer, unset);
+$visibility-options: (visible, hidden, inherit, initial, unset);
 @each $visibility-option in $visibility-options {
   .visibility-#{$visibility-option} {
     visibility: #{$visibility-option} !important;
@@ -269,3 +269,4 @@ $visibility-options: (visible, hidden, collapse, inherit, initial, revert, rever
 .error {
   color: #E84142 !important;
 }
+
