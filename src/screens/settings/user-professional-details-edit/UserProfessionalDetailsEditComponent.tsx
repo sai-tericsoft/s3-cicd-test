@@ -191,8 +191,8 @@ const UserProfessionalDetailsEditComponent = (props: UserProfessionalDetailsEdit
                                                                             <FormikDatePickerComponent
                                                                                 label={'Start Date'}
                                                                                 placeholder={'MM-DD-YYYY'}
-                                                                                maxDate={CommonService._staticData.today}
                                                                                 formikField={field}
+                                                                                maxDate={moment()}
                                                                                 fullWidth={true}
                                                                                 required={true}
                                                                             />
