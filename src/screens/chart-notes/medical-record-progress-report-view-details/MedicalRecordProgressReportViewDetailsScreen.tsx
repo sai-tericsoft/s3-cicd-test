@@ -150,14 +150,15 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
                     <div className={'client-name-button-wrapper'}>
                                     <span className={'client-name-wrapper'}>
                                         <span className={'client-name'}>
-                                            <span className={progressReportDetails?.medical_record_details?.client_details?.is_alias_name_set?"alias-name":''}>
-                                                {commonService.generateClientNameFromClientDetails( progressReportDetails?.medical_record_details?.client_details)}
+                                            <span
+                                                className={progressReportDetails?.medical_record_details?.client_details?.is_alias_name_set ? "alias-name" : ''}>
+                                                {commonService.generateClientNameFromClientDetails(progressReportDetails?.medical_record_details?.client_details)}
                                                 </span>
                                         </span>
                                         <ChipComponent
                                             className={clientMedicalRecord?.status === 'completed' ? "inactive" : "active"}
                                             size={'small'}
-                                            label={clientMedicalRecord?.status === 'completed'? 'Closed - Resolved' : 'Open - Unresolved'}/>
+                                            label={clientMedicalRecord?.status === 'completed' ? 'Closed - Resolved' : 'Open - Unresolved'}/>
                                     </span>
                     </div>
                     <MedicalInterventionLinkedToComponent label={'Report Linked to:'}
@@ -282,9 +283,12 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
                                                 </CardComponent>
                                             </div>
                                         }
-                                        <div className={"display-flex flex-direction-row-reverse mrg-top-20"}>
-                                            <ESignApprovalComponent isSigned={progressReportDetails?.is_signed}
-                                                                    signedAt={progressReportDetails?.signed_on}/>
+                                        <div className={'ts-row'}>
+                                            <div className={'ts-col-md-4 ts-col-lg-8'}/>
+                                            <div className={'ts-col-md-4 ts-col-lg-4'}>
+                                                <ESignApprovalComponent isSigned={progressReportDetails?.is_signed}
+                                                                        signedAt={progressReportDetails?.signed_on}/>
+                                            </div>
                                         </div>
                                     </div>
                                 </>
