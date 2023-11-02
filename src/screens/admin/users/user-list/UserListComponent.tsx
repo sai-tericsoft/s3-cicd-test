@@ -101,11 +101,11 @@ const UserListComponent = (props: UserListComponentProps) => {
         }, []);
 
         return (
-            <div className={'user-list-component list-screen'}>
-                <div className={'list-screen-header'}>
-                    <div className={'list-search-filters'}>
+            <div className={'user-list-component facility-list-screen'}>
+                <div className={'facility-list-header'}>
+                    <div className={'facility-list-filters'}>
                         <div className="ts-row">
-                            <div className="ts-col-md-6 ts-col-lg-4">
+                            <div className="ts-col-lg-4 ts-col-md-6 ">
                                 <SearchComponent
                                     label={"Search"}
                                     placeholder={"Search using User Name"}
