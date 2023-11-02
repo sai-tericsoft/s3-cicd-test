@@ -95,7 +95,7 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
             dataIndex: "results",
             key: "results",
             fixed: "left",
-            align:'left',
+            align: 'left',
             width: 300,
             render: (_: any, item: any) => <Field name={`progress_stats.${item?._id}.result`}>
                 {
@@ -150,7 +150,7 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
                                     </div> :
                                     <ButtonComponent
                                         // disabled={!field.form.values.progress_stats?.[item?._id]?.result}
-                                                     variant={'text'} onClick={() => {
+                                        variant={'text'} onClick={() => {
                                         setShowProgressStatCommentsModal(true);
                                         setSelectedProgressStatComments(item);
                                     }}
@@ -284,8 +284,9 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
                         <div className={'client-name-button-wrapper'}>
                                     <span className={'client-name-wrapper'}>
                                         <span className={'client-name'}>
-                                            <span className={clientMedicalRecordProgressReportDetails?.medical_record_details?.client_details?.is_alias_name_set ? "alias-name":""}>
-                                                {commonService.generateClientNameFromClientDetails( clientMedicalRecordProgressReportDetails?.medical_record_details?.client_details)}
+                                            <span
+                                                className={clientMedicalRecordProgressReportDetails?.medical_record_details?.client_details?.is_alias_name_set ? "alias-name" : ""}>
+                                                {commonService.generateClientNameFromClientDetails(clientMedicalRecordProgressReportDetails?.medical_record_details?.client_details)}
                                                 </span>
                                         </span>
                                         <ChipComponent
@@ -331,9 +332,9 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
 
                         {isFullCardOpen && <>
                             <DataLabelValueComponent label={'Medical Diagnosis/ICD Codes:'}>
-                                { clientMedicalRecordProgressReportDetails?.linked_icd_codes?.length > 0 ?
+                                {clientMedicalRecordProgressReportDetails?.linked_icd_codes?.length > 0 ?
                                     <>
-                                        {clientMedicalRecordProgressReportDetails?.linked_icd_codes?.map((icdCode: any,index:number) => (
+                                        {clientMedicalRecordProgressReportDetails?.linked_icd_codes?.map((icdCode: any, index: number) => (
                                             <div key={index}
                                                  className='d-flex ts-align-items-center mrg-top-5'>
                                                 <div className='width-5 mrg-right-10'>{icdCode?.icd_code}</div>
@@ -377,7 +378,7 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
                         innerRef={formRef}
                 >
                     {(formik,) => {
-                        const {values,setFieldValue,} = formik
+                        const {values, setFieldValue,} = formik
                         // eslint-disable-next-line react-hooks/rules-of-hooks
                         useEffect(() => {
                             // if (values.synopsis || values.impression || values.plan) {
@@ -505,15 +506,17 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
                                                 with the added details.
                                             </div>
                                         </div>
-                                        <div
-                                            className={"display-flex flex-direction-row-reverse mrg-right-25"}>
-                                            <ESignApprovalComponent isSigned={false}
-                                                                    isSigning={isSigningInProgress}
-                                                                    canSign={true}
-                                                                    signedAt={formik.values.signed_on}
-                                                                    onSign={() => {
-                                                                        handleSign(formik.values, formik);
-                                                                    }}/>
+                                        <div className={'ts-row'}>
+                                            <div className={'ts-col-lg-8 ts-col-md-9 ts-col-sm-10'}/>
+                                            <div className={'esign-pad'}>
+                                                    <ESignApprovalComponent isSigned={false}
+                                                                            isSigning={isSigningInProgress}
+                                                                            canSign={true}
+                                                                            signedAt={formik.values.signed_on}
+                                                                            onSign={() => {
+                                                                                handleSign(formik.values, formik);
+                                                                            }}/>
+                                                </div>
                                         </div>
                                     </CardComponent>
                                 </div>
