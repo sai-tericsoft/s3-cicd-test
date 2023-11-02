@@ -409,52 +409,55 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
                                                 <CardComponent className={'finalize-treatment-wrapper'}>
                                                     <div className="cpt-codes-viw-list-header">
 
-                                                        <ButtonComponent
-                                                            className={'white-space-nowrap'}
-                                                            type={"button"}
-                                                            prefixIcon={<ImageConfig.EyeIcon/>}
-                                                            onClick={() => setEightMinuteRuleChartDrawerOpen(true)}
-                                                        >
-                                                            View 8-Minute Rule
-                                                        </ButtonComponent>
-                                                        <ButtonComponent
-                                                            className={'white-space-nowrap'}
-                                                            type={"button"}
-                                                            color={"error"}
-                                                            variant={'outlined'}
-                                                            disabled={isSubmitting || isInterventionCheckingOut || selectedCptCodes?.length === 0}
-                                                            prefixIcon={<ClearIcon/>}
-                                                            onClick={() => {
-                                                                setSelectedCptCodes([])
-                                                                setTotalMinutes(0);
-                                                            }
-                                                            }
-                                                        >
-                                                            Clear All Code(s)
-                                                        </ButtonComponent>
-                                                        <ButtonComponent
-                                                            className={'white-space-nowrap'}
-                                                            type={"button"}
-                                                            disabled={isSubmitting || isInterventionCheckingOut}
-                                                            prefixIcon={<AddIcon/>}
-                                                            onClick={() => setSelectCPTCodeDrawerOpen(true)}
-                                                        >
-                                                            Add CPT Code
-                                                        </ButtonComponent>
+                                                        <div>
+
+                                                            <div className='cpt-code-list-footer'>
+                                                                <div className="total-heading">Total number
+                                                                    of minutes
+                                                                </div>
+                                                                <div
+                                                                    className="total-minutes-wrapper">{totalMinutes}</div>
+                                                            </div>
+                                                        </div>
+                                                        <div>
+                                                            <ButtonComponent
+                                                                className={'white-space-nowrap mrg-right-10'}
+                                                                type={"button"}
+                                                                prefixIcon={<ImageConfig.EyeIcon/>}
+                                                                onClick={() => setEightMinuteRuleChartDrawerOpen(true)}
+                                                            >
+                                                                View 8-Minute Rule
+                                                            </ButtonComponent>
+                                                            <ButtonComponent
+                                                                className={'white-space-nowrap mrg-right-10'}
+                                                                type={"button"}
+                                                                color={"error"}
+                                                                variant={'outlined'}
+                                                                disabled={isSubmitting || isInterventionCheckingOut || selectedCptCodes?.length === 0}
+                                                                prefixIcon={<ClearIcon/>}
+                                                                onClick={() => {
+                                                                    setSelectedCptCodes([])
+                                                                    setTotalMinutes(0);
+                                                                }
+                                                                }
+                                                            >
+                                                                Clear All Code(s)
+                                                            </ButtonComponent>
+                                                            <ButtonComponent
+                                                                className={'white-space-nowrap'}
+                                                                type={"button"}
+                                                                disabled={isSubmitting || isInterventionCheckingOut}
+                                                                prefixIcon={<AddIcon/>}
+                                                                onClick={() => setSelectCPTCodeDrawerOpen(true)}
+                                                            >
+                                                                Add CPT Code
+                                                            </ButtonComponent>
+                                                        </div>
                                                     </div>
                                                     <div>
                                                         <TableV2Component
                                                             data={selectedCptCodes}
                                                             showFooter={true}
-                                                            footer={
-                                                                <div className='cpt-code-list-footer'>
-                                                                    <div className="total-heading">Total number
-                                                                        of minutes
-                                                                    </div>
-                                                                    <div
-                                                                        className="total-minutes-wrapper">{totalMinutes}</div>
-                                                                </div>
-                                                            }
                                                             noDataText={"No CPT code has been added yet."}
                                                             columns={CPTCodesColumns}/>
                                                     </div>
@@ -467,7 +470,7 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
                                                                                  size={'large'}
                                                                                  className={isSubmitting ? 'mrg-right-15' : ''}
                                                                                  disabled={isSubmitting || isInterventionCheckingOut}
-                                                                                 onClick={()=>navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId))}
+                                                                                 onClick={() => navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId))}
                                                                 >
                                                                     Home
                                                                 </ButtonComponent>&nbsp;&nbsp;
