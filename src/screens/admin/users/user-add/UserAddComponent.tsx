@@ -195,6 +195,7 @@ const UserAddComponent = (props: UserAddComponentProps) => {
                                                         options={facilityListLite}
                                                         isDataLoading={isFacilityListLiteLoading}
                                                         label={'Assigned Facilities'}
+                                                        placeholder={'Select Facility'}
                                                         formikField={field}
                                                         required={true}
                                                         fullWidth={true}
