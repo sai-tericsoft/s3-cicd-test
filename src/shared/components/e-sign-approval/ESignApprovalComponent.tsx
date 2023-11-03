@@ -7,7 +7,7 @@ import {CommonService} from "../../services";
 import LoaderComponent from "../loader/LoaderComponent";
 import {IAPIResponseType} from "../../models/api.model";
 import {ICheckLoginResponse} from "../../models/account.model";
-import {logout, setLoggedInUserData, setLoggedInUserToken} from "../../../store/actions/account.action";
+import { setLoggedInUserData, setLoggedInUserToken} from "../../../store/actions/account.action";
 import {Misc} from "../../../constants";
 
 interface ESignApprovalComponentProps {
@@ -46,7 +46,7 @@ const ESignApprovalComponent = (props: ESignApprovalComponentProps) => {
                     })
             }
         }
-    }, []);
+    }, [signature_url, dispatch]);
 
 
     return (
