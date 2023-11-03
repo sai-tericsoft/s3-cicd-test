@@ -119,7 +119,6 @@ const ClientListScreen = (props: ClientListScreenProps) => {
             </DrawerComponent>
         </div>
     );
-
 };
 
 export default ClientListScreen;
