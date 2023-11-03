@@ -1,10 +1,14 @@
 import "./ESignApprovalComponent.scss";
 import ButtonComponent from "../button/ButtonComponent";
-import {useCallback} from "react";
-import {useSelector} from "react-redux";
+import {useCallback, useEffect} from "react";
+import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
 import {CommonService} from "../../services";
 import LoaderComponent from "../loader/LoaderComponent";
+import {IAPIResponseType} from "../../models/api.model";
+import {ICheckLoginResponse} from "../../models/account.model";
+import {logout, setLoggedInUserData, setLoggedInUserToken} from "../../../store/actions/account.action";
+import {Misc} from "../../../constants";
 
 interface ESignApprovalComponentProps {
     isLoading?: boolean;
@@ -20,12 +24,30 @@ const ESignApprovalComponent = (props: ESignApprovalComponentProps) => {
 
     const {currentUser} = useSelector((state: IRootReducerState) => state.account);
     const {isSigned, isLoading, onSign, isSigning, canSign, signedAt, signature_url} = props;
+    const dispatch = useDispatch();
 
     const handleOnSign = useCallback(() => {
         if (onSign) {
             onSign();
         }
     }, [onSign]);
+
+    useEffect(() => {
+        if(!signature_url){
+            const token = CommonService._localStorage.getItem(Misc.LOCAL_STORAGE_JWT_TOKEN);
+            if (token) {
+                CommonService._account.CheckLoginAPICall(token)
+                    .then((response: IAPIResponseType<ICheckLoginResponse>) => {
+                        dispatch(setLoggedInUserData(response.data.user));
+                        dispatch(setLoggedInUserToken(token));
+                    })
+                    .catch(() => {
+
+                    })
+            }
+        }
+    }, []);
+
 
     return (
         <div className={'e-sign-approval-component'}>
