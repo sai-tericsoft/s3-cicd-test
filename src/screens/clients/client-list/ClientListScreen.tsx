@@ -81,7 +81,7 @@ const ClientListScreen = (props: ClientListScreenProps) => {
                                 }}
                             />
                         </div>
-                        <div className="ts-col-md-6 ts-col-lg-3">
+                        <div className="ts-col-md-6 ts-col-lg-3 status-filter">
                             <SelectComponent
                                 label={"Status"}
                                 size={"small"}
