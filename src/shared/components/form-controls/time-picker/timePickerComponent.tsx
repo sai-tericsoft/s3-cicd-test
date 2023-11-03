@@ -97,7 +97,10 @@ const TimePickerComponent = (props: TimePickerComponentProps) => {
                             onChange={handleChange}
                             open={open}
                             onOpen={() => setOpen(true)}
-                            onClose={() => setOpen(false)}
+                            onClose={() => {
+                                setOpen(false)
+                                handleOnBlur()
+                            }}
                             slotProps={{
                                 textField: {
                                     required: required,
@@ -106,7 +109,7 @@ const TimePickerComponent = (props: TimePickerComponentProps) => {
                                     name: name,
                                     id: id,
                                     color: color,
-                                    onBlur: handleOnBlur,
+                                    // onBlur: handleOnBlur,
                                     onClick: () => setOpen(true)
                                 },
                             }}
