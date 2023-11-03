@@ -36,13 +36,13 @@ const DraftNoteListComponent = (props: DraftNoteListComponentProps) => {
                         position={"top"}
                         showArrow={true}
                     >
-                        <div className={"ellipses-for-table-data"}>
-                            {item?.case_details && CommonService.generateUseCaseFromCaseDetails2(item?.case_details)}
+                        {/*<div className={"ellipses-for-table-data"}>*/}
+                        {/*    {item?.case_details && CommonService.generateUseCaseFromCaseDetails2(item?.case_details)}*/}
+                        {/*</div>*/}
+                        <div>
+                            {CommonService.generateUseCaseFromCaseDetails(item?.case_details) && CommonService.generateUseCaseFromCaseDetails2(item?.case_details)?.substring(0, 30) + "..." }
                         </div>
-                    </ToolTipComponent> :
-                    <>
-                        {item?.case_details && CommonService.generateUseCaseFromCaseDetails2(item?.case_details)}
-                    </>
+                    </ToolTipComponent>: CommonService.generateUseCaseFromCaseDetails2(item?.case_details)
                 }</>
             }
         },
