@@ -2,10 +2,10 @@
 
 .date-range-picker-component {
   min-width: 290px;
+  max-width: 290px;
 
   .MuiOutlinedInput-root {
     border-radius: 7px;
-    width: 100%;
     background-color: white !important;
   }
 
