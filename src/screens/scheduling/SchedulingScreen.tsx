@@ -24,13 +24,14 @@ import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import ToolTipComponent from "../../shared/components/tool-tip/ToolTipComponent";
 import LoaderComponent from "../../shared/components/loader/LoaderComponent";
 import TableWrapperComponent from "../../shared/components/table-wrapper/TableWrapperComponent";
-import DateRangePickerComponent from "../../shared/components/form-controls/date-range-picker/DateRangePickerComponent";
 import BlockCalendarComponent from "./block-calendar/BlockCalendarComponent";
 import LinkComponent from "../../shared/components/link/LinkComponent";
 import {DatePicker} from "@mui/x-date-pickers/DatePicker";
 import {AdapterDateFns} from '@mui/x-date-pickers/AdapterDateFns';
 import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider';
 import commonService from "../../shared/services/common.service";
+import DateRangePickerComponentV2
+    from "../../shared/components/form-controls/date-range-pickerV2/DateRangePickerComponentV2";
 
 interface SchedulingScreenProps {
 
@@ -688,13 +689,19 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                         }
 
                         {viewMode === 'list' && <div className="scheduling-filter-header-action-item">
-                            <DateRangePickerComponent
-                                label={"Select Date Range"}
+                            {/*<DateRangePickerComponent*/}
+                            {/*    label={"Select Date Range"}*/}
+                            {/*    value={schedulingListFilterState.date_range}*/}
+                            {/*    onDateChange={(value: any) => {*/}
+                            {/*        handleFilters(value, 'dateRange')*/}
+                            {/*    }}*/}
+                            {/*/>*/}
+                            <DateRangePickerComponentV2
                                 value={schedulingListFilterState.date_range}
                                 onDateChange={(value: any) => {
                                     handleFilters(value, 'dateRange')
                                 }}
-                            />
+                                />
                         </div>
                         }
 
@@ -1034,13 +1041,15 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                                                         (calendarDaysData && calendarDaysData[date]?.appointments && calendarDaysData[date]?.appointments[value?.label] ? calendarDaysData[date]?.appointments[value?.label] : [])
                                                                             .map((appointment: any) => {
                                                                                 return (
-                                                                                    <div className="card-item"
+                                                                                    <div className="card-item appointment"
                                                                                          onClick={() => {
                                                                                              setOpenedAppointmentDetails(appointment);
                                                                                          }}
                                                                                          style={{
-                                                                                             top: appointment.start_time - value.start,
-                                                                                             height: appointment.end_time - appointment.start_time
+                                                                                             top: (appointment.start_time - value.start)*2 ,
+                                                                                             height: (appointment.end_time - appointment.start_time)*2,
+                                                                                             minHeight: (appointment.end_time - appointment.start_time)*2,
+                                                                                             maxHeight: (appointment.end_time - appointment.start_time)*2
                                                                                          }}>
                                                                                         <CalendarAppointmentCard
                                                                                             title={appointment.client_details}
@@ -1059,10 +1068,10 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                                                             .map((blocked_slot: any) => {
                                                                                 const nonFirstAllDayBlock = !(index !== 0 && blocked_slot.is_block_all_day);
                                                                                 return (
-                                                                                    <div className="card-item"
+                                                                                    <div className="card-item blocked"
                                                                                          style={{
-                                                                                             top: nonFirstAllDayBlock ? blocked_slot.start_time - value.start : 0,
-                                                                                             height: nonFirstAllDayBlock ? blocked_slot.end_time - blocked_slot.start_time : 0
+                                                                                             top: nonFirstAllDayBlock ? (blocked_slot.start_time - value.start)*2  : 0,
+                                                                                             height: nonFirstAllDayBlock ? (blocked_slot.end_time - blocked_slot.start_time)*2  : 0
                                                                                          }}>
                                                                                         {nonFirstAllDayBlock &&
                                                                                             <CalendarAppointmentCard

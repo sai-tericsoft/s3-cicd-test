@@ -1,11 +1,11 @@
 import "./ClientSharedDocumentsComponent.scss";
 import {useParams} from "react-router-dom";
-import DateRangePickerComponent
-    from "../../../shared/components/form-controls/date-range-picker/DateRangePickerComponent";
 import moment from "moment/moment";
 import React, {useState} from "react";
 import {IClientDocumentsFilterState} from "../../../shared/models/client.model";
 import ClientDocumentsTableComponent from "../client-documents-table/ClientDocumentsTableComponent";
+import DateRangePickerComponentV2
+    from "../../../shared/components/form-controls/date-range-pickerV2/DateRangePickerComponentV2";
 
 const CLIENT_DOCUMENT_LIST_TABLE = "ClientListScreen";
 
@@ -28,8 +28,7 @@ const ClientSharedDocumentsComponent = (props: ClientSharedDocumentsComponentPro
     return (
         <div className={'client-shared-documents'}>
             <div className="date-range-wrapper">
-                <DateRangePickerComponent
-                    label={"Select Date Range"}
+                <DateRangePickerComponentV2
                     value={clientDocumentListFilterState.date_range}
                     onDateChange={(value: any) => {
                         if (value) {

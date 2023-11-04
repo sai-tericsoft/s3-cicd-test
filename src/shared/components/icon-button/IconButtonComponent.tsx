@@ -11,7 +11,7 @@ interface IconButtonComponentProps {
     size?: 'small' | 'medium' | 'large';
     id?: string;
     position?: "start" | "end" | false;
-    onClick?: () => void;
+    onClick?: (e:any) => void;
 }
 
 const IconButtonComponent = (props: React.PropsWithChildren<IconButtonComponentProps>) => {
@@ -28,9 +28,9 @@ const IconButtonComponent = (props: React.PropsWithChildren<IconButtonComponentP
     const size = props.size || "medium";
     const type = props.type || "button";
 
-    const handleOnClick = useCallback(() => {
+    const handleOnClick = useCallback((e:any) => {
         if (onClick) {
-            onClick();
+            onClick(e);
         }
     }, [onClick]);
 

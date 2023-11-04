@@ -1,9 +1,9 @@
 import './FormikDatePickerComponent.scss'
 import React, {useCallback} from 'react';
 import _ from "lodash";
-import DatePickerComponent from "../date-picker/DatePickerComponent";
 import {FieldProps} from "formik";
 import {IDatePickerProps} from "../../../models/form-controls.model";
+import DatePickerComponent from "../date-picker/DatePickerComponent";
 
 interface FormikDatePickerComponentProps extends IDatePickerProps {
     formikField: FieldProps;

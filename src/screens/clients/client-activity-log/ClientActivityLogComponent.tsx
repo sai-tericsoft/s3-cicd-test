@@ -7,10 +7,10 @@ import ActivityLogTimelineComponent
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
 import SearchComponent from "../../../shared/components/search/SearchComponent";
-import DateRangePickerComponent
-    from "../../../shared/components/form-controls/date-range-picker/DateRangePickerComponent";
 import moment from "moment/moment";
 import CardsPaginationComponent from "../../../shared/components/cards-pagination/CardsPaginationComponent";
+import DateRangePickerComponentV2
+    from "../../../shared/components/form-controls/date-range-pickerV2/DateRangePickerComponentV2";
 
 interface ClientActivityLogComponentProps {
     clientId: string;
@@ -78,8 +78,7 @@ const ClientActivityLogComponent = (props: ClientActivityLogComponentProps) => {
                         setClientActivityLogFilterState({...clientActivityLogFilterState, search: value})
                     }}
                 />&nbsp;&nbsp;&nbsp;&nbsp;
-                <DateRangePickerComponent
-                    label={"Select Date Range"}
+                <DateRangePickerComponentV2
                     value={clientActivityLogFilterState.date_range}
                     onDateChange={(value: any) => {
                         setClientActivityLogFilterState((oldState: any) => {
