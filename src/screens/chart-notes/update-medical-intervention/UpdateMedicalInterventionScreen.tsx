@@ -9,7 +9,7 @@ import {IAPIResponseType} from "../../../shared/models/api.model";
 import {ImageConfig} from "../../../constants";
 import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
-import {getMedicalInterventionDetails, setMedicalInterventionDetails} from "../../../store/actions/chart-notes.action";
+import {getMedicalInterventionDetails} from "../../../store/actions/chart-notes.action";
 import {setCurrentNavParams} from "../../../store/actions/navigation.action";
 import {ITableColumn} from "../../../shared/models/table.model";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
@@ -276,12 +276,10 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
             }
             CommonService._chartNotes.MedicalInterventionBasicDetailsUpdateAPICall(medicalInterventionId, payload)
                 .then((response: IAPIResponseType<any>) => {
-                    dispatch(setMedicalInterventionDetails(response.data));
                     setSignedObject({
                         is_signed: response.data?.is_signed,
                         signed_on: response.data?.signed_on
                     })
-
                     // if (medicalInterventionDetails?.is_flagged !== payload.is_flagged) {
                     //
                     //     CommonService._alert.showToast(payload.is_flagged ? 'Note has been flagged.' : 'Note has been unflagged.', "success");
@@ -303,7 +301,7 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                     }
                 })
         }
-    }, [medicalInterventionId, dispatch]);
+    }, [medicalInterventionId]);
 
 
     useEffect(() => {
@@ -398,6 +396,7 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                 is_flagged: isChecked
             }).then((response: IAPIResponseType<any>) => {
                 // dispatch(setMedicalInterventionDetails(response.data));
+
                 CommonService._alert.showToast(isChecked ? 'Note has been flagged.' : 'Note has been unflagged.', "success");
             }).catch((error: any) => {
                 CommonService._alert.showToast(error.error, "error");
