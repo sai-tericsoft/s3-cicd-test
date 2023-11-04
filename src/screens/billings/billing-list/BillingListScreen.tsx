@@ -26,8 +26,6 @@ import {IRootReducerState} from "../../../store/reducers";
 import {IAPIResponseType} from "../../../shared/models/api.model";
 import {useLocation, useNavigate, useParams, useSearchParams} from "react-router-dom";
 import ToolTipComponent from "../../../shared/components/tool-tip/ToolTipComponent";
-import DateRangePickerComponent
-    from "../../../shared/components/form-controls/date-range-picker/DateRangePickerComponent";
 import moment from "moment";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
@@ -35,6 +33,8 @@ import BillingStatsCardComponent from "../billing-stats-card/BillingStatsCardCom
 import SwitchComponent from "../../../shared/components/form-controls/switch/SwitchComponent";
 import ReceiptOutlinedIcon from '@mui/icons-material/ReceiptOutlined';
 import commonService from "../../../shared/services/common.service";
+import DateRangePickerComponentV2
+    from "../../../shared/components/form-controls/date-range-pickerV2/DateRangePickerComponentV2";
 
 interface PaymentListComponentProps {
 
@@ -962,8 +962,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
 
                             }
                             <div className={'ts-col'}>
-                                <DateRangePickerComponent
-                                    label={"Select Date Range"}
+                                <DateRangePickerComponentV2
                                     value={clientListFilterState.date_range}
                                     onDateChange={(value: any) => {
                                         setClientListFilterState((oldState: any) => {
@@ -980,7 +979,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                                             return newState;
                                         })
                                     }}
-                                />
+                                    />
                             </div>
                         </div>
                         <div className="ts-col-lg-1"/>

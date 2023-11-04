@@ -423,7 +423,7 @@ const UserSlotsEditComponent = (props: UserSlotsEditComponentProps) => {
                         CommonService.handleErrors(setErrors, error, true);
                     });
             },
-            [facilityId, userBasicDetails]
+            [facilityId, userBasicDetails,handleGoBack]
         );
 
         const handleUserSlotsUpdate = useCallback((endTime: string, startTime: string, isSameSlots: boolean, faclityDays: any) => {

@@ -1,10 +1,8 @@
 import "./UserAccountDetailsEditComponent.scss";
 import {useDispatch, useSelector} from "react-redux";
-import {useLocation, useNavigate, useParams, useSearchParams} from "react-router-dom";
+import { useParams, useSearchParams} from "react-router-dom";
 import React, {useEffect, useState} from "react";
 import {IRootReducerState} from "../../../store/reducers";
-import {setCurrentNavParams} from "../../../store/actions/navigation.action";
-import {CommonService} from "../../../shared/services";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
 import CommunicationPreferencesEditComponent
@@ -18,18 +16,14 @@ interface UserAccountDetailsEditComponentProps {
 
 const UserAccountDetailsEditComponent = (props: UserAccountDetailsEditComponentProps) => {
     const dispatch = useDispatch();
-    const navigate = useNavigate();
     const [searchParams] = useSearchParams();
     const [currentStep, setCurrentStep] = useState<string>('');
-    const location: any = useLocation();
-    const path = location.pathname;
     const {userId} = useParams()
 
     const {
         isUserBasicDetailsLoaded,
         isUserBasicDetailsLoading,
         isUserBasicDetailsLoadingFailed,
-        userBasicDetails,
     } = useSelector((state: IRootReducerState) => state.user);
 
     useEffect(() => {

@@ -4,13 +4,13 @@ import {useDispatch} from "react-redux";
 import {IClientDocumentsFilterState} from "../../../shared/models/client.model";
 import {setCurrentNavParams} from "../../../store/actions/navigation.action";
 import moment from "moment";
-import DateRangePickerComponent
-    from "../../../shared/components/form-controls/date-range-picker/DateRangePickerComponent";
 import ClientDocumentsTableComponent from "../client-documents-table/ClientDocumentsTableComponent";
 import {useNavigate, useParams, useSearchParams} from "react-router-dom";
 import {CommonService} from "../../../shared/services";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import RemoveRedEyeRoundedIcon from '@mui/icons-material/RemoveRedEyeRounded';
+import DateRangePickerComponentV2
+    from "../../../shared/components/form-controls/date-range-pickerV2/DateRangePickerComponentV2";
 
 const CLIENT_DOCUMENT_LIST_TABLE = "ClientListScreen";
 
@@ -73,8 +73,7 @@ const ClientDocumentsComponent = (props: ClientDocumentsComponentProps) => {
                 {/*    />*/}
                 {/*</div>*/}
                 <div className="date-range-wrapper">
-                    <DateRangePickerComponent
-                        label={"Select Date Range"}
+                    <DateRangePickerComponentV2
                         value={clientDocumentListFilterState.date_range}
                         onDateChange={(value: any) => {
                             if (value) {

@@ -61,7 +61,7 @@ const AppointmentListComponent = (props: AppointmentListComponentProps) => {
             align: 'center',
             width: 120,
             render: (item: any) => {
-                return <>{item?.duration ? item.duration +" "+'mins' : '-'} </>
+                return <>{item?.duration ? item.duration +' mins ' : '-'} </>
             }
         },
         {

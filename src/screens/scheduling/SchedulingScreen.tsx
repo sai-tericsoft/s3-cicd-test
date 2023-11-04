@@ -24,13 +24,14 @@ import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import ToolTipComponent from "../../shared/components/tool-tip/ToolTipComponent";
 import LoaderComponent from "../../shared/components/loader/LoaderComponent";
 import TableWrapperComponent from "../../shared/components/table-wrapper/TableWrapperComponent";
-import DateRangePickerComponent from "../../shared/components/form-controls/date-range-picker/DateRangePickerComponent";
 import BlockCalendarComponent from "./block-calendar/BlockCalendarComponent";
 import LinkComponent from "../../shared/components/link/LinkComponent";
 import {DatePicker} from "@mui/x-date-pickers/DatePicker";
 import {AdapterDateFns} from '@mui/x-date-pickers/AdapterDateFns';
 import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider';
 import commonService from "../../shared/services/common.service";
+import DateRangePickerComponentV2
+    from "../../shared/components/form-controls/date-range-pickerV2/DateRangePickerComponentV2";
 
 interface SchedulingScreenProps {
 
@@ -688,13 +689,19 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                         }
 
                         {viewMode === 'list' && <div className="scheduling-filter-header-action-item">
-                            <DateRangePickerComponent
-                                label={"Select Date Range"}
+                            {/*<DateRangePickerComponent*/}
+                            {/*    label={"Select Date Range"}*/}
+                            {/*    value={schedulingListFilterState.date_range}*/}
+                            {/*    onDateChange={(value: any) => {*/}
+                            {/*        handleFilters(value, 'dateRange')*/}
+                            {/*    }}*/}
+                            {/*/>*/}
+                            <DateRangePickerComponentV2
                                 value={schedulingListFilterState.date_range}
                                 onDateChange={(value: any) => {
                                     handleFilters(value, 'dateRange')
                                 }}
-                            />
+                                />
                         </div>
                         }
 

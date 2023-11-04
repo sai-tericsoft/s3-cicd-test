@@ -12,10 +12,10 @@ import {setCurrentNavParams} from "../../../store/actions/navigation.action";
 import {CommonService} from "../../../shared/services";
 import {useDispatch} from "react-redux";
 import SearchComponent from "../../../shared/components/search/SearchComponent";
-import DateRangePickerComponent
-    from "../../../shared/components/form-controls/date-range-picker/DateRangePickerComponent";
 import moment from "moment";
 import CardsPaginationComponent from "../../../shared/components/cards-pagination/CardsPaginationComponent";
+import DateRangePickerComponentV2
+    from "../../../shared/components/form-controls/date-range-pickerV2/DateRangePickerComponentV2";
 
 interface ChartNotesActivityLogsComponentProps {
 
@@ -93,8 +93,26 @@ const ChartNotesActivityLogsComponent = (props: ChartNotesActivityLogsComponentP
                         setChartNotesActivityLogFilterState({...chartNotesActivityLogFilterState, search: value})
                     }}
                 />&nbsp;&nbsp;&nbsp;&nbsp;
-                <DateRangePickerComponent
-                    label={"Select Date Range"}
+                {/*<DateRangePickerComponent*/}
+                {/*    label={"Select Date Range"}*/}
+                {/*    value={chartNotesActivityLogFilterState.date_range}*/}
+                {/*    onDateChange={(value: any) => {*/}
+                {/*        setChartNotesActivityLogFilterState((oldState: any) => {*/}
+                {/*            const newState = {...oldState};*/}
+                {/*            if (value) {*/}
+                {/*                newState['start_date'] = moment(value[0])?.format('YYYY-MM-DD');*/}
+                {/*                newState['end_date'] = moment(value[1])?.format('YYYY-MM-DD');*/}
+                {/*                // newState['date_range'] = value;*/}
+                {/*            } else {*/}
+                {/*                delete newState['date_range'];*/}
+                {/*                delete newState['start_date'];*/}
+                {/*                delete newState['end_date'];*/}
+                {/*            }*/}
+                {/*            return newState;*/}
+                {/*        })*/}
+                {/*    }}*/}
+                {/*/>*/}
+                <DateRangePickerComponentV2
                     value={chartNotesActivityLogFilterState.date_range}
                     onDateChange={(value: any) => {
                         setChartNotesActivityLogFilterState((oldState: any) => {
@@ -111,7 +129,8 @@ const ChartNotesActivityLogsComponent = (props: ChartNotesActivityLogsComponentP
                             return newState;
                         })
                     }}
-                />
+                    />
+
             </div>
             {
                 medicalRecordActivityLogsLoading && <div>
