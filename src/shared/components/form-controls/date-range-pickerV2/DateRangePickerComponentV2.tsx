@@ -57,16 +57,16 @@ const DateRangePickerComponentV2 = (props: DateRangePickerComponentProps) => {
 
     const handleDateChange = (item: any) => {
         // Update the state with the selected range
-        item.selection.startDate !== item.selection.endDate && !item.selection.endDate && handleCalender(false);
-        setStartDate(format(item.selection.startDate, 'MM-dd-yyyy'));
-        setEndDate(format(item.selection.endDate, 'MM-dd-yyyy'));
+        item.selection?.startDate !== item.selection?.endDate && !item.selection?.endDate && handleCalender(false);
+        setStartDate(format(item.selection?.startDate, 'MM-dd-yyyy'));
+        setEndDate(format(item.selection?.endDate, 'MM-dd-yyyy'));
         if (!startDateSelected) {
             setStartDateSelected(true);
         } else {
             setStartDateSelected(false);
             handleCalender(false);
         }
-        (startDateSelected) && onDateChange && onDateChange([item.selection]);
+        (startDateSelected) && onDateChange && onDateChange([item.selection?.startDate, item.selection?.endDate]);
         setRange([item.selection]);
     };
 
@@ -87,15 +87,15 @@ const DateRangePickerComponentV2 = (props: DateRangePickerComponentProps) => {
 
     useEffect(() => {
         if (value) {
-            if (value[0].startDate === "MM-DD-YYYY" || value[0].endDate === "MM-DD-YYYY") {
+            if (!value[0] || !value[1]) {
                 setStartDate("MM-DD-YYYY")
                 setEndDate("MM-DD-YYYY")
             } else {
-                setStartDate(format(new Date(value[0].startDate), 'MM/dd/yyyy'));
-                setEndDate(format(new Date(value[0].endDate), 'MM/dd/yyyy'));
+                setStartDate(format(new Date(value[0]), 'MM-dd-yyyy'));
+                setEndDate(format(new Date(value[1]), 'MM-dd-yyyy'));
                 const tempRange = [{
-                    startDate: new Date(value[0].startDate),
-                    endDate: new Date(value[0].endDate),
+                    startDate: new Date(value[0]),
+                    endDate: new Date(value[1]),
                     key: 'selection'
                 }
                 ]

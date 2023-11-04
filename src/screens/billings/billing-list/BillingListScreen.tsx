@@ -813,8 +813,8 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
         let billingDetails: any = undefined;
 
         const payload = {
-            start_date: clientListFilterState.start_date,
-            end_date: clientListFilterState.end_date,
+            start_date: clientListFilterState?.start_date,
+            end_date: clientListFilterState?.end_date,
         };
         CommonService._billingsService.GetBillingStatsAPICall(clientId, payload)
             .then((response: IAPIResponseType<any>) => {
@@ -965,11 +965,13 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                                 <DateRangePickerComponentV2
                                     value={clientListFilterState.date_range}
                                     onDateChange={(value: any) => {
+                                        console.log(value);
                                         setClientListFilterState((oldState: any) => {
                                             const newState = {...oldState};
                                             if (value) {
                                                 newState['start_date'] = moment(value[0])?.format('YYYY-MM-DD');
                                                 newState['end_date'] = moment(value[1])?.format('YYYY-MM-DD');
+                                                console.log(newState);
                                                 // newState['date_range'] = value;
                                             } else {
                                                 delete newState['date_range'];
