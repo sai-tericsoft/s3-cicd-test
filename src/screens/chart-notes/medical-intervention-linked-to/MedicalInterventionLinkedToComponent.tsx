@@ -77,7 +77,7 @@ const MedicalInterventionLinkedToComponent = (props: MedicalInterventionLinkedTo
                         {medicalRecordDetails?.intervention_linked_to}
                         {medicalRecordDetails?.created_at && CommonService.convertDateFormat2(medicalRecordDetails?.created_at)}{" "}
                         {"-"} {medicalRecordDetails?.injury_details?.map((injury: any, index: number) => {
-                        return <>{injury.body_part_details.name} {injury.body_side ? `( ${injury.body_side} )` : ''} {index !== medicalRecordDetails?.injury_details.length - 1 ? <> | </> : ""}</>
+                        return <>{injury.body_part_details.name} {injury.body_side ? `(${injury.body_side})` : ''} {index !== medicalRecordDetails?.injury_details.length - 1 ? <> | </> : ""}</>
                     })}
                     </div>
                     {
