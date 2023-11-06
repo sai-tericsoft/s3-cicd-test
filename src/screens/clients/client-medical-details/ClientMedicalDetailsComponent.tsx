@@ -231,7 +231,7 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                                 <div className={'ts-row'}>
                                     <div className={'females-only-block'}>
                                         <div className={'ts-col-12'}>
-                                            <DataLabelValueComponent label={'Pregnant or Attempting to be pregnant?'}
+                                            <DataLabelValueComponent label={'Pregnant or trying to get pregnant?'}
                                                                      direction={'row'}>
                                                 {clientMedicalDetails?.females_only_questions?.["Pregnant or trying to get pregnant?"] || "N/A"}
                                             </DataLabelValueComponent>
@@ -294,47 +294,50 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                                    </LinkComponent>
                                    }>
                         {(Object.keys(clientMedicalDetails?.musculoskeletal_history || {}).length === 0) && (Object.keys(clientMedicalDetails?.musculoskeletal_history || {}).length === 0) &&
-                        <div className={'allergies-na'}> {
-                            (Object.keys(clientMedicalDetails?.musculoskeletal_history || {}).length === 0) && <>
-                                None Reported
-                            </>
+                            <div className={'allergies-na'}> {
+                                (Object.keys(clientMedicalDetails?.musculoskeletal_history || {}).length === 0) && <>
+                                    None Reported
+                                </>
+                            }
+
+                            </div>}
+
+                        {
+                            Object.keys(clientMedicalDetails?.musculoskeletal_history || {}).length > 0 &&
+                            <div className={'musculoskeletal-card-body-table'}>
+                                {
+                                    (Object.keys(clientMedicalDetails?.musculoskeletal_history || {})?.map((question, index) => {
+                                        return <div key={question + index} className={"musculoskeletal-history-block"}>
+                                            <div className="ts-row musculoskeletal-history-question-list">
+                                                <div className="ts-col-lg-2 font-weight-bold">
+                                                    {clientMedicalDetails?.musculoskeletal_history[question]?.title}
+                                                </div>
+                                                <div
+                                                    className="ts-col-lg-2 font-weight-bold text-primary">
+                                                    {clientMedicalDetails?.musculoskeletal_history[question]?.value ? "Yes" : "No"}
+                                                </div>
+                                                <div className="ts-col-lg-8 comments-section">
+                                                    {
+                                                        (clientMedicalDetails?.musculoskeletal_history[question]?.text) &&
+                                                        <div className={'musculoskeletal-question'}>
+                                                            {clientMedicalDetails?.musculoskeletal_history[question]?.text.split("\n").map((i: any, key: any) => {
+                                                                return <ul>
+                                                                    <li key={key}>{i}</li>
+                                                                </ul>
+                                                            })}
+                                                        </div>
+                                                    }
+                                                </div>
+
+                                            </div>
+                                            <HorizontalLineComponent className="mrg-bottom-0 mrg-top-0"/>
+                                        </div>
+                                    }))
+                                }
+                            </div>
                         }
 
-                        </div>}
-                        <div className={'musculoskeletal-card-body-table'}>
-                            {
-                                (Object.keys(clientMedicalDetails?.musculoskeletal_history || {})?.map((question, index) => {
-                                    return <div key={question + index} className={"musculoskeletal-history-block"}>
-                                        <div className="ts-row musculoskeletal-history-question-list">
-                                            <div className="ts-col-lg-2 font-weight-bold">
-                                                {clientMedicalDetails?.musculoskeletal_history[question]?.title}
-                                            </div>
-                                            <div
-                                                className="ts-col-lg-2 font-weight-bold text-primary">
-                                                {clientMedicalDetails?.musculoskeletal_history[question]?.value ? "Yes" : "No"}
-                                            </div>
-                                            <div className="ts-col-lg-8 comments-section">
-                                                {
-                                                    (clientMedicalDetails?.musculoskeletal_history[question]?.text) &&
-                                                    <div className={'musculoskeletal-question'}>
-                                                        {clientMedicalDetails?.musculoskeletal_history[question]?.text.split("\n").map((i: any, key: any) => {
-                                                            return <ul>
-                                                                <li key={key}>{i}</li>
-                                                            </ul>
-                                                        })}</div>
-                                                }
-                                                {
-                                                    clientMedicalDetails?.musculoskeletal_history[question]?.value  && !clientMedicalDetails?.musculoskeletal_history[question]?.text
-                                                    && <div className={'musculoskeletal-na'}>None Reported</div>
-                                                }
 
-                                            </div>
-                                        </div>
-                                        <HorizontalLineComponent className="mrg-bottom-0 mrg-top-0"/>
-                                    </div>
-                                }))
-                            }
-                        </div>
                     </CardComponent>
                 </>
             }
