@@ -156,7 +156,7 @@ const convertDateFormat2 = (date: Date, format: string = 'DD-MMM-YYYY') => {
 
 const generateUseCaseFromCaseDetails = (case_details: any) => {
     return `${CommonService.convertDateFormat2(case_details?.case_date)} - ${case_details?.injury_details?.map((bodyPart: any, index: number) => {
-        return (bodyPart?.body_part_details + (bodyPart?.body_side ? `(${bodyPart.body_side})` : ' ') + (index !== case_details?.injury_details?.length - 1 ? ' | ' : ''))
+        return (bodyPart?.body_part_details +" "+ (bodyPart?.body_side ? `(${bodyPart.body_side})` : ' ') + (index !== case_details?.injury_details?.length - 1 ? ' | ' : ''))
     })} `
 }
 
