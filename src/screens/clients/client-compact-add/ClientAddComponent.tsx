@@ -213,7 +213,7 @@ const ClientAddComponent = (props: ClientAddComponentProps) => {
                                     disabled={!isValid || isClientAddInProgress}
                                 >
                                     Proceed with Adding Client
-                                </ButtonComponent>&nbsp;
+                                </ButtonComponent>
                                 <ButtonComponent
                                     onClick={() => handleInviteLink(values, setErrors)}
                                     variant={"contained"}
