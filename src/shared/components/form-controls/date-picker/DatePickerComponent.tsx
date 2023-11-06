@@ -83,7 +83,10 @@ const DatePickerComponent = (props: DatePickerComponentProps) => {
                     open={open}
                     views={['year', 'month', 'day']}
                     onOpen={() => setOpen(true)}
-                    onClose={() => setOpen(false)}
+                    onClose={() =>{
+                        setOpen(false);
+                        handleOnBlur();
+                    }}
                     disabled={disabled}
                     onChange={handleChange}
                     shouldDisableDate={shouldDisableDate}
@@ -95,7 +98,6 @@ const DatePickerComponent = (props: DatePickerComponentProps) => {
                             name: name,
                             id: id,
                             color: color,
-                            onBlur: handleOnBlur,
                             onClick: () => setOpen(true)
                         },
                     }}
