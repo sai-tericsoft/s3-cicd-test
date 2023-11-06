@@ -99,7 +99,7 @@ const ClientAppointmentDetailsComponent = (props: ClientAppointmentDetailsCompon
                                 {/*{appointmentDetails?.intervention_linked_to}*/}
                                 {appointmentDetails?.case_details?.case_date && CommonService.convertDateFormat2(appointmentDetails?.created_at)}{" "}
                                 {"-"} {appointmentDetails?.case_details?.injury_details?.map((injury: any, index: number) => {
-                                return <>{injury.body_part_details.name} {injury.body_side ? `( ${injury.body_side} )` : ''} {index !== appointmentDetails?.case_details?.injury_details.length - 1 ? <> | </> : ""}</>
+                                return <>{injury.body_part_details.name} {injury.body_side ? `(${injury.body_side})` : ''} {index !== appointmentDetails?.case_details?.injury_details.length - 1 ? <> | </> : ""}</>
                             })}
                             </DataLabelValueComponent>
 
