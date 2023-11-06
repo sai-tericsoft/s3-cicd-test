@@ -1365,7 +1365,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                     </div>
                                 </CardComponent>
                                 <div className="t-form-actions">
-                                    <LinkComponent route={CommonService._routeConfig.ClientList()}>
+                                    <LinkComponent className={'text-decoration-none'} route={CommonService._routeConfig.ClientList()}>
                                         <ButtonComponent
                                             id={"cancel_btn"}
                                             variant={"outlined"}
