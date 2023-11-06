@@ -38,7 +38,7 @@ const ClientAppointmentsComponent = (props: ClientAppointmentsComponentProps) =>
             }
         }));
     }, [searchParams, navigate, dispatch]);
-
+    
     return (
         <div className={'client-appointments-list-screen'}>
             <div className="ts-row pdd-top-6">
@@ -48,7 +48,8 @@ const ClientAppointmentsComponent = (props: ClientAppointmentsComponentProps) =>
                         size={"small"}
                         fullWidth={true}
                         options={appointmentStatus}
-                        value={clientAppointmentListFilterState.status}
+                        displayWith={(item: any) => item?.admin_title}
+                        value={clientAppointmentListFilterState?.status}
                         keyExtractor={(item: any) => item.code}
                         onUpdate={(value: any) => {
                             setClientAppointmentListFilterState(
