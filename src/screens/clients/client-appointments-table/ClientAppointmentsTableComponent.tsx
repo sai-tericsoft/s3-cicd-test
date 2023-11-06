@@ -83,8 +83,9 @@ const ClientAppointmentsTableComponent = (props: ClientAppointmentsTableComponen
             width: 200,
             align: "center",
             render: (item: any) => {
+                console.log('item?.appointment_date',item);
                 return <span>
-                    {item?.appointment_date ? CommonService.getSystemFormatTimeStamp(item?.appointment_date, true) : "-"}
+                    {item?.appointment_date ? CommonService.getSystemFormatTimeStamp(item?.appointment_date, false) +", "+CommonService.getHoursAndMinutesFromMinutes(item?.start_time) : "-"}
                 </span>
             }
         },
