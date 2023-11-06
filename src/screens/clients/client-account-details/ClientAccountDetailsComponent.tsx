@@ -75,7 +75,7 @@ const ClientAccountDetailsComponent = (props: ClientAccountDetailsComponentProps
                                         </div>
                                         <div className="ts-col-3">
                                             <DataLabelValueComponent
-                                                label={"Phone Number"}> {clientAccountDetails?.referral_details?.source_info_phone || "N/A"} </DataLabelValueComponent>
+                                                label={"Phone Number"}> {clientAccountDetails?.referral_details?.source_info_phone && CommonService.formatPhoneNumber(clientAccountDetails?.referral_details?.source_info_phone) || "N/A"} </DataLabelValueComponent>
                                         </div>
                                         <div className="ts-col-3">
                                             <DataLabelValueComponent
