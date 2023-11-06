@@ -105,7 +105,6 @@ const EditMedicalRecordComponent = (props: EditMedicalRecordComponentProps) => {
         const payload = {...CommonService.removeKeysFromJSON(_.cloneDeep(values), ['body_part_details'])};
         if (medicalRecordId) {
             setIsMedicalRecordEditInProgress(true);
-            payload.onset_date = CommonService.convertDateFormat(payload?.onset_date);
             CommonService._chartNotes.MedicalRecordEditAPICall(medicalRecordId, payload)
                 .then((response: IAPIResponseType<any>) => {
                     CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY] || "Medical Record edited successfully", "success");
@@ -209,7 +208,8 @@ const EditMedicalRecordComponent = (props: EditMedicalRecordComponentProps) => {
                                 {
                                     values?.case_physician?.is_case_physician && <>
                                         <div>
-                                           <FormControlLabelComponent label={'MD Appointment Details'} size={"md"} className={'mrg-top-15'}/>
+                                            <FormControlLabelComponent label={'MD Appointment Details'} size={"md"}
+                                                                       className={'mrg-top-15'}/>
                                             <Field name={'case_physician.name'}>
                                                 {
                                                     (field: FieldProps) => (
@@ -258,7 +258,8 @@ const EditMedicalRecordComponent = (props: EditMedicalRecordComponentProps) => {
                                     </>
                                 }
 
-                                <FormControlLabelComponent label={'Injury Details'} size={'md'} className={'mrg-top-15 mrg-bottom-15'}/>
+                                <FormControlLabelComponent label={'Injury Details'} size={'md'}
+                                                           className={'mrg-top-15 mrg-bottom-15'}/>
                                 <FieldArray
                                     name="injury_details"
                                     render={arrayHelpers => (
@@ -313,7 +314,7 @@ const EditMedicalRecordComponent = (props: EditMedicalRecordComponentProps) => {
                                                                             {
                                                                                 (field: FieldProps) => (
                                                                                     <FormikSelectComponent
-                                                                                         disabled={(values?.injury_details[index]?.body_part_details === "" || !values?.injury_details[index]?.body_part_details?.sides || values?.injury_details[index]?.body_part_details?.sides?.length === 0)}
+                                                                                        disabled={(values?.injury_details[index]?.body_part_details === "" || !values?.injury_details[index]?.body_part_details?.sides || values?.injury_details[index]?.body_part_details?.sides?.length === 0)}
                                                                                         options={values?.injury_details[index]?.body_part_details?.sides}
                                                                                         label={'Body Side'}
                                                                                         displayWith={(item: any) => item}
