@@ -58,7 +58,6 @@ const AddMedicalRecordDocumentComponent = (props: AddMedicalRecordDocumentCompon
 
     const onSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
         setIsMedicalRecordDocumentFileAddInProgress(true);
-        values.document_date = CommonService.convertDateFormat(values.document_date);
         const formData = CommonService.getFormDataFromJSON(values);
         CommonService._chartNotes.MedicalRecordDocumentAddAPICall(medicalRecordId, formData)
             .then((response: IAPIResponseType<any>) => {
