@@ -55,13 +55,11 @@ const ClientAppointmentsTableComponent = (props: ClientAppointmentsTableComponen
                                 position={"top"}
                                 showArrow={true}
                             >
-                                <div className={"ellipses-for-table-data"}>
-                                    {item?.case_details && CommonService.generateUseCaseFromCaseDetails(item?.case_details)}
+                                <div>{
+                                    CommonService.generateUseCaseFromCaseDetails(item?.case_details)?.slice(0, 20) + "..."
+                                }
                                 </div>
-                            </ToolTipComponent> :
-                            <>
-                                {item?.case_details && CommonService.generateUseCaseFromCaseDetails(item?.case_details)}
-                            </>
+                            </ToolTipComponent> : <> {CommonService.generateUseCaseFromCaseDetails(item?.case_details)}</>
                         }
                     </>
                 }

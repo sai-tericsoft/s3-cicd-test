@@ -42,22 +42,7 @@ const ClientAppointmentsComponent = (props: ClientAppointmentsComponentProps) =>
     return (
         <div className={'client-appointments-list-screen'}>
             <div className="ts-row pdd-top-6">
-                <div className="ts-col-md-6 ts-col-lg-3">
-                    <SelectComponent
-                        label={"Status"}
-                        size={"small"}
-                        fullWidth={true}
-                        options={appointmentStatus}
-                        displayWith={(item: any) => item?.admin_title}
-                        value={clientAppointmentListFilterState?.status}
-                        keyExtractor={(item: any) => item.code}
-                        onUpdate={(value: any) => {
-                            setClientAppointmentListFilterState(
-                                {...clientAppointmentListFilterState, ...(value !== '' ? {status: value} : {})})
-                        }}
-                    />
-                </div>
-                <div className="ts-col-md-6 ts-col-lg-3">
+                <div className="ts-col-md-6 ts-col-lg-4">
                     <AutoCompleteComponent
                         size={'small'}
                         label={'Provider'}
@@ -82,6 +67,21 @@ const ClientAppointmentsComponent = (props: ClientAppointmentsComponentProps) =>
                                 })
                             }
                         }
+                    />
+                </div>
+                <div className="ts-col-md-6 ts-col-lg-3">
+                    <SelectComponent
+                        label={"Status"}
+                        size={"small"}
+                        fullWidth={true}
+                        options={appointmentStatus}
+                        displayWith={(item: any) => item?.admin_title}
+                        value={clientAppointmentListFilterState?.status}
+                        keyExtractor={(item: any) => item.code}
+                        onUpdate={(value: any) => {
+                            setClientAppointmentListFilterState(
+                                {...clientAppointmentListFilterState, ...(value !== '' ? {status: value} : {})})
+                        }}
                     />
                 </div>
             </div>
