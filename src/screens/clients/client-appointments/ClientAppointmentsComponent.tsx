@@ -42,7 +42,7 @@ const ClientAppointmentsComponent = (props: ClientAppointmentsComponentProps) =>
     return (
         <div className={'client-appointments-list-screen'}>
             <div className="ts-row pdd-top-6">
-                <div className="ts-col-md-6 ts-col-lg-3">
+                <div className="ts-col-md-6 ts-col-lg-4">
                     <AutoCompleteComponent
                         size={'small'}
                         label={'Search'}
@@ -85,7 +85,6 @@ const ClientAppointmentsComponent = (props: ClientAppointmentsComponentProps) =>
                         }}
                     />
                 </div>
-
             </div>
             <div className="list-content-wrapper">
                 <ClientAppointmentsTableComponent
