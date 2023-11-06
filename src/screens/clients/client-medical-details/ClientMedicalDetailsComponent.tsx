@@ -191,7 +191,7 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                     }>
                         {
                             (clientMedicalDetails?.medical_history?.questions_details && clientMedicalDetails?.medical_history?.questions_details?.length > 0) &&
-                            <div className={"other-illness-text"}>
+                            <div className={"allergies-na"}>
                                 {
                                     clientMedicalDetails?.medical_history?.questions_details?.map((question, index) => {
                                         return <span key={question?._id + index}>
