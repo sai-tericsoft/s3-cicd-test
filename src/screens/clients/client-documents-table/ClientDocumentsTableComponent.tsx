@@ -385,7 +385,7 @@ const ClientDocumentsTableComponent = (props: ClientDocumentsTableComponentProps
                         columns={clientDocumentListFilterState?.is_shared ? ClientSharedDocumentListTableColumns : ClientDocumentListTableColumns}
                         extraPayload={clientDocumentFilters}
                         moduleName={moduleName}
-                        noDataText={'No Documents To Show'}
+                        noDataText={'No documents have been shared yet'}
                         noDataImage={<ImageConfig.NoDataDocumentsIcon/>}
                     />
                 </div>

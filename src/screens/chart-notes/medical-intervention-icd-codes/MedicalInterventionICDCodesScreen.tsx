@@ -21,7 +21,6 @@ import DataLabelValueComponent from "../../../shared/components/data-label-value
 import {getClientMedicalRecord} from "../../../store/actions/client.action";
 import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
-import DrawerComponent from "../../../shared/components/drawer/DrawerComponent";
 import TableV2Component from "../../../shared/components/table-v2/TableV2Component";
 import IconButtonComponent from "../../../shared/components/icon-button/IconButtonComponent";
 import IcdCodingToolComponent from "../../../shared/components/icd-coding-tool/IcdCodingToolComponent";

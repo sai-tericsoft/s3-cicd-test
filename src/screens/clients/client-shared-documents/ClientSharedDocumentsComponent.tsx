@@ -33,7 +33,7 @@ const ClientSharedDocumentsComponent = (props: ClientSharedDocumentsComponentPro
         dispatch(setCurrentNavParams("Client Details", null, () => {
             clientId && navigate(CommonService._routeConfig.ClientDocuments(clientId));
         }));
-    }, [navigate, dispatch]);
+    }, [navigate, dispatch,clientId]);
 
 
     return (
