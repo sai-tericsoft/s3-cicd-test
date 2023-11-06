@@ -149,15 +149,15 @@ const ClientDocumentsTableComponent = (props: ClientDocumentsTableComponentProps
             key: "file_name",
             dataIndex: "file_name",
             // sortable: true,
-            width: 150,
+            width: 175,
             render: (item: any) => {
                 return <>
-                    {item?.note_type?.length > 15 ?
+                    {item?.note_type?.length > 20 ?
                         <ToolTipComponent
                             tooltip={item?.note_type && item?.note_type}
                             position={"top"}
                             showArrow={true}>
-                            <div>{item?.note_type?.substring(0, 15) + '...'}</div>
+                            <div>{item?.note_type?.substring(0, 20) + '...'}</div>
                         </ToolTipComponent> : item?.note_type}
                 </>
             }
@@ -167,7 +167,7 @@ const ClientDocumentsTableComponent = (props: ClientDocumentsTableComponentProps
             title: "Date of Attachment",
             key: "date_of_attachment_date",
             dataIndex: "dateOfAttachment",
-            width: 200,
+            width: 180,
             align: "center",
             render: (item: any) => {
                 return <span>
