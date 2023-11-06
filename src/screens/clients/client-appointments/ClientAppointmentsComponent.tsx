@@ -38,29 +38,15 @@ const ClientAppointmentsComponent = (props: ClientAppointmentsComponentProps) =>
             }
         }));
     }, [searchParams, navigate, dispatch]);
-    
+
     return (
         <div className={'client-appointments-list-screen'}>
             <div className="ts-row pdd-top-6">
                 <div className="ts-col-md-6 ts-col-lg-3">
-                    <SelectComponent
-                        label={"Status"}
-                        size={"small"}
-                        fullWidth={true}
-                        options={appointmentStatus}
-                        displayWith={(item: any) => item?.admin_title}
-                        value={clientAppointmentListFilterState?.status}
-                        keyExtractor={(item: any) => item.code}
-                        onUpdate={(value: any) => {
-                            setClientAppointmentListFilterState(
-                                {...clientAppointmentListFilterState, ...(value !== '' ? {status: value} : {})})
-                        }}
-                    />
-                </div>
-                <div className="ts-col-md-6 ts-col-lg-3">
                     <AutoCompleteComponent
                         size={'small'}
-                        label={'Provider'}
+                        label={'Search'}
+                        placeholder={'Search using Provider'}
                         value={clientAppointmentListFilterState?.provider_id}
                         dataListKey={'data'}
                         displayWith={item => item ? item?.provider_name || (item?.first_name + ' ' + item?.last_name) : ''}
@@ -84,6 +70,22 @@ const ClientAppointmentsComponent = (props: ClientAppointmentsComponentProps) =>
                         }
                     />
                 </div>
+                <div className="ts-col-md-6 ts-col-lg-3">
+                    <SelectComponent
+                        label={"Status"}
+                        size={"small"}
+                        fullWidth={true}
+                        options={appointmentStatus}
+                        displayWith={(item: any) => item?.admin_title}
+                        value={clientAppointmentListFilterState?.status}
+                        keyExtractor={(item: any) => item.code}
+                        onUpdate={(value: any) => {
+                            setClientAppointmentListFilterState(
+                                {...clientAppointmentListFilterState, ...(value !== '' ? {status: value} : {})})
+                        }}
+                    />
+                </div>
+
             </div>
             <div className="list-content-wrapper">
                 <ClientAppointmentsTableComponent
