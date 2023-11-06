@@ -32,14 +32,13 @@ const ClientDocumentsComponent = (props: ClientDocumentsComponentProps) => {
     });
 
     useEffect(() => {
-        // const referrer: any = searchParams.get("referrer");
+        const referrer: any = searchParams.get("referrer");
         dispatch(setCurrentNavParams("Client Details", null, () => {
-            // if (referrer) {
-            //     navigate(referrer);
-            // } else {
-            //     navigate(CommonService._routeConfig.ClientList());
-            // }
-            clientId && navigate(CommonService._routeConfig.ClientDocuments(clientId));
+            if (referrer) {
+                navigate(referrer);
+            } else {
+                navigate(CommonService._routeConfig.ClientList());
+            }
         }));
     }, [searchParams, navigate, dispatch]);
 

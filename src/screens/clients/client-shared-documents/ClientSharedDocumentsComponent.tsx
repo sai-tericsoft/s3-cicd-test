@@ -1,11 +1,14 @@
 import "./ClientSharedDocumentsComponent.scss";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import moment from "moment/moment";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {IClientDocumentsFilterState} from "../../../shared/models/client.model";
 import ClientDocumentsTableComponent from "../client-documents-table/ClientDocumentsTableComponent";
 import DateRangePickerComponentV2
     from "../../../shared/components/form-controls/date-range-pickerV2/DateRangePickerComponentV2";
+import {setCurrentNavParams} from "../../../store/actions/navigation.action";
+import {CommonService} from "../../../shared/services";
+import {useDispatch} from "react-redux";
 
 const CLIENT_DOCUMENT_LIST_TABLE = "ClientListScreen";
 
@@ -15,6 +18,8 @@ interface ClientSharedDocumentsComponentProps {
 
 const ClientSharedDocumentsComponent = (props: ClientSharedDocumentsComponentProps) => {
     const {clientId} = useParams();
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const [clientDocumentListFilterState, setClientDocumentListFilterState] = useState<IClientDocumentsFilterState>({
         posted_by: "",
@@ -23,6 +28,12 @@ const ClientSharedDocumentsComponent = (props: ClientSharedDocumentsComponentPro
         start_date: null,
         end_date: null,
     });
+
+    useEffect(() => {
+        dispatch(setCurrentNavParams("Client Details", null, () => {
+            clientId && navigate(CommonService._routeConfig.ClientDocuments(clientId));
+        }));
+    }, [navigate, dispatch]);
 
 
     return (
