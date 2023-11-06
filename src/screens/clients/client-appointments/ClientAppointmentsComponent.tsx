@@ -38,14 +38,15 @@ const ClientAppointmentsComponent = (props: ClientAppointmentsComponentProps) =>
             }
         }));
     }, [searchParams, navigate, dispatch]);
-    
+
     return (
         <div className={'client-appointments-list-screen'}>
             <div className="ts-row pdd-top-6">
                 <div className="ts-col-md-6 ts-col-lg-4">
                     <AutoCompleteComponent
                         size={'small'}
-                        label={'Provider'}
+                        label={'Search'}
+                        placeholder={'Search using Provider'}
                         value={clientAppointmentListFilterState?.provider_id}
                         dataListKey={'data'}
                         displayWith={item => item ? item?.provider_name || (item?.first_name + ' ' + item?.last_name) : ''}
