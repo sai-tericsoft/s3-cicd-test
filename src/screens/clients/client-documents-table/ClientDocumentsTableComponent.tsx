@@ -239,20 +239,20 @@ const ClientDocumentsTableComponent = (props: ClientDocumentsTableComponentProps
             title: "Case Name",
             key: "case_name",
             dataIndex: "case_name",
-            width: 300,
+            width: 400,
             align: "left",
             fixed: "left",
             render: (item: any) => {
                 if (item?._id) {
                     return <>
-                        {CommonService.generateUseCaseFromCaseDetails(item?.case_details).length > 30 ?
+                        {CommonService.generateUseCaseFromCaseDetails(item?.case_details).length > 50 ?
                             <ToolTipComponent
                                 tooltip={item?.case_details && CommonService.generateUseCaseFromCaseDetails(item?.case_details)}
                                 position={"top"}
                                 showArrow={true}
                             >
                                 <div>
-                                    {item?.case_details && CommonService.generateUseCaseFromCaseDetails(item?.case_details).substring(0, 30) + '...'}
+                                    {item?.case_details && CommonService.generateUseCaseFromCaseDetails(item?.case_details).substring(0, 50) + '...'}
                                 </div>
                             </ToolTipComponent> :
                             <>
@@ -271,12 +271,12 @@ const ClientDocumentsTableComponent = (props: ClientDocumentsTableComponentProps
             width: 150,
             render: (item: any) => {
                 return <>
-                    {item?.note_type?.length > 15 ?
+                    {item?.note_type?.length > 20 ?
                         <ToolTipComponent
                             tooltip={item?.note_type && item?.note_type}
                             position={"top"}
                             showArrow={true}>
-                            <div>{item?.note_type?.substring(0, 15) + '...'}</div>
+                            <div>{item?.note_type?.substring(0, 20) + '...'}</div>
                         </ToolTipComponent> : item?.note_type}
                 </>
             }
@@ -299,7 +299,7 @@ const ClientDocumentsTableComponent = (props: ClientDocumentsTableComponentProps
             title: 'Posted by',
             key: 'posted_by',
             dataIndex: 'first_name',
-            width: 150,
+            width: 130,
             align: 'center',
             render: (item: any) => {
                 return <>
@@ -332,6 +332,7 @@ const ClientDocumentsTableComponent = (props: ClientDocumentsTableComponentProps
                 return (
                     <ButtonComponent
                         prefixIcon={<CancelOutlinedIcon/>}
+                        size={'small'}
                         onClick={() => {
                             handleRemoveAccess(item);
                         }
