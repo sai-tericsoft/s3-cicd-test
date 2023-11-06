@@ -26,6 +26,7 @@ import TableV2Component from "../../../shared/components/table-v2/TableV2Compone
 import IconButtonComponent from "../../../shared/components/icon-button/IconButtonComponent";
 import IcdCodingToolComponent from "../../../shared/components/icd-coding-tool/IcdCodingToolComponent";
 import commonService from "../../../shared/services/common.service";
+import ModalComponent from "../../../shared/components/modal/ModalComponent";
 
 interface MedicalInterventionICDCodesScreenProps {
 
@@ -253,9 +254,10 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
                     Save
                 </ButtonComponent>
             </div>
-            <DrawerComponent
+            <ModalComponent
                 isOpen={openIframe}
                 onClose={() => setOpenIframe(false)}
+                size={'xl'}
             >
                 <IcdCodingToolComponent onCodeSelect={(selectedIcdCode: any) => {
                     //check before adding
@@ -268,7 +270,7 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
                         description: selectedIcdCode.selectedText
                     }]);
                 }}/>
-            </DrawerComponent>
+            </ModalComponent>
         </div>
     );
 
