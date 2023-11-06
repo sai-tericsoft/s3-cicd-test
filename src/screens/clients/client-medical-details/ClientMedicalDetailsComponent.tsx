@@ -191,7 +191,7 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                     }>
                         {
                             (clientMedicalDetails?.medical_history?.questions_details && clientMedicalDetails?.medical_history?.questions_details?.length > 0) &&
-                            <div className={"allergies-na"}>
+                            <div className={"allergies-na text"}>
                                 {
                                     clientMedicalDetails?.medical_history?.questions_details?.map((question, index) => {
                                         return <span key={question?._id + index}>
@@ -255,7 +255,7 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                     }>
                         {
                             (clientMedicalDetails?.surgical_history?.questions_details && clientMedicalDetails?.surgical_history?.questions_details?.length > 0) &&
-                            <div className={"allergies-na"}>
+                            <div className={"allergies-na text"}>
                                 {
                                     clientMedicalDetails?.surgical_history?.questions_details?.map((question, index) => {
                                         return <span key={question?._id + index}>
