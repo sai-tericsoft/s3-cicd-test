@@ -73,7 +73,7 @@ const ClientAppointmentsTableComponent = (props: ClientAppointmentsTableComponen
             width: 170,
             align: "center",
             render: (item: any) => {
-                return <span>{item?.appointment_type}</span>
+                return <span>{CommonService.capitalizeFirstLetterAndRemoveUnderScore(item?.appointment_type)}</span>
             }
         },
         {

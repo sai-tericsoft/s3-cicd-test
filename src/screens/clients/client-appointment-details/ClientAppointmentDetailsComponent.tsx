@@ -111,7 +111,7 @@ const ClientAppointmentDetailsComponent = (props: ClientAppointmentDetailsCompon
                                 </div>
                                 <div className="ts-col-md-6 ts-col-lg-3">
                                     <DataLabelValueComponent label={"Appointment Type"}>
-                                        {appointmentDetails?.appointment_type}
+                                        {CommonService.capitalizeFirstLetterAndRemoveUnderScore(appointmentDetails?.appointment_type)}
                                     </DataLabelValueComponent>
                                 </div>
 
