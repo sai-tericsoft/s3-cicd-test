@@ -293,7 +293,6 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
     }, [mode, generateSpecialTestForBodySide]);
 
     const generateSpecialTestConfigForAnInjury = useCallback((bodyPart: IBodyPart, selectedBodySides: any, special_test_config: any) => {
-        console.log(special_test_config);
         const bodyPartConfig: any = _.cloneDeep(bodyPart);
         if (special_test_config && special_test_config?.length > 0) {
             bodyPartConfig.special_tests_selected = special_test_config?.map((special_test: any, index: number) => {
@@ -346,10 +345,11 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
         setShowAddBodyPartModal(false);
         const updatedGlobalRomConfig: any = [...globalSpecialTestConfig];
         for (const selectedBodyPart of selectedBodyPartsToBeAdded) {
+            console.log(selectedBodyPart);
             updatedGlobalRomConfig.push({
                 body_part: selectedBodyPart,
                 rom_config: [],
-                selected_sides: [selectedBodyPart.default_body_side],
+                selected_sides: [...selectedBodyPart?.sides],
                 mode: 'write'
             });
         }
@@ -359,7 +359,7 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
         for (const selectedBodyPart of selectedBodyPartsToBeAdded) {
             specialTestFormValuesCopy[selectedBodyPart._id] = generateSpecialTestConfigForAnInjury(
                 selectedBodyPart,
-                [selectedBodyPart?.default_body_side],
+                [...selectedBodyPart?.sides],
                 []
             );
         }
@@ -885,6 +885,7 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
                                             );
                                         } else {
                                             // Add the item to the selected items
+                                            console.log(item)
                                             setSelectedBodyPartsToBeAdded((prevSelected) => [...prevSelected, item]);
                                         }
                                     }}
