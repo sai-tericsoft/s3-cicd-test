@@ -225,8 +225,8 @@ const ActivityLogTimelineComponent = (props: ActivityLogTimelineComponentProps) 
     // @ts-ignore
     const generateObjectsContent = useCallback((item: any) => {
         return Object.keys(item).map((key: any, index: number) => {
-            if(typeof item[key] === "object" ){
-               return  generateObjectsContent(item[key])
+            if (typeof item[key] === "object") {
+                return generateObjectsContent(item[key])
             }
             return (
                 <span key={index} className={'activity-log-key-value-wrapper'}>
@@ -584,26 +584,28 @@ const ActivityLogTimelineComponent = (props: ActivityLogTimelineComponentProps) 
 
                                                                 return (
                                                                     <div className={'mrg-bottom-20'} key={index}>
-                                                                        <AccordionComponent
-                                                                            key={index}
-                                                                            forActivityLog={true}
-                                                                            title={getLogsStringWithArrows(log)}
-                                                                            disableExpanding={log.action !== 'Modified' ? true : false}
-                                                                            subTitle={` was ${log?.action?.toLowerCase()} by `}
-                                                                            name={log?.updated_by ? log?.updated_by?.name : ''}
-                                                                            actions={<div className={'log-status-wrapper'}>
-                                                                                <div className={'log-item-action'}>
-                                                                                    <ChipComponent
-                                                                                        label={commonService.capitalizeFirstLetter(log.action)}
-                                                                                        className={log.action}/>
-                                                                                </div>
-                                                                                <div className={'updated-date mrg-left-20'}>
-                                                                                    {tConvert(moment(log?.updated_at).format('HH:mm'))}
-                                                                                </div>
-                                                                            </div>}
-                                                                        >
-                                                                            {generateAccordionContent(log)}
-                                                                        </AccordionComponent>
+                                                                            <AccordionComponent
+                                                                                key={index}
+                                                                                forActivityLog={true}
+                                                                                title={getLogsStringWithArrows(log)}
+                                                                                disableExpanding={log.action !== 'Modified' ? true : false}
+                                                                                subTitle={` was ${log?.action?.toLowerCase()} by `}
+                                                                                name={log?.updated_by ? log?.updated_by?.name : ''}
+                                                                                actions={<div
+                                                                                    className={'log-status-wrapper'}>
+                                                                                    <div className={'log-item-action'}>
+                                                                                        <ChipComponent
+                                                                                            label={commonService.capitalizeFirstLetter(log.action)}
+                                                                                            className={log.action}/>
+                                                                                    </div>
+                                                                                    <div
+                                                                                        className={'updated-date mrg-left-20'}>
+                                                                                        {tConvert(moment(log?.updated_at).format('HH:mm'))}
+                                                                                    </div>
+                                                                                </div>}
+                                                                            >
+                                                                                {generateAccordionContent(log)}
+                                                                            </AccordionComponent>
                                                                     </div>
                                                                 )
                                                             })}
