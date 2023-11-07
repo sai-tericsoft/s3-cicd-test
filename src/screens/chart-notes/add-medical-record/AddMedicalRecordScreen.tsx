@@ -191,11 +191,11 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
             const payload = _.cloneDeep({...CommonService.removeKeysFromJSON(_.cloneDeep(values), ['body_part_details'])});
             setIsMedicalRecordAddInProgress(true);
             payload.surgery_details = {};
+            const tempPayload = _.cloneDeep(payload);
             if (surgeryRecord) {
                 payload.surgery_details = surgeryRecord;
                 payload.surgery_details.reported_by = surgeryRecord.reported_by?._id;
             }
-            payload.onset_date = CommonService.convertDateFormat(payload?.onset_date);
             if (payload.case_physician.next_appointment) {
                 payload.case_physician.next_appointment = CommonService.convertDateFormat(payload?.case_physician?.next_appointment);
             }
@@ -203,6 +203,7 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
                 payload.surgery_details.surgery_date = CommonService.convertDateFormat(payload?.surgery_details?.surgery_date);
             }
             const formData = CommonService.getFormDataFromJSON(payload);
+            formData.append('onset_date',tempPayload.onset_date);
             CommonService._chartNotes.MedicalRecordAddAPICall(clientId, formData)
                 .then((response: IAPIResponseType<any>) => {
                     CommonService._alert.showToast('Medical record was successfully created', "success");
