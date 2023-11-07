@@ -1,0 +1,54 @@
+
+.client-all-forms-list-component {
+  .card-component {
+    .card-body {
+      padding-top: 15px;
+    }
+  }
+
+  .pending-form-wrapper {
+    position: relative; /* Add this */
+    height: 82px;
+    background: #EAF3F2;
+    border: 1px solid #E2E2E2;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+    
+    .pending-form-title {
+      font-weight: 500;
+      font-size: 1rem;
+      line-height: 18px;
+      color: #212B36;
+    }
+
+
+    .upcoming {
+      margin-top: 8px;
+      background: #DE561C;
+      font-size: 12px;
+    }
+
+    .completed {
+      margin-top: 8px;
+      font-size: 12px;
+    }
+
+    .card-button-wrapper {
+      display: flex;
+      justify-content: center;
+    }
+
+    //.form-status-button {
+    //  padding-bottom: 10px;
+    //}
+    &.pdf {
+      height: 80px;
+
+      .upcoming {
+        margin-top: 0px;
+        margin-left: 10px;
+      }
+    }
+  }
+}
