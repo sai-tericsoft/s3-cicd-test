@@ -86,8 +86,8 @@ const ChartNotesActivityLogsComponent = (props: ChartNotesActivityLogsComponentP
             <PageHeaderComponent title={"View Activity Log"}/>
             <div className="ts-col-md-8 d-flex ts-justify-content-start pdd-top-5">
                     <SearchComponent
-                        label={"Search Activity"}
-                        placeholder={"Search Activity"}
+                        label={"Search"}
+                        placeholder={"Search using activity name"}
                         value={chartNotesActivityLogFilterState.search}
                         onSearchChange={(value) => {
                             setChartNotesActivityLogFilterState({...chartNotesActivityLogFilterState, search: value})

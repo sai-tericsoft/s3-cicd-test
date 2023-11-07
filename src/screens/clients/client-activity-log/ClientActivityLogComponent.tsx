@@ -72,8 +72,8 @@ const ClientActivityLogComponent = (props: ClientActivityLogComponentProps) => {
             <div className="d-flex ts-justify-content-start pdd-top-5">
                 <div className={'ts-col-lg-4 activity-log-search'}>
                     <SearchComponent
-                        label={"Search Activity"}
-                        placeholder={"Search Activity"}
+                        label={"Search"}
+                        placeholder={"Search using activity name"}
                         value={clientActivityLogFilterState.search}
                         onSearchChange={(value) => {
                             setClientActivityLogFilterState({...clientActivityLogFilterState, search: value})

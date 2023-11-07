@@ -33,6 +33,12 @@
     .t-table{
       margin-bottom: 0px;
       height: calc(100vh - 220px);
+      .t-cell-name{
+        padding-left: 30px !important;
+      }
+      .t-cell-actions{
+        padding-right: 30px !important;
+      }
     }
 
   .no-features-text-wrapper {
