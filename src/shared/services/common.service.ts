@@ -258,7 +258,8 @@ const getFormDataFromJSON = (obj: any, rootName = '', ignoreList = []): FormData
                         }
                     }
                 }
-            } else {
+            }
+            else {
                 if (data !== null && typeof data !== 'undefined') {
                     formData.append(root, data);
                 }
@@ -274,7 +275,6 @@ const getFormDataFromJSON = (obj: any, rootName = '', ignoreList = []): FormData
     }
 
     appendFormData(obj, rootName);
-
     return formData;
 }
 
