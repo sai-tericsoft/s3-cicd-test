@@ -69,15 +69,17 @@ const ClientActivityLogComponent = (props: ClientActivityLogComponentProps) => {
 
     return (
         <div className={'client-activity-log-component'}>
-            <div className="ts-col-md-8 d-flex ts-justify-content-start pdd-top-5">
-                <SearchComponent
-                    label={"Search Activity"}
-                    placeholder={"Search Activity"}
-                    value={clientActivityLogFilterState.search}
-                    onSearchChange={(value) => {
-                        setClientActivityLogFilterState({...clientActivityLogFilterState, search: value})
-                    }}
-                />&nbsp;&nbsp;&nbsp;&nbsp;
+            <div className="d-flex ts-justify-content-start pdd-top-5">
+                <div className={'ts-col-lg-4 activity-log-search'}>
+                    <SearchComponent
+                        label={"Search Activity"}
+                        placeholder={"Search Activity"}
+                        value={clientActivityLogFilterState.search}
+                        onSearchChange={(value) => {
+                            setClientActivityLogFilterState({...clientActivityLogFilterState, search: value})
+                        }}
+                    />&nbsp;&nbsp;&nbsp;&nbsp;
+                </div>
                 <DateRangePickerComponentV2
                     value={clientActivityLogFilterState.date_range}
                     onDateChange={(value: any) => {

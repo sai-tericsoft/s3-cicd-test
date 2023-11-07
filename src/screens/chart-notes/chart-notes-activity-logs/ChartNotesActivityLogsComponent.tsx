@@ -39,7 +39,7 @@ const ChartNotesActivityLogsComponent = (props: ChartNotesActivityLogsComponentP
     const navigate = useNavigate();
     const pageNumRef = useRef<number>(0);
     const totalResultsRef = useRef<number>(0);
-    const pageSizeRef = useRef<number>( 20);
+    const pageSizeRef = useRef<number>(20);
 
     useEffect(() => {
         if (medicalRecordId) {
@@ -79,20 +79,20 @@ const ChartNotesActivityLogsComponent = (props: ChartNotesActivityLogsComponentP
     const handlePageNumberChange = useCallback((event: unknown, newPage: number) => {
         pageNumRef.current = newPage;
         medicalRecordId && getClientActivityLogs(medicalRecordId);
-    }, [getClientActivityLogs,medicalRecordId]);
+    }, [getClientActivityLogs, medicalRecordId]);
 
     return (
         <div className={'chart-notes-activity-logs-component'}>
             <PageHeaderComponent title={"View Activity Log"}/>
             <div className="ts-col-md-8 d-flex ts-justify-content-start pdd-top-5">
-                <SearchComponent
-                    label={"Search Activity"}
-                    placeholder={"Search Activity"}
-                    value={chartNotesActivityLogFilterState.search}
-                    onSearchChange={(value) => {
-                        setChartNotesActivityLogFilterState({...chartNotesActivityLogFilterState, search: value})
-                    }}
-                />&nbsp;&nbsp;&nbsp;&nbsp;
+                    <SearchComponent
+                        label={"Search Activity"}
+                        placeholder={"Search Activity"}
+                        value={chartNotesActivityLogFilterState.search}
+                        onSearchChange={(value) => {
+                            setChartNotesActivityLogFilterState({...chartNotesActivityLogFilterState, search: value})
+                        }}
+                    />&nbsp;&nbsp;&nbsp;&nbsp;
                 {/*<DateRangePickerComponent*/}
                 {/*    label={"Select Date Range"}*/}
                 {/*    value={chartNotesActivityLogFilterState.date_range}*/}
@@ -129,7 +129,7 @@ const ChartNotesActivityLogsComponent = (props: ChartNotesActivityLogsComponentP
                             return newState;
                         })
                     }}
-                    />
+                />
 
             </div>
             {
@@ -143,13 +143,13 @@ const ChartNotesActivityLogsComponent = (props: ChartNotesActivityLogsComponentP
             }
             {
                 medicalRecordActivityLogsLoaded &&
-                    <>
-                        <ActivityLogTimelineComponent
-                            logsData={medicalRecordActivityLogs}
-                        />
-                        <CardsPaginationComponent page={pageNumRef.current} totalResultsRef={totalResultsRef}
-                                                  onPageChange={handlePageNumberChange}/>
-                    </>
+                <>
+                    <ActivityLogTimelineComponent
+                        logsData={medicalRecordActivityLogs}
+                    />
+                    <CardsPaginationComponent page={pageNumRef.current} totalResultsRef={totalResultsRef}
+                                              onPageChange={handlePageNumberChange}/>
+                </>
             }
         </div>
     );
