@@ -71,7 +71,7 @@ const FacilityDetailsScreen = (props: FacilityDetailsScreenProps) => {
                             title={facilityDetails?.name}
                             status={facilityDetails?.is_active}
                             avatarUrl={facilityDetails?.image?.url}
-                            subTitle={facilityDetails?.location_details?.title} // TODO
+                            subTitle={facilityDetails?.location_details?.title.toUpperCase()} // TODO
                         ></BasicDetailsCardComponent>
                     </div>
                     <CardComponent title={"Facility Details"}>
