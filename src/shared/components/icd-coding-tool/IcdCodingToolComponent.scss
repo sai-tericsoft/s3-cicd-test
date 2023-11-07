@@ -1,7 +1,22 @@
-.ectComponent{
+.ectComponent {
 
 }
+
 .icd-coding-tool-component {
+  .entitylist {
+    ul {
+      margin-left: 0 !important;
+    }
+  }
+
+  .ectComponent {
+    .wordlist {
+      ul {
+        margin-left: 0 !important;
+      }
+    }
+  }
+
   .icd-coding-tool-title {
     width: 100%;
     background-color: #03038d;
@@ -11,9 +26,11 @@
     font-weight: 600;
     padding: 15px 30px;
   }
-  .icd-coding-tool-content-window{
+
+  .icd-coding-tool-content-window {
     padding: 0 30px;
-    .icd-coding-search-component{
+
+    .icd-coding-search-component {
       margin-bottom: 0;
       height: 110px;
       padding: 30px 15px;
@@ -24,7 +41,8 @@
       width: 100%;
       float: left;
       min-height: 1px;
-      .clear{
+
+      .clear {
         padding: 0;
         position: absolute;
         color: #808080;
@@ -33,7 +51,8 @@
         cursor: pointer;
       }
     }
-    .ctw-input{
+
+    .ctw-input {
       display: block;
       height: 38px;
       padding-left: 12px;
@@ -45,11 +64,11 @@
       background-image: none;
       border: 1px solid #ccc;
       border-radius: 4px;
-      -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
-      box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
-      -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
-      -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
-      transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+      -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+      box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+      -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+      -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+      transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
       width: 600px;
       font-size: 1.2em;
     }
