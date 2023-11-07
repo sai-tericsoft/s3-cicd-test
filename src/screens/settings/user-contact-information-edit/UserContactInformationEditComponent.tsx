@@ -165,6 +165,7 @@ const UserContactInformationEditComponent = (props: UserContactInformationEditCo
                                                         label={'Phone Number'}
                                                         // placeholder={'Phone Number (Primary)'}
                                                         required={true}
+                                                        disabled={!values?.primary_contact_info?.phone_type}
                                                         formikField={field}
                                                         id={'primary_phone_number'}
                                                         fullWidth={true}
@@ -218,6 +219,7 @@ const UserContactInformationEditComponent = (props: UserContactInformationEditCo
                                                                                 (field: FieldProps) => (
                                                                                     <FormikPhoneInputComponent
                                                                                         label={'Phone Number'}
+                                                                                        disabled={!values?.secondary_contact_info[index]?.phone_type}
                                                                                         // placeholder={'Phone Number'}
                                                                                         formikField={field}
                                                                                         fullWidth={true}
