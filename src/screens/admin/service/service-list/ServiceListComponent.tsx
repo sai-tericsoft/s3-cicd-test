@@ -21,7 +21,7 @@ const ServiceListComponent = (props: ServiceListComponentProps) => {
         {
             dataIndex: "name",
             key: "name",
-            width: 500,
+            width: 700,
             fixed:'left',
             title: "Service Name",
             render: ( item: IService, index: number) => {
@@ -35,7 +35,7 @@ const ServiceListComponent = (props: ServiceListComponentProps) => {
         {
             dataIndex: "status",
             key: "status",
-            width: 500,
+            width: 300,
             align:'center',
             title: "Status",
             render: ( item: any) => {
