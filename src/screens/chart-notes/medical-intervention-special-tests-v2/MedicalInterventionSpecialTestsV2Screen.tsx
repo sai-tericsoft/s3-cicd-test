@@ -473,7 +473,7 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
                         const resultKeys = Object?.keys(specialTestConfig[side]?.result);
                         const result = resultKeys.find((key) => specialTestConfig[side]?.result[key] === true);
                         config[side] = {
-                            result: result ? result : "Unknown"
+                            result: result ? result : ""
                         }
                     });
                     bodyPartData.special_tests.push({
