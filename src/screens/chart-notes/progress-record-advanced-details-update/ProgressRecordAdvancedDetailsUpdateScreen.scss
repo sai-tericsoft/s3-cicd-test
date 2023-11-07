@@ -68,14 +68,16 @@
           margin-bottom: 16px;
 
           .sign-note {
-            width: 350px;
+            width: 360px;
           }
         }
       }
     }
     .esign-pad{
-      min-width: 340px !important;
-      margin-left: 5px;
+      display: flex;
+      flex-direction: row-reverse;
+      //min-width: 340px !important;
+      margin-left: 85px;
     }
 
     .progress-stats-comment {

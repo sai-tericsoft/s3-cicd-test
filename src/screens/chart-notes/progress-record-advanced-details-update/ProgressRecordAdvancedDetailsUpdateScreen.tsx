@@ -507,8 +507,9 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
                                             </div>
                                         </div>
                                         <div className={'ts-row'}>
-                                            <div className={'ts-col-lg-8 ts-col-md-9 ts-col-sm-10'}/>
-                                            <div className={'esign-pad'}>
+                                            <div className={'ts-col-lg-7'}/>
+                                            <div className={'ts-col-lg-4 esign-pad'}>
+
                                                     <ESignApprovalComponent isSigned={false}
                                                                             isSigning={isSigningInProgress}
                                                                             canSign={true}
