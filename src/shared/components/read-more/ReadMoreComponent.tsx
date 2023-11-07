@@ -18,7 +18,7 @@ const ReadMoreComponent = (props: PropsWithChildren<ReadMoreComponentProps>) => 
         <div className={'read-more-component'}>
             {isReadMore ? children.slice(0, 200) : children}
             {children.length > 150 && <span onClick={toggleReadMore} className="read-or-hide">
-         {isReadMore ? "...read more" : " show less"}
+         {isReadMore ? "...Read More" : " Read Less"}
       </span>}
         </div>
     );
