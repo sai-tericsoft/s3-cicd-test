@@ -60,10 +60,12 @@ const ServiceProviderListComponent = (props: ServiceProviderComponentProps) => {
         }
     ];
     const handleDeleteProvider = useCallback((item: any) => {
+        console.log('item',item)
         CommonService.onConfirm({
-            confirmationTitle: "REMOVE USER",
+            confirmationTitle: "UNLINK PROVIDER",
             image: ImageConfig.RemoveImage,
-            confirmationSubTitle: `Do you want to remove "${item.provider_name}" as a provider for "${serviceDetails.name}"?`
+            confirmationSubTitle: `Do you want to remove "${item.first_name} ${item.last_name}" as a provider for "${serviceDetails.name}"?`
+
         }).then(() => {
             CommonService._service.ServiceProviderUnlinkAPICall(serviceId, item?.provider_id, {})
                 .then((response) => {
