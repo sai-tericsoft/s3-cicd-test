@@ -138,6 +138,15 @@ const UpdateClientBillingAddress = (addressId: any, payload: any) => {
 const getClientActivityLogs = (clientId: any,payload?:any) => {
     return ApiService[APIConfig.CLIENT_ACTIVITY_LOG.METHOD](APIConfig.CLIENT_ACTIVITY_LOG.URL(clientId),payload);
 }
+
+const getClientAllFormList = (clientId: any,appointmentId:string) => {
+    return ApiService[APIConfig.GET_CLIENT_ALL_FORMS_LIST.METHOD](APIConfig.GET_CLIENT_ALL_FORMS_LIST.URL(clientId,appointmentId));
+}
+
+const printPersonalAndMedicalInfo = (payload:any)=>{
+    return ApiService[APIConfig.PRINT_PERSONAL_AND_MEDICAL_INFO.METHOD](APIConfig.PRINT_PERSONAL_AND_MEDICAL_INFO.URL,payload);
+}
+
 const ClientService = {
     ClientBasicDetailsAddAPICall,
     ClientBasicDetailsAPICall,
@@ -167,7 +176,9 @@ const ClientService = {
     ResendInviteToClient,
     GetClientBillingAddress,
     UpdateClientBillingAddress,
-    getClientActivityLogs
+    getClientActivityLogs,
+    getClientAllFormList,
+    printPersonalAndMedicalInfo
 }
 
 export default ClientService;

@@ -12,6 +12,7 @@ import CardComponent from "../../../shared/components/card/CardComponent";
 import ChipComponent from "../../../shared/components/chip/ChipComponent";
 import {setCurrentNavParams} from "../../../store/actions/navigation.action";
 import {useDispatch} from "react-redux";
+import ClientAllFormsListComponent from "../client-all-forms-list/ClientAllFormsListComponent";
 
 interface ClientAppointmentDetailsComponentProps {
 
@@ -131,6 +132,8 @@ const ClientAppointmentDetailsComponent = (props: ClientAppointmentDetailsCompon
 
                         </CardComponent>
                     </div>
+
+                <ClientAllFormsListComponent clientId={appointmentDetails?.client_id} appointmentId={clientAppointmentId}/>
 
                     <div className={'medical-record-document-attachment'}>
                         {

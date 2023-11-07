@@ -1035,6 +1035,15 @@ const APIConfig: IAPIConfig = {
     DELETE_CONSOLIDATED_BILL: {
         URL: (consolidatedBillId: string) => ENV.API_URL + '/consolidatedBill/' + consolidatedBillId,
         METHOD: "delete"
+    },
+    GET_CLIENT_ALL_FORMS_LIST: {
+       URL:(clientId:string,appointmentId:string)=> ENV.API_URL + '/client/' + clientId + '/appointment/' + appointmentId + '/forms/list',
+         METHOD: "get"
+    },
+    PRINT_PERSONAL_AND_MEDICAL_INFO: {
+        URL:ENV.API_URL + '/medicalHistoryQuestionnaire/generatePDF',
+        METHOD: "post"
+
     }
 }
 
