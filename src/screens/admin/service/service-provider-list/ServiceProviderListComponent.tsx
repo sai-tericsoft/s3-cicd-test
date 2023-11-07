@@ -100,7 +100,6 @@ const ServiceProviderListComponent = (props: ServiceProviderComponentProps) => {
             <div className={'add-provider'}>
                 <ButtonComponent
                     className={'add-provider-cta'}
-                    size={"small"}
                     prefixIcon={<InsertLinkIcon/>}
                     onClick={() => {
                         navigate(commonService._routeConfig.LinkProviderToSericeRoute(serviceId))

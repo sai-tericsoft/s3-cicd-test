@@ -426,7 +426,7 @@ const ServiceEditScreen = (props: ServiceEditComponentProps) => {
                                                         return (
                                                             <div key={index}>
                                                                 <div
-                                                                    className={"display-flex align-items-center justify-content-space-between mrg-bottom-20"}>
+                                                                    className={"display-flex align-items-center justify-content-space-between"}>
                                                                     <FormControlLabelComponent
                                                                         label={`Follow Up Consultation Details ${index + 1}`}/>
                                                                     <div>

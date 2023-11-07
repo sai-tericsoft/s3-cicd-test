@@ -41,7 +41,7 @@ const ServiceConsultationDetailsComponent = (props: ServiceConsultationDetailsCo
                 {serviceDetails.initial_consultation.map((consultation, index) => (
                     <div className={"ts-col-sm-4 ts-col-md-4 ts-col-lg-4"} key={index}>
                         <CardComponent
-                            title={"Initial Consultation " + (index + 1) + (consultation.title ? "( " + consultation.title + " ) " : "")}
+                            title={"Initial Consultation " + (index + 1) + (consultation.title ? "( " + CommonService.capitalizeFirstLetter(consultation.title) + " ) " : "")}
                             size={"sm"}
                         >
                             <TableComponent
@@ -57,7 +57,7 @@ const ServiceConsultationDetailsComponent = (props: ServiceConsultationDetailsCo
                 {serviceDetails.followup_consultation.map((consultation, index) => (
                     <div className={"ts-col-sm-4 ts-col-md-4 ts-col-lg-4"} key={index}>
                         <CardComponent
-                            title={consultation.title ? "Follow-up Appointment " + (index + 1) + " ( " + consultation.title + " ) " : "Follow-up Appointment " + (index + 1)}
+                            title={consultation.title ? "Follow-up Appointment " + (index + 1) + " ( " + CommonService.capitalizeFirstLetter(consultation.title) + " ) " : "Follow-up Appointment " + (index + 1)}
                             size={"sm"}
                         >
                             <TableComponent
