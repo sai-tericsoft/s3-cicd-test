@@ -50,6 +50,8 @@ import {ReactComponent as AccessDenied} from "./../assets/icons/access_denied.sv
 import {ReactComponent as CircleCheck} from './../assets/icons/check_circle.svg';
 import {ReactComponent as CircleInfo} from './../assets/icons/info_circle.svg';
 import {ReactComponent as CircleCancel} from './../assets/icons/cancel_circle.svg';
+import {ReactComponent as CrossOutlinedIcon} from './../assets/icons/cross_icon_outlined.svg';
+
 import {ReactComponent as LeftArrow} from './../assets/icons/left_arrow.svg';
 import {ReactComponent as RightArrow} from './../assets/icons/right_arrow.svg';
 import {ReactComponent as SearchIcon} from './../assets/icons/search.svg';
@@ -244,5 +246,6 @@ export {
     AccessDenied,
     SuccessAvatar,
     ShareIcon,
-    PaymentStatusIcon
+    PaymentStatusIcon,
+    CrossOutlinedIcon
 }
