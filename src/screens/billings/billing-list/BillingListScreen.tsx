@@ -578,7 +578,6 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             title: '',
             key: 'action',
             fixed: 'right',
-            width: 118,
             dataIndex: 'action',
             render: (item: any) => {
                 return <LinkComponent
