@@ -2,6 +2,9 @@
   .t-tab-panel {
     margin: 0 0 0 0 !important;
   }
+  .billing-stats-card{
+    //padding: 0 8px !important;
+  }
 
   .consolidation-switch-wrapper {
     display: flex;
@@ -35,6 +38,12 @@
 
     .t-table {
       min-height: calc(100vh - 420px) !important;
+      .t-cell-select{
+        padding-left: 30px!important;
+      }
+      .t-cell-action{
+        padding-right: 29px!important;
+      }
       .table-no-data-wrapper {
         min-height: calc(100vh - 500px) !important;
       }

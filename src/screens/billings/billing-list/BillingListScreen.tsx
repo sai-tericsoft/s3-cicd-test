@@ -280,7 +280,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             title: '',
             key: 'select',
             dataIndex: 'select',
-            width: 50,
+            width: 60,
             fixed: 'left',
             render: (item: any) => {
                 const clientIdOfSelectedPayments = selectedPayments?.length > 0 ? selectedPayments[0]?.client_id : undefined;
@@ -350,7 +350,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             key: 'amount',
             align: 'center',
             dataIndex: 'amount',
-            width: 120,
+            width: 130,
             render: (item: any) => {
                 return <>{Misc.CURRENCY_SYMBOL}{CommonService.convertToDecimals(item?.total)}</>
             }
@@ -359,7 +359,8 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             title: '',
             key: 'action',
             fixed: 'right',
-            width: 100,
+            width: 120,
+            align:'right',
             dataIndex: 'action',
             render: (item: any) => {
                 return <LinkComponent
@@ -429,7 +430,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             title: 'Payment For',
             key: 'payment_for',
             dataIndex: 'payment_for',
-            width: 200,
+            width: 180,
             align: 'center',
             render: (item: any) => {
                 let className = "";
@@ -456,6 +457,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             key: 'action',
             fixed: 'right',
             dataIndex: 'action',
+            width:150,
             render: (item: any) => {
 
                 return <LinkComponent
@@ -1066,7 +1068,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                     {
                         isBillingStatsBeingLoaded && <>
                             <div className="ts-row">
-                                <div className="ts-col-lg-3 ts-col-md-6 ts-col-sm-6 ">
+                                <div className="ts-col-lg-3 ts-col-md-6 ts-col-sm-6 billing-stats-card">
                                     <BillingStatsCardComponent
                                         title={"Total Amount"}
                                         amount={billingStats?.total_payments}
@@ -1074,21 +1076,21 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                                     />
                                 </div>
 
-                                <div className="ts-col-lg-3 ts-col-md-6 ts-col-sm-6">
+                                <div className="ts-col-lg-3 ts-col-md-6 ts-col-sm-6 billing-stats-card">
                                     <BillingStatsCardComponent
                                         title={"Pending Payments"}
                                         amount={billingStats?.pending_payments}
                                         icon={<ImageConfig.PendingPayments/>}
                                     />
                                 </div>
-                                <div className="ts-col-lg-3 ts-col-md-6 ts-col-sm-6">
+                                <div className="ts-col-lg-3 ts-col-md-6 ts-col-sm-6 billing-stats-card">
                                     <BillingStatsCardComponent
                                         title={"Completed Payments"}
                                         amount={billingStats?.completed_payments}
                                         icon={<ImageConfig.CompletedPayments/>}
                                     />
                                 </div>
-                                <div className="ts-col-lg-3 ts-col-md-6 ts-col-sm-6">
+                                <div className="ts-col-lg-3 ts-col-md-6 ts-col-sm-6 billing-stats-card">
                                     <BillingStatsCardComponent
                                         title={"Discount Amount"}
                                         amount={billingStats?.discounts}
