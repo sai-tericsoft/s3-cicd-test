@@ -58,8 +58,7 @@ const MessageBoardComponent = (props: MessageBoardComponentProps) => {
             image: ImageConfig.ConfirmationLottie,
             showLottie: true,
             confirmationTitle: "DELETE MESSAGE",
-            confirmationSubTitle: "Are you sure you want to delete this message from\n" +
-                "message board? This action cannot be undone."
+            confirmationSubTitle: "Are you sure you want to delete this message from the message board?"
         }).then(() => {
             CommonService._dashboardService.deleteDashboardMessage(messageId, {})
                 .then((response: any) => {
@@ -70,7 +69,7 @@ const MessageBoardComponent = (props: MessageBoardComponentProps) => {
                 CommonService._alert.showToast(error.error, "error");
             });
         });
-    }, [dispatch, handleCloseAllMessagesDrawer]);
+    }, [dispatch]);
 
     const getBirthdayList = useCallback(() => {
         CommonService._dashboardService.todayBirthdayList()
