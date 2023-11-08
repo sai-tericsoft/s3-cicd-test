@@ -33,7 +33,7 @@ const SPECIAL_TEST_CONFIG_INITIAL_VALUES = {
     config: {}
 }
 
-const SPECIAL_TEST_APPLICABLE_BODY_SIDES = ['Left', 'Right', 'Central'];
+// const SPECIAL_TEST_APPLICABLE_BODY_SIDES = ['Left', 'Right', 'Central'];
 
 const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecialTestV2ScreenProps) => {
 
