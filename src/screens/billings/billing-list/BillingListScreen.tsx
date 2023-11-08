@@ -466,7 +466,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                 </LinkComponent>
             }
         }
-    ], [selectedPayments, location, handlePaymentSelection, clientListFilterState]);
+    ], [location]);
 
     const completePaymentListColumn: ITableColumn[] = useMemo<any>(() => [
         {
@@ -758,7 +758,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             fixed: 'right',
             render: (item: any) => {
                 return <IconButtonComponent onClick={() => removePaymentFromSelectedMarkAsPaidList(item)}>
-                    <ImageConfig.CircleCancel/>
+                    <ImageConfig.CrossOutlinedIcon/>
                 </IconButtonComponent>
             }
         }
