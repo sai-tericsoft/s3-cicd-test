@@ -606,10 +606,10 @@ const APIConfig: IAPIConfig = {
         URL: (progressReportId: string) => ENV.API_URL + '/progressReport/' + progressReportId,
         METHOD: 'get'
     },
-    PRINT_PROGRESS_REPORT: {
-        URL: (progressReportId: string) => ENV.API_URL + '/progressReport/' + progressReportId + '/print',
-        METHOD: "post"
-    },
+    // PRINT_PROGRESS_REPORT: {
+    //     URL: (progressReportId: string) => ENV.API_URL + '/progressReport/' + progressReportId + '/print',
+    //     METHOD: "post"
+    // },
     REPEAT_LAST_INTERVENTION: {
         URL: (medicalRecordId: string) => ENV.API_URL + '/medicalRecord/' + medicalRecordId + '/repeatTreatment',
         METHOD: 'post'
@@ -1043,7 +1043,10 @@ const APIConfig: IAPIConfig = {
     PRINT_PERSONAL_AND_MEDICAL_INFO: {
         URL:ENV.API_URL + '/medicalHistoryQuestionnaire/generatePDF',
         METHOD: "post"
-
+    },
+    PRINT_PROGRESS_REPORT: {
+        URL:(progressReportId:string)=> ENV.API_URL + '/progressReport/' + progressReportId + '/generatePDF',
+        METHOD: "get"
     }
 }
 
