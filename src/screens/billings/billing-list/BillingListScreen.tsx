@@ -372,31 +372,30 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
     ], [handlePaymentSelection, selectedPayments, location, clientListFilterState]);
 
     const clientCompletePaymentListColumn: ITableColumn[] = useMemo<any>(() => [
-        {
-            title: '',
-            key: 'select',
-            dataIndex: 'select',
-            width: 50,
-            fixed: 'left',
-            render: (item: any) => {
-                const clientIdOfSelectedPayments = selectedPayments?.length > 0 ? selectedPayments[0]?.client_id : undefined;
-                const paymentFor = selectedPayments?.length > 0 ? selectedPayments[0]?.payment_for : undefined;
-                const selectedPaymentId = selectedPayments?.length > 0 ? selectedPayments[0]?._id : undefined;
-                let isDisabled = (clientIdOfSelectedPayments && clientIdOfSelectedPayments !== item?.client_id) || (paymentFor === "products" && selectedPaymentId !== item?._id) || (clientIdOfSelectedPayments && item?.payment_for === "products" && selectedPaymentId !== item?._id);
-                isDisabled = clientListFilterState?.linked_invoices ? false : isDisabled;
-                return <CheckBoxComponent
-                    className={selectedPayments.find((payment: any) => payment._id === item._id) ? 'selected-row' : ''}
-                    disabled={isDisabled}
-                    checked={!!selectedPayments.find((payment: any) => payment._id === item._id)}
-                    onChange={(isChecked) => {
-                        handlePaymentSelection(item, isChecked)
-                    }}/>
-            }
-        },
+        // {
+        //     title: '',
+        //     key: 'select',
+        //     dataIndex: 'select',
+        //     width: 50,
+        //     fixed: 'left',
+        //     render: (item: any) => {
+        //         const clientIdOfSelectedPayments = selectedPayments?.length > 0 ? selectedPayments[0]?.client_id : undefined;
+        //         const paymentFor = selectedPayments?.length > 0 ? selectedPayments[0]?.payment_for : undefined;
+        //         const selectedPaymentId = selectedPayments?.length > 0 ? selectedPayments[0]?._id : undefined;
+        //         let isDisabled = (clientIdOfSelectedPayments && clientIdOfSelectedPayments !== item?.client_id) || (paymentFor === "products" && selectedPaymentId !== item?._id) || (clientIdOfSelectedPayments && item?.payment_for === "products" && selectedPaymentId !== item?._id);
+        //         isDisabled = clientListFilterState?.linked_invoices ? false : isDisabled;
+        //         return <CheckBoxComponent
+        //             className={selectedPayments.find((payment: any) => payment._id === item._id) ? 'selected-row' : ''}
+        //             disabled={isDisabled}
+        //             checked={!!selectedPayments.find((payment: any) => payment._id === item._id)}
+        //             onChange={(isChecked) => {
+        //                 handlePaymentSelection(item, isChecked)
+        //             }}/>
+        //     }
+        // },
         {
             title: 'Receipt No.',
             key: 'receipt_no',
-            align: 'center',
             fixed: 'left',
             dataIndex: 'receipt_number',
             render: (item: any) => {
