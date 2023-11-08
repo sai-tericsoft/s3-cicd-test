@@ -28,8 +28,6 @@ import FormikCheckBoxComponent from "../../../shared/components/form-controls/fo
 import ESignApprovalComponent from "../../../shared/components/e-sign-approval/ESignApprovalComponent";
 import TableComponent from "../../../shared/components/table/TableComponent";
 import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
-import FilesUneditableMiddlewareComponent
-    from "../../../shared/components/files-uneditable-middleware/FilesUneditableMiddlewareComponent";
 import ToolTipComponent from "../../../shared/components/tool-tip/ToolTipComponent";
 
 interface ViewMedicalInterventionScreenProps {
@@ -346,11 +344,11 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                              showAction={true}/>
                     <div className={'d-flex ts-justify-content-sm-end'}>
 
-                        <FilesUneditableMiddlewareComponent
-                            timeStamp={medicalInterventionDetails?.completed_date}>
+                        {/*<FilesUneditableMiddlewareComponent*/}
+                        {/*    timeStamp={medicalInterventionDetails?.completed_date}>*/}
                             <ButtonComponent onClick={handleEditSoapNote} prefixIcon={<ImageConfig.EditIcon/>}>Edit SOAP
                                 Note</ButtonComponent>
-                        </FilesUneditableMiddlewareComponent>
+                        {/*</FilesUneditableMiddlewareComponent>*/}
 
                     </div>
                     <Formik
