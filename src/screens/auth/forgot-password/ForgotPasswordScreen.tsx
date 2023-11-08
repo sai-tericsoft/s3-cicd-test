@@ -51,8 +51,7 @@ const ForgotPasswordScreen = (props: ForgotPasswordScreenProps) => {
                     Forgot your password?
                 </div>
                 <div className="auth-form-welcome-text">
-                    Please enter your phone number/email address to receive a
-                    One Time Password (OTP).
+                    Please enter your email address to receive a One Time Password (OTP).
                 </div>
                 <Formik
                     validationSchema={forgotFormValidationSchema}
