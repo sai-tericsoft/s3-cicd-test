@@ -146,7 +146,7 @@ const MessageBoardComponent = (props: MessageBoardComponentProps) => {
                                 birthdayListData.length === 0 && <div className={'coming-soon-image-text-wrapper'}>
                                     <div className={'text-align-center'}>
                                         <div className={'mrg-left-10 text-align-center'}>
-                                            Sorry, no birthday to
+                                            Sorry, no birthday(s) to
                                         </div>
                                         <div className={'mrg-left-30'}>celebrate today.
                                         </div>
