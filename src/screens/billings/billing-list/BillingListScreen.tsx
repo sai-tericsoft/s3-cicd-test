@@ -298,7 +298,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             }
         },
         {
-            title: 'Appointment ID',
+            title: 'Invoice No.',
             key: 'appointment_id',
             dataIndex: 'appointment_id',
             fixed: 'left',
@@ -1130,7 +1130,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                                                <div
                                                    className={'no-client-heading mrg-bottom-15'}>{clientListFilterState?.search ? 'Sorry, no results found!' : ''}</div>
                                                <div className={'no-client-description'}>
-                                                   {clientListFilterState?.search ? 'There is no payment available by the client name you have searched.' : 'Currently there is no pending payments.'}
+                                                   {clientListFilterState?.search ? 'There is no payment available by the client name you have searched.' : 'Currently there is no pending payment'}
                                                </div>
                                            </div>)}
                                            method={APIConfig.PENDING_PAYMENT_LIST.METHOD}
@@ -1146,7 +1146,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                                                <div
                                                    className={'no-client-heading mrg-bottom-15'}>{clientListFilterState.search ? 'Sorry, no results found!' : ''}</div>
                                                <div className={'no-client-description'}>
-                                                   {clientListFilterState.search ? 'There is no payment available by the client name you have searched.' : 'Currently there is no completed payments.'}
+                                                   {clientListFilterState.search ? 'There is no payment available by the client name you have searched.' : 'Currently there is no completed payment'}
                                                </div>
                                            </div>)}
                                            method={APIConfig.COMPLETE_PAYMENT_LIST.METHOD}
