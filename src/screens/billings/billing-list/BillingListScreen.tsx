@@ -1243,6 +1243,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                             className={'payment-mode-modal'}
                             modalFooter={<>
                                 <ButtonComponent variant={'outlined'}
+                                                 size={'medium'}
                                                  className={'mrg-right-10'}
                                                  onClick={closePaymentModeModal}
                                 >
@@ -1250,6 +1251,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                                 </ButtonComponent>
                                 <ButtonComponent variant={'contained'}
                                                  color={'primary'}
+                                                 size={'medium'}
                                                  disabled={selectedPayments.length === 0 || !selectedPaymentMode || isPaymentsAreBeingMarkedAsPaid}
                                                  isLoading={isPaymentsAreBeingMarkedAsPaid}
                                                  onClick={markPaymentsAsPaid}
@@ -1263,6 +1265,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                     <IconButtonComponent onClick={handleBack}>
                         <ImageConfig.NavigateBack/>
                     </IconButtonComponent>
+                    <span className={'back-text'}>Back</span>
                 </div>
                 <ImageConfig.ConfirmIcon/>
                 <FormControlLabelComponent label={"Select Mode of Payment"}/>
