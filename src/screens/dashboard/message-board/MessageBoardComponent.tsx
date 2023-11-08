@@ -64,7 +64,7 @@ const MessageBoardComponent = (props: MessageBoardComponentProps) => {
             CommonService._dashboardService.deleteDashboardMessage(messageId, {})
                 .then((response: any) => {
                     CommonService._alert.showToast('Message deleted successfully!', "success");
-                    handleCloseAllMessagesDrawer();
+                    // handleCloseAllMessagesDrawer();
                     dispatch(getAllMessageHistory());
                 }).catch((error: any) => {
                 CommonService._alert.showToast(error.error, "error");
