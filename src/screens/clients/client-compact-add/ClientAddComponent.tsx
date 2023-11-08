@@ -30,7 +30,7 @@ const clientAddInitialValues: any = {
         phone: ''
     },
     send_invite: false,
-    is_onboarded: false
+    send_onboarded_email: true
 }
 
 const clientAddsValidationSchema = Yup.object({
@@ -44,7 +44,7 @@ const clientAddsValidationSchema = Yup.object({
                 return value?.length === 10
             }),
     }),
-    is_onboarded: Yup.boolean().required('Onboarded is required'),
+    send_onboarded_email: Yup.boolean().required('Onboarded is required'),
 });
 
 
@@ -78,7 +78,7 @@ const ClientAddComponent = (props: ClientAddComponentProps) => {
         const payload = {
             ...values,
             send_invite: true,
-            // is_onboarded: false
+            // send_onboarded_email: false
         };
         CommonService.onConfirm({
             image: ImageConfig.PopupLottie,
@@ -180,7 +180,7 @@ const ClientAddComponent = (props: ClientAddComponentProps) => {
                                     }
                                 </Field>
 
-                                <Field name={'is_onboarded'}>
+                                <Field name={'send_onboarded_email'}>
                                     {
                                         (field: FieldProps) => (
                                             <FormikCheckBoxComponent
@@ -218,7 +218,7 @@ const ClientAddComponent = (props: ClientAddComponentProps) => {
                                     onClick={() => handleInviteLink(values, setErrors)}
                                     variant={"contained"}
                                     className={'adding-client-cta'}
-                                    disabled={!isValid || values.is_onboarded}
+                                    disabled={!isValid || values.send_onboarded_email}
                                 >
                                     Send Invite Link
                                 </ButtonComponent>
