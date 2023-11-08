@@ -103,7 +103,7 @@ const SystemLockComponent = (props: SystemLockLockComponentProps) => {
                         <div className={"system-lock-sub-title"}>
                             {account.systemLockReason === 'auto' ?
                                 <span className={'text-center'}>To return to the application, <br/>  select the "Yes, I'm back" button.</span> :
-                                <span> To continue using the application, <br/> Please enter your password again.</span>}
+                                <span> To continue using the application, <br/> Please enter your password.</span>}
                         </div>
                         <div className="t-form-actions mrg-bottom-0">
                             <ButtonComponent
@@ -120,7 +120,7 @@ const SystemLockComponent = (props: SystemLockLockComponentProps) => {
                                 }
                                 }
                             >
-                                {account.systemLockReason === 'auto' ? "Yes, I’m back" : "Proceed"}
+                                {account.systemLockReason === 'auto' ? "Yes, I’m back" : "Enter Password"}
                             </ButtonComponent>
                         </div>
                     </div>
