@@ -67,8 +67,6 @@ const ClientAllFormsListComponent = (props: ClientAllFormsListComponentProps) =>
         });
     }, [fetchForm]);
 
-        console.log('getAllFormList', getAllFormList);
-
 
         return (
             <div className={'client-all-forms-list-component'}>
@@ -80,8 +78,8 @@ const ClientAllFormsListComponent = (props: ClientAllFormsListComponentProps) =>
                                 <div className={'ts-col-lg-12'}>
                                     <CardComponent className={'pending-form-wrapper pdf'}>
                                         <div className={'ts-row d-flex ts-justify-content-sm-between align-items-center'}>
-                                            <div className={'d-flex align-items-center'}>
-                                                <ImageConfig.DocumentIcon height={'50'} width={'50'}/>
+                                            <div className={'d-flex align-items-center form-name-icon'}>
+                                                <ImageConfig.DocumentIcon height={'40'} width={'40'}/>
                                                 <span className={'pending-form-title'}>{pendingForm?.form_type}</span><span>
                                                {pendingForm?.status === 'pending' && <ChipComponent
                                                    className={pendingForm?.status === 'pending' ? 'upcoming' : 'completed'}
@@ -91,6 +89,7 @@ const ClientAllFormsListComponent = (props: ClientAllFormsListComponentProps) =>
                                             {pendingForm?.status === 'completed' && <div>
                                                 <ButtonComponent prefixIcon={<ImageConfig.EyeIcon/>}
                                                                  variant={'outlined'}
+                                                                 className={'view-pdf-button'}
                                                                  onClick={()=>handlePrintForm(pendingForm)}
                                                                  size={'large'}>View
                                                     PDF</ButtonComponent>

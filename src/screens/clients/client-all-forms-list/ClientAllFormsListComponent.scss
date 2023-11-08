@@ -20,6 +20,11 @@
       font-size: 1rem;
       line-height: 18px;
       color: #212B36;
+      margin-left: 8px;
+    }
+
+    .form-name-icon{
+      margin-top: 3px;
     }
 
 
@@ -45,6 +50,10 @@
     //}
     &.pdf {
       height: 80px;
+
+      .view-pdf-button{
+        margin-top: 2px;
+      }
 
       .upcoming {
         margin-top: 0px;
