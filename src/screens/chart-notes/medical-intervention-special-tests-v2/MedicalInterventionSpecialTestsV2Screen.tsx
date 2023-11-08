@@ -414,12 +414,11 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
                         };
 
                 });
-
                 if (!specialTestConfig?.find((item: any) => item?.body_part?._id === injury?.body_part_id)) {
                     specialTestConfig.push({
                         body_part: injury?.body_part_details,
                         special_test_config: injury?.special_tests || [],
-                        selected_sides: SPECIAL_TEST_APPLICABLE_BODY_SIDES,
+                        selected_sides: injury?.body_part_details?.sides,
                         mode: 'write'
                     });
                     // } else {
@@ -429,12 +428,15 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
             });
         } else {
             if (injury_details?.length > 0) {
+
                 injury_details?.forEach((injury: any) => {
+                    console.log(specialTestConfig)
+                    console.log(injury)
                     if (!specialTestConfig?.find((item: any) => item?.body_part?._id === injury?.body_part_id)) {
                         specialTestConfig.push({
                             body_part: injury?.body_part_details,
                             special_test_config: [],
-                            selected_sides: SPECIAL_TEST_APPLICABLE_BODY_SIDES,
+                            selected_sides: injury?.body_part_details?.sides,
                             mode: 'write'
                         });
                         // } else {

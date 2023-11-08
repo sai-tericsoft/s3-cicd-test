@@ -101,45 +101,45 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
             fixed: 'left',
             width: 150,
         },
-        {
-            title: 'Left Side',
-            dataIndex: 'result',
-            align: 'center',
-            fixed: 'left',
-            key: 'left_result',
-            width: 150,
-            render: (item: any) => {
-                return <div className={'result'}>
-                    {item?.config?.Left?.result || "-"}
-                </div>
-            }
-        },
-        {
-            title: 'Right Side',
-            dataIndex: 'result',
-            align: 'center',
-            fixed: 'left',
-            key: 'right_result',
-            width: 150,
-            render: (item: any) => {
-                return <div className={'result'}>
-                    {item?.config?.Right?.result || "-"}
-                </div>
-            }
-        },
-        {
-            title: 'Central Side',
-            dataIndex: 'result',
-            align: 'center',
-            fixed: 'left',
-            key: 'central_result',
-            width: 150,
-            render: (item: any) => {
-                return <div className={'result'}>
-                    {item?.config?.Central?.result || "-"}
-                </div>
-            }
-        },
+        // {
+        //     title: 'Left Side',
+        //     dataIndex: 'result',
+        //     align: 'center',
+        //     fixed: 'left',
+        //     key: 'left_result',
+        //     width: 150,
+        //     render: (item: any) => {
+        //         return <div className={'result'}>
+        //             {item?.config?.Left?.result || "-"}
+        //         </div>
+        //     }
+        // },
+        // {
+        //     title: 'Right Side',
+        //     dataIndex: 'result',
+        //     align: 'center',
+        //     fixed: 'left',
+        //     key: 'right_result',
+        //     width: 150,
+        //     render: (item: any) => {
+        //         return <div className={'result'}>
+        //             {item?.config?.Right?.result || "-"}
+        //         </div>
+        //     }
+        // },
+        // {
+        //     title: 'Central Side',
+        //     dataIndex: 'result',
+        //     align: 'center',
+        //     fixed: 'left',
+        //     key: 'central_result',
+        //     width: 150,
+        //     render: (item: any) => {
+        //         return <div className={'result'}>
+        //             {item?.config?.Central?.result || "-"}
+        //         </div>
+        //     }
+        // },
         {
             title: 'Comments',
             dataIndex: 'comments',
@@ -162,6 +162,56 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
             }
         }
     ], []);
+
+    const generateSpecialTestsColumns = useCallback((bodyPart: any) => {
+        const testNameColumn = {
+            title: 'Test Name',
+            dataIndex: 'name',
+            key: 'test_name',
+            fixed: 'left',
+            width: 150,
+        }
+        const commentsColumn = {
+            title: 'Comments',
+            dataIndex: 'comments',
+            key: 'comments',
+            width: 147,
+            // align: 'center',
+            // fixed: 'right',
+            render: (item: any) => {
+                return <div className={'comments'}>
+                    {
+                        item?.config?.comments ?
+                            <ToolTipComponent tooltip={item?.config?.comments}>
+                                <div
+                                    className={'comment-text'}>{item?.config?.comments?.length ? CommonService.capitalizeFirstLetter(item?.config?.comments?.substring(0, 60) + '...') : item?.config?.comments}
+                                </div>
+                            </ToolTipComponent> : '-'
+                    }
+
+                </div>
+            }
+        }
+
+        const bodySidesColumns = bodyPart.body_part_details.sides.map((side:any)=>{
+            return {
+                title: side + " Side",
+                key:side,
+                dataIndex:side,
+                align: 'center',
+                fixed: 'left',
+                width: 150,
+                render: (item: any) => {
+                    return <div className={'result'}>
+                        {item?.config?.[side]?.result || "-"}
+                    </div>
+                }
+            }
+        })
+        return (
+            [testNameColumn,...bodySidesColumns,commentsColumn]
+        )
+    }, [])
 
     const getMedicalInterventionROMConfigColumns = useCallback((body_part: any): ITableColumn[] => {
                 // console.log("body_part", body_part);
@@ -748,7 +798,7 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                                                                                     <TableComponent
                                                                                         data={body_part.special_tests}
                                                                                         className={'view-arom-prom-table'}
-                                                                                        columns={SpecialTestsColumns}
+                                                                                        columns={generateSpecialTestsColumns(body_part)}
                                                                                         bordered={true}
                                                                                     />
                                                                                 </div>)
