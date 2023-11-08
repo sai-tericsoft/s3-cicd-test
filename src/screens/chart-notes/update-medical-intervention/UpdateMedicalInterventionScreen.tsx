@@ -1,7 +1,7 @@
 import "./UpdateMedicalInterventionScreen.scss";
 import * as Yup from "yup";
 import {useLocation, useNavigate, useParams, useSearchParams} from "react-router-dom";
-import React, {useCallback, useEffect, useMemo, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import _ from "lodash";
 import {Field, FieldProps, Form, Formik, FormikHelpers} from "formik";
 import {CommonService} from "../../../shared/services";
@@ -93,54 +93,85 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
     // const [isFormBeingUpdated, setIsFormBeingUpdated] = useState<boolean>(false);
     const [signedObject, setSignedObject] = useState<any>(null);
 
-    const SpecialTestsColumns: ITableColumn[] = useMemo<ITableColumn[]>(() => [
-        {
+    // const SpecialTestsColumns: ITableColumn[] = useMemo<ITableColumn[]>(() => [
+    //     {
+    //         title: 'Test Name',
+    //         dataIndex: 'name',
+    //         key: 'test_name',
+    //         fixed: 'left',
+    //         width: 150,
+    //     },
+    //     // {
+    //     //     title: 'Left Side',
+    //     //     dataIndex: 'result',
+    //     //     align: 'center',
+    //     //     fixed: 'left',
+    //     //     key: 'left_result',
+    //     //     width: 150,
+    //     //     render: (item: any) => {
+    //     //         return <div className={'result'}>
+    //     //             {item?.config?.Left?.result || "-"}
+    //     //         </div>
+    //     //     }
+    //     // },
+    //     // {
+    //     //     title: 'Right Side',
+    //     //     dataIndex: 'result',
+    //     //     align: 'center',
+    //     //     fixed: 'left',
+    //     //     key: 'right_result',
+    //     //     width: 150,
+    //     //     render: (item: any) => {
+    //     //         return <div className={'result'}>
+    //     //             {item?.config?.Right?.result || "-"}
+    //     //         </div>
+    //     //     }
+    //     // },
+    //     // {
+    //     //     title: 'Central Side',
+    //     //     dataIndex: 'result',
+    //     //     align: 'center',
+    //     //     fixed: 'left',
+    //     //     key: 'central_result',
+    //     //     width: 150,
+    //     //     render: (item: any) => {
+    //     //         return <div className={'result'}>
+    //     //             {item?.config?.Central?.result || "-"}
+    //     //         </div>
+    //     //     }
+    //     // },
+    //     {
+    //         title: 'Comments',
+    //         dataIndex: 'comments',
+    //         key: 'comments',
+    //         width: 147,
+    //         // align: 'center',
+    //         // fixed: 'right',
+    //         render: (item: any) => {
+    //             return <div className={'comments'}>
+    //                 {
+    //                     item?.config?.comments ?
+    //                         <ToolTipComponent tooltip={item?.config?.comments}>
+    //                             <div
+    //                                 className={'comment-text'}>{item?.config?.comments?.length ? CommonService.capitalizeFirstLetter(item?.config?.comments?.substring(0, 60) + '...') : item?.config?.comments}
+    //                             </div>
+    //                         </ToolTipComponent> : '-'
+    //                 }
+    //
+    //             </div>
+    //         }
+    //     }
+    // ], []);
+
+    const generateSpecialTestsColumns = useCallback((bodyPart: any) => {
+        const testNameColumn = {
             title: 'Test Name',
             dataIndex: 'name',
             key: 'test_name',
             fixed: 'left',
             width: 150,
-        },
-        {
-            title: 'Left Side',
-            dataIndex: 'result',
-            align: 'center',
-            fixed: 'left',
-            key: 'left_result',
-            width: 150,
-            render: (item: any) => {
-                return <div className={'result'}>
-                    {item?.config?.Left?.result || "-"}
-                </div>
-            }
-        },
-        {
-            title: 'Right Side',
-            dataIndex: 'result',
-            align: 'center',
-            fixed: 'left',
-            key: 'right_result',
-            width: 150,
-            render: (item: any) => {
-                return <div className={'result'}>
-                    {item?.config?.Right?.result || "-"}
-                </div>
-            }
-        },
-        {
-            title: 'Central Side',
-            dataIndex: 'result',
-            align: 'center',
-            fixed: 'left',
-            key: 'central_result',
-            width: 150,
-            render: (item: any) => {
-                return <div className={'result'}>
-                    {item?.config?.Central?.result || "-"}
-                </div>
-            }
-        },
-        {
+        }
+        const commentsColumn = {
             title: 'Comments',
             dataIndex: 'comments',
             key: 'comments',
@@ -161,7 +192,26 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                 </div>
             }
         }
-    ], []);
+
+        const bodySidesColumns = bodyPart.body_part_details.sides.map((side:any)=>{
+            return {
+                title: side + " Side",
+                key:side,
+                dataIndex:side,
+                align: 'center',
+                fixed: 'left',
+                width: 150,
+                render: (item: any) => {
+                    return <div className={'result'}>
+                        {item?.config?.[side]?.result || "-"}
+                    </div>
+                }
+            }
+        })
+        return (
+            [testNameColumn,...bodySidesColumns,commentsColumn]
+        )
+    }, [])
 
     const getMedicalInterventionROMConfigColumns = useCallback((body_part: any): ITableColumn[] => {
                 // console.log("body_part", body_part);
@@ -748,7 +798,7 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                                                                                     <TableComponent
                                                                                         data={body_part.special_tests}
                                                                                         className={'view-arom-prom-table'}
-                                                                                        columns={SpecialTestsColumns}
+                                                                                        columns={generateSpecialTestsColumns(body_part)}
                                                                                         bordered={true}
                                                                                     />
                                                                                 </div>)
