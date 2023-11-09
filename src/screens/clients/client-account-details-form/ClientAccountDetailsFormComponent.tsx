@@ -166,7 +166,7 @@ const ClientAccountDetailsFormComponent = (props: ClientAccountDetailsFormCompon
                                         <div className="ts-row">
                                             <div className="ts-col-md-8">
                                                 <QuestionComponent title={"Appointment Reminders"}
-                                                                   description={"How would you like to receive appointment reminders?"}/>
+                                                                   description={"How would the client like to receive appointment reminders?"}/>
                                             </div>
                                             <div className="ts-col-md-4">
                                                 <Field name={`communication_preferences.appointment_reminders`}>
@@ -186,7 +186,7 @@ const ClientAccountDetailsFormComponent = (props: ClientAccountDetailsFormCompon
                                         <div className="ts-row">
                                             <div className="ts-col-md-8">
                                                 <QuestionComponent title={"Appointment Confirmations"}
-                                                                   description={"How would you like to receive appointment confirmations?"}/>
+                                                                   description={"How would the client like to receive appointment confirmations?"}/>
                                             </div>
                                             <div className="ts-col-md-4">
                                                 <Field name={`communication_preferences.appointment_confirmations`}>
