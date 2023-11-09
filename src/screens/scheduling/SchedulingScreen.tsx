@@ -1094,7 +1094,11 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                         })
                                         }
                                     </div>
-                                </div>}
+                                    <div className={'scheduling-calendar-right-side-space'}>
+                                        <div className="scheduling-calendar-day-wise-time-header"></div>
+                                    </div>
+                                </div>
+                            }
                         </> :
                         <>
                             <TableWrapperComponent
