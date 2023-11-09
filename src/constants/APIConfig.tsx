@@ -1047,6 +1047,10 @@ const APIConfig: IAPIConfig = {
     PRINT_PROGRESS_REPORT: {
         URL:(progressReportId:string)=> ENV.API_URL + '/progressReport/' + progressReportId + '/generatePDF',
         METHOD: "get"
+    },
+    PRINT_EXERCISE_RECORD: {
+        URL:(medicalRecordId:string)=>ENV.API_URL + '/medicalRecord/' + medicalRecordId + '/exerciseRecord/generatePDF',
+        METHOD: "get"
     }
 }
 
