@@ -59,7 +59,7 @@ const SearchComponent = (props: SearchComponentProps) => {
                             size={"small"}
                             position={"end"}
                             onClick={handleSearchClear}>
-                            <ImageConfig.CloseIcon/>
+                            <ImageConfig.CloseIcon height={'18'} width={'18'}/>
                         </IconButtonComponent>
                         }
                     </>
