@@ -332,6 +332,10 @@ const getMedicalRecordActivityLogs = (medicalRecordId: string, payload: any) => 
     return ApiService[APIConfig.GET_MEDICAL_RECORD_ACTIVITY_LOGS.METHOD](APIConfig.GET_MEDICAL_RECORD_ACTIVITY_LOGS.URL(medicalRecordId), payload);
 }
 
+const PrintExerciseRecord = (medicalRecordId: string) => {
+    return ApiService[APIConfig.PRINT_EXERCISE_RECORD.METHOD](APIConfig.PRINT_EXERCISE_RECORD.URL(medicalRecordId));
+}
+
 const ChartNotesService = {
     MedicalRecordAddAPICall,
     MedicalRecordEditAPICall,
@@ -401,7 +405,8 @@ const ChartNotesService = {
     GetCPTCodesAPICall,
     ConcussionFileDocumentDelete,
     DryNeedlingDocumentDelete,
-    getMedicalRecordActivityLogs
+    getMedicalRecordActivityLogs,
+    PrintExerciseRecord
 }
 
 export default ChartNotesService;

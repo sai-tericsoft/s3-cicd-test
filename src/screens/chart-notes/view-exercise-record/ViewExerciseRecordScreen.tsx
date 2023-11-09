@@ -2,7 +2,7 @@
 import {useNavigate, useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
-import React, {useEffect} from "react";
+import React, {useCallback, useEffect} from "react";
 import {getMedicalRecordViewExerciseRecord} from "../../../store/actions/chart-notes.action";
 import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
@@ -80,6 +80,7 @@ const ViewExerciseRecordScreen = (props: ViewExerciseLogComponentProps) => {
     const {medicalRecordId} = useParams();
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const [isPrintLoading, setIsPrintLoading] = React.useState<boolean>(false);
 
     const {
         medicalRecordViewExerciseRecord,
@@ -99,6 +100,25 @@ const ViewExerciseRecordScreen = (props: ViewExerciseLogComponentProps) => {
             medicalRecordId && navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId));
         }));
     }, [medicalRecordId, navigate, dispatch]);
+
+    const handlePrint = useCallback(() => {
+        setIsPrintLoading(true);
+        medicalRecordId && CommonService._chartNotes.PrintExerciseRecord(medicalRecordId)
+            .then((res: any) => {
+                setIsPrintLoading(false);
+                const attachment = {
+                    type: 'application/pdf',
+                    url: res.data.url,
+                    name: 'progress report',
+                    key: ''
+                };
+                CommonService.printAttachment(attachment);
+            })
+            .catch((err: any) => {
+                setIsPrintLoading(false);
+                console.log(err);
+            })
+    }, [medicalRecordId])
 
 
     return (
@@ -138,9 +158,9 @@ const ViewExerciseRecordScreen = (props: ViewExerciseLogComponentProps) => {
                                     <div className="ts-row width-auto">
                                         <div className="">
                                             <ButtonComponent prefixIcon={<ImageConfig.PrintIcon/>}
-                                                             onClick={() => {
-                                                                 CommonService._alert.showToast('Coming Soon', 'info');
-                                                             }}
+                                                             isLoading={isPrintLoading}
+                                                             disabled={medicalRecordViewExerciseRecord?.exercise_logs?.length===0}
+                                                            onClick={handlePrint}
                                             >
                                                 Print All Logs
                                             </ButtonComponent>
@@ -212,6 +232,10 @@ const ViewExerciseRecordScreen = (props: ViewExerciseLogComponentProps) => {
                                     )}
                                 </>
                             })}
+                            {
+                                medicalRecordViewExerciseRecord?.exercise_logs?.length === 0 &&
+                                <StatusCardComponent title={'Currently, no exercise logs have been added to this medical record.'}/>
+                            }
 
 
                         </>
