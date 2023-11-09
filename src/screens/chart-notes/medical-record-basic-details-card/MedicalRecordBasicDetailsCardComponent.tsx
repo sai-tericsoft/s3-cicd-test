@@ -12,7 +12,6 @@ import {getClientMedicalRecord} from "../../../store/actions/client.action";
 import {IRootReducerState} from "../../../store/reducers";
 import {CommonService} from "../../../shared/services";
 import ModalComponent from "../../../shared/components/modal/ModalComponent";
-import {setCurrentNavParams} from "../../../store/actions/navigation.action";
 import {ImageConfig, Misc} from "../../../constants";
 import DrawerComponent from "../../../shared/components/drawer/DrawerComponent";
 import EditMedicalRecordComponent from "../edit-medical-record/EditMedicalRecordComponent";
@@ -100,13 +99,13 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
         }
     }, [medicalRecordId, dispatch]);
 
-    useEffect(() => {
-        if (clientMedicalRecord?.client_id) {
-            dispatch(setCurrentNavParams("Medical Record details", null, () => {
-                navigate(CommonService._routeConfig.MedicalRecordList(clientMedicalRecord?.client_id));
-            }));
-        }
-    }, [navigate, dispatch, clientMedicalRecord?.client_id]);
+    // useEffect(() => {
+    //     if (clientMedicalRecord?.client_id) {
+    //         dispatch(setCurrentNavParams("Medical Record details", null, () => {
+    //             navigate(CommonService._routeConfig.MedicalRecordList(clientMedicalRecord?.client_id));
+    //         }));
+    //     }
+    // }, [navigate, dispatch, clientMedicalRecord?.client_id]);
 
     const openEditMedicalRecordDrawer = useCallback(() => {
         setIsEditMedicalRecordDrawerOpen(true);
