@@ -64,6 +64,8 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
         const [isPaymentModeModalOpen, setIsPaymentModeModalOpen] = useState<boolean>(false);
         const [isConsolidatedBillDeleted, setIsConsolidatedBillDeleted] = useState<boolean>(false);
         const [isMarkAsPaidDisabled, setIsMarkAsPaidDisabled] = useState<boolean>(false);
+        const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+
 
         const {
             paymentModes
@@ -212,7 +214,7 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                 render: (item: any) => {
                     return <>
                         {CommonService.convertDateFormat2(item?.created_at, "DD-MMM-YYYY") || '-'}<br/>
-                            {CommonService.convertDateFormat2(item?.created_at, "hh:mm A") || '-'}
+                        {CommonService.convertDateFormat2(item?.created_at, "hh:mm A") || '-'}
                     </>
                 }
 
@@ -370,6 +372,7 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
         }, [closeBillingAddressFormDrawer]);
 
         const handleSave = useCallback((thankYouNote: any, comments: any, selectedAddress: any, billingDetails: any) => {
+            setIsSubmitting(true);
             setIsMarkAsPaidDisabled(false);
             const payload = {
                 "billing_address_id": selectedAddress?._id,
@@ -379,9 +382,11 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
             }
             consolidatedBillingId && CommonService._billingsService.EditConsolidatedBill(consolidatedBillingId, payload)
                 .then((response) => {
+                    setIsSubmitting(false);
                     CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY] || "Billing updated successfully", "success");
                     // navigate(CommonService._routeConfig.BillingList() + '?activeTab=consolidatedPayments');
                 }).catch((error) => {
+                    setIsSubmitting(false);
                     CommonService._alert.showToast(error.error || error.errors || "Failed to update billing", "error");
                 })
 
@@ -630,7 +635,7 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                                                 <div className={'ts-col-lg-3'}/>
                                                 <div className={'ts-col'}>
                                                     <DataLabelValueComponent label={'Case Name'}>
-                                                        {billDetail?.medical_record_details?.injury_details && billDetail?.medical_record_details?.injury_details?.map((injury: any,index:number) => {
+                                                        {billDetail?.medical_record_details?.injury_details && billDetail?.medical_record_details?.injury_details?.map((injury: any, index: number) => {
                                                             return (
                                                                 <>
                                                                     {index === 0 ? CommonService.convertDateFormat2(billDetail?.created_at) : " "} - {injury?.body_part_name}( {injury?.body_side} )
@@ -808,6 +813,7 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                         {searchParams.get('type') !== 'completed' &&
                             <div className={'d-flex ts-justify-content-center mrg-top-20'}>
                                 <ButtonComponent
+                                    isLoading={isSubmitting}
                                     disabled={thankYouNote?.length > 90}
                                     onClick={() => handleSave(thankYouNote, comments, selectedAddress, billingDetails)}>Save</ButtonComponent>
                             </div>}
