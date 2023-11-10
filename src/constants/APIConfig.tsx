@@ -1064,6 +1064,14 @@ const APIConfig: IAPIConfig = {
     PRINT_EXERCISE_LOG: {
         URL: (interventionId: string) => ENV.API_URL + '/intervention/' + interventionId + '/exerciseLog/generatePDF',
         METHOD: "get"
+    },
+    PRINT_WAIVER_AND_RELEASE: {
+        URL: (clientId: string,appointmentId:string) => ENV.API_URL + '/client/' + clientId + '/appointment/'+ appointmentId +  '/waiverForm/generatePDF',
+        METHOD: "get"
+    },
+    PRINT_AUTHORIZATION_TO_RELEASE_FORM: {
+        URL: (clientId: string,appointmentId:string) => ENV.API_URL + '/client/' + clientId + '/appointment/'+ appointmentId +  '/authorizationToRMI/generatePDF',
+        METHOD: "get"
     }
 }
 

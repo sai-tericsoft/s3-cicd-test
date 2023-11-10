@@ -57,7 +57,7 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                             <div className={'ts-col-lg-3 no-answer-text'}>
                                 {clientMedicalDetails?.personal_habits?.["Smoke/Chew Tobacco?"]?.value || "N/A"}
                             </div>
-                            <div className={'ts-col-lg-3'}>
+                            <div className={'ts-col-lg-3 no-answer-text'}>
                                 {clientMedicalDetails?.personal_habits &&
                                 Object.keys(clientMedicalDetails.personal_habits).length > 0 ? (
                                     clientMedicalDetails.personal_habits["Smoke/Chew Tobacco?"]?.text ? (
