@@ -42,7 +42,7 @@ const FacilityListScreen = (props: FacilityListScreenProps) => {
             align: "center",
             key: "location",
             render: (item: any) => {
-                return <>{(item?.location).toUpperCase()}</>
+                return <>{(item?.location)?.toLocaleUpperCase()}</>
             }
         },
         {
