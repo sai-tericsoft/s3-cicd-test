@@ -47,7 +47,8 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
                 dataIndex: 'name',
                 render: (item: any) => {
                     return <RadioButtonComponent
-                        label={<><span className={item?.is_alias_name_set ? 'alias-name':''}>{`${CommonService.extractName(item)}`}</span> {`(ID: ${item.client_id || ''})`}</>}
+                        label={<><span
+                            className={item?.is_alias_name_set ? 'alias-name' : ''}>{`${CommonService.extractName(item)}`}</span> {`(ID: ${item.client_id || ''})`}</>}
                         name={'client'} value={item?._id}
                         checked={selectedClient?._id === item?._id}
                         onChange={() => {
@@ -212,6 +213,7 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
 
             });
         }, [handleTransferMedicalRecord]);
+        console.log('selectedClient', selectedClient);
 
         const confirmTransferCase = useCallback(() => {
             CommonService.onConfirm({
@@ -220,14 +222,16 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
                 confirmationTitle: "TRANSFER FILE TO",
                 confirmationSubTitle: "Are you sure you want to transfer this file to : ",
                 confirmationDescription: <div className="transfer-file-to">
-                        <div className={'mrg-bottom-10'}>
-                            <span className={'client-case-name-title mrg-left-10'}>Client:</span> <span>{selectedClient?.first_name} {selectedClient?.last_name}</span>
-                        </div>
-                        <div>
-                            <span className={'client-case-name-title mrg-left-10'}>Case:</span> <span>{selectedMedicalRecordToTransferUnder?.injury_details?.map((injury: any, index: number) => {
+                    <div className={'mrg-bottom-10'}>
+                        <span className={'client-case-name-title mrg-left-10'}>Client:&nbsp;</span>
+                        <span>{selectedClient?.is_alias_name_set ? selectedClient?.alias_first_name + ' ' + selectedClient?.alias_last_name : selectedClient?.first_name + " " + selectedClient?.last_name}</span>
+                    </div>
+                    <div>
+                        <span className={'client-case-name-title mrg-left-10'}>Case:&nbsp;</span>
+                        <span>{selectedMedicalRecordToTransferUnder?.injury_details?.map((injury: any, index: number) => {
                             return <>{injury.body_part_details.name} {injury.body_side ? `(${injury.body_side})` : ''} {index !== selectedMedicalRecordToTransferUnder?.injury_details.length - 1 ? <> | </> : ""}</>
                         })}</span>
-                        </div>
+                    </div>
                 </div>
             })
                 .then(() => {
@@ -379,7 +383,8 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
                             <div className="client-mini-card">
                                 <AvatarComponent title={CommonService.extractName(selectedClient)} className={'avatar'}/>
                                 <div className="client-name">
-                                   <span className={selectedClient?.is_alias_name_set ? "alias-name":""}> {CommonService.extractName(selectedClient)}</span>
+                                    <span
+                                        className={selectedClient?.is_alias_name_set ? "alias-name" : ""}> {CommonService.extractName(selectedClient)}</span>
                                 </div>
                             </div>
                         </CardComponent>
@@ -417,13 +422,14 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
                             <div className="client-mini-card">
                                 <AvatarComponent title={CommonService.extractName(selectedClient)}/>
                                 <div className="client-name">
-                                    <span className={selectedClient?.is_alias_name_set ? "alias-name":""}>  {CommonService.extractName(selectedClient)}</span>
+                                    <span
+                                        className={selectedClient?.is_alias_name_set ? "alias-name" : ""}>  {CommonService.extractName(selectedClient)}</span>
                                 </div>
                             </div>
                         </CardComponent>
                         <div className={'case-list-table'}>
                             <TableComponent data={medicalRecordList}
-                                            className={isMedicalRecordTransferUnderProgress ? 'mrg-bottom-20':''}
+                                            className={isMedicalRecordTransferUnderProgress ? 'mrg-bottom-20' : ''}
                                             noDataText={'Currently, there are no open cases for this client.'}
                                             columns={MedicalRecordListColumns}
                                             loading={isMedicalRecordListLoading}
