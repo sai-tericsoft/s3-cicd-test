@@ -152,13 +152,14 @@ const ClientDocumentsTableComponent = (props: ClientDocumentsTableComponentProps
             width: 175,
             render: (item: any) => {
                 return <>
-                    {item?.note_type?.length > 20 ?
-                        <ToolTipComponent
-                            tooltip={item?.note_type && item?.note_type}
-                            position={"top"}
-                            showArrow={true}>
-                            <div>{item?.note_type?.substring(0, 20) + '...'}</div>
-                        </ToolTipComponent> : item?.note_type}
+                    {/*{item?.note_type?.length > 20 ?*/}
+                    {/*    <ToolTipComponent*/}
+                    {/*        tooltip={item?.note_type && item?.note_type}*/}
+                    {/*        position={"top"}*/}
+                    {/*        showArrow={true}>*/}
+                    {/*        <div>{item?.note_type?.substring(0, 20) + '...'}</div>*/}
+                    {/*    </ToolTipComponent> : item?.note_type}*/}
+                    {item?.note_type}
                 </>
             }
         },
