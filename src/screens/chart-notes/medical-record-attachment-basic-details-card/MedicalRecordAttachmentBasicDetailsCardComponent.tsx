@@ -10,7 +10,7 @@ import MedicalInterventionLinkedToComponent
 import {CommonService} from "../../../shared/services";
 import React, {useCallback, useEffect} from "react";
 import moment from "moment-timezone";
-import { ListItemButton} from "@mui/material";
+import {ListItemButton} from "@mui/material";
 import MenuDropdownComponent from "../../../shared/components/menu-dropdown/MenuDropdownComponent";
 import LinkComponent from "../../../shared/components/link/LinkComponent";
 import commonService from "../../../shared/services/common.service";
@@ -28,6 +28,7 @@ interface MedicalRecordAttachmentBasicDetailsCardComponentProps {
     onConcussionFileShare?: () => void;
     isDocumentShared?: boolean;
     onRemoveAccess: Function;
+    medicalRecordDocumentId?: string;
 }
 
 const MedicalRecordAttachmentBasicDetailsCardComponent = (props: MedicalRecordAttachmentBasicDetailsCardComponentProps) => {
@@ -44,7 +45,8 @@ const MedicalRecordAttachmentBasicDetailsCardComponent = (props: MedicalRecordAt
         onDelete,
         showEdit,
         isDocumentShared,
-        onRemoveAccess
+        onRemoveAccess,
+        medicalRecordDocumentId
     } = props;
 
     const [tempAttachmentDetails] = React.useState<any>(attachmentDetails);
@@ -78,6 +80,24 @@ const MedicalRecordAttachmentBasicDetailsCardComponent = (props: MedicalRecordAt
             onRemoveAccess(item);
         })
     }, [onRemoveAccess]);
+
+    const handlePrint = useCallback(() => {
+        if (pageTitle === "View Document" && medicalRecordDocumentId) {
+            CommonService._chartNotes.PrintDocument(medicalRecordDetails?._id, medicalRecordDocumentId)
+                .then((res: any) => {
+                    const attachment = {
+                        type: 'application/pdf',
+                        url: res.data.url,
+                        name: 'progress report',
+                        key: ''
+                    };
+                    CommonService.printAttachment(attachment);
+                })
+                .catch((err: any) => {
+                    console.log(err);
+                });
+        }
+}, [medicalRecordDetails?._id, medicalRecordDocumentId]);
 
     return (
         <div className={"medical-record-attachment-basic-details-card-component"}>
@@ -168,17 +188,21 @@ const MedicalRecordAttachmentBasicDetailsCardComponent = (props: MedicalRecordAt
                                     Select Action &nbsp;<ImageConfig.SelectDropDownIcon/>
                                 </ButtonComponent>
                             } menuOptions={[
-                                <ListItemButton
-                                    disabled={!onDelete}
-                                    onClick={onDelete}>
-                                    Delete Document
-                                </ListItemButton>,
                                 (pageTitle === "View Document" || pageTitle === "View Dry Needling File" || attachmentType === "concussionFile") &&
                                 <ListItemButton
                                     disabled={isShared}
                                     onClick={attachmentType === "concussionFile" ? onConcussionFileShare : (pageTitle === "View Document") ? onShare : onDryNeedingShare}>
                                     Share
-                                </ListItemButton>
+                                </ListItemButton>,
+                                <ListItemButton onClick={handlePrint}>
+                                    Print
+                                </ListItemButton>,
+                                <ListItemButton
+                                    disabled={!onDelete}
+                                    onClick={onDelete}>
+                                    Delete Document
+                                </ListItemButton>,
+
                             ]}
                             />
                         </div>

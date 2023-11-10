@@ -255,6 +255,7 @@ const ViewMedicalRecordDocumentScreen = (props: ViewMedicalRecordDocumentScreenP
                     isMedicalRecordDocumentDetailsLoaded && <>
                         <MedicalRecordAttachmentBasicDetailsCardComponent
                             pageTitle={"View Document"}
+                            medicalRecordDocumentId={medicalRecordDocumentId}
                             attachmentDetails={medicalRecordDocumentDetails}
                             isDocumentShared={isShared}
                             medicalRecordDetails={medicalRecordDocumentDetails?.medical_record_details}
