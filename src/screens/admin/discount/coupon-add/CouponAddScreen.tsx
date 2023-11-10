@@ -111,7 +111,7 @@ const CouponAddScreen = (props: CouponAddScreenProps) => {
     }, [navigate]);
 
     const handleCapitalText = useCallback((event:any)=>{
-        setInputValue(event.toUpperCase());
+        setInputValue(event?.toUpperCase());
     },[])
 
     return (
