@@ -336,6 +336,10 @@ const PrintExerciseRecord = (medicalRecordId: string) => {
     return ApiService[APIConfig.PRINT_EXERCISE_RECORD.METHOD](APIConfig.PRINT_EXERCISE_RECORD.URL(medicalRecordId));
 }
 
+const PrintSurgeryRecord = (medicalRecordId:string,surgeryRecordId:string) => {
+    return ApiService[APIConfig.PRINT_SURGERY_RECORD.METHOD](APIConfig.PRINT_SURGERY_RECORD.URL(medicalRecordId,surgeryRecordId));
+}
+
 const ChartNotesService = {
     MedicalRecordAddAPICall,
     MedicalRecordEditAPICall,
@@ -406,7 +410,8 @@ const ChartNotesService = {
     ConcussionFileDocumentDelete,
     DryNeedlingDocumentDelete,
     getMedicalRecordActivityLogs,
-    PrintExerciseRecord
+    PrintExerciseRecord,
+    PrintSurgeryRecord
 }
 
 export default ChartNotesService;

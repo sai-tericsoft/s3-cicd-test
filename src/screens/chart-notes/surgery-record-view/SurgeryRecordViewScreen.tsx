@@ -31,6 +31,8 @@ import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 import PageHeaderComponent from "../../../shared/components/page-header/PageHeaderComponent";
 import moment from "moment-timezone";
 import commonService from "../../../shared/services/common.service";
+import MenuDropdownComponent from "../../../shared/components/menu-dropdown/MenuDropdownComponent";
+import {ListItemButton} from "@mui/material";
 
 interface SurgeryRecordViewScreenProps {
 
@@ -273,6 +275,25 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
             }
         )
     }, [medicalRecordId, surgeryRecordId, navigate]);
+
+    const handlePrint = useCallback(() => {
+        if (medicalRecordId && surgeryRecordId) {
+            CommonService._chartNotes.PrintSurgeryRecord(medicalRecordId, surgeryRecordId)
+                .then((res: any) => {
+                    const attachment = {
+                        type: 'application/pdf',
+                        url: res.data.url,
+                        name: 'progress report',
+                        key: ''
+                    };
+                    CommonService.printAttachment(attachment);
+                })
+                .catch((err: any) => {
+                    console.log(err);
+                })
+        }
+    }, [surgeryRecordId, medicalRecordId])
+
     return (
         <div className={'medical-intervention-surgery-record-screen'}>
 
@@ -429,7 +450,8 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
                         <div className={'client-name-button-wrapper'}>
                                     <span className={'client-name-wrapper'}>
                                         <span className={'client-name'}>
-                                            <span className={clientMedicalRecord?.client_details?.is_alias_name_set ? 'alias-name':''}>
+                                            <span
+                                                className={clientMedicalRecord?.client_details?.is_alias_name_set ? 'alias-name' : ''}>
                                                 {commonService.generateClientNameFromClientDetails(clientMedicalRecord?.client_details)}
                                                 </span>
                                             </span>
@@ -438,19 +460,41 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
                                                        label={clientMedicalRecord?.status_details?.title || "-"}/>
                                     </span>
                             <div className="ts-row width-auto">
-                                {surgeryRecordId && <ButtonComponent prefixIcon={<ImageConfig.ShareIcon/>}
-                                                                     onClick={() => handleShareSurgeryRecord(surgeryRecordId)}
-                                                                     className={'mrg-right-20'}>
-                                    Share
-                                </ButtonComponent>}
-                                <ButtonComponent variant={'outlined'} color={'error'} className={'mrg-right-20'}
-                                                 onClick={handleDeleteSurgeryRecord}
-                                                 prefixIcon={<ImageConfig.DeleteIcon/>}>Delete Surgery
-                                    Record</ButtonComponent>
+                                {/*{surgeryRecordId && <ButtonComponent prefixIcon={<ImageConfig.ShareIcon/>}*/}
+                                {/*                                     onClick={() => handleShareSurgeryRecord(surgeryRecordId)}*/}
+                                {/*                                     className={'mrg-right-20'}>*/}
+                                {/*    Share*/}
+                                {/*</ButtonComponent>}*/}
+                                {/*<ButtonComponent variant={'outlined'} color={'error'} className={'mrg-right-20'}*/}
+                                {/*                 onClick={handleDeleteSurgeryRecord}*/}
+                                {/*                 prefixIcon={<ImageConfig.DeleteIcon/>}>Delete Surgery*/}
+                                {/*    Record</ButtonComponent>*/}
                                 <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>}
+                                                 className={'mrg-right-10 mrg-top-5'}
                                                  onClick={setIsEditSurgeryRecordDrawerOpen.bind(null, true)}>
                                     Edit Details
                                 </ButtonComponent>
+                                <MenuDropdownComponent className={'billing-details-drop-down-menu'} menuBase={
+                                    <ButtonComponent size={'large'} variant={'outlined'} fullWidth={true}
+                                    >
+                                        Select Action &nbsp;<ImageConfig.SelectDropDownIcon/>
+                                    </ButtonComponent>
+                                } menuOptions={
+                                    surgeryRecordId && medicalRecordId ? [
+                                        <ListItemButton onClick={() => handleShareSurgeryRecord(surgeryRecordId)}>
+                                            Share
+                                        </ListItemButton>,
+                                        <ListItemButton onClick={handlePrint}>
+                                            Print
+                                        </ListItemButton>,
+                                        <ListItemButton onClick={handleDeleteSurgeryRecord}>
+                                            Delete Surgery
+                                            Record
+                                        </ListItemButton>,
+                                    ] : [<ListItemButton onClick={handleDeleteSurgeryRecord}>
+                                        Delete Surgery
+                                        Record
+                                    </ListItemButton>]}/>
                             </div>
                         </div>
                         <DataLabelValueComponent label={'Surgery Linked to:'} direction={"row"}
@@ -516,9 +560,12 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
                 </div>
             </div>
 
-            {/*<DrawerComponent isOpen={showAddAttachment} showClose={true} className={'edit-medical-record-drawer'}*/}
-            {/*                 onClose={setShowAddAttachment.bind(null, false)}>*/}
-            {surgeryRecordDetails && !surgeryRecordDetails?.attachments?.length &&
+            {/*<DrawerComponent isOpen={showAddAttachment} showClose={true} className={'edit-medical-record-drawer'}*/
+            }
+            {/*                 onClose={setShowAddAttachment.bind(null, false)}>*/
+            }
+            {
+                surgeryRecordDetails && !surgeryRecordDetails?.attachments?.length &&
                 <div className={'edit-medical-record-component'}>
                     <Formik
                         validationSchema={addSurgeryRecordAttachmentValidationSchema}
@@ -586,10 +633,12 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
                     </Formik>
                 </div>
             }
-            {/*</DrawerComponent>*/}
+            {/*</DrawerComponent>*/
+            }
 
         </div>
-    );
+    )
+        ;
 
 };
 
