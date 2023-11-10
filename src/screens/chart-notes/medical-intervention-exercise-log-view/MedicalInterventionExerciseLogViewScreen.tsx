@@ -35,6 +35,7 @@ const MedicalInterventionExerciseLogViewScreen = (props: MedicalInterventionExer
     const [medicalInterventionExerciseLogDetails, setMedicalInterventionExerciseLogDetails] = useState<any>(undefined);
     const [isMedicalInterventionExerciseLogDetailsLoading, setIsMedicalInterventionExerciseLogDetailsLoading] = useState<boolean>(false);
     const [isMedicalInterventionExerciseLogDetailsLoaded, setIsMedicalInterventionExerciseLogDetailsLoaded] = useState<boolean>(false);
+    const [isPrintLoading, setIsPrintLoading] = useState<boolean>(false);
 
     const location = useLocation();
 
@@ -152,6 +153,25 @@ const MedicalInterventionExerciseLogViewScreen = (props: MedicalInterventionExer
         CommonService._communications.LightBoxSubject.next([attachment]);
     }, []);
 
+    const handlePrint = useCallback(() => {
+        setIsPrintLoading(true);
+        medicalInterventionId && CommonService._chartNotes.PrintExerciseLog(medicalInterventionId)
+            .then((res: any) => {
+                setIsPrintLoading(false);
+                const attachment = {
+                    type: 'application/pdf',
+                    url: res.data.url,
+                    name: 'progress report',
+                    key: ''
+                };
+                CommonService.printAttachment(attachment);
+            })
+            .catch((err: any) => {
+                setIsPrintLoading(false);
+                console.log(err);
+            })
+    }, [medicalInterventionId])
+
     return (
         <div className={'medical-intervention-exercise-log-view-screen'}>
             <PageHeaderComponent className={'page-header'} title={"View Exercise Log"} actions={
@@ -178,8 +198,9 @@ const MedicalInterventionExerciseLogViewScreen = (props: MedicalInterventionExer
                         <div className={'client-name-button-wrapper'}>
                                     <span className={'client-name-wrapper'}>
                                         <span className={'client-name'}>
-                                            <span className={medicalInterventionExerciseLogDetails?.medical_record_details?.client_details.is_alias_name_set ? "alias-name":""}>
-                                                {commonService.generateClientNameFromClientDetails( medicalInterventionExerciseLogDetails?.medical_record_details?.client_details)}
+                                            <span
+                                                className={medicalInterventionExerciseLogDetails?.medical_record_details?.client_details.is_alias_name_set ? "alias-name" : ""}>
+                                                {commonService.generateClientNameFromClientDetails(medicalInterventionExerciseLogDetails?.medical_record_details?.client_details)}
                                                 </span>
                                         </span>
                                         <ChipComponent
@@ -191,15 +212,24 @@ const MedicalInterventionExerciseLogViewScreen = (props: MedicalInterventionExer
                                 {
                                     medicalInterventionExerciseLogDetails?.medical_record_details?.status === 'open' && <>
                                         {
+
                                             (medicalInterventionId && medicalRecordId) &&
-                                            <LinkComponent
-                                                route={CommonService._routeConfig.MedicalInterventionExerciseLogUpdate(medicalRecordId, medicalInterventionId, 'edit')}>
-                                                <ButtonComponent
-                                                    prefixIcon={<ImageConfig.EditIcon/>}
-                                                >
-                                                    Edit Exercise Log
+                                            <>
+                                                <ButtonComponent prefixIcon={<ImageConfig.PrintIcon/>}
+                                                                 className={'mrg-right-10'}
+                                                                 isLoading={isPrintLoading}
+                                                                 onClick={handlePrint}>
+                                                    Print
                                                 </ButtonComponent>
-                                            </LinkComponent>
+                                                <LinkComponent
+                                                    route={CommonService._routeConfig.MedicalInterventionExerciseLogUpdate(medicalRecordId, medicalInterventionId, 'edit')}>
+                                                    <ButtonComponent
+                                                        prefixIcon={<ImageConfig.EditIcon/>}
+                                                    >
+                                                        Edit Exercise Log
+                                                    </ButtonComponent>
+                                                </LinkComponent>
+                                            </>
                                         }
                                     </>
                                 }

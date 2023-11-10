@@ -1037,29 +1037,33 @@ const APIConfig: IAPIConfig = {
         METHOD: "delete"
     },
     GET_CLIENT_ALL_FORMS_LIST: {
-       URL:(clientId:string,appointmentId:string)=> ENV.API_URL + '/client/' + clientId + '/appointment/' + appointmentId + '/forms/list',
-         METHOD: "get"
+        URL: (clientId: string, appointmentId: string) => ENV.API_URL + '/client/' + clientId + '/appointment/' + appointmentId + '/forms/list',
+        METHOD: "get"
     },
     PRINT_PERSONAL_AND_MEDICAL_INFO: {
-        URL:ENV.API_URL + '/medicalHistoryQuestionnaire/generatePDF',
+        URL: ENV.API_URL + '/medicalHistoryQuestionnaire/generatePDF',
         METHOD: "post"
     },
     PRINT_PROGRESS_REPORT: {
-        URL:(progressReportId:string)=> ENV.API_URL + '/progressReport/' + progressReportId + '/generatePDF',
+        URL: (progressReportId: string) => ENV.API_URL + '/progressReport/' + progressReportId + '/generatePDF',
         METHOD: "get"
     },
     PRINT_EXERCISE_RECORD: {
-        URL:(medicalRecordId:string)=>ENV.API_URL + '/medicalRecord/' + medicalRecordId + '/exerciseRecord/generatePDF',
+        URL: (medicalRecordId: string) => ENV.API_URL + '/medicalRecord/' + medicalRecordId + '/exerciseRecord/generatePDF',
         METHOD: "get"
     },
     PRINT_SURGERY_RECORD: {
-        URL:(medicalRecordId:string,surgeryRecordId:string)=>ENV.API_URL + '/medicalRecord/' + medicalRecordId + '/surgeryRecord/' + surgeryRecordId + '/generatePDF',
+        URL: (medicalRecordId: string, surgeryRecordId: string) => ENV.API_URL + '/medicalRecord/' + medicalRecordId + '/surgeryRecord/' + surgeryRecordId + '/generatePDF',
         METHOD: "get"
     },
     PRINT_DOCUMENT: {
-        URL:(medicalRecordId:string,documentId:string)=>ENV.API_URL + '/medicalRecord/' + medicalRecordId + '/document/' + documentId + '/generatePDF',
+        URL: (medicalRecordId: string, documentId: string) => ENV.API_URL + '/medicalRecord/' + medicalRecordId + '/document/' + documentId + '/generatePDF',
         METHOD: "get"
 
+    },
+    PRINT_EXERCISE_LOG: {
+        URL: (interventionId: string) => ENV.API_URL + '/intervention/' + interventionId + '/exerciseLog/generatePDF',
+        METHOD: "get"
     }
 }
 

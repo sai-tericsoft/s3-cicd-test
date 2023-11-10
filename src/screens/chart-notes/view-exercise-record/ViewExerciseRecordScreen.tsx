@@ -1,4 +1,4 @@
-    import "./ViewExerciseRecordScreen.scss";
+import "./ViewExerciseRecordScreen.scss";
 import {useNavigate, useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
@@ -17,7 +17,7 @@ import TableComponent from "../../../shared/components/table/TableComponent";
 import MedicalInterventionLinkedToComponent
     from "../medical-intervention-linked-to/MedicalInterventionLinkedToComponent";
 import {setCurrentNavParams} from "../../../store/actions/navigation.action";
-    import commonService from "../../../shared/services/common.service";
+import commonService from "../../../shared/services/common.service";
 
 interface ViewExerciseLogComponentProps {
 
@@ -81,6 +81,7 @@ const ViewExerciseRecordScreen = (props: ViewExerciseLogComponentProps) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [isPrintLoading, setIsPrintLoading] = React.useState<boolean>(false);
+    const [isPrintExerciseLogLoading, setIsPrintExerciseLogLoading] = React.useState<boolean>(false);
 
     const {
         medicalRecordViewExerciseRecord,
@@ -101,24 +102,48 @@ const ViewExerciseRecordScreen = (props: ViewExerciseLogComponentProps) => {
         }));
     }, [medicalRecordId, navigate, dispatch]);
 
-    const handlePrint = useCallback(() => {
+    const handlePrint = useCallback((medicalInterventionId?: string) => {
         setIsPrintLoading(true);
-        medicalRecordId && CommonService._chartNotes.PrintExerciseRecord(medicalRecordId)
-            .then((res: any) => {
-                setIsPrintLoading(false);
-                const attachment = {
-                    type: 'application/pdf',
-                    url: res.data.url,
-                    name: 'progress report',
-                    key: ''
-                };
-                CommonService.printAttachment(attachment);
-            })
-            .catch((err: any) => {
-                setIsPrintLoading(false);
-                console.log(err);
-            })
-    }, [medicalRecordId])
+        if (medicalRecordId) {
+            CommonService._chartNotes.PrintExerciseRecord(medicalRecordId)
+                .then((res: any) => {
+                    setIsPrintLoading(false);
+                    const attachment = {
+                        type: 'application/pdf',
+                        url: res.data.url,
+                        name: 'progress report',
+                        key: ''
+                    };
+                    CommonService.printAttachment(attachment);
+                })
+                .catch((err: any) => {
+                    setIsPrintLoading(false);
+                    console.log(err);
+                })
+        }
+    }, [medicalRecordId]);
+
+
+    const handlePrintExerciseLog = useCallback((medicalInterventionId?: string) => {
+        setIsPrintExerciseLogLoading(true);
+        if (medicalInterventionId) {
+            CommonService._chartNotes.PrintExerciseLog(medicalInterventionId)
+                .then((res: any) => {
+                    setIsPrintExerciseLogLoading(false);
+                    const attachment = {
+                        type: 'application/pdf',
+                        url: res.data.url,
+                        name: 'progress report',
+                        key: ''
+                    };
+                    CommonService.printAttachment(attachment);
+                })
+                .catch((err: any) => {
+                    setIsPrintExerciseLogLoading(false);
+                    console.log(err);
+                })
+        }
+    }, []);
 
 
     return (
@@ -146,8 +171,9 @@ const ViewExerciseRecordScreen = (props: ViewExerciseLogComponentProps) => {
                                 <div className={'client-name-button-wrapper'}>
                                     <span className={'client-name-wrapper'}>
                                         <span className={'client-name'}>
-                                            <span className={medicalRecordViewExerciseRecord?.medical_record_details?.client_details?.is_alias_name_set ? "alias-name":""}>
-                                            {commonService.generateClientNameFromClientDetails( medicalRecordViewExerciseRecord?.medical_record_details?.client_details)}
+                                            <span
+                                                className={medicalRecordViewExerciseRecord?.medical_record_details?.client_details?.is_alias_name_set ? "alias-name" : ""}>
+                                            {commonService.generateClientNameFromClientDetails(medicalRecordViewExerciseRecord?.medical_record_details?.client_details)}
                                                 </span>
                                         </span>
                                         <ChipComponent
@@ -159,8 +185,8 @@ const ViewExerciseRecordScreen = (props: ViewExerciseLogComponentProps) => {
                                         <div className="">
                                             <ButtonComponent prefixIcon={<ImageConfig.PrintIcon/>}
                                                              isLoading={isPrintLoading}
-                                                             disabled={medicalRecordViewExerciseRecord?.exercise_logs?.length===0}
-                                                            onClick={handlePrint}
+                                                             disabled={medicalRecordViewExerciseRecord?.exercise_logs?.length === 0}
+                                                             onClick={handlePrint}
                                             >
                                                 Print All Logs
                                             </ButtonComponent>
@@ -188,12 +214,13 @@ const ViewExerciseRecordScreen = (props: ViewExerciseLogComponentProps) => {
                                                         {item?.provider_details?.first_name} {item?.provider_details?.last_name}
                                                     </DataLabelValueComponent>
                                                 </div>
-                                                {/*<div className={'print-button-wrapper'}>*/}
-                                                {/*    <ButtonComponent prefixIcon={<ImageConfig.PrintIcon/>}*/}
-                                                {/*                     onClick={() => {*/}
-                                                {/*                         CommonService._alert.showToast('Coming Soon', 'info');*/}
-                                                {/*                     }}>Print</ButtonComponent>*/}
-                                                {/*</div>*/}
+                                                <div className={'print-button-wrapper'}>
+                                                    <ButtonComponent prefixIcon={<ImageConfig.PrintIcon/>}
+                                                                     isLoading={isPrintExerciseLogLoading}
+                                                                     onClick={() => {
+                                                                         handlePrintExerciseLog(item?.intervention_id)
+                                                                     }}>Print</ButtonComponent>
+                                                </div>
                                             </div>
                                         </CardComponent>
                                     </div>
@@ -234,7 +261,8 @@ const ViewExerciseRecordScreen = (props: ViewExerciseLogComponentProps) => {
                             })}
                             {
                                 medicalRecordViewExerciseRecord?.exercise_logs?.length === 0 &&
-                                <StatusCardComponent title={'Currently, no exercise logs have been added to this medical record.'}/>
+                                <StatusCardComponent
+                                    title={'Currently, no exercise logs have been added to this medical record.'}/>
                             }
 
 

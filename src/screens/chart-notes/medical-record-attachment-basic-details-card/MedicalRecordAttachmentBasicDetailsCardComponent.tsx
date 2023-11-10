@@ -97,7 +97,7 @@ const MedicalRecordAttachmentBasicDetailsCardComponent = (props: MedicalRecordAt
                     console.log(err);
                 });
         }
-}, [medicalRecordDetails?._id, medicalRecordDocumentId]);
+}, [medicalRecordDetails?._id, medicalRecordDocumentId,pageTitle]);
 
     return (
         <div className={"medical-record-attachment-basic-details-card-component"}>

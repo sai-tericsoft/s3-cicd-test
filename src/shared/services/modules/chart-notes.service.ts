@@ -344,6 +344,11 @@ const PrintDocument = (medicalRecordId:string,documentId:string) => {
     return ApiService[APIConfig.PRINT_DOCUMENT.METHOD](APIConfig.PRINT_DOCUMENT.URL(medicalRecordId,documentId));
 }
 
+const PrintExerciseLog = (medicalInterventionId:string) => {
+    return ApiService[APIConfig.PRINT_EXERCISE_LOG.METHOD](APIConfig.PRINT_EXERCISE_LOG.URL(medicalInterventionId));
+}
+
+
 const ChartNotesService = {
     MedicalRecordAddAPICall,
     MedicalRecordEditAPICall,
@@ -416,7 +421,8 @@ const ChartNotesService = {
     getMedicalRecordActivityLogs,
     PrintExerciseRecord,
     PrintSurgeryRecord,
-    PrintDocument
+    PrintDocument,
+    PrintExerciseLog
 }
 
 export default ChartNotesService;
