@@ -1055,6 +1055,11 @@ const APIConfig: IAPIConfig = {
     PRINT_SURGERY_RECORD: {
         URL:(medicalRecordId:string,surgeryRecordId:string)=>ENV.API_URL + '/medicalRecord/' + medicalRecordId + '/surgeryRecord/' + surgeryRecordId + '/generatePDF',
         METHOD: "get"
+    },
+    PRINT_DOCUMENT: {
+        URL:(medicalRecordId:string,documentId:string)=>ENV.API_URL + '/medicalRecord/' + medicalRecordId + '/document/' + documentId + '/generatePDF',
+        METHOD: "get"
+
     }
 }
 
