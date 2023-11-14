@@ -83,7 +83,7 @@ const ClientBasicDetailsFormValidationSchema = Yup.object({
             phone_type: Yup.string().required('Phone Type is required'),
             phone: Yup.string()
                 .test('is-ten-digits', 'Phone number must contain exactly 10 digits', (value: any) => {
-                    return value.length === 10;
+                    return value?.length === 10;
                 }),
         })
     ),
