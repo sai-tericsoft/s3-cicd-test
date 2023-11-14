@@ -108,10 +108,10 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
         }
     }, [selectedPayments]);
 
-    const closeBillingAddressFormDrawer = useCallback(() => {
+
+    const closeBillingAddressDrawer = useCallback(() => {
         setIsClientBillingAddressDrawerOpened(false);
-        setCurrentStep('selectAddress');
-    }, []);
+    },[]);
 
     useEffect(() => {
         setClientListFilterState((oldstate: any) => {
@@ -344,8 +344,8 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             }
         },
         {
-            title: 'Appointment Date',
-            key: 'appointment_date',
+            title: 'Billing Date',
+            key: 'billing_date',
             dataIndex: "appointment_date",
             width: 200,
             align: 'center',
@@ -424,7 +424,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             }
         },
         {
-            title: 'Date',
+            title: 'Billing Date',
             key: 'date',
             dataIndex: 'created_at',
             align: 'center',
@@ -961,6 +961,12 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             });
     }, [clientId]);
 
+    const BillingAddressStep = useCallback(() => {
+        // setIsClientBillingAddressDrawerOpened(false);
+        setCurrentStep('selectAddress');
+        getClientBillingAddressList();
+    }, [getClientBillingAddressList]);
+
     const handleEditBillingAddress = useCallback((values: any) => {
         // setBillingDetails((prevBillingDetails: any) => {
         //     return {
@@ -971,8 +977,8 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
         //         // }
         //     }
         // });
-        closeBillingAddressFormDrawer();
-    }, [closeBillingAddressFormDrawer]);
+        BillingAddressStep();
+    }, [BillingAddressStep]);
 
     useEffect(() => {
         getClientBillingAddressList()
@@ -999,12 +1005,12 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             .then((response: any) => {
                 getClientBillingAddressList();
                 CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
-                closeBillingAddressFormDrawer();
+                BillingAddressStep();
             })
             .catch((error: any) => {
                 console.log(error);
             });
-    }, [closeBillingAddressFormDrawer, getClientBillingAddressList]);
+    }, [BillingAddressStep, getClientBillingAddressList]);
 
     console.log('getBillingList', getBillingList);
 
@@ -1359,7 +1365,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             {/*Payment mode selection Modal end*/}
 
             <DrawerComponent isOpen={isClientBillingAddressDrawerOpened}
-                             onClose={closeBillingAddressFormDrawer}
+                             onClose={closeBillingAddressDrawer}
                              showClose={true}>
                 {
                     currentStep === 'selectAddress' && <>
@@ -1409,7 +1415,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                 }
                 {(currentStep === "editAddress" && clientId) && <EditBillingAddressComponent billing_address={tempSelectedAddress}
                     clientId={clientId}
-                    onCancel={closeBillingAddressFormDrawer}
+                    onCancel={BillingAddressStep}
                     afterSave={getClientBillingAddressList}
                     onSave={handleEditBillingAddress}/>
                 }
@@ -1418,7 +1424,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                 {
                     currentStep === "addAddress" &&
                     <AddBillingAddressComponent clientId={clientId}
-                                                onCancel={closeBillingAddressFormDrawer}
+                                                onCancel={BillingAddressStep}
                                                 onSave={handleEditBillingAddress}
                                                 afterSave={getClientBillingAddressList}
 

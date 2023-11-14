@@ -229,11 +229,16 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
         setIsClientBillingAddressDrawerOpened(true);
     }, []);
 
-    const closeBillingAddressFormDrawer = useCallback(() => {
-        setIsClientBillingAddressDrawerOpened(false);
+    const BillingAddressStep = useCallback(() => {
+        // setIsClientBillingAddressDrawerOpened(false);
         setTempSelectedAddress(selectedAddress);
         setCurrentStep('selectAddress');
-    }, [selectedAddress]);
+        getClientBillingAddressList();
+    }, [selectedAddress,getClientBillingAddressList]);
+
+    const closeBillingAddressFormDrawer = useCallback(() => {
+        setIsClientBillingAddressDrawerOpened(false);
+    },[]);
 
     const handleEditBillingAddress = useCallback((values: any) => {
         setBillingDetails((prevBillingDetails: any) => {
@@ -245,8 +250,8 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                 }
             }
         });
-        closeBillingAddressFormDrawer();
-    }, [closeBillingAddressFormDrawer]);
+        BillingAddressStep();
+    }, [BillingAddressStep]);
 
     const onBillingAddressFormSubmit = useCallback((billingAddressId:string) => {
         CommonService._client.UpdateClientBillingAddress(billingAddressId, {is_default: true})
@@ -254,12 +259,12 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                 getClientBillingAddressList();
                 CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
 
-                closeBillingAddressFormDrawer();
+                BillingAddressStep();
             })
             .catch((error: any) => {
                 console.log(error);
             });
-    }, [closeBillingAddressFormDrawer,getClientBillingAddressList]);
+    }, [BillingAddressStep,getClientBillingAddressList]);
 
     const ICDCodesColumns: ITableColumn[] = useMemo<ITableColumn[]>(() => [
         {
@@ -426,8 +431,8 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
             setSelectedAddress(tempSelectedAddress); // Update the selected address when "Save" is clicked
         }
         setSelectedChanged(false);
-        closeBillingAddressFormDrawer();
-    }, [closeBillingAddressFormDrawer, tempSelectedAddress]);
+        BillingAddressStep();
+    }, [BillingAddressStep, tempSelectedAddress]);
 
     const handleRadioButtonClick = useCallback((address: any) => {
         // Update selectedAddress when a radio button is clicked
@@ -946,7 +951,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                 }
                 {currentStep === "editAddress" && <EditBillingAddressComponent billing_address={tempSelectedAddress}
                                                                                clientId={billingDetails?.client_id}
-                                                                               onCancel={closeBillingAddressFormDrawer}
+                                                                               onCancel={BillingAddressStep}
                                                                                afterSave={getClientBillingAddressList}
                                                                                onSave={handleEditBillingAddress}/>
                 }
@@ -955,7 +960,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                 {
                     currentStep === "addAddress" &&
                     <AddBillingAddressComponent clientId={billingDetails?.client_id}
-                                                onCancel={closeBillingAddressFormDrawer}
+                                                onCancel={BillingAddressStep}
                                                 onSave={handleEditBillingAddress}
                                                 afterSave={getClientBillingAddressList}
 

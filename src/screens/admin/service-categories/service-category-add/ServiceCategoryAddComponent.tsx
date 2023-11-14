@@ -101,7 +101,6 @@ const ServiceCategoryAddComponent = (props: ServiceCategoryAddComponentProps) =>
                                                         required={true}
                                                         formikField={field}
                                                         fullWidth={true}
-                                                        titleCase={true}
                                                         id={"sc_name_input"}
                                                     />
                                                 )

@@ -96,7 +96,7 @@ const EditBillingAddressComponent = (props: EditBillingAddressComponentProps) =>
                                     {
                                         (field: FieldProps) => (
                                             <FormikInputComponent
-                                                label={"Name of the Client/Organisation"}
+                                                label={"Name of the Client/Organization"}
                                                 required={true}
                                                 fullWidth={true}
                                                 formikField={field}

@@ -1,4 +1,5 @@
 import "./BillingStatsCardComponent.scss";
+import {CommonService} from "../../../shared/services";
 
 interface BillingStatsCardComponentProps {
     title: string;
@@ -13,7 +14,7 @@ const BillingStatsCardComponent = (props: BillingStatsCardComponentProps) => {
             <div className={'billing-stats-card-wrapper'}>
                 <div className={'billing-stats-card-icon'}>{icon}</div>
                 <div className={'billing-stats-card-title-amount-wrapper'}>
-                    <div className={'billing-stats-card-amount'}>${amount}</div>
+                    <div className={'billing-stats-card-amount'}>${+amount > 0 ? CommonService.convertToDecimals(amount) : '0.00'}</div>
                     <div className={'billing-stats-card-title'}>{title}</div>
                 </div>
             </div>
