@@ -178,8 +178,8 @@ const AddSurgeryRecordComponent = (props: AddSurgeryRecordComponentProps) => {
                                                                          setFieldValue('attachment', file);
                                                                      }
                                                                  }}
-                                                                 acceptedFileTypes={[ "png", "jpeg"]}
-                                                                 acceptedFilesText={"PNG and JPEG files are allowed upto 100MB"}
+                                                                 acceptedFileTypes={[ "png", "jpeg", "pdf"]}
+                                                                 acceptedFilesText={"PNG, JPEG and PDF files are allowed upto 100MB"}
                                             />
                                             {
                                                 (_.get(touched, "attachment") && !!(_.get(errors, "attachment"))) &&
