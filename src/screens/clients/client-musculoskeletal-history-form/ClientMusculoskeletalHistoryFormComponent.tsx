@@ -46,7 +46,15 @@ const ClientMusculoskeletalHistoryFormComponent = (props: ClientMusculoskeletalF
     } = useSelector((state: IRootReducerState) => state.client);
 
     const onSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
-        const payload = {...values, mode};
+        const musculoskeletalHistoryPayload = Object.keys(values.musculoskeletal_history).reduce(
+            (acc:any, id) => {
+                acc[id] = { value: values.musculoskeletal_history[id].value, text: values.musculoskeletal_history[id].text};
+                return acc;
+            }, {});
+        const payload = {
+            musculoskeletal_history: musculoskeletalHistoryPayload,
+            mode,
+        };
         setIsClientMusculoskeletalHistorySavingInProgress(true);
         CommonService._client.ClientMusculoskeletalHistoryAddAPICall(clientId, payload)
             .then((response: IAPIResponseType<IClientMusculoskeletalHistoryForm>) => {
@@ -92,6 +100,7 @@ const ClientMusculoskeletalHistoryFormComponent = (props: ClientMusculoskeletalF
                                 useEffect(() => {
                                     validateForm();
                                 }, [validateForm, values]);
+                                console.log('values',values);
                                 return (
                                     <Form noValidate={true} className={"t-form"}>
                                         {
@@ -126,7 +135,7 @@ const ClientMusculoskeletalHistoryFormComponent = (props: ClientMusculoskeletalF
                                                         </div>
                                                         <div className={"ts-col-md-9"}>
                                                             {
-                                                                values.musculoskeletal_history[_id]?.value  &&
+                                                                values?.musculoskeletal_history[_id]?.value  &&
                                                                 <Field name={`musculoskeletal_history.${_id}.text`}>
                                                                     {
                                                                         (field: FieldProps) => (
