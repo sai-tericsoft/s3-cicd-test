@@ -3,7 +3,7 @@ import {CommonService} from "../../../../shared/services";
 import ButtonComponent from "../../../../shared/components/button/ButtonComponent";
 import {ImageConfig, Misc} from "../../../../constants";
 import MenuDropdownComponent from "../../../../shared/components/menu-dropdown/MenuDropdownComponent";
-import {ListItem} from "@mui/material";
+import {ListItem, ListItemButton} from "@mui/material";
 import PageHeaderComponent from "../../../../shared/components/page-header/PageHeaderComponent";
 import React, {useCallback, useEffect, useState} from "react";
 import LoaderComponent from "../../../../shared/components/loader/LoaderComponent";
@@ -31,6 +31,7 @@ import ModalComponent from "../../../../shared/components/modal/ModalComponent";
 import commonService from "../../../../shared/services/common.service";
 import _ from "lodash";
 import momentTimezone from "moment-timezone";
+import ChipComponent from "../../../../shared/components/chip/ChipComponent";
 
 interface ConsolidatedBillingDetailsScreenProps {
 
@@ -455,6 +456,19 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                 });
         }, [consolidatedBillingId, billingDetails]);
 
+        const onBillingAddressFormSubmit = useCallback((billingAddressId: string) => {
+            CommonService._client.UpdateClientBillingAddress(billingAddressId, {is_default: true})
+                .then((response: any) => {
+                    getClientBillingAddressList();
+                    CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+
+                    closeBillingAddressFormDrawer();
+                })
+                .catch((error: any) => {
+                    console.log(error);
+                });
+        }, [closeBillingAddressFormDrawer, getClientBillingAddressList]);
+
 
         const handleBillingPrint = useCallback(() => {
             fetchBillingPDF((url: string) => {
@@ -855,58 +869,77 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                                                             checked={selectedChanged ? tempSelectedAddress?._id === item?._id : selectedAddress?._id === item?._id}
                                                             onChange={() => handleRadioButtonClick(item)}/>
                                                         <div
-                                                            className={'card-heading'}>{item?.is_default ? 'Default Address' : 'Other Address'}</div>
+                                                            className={'card-heading'}>{item?.name}</div>
+                                                        <div className={'mrg-left-10'}>
+                                                            {item?.is_default &&
+                                                                <ChipComponent className={'draft'} label={'Default'}/>}
+                                                        </div>
                                                     </div>
                                                     <div className={'btn-wrapper'}>
-                                                        <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>} variant={'text'}
-                                                                         onClick={() => handleEdit(item)}>
-                                                            Edit
-                                                        </ButtonComponent>
+                                                        <MenuDropdownComponent className={'billing-details-drop-down-menu'}
+                                                                               menuBase={
+                                                                                   <IconButtonComponent>
+                                                                                       <ImageConfig.MoreVerticalIcon/>
+                                                                                   </IconButtonComponent>
+                                                                               } menuOptions={[
+                                                            <ListItemButton onClick={() => handleEdit(item)}>
+                                                                Edit
+                                                            </ListItemButton>,
+                                                            <ListItemButton>
+                                                                Delete
+                                                            </ListItemButton>,
+                                                            <ListItemButton onClick={() => onBillingAddressFormSubmit(item?._id)}>
+                                                                Make as Default
+                                                            </ListItemButton>,
+                                                        ]}/>
                                                     </div>
                                                 </div>
-                                                <div className={'ts-row mrg-top-10'}>
-                                                    <div className={'ts-col-lg-1'}/>
-                                                    <div className={'ts-col-lg-6'}>
-                                                        <DataLabelValueComponent label={'Name of Client/Organisation'}>
-                                                            {item?.name || 'N/A'}
-                                                        </DataLabelValueComponent>
-                                                    </div>
-                                                    <div className={'ts-col-lg-4'}>
-                                                        <DataLabelValueComponent label={'Address Line'}>
-                                                            {item?.address_line || 'N/A'}
-                                                        </DataLabelValueComponent>
-                                                    </div>
-                                                    <div className={'ts-col-lg-2'}/>
+                                                <div className={'mrg-15'}>
+                                                    {item?.address_line}, {item?.city}, {item?.state}, {item?.country} {item?.zip_code}
+                                                </div>
+                                                {/*<div className={'ts-row mrg-top-10'}>*/}
+                                                {/*    <div className={'ts-col-lg-1'}/>*/}
+                                                {/*    <div className={'ts-col-lg-6'}>*/}
+                                                {/*        <DataLabelValueComponent label={'Name of Client/Organisation'}>*/}
+                                                {/*            {item?.name || 'N/A'}*/}
+                                                {/*        </DataLabelValueComponent>*/}
+                                                {/*    </div>*/}
+                                                {/*    <div className={'ts-col-lg-4'}>*/}
+                                                {/*        <DataLabelValueComponent label={'Address Line'}>*/}
+                                                {/*            {item?.address_line || 'N/A'}*/}
+                                                {/*        </DataLabelValueComponent>*/}
+                                                {/*    </div>*/}
+                                                {/*    <div className={'ts-col-lg-2'}/>*/}
 
-                                                </div>
-                                                <div className={'ts-row'}>
-                                                    <div className={'ts-col-lg-1'}/>
-                                                    <div className={'ts-col-lg-6'}>
-                                                        <DataLabelValueComponent label={'City'}>
-                                                            {item?.city || "N/A"}
-                                                        </DataLabelValueComponent>
-                                                    </div>
-                                                    <div className={'ts-col-lg-4'}>
-                                                        <DataLabelValueComponent label={'State'}>
-                                                            {item?.state || 'N/A'}                                        </DataLabelValueComponent>
-                                                    </div>
-                                                    <div className={'ts-col-lg-2'}/>
+                                                {/*</div>*/}
+                                                {/*<div className={'ts-row'}>*/}
+                                                {/*    <div className={'ts-col-lg-1'}/>*/}
+                                                {/*    <div className={'ts-col-lg-6'}>*/}
+                                                {/*        <DataLabelValueComponent label={'City'}>*/}
+                                                {/*            {item?.city || "N/A"}*/}
+                                                {/*        </DataLabelValueComponent>*/}
+                                                {/*    </div>*/}
+                                                {/*    <div className={'ts-col-lg-4'}>*/}
+                                                {/*        <DataLabelValueComponent label={'State'}>*/}
+                                                {/*            {item?.state || 'N/A'}                                        </DataLabelValueComponent>*/}
+                                                {/*    </div>*/}
+                                                {/*    <div className={'ts-col-lg-2'}/>*/}
 
-                                                </div>
-                                                <div className={'ts-row'}>
-                                                    <div className={'ts-col-lg-1'}/>
-                                                    <div className={'ts-col-lg-6'}>
-                                                        <DataLabelValueComponent label={'ZIP Code'}>
-                                                            {item?.zip_code || 'N/A'}
-                                                        </DataLabelValueComponent>
-                                                    </div>
-                                                    <div className={'ts-col-lg-4'}>
-                                                        <DataLabelValueComponent label={'Country'}>
-                                                            {item?.country || 'N/A'}                                       </DataLabelValueComponent>
-                                                    </div>
-                                                    <div className={'ts-col-lg-2'}/>
+                                                {/*</div>*/}
+                                                {/*<div className={'ts-row'}>*/}
+                                                {/*    <div className={'ts-col-lg-1'}/>*/}
+                                                {/*    <div className={'ts-col-lg-6'}>*/}
+                                                {/*        <DataLabelValueComponent label={'ZIP Code'}>*/}
+                                                {/*            {item?.zip_code || 'N/A'}*/}
+                                                {/*        </DataLabelValueComponent>*/}
+                                                {/*    </div>*/}
+                                                {/*    <div className={'ts-col-lg-4'}>*/}
+                                                {/*        <DataLabelValueComponent label={'Country'}>*/}
+                                                {/*            {item?.country || 'N/A'}                                       </DataLabelValueComponent>*/}
+                                                {/*    </div>*/}
+                                                {/*    <div className={'ts-col-lg-2'}/>*/}
 
-                                                </div>
+                                                {/*</div>*/}
                                             </div>
                                         })
                                         }

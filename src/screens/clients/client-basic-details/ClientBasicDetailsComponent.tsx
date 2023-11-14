@@ -242,7 +242,7 @@ const ClientBasicDetailsComponent = (props: ClientBasicDetailsComponentProps) =>
                                                     <div>
                                                         <b>{address?.name}&nbsp;{address?.is_default ? '(Default)' : ''}</b>
                                                     </div>
-                                                    {address.address_line}, {address.city}, {address.state}, {address.country}, {address.zip_code}
+                                                    {address.address_line}, {address.city}, {address.state}, {address.country} {address.zip_code}
                                                 </div>
                                             </>
 
