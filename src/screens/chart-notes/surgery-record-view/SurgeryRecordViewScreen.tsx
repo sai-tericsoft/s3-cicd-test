@@ -609,8 +609,8 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
                                                     setFieldValue(`attachment[${values?.attachment?.length || 0}]`, file);
                                                 }
                                             }}
-                                            acceptedFilesText={"PDF files are allowed"}
-                                            acceptedFileTypes={["pdf"]}
+                                            acceptedFileTypes={[ "png", "jpeg", "pdf"]}
+                                            acceptedFilesText={"PNG, JPEG and PDF files are allowed upto 100MB"}
                                         />}
                                     </div>
                                     <div className="t-form-actions mrg-top-20">
