@@ -27,8 +27,15 @@ const BillingAddressFormValidationSchema = Yup.object({
     state: Yup.string().required("State is required"),
     zip_code: Yup.string().required("ZIP Code is required"),
     country: Yup.string().required("Country is required"),
-    phone: Yup.string().required("Phone Number is required")
+    phone: Yup.string()
+        .test('is-ten-digits', 'Phone number must contain exactly 10 digits', function (value) {
+            if (value) {
+                return value.length === 10;
+            }
+            return true; // Allow empty value
+        })
 });
+
 
 const BillingAddressFormInitialValues = {
     name: "",
@@ -170,7 +177,7 @@ const EditBillingAddressComponent = (props: EditBillingAddressComponentProps) =>
                                     }
                                 </Field>
 
-                                 <Field name={`is_default`} className="t-form-control">
+                                <Field name={`is_default`} className="t-form-control">
                                     {
                                         (field: FieldProps) => (
                                             <FormikCheckBoxComponent

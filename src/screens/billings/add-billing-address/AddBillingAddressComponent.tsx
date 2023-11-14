@@ -9,6 +9,8 @@ import _ from "lodash";
 import FormikCheckBoxComponent from "../../../shared/components/form-controls/formik-check-box/FormikCheckBoxComponent";
 import {CommonService} from "../../../shared/services";
 import {Misc} from "../../../constants";
+import FormikPhoneInputComponent
+    from "../../../shared/components/form-controls/formik-phone-input/FormikPhoneInputComponent";
 
 interface AddBillingAddressComponentProps {
     clientId?: string;
@@ -24,7 +26,13 @@ const BillingAddressFormValidationSchema = Yup.object({
     state: Yup.string().required("State is required"),
     zip_code: Yup.string().required("Zip Code is required"),
     country: Yup.string().required("Country is required"),
-});
+    phone: Yup.string()
+        .test('is-ten-digits', 'Phone number must contain exactly 10 digits', function (value) {
+            if (value) {
+                return value.length === 10;
+            }
+            return true; // Allow empty value
+        })});
 
 const BillingAddressFormInitialValues = {
     name: "",
@@ -33,6 +41,7 @@ const BillingAddressFormInitialValues = {
     state: "",
     zip_code: "",
     country: "",
+    phone: "",
     is_default: false
 }
 
@@ -92,6 +101,19 @@ const AddBillingAddressComponent = (props: AddBillingAddressComponentProps) => {
                                         )
                                     }
                                 </Field>
+                                <Field name={`phone`} className="t-form-control">
+                                    {
+                                        (field: FieldProps) => (
+                                            <FormikPhoneInputComponent
+                                                label={"Phone"}
+                                                required={true}
+                                                fullWidth={true}
+                                                formikField={field}
+                                            />
+                                        )
+                                    }
+                                </Field>
+
                                 <Field name={`address_line`} className="t-form-control">
                                     {
                                         (field: FieldProps) => (
