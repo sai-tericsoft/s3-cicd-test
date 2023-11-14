@@ -13,7 +13,7 @@ import FormikPhoneInputComponent
     from "../../../shared/components/form-controls/formik-phone-input/FormikPhoneInputComponent";
 
 interface EditBillingAddressComponentProps {
-    billing_address: any;
+    billing_address?: any;
     clientId: string;
     onCancel: () => void;
     onSave: (billing_address: any) => void;
@@ -177,22 +177,24 @@ const EditBillingAddressComponent = (props: EditBillingAddressComponentProps) =>
                                     }
                                 </Field>
 
-                                <Field name={`is_default`} className="t-form-control">
-                                    {
-                                        (field: FieldProps) => (
-                                            <FormikCheckBoxComponent
-                                                label={"Make this as default address"}
-                                                required={true}
-                                                formikField={field}
-                                                onChange={(isChecked) => {
-                                                    if (isChecked) {
-                                                        setFieldValue("is_default", true);
-                                                    }
-                                                }}
-                                            />
-                                        )
-                                    }
-                                </Field>
+                                {billing_address && billing_address?.is_default === false &&
+                                    < Field name={`is_default`} className="t-form-control">
+                                        {
+                                            (field: FieldProps) => (
+                                                <FormikCheckBoxComponent
+                                                    label={"Make this as default address"}
+                                                    required={true}
+                                                    formikField={field}
+                                                    onChange={(isChecked) => {
+                                                        if (isChecked) {
+                                                            setFieldValue("is_default", true);
+                                                        }
+                                                    }}
+                                                />
+                                            )
+                                        }
+                                    </Field>
+                                }
                             </div>
                             <div className="t-form-actions mrg-bottom-0">
                                 <ButtonComponent variant={"outlined"}
@@ -208,7 +210,8 @@ const EditBillingAddressComponent = (props: EditBillingAddressComponentProps) =>
                                 </ButtonComponent>
                             </div>
                         </Form>
-                    );
+                    )
+                        ;
                 }}
             </Formik>
         </div>
