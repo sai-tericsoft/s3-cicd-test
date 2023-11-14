@@ -438,7 +438,6 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
 
 
     const handleEdit = useCallback((address: any) => {
-        console.log('click');
         setCurrentStep('editAddress');
         setTempSelectedAddress(address)
     }, []);

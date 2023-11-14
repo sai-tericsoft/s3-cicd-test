@@ -35,6 +35,11 @@ import ReceiptOutlinedIcon from '@mui/icons-material/ReceiptOutlined';
 import commonService from "../../../shared/services/common.service";
 import DateRangePickerComponentV2
     from "../../../shared/components/form-controls/date-range-pickerV2/DateRangePickerComponentV2";
+import MenuDropdownComponent from "../../../shared/components/menu-dropdown/MenuDropdownComponent";
+import {ListItemButton} from "@mui/material";
+import EditBillingAddressComponent from "../edit-billing-address/EditBillingAddressComponent";
+import AddBillingAddressComponent from "../add-billing-address/AddBillingAddressComponent";
+import DrawerComponent from "../../../shared/components/drawer/DrawerComponent";
 
 interface PaymentListComponentProps {
 
@@ -72,6 +77,13 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
     const [isBillingStatsBeingLoading, setIsBillingStatsBeingLoading] = useState<boolean>(false);
     const [isBillingStatsBeingLoadingFailed, setIsBillingStatsBeingLoadingFailed] = useState<boolean>(false);
     const [billingStats, setBillingStats] = useState<any>(undefined);
+    const [isClientBillingAddressDrawerOpened, setIsClientBillingAddressDrawerOpened] = useState<boolean>(false);
+    const [currentStep, setCurrentStep] = useState<"selectAddress" | "editAddress" | "addAddress">("selectAddress");
+    const [getBillingList, setGetBillingList] = useState<any>([]);
+    const [tempSelectedAddress, setTempSelectedAddress] = useState<any>(null);
+
+
+
     const navigate = useNavigate();
 
     const [isPaymentsGettingConsolidated, setIsPaymentsGettingConsolidated] = useState<boolean>(false);
@@ -95,6 +107,11 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             }
         }
     }, [selectedPayments]);
+
+    const closeBillingAddressFormDrawer = useCallback(() => {
+        setIsClientBillingAddressDrawerOpened(false);
+        setCurrentStep('selectAddress');
+    }, []);
 
     useEffect(() => {
         setClientListFilterState((oldstate: any) => {
@@ -193,11 +210,12 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                                 position={"top"}
                                 showArrow={true}
                             >
-                                <div className={item?.client_details?.is_alias_name_set ? "ellipses-for-table-data alias-name" : "ellipses-for-table-data alias-name"}>
+                                <div
+                                    className={item?.client_details?.is_alias_name_set ? "ellipses-for-table-data alias-name" : "ellipses-for-table-data alias-name"}>
                                     {commonService.generateClientNameFromClientDetails(item?.client_details)}
                                 </div>
                             </ToolTipComponent> :
-                            <span className={item?.client_details?.is_alias_name_set ? 'alias-name':''}>
+                            <span className={item?.client_details?.is_alias_name_set ? 'alias-name' : ''}>
                                 {CommonService.extractName(item?.client_details)}
                             </span>
                     }
@@ -360,7 +378,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             key: 'action',
             fixed: 'right',
             width: 120,
-            align:'right',
+            align: 'right',
             dataIndex: 'action',
             render: (item: any) => {
                 return <LinkComponent
@@ -455,7 +473,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             title: '',
             key: 'action',
             fixed: 'right',
-            align:'right',
+            align: 'right',
             dataIndex: 'action',
             width: 119,
             render: (item: any) => {
@@ -522,7 +540,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             dataIndex: 'first_name',
             align: 'left',
             render: (item: any) => {
-                return  <span className={item?.client_details?.is_alias_name_set ? 'alias-name':''}>
+                return <span className={item?.client_details?.is_alias_name_set ? 'alias-name' : ''}>
                     {CommonService.extractName(item?.client_details)}
                 </span>
             }
@@ -625,7 +643,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             align: 'left',
             width: 100,
             render: (item: any) => {
-                return  <span className={item?.client_details?.is_alias_name_set ? 'alias-name':''}>
+                return <span className={item?.client_details?.is_alias_name_set ? 'alias-name' : ''}>
                     {CommonService.extractName(item?.client_details) || '-'}
                 </span>
             }
@@ -722,7 +740,8 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             width: 120,
             align: 'center',
             render: (item: any) => {
-                return  <span className={item?.client_details?.is_alias_name_set ? 'alias-name':''}>{CommonService.extractName(item?.client_details)}</span>
+                return <span
+                    className={item?.client_details?.is_alias_name_set ? 'alias-name' : ''}>{CommonService.extractName(item?.client_details)}</span>
             }
         },
         {
@@ -872,6 +891,10 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             });
     }, [selectedPayments, fetchBillingStatsCount, clientListFilterState?.linked_invoices, fetchBillingStats, clientId, closePaymentModeModal, selectedPaymentMode]);
 
+    const openBillingAddressFormDrawer = useCallback(() => {
+        setIsClientBillingAddressDrawerOpened(true);
+    }, []);
+
     useEffect(() => {
         fetchBillingStatsCount();
     }, [fetchBillingStatsCount]);
@@ -928,6 +951,33 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
         })
     }, [selectedPayments, handleCreateConsolidatedPayment, currentTab]);
 
+    const getClientBillingAddressList = useCallback(() => {
+        clientId && CommonService._billingsService.GetBillingAddressList(clientId)
+            .then((response: any) => {
+                setGetBillingList(response?.data);
+            })
+            .catch((error: any) => {
+                CommonService._alert.showToast(error.error || error.errors || "Failed to fetch client billing address", "error");
+            });
+    }, [clientId]);
+
+    const handleEditBillingAddress = useCallback((values: any) => {
+        // setBillingDetails((prevBillingDetails: any) => {
+        //     return {
+        //         ...prevBillingDetails,
+        //         //  billing_address: {
+        //         //     ...prevBillingDetails.billing_address,
+        //         //     ...values
+        //         // }
+        //     }
+        // });
+        closeBillingAddressFormDrawer();
+    }, [closeBillingAddressFormDrawer]);
+
+    useEffect(() => {
+        getClientBillingAddressList()
+    }, [getClientBillingAddressList]);
+
     const handleSort = useCallback((key: string, order: string) => {
         setClientListFilterState((oldState: any) => {
             const newState = {...oldState};
@@ -938,6 +988,25 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             return newState;
         });
     }, []);
+
+    const handleEdit = useCallback((address: any) => {
+        setCurrentStep('editAddress');
+        setTempSelectedAddress(address);
+    }, []);
+
+    const onBillingAddressFormSubmit = useCallback((billingAddressId: string) => {
+        CommonService._client.UpdateClientBillingAddress(billingAddressId, {is_default: true})
+            .then((response: any) => {
+                getClientBillingAddressList();
+                CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+                closeBillingAddressFormDrawer();
+            })
+            .catch((error: any) => {
+                console.log(error);
+            });
+    }, [closeBillingAddressFormDrawer, getClientBillingAddressList]);
+
+    console.log('getBillingList', getBillingList);
 
     return (
         <div className={'payment-list-component list-screen'}>
@@ -982,7 +1051,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                                             return newState;
                                         })
                                     }}
-                                    />
+                                />
                             </div>
                         </div>
                         <div className="ts-col-lg-1"/>
@@ -999,6 +1068,13 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                                         Consolidate
                                     </ButtonComponent>&nbsp;&nbsp;
                                 </>
+                            }
+                            {
+                                clientId &&
+                                <ButtonComponent className={'mrg-right-10'} prefixIcon={<ImageConfig.BillingListIcon/>}
+                                                 onClick={openBillingAddressFormDrawer}>
+                                    Billing Address
+                                </ButtonComponent>
                             }
                             {currentTab === 'pendingPayments' &&
                                 <>
@@ -1281,6 +1357,74 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                 />
             </ModalComponent>
             {/*Payment mode selection Modal end*/}
+
+            <DrawerComponent isOpen={isClientBillingAddressDrawerOpened}
+                             onClose={closeBillingAddressFormDrawer}
+                             showClose={true}>
+                {
+                    currentStep === 'selectAddress' && <>
+                        <FormControlLabelComponent label={"Select Billing Address"}/>
+                        <div className={'select-billing-address'}>
+                            {getBillingList?.length > 0 && getBillingList?.map((item: any, index: number) => {
+                                return <div className={'select-address-card'}>
+                                    <div className={'select-address-card-header'}>
+                                        <div className={'btn-heading-wrapper'}>
+                                            <div
+                                                className={'card-heading'}>{item?.name}</div>
+                                            <div className={'mrg-left-10'}>
+                                                {item?.is_default && <ChipComponent className={'draft'} label={'Default'}/>}
+                                            </div>
+                                        </div>
+                                        <div className={'btn-wrapper'}>
+                                            <MenuDropdownComponent className={'billing-details-drop-down-menu'} menuBase={
+                                                <IconButtonComponent>
+                                                    <ImageConfig.MoreVerticalIcon/>
+                                                </IconButtonComponent>
+                                            } menuOptions={[
+                                                <ListItemButton onClick={() => handleEdit(item)}>
+                                                    Edit
+                                                </ListItemButton>,
+                                                <ListItemButton>
+                                                    Delete
+                                                </ListItemButton>,
+                                                <ListItemButton onClick={() => onBillingAddressFormSubmit(item?._id)}>
+                                                    Make as Default
+                                                </ListItemButton>,
+                                            ]}/>
+
+                                        </div>
+                                    </div>
+                                    <div className={'mrg-15'}>
+                                        {item?.address_line}, {item?.city}, {item?.state}, {item?.country} {item?.zip_code}
+                                    </div>
+                                </div>
+                            })
+                            }
+                            <ButtonComponent prefixIcon={<ImageConfig.AddIcon/>}
+                                             onClick={() => setCurrentStep("addAddress")} variant={"text"}>Add New
+                                Address</ButtonComponent>
+                        </div>
+
+                    </>
+                }
+                {(currentStep === "editAddress" && clientId) && <EditBillingAddressComponent billing_address={tempSelectedAddress}
+                    clientId={clientId}
+                    onCancel={closeBillingAddressFormDrawer}
+                    afterSave={getClientBillingAddressList}
+                    onSave={handleEditBillingAddress}/>
+                }
+
+
+                {
+                    currentStep === "addAddress" &&
+                    <AddBillingAddressComponent clientId={clientId}
+                                                onCancel={closeBillingAddressFormDrawer}
+                                                onSave={handleEditBillingAddress}
+                                                afterSave={getClientBillingAddressList}
+
+                    />
+                }
+            </DrawerComponent>
         </div>
     );
 
