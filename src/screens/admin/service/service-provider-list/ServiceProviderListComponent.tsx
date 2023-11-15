@@ -114,6 +114,7 @@ const ServiceProviderListComponent = (props: ServiceProviderComponentProps) => {
             <CardComponent title={'Providers'}>
                 <TableComponent
                     size={"small"}
+                    noDataText={'Currently there are no providers linked to this service.'}
                     columns={ClientListColumns}
                     data={serviceProviderList}
                     loading={isServiceProviderListLoading}

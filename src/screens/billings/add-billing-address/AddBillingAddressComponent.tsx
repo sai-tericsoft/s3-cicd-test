@@ -178,7 +178,7 @@ const AddBillingAddressComponent = (props: AddBillingAddressComponentProps) => {
                                     {
                                         (field: FieldProps) => (
                                             <FormikCheckBoxComponent
-                                                label={"Make this as default address"}
+                                                label={"Set as Default Address"}
                                                 required={true}
                                                 formikField={field}
                                                 onChange={(isChecked) => {

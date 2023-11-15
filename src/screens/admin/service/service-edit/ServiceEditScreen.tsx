@@ -366,6 +366,7 @@ const ServiceEditScreen = (props: ServiceEditComponentProps) => {
                                                                                             {
                                                                                                 iIndex === values?.initial_consultation[index].consultation_details.length - 1 &&
                                                                                                 <IconButtonComponent
+                                                                                                    className={'mrg-top-5'}
                                                                                                     onClick={() => {
                                                                                                         push(_.cloneDeep(CONSULTATION_DURATION_SLOT));
                                                                                                     }}
@@ -379,6 +380,7 @@ const ServiceEditScreen = (props: ServiceEditComponentProps) => {
                                                                                                 <>
                                                                                                     &nbsp;
                                                                                                     <IconButtonComponent
+                                                                                                        className={'mrg-top-5'}
                                                                                                         onClick={() => {
                                                                                                             remove(iIndex);
                                                                                                         }}
@@ -426,11 +428,13 @@ const ServiceEditScreen = (props: ServiceEditComponentProps) => {
                                                         return (
                                                             <div key={index}>
                                                                 <div
-                                                                    className={"display-flex align-items-center justify-content-space-between"}>
+                                                                    className={"display-flex"}>
                                                                     <FormControlLabelComponent
+                                                                        className={'mrg-top-10 mrg-right-20'}
                                                                         label={`Follow Up Consultation Details ${index + 1}`}/>
                                                                     <div>
                                                                         {(index > 0) && <ButtonComponent
+                                                                            color={'error'}
                                                                             prefixIcon={<ImageConfig.CloseIcon/>}
                                                                             onClick={() => {
                                                                                 arrayHelpers.remove(index);
@@ -511,6 +515,7 @@ const ServiceEditScreen = (props: ServiceEditComponentProps) => {
                                                                                             {
                                                                                                 iIndex === values?.followup_consultation[index].consultation_details.length - 1 &&
                                                                                                 <IconButtonComponent
+                                                                                                    className={'mrg-top-5'}
                                                                                                     onClick={() => {
                                                                                                         push(_.cloneDeep(CONSULTATION_DURATION_SLOT));
                                                                                                     }}
@@ -524,6 +529,7 @@ const ServiceEditScreen = (props: ServiceEditComponentProps) => {
                                                                                                 <>
                                                                                                     &nbsp;
                                                                                                     <IconButtonComponent
+                                                                                                        className={'mrg-top-5'}
                                                                                                         onClick={() => {
                                                                                                             remove(iIndex);
                                                                                                         }}

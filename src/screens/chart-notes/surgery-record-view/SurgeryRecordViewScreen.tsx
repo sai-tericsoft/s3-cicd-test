@@ -164,8 +164,7 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
                 // showLottie: true,
                 confirmationTitle: "DELETE ATTACHMENT",
                 confirmationDescription: <div className="delete-document">
-                    <div className={'delete-document-text text-center '}>Are you sure you want to delete this
-                        attachment <br/> from this file?
+                    <div className={'delete-document-text text-center '}>Are you sure you want to delete this attachment?
                     </div>
                 </div>
             }).then((response: any) => {

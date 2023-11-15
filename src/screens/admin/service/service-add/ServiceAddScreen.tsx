@@ -203,12 +203,14 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                                                         return (
                                                             <div key={index}>
                                                                 <div
-                                                                    className={"display-flex align-items-center justify-content-space-between"}>
+                                                                    className={"display-flex"}>
                                                                     <FormControlLabelComponent
+                                                                        className={'mrg-top-10 mrg-right-20'}
                                                                         label={`Initial Consultation Details ${index + 1}`}/>
                                                                     <div>
                                                                         {(index > 0) && <ButtonComponent
-                                                                            prefixIcon={<ImageConfig.CloseIcon/>}
+                                                                            color={'error'}
+                                                                            prefixIcon={<ImageConfig.CloseIcon height={'10'} width={'10'}/>}
                                                                             onClick={() => {
                                                                                 arrayHelpers.remove(index);
                                                                             }}
@@ -287,7 +289,7 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                                                                                             <div className="d-flex">
                                                                                                 {
                                                                                                     iIndex === values?.initial_consultation[index].consultation_details.length - 1 &&
-                                                                                                    <IconButtonComponent
+                                                                                                    <IconButtonComponent className={'mrg-top-5'}
                                                                                                         onClick={() => {
                                                                                                             push(_.cloneDeep(CONSULTATION_DURATION_SLOT))
                                                                                                         }}
@@ -300,6 +302,7 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                                                                                                 {
                                                                                                     iIndex > 0 &&
                                                                                                     <IconButtonComponent
+                                                                                                        className={'mrg-top-5'}
                                                                                                         onClick={() => {
                                                                                                             remove(iIndex);
                                                                                                         }}
@@ -436,6 +439,7 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                                                                                                 {
                                                                                                     iIndex === values?.followup_consultation[index].consultation_details.length - 1 &&
                                                                                                     <IconButtonComponent
+                                                                                                        className={'mrg-top-5'}
                                                                                                         onClick={() => {
                                                                                                             push(_.cloneDeep(CONSULTATION_DURATION_SLOT));
                                                                                                         }}
@@ -448,6 +452,7 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                                                                                                 {
                                                                                                     iIndex > 0 &&
                                                                                                     <IconButtonComponent
+                                                                                                        className={'mrg-top-5'}
                                                                                                         onClick={() => {
                                                                                                             remove(iIndex);
                                                                                                         }}
