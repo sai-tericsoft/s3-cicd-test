@@ -234,11 +234,12 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
         setTempSelectedAddress(selectedAddress);
         setCurrentStep('selectAddress');
         getClientBillingAddressList();
-    }, [selectedAddress,getClientBillingAddressList]);
+    }, [selectedAddress, getClientBillingAddressList]);
 
     const closeBillingAddressFormDrawer = useCallback(() => {
         setIsClientBillingAddressDrawerOpened(false);
-    },[]);
+        getClientBillingAddressList();
+    }, [getClientBillingAddressList]);
 
     const handleEditBillingAddress = useCallback((values: any) => {
         setBillingDetails((prevBillingDetails: any) => {
@@ -253,7 +254,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
         BillingAddressStep();
     }, [BillingAddressStep]);
 
-    const onBillingAddressFormSubmit = useCallback((billingAddressId:string) => {
+    const onBillingAddressFormSubmit = useCallback((billingAddressId: string) => {
         CommonService._client.UpdateClientBillingAddress(billingAddressId, {is_default: true})
             .then((response: any) => {
                 getClientBillingAddressList();
@@ -264,7 +265,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
             .catch((error: any) => {
                 console.log(error);
             });
-    }, [BillingAddressStep,getClientBillingAddressList]);
+    }, [BillingAddressStep, getClientBillingAddressList]);
 
     const ICDCodesColumns: ITableColumn[] = useMemo<ITableColumn[]>(() => [
         {
@@ -466,6 +467,26 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                 CommonService._alert.showToast(error.error || error.errors || "Failed to add note and comment", "error");
             });
     }, [billingId]);
+
+    const handleDeleteBillingAddress = useCallback((billingAddress: any) => {
+        CommonService.onConfirm({
+            image: ImageConfig.ConfirmationLottie,
+            showLottie: true,
+            confirmationTitle: 'DELETE ADDRESS',
+            confirmationSubTitle: <div className={'text-center mrg-bottom-20'}>Are you sure you want to permanently
+                delete <br/> this address?</div>,
+
+        }).then(() => {
+            CommonService._billingsService.DeleteBillingAddress(billingAddress?._id, billingAddress)
+        .then((response: any) => {
+                CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+                closeBillingAddressFormDrawer();
+            }).catch((error: any) => {
+                CommonService._alert.showToast(error.error || "Error in deleting", "error");
+            });
+        })
+
+    }, [closeBillingAddressFormDrawer]);
 
 
     return (
@@ -862,7 +883,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                                             <div
                                                 className={'card-heading'}>{item?.name}</div>
                                             <div className={'mrg-left-10'}>
-                                                {item?.is_default && <ChipComponent className={'draft'}  label={'Default'}/>}
+                                                {item?.is_default && <ChipComponent className={'draft'} label={'Default'}/>}
                                             </div>
                                         </div>
                                         <div className={'btn-wrapper'}>
@@ -878,10 +899,10 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                                                 <ListItemButton onClick={() => handleEdit(item)}>
                                                     Edit
                                                 </ListItemButton>,
-                                                <ListItemButton>
+                                                <ListItemButton onClick={() => handleDeleteBillingAddress(item)}>
                                                     Delete
                                                 </ListItemButton>,
-                                                <ListItemButton onClick={()=>onBillingAddressFormSubmit(item?._id)}>
+                                                <ListItemButton onClick={() => onBillingAddressFormSubmit(item?._id)}>
                                                     Make as Default
                                                 </ListItemButton>,
                                             ]}/>
@@ -889,52 +910,9 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                                         </div>
                                     </div>
                                     <div className={'mrg-15'}>
-                                            {item?.address_line}, {item?.city}, {item?.state}, {item?.country} {item?.zip_code}
+                                        {item?.address_line}, {item?.city}, {item?.state}, {item?.country} {item?.zip_code}
                                     </div>
 
-                                    {/*<div className={'ts-row mrg-top-10'}>*/}
-                                    {/*    <div className={'ts-col-lg-1'}/>*/}
-                                    {/*    <div className={'ts-col-lg-6'}>*/}
-                                    {/*        <DataLabelValueComponent label={'Name of Client/Organisation'}>*/}
-                                    {/*            {item?.name || 'N/A'}*/}
-                                    {/*        </DataLabelValueComponent>*/}
-                                    {/*    </div>*/}
-                                    {/*    <div className={'ts-col-lg-4'}>*/}
-                                    {/*        <DataLabelValueComponent label={'Address Line'}>*/}
-                                    {/*            {item?.address_line || 'N/A'}*/}
-                                    {/*        </DataLabelValueComponent>*/}
-                                    {/*    </div>*/}
-                                    {/*    <div className={'ts-col-lg-2'}/>*/}
-
-                                    {/*</div>*/}
-                                    {/*<div className={'ts-row'}>*/}
-                                    {/*    <div className={'ts-col-lg-1'}/>*/}
-                                    {/*    <div className={'ts-col-lg-6'}>*/}
-                                    {/*        <DataLabelValueComponent label={'City'}>*/}
-                                    {/*            {item?.city || "N/A"}*/}
-                                    {/*        </DataLabelValueComponent>*/}
-                                    {/*    </div>*/}
-                                    {/*    <div className={'ts-col-lg-4'}>*/}
-                                    {/*        <DataLabelValueComponent label={'State'}>*/}
-                                    {/*            {item?.state || 'N/A'}                                        </DataLabelValueComponent>*/}
-                                    {/*    </div>*/}
-                                    {/*    <div className={'ts-col-lg-2'}/>*/}
-
-                                    {/*</div>*/}
-                                    {/*<div className={'ts-row'}>*/}
-                                    {/*    <div className={'ts-col-lg-1'}/>*/}
-                                    {/*    <div className={'ts-col-lg-6'}>*/}
-                                    {/*        <DataLabelValueComponent label={'ZIP Code'}>*/}
-                                    {/*            {item?.zip_code || 'N/A'}*/}
-                                    {/*        </DataLabelValueComponent>*/}
-                                    {/*    </div>*/}
-                                    {/*    <div className={'ts-col-lg-4'}>*/}
-                                    {/*        <DataLabelValueComponent label={'Country'}>*/}
-                                    {/*            {item?.country || 'N/A'}                                       </DataLabelValueComponent>*/}
-                                    {/*    </div>*/}
-                                    {/*    <div className={'ts-col-lg-2'}/>*/}
-
-                                    {/*</div>*/}
                                 </div>
                             })
                             }
