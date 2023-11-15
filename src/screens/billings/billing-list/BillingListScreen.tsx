@@ -109,10 +109,6 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
     }, [selectedPayments]);
 
 
-    const closeBillingAddressDrawer = useCallback(() => {
-        setIsClientBillingAddressDrawerOpened(false);
-    },[]);
-
     useEffect(() => {
         setClientListFilterState((oldstate: any) => {
             return {...oldstate, client_id: clientId}
@@ -984,6 +980,11 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
         getClientBillingAddressList()
     }, [getClientBillingAddressList]);
 
+    const closeBillingAddressDrawer = useCallback(() => {
+        setIsClientBillingAddressDrawerOpened(false);
+        getClientBillingAddressList();
+    },[getClientBillingAddressList]);
+
     const handleSort = useCallback((key: string, order: string) => {
         setClientListFilterState((oldState: any) => {
             const newState = {...oldState};
@@ -1012,8 +1013,25 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             });
     }, [BillingAddressStep, getClientBillingAddressList]);
 
-    console.log('getBillingList', getBillingList);
+    const handleDeleteBillingAddress = useCallback((billingAddress: any) => {
+        CommonService.onConfirm({
+            image: ImageConfig.ConfirmationLottie,
+            showLottie: true,
+            confirmationTitle: 'DELETE ADDRESS',
+            confirmationSubTitle: <div className={'text-center mrg-bottom-20'}>Are you sure you want to permanently
+                delete <br/> this address?</div>,
 
+        }).then(() => {
+            CommonService._billingsService.DeleteBillingAddress(billingAddress?._id, billingAddress)
+                .then((response: any) => {
+                    CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+                    closeBillingAddressDrawer();
+                }).catch((error: any) => {
+                CommonService._alert.showToast(error.error || "Error in deleting", "error");
+            });
+        })
+
+    }, [closeBillingAddressDrawer]);
     return (
         <div className={'payment-list-component list-screen'}>
             {/*<iframe src={"https://kinergycustomertest.teric.services/"}*/}
@@ -1390,7 +1408,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                                                 <ListItemButton onClick={() => handleEdit(item)}>
                                                     Edit
                                                 </ListItemButton>,
-                                                <ListItemButton>
+                                                <ListItemButton onClick={()=>handleDeleteBillingAddress(item)}>
                                                     Delete
                                                 </ListItemButton>,
                                                 <ListItemButton onClick={() => onBillingAddressFormSubmit(item?._id)}>

@@ -336,7 +336,8 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
         const closeBillingAddressFormDrawer = useCallback(() => {
             setIsClientBillingAddressDrawerOpened(false);
             setCurrentStep('selectAddress');
-        }, []);
+            getClientBillingAddressList(billingDetails?.client_id);
+        }, [billingDetails?.client_id, getClientBillingAddressList]);
 
         const handleRadioButtonClick = useCallback((address: any) => {
             // Update selectedAddress when a radio button is clicked
@@ -392,6 +393,26 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                 })
 
         }, [consolidatedBillingId]);
+
+    const handleDeleteBillingAddress = useCallback((billingAddress: any) => {
+        CommonService.onConfirm({
+            image: ImageConfig.ConfirmationLottie,
+            showLottie: true,
+            confirmationTitle: 'DELETE ADDRESS',
+            confirmationSubTitle: <div className={'text-center mrg-bottom-20'}>Are you sure you want to permanently
+                delete <br/> this address?</div>,
+
+        }).then(() => {
+            CommonService._billingsService.DeleteBillingAddress(billingAddress?._id, billingAddress)
+                .then((response: any) => {
+                    CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+                    closeBillingAddressFormDrawer();
+                }).catch((error: any) => {
+                CommonService._alert.showToast(error.error || "Error in deleting", "error");
+            });
+        })
+
+    }, [closeBillingAddressFormDrawer]);
 
         const getLinkedClientList = useCallback(() => {
             CommonService._billingsService.LinkedClientListAPICall(billingDetails?.client_id, {})
@@ -885,7 +906,7 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                                                             <ListItemButton onClick={() => handleEdit(item)}>
                                                                 Edit
                                                             </ListItemButton>,
-                                                            <ListItemButton>
+                                                            <ListItemButton onClick={()=>handleDeleteBillingAddress(item)}>
                                                                 Delete
                                                             </ListItemButton>,
                                                             <ListItemButton onClick={() => onBillingAddressFormSubmit(item?._id)}>

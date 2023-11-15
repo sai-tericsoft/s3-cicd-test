@@ -127,6 +127,11 @@ const ProductMarkAsPaid = (payload: any) => {
     return ApiService[APIConfig.MARK_AS_PAID_FOR_PRODUCT.METHOD](APIConfig.MARK_AS_PAID_FOR_PRODUCT.URL, payload)
 }
 
+const DeleteBillingAddress = (billingAddressId:string,payload:any)=>{
+    // @ts-ignore
+    return ApiService[APIConfig.DELETE_BILLING_ADDRESS.METHOD](APIConfig.DELETE_BILLING_ADDRESS.URL(billingAddressId,payload))
+}
+
 
 const BillingService = {
     MarkPaymentsAsPaidAPICall,
@@ -153,7 +158,8 @@ const BillingService = {
     GetAppointmentBillingPDFDocument,
     GetConsolidatedBillingPDFDocument,
     ProductMarkAsPaid,
-    GetDetailedBillingPDFDocument
+    GetDetailedBillingPDFDocument,
+    DeleteBillingAddress
 }
 
 export default BillingService;
