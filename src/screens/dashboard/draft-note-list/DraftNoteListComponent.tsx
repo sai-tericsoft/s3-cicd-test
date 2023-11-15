@@ -30,9 +30,9 @@ const DraftNoteListComponent = (props: DraftNoteListComponentProps) => {
             dataIndex: 'case_details',
             width: 280,
             render: (item: any) => {
-                return <>   {CommonService.generateUseCaseFromCaseDetails(item?.case_details)?.length > 50 ?
+                return <>   {CommonService.generateUseCaseFromCaseDetails3(item?.case_details)?.length > 50 ?
                     <ToolTipComponent
-                        tooltip={item?.case_details && CommonService.generateUseCaseFromCaseDetails2(item?.case_details)}
+                        tooltip={item?.case_details && CommonService.generateUseCaseFromCaseDetails3(item?.case_details)}
                         position={"top"}
                         showArrow={true}
                     >
@@ -40,9 +40,9 @@ const DraftNoteListComponent = (props: DraftNoteListComponentProps) => {
                         {/*    {item?.case_details && CommonService.generateUseCaseFromCaseDetails2(item?.case_details)}*/}
                         {/*</div>*/}
                         <div>
-                            {CommonService.generateUseCaseFromCaseDetails(item?.case_details) && CommonService.generateUseCaseFromCaseDetails2(item?.case_details)?.substring(0, 30) + "..." }
+                            {CommonService.generateUseCaseFromCaseDetails3(item?.case_details) && CommonService.generateUseCaseFromCaseDetails3(item?.case_details)?.substring(0, 30) + "..." }
                         </div>
-                    </ToolTipComponent>: CommonService.generateUseCaseFromCaseDetails2(item?.case_details)
+                    </ToolTipComponent>: CommonService.generateUseCaseFromCaseDetails3(item?.case_details)
                 }</>
             }
         },

@@ -41,7 +41,7 @@ const addAppointmentRescheduleValidationSchema = Yup.object().shape({
 });
 
 const AppointmentRescheduleComponent = (props: AppointmentRescheduleComponentProps) => {
-    const {onClose, onComplete, details} = props;
+    const { onComplete, details,onBack} = props;
 
     const {appointmentTypes} = useSelector((state: IRootReducerState) => state.staticData);
     const [bookType, setBookType] = useState<any | null>(null);
@@ -563,8 +563,8 @@ const AppointmentRescheduleComponent = (props: AppointmentRescheduleComponentPro
                     <ButtonComponent fullWidth={true} variant={'outlined'}
                                      disabled={isAPICallRunning}
                                      onClick={event => {
-                                         if (onClose) {
-                                             onClose()
+                                         if (onBack) {
+                                             onBack()
                                          }
                                      }}>No</ButtonComponent>
                     <ButtonComponent fullWidth={true}

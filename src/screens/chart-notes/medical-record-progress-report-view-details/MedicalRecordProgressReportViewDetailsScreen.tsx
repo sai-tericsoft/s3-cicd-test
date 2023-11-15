@@ -65,7 +65,7 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
 
     const {progressReportId, medicalRecordId} = useParams();
     const dispatch = useDispatch();
-    const [module, setModule] = useState<any>('');
+    // const [module, setModule] = useState<any>('');
     const navigate = useNavigate();
     const {currentUser} = useSelector((state: IRootReducerState) => state.account);
     const {
@@ -118,7 +118,7 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
             const referrer: any = searchParams.get("referrer");
             const active_tab: any = searchParams.get("activeTab");
             const module_name: any = searchParams.get("module_name");
-            setModule(module_name);
+            // setModule(module_name);
             dispatch(setCurrentNavParams("Progress Report Details", null, () => {
                 if (referrer && referrer !== "undefined" && referrer !== "null") {
                     if (module_name === "client_module") {
@@ -224,7 +224,7 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
                 </CardComponent>
             }
             {
-                (medicalRecordId && progressReportId && module === null) &&
+                (medicalRecordId && progressReportId) &&
                 <div className={'display-flex justify-content-end mrg-bottom-20'}>
                     <LinkComponent
                         route={CommonService._routeConfig.MedicalRecordProgressReportAdvancedDetailsUpdate(medicalRecordId, progressReportId, 'edit')}>

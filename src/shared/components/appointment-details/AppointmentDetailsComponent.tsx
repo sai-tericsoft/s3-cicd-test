@@ -179,7 +179,7 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
                             {/*         }><ImageConfig.CloseIcon/></div>*/}
                             {/*</ToolTipComponent>*/}
                         </div>
-                        <div className="appointment-details-heading">Appointment Details</div>
+                        <div className="appointment-details-heading">{details?.status === 'cancelled' ? 'Appointment Cancelled' : 'Appointment Details'}</div>
 
                         <div className={"status-block " + details?.status}>
                             <div className="status-info">
