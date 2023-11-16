@@ -44,7 +44,6 @@ const EditConcussionFileComponent = (props: EditConcussionFileComponentProps) =>
 
     const onSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
         setIsConcussionFileAddInProgress(true);
-        values.document_date = CommonService.convertDateFormat(values.document_date);
         CommonService._chartNotes.ConcussionFileEditAPICall(concussionFileId, values)
             .then((response: IAPIResponseType<IServiceCategory>) => {
                 CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");

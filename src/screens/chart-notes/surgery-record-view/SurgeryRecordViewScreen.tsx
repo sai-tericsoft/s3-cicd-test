@@ -232,9 +232,6 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
     const onEditSurgerySubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
         if (surgeryRecordId) {
             setIsEditInProgress(true);
-            if (values.surgery_date) {
-                values.surgery_date = CommonService.convertDateFormat(values?.surgery_date);
-            }
             CommonService._chartNotes.UpdateSurgeryRecordAPICall(surgeryRecordId, values)
                 .then((response: IAPIResponseType<any>) => {
                     CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");

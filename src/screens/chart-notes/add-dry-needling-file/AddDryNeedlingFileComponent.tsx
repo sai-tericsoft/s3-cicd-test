@@ -51,8 +51,10 @@ const AddDryNeedlingFileComponent = (props: AddDryNeedlingFileComponentProps) =>
 
     const onSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
         setIsDryNeedlingFileAddInProgress(true);
-        values.document_date = CommonService.convertDateFormat(values.document_date);
+        const tempPayload = _.cloneDeep(values);
+        // values.document_date = CommonService.convertDateFormat(values.document_date);
         const formData = CommonService.getFormDataFromJSON(values);
+        formData.append('document_date',tempPayload?.document_date)
         CommonService._chartNotes.DryNeedlingFileAddAPICall(medicalInterventionId, formData)
             .then((response: IAPIResponseType<any>) => {
                 CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");

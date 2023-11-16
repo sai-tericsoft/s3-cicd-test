@@ -52,10 +52,10 @@ const AddSurgeryRecordComponent = (props: AddSurgeryRecordComponentProps) => {
         if (medicalRecordDetails) {
             setIsSurgeryRecordAddInProgress(true);
             values.reported_by = values?.reported_by?._id;
-            if (values.surgery_date) {
-                values.surgery_date = CommonService.convertDateFormat(values?.surgery_date);
-            }
             const formData = CommonService.getFormDataFromJSON(values);
+            if (values.surgery_date) {
+                formData.append('surgery_date',values?.surgery_date);
+            }
             CommonService._chartNotes.AddSurgeryRecordAPICall(medicalRecordDetails._id, formData)
                 .then((response: IAPIResponseType<any>) => {
                     CommonService._alert.showToast('Surgery record has been added', "success");

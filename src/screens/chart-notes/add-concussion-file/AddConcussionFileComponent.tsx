@@ -58,9 +58,10 @@ const AddConcussionFileComponent = (props: AddConcussionFileComponentProps) => {
 
     const onSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
         setIsConcussionFileAddFileAddInProgress(true);
-        values.document_date = CommonService.convertDateFormat(values.document_date);
+        const tempValues = _.cloneDeep(values);
         values.concussion_type_id = selectedConcussionFileType?._id;
         const formData = CommonService.getFormDataFromJSON(values);
+        formData.append("document_date", tempValues?.document_date);
         CommonService._chartNotes.ConcussionFileAddAPICall(medicalInterventionId, formData)
             .then((response: IAPIResponseType<any>) => {
                 CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
