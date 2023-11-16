@@ -973,7 +973,7 @@ const UserSlotsEditComponent = (props: UserSlotsEditComponentProps) => {
                                                             isLoading={isSubmitting}
                                                             disabled={!isValid}
                                                             type='submit'>
-                                                            Save
+                                                            Save Details
                                                         </ButtonComponent>
                                                     </div>
                                                 </Form>

@@ -191,6 +191,8 @@ const UserEducationDetailsEditComponent = (props: UserEducationDetailsEditCompon
                                                                     }
                                                                 </Field>
                                                             </div>
+                                                        </div>
+                                                        <div className="ts-row">
                                                             <div className="ts-col">
                                                                 <Field name={`education_details[${index}].start_date`}>
                                                                     {
@@ -207,8 +209,6 @@ const UserEducationDetailsEditComponent = (props: UserEducationDetailsEditCompon
                                                                     }
                                                                 </Field>
                                                             </div>
-                                                        </div>
-                                                        <div className="ts-row">
                                                             <div className="ts-col">
                                                                 <Field name={`education_details[${index}].end_date`}>
                                                                     {
@@ -225,7 +225,6 @@ const UserEducationDetailsEditComponent = (props: UserEducationDetailsEditCompon
                                                                     }
                                                                 </Field>
                                                             </div>
-                                                            <div className="ts-col"/>
                                                         </div>
                                                         {
                                                             index + 1 !== values?.education_details?.length &&

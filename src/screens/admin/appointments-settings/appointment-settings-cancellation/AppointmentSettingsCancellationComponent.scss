@@ -1,5 +1,20 @@
 .appointment-settings-remainder-component {
   .appointment-cancellation {
     padding-bottom: 24px;
+
+    .message-heading {
+      font-weight: 500;
+      font-size: 16px;
+      color: #212B36;
+      margin-right: 8px;
+      margin-bottom: 8px !important;
+    }
+
+    .message-description {
+      margin-top: 5px;
+      font-size: 14px;
+      color: #6D6D6D;
+      padding-bottom: 10px;
+    }
   }
 }

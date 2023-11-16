@@ -183,6 +183,8 @@ const UserProfessionalDetailsEditComponent = (props: UserProfessionalDetailsEdit
                                                                     }
                                                                 </Field>
                                                             </div>
+                                                        </div>
+                                                        <div className="ts-row">
                                                             <div className="ts-col">
                                                                 <Field
                                                                     name={`professional_details[${index}].start_date`}>
@@ -200,8 +202,6 @@ const UserProfessionalDetailsEditComponent = (props: UserProfessionalDetailsEdit
                                                                     }
                                                                 </Field>
                                                             </div>
-                                                        </div>
-                                                        <div className="ts-row">
                                                             <div className="ts-col">
                                                                 <Field name={`professional_details[${index}].end_date`}>
                                                                     {
@@ -218,7 +218,6 @@ const UserProfessionalDetailsEditComponent = (props: UserProfessionalDetailsEdit
                                                                     }
                                                                 </Field>
                                                             </div>
-                                                            <div className="ts-col"/>
                                                         </div>
                                                         {
                                                             index + 1 !== values?.professional_details?.length &&
