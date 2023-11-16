@@ -506,7 +506,7 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
                         <div className={'ts-row'}>
                             <div className={'ts-col-md-3'}>
                                 <DataLabelValueComponent label={'Date of Surgery'}>
-                                    {CommonService.transformTimeStamp(surgeryRecordDetails?.surgery_date) || "-"}
+                                    {CommonService.convertDateFormat2(surgeryRecordDetails?.surgery_date) || "-"}
                                 </DataLabelValueComponent>
                             </div>
                             <div className={'ts-col-md-2'}></div>
