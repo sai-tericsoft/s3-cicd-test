@@ -639,6 +639,7 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                                             className={"display-flex align-items-center flex-direction-row-reverse mrg-bottom-20"}>
                                             <ButtonComponent
                                                 prefixIcon={<ImageConfig.CloseIcon/>}
+                                                color={"error"}
                                                 disabled={
                                                     values.exercise_records.every((record: any) => (
                                                         !record.name && (record.no_of_reps === '-' || !record.no_of_reps) && (record.no_of_sets === '-' || !record.no_of_sets) && (record.resistance === '-' || !record.resistance) && (record.time === '-' || !record.time)

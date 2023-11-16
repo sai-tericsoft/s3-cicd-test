@@ -174,7 +174,7 @@ const generateUseCaseFromCaseDetails3 = (case_details: any) => {
 
 const generateInterventionNameFromMedicalRecord = (medicalRecordDetails: any) => {
     return `${CommonService.convertDateFormat2(medicalRecordDetails?.created_at)} - ${medicalRecordDetails?.injury_details?.map((bodyPart: any, index: number) => {
-        return (bodyPart?.body_part_details?.name + '('+bodyPart?.body_side+')' + (index === medicalRecordDetails?.injury_details?.length - 1 ? ' ' : '|'))
+        return (bodyPart?.body_part_details?.name +" "+'('+bodyPart?.body_side+')' + (index === medicalRecordDetails?.injury_details?.length - 1 ? ' ' : ''))
     })}  `
 }
 

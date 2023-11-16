@@ -18,12 +18,13 @@ interface ViewPriorNoteComponentProps {
 const ViewPriorNoteComponent = (props: ViewPriorNoteComponentProps) => {
 
     const {medicalRecordDetails, onMedicalInterventionSelection} = props;
-    const location=useLocation();
+    const location = useLocation();
 
-const {
+    const {
         medicalRecordSoapNoteList,
         isMedicalInterventionDetailsLoading,
     } = useSelector((state: IRootReducerState) => state.chartNotes);
+
 
 
     const ViewPriorNoteColumns: ITableColumn[] = [
@@ -32,7 +33,7 @@ const {
             key: "date",
             width: 150,
             dataIndex: 'intervention_date',
-            render: ( item: any) => {
+            render: (item: any) => {
                 return <>{CommonService.getSystemFormatTimeStamp(item?.intervention_date)}</>
             }
         },
@@ -41,7 +42,7 @@ const {
             key: "provider",
             dataIndex: 'first_name',
             width: 150,
-            render: ( item: any) => {
+            render: (item: any) => {
                 return <span>{item?.treated_by_details?.first_name} {item?.treated_by_details?.last_name}</span>
             }
         },
@@ -51,11 +52,11 @@ const {
             width: 150,
             key: "actions",
             fixed: "right",
-            render: ( item: any) => {
+            render: (item: any) => {
                 return <LinkComponent
-                    onClick={() => onMedicalInterventionSelection(item?.id)}
+                    onClick={()=>onMedicalInterventionSelection(item?.id)}
                     behaviour={'redirect'}
-                    route={CommonService._routeConfig.MedicalInterventionDetails(item?.medical_record_id, item?._id)+ '?referrer=' + location.pathname}>
+                    route={CommonService._routeConfig.MedicalInterventionDetails(item?.medical_record_id, item?._id) + '?referrer=' + location.pathname}>
                     View Details</LinkComponent>
             }
         }
@@ -71,7 +72,7 @@ const {
                             fullWidth={true}
                             disabled={true}/>
             <TableComponent data={medicalRecordSoapNoteList}
-                            noDataText={'Currently, there is no prior note to view.'}
+                            noDataText={'Currently there are no prior notes to view'}
                             loading={isMedicalInterventionDetailsLoading}
                             columns={ViewPriorNoteColumns}
             />

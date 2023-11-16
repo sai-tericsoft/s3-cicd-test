@@ -49,7 +49,8 @@ const ClientSearchScreen = (props: ClientSearchScreenProps) => {
             sortable: true,
             width: 150,
             render: (item: IClientBasicDetails) => {
-                return  <span className={item?.is_alias_name_set ? 'alias-name':''}>{CommonService.extractName(item)}</span>
+                return <span
+                    className={item?.is_alias_name_set ? 'alias-name' : ''}>{CommonService.extractName(item)}</span>
             }
         },
         {
@@ -132,21 +133,25 @@ const ClientSearchScreen = (props: ClientSearchScreenProps) => {
     return (
         <div className={'client-search-component'}>
             <CardComponent color={"primary"} className={'search-wrapper'} size={'md'}>
-                <SearchComponent size={'medium'}
-                                 className={'client-search-input mrg-top-20'}
-                                 label={'Search'}
-                                 placeholder={'Search using ID/Name/Phone'}
-                                 value={clientListFilterState.search}
-                                 onSearchChange={(value) => {
-                                     setClientListFilterState((prevState) => {
-                                         return {
-                                             ...prevState,
-                                             search: value,
-                                             page: 1 // Reset the page number to 1
-                                         };
-                                     });
-                                 }}
-                />
+                <div className={'ts-row'}>
+                    <div className={'ts-col-lg-4'}>
+                        <SearchComponent
+                            className={'client-search-input mrg-top-20'}
+                            label={'Search'}
+                            placeholder={'Search using ID/Name/Phone'}
+                            value={clientListFilterState.search}
+                            onSearchChange={(value) => {
+                                setClientListFilterState((prevState) => {
+                                    return {
+                                        ...prevState,
+                                        search: value,
+                                        page: 1 // Reset the page number to 1
+                                    };
+                                });
+                            }}
+                        />
+                    </div>
+                </div>
             </CardComponent>
             {/*{*/}
             {/*    !clientListFilterState.search &&*/}
@@ -162,9 +167,11 @@ const ClientSearchScreen = (props: ClientSearchScreenProps) => {
                 <TableWrapperComponent
                     id={"client_search"}
                     url={APIConfig.CLIENT_LIST.URL}
-                    noDataText={ (<div className={'no-client-text-wrapper'}>
-                        <div>{clientListFilterState.search?<img src={ImageConfig.Search} alt="client-search"/>:''}</div>
-                        <div className={'no-client-heading mrg-bottom-15'}>{clientListFilterState.search? 'Sorry, no results found!':''}</div>
+                    noDataText={(<div className={'no-client-text-wrapper'}>
+                        <div>{clientListFilterState.search ?
+                            <img src={ImageConfig.Search} alt="client-search"/> : ''}</div>
+                        <div
+                            className={'no-client-heading mrg-bottom-15'}>{clientListFilterState.search ? 'Sorry, no results found!' : ''}</div>
                         <div className={'no-client-description'}>
                             {clientListFilterState.search ? 'There is no client available by the name you have searched.' : 'Currently, there is no client added.'}
                         </div>

@@ -247,7 +247,7 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
                                                                method={APIConfig.CLIENT_MEDICAL_INFO.METHOD}
                                                                extraPayload={medicalRecordListStatusDateAndProviderFilterState}
                                                                onSort={handleClientMedicalListSort}
-                                                               noDataText={(medicalRecordListStatusDateAndProviderFilterState?.status === "open" || medicalRecordListStatusDateAndProviderFilterState?.status === "closed") ? " No medical record was found for the applied status filter." : "Currently, there is no medical record added"}
+                                                               noDataText={(medicalRecordListStatusDateAndProviderFilterState?.status === "open" || medicalRecordListStatusDateAndProviderFilterState?.status === "closed") ? " No medical record was found for the applied status filter." : "No medical records available."}
                                                                columns={MedicalRecordListTableColumns}/>
                                     </div>
                                 </div>
