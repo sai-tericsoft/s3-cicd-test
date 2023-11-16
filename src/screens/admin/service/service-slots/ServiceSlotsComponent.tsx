@@ -28,6 +28,7 @@ import commonService from "../../../../shared/services/common.service";
 import IconButtonComponent from "../../../../shared/components/icon-button/IconButtonComponent";
 import ButtonComponent from "../../../../shared/components/button/ButtonComponent";
 import * as Yup from "yup";
+import {useLocation, useNavigate} from "react-router-dom";
 
 interface ServiceSlotsComponentProps {
     userId?: string;
@@ -165,6 +166,10 @@ const ServiceSlotsComponent = (props: ServiceSlotsComponentProps) => {
 
     const {serviceId, userId} = props;
     const dispatch = useDispatch();
+    const location = useLocation();
+    const navigate = useNavigate();
+
+    console.log('location',location.pathname.includes('admin'));
 
     const {
         isUserBasicDetailsLoaded,
@@ -415,6 +420,10 @@ const ServiceSlotsComponent = (props: ServiceSlotsComponentProps) => {
                     .then((response) => {
                         setSubmitting(false);
                         // navigate(CommonService._routeConfig.UserList());
+                        if(location.pathname.includes('admin')){
+                            navigate(commonService._routeConfig.ServiceDetails(serviceId))
+
+                        }
                         CommonService._alert.showToast(
                             response[Misc.API_RESPONSE_MESSAGE_KEY],
                             'success'
@@ -429,7 +438,7 @@ const ServiceSlotsComponent = (props: ServiceSlotsComponentProps) => {
                     });
             }
         },
-        [facilityId, userId, serviceId, dispatch]
+        [facilityId, userId, serviceId, dispatch,location.pathname,navigate]
     );
 
     const handleUserSlotsUpdate = useCallback((endTime: string, startTime: string, isSameSlots: boolean, faclityDays: any) => {

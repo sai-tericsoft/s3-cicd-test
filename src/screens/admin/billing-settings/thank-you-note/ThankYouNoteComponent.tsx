@@ -71,9 +71,8 @@ const ThankYouNoteComponent = (props: ThankYouNoteComponentProps) => {
 
             <div className={'thank-you-note-wrapper'}>
                 <AccordionComponent title={'Thank You Note'} isExpand={isExpanded} onChange={handleChange}>
-                    <div className={'enter-message-text'}>Please enter a default note that will be saved and
-                        displayed
-                        at the bottom of all invoices and receipts.
+                    <div className={'enter-message-text'}>Please enter a default message that will be displayed at the
+                        bottom of all invoices and receipts.
                     </div>
                     <div>
                         <Formik initialValues={thankYouNoteInitialValue}

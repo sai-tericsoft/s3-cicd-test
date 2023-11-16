@@ -20,7 +20,7 @@ interface NewMessageComponentProps {
 
 const newMessageInitialValue: any = {
     message: '',
-    valid_days:''
+    valid_days: ''
 }
 
 const NewMessageComponent = (props: NewMessageComponentProps) => {
@@ -28,8 +28,8 @@ const NewMessageComponent = (props: NewMessageComponentProps) => {
     const [isExpanded, setIsExpanded] = useState<boolean>(false);
     const [newMessageFormInitialValue] = useState<any>(_.cloneDeep(newMessageInitialValue));
     const [isSaving, setIsSaving] = useState<boolean>(false);
-    
-    const {validDaysList} = useSelector((state:IRootReducerState)=>state.staticData);
+
+    const {validDaysList} = useSelector((state: IRootReducerState) => state.staticData);
 
     const handleChange = useCallback(() => {
         setIsExpanded(!isExpanded)
@@ -48,6 +48,11 @@ const NewMessageComponent = (props: NewMessageComponentProps) => {
                 CommonService.handleErrors(setErrors, error);
                 setIsSaving(false);
             });
+    }, []);
+
+    const handleClose = useCallback((resetForm: any) => {
+        setIsExpanded(false);
+        resetForm();
     }, []);
 
     return (
@@ -83,9 +88,11 @@ const NewMessageComponent = (props: NewMessageComponentProps) => {
                                         </Field>
                                         <div className={'ts-row days-select-wrapper'}>
                                             <div className={'ts-col-lg-8'}>
-                                            {/*<FormControlLabelComponent label={'Number of days'}/>*/}
+                                                {/*<FormControlLabelComponent label={'Number of days'}/>*/}
                                                 <div className={'no-of-days'}>Number of days</div>
-                                                <div className={'select-text'}>Select the number of days for which the message will be displayed.</div>
+                                                <div className={'select-text'}>Select the number of days for which the
+                                                    message will be displayed.
+                                                </div>
                                             </div>
                                             <div className={'ts-col-lg-4'}>
                                                 <Field name={'valid_days'}>
@@ -106,10 +113,10 @@ const NewMessageComponent = (props: NewMessageComponentProps) => {
                                         </div>
                                         <div className="t-form-actions">
                                             <ButtonComponent
-                                                onClick={() => resetForm()}
+                                                onClick={() => handleClose(resetForm)}
                                                 variant={'outlined'}
                                                 id={"cancel_btn"}
-                                                className={isSaving?'mrg-right-15':''}
+                                                className={isSaving ? 'mrg-right-15' : ''}
                                             >
                                                 Cancel
                                             </ButtonComponent>
@@ -117,7 +124,7 @@ const NewMessageComponent = (props: NewMessageComponentProps) => {
                                                 isLoading={isSaving}
                                                 className={'submit-cta'}
                                                 type={"submit"}
-                                                disabled={values?.message===""}
+                                                disabled={values?.message === ""}
                                                 id={"save_btn"}
                                             >
                                                 {isSaving ? "Saving" : "Save"}

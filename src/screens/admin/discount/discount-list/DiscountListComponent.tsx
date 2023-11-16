@@ -32,7 +32,7 @@ const DiscountListComponent = (props: DiscountListComponentProps) => {
                 dataIndex: "title",
                 key: "title",
                 fixed: "left",
-                width: 150,
+                width: 180,
                 render: (item: any) => {
                     return <>
                         {

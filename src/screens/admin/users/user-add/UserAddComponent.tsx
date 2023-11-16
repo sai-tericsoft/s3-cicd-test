@@ -18,6 +18,7 @@ import FormikAutoCompleteComponent
 import FormikSelectComponent from "../../../../shared/components/form-controls/formik-select/FormikSelectComponent";
 import {setCurrentNavParams} from "../../../../store/actions/navigation.action";
 import {useNavigate} from "react-router-dom";
+import FormDebuggerComponent from "../../../../shared/components/form-debugger/FormDebuggerComponent";
 
 interface UserAddComponentProps {
 
@@ -103,7 +104,7 @@ const UserAddComponent = (props: UserAddComponentProps) => {
                     }, [validateForm, values]);
                     return (
                         <Form className="t-form" noValidate={true}>
-                            {/*<FormDebuggerComponent values={values} errors={errors} showDebugger={true}/>*/}
+                            <FormDebuggerComponent values={values} errors={errors} showDebugger={true}/>
                             <CardComponent title={'Basic Details'}>
                                 <div className={'ts-row'}>
                                     <div className={'ts-col-md-6'}>

@@ -10,6 +10,7 @@ import MentionsComponent from "../../../../shared/components/mentions/MentionsCo
 import ChipComponent from "../../../../shared/components/chip/ChipComponent";
 import {CommonService} from "../../../../shared/services";
 import ToolTipComponent from "../../../../shared/components/tool-tip/ToolTipComponent";
+import FormControlLabelComponent from "../../../../shared/components/form-control-label/FormControlLabelComponent";
 
 interface AppointmentSettingsConfirmationComponentProps {
     appointmentSettingsConfirmationDetails: any;
@@ -59,7 +60,7 @@ const AppointmentSettingsConfirmationComponent = (props: AppointmentSettingsConf
                         <>
                             <div className="d-flex ts-justify-content-between">
                                 <QuestionComponent title={"Message (SMS)"}
-                                                   description={"Message template for sending appointment confirmations."}
+                                                   description={"Create an SMS message that a client will receive when an appointment is confirmed."}
                                 ></QuestionComponent>
                                 <div>
                                     <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>}
@@ -79,10 +80,58 @@ const AppointmentSettingsConfirmationComponent = (props: AppointmentSettingsConf
 
                     {messageMode === 'edit' &&
                         <>
-                            <div className="d-flex ts-justify-content-between">
-                                <QuestionComponent title={"Message (SMS)"}
-                                                   description={"Message template for sending appointment confirmations."}
-                                ></QuestionComponent>
+                            <div>
+                                {/*<QuestionComponent title={"Message (SMS)"}*/}
+                                {/*                   description={"Message template for sending appointment confirmations."}*/}
+                                {/*></QuestionComponent>*/}
+                                <div className={'d-flex'}>
+                                    <FormControlLabelComponent label={"Message (SMS)"} className={'message-heading'}/>
+                                    <div className="info-tool-tip-wrapper">
+                                        <ToolTipComponent
+                                            showArrow={true}
+                                            position={'top'}
+                                            backgroundColor={'#FFF5D3'}
+                                            tooltip={<div className="pdd-10">
+                                                <div>To create a custom template with pre-defined keywords and specific
+                                                    formatting
+                                                    rules, please follow the instructions below:
+                                                </div>
+                                                <div className="">
+                                                    <div className="tooltip-text-row-wrapper">
+                                                        <div className="tooltip-text-pointer">*</div>
+                                                        <div className="tooltip-text">Start by typing your message in
+                                                            the
+                                                            template
+                                                            box.
+                                                        </div>
+                                                    </div>
+
+                                                    <div className="tooltip-text-row-wrapper">
+                                                        <div className="tooltip-text-pointer">*</div>
+                                                        <div className="tooltip-text">To access the list of pre-defined
+                                                            keywords,
+                                                            type "@" in the text box. A
+                                                            dropdown
+                                                            list will appear with the available keywords. Select the
+                                                            appropriate
+                                                            keyword
+                                                            from the list by clicking on it or by using the arrow keys
+                                                            to
+                                                            navigate
+                                                            and
+                                                            pressing "Enter" to select it.
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>}
+                                        >
+
+                                            <ImageConfig.InfoIcon height={'20'} width={'20'}/>
+                                        </ToolTipComponent>
+                                    </div>
+                                </div>
+                                <div className={'message-description'}>Message template for sending appointment confirmations.</div>
                             </div>
                             <MentionsComponent
                                 data={mentionsList}
@@ -90,49 +139,6 @@ const AppointmentSettingsConfirmationComponent = (props: AppointmentSettingsConf
                                 onChange={(value) => setMessageValue(value)}
                                 placeholder={"Enter text here"}
                             />
-
-                            <div className="info-tool-tip-wrapper">
-                                <ToolTipComponent
-                                    showArrow={true}
-                                    position={'top'}
-                                    backgroundColor={'#FFF5D3'}
-                                    tooltip={<div className="pdd-10">
-                                        <div>To create a custom template with pre-defined keywords and specific
-                                            formatting
-                                            rules, please follow the instructions below:
-                                        </div>
-                                        <div className="">
-                                            <div className="tooltip-text-row-wrapper">
-                                                <div className="tooltip-text-pointer">*</div>
-                                                <div className="tooltip-text">Start by typing your message in the
-                                                    template
-                                                    box.
-                                                </div>
-                                            </div>
-
-                                            <div className="tooltip-text-row-wrapper">
-                                                <div className="tooltip-text-pointer">*</div>
-                                                <div className="tooltip-text">To access the list of pre-defined
-                                                    keywords,
-                                                    type "@" in the text box. A
-                                                    dropdown
-                                                    list will appear with the available keywords. Select the appropriate
-                                                    keyword
-                                                    from the list by clicking on it or by using the arrow keys to
-                                                    navigate
-                                                    and
-                                                    pressing "Enter" to select it.
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                    </div>}
-                                >
-
-                                    <ImageConfig.InfoIcon/>
-                                </ToolTipComponent>
-
-                            </div>
 
                             <div className="available-mentions-wrapper">
                                 <div className="available-mentions-title">Available Keywords</div>
@@ -176,7 +182,7 @@ const AppointmentSettingsConfirmationComponent = (props: AppointmentSettingsConf
 
                         <div className="d-flex ts-justify-content-between">
                             <QuestionComponent title={"Email"}
-                                               description={"Email template for sending appointment confirmations."}
+                                               description={"Create an Email message that a client will receive when an appointment is confirmed."}
                             ></QuestionComponent>
                             <div>
                                 <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>}
@@ -206,10 +212,58 @@ const AppointmentSettingsConfirmationComponent = (props: AppointmentSettingsConf
 
                     {emailMode === 'edit' &&
                         <>
-                            <div className="d-flex ts-justify-content-between">
-                                <QuestionComponent title={"Email"}
-                                                   description={"Email template for sending appointment confirmations."}
-                                ></QuestionComponent>
+                            {/*<div className="d-flex ts-justify-content-between">*/}
+                            {/*    <QuestionComponent title={"Email"}*/}
+                            {/*                       description={"Email template for sending appointment confirmations."}*/}
+                            {/*    ></QuestionComponent>*/}
+                            {/*</div>*/}
+                            <div>
+                                <div className={'d-flex'}>
+                                    <FormControlLabelComponent label={"Email"} className={'message-heading'}/>
+                                    <div className="info-tool-tip-wrapper">
+                                        <ToolTipComponent
+                                            showArrow={true}
+                                            position={'top'}
+                                            backgroundColor={'#FFF5D3'}
+                                            tooltip={<div className="pdd-10">
+                                                <div>To create a custom template with pre-defined keywords and specific
+                                                    formatting
+                                                    rules, please follow the instructions below:
+                                                </div>
+                                                <div className="">
+                                                    <div className="tooltip-text-row-wrapper">
+                                                        <div className="tooltip-text-pointer">*</div>
+                                                        <div className="tooltip-text">Start by typing your message in the
+                                                            template
+                                                            box.
+                                                        </div>
+                                                    </div>
+
+                                                    <div className="tooltip-text-row-wrapper">
+                                                        <div className="tooltip-text-pointer">*</div>
+                                                        <div className="tooltip-text">To access the list of pre-defined
+                                                            keywords,
+                                                            type "@" in the text box. A
+                                                            dropdown
+                                                            list will appear with the available keywords. Select the appropriate
+                                                            keyword
+                                                            from the list by clicking on it or by using the arrow keys to
+                                                            navigate
+                                                            and
+                                                            pressing "Enter" to select it.
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>}
+                                        >
+                                            <ImageConfig.InfoIcon height={'20'} width={'20'}/>
+
+                                        </ToolTipComponent>
+                                    </div>
+                                </div>
+                                <div className={'message-description mrg-bottom-5'}>Create an Email message that a client will receive when an appointment is confirmed.</div>
+
                             </div>
                             <div>
                                 <div className="mention-field-titles">Subject :</div>
@@ -230,48 +284,6 @@ const AppointmentSettingsConfirmationComponent = (props: AppointmentSettingsConf
                                     onChange={(value) => setEmailValue(value)}
                                     placeholder={"Enter text here"}
                                 />
-                            </div>
-                            <div className="info-tool-tip-wrapper">
-                                <ToolTipComponent
-                                    showArrow={true}
-                                    position={'top'}
-                                    backgroundColor={'#FFF5D3'}
-                                    tooltip={<div className="pdd-10">
-                                        <div>To create a custom template with pre-defined keywords and specific
-                                            formatting
-                                            rules, please follow the instructions below:
-                                        </div>
-                                        <div className="">
-                                            <div className="tooltip-text-row-wrapper">
-                                                <div className="tooltip-text-pointer">*</div>
-                                                <div className="tooltip-text">Start by typing your message in the
-                                                    template
-                                                    box.
-                                                </div>
-                                            </div>
-
-                                            <div className="tooltip-text-row-wrapper">
-                                                <div className="tooltip-text-pointer">*</div>
-                                                <div className="tooltip-text">To access the list of pre-defined
-                                                    keywords,
-                                                    type "@" in the text box. A
-                                                    dropdown
-                                                    list will appear with the available keywords. Select the appropriate
-                                                    keyword
-                                                    from the list by clicking on it or by using the arrow keys to
-                                                    navigate
-                                                    and
-                                                    pressing "Enter" to select it.
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                    </div>}
-                                >
-
-                                    <ImageConfig.InfoIcon/>
-                                </ToolTipComponent>
-
                             </div>
 
                             <div className="available-mentions-wrapper">

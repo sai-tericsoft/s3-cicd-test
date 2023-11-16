@@ -16,7 +16,7 @@ import DrawerComponent from "../../../../shared/components/drawer/DrawerComponen
 import AllMessageHistoryComponent from "../all-message-history/AllMessageHistoryComponent";
 
 interface DefaultMessageComponentProps {
-    defaultMessage?:any;
+    defaultMessage?: any;
 }
 
 const defaultMessageInitialValue: any = {
@@ -25,9 +25,9 @@ const defaultMessageInitialValue: any = {
 
 const DefaultMessageComponent = (props: DefaultMessageComponentProps) => {
 
-     const {defaultMessage} = props;
+    const {defaultMessage} = props;
     const [isExpanded, setIsExpanded] = useState<boolean>(false);
-    const [defaultMessageFormInitialValue,setDefaultMessageFormInitialValue] = useState<any>(_.cloneDeep(defaultMessageInitialValue));
+    const [defaultMessageFormInitialValue, setDefaultMessageFormInitialValue] = useState<any>(_.cloneDeep(defaultMessageInitialValue));
     const [isSaving, setIsSaving] = useState<boolean>(false);
     const [isHistoryDrawerOpen, setIsHistoryDrawerOpen] = useState<boolean>(false);
 
@@ -43,10 +43,11 @@ const DefaultMessageComponent = (props: DefaultMessageComponentProps) => {
         setIsExpanded(!isExpanded)
     }, [isExpanded]);
 
-    useEffect(()=>{
-        setDefaultMessageFormInitialValue({default_message:defaultMessage?.default_message
-    })
-    },[defaultMessage])
+    useEffect(() => {
+        setDefaultMessageFormInitialValue({
+            default_message: defaultMessage?.default_message
+        })
+    }, [defaultMessage])
 
     const onSubmit = useCallback((values: any, {setErrors, resetForm}: FormikHelpers<any>) => {
         setIsSaving(true);
@@ -61,6 +62,11 @@ const DefaultMessageComponent = (props: DefaultMessageComponentProps) => {
                 CommonService.handleErrors(setErrors, error);
                 setIsSaving(false);
             });
+    }, []);
+
+    const handleClose = useCallback((resetForm: any) => {
+        setIsExpanded(false);
+        resetForm();
     }, []);
 
     return (
@@ -108,9 +114,9 @@ const DefaultMessageComponent = (props: DefaultMessageComponentProps) => {
                                             </div>
                                             <div className="t-form-actions">
                                                 <ButtonComponent
-                                                    onClick={() => resetForm()}
+                                                    onClick={() => handleClose(resetForm)}
                                                     variant={'outlined'}
-                                                    className={isSaving? 'mrg-right-15':''}
+                                                    className={isSaving ? 'mrg-right-15' : ''}
                                                     id={"cancel_btn"}
                                                 >
                                                     Cancel
@@ -120,7 +126,7 @@ const DefaultMessageComponent = (props: DefaultMessageComponentProps) => {
                                                     className={'submit-cta'}
                                                     type={"submit"}
                                                     id={"save_btn"}
-                                                    disabled={values?.default_message === "" || CommonService.isEqual(values,defaultMessageInitialValue)}
+                                                    disabled={values?.default_message === "" || CommonService.isEqual(values, defaultMessageInitialValue)}
                                                 >
                                                     {isSaving ? "Saving" : "Save"}
                                                 </ButtonComponent>

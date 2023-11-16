@@ -138,7 +138,7 @@ const CouponEditScreen = (props: CouponEditScreenProps) => {
                 .then((response: any) => {
                     setIsEditCouponInProgress(false);
                     CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
-                    navigate(CommonService._routeConfig.DiscountList());
+                    navigate(CommonService._routeConfig.CouponViewDetails(couponId));
                 }).catch((error: any) => {
                 setIsEditCouponInProgress(false);
                 CommonService.handleErrors(setErrors, error, true);

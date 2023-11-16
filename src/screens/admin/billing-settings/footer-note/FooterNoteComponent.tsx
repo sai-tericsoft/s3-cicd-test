@@ -70,8 +70,8 @@ const FooterNoteComponent = (props: FooterNoteComponentProps) => {
         <div className={'footer-note-component'}>
             <div className={'footer-note-wrapper'}>
                 <AccordionComponent title={'Footer Note'} isExpand={isExpanded} onChange={handleChange}>
-                    <div className={'enter-message-text'}>Please enter a default note that will be saved and displayed
-                        in the footer of all invoices and receipts.
+                    <div className={'enter-message-text'}>Please enter a default message that will be displayed in the
+                        footer of all invoices and receipts.
                     </div>
                     <div>
                         <Formik initialValues={footerNoteInitialValue}
