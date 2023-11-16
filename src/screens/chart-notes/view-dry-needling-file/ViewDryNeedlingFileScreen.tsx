@@ -247,6 +247,7 @@ const ViewDryNeedlingFileScreen = (props: ViewDryNeedlingFileScreenProps) => {
                             onRemoveAccess={removeAccess}
                             showEdit={true}
                             onDryNeedingShare={handleDryNeedlingShare}
+                            noteTypeCategory={dryNeedlingFileDetails?.note_type_category}
                         />
 
                         <div className={'dry-needling-attachment'}>

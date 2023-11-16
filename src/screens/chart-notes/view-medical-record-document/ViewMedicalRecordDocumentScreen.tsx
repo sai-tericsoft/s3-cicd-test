@@ -264,6 +264,7 @@ const ViewMedicalRecordDocumentScreen = (props: ViewMedicalRecordDocumentScreenP
                             onEdit={openEditMedicalRecordDocumentDrawer}
                             onDelete={handleDocumentDelete}
                             onShare={handleShareDocument}
+                            noteTypeCategory={medicalRecordDocumentDetails?.note_type_category}
                         />
                         <div className={'medical-record-document-attachment'}>
                             {

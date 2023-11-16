@@ -340,8 +340,8 @@ const PrintSurgeryRecord = (medicalRecordId:string,surgeryRecordId:string) => {
     return ApiService[APIConfig.PRINT_SURGERY_RECORD.METHOD](APIConfig.PRINT_SURGERY_RECORD.URL(medicalRecordId,surgeryRecordId));
 }
 
-const PrintDocument = (medicalRecordId:string,documentId:string) => {
-    return ApiService[APIConfig.PRINT_DOCUMENT.METHOD](APIConfig.PRINT_DOCUMENT.URL(medicalRecordId,documentId));
+const PrintDocument = (medicalRecordId:string,documentId:string,payload:any) => {
+    return ApiService[APIConfig.PRINT_DOCUMENT.METHOD](APIConfig.PRINT_DOCUMENT.URL(medicalRecordId,documentId),payload);
 }
 
 const PrintExerciseLog = (medicalInterventionId:string) => {

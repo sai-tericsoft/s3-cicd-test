@@ -29,6 +29,7 @@ interface MedicalRecordAttachmentBasicDetailsCardComponentProps {
     isDocumentShared?: boolean;
     onRemoveAccess: Function;
     medicalRecordDocumentId?: string;
+    noteTypeCategory?: string;
 }
 
 const MedicalRecordAttachmentBasicDetailsCardComponent = (props: MedicalRecordAttachmentBasicDetailsCardComponentProps) => {
@@ -46,7 +47,8 @@ const MedicalRecordAttachmentBasicDetailsCardComponent = (props: MedicalRecordAt
         showEdit,
         isDocumentShared,
         onRemoveAccess,
-        medicalRecordDocumentId
+        medicalRecordDocumentId,
+        noteTypeCategory
     } = props;
 
     const [tempAttachmentDetails] = React.useState<any>(attachmentDetails);
@@ -82,8 +84,12 @@ const MedicalRecordAttachmentBasicDetailsCardComponent = (props: MedicalRecordAt
     }, [onRemoveAccess]);
 
     const handlePrint = useCallback(() => {
-        if (pageTitle === "View Document" && medicalRecordDocumentId) {
-            CommonService._chartNotes.PrintDocument(medicalRecordDetails?._id, medicalRecordDocumentId)
+
+        if (medicalRecordDocumentId) {
+            const payload = {
+                note_type_category:noteTypeCategory
+            }
+            CommonService._chartNotes.PrintDocument(medicalRecordDetails?._id, medicalRecordDocumentId, payload)
                 .then((res: any) => {
                     const attachment = {
                         type: 'application/pdf',
@@ -97,7 +103,7 @@ const MedicalRecordAttachmentBasicDetailsCardComponent = (props: MedicalRecordAt
                     console.log(err);
                 });
         }
-}, [medicalRecordDetails?._id, medicalRecordDocumentId,pageTitle]);
+}, [medicalRecordDetails?._id, medicalRecordDocumentId,pageTitle,noteTypeCategory]);
 
     return (
         <div className={"medical-record-attachment-basic-details-card-component"}>

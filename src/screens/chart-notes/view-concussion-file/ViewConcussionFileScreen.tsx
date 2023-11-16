@@ -250,6 +250,8 @@ const ViewConcussionFileScreen = (props: ViewConcussionFileScreenProps) => {
                             onConcussionFileShare={handleConcussionFileShare}
                             onRemoveAccess={removeAccess}
                             onDelete={handleConcussionDocumentDelete}
+                            medicalRecordDocumentId={concussionFileId}
+                            noteTypeCategory={concussionFileDetails?.note_type_category}
                         />
                         <div className={'concussion-attachment'}>
                             {
