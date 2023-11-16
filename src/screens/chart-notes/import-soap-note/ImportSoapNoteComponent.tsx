@@ -108,8 +108,8 @@ const ImportSoapNoteComponent = (props: ImportSoapNoteComponentProps) => {
 
     const handleImportSoapNote = useCallback((selectedIntervention: any) => {
         CommonService.onConfirm({
-            image: ImageConfig.Confirm,
-            // showLottie:true,
+            image: ImageConfig.PopupLottie,
+            showLottie:true,
             confirmationTitle: 'Import SOAP Note',
             confirmationSubTitle: 'Are you sure you want to import this SOAP Note?',
         }).then(() => {
@@ -134,7 +134,9 @@ const ImportSoapNoteComponent = (props: ImportSoapNoteComponentProps) => {
             <InputComponent value={CommonService.generateInterventionNameFromMedicalRecord(medicalRecordDetails)}
                             disabled={true} label={'Intervention Linked to'} fullWidth={true}/>
             <div className={'import-soap-note-table-wrapper'}>
-                <TableComponent data={interventionList} columns={medicalInterventionListColumns}
+                <TableComponent data={interventionList}
+                                noDataText={'Currently there are no prior notes to import.'}
+                                columns={medicalInterventionListColumns}
                                 loading={isInterventionListLoading}/>
             </div>
             <ButtonComponent fullWidth={true} className={'mrg-top-20'}
