@@ -13,7 +13,6 @@ import moment from "moment-timezone";
 import {ListItemButton} from "@mui/material";
 import MenuDropdownComponent from "../../../shared/components/menu-dropdown/MenuDropdownComponent";
 import LinkComponent from "../../../shared/components/link/LinkComponent";
-import commonService from "../../../shared/services/common.service";
 
 interface MedicalRecordAttachmentBasicDetailsCardComponentProps {
     attachmentType: "dryNeedlingFile" | "concussionFile" | "medicalRecordDocument";
@@ -66,19 +65,26 @@ const MedicalRecordAttachmentBasicDetailsCardComponent = (props: MedicalRecordAt
     }, [onEdit]);
 
     const handleRemoveAccess = useCallback((item: any) => {
-        commonService.openConfirmationDialog({
+        // commonService.openConfirmationDialog({
+        //     confirmationTitle: "REMOVE ACCESS",
+        //     confirmationSubTitle: "Are you sure you want to remove access for this shared document?",
+        //     image: `${ImageConfig.confirmImage}`,
+        //     yes: {
+        //         text: "Yes",
+        //         color: "primary"
+        //     },
+        //     no: {
+        //         text: "No",
+        //         color: "primary"
+        //     }
+        // })
+        CommonService.onConfirm({
+            image:ImageConfig.PopupLottie,
+            showLottie:true,
             confirmationTitle: "REMOVE ACCESS",
             confirmationSubTitle: "Are you sure you want to remove access for this shared document?",
-            image: `${ImageConfig.confirmImage}`,
-            yes: {
-                text: "Yes",
-                color: "primary"
-            },
-            no: {
-                text: "No",
-                color: "primary"
-            }
-        }).then((res: any) => {
+        })
+        .then((res: any) => {
             onRemoveAccess(item);
         })
     }, [onRemoveAccess]);
@@ -103,7 +109,7 @@ const MedicalRecordAttachmentBasicDetailsCardComponent = (props: MedicalRecordAt
                     console.log(err);
                 });
         }
-}, [medicalRecordDetails?._id, medicalRecordDocumentId,pageTitle,noteTypeCategory]);
+}, [medicalRecordDetails?._id, medicalRecordDocumentId,noteTypeCategory]);
 
     return (
         <div className={"medical-record-attachment-basic-details-card-component"}>

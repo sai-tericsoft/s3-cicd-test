@@ -77,7 +77,7 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
     const navigate = useNavigate();
     const [searchParams, setSearchParams] = useSearchParams();
     const referrer: any = searchParams.get("referrer");
-    const mode: any = searchParams.get("mode");
+    // const mode: any = searchParams.get("mode");
 
     const {
         medicalInterventionDetails,
@@ -463,7 +463,7 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
             {
                 isMedicalInterventionDetailsLoaded && <>
                     <PageHeaderComponent
-                        title={medicalInterventionDetails?.is_discharge ? "Add Discharge Summary" : (mode === 'add' ? 'Add' : 'Update') + " Treatment Intervention"}
+                        title={medicalInterventionDetails?.is_discharge ? "Add Discharge Summary" :"Add Treatment Intervention"}
                         actions={
                             <div className="last-updated-status">
                                 <div className="last-updated-status-text">Last updated on:&nbsp;</div>

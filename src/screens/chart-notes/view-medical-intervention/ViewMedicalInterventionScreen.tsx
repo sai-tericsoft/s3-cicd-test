@@ -342,15 +342,6 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                     <MedicalInterventionDetailsCardComponent medicalInterventionDetails={medicalInterventionDetails}
                                                              mode={"view"}
                                                              showAction={true}/>
-                    <div className={'d-flex ts-justify-content-sm-end'}>
-
-                        {/*<FilesUneditableMiddlewareComponent*/}
-                        {/*    timeStamp={medicalInterventionDetails?.completed_date}>*/}
-                            <ButtonComponent onClick={handleEditSoapNote} prefixIcon={<ImageConfig.EditIcon/>}>Edit SOAP
-                                Note</ButtonComponent>
-                        {/*</FilesUneditableMiddlewareComponent>*/}
-
-                    </div>
                     <Formik
                         validationSchema={MedicalInterventionAddFormValidationSchema}
                         initialValues={addMedicalInterventionFormInitialValues}
@@ -377,20 +368,33 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                         className={"display-flex align-items-center justify-content-space-between mrg-bottom-20"}>
                                         <FormControlLabelComponent label={"SOAP Note"} size={'lg'}
                                                                    className={"mrg-0 font-size-20"}/>
-                                        {
-                                            (medicalInterventionId && medicalRecordId && medicalInterventionDetails?.status === 'draft') &&
-                                            <LinkComponent
-                                                route={CommonService._routeConfig.MedicalInterventionExerciseLogUpdate(medicalRecordId, medicalInterventionId, (medicalInterventionDetails?.is_exercise_log_added ? "soapNoteEdit" : "add"))}>
-                                                <ButtonComponent
-                                                    prefixIcon={medicalInterventionDetails?.is_exercise_log_added ?
-                                                        <ImageConfig.EditIcon/> : <ImageConfig.AddIcon/>}
-                                                >
-                                                    {
-                                                        (medicalInterventionDetails?.is_exercise_log_added ? "Edit" : "Add") + " Exercise Log"
-                                                    }
-                                                </ButtonComponent>
-                                            </LinkComponent>
-                                        }
+
+                                        <div className={'d-flex'}>
+
+                                            {/*<FilesUneditableMiddlewareComponent*/}
+                                            {/*    timeStamp={medicalInterventionDetails?.completed_date}>*/}
+                                            <ButtonComponent onClick={handleEditSoapNote}
+                                                             className={'mrg-right-10'}
+                                                             prefixIcon={<ImageConfig.EditIcon/>}>Edit SOAP
+                                                Note</ButtonComponent>
+                                            {/*</FilesUneditableMiddlewareComponent>*/}
+
+
+                                            {
+                                                (medicalInterventionId && medicalRecordId && medicalInterventionDetails?.status === 'draft') &&
+                                                <LinkComponent
+                                                    route={CommonService._routeConfig.MedicalInterventionExerciseLogUpdate(medicalRecordId, medicalInterventionId, (medicalInterventionDetails?.is_exercise_log_added ? "soapNoteEdit" : "add"))}>
+                                                    <ButtonComponent
+                                                        prefixIcon={medicalInterventionDetails?.is_exercise_log_added ?
+                                                            <ImageConfig.EditIcon/> : <ImageConfig.AddIcon/>}
+                                                    >
+                                                        {
+                                                            (medicalInterventionDetails?.is_exercise_log_added ? "Edit" : "Add") + " Exercise Log"
+                                                        }
+                                                    </ButtonComponent>
+                                                </LinkComponent>
+                                            }
+                                        </div>
                                     </div>
                                     <CardComponent title={'Subjective (S)'}
                                                    actions={

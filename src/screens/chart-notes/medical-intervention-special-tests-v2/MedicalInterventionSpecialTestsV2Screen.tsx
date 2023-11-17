@@ -505,8 +505,8 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
     const handleBodyPartDelete = useCallback((bodyPartId: string) => {
         if (medicalInterventionId) {
             CommonService.onConfirm({
-                image: ImageConfig.RemoveBodyPartConfirmationIcon,
-                // showLottie: true,
+                image: ImageConfig.ConfirmationLottie,
+                showLottie: true,
                 confirmationTitle: "REMOVE BODY PART",
                 confirmationSubTitle: "Are you sure you want to remove this body part?",
             }).then(() => {
@@ -711,7 +711,7 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
                                                                                 data={Object.keys(bodyPart?.special_test_config) || []}
                                                                                 bordered={true}
                                                                                 columns={bodyPart?.tableConfig}
-                                                                                noDataText={"No specials test have been added"}
+                                                                                noDataText={"No special tests have been added."}
                                                                             />
                                                                         </div>
                                                                     </div>

@@ -24,7 +24,7 @@ const MedicalRecordAttachmentListComponent = (props: ClientMedicalAttachmentsCom
     });
     const attachmentRecord: ITableColumn[] = [
         {
-            title: 'Date of Attachment',
+            title: 'Date of Document',
             key: 'created_at',
             dataIndex: 'date_of_attachment',
             width: 150,

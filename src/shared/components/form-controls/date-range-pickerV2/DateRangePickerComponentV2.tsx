@@ -7,7 +7,6 @@ import format from 'date-fns/format'
 import 'react-date-range/dist/styles.css'
 import 'react-date-range/dist/theme/default.css'
 import TextField from "@mui/material/TextField";
-import {CloseOutlined} from "@mui/icons-material";
 import IconButtonComponent from "../../icon-button/IconButtonComponent";
 import {ImageConfig} from "../../../../constants";
 
@@ -132,7 +131,7 @@ const DateRangePickerComponentV2 = (props: DateRangePickerComponentProps) => {
                                         className="calendarIcon"
                                         onClick={handleClearDate}
                                     >
-                                        <CloseOutlined/>
+                                        <ImageConfig.CloseIcon height={'18'} width={'18'}/>
                                     </IconButtonComponent> :
                                         <ImageConfig.EventIcon height={'20'} width={'20'}/>
                                 }
