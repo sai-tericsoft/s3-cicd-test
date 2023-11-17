@@ -502,8 +502,7 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
                                         }
                                         <div className={"sign-note-wrapper"}>
                                             <div className={'sign-note'}>
-                                                Note: By clicking the "Sign" button, your report will be saved along
-                                                with the added details.
+                                                Note: By clicking the "Sign" button, your report will be saved.
                                             </div>
                                         </div>
                                         <div className={'ts-row'}>

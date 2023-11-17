@@ -42,7 +42,7 @@ const viewExerciseRecordColumn: any = [
         align: 'center',
         width: 20,
         render: (item: any) => {
-            return <>{item?.bilateral ? "Y" : "-"}</>
+            return <>{item?.bilateral ? "Yes" : "-"}</>
         }
     },
     {

@@ -72,7 +72,7 @@ const ViewPriorNoteComponent = (props: ViewPriorNoteComponentProps) => {
                             fullWidth={true}
                             disabled={true}/>
             <TableComponent data={medicalRecordSoapNoteList}
-                            noDataText={'Currently there are no prior notes to view'}
+                            noDataText={'Currently there are no prior notes to view.'}
                             loading={isMedicalInterventionDetailsLoading}
                             columns={ViewPriorNoteColumns}
             />
