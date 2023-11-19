@@ -81,10 +81,16 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
     const [currentStep, setCurrentStep] = useState<"selectAddress" | "editAddress" | "addAddress">("selectAddress");
     const [getBillingList, setGetBillingList] = useState<any>([]);
     const [tempSelectedAddress, setTempSelectedAddress] = useState<any>(null);
-
-
-
     const navigate = useNavigate();
+
+    useEffect(() => {
+        clientId && dispatch(setCurrentNavParams("Client Details", null, () => {
+                navigate(CommonService._routeConfig.ClientList());
+        }));
+    }, [clientId, dispatch,navigate]);
+
+
+
 
     const [isPaymentsGettingConsolidated, setIsPaymentsGettingConsolidated] = useState<boolean>(false);
 
