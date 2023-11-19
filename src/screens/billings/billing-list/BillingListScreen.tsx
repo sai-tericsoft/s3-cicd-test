@@ -104,7 +104,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             const tempSelectedPayments = selectedPayments.filter((item: any) => item._id !== payment._id);
             setSelectedPayments(tempSelectedPayments);
 
-            if (tempSelectedPayments.length === 0) {
+            if (tempSelectedPayments.length === 0 && !clientId) {
                 setClientListFilterState((oldstate: any) => ({
                     ...oldstate,
                     linked_invoices: false,
@@ -112,7 +112,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                 }));
             }
         }
-    }, [selectedPayments]);
+    }, [selectedPayments,clientId]);
 
 
     useEffect(() => {
