@@ -124,7 +124,11 @@ const ClientAppointmentDetailsComponent = (props: ClientAppointmentDetailsCompon
 
                                 <div className="ts-col-md-6 ts-col-lg-3">
                                     <DataLabelValueComponent label={"Appointment Booked By"}>
-                                        {appointmentDetails?.service_details?.name}
+                                        {appointmentDetails?.client_details?.is_alias_name_set ?
+                                            <span className={'alias-name'}>
+                                                {CommonService.extractName(appointmentDetails?.client_details)}
+                                            </span> : CommonService.extractName(appointmentDetails?.client_details)}
+
                                     </DataLabelValueComponent>
                                 </div>
 
