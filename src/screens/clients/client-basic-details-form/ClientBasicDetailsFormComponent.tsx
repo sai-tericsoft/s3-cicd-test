@@ -5,7 +5,7 @@ import _ from "lodash";
 import {Field, FieldArray, FieldProps, Form, Formik, FormikHelpers} from "formik";
 import {CommonService} from "../../../shared/services";
 import {IAPIResponseType} from "../../../shared/models/api.model";
-import {ImageConfig, Patterns} from "../../../constants";
+import {ImageConfig} from "../../../constants";
 import FormikInputComponent from "../../../shared/components/form-controls/formik-input/FormikInputComponent";
 import CardComponent from "../../../shared/components/card/CardComponent";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
@@ -30,6 +30,7 @@ import FormikPhoneInputComponent
 import LinkComponent from "../../../shared/components/link/LinkComponent";
 import {AddCircleIcon} from "../../../constants/ImageConfig";
 import FormikCheckBoxComponent from "../../../shared/components/form-controls/formik-check-box/FormikCheckBoxComponent";
+import FormikSsnInputComponent from "../../../shared/components/form-controls/formik-ssn-input/FormikSsnInputComponent";
 
 interface ClientBasicDetailsFormComponentProps {
     mode: "add" | "edit";
@@ -559,12 +560,10 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                             <Field name={'ssn'}>
                                                 {
                                                     (field: FieldProps) => (
-                                                        <FormikInputComponent
+                                                        <FormikSsnInputComponent
                                                             label={'SSN'}
                                                             placeholder={'Enter SSN'}
                                                             // required={true}
-                                                            type={'text'}
-                                                            validationPattern={Patterns.NINE_DIGITS_ONLY}
                                                             formikField={field}
                                                             fullWidth={true}
                                                         />

@@ -270,6 +270,21 @@ export interface IPhoneInputProps {
     value?: any;
 }
 
+export interface ISSNInputProps {
+    className?: string;
+    disabled?: boolean;
+    fullWidth?: boolean;
+    id?: string;
+    inputProps?: InputHTMLAttributes<HTMLInputElement>;
+    label?: string;
+    name?: string;
+    onChange?: (value: any) => void;
+    placeholder?: string;
+    readOnly?: boolean;
+    required?: boolean;
+    value?: any;
+}
+
 export interface ITimePickerProps {
     autoFocus?: boolean;
     className?: string;

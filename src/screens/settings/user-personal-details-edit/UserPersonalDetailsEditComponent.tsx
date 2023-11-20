@@ -6,14 +6,12 @@ import FormikDatePickerComponent
     from "../../../shared/components/form-controls/formik-date-picker/FormikDatePickerComponent";
 import {CommonService} from "../../../shared/services";
 import FormikSelectComponent from "../../../shared/components/form-controls/formik-select/FormikSelectComponent";
-import {Patterns} from "../../../constants";
 import React, {useCallback, useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
 import FormikAutoCompleteComponent
     from "../../../shared/components/form-controls/formik-auto-complete/FormikAutoCompleteComponent";
 import * as Yup from "yup";
-// import FormDebuggerComponent from "../../../shared/components/form-debugger/FormDebuggerComponent";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import _ from "lodash";
 import {IAPIResponseType} from "../../../shared/models/api.model";
@@ -23,6 +21,7 @@ import ErrorComponent from "../../../shared/components/error/ErrorComponent";
 import SignaturePadComponent from "../../../shared/components/signature-pad/SignaturePadComponent";
 import ESignApprovalComponent from "../../../shared/components/e-sign-approval/ESignApprovalComponent";
 import LinkComponent from "../../../shared/components/link/LinkComponent";
+import FormikSsnInputComponent from "../../../shared/components/form-controls/formik-ssn-input/FormikSsnInputComponent";
 
 interface UserPersonalDetailsEditComponentProps {
     handleNext: () => void
@@ -257,11 +256,9 @@ const UserPersonalDetailsEditComponent = (props: UserPersonalDetailsEditComponen
                                         <Field name={'ssn'}>
                                             {
                                                 (field: FieldProps) => (
-                                                    <FormikInputComponent
+                                                    <FormikSsnInputComponent
                                                         label={'SSN'}
                                                         placeholder={'Enter SSN'}
-                                                        type={'text'}
-                                                        validationPattern={Patterns.NINE_DIGITS_ONLY}
                                                         formikField={field}
                                                         fullWidth={true}
                                                     />
