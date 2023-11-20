@@ -122,7 +122,7 @@ const ClientBasicDetailsComponent = (props: ClientBasicDetailsComponentProps) =>
                                 <DataLabelValueComponent
                                     label={clientBasicDetails?.ssn ? `SSN ${isSSNMasked ? '(Click to view)' : ''}` : 'SSN'}>
                                     {clientBasicDetails?.ssn ?
-                                        <MaskTextComponent value={clientBasicDetails?.ssn}
+                                        <MaskTextComponent value={CommonService.formatSSNNumber(clientBasicDetails?.ssn)}
                                                            onToggle={setIsSSNMasked}/> : 'N/A'}
                                 </DataLabelValueComponent>
                             </div>

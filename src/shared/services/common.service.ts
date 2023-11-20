@@ -512,6 +512,17 @@ const formatPhoneNumber = (phone: string) => {
     return phone
 }
 
+const formatSSNNumber = (ssn: string) => {
+    if (typeof ssn !== 'string') {
+        return '';
+    }
+    const x = ssn?.replace(/\D/g, '').match(/(\d{0,3})(\d{0,2})(\d{0,4})/);
+    if (x) {
+        ssn = !x[2] ? x[1] : x[1] + '-' + x[2] + (x[3] ? '-' + x[3] : '');
+    }
+    return ssn
+}
+
 const validateDecimal = (input: any) => {
     const regex = /^\d*\.?\d{0,2}$/; // Regular expression to allow up to two decimal places
     const inputValue = input.value;
@@ -846,6 +857,7 @@ const CommonService = {
     generateDisabledSlots,
     capitalizeFirstLetterAndRemoveUnderScore,
     generateUseCaseFromCaseDetails3,
+    formatSSNNumber,
     // createValidationsObject,
     // createYupSchema,
 
