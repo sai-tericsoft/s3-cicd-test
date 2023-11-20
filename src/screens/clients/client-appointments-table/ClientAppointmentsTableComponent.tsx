@@ -49,6 +49,8 @@ const ClientAppointmentsTableComponent = (props: ClientAppointmentsTableComponen
             render: (item: any) => {
                 if (item?._id) {
                     return <>
+                        {
+                            item?.medical_record_id ?<>
                         {CommonService.generateUseCaseFromCaseDetails(item?.case_details).length > 30 ?
                             <ToolTipComponent
                                 tooltip={item?.case_details && CommonService.generateUseCaseFromCaseDetails(item?.case_details)}
@@ -61,6 +63,8 @@ const ClientAppointmentsTableComponent = (props: ClientAppointmentsTableComponen
                                 </div>
                             </ToolTipComponent> : <> {CommonService.generateUseCaseFromCaseDetails(item?.case_details)}</>
                         }
+                            </>:
+                                <>N/A</>}
                     </>
                 }
             }

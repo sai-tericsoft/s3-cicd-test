@@ -100,10 +100,8 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
         if (isChecked) {
             setSelectedPayments([...selectedPayments, payment]);
         } else {
-
             const tempSelectedPayments = selectedPayments.filter((item: any) => item._id !== payment._id);
             setSelectedPayments(tempSelectedPayments);
-
             if (tempSelectedPayments.length === 0 && !clientId) {
                 setClientListFilterState((oldstate: any) => ({
                     ...oldstate,
