@@ -91,16 +91,15 @@ const ClientMusculoskeletalHistoryFormComponent = (props: ClientMusculoskeletalF
                             validationSchema={ClientMusculoskeletalHistoryFormValidationSchema}
                             initialValues={clientMusculoskeletalHistoryFormInitialValues}
                             onSubmit={onSubmit}
-                            validateOnChange={false}
-                            validateOnBlur={true}
                             enableReinitialize={true}
+                            validateOnChange={true}
+                            validateOnBlur={true}
                             validateOnMount={true}>
                             {({values, setFieldValue, isValid, validateForm}) => {
                                 // eslint-disable-next-line react-hooks/rules-of-hooks
-                                useEffect(() => {
-                                    validateForm();
-                                }, [validateForm, values]);
-                                console.log('values',values);
+                                // useEffect(() => {
+                                //     validateForm();
+                                // }, [validateForm, values]);
                                 return (
                                     <Form noValidate={true} className={"t-form"}>
                                         {
@@ -135,7 +134,7 @@ const ClientMusculoskeletalHistoryFormComponent = (props: ClientMusculoskeletalF
                                                         </div>
                                                         <div className={"ts-col-md-9"}>
                                                             {
-                                                                values?.musculoskeletal_history[_id]?.value  &&
+                                                                values?.musculoskeletal_history && values?.musculoskeletal_history[_id]?.value  &&
                                                                 <Field name={`musculoskeletal_history.${_id}.text`}>
                                                                     {
                                                                         (field: FieldProps) => (

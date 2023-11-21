@@ -105,7 +105,7 @@ const ClientBasicDetailsFormValidationSchema = Yup.object({
                 Yup.object().shape({
                     phone: Yup.string()
                         .test('is-ten-digits', 'Secondary Phone number must contain exactly 10 digits', (value: any) => {// Remove non-digits
-                            return value.length === 10;
+                            return value?.length === 10;
                         }).nullable(),
                 })
             ),

@@ -1,6 +1,6 @@
 import "./TextAreaComponent.scss";
 import { ITextAreaProps } from "../../../models/form-controls.model";
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useRef } from "react";
 import { FormControl, InputAdornment, TextField } from "@mui/material";
 
 interface TextAreaComponentProps extends ITextAreaProps {}
@@ -40,16 +40,16 @@ const TextAreaComponent = (props: TextAreaComponentProps) => {
         [onChange]
     );
 
-    useEffect(() => {
-        adjustTextareaHeight();
-    }, [value]);
+    // useEffect(() => {
+    //     adjustTextareaHeight();
+    // }, [value]);
 
-    const adjustTextareaHeight = () => {
-        if (textareaRef.current) {
-            textareaRef.current.style.height = "auto";
-            textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
-        }
-    };
+    // const adjustTextareaHeight = () => {
+    //     if (textareaRef.current) {
+    //         textareaRef.current.style.height = "auto";
+    //         textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
+    //     }
+    // };
 
     return (
         <FormControl
