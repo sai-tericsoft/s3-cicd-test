@@ -100,7 +100,7 @@ const MedicalInterventionExerciseLogViewScreen = (props: MedicalInterventionExer
             title: 'RESISTANCE',
             key: 'resistance',
             dataIndex: 'resistance',
-            width: 100,
+            width: 130,
             align: 'center',
             render: (item: any) => {
                 return <div>{item?.resistance || '-'}</div>

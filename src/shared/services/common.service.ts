@@ -648,6 +648,7 @@ const getHoursAndMinutesFromMinutes = (minutes: number) => {
     return moment().startOf('day').add(minutes, 'minutes').format('hh:mm A');
 }
 
+
 const areArraysEqual = (arr1: any[], arr2: any[]) => {
     // Check if arrays have the same length
     if (arr1.length !== arr2.length) {

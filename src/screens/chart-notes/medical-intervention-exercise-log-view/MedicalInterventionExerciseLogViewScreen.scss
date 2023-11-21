@@ -1,6 +1,12 @@
 .medical-intervention-exercise-log-view-screen {
 .medical-intervention-exercise-log-view-table-container{
   .t-table-wrapper {
+    .t-cell-id{
+      padding-left: 24px!important;
+    }
+    .t-cell-resistance{
+      padding-right: 24px!important;
+    }
     .t-table {
       min-height: max-content !important;
     }

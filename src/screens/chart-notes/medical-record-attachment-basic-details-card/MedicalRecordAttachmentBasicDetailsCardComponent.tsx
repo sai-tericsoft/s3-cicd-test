@@ -110,6 +110,8 @@ const MedicalRecordAttachmentBasicDetailsCardComponent = (props: MedicalRecordAt
                 });
         }
 }, [medicalRecordDetails?._id, medicalRecordDocumentId,noteTypeCategory]);
+    
+    console.log('tempAttachmentDetails',tempAttachmentDetails);
 
     return (
         <div className={"medical-record-attachment-basic-details-card-component"}>
@@ -125,13 +127,13 @@ const MedicalRecordAttachmentBasicDetailsCardComponent = (props: MedicalRecordAt
                 isShared &&
                 <div className={"medical-record-attachment-remove-access-wrapper"}>
                     <div className={"medical-record-attachment-data-wrapper"}>
-                        This file was made available to the client via sharing
-                        on <b>{tempAttachmentDetails?.shared_at ? moment(tempAttachmentDetails.shared_at).tz(moment.tz.guess()).format('DD-MMM-YYYY') : 'N/A'}</b>.
+                        This file was shared to the client on <b>{tempAttachmentDetails?.shared_at ? moment(tempAttachmentDetails.shared_at).tz(moment.tz.guess()).format('DD-MMM-YYYY') : 'N/A'}</b>.
                     </div>
                     <LinkComponent
                         onClick={() => {
                             handleRemoveAccess(tempAttachmentDetails);
                         }}
+
                     >
                         Remove Access
                     </LinkComponent>

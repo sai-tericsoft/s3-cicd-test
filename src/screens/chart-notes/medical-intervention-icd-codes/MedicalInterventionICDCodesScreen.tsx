@@ -155,7 +155,7 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
         <div className={'medical-intervention-icd-codes-screen'}>
             <PageHeaderComponent title={'Add ICD Code'}/>
             {
-                isMedicalInterventionDetailsLoading && <LoaderComponent/>
+                isMedicalInterventionDetailsLoading && <LoaderComponent />
             }
             {
                 isMedicalInterventionDetailsLoadingFailed && <StatusCardComponent title={'Failed to load data'}/>
@@ -192,7 +192,7 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
                 <div className={'icd-codes-sub-title'}>
                     Selected ICD Code(s)
                 </div>
-                <div className="icd-screen-actions-wrapper">
+                <div className={isMedicalInterventionDetailsLoading ? "icd-screen-actions-wrapper mrg-top-15" :"icd-screen-actions-wrapper"}>
                     <ButtonComponent
                         className={'white-space-nowrap'}
                         type={"button"}

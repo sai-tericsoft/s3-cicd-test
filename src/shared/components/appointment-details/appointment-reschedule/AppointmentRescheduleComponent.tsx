@@ -554,8 +554,8 @@ const AppointmentRescheduleComponent = (props: AppointmentRescheduleComponentPro
                         <ImageConfig.VerifiedCheck width={24}/>
                     </div>
                     <div className="booking-confirmation-status-text">
-                        Do you want to Reschedule the appointment
-                        with <b>{reschedule.provider?.provider_name}</b> on <b>{CommonService.convertDateFormat(reschedule.date)}</b> at&nbsp;
+                        Are you sure with rescheduling the appointment
+                        with <b>{reschedule.provider?.first_name}&nbsp;{reschedule.provider?.last_name}</b> on <b>{CommonService.convertDateFormat2(reschedule.date)}</b> at&nbsp;
                         <b>{CommonService.getHoursAndMinutesFromMinutes(reschedule.time.start_min)}</b>?
                     </div>
                 </div>

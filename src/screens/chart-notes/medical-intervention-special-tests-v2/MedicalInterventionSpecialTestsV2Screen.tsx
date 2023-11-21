@@ -693,7 +693,7 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
                                                                         <ButtonComponent
                                                                             size={"small"}
                                                                             color={"error"}
-                                                                            variant={"outlined"}
+                                                                            variant={'outlined'}
                                                                             prefixIcon={
                                                                                 <ImageConfig.DeleteIcon/>}
                                                                             onClick={() => {

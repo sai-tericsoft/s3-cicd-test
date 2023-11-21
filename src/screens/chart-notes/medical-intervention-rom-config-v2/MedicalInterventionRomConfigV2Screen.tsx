@@ -23,7 +23,6 @@ import ModalComponent from "../../../shared/components/modal/ModalComponent";
 import FormikTextAreaComponent from "../../../shared/components/form-controls/formik-text-area/FormikTextAreaComponent";
 import CheckBoxComponent from "../../../shared/components/form-controls/check-box/CheckBoxComponent";
 import {setCurrentNavParams} from "../../../store/actions/navigation.action";
-import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 
 interface MedicalInterventionRomConfigV2ScreenProps {
 
@@ -38,7 +37,6 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
     const dispatch = useDispatch();
     const {
         medicalInterventionDetails,
-        isMedicalInterventionDetailsLoading,
         isMedicalInterventionDetailsLoaded,
     } = useSelector((state: IRootReducerState) => state.chartNotes);
     const {bodyPartList} = useSelector((state: IRootReducerState) => state.staticData);
@@ -544,11 +542,11 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
             <PageHeaderComponent title={'Range of Motion and Strength'}/>
             <MedicalRecordBasicDetailsCardComponent onEditCompleteAction={onEditSuccess}/>
             <>
-                {
-                    (isMedicalInterventionDetailsLoading) && <>
-                        <LoaderComponent/>
-                    </>
-                }
+                {/*{*/}
+                {/*    (isMedicalInterventionDetailsLoading) && <>*/}
+                {/*        <LoaderComponent/>*/}
+                {/*    </>*/}
+                {/*}*/}
                 {
                     (isMedicalInterventionDetailsLoaded && medicalInterventionId) && <>
                         {
