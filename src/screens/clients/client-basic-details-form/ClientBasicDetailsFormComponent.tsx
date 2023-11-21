@@ -562,7 +562,6 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                     (field: FieldProps) => (
                                                         <FormikSsnInputComponent
                                                             label={'SSN'}
-                                                            placeholder={'Enter SSN'}
                                                             // required={true}
                                                             formikField={field}
                                                             fullWidth={true}

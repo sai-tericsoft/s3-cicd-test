@@ -258,7 +258,6 @@ const UserPersonalDetailsEditComponent = (props: UserPersonalDetailsEditComponen
                                                 (field: FieldProps) => (
                                                     <FormikSsnInputComponent
                                                         label={'SSN'}
-                                                        placeholder={'Enter SSN'}
                                                         formikField={field}
                                                         fullWidth={true}
                                                     />
