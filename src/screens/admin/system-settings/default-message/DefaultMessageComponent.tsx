@@ -56,7 +56,7 @@ const DefaultMessageComponent = (props: DefaultMessageComponentProps) => {
                 CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                 setIsSaving(false);
                 setIsExpanded(false);
-                resetForm();
+                // resetForm();
             })
             .catch((error: any) => {
                 CommonService.handleErrors(setErrors, error);
