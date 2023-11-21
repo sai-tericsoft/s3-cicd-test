@@ -37,8 +37,12 @@ const BookAppointmentComponent = (props: BookAppointmentComponentProps) => {
         //     setClientList([]);
         //     return;
         // }
+        const payload: any = {
+            is_active: true,
+            search: search
+        };
         setIsClientListLoading(true);
-        CommonService._client.GetClientList({search})
+        CommonService._client.GetClientList(payload)
             .then((response: IAPIResponseType<any>) => {
                 setClientList(response.data.docs || []);
             })
