@@ -87,11 +87,9 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
 
     useEffect(() => {
         clientId && dispatch(setCurrentNavParams("Client Details", null, () => {
-                navigate(CommonService._routeConfig.ClientList());
+            navigate(CommonService._routeConfig.ClientList());
         }));
-    }, [clientId, dispatch,navigate]);
-
-
+    }, [clientId, dispatch, navigate]);
 
 
     const [isPaymentsGettingConsolidated, setIsPaymentsGettingConsolidated] = useState<boolean>(false);
@@ -112,13 +110,15 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                 }));
             }
         }
-    }, [selectedPayments,clientId]);
+    }, [selectedPayments, clientId]);
 
 
     useEffect(() => {
-        setClientListFilterState((oldstate: any) => {
-            return {...oldstate, client_id: clientId}
-        })
+        if (clientId) {
+            setClientListFilterState((oldstate: any) => {
+                return {...oldstate, client_id: clientId}
+            })
+        }
     }, [clientId])
 
     const openMarkAsPaidModal = useCallback(() => {
@@ -989,7 +989,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
     const closeBillingAddressDrawer = useCallback(() => {
         setIsClientBillingAddressDrawerOpened(false);
         getClientBillingAddressList();
-    },[getClientBillingAddressList]);
+    }, [getClientBillingAddressList]);
 
     const handleSort = useCallback((key: string, order: string) => {
         setClientListFilterState((oldState: any) => {
@@ -1414,7 +1414,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                                                 <ListItemButton onClick={() => handleEdit(item)}>
                                                     Edit
                                                 </ListItemButton>,
-                                                <ListItemButton onClick={()=>handleDeleteBillingAddress(item)}>
+                                                <ListItemButton onClick={() => handleDeleteBillingAddress(item)}>
                                                     Delete
                                                 </ListItemButton>,
                                                 <ListItemButton onClick={() => onBillingAddressFormSubmit(item?._id)}>
@@ -1437,11 +1437,12 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
 
                     </>
                 }
-                {(currentStep === "editAddress" && clientId) && <EditBillingAddressComponent billing_address={tempSelectedAddress}
-                    clientId={clientId}
-                    onCancel={BillingAddressStep}
-                    afterSave={getClientBillingAddressList}
-                    onSave={handleEditBillingAddress}/>
+                {(currentStep === "editAddress" && clientId) &&
+                    <EditBillingAddressComponent billing_address={tempSelectedAddress}
+                                                 clientId={clientId}
+                                                 onCancel={BillingAddressStep}
+                                                 afterSave={getClientBillingAddressList}
+                                                 onSave={handleEditBillingAddress}/>
                 }
 
 
