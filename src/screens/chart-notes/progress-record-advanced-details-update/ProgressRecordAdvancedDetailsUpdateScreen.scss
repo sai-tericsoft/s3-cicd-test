@@ -3,15 +3,18 @@
     display: flex;
     justify-content: flex-start;
     align-items: center;
+
     .progress_stats_overview_checkbox_wrapper {
       flex: 1;
       justify-content: flex-start;
       align-items: flex-start;
+
       &:first-child {
         .check-box-component {
-            padding-left: 10px;
-          }
+          padding-left: 10px;
+        }
       }
+
       .check-box-component {
         //&:first-child {
         //  padding-left: 10px;
@@ -73,11 +76,14 @@
         }
       }
     }
-    .esign-pad{
+
+    .esign-pad {
       display: flex;
-      flex-direction: row-reverse;
-      //min-width: 340px !important;
-      margin-left: 85px;
+      justify-content: flex-end;
+      .esign{
+       //width:380px;
+        margin-right: 20px;
+      }
     }
 
     .progress-stats-comment {

@@ -107,7 +107,7 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
                                         <CheckBoxComponent
                                             label={option}
                                             value={option}
-                                            checked={field.form.values.progress_stats[`${item?._id}`]?.result === option}
+                                            checked={field.form.values.progress_stats && field?.form?.values?.progress_stats[`${item?._id}`]?.result === option}
                                             key={index}
                                             onChange={(isChecked: boolean) => {
                                                 if (isChecked) {
@@ -378,15 +378,7 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
                         innerRef={formRef}
                 >
                     {(formik,) => {
-                        const {values, setFieldValue,} = formik
-                        // eslint-disable-next-line react-hooks/rules-of-hooks
-                        useEffect(() => {
-                            // if (values.synopsis || values.impression || values.plan) {
-                            if (formRef.current) {
-                                formRef.current.setFieldValue('can_sign', true);
-                                // }
-                            }
-                        }, [values]);
+                        const {setFieldValue,} = formik
                         return (
                             <Form noValidate={true} className={'t-form'}>
                                 <div className={'progress-report-form-wrapper'}>
@@ -500,23 +492,21 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
                                                 }
                                             })
                                         }
-                                        <div className={"sign-note-wrapper"}>
-                                            <div className={'sign-note'}>
+                                        <div className={"sign-note-wrapper ts-row "}>
+                                            <div className={'sign-note ts-col-lg-4'}>
                                                 Note: By clicking the "Sign" button, your report will be saved.
                                             </div>
                                         </div>
-                                        <div className={'ts-row'}>
-                                            <div className={'ts-col-lg-7'}/>
-                                            <div className={'ts-col-lg-4 esign-pad'}>
-
-                                                    <ESignApprovalComponent isSigned={false}
-                                                                            isSigning={isSigningInProgress}
-                                                                            canSign={true}
-                                                                            signedAt={formik.values.signed_on}
-                                                                            onSign={() => {
-                                                                                handleSign(formik.values, formik);
-                                                                            }}/>
-                                                </div>
+                                        <div className={'esign-pad'}>
+                                            <div className={'esign ts-col-lg-4'}>
+                                                <ESignApprovalComponent isSigned={false}
+                                                                        isSigning={isSigningInProgress}
+                                                                        canSign={true}
+                                                                        signedAt={formik.values.signed_on}
+                                                                        onSign={() => {
+                                                                            handleSign(formik.values, formik);
+                                                                        }}/>
+                                            </div>
                                         </div>
                                     </CardComponent>
                                 </div>
