@@ -22,6 +22,7 @@ import {getClientMedicalRecord} from "../../../store/actions/client.action";
 import moment from "moment-timezone";
 import LinkComponent from "../../../shared/components/link/LinkComponent";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
+import momentTimezone from "moment-timezone";
 
 interface ProgressReportViewDetailsComponentProps {
 
@@ -96,7 +97,10 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
 
     const handlePrint = useCallback(() => {
         setIsPrintLoading(true);
-        CommonService._chartNotes.PrintProgressReportAPICall(progressReportId)
+        const payload= {
+            timezone: momentTimezone.tz.guess(),
+        }
+        CommonService._chartNotes.PrintProgressReportAPICall(progressReportId,payload)
             .then((res: any) => {
                 setIsPrintLoading(false);
                 const attachment = {

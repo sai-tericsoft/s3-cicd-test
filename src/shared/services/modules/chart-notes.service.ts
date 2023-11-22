@@ -321,8 +321,8 @@ const DeleteDocument = (documentId: string) => {
     return ApiService[APIConfig.DELETE_DOCUMENT.METHOD](APIConfig.DELETE_DOCUMENT.URL(documentId))
 }
 
-const PrintProgressReportAPICall = (progressReportId: any) => {
-    return ApiService[APIConfig.PRINT_PROGRESS_REPORT.METHOD](APIConfig.PRINT_PROGRESS_REPORT.URL(progressReportId));
+const PrintProgressReportAPICall = (progressReportId: any,payload:any) => {
+    return ApiService[APIConfig.PRINT_PROGRESS_REPORT.METHOD](APIConfig.PRINT_PROGRESS_REPORT.URL(progressReportId,payload));
 }
 
 const GetCPTCodesAPICall = (interventionID: string, payload: any) => {
@@ -332,19 +332,19 @@ const getMedicalRecordActivityLogs = (medicalRecordId: string, payload: any) => 
     return ApiService[APIConfig.GET_MEDICAL_RECORD_ACTIVITY_LOGS.METHOD](APIConfig.GET_MEDICAL_RECORD_ACTIVITY_LOGS.URL(medicalRecordId), payload);
 }
 
-const PrintExerciseRecord = (medicalRecordId: string) => {
-    return ApiService[APIConfig.PRINT_EXERCISE_RECORD.METHOD](APIConfig.PRINT_EXERCISE_RECORD.URL(medicalRecordId));
+const PrintExerciseRecord = (medicalRecordId: string,payload:any) => {
+    return ApiService[APIConfig.PRINT_EXERCISE_RECORD.METHOD](APIConfig.PRINT_EXERCISE_RECORD.URL(medicalRecordId,payload));
 }
 
-const PrintSurgeryRecord = (medicalRecordId:string,surgeryRecordId:string) => {
-    return ApiService[APIConfig.PRINT_SURGERY_RECORD.METHOD](APIConfig.PRINT_SURGERY_RECORD.URL(medicalRecordId,surgeryRecordId));
+const PrintSurgeryRecord = (medicalRecordId:string,surgeryRecordId:string,payload:any) => {
+    return ApiService[APIConfig.PRINT_SURGERY_RECORD.METHOD](APIConfig.PRINT_SURGERY_RECORD.URL(medicalRecordId,surgeryRecordId,payload));
 }
 
 const PrintDocument = (medicalRecordId:string,documentId:string,payload:any) => {
     return ApiService[APIConfig.PRINT_DOCUMENT.METHOD](APIConfig.PRINT_DOCUMENT.URL(medicalRecordId,documentId),payload);
 }
 
-const PrintExerciseLog = (medicalInterventionId:string) => {
+const PrintExerciseLog = (medicalInterventionId:string,payload:any) => {
     return ApiService[APIConfig.PRINT_EXERCISE_LOG.METHOD](APIConfig.PRINT_EXERCISE_LOG.URL(medicalInterventionId));
 }
 

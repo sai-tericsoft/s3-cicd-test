@@ -1050,15 +1050,15 @@ const APIConfig: IAPIConfig = {
     },
     PRINT_PROGRESS_REPORT: {
         URL: (progressReportId: string) => ENV.API_URL + '/progressReport/' + progressReportId + '/generatePDF',
-        METHOD: "get"
+        METHOD: "post"
     },
     PRINT_EXERCISE_RECORD: {
         URL: (medicalRecordId: string) => ENV.API_URL + '/medicalRecord/' + medicalRecordId + '/exerciseRecord/generatePDF',
-        METHOD: "get"
+        METHOD: "post"
     },
     PRINT_SURGERY_RECORD: {
         URL: (medicalRecordId: string, surgeryRecordId: string) => ENV.API_URL + '/medicalRecord/' + medicalRecordId + '/surgeryRecord/' + surgeryRecordId + '/generatePDF',
-        METHOD: "get"
+        METHOD: "post"
     },
     PRINT_DOCUMENT: {
         URL: (medicalRecordId: string, documentId: string) => ENV.API_URL + '/medicalRecord/' + medicalRecordId + '/document/' + documentId + '/generatePDF',
@@ -1066,15 +1066,15 @@ const APIConfig: IAPIConfig = {
     },
     PRINT_EXERCISE_LOG: {
         URL: (interventionId: string) => ENV.API_URL + '/intervention/' + interventionId + '/exerciseLog/generatePDF',
-        METHOD: "get"
+        METHOD: "post"
     },
     PRINT_WAIVER_AND_RELEASE: {
         URL: (clientId: string,appointmentId:string) => ENV.API_URL + '/client/' + clientId + '/appointment/'+ appointmentId +  '/waiverForm/generatePDF',
-        METHOD: "get"
+        METHOD: "post"
     },
     PRINT_AUTHORIZATION_TO_RELEASE_FORM: {
         URL: (clientId: string,appointmentId:string) => ENV.API_URL + '/client/' + clientId + '/appointment/'+ appointmentId +  '/authorizationToRMI/generatePDF',
-        METHOD: "get"
+        METHOD: "post"
     }
 }
 

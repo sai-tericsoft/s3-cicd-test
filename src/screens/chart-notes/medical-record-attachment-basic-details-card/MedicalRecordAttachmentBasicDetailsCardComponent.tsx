@@ -13,6 +13,7 @@ import moment from "moment-timezone";
 import {ListItemButton} from "@mui/material";
 import MenuDropdownComponent from "../../../shared/components/menu-dropdown/MenuDropdownComponent";
 import LinkComponent from "../../../shared/components/link/LinkComponent";
+import momentTimezone from "moment-timezone";
 
 interface MedicalRecordAttachmentBasicDetailsCardComponentProps {
     attachmentType: "dryNeedlingFile" | "concussionFile" | "medicalRecordDocument";
@@ -93,7 +94,8 @@ const MedicalRecordAttachmentBasicDetailsCardComponent = (props: MedicalRecordAt
 
         if (medicalRecordDocumentId) {
             const payload = {
-                note_type_category:noteTypeCategory
+                note_type_category:noteTypeCategory,
+                timezone: momentTimezone.tz.guess(),
             }
             CommonService._chartNotes.PrintDocument(medicalRecordDetails?._id, medicalRecordDocumentId, payload)
                 .then((res: any) => {

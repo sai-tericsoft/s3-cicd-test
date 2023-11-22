@@ -63,7 +63,8 @@ const ServiceProviderListComponent = (props: ServiceProviderComponentProps) => {
         console.log('item',item)
         CommonService.onConfirm({
             confirmationTitle: "UNLINK PROVIDER",
-            image: ImageConfig.RemoveImage,
+            image: ImageConfig.ConfirmationLottie,
+            showLottie: true,
             confirmationSubTitle: `Do you want to remove "${item.first_name} ${item.last_name}" as a provider for "${serviceDetails.name}"?`
 
         }).then(() => {

@@ -20,6 +20,7 @@ import LinkComponent from "../../../shared/components/link/LinkComponent";
 import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
 import moment from "moment-timezone";
 import commonService from "../../../shared/services/common.service";
+import momentTimezone from "moment-timezone";
 
 interface MedicalInterventionExerciseLogViewScreenProps {
 
@@ -155,7 +156,10 @@ const MedicalInterventionExerciseLogViewScreen = (props: MedicalInterventionExer
 
     const handlePrint = useCallback(() => {
         setIsPrintLoading(true);
-        medicalInterventionId && CommonService._chartNotes.PrintExerciseLog(medicalInterventionId)
+        const payload={
+            timezone: momentTimezone.tz.guess(),
+        }
+        medicalInterventionId && CommonService._chartNotes.PrintExerciseLog(medicalInterventionId,payload)
             .then((res: any) => {
                 setIsPrintLoading(false);
                 const attachment = {

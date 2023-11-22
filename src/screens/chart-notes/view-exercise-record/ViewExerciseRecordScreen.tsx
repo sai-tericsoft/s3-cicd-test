@@ -18,6 +18,7 @@ import MedicalInterventionLinkedToComponent
     from "../medical-intervention-linked-to/MedicalInterventionLinkedToComponent";
 import {setCurrentNavParams} from "../../../store/actions/navigation.action";
 import commonService from "../../../shared/services/common.service";
+import momentTimezone from "moment-timezone";
 
 interface ViewExerciseLogComponentProps {
 
@@ -104,8 +105,11 @@ const ViewExerciseRecordScreen = (props: ViewExerciseLogComponentProps) => {
 
     const handlePrint = useCallback((medicalInterventionId?: string) => {
         setIsPrintLoading(true);
+        const payload = {
+            timezone: momentTimezone.tz.guess(),
+        }
         if (medicalRecordId) {
-            CommonService._chartNotes.PrintExerciseRecord(medicalRecordId)
+            CommonService._chartNotes.PrintExerciseRecord(medicalRecordId,payload)
                 .then((res: any) => {
                     setIsPrintLoading(false);
                     const attachment = {
@@ -126,8 +130,11 @@ const ViewExerciseRecordScreen = (props: ViewExerciseLogComponentProps) => {
 
     const handlePrintExerciseLog = useCallback((medicalInterventionId?: string) => {
         setIsPrintExerciseLogLoading(true);
+        const payload = {
+            timezone: momentTimezone.tz.guess(),
+        }
         if (medicalInterventionId) {
-            CommonService._chartNotes.PrintExerciseLog(medicalInterventionId)
+            CommonService._chartNotes.PrintExerciseLog(medicalInterventionId,payload)
                 .then((res: any) => {
                     setIsPrintExerciseLogLoading(false);
                     const attachment = {

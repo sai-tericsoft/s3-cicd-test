@@ -33,6 +33,7 @@ import moment from "moment-timezone";
 import commonService from "../../../shared/services/common.service";
 import MenuDropdownComponent from "../../../shared/components/menu-dropdown/MenuDropdownComponent";
 import {ListItemButton} from "@mui/material";
+import momentTimezone from "moment-timezone";
 
 interface SurgeryRecordViewScreenProps {
 
@@ -273,8 +274,11 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
     }, [medicalRecordId, surgeryRecordId, navigate]);
 
     const handlePrint = useCallback(() => {
+        const payload={
+            timezone: momentTimezone.tz.guess(),
+        }
         if (medicalRecordId && surgeryRecordId) {
-            CommonService._chartNotes.PrintSurgeryRecord(medicalRecordId, surgeryRecordId)
+            CommonService._chartNotes.PrintSurgeryRecord(medicalRecordId, surgeryRecordId,payload)
                 .then((res: any) => {
                     const attachment = {
                         type: 'application/pdf',

@@ -5,6 +5,7 @@ import CardComponent from "../../../shared/components/card/CardComponent";
 import ChipComponent from "../../../shared/components/chip/ChipComponent";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import {ImageConfig} from "../../../constants";
+import momentTimezone from "moment-timezone";
 
 interface ClientAllFormsListComponentProps {
     clientId: string | undefined;
@@ -41,15 +42,16 @@ const ClientAllFormsListComponent = (props: ClientAllFormsListComponentProps) =>
                 const payload = {
                     initial_appointment_id: appointmentId,
                     client_id: clientId,
+                    timezone: momentTimezone.tz.guess(),
                 };
 
                 let response;
                 if (form?.form_type === 'Personal and Medical Information') {
                     response = await CommonService._client.printPersonalAndMedicalInfo(payload)
                 } else if (form?.form_type === 'Waiver and Release of Liability' && clientId && appointmentId) {
-                    response = await CommonService._client.printWaiverForm(clientId, appointmentId)
+                    response = await CommonService._client.printWaiverForm(clientId, appointmentId,payload)
                 } else if (form?.form_type === 'Authorization to Release Medical Information' && clientId && appointmentId) {
-                    response = await CommonService._client.printAuthorizationForm(clientId, appointmentId)
+                    response = await CommonService._client.printAuthorizationForm(clientId, appointmentId,payload)
                 }
                 cb(response?.data?.url);
             } catch (error: any) {

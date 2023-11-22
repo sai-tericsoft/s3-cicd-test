@@ -66,8 +66,6 @@ const ClientAppointmentDetailsComponent = (props: ClientAppointmentDetailsCompon
         }
     }, [getAppointmentDetails, clientAppointmentId]);
 
-    console.log('appointmentDetails', appointmentDetails);
-
     return (
         <div className={'medical-record-attachment-basic-details-card-component'}>
             {

@@ -147,12 +147,12 @@ const printPersonalAndMedicalInfo = (payload:any)=>{
     return ApiService[APIConfig.PRINT_PERSONAL_AND_MEDICAL_INFO.METHOD](APIConfig.PRINT_PERSONAL_AND_MEDICAL_INFO.URL,payload);
 }
 
-const printWaiverForm = (clientId:string,appointmentId:string)=>{
-    return ApiService[APIConfig.PRINT_WAIVER_AND_RELEASE.METHOD](APIConfig.PRINT_WAIVER_AND_RELEASE.URL(clientId,appointmentId));
+const printWaiverForm = (clientId:string,appointmentId:string,payload:any)=>{
+    return ApiService[APIConfig.PRINT_WAIVER_AND_RELEASE.METHOD](APIConfig.PRINT_WAIVER_AND_RELEASE.URL(clientId,appointmentId,payload));
 }
 
-const printAuthorizationForm = (clientId:string,appointmentId:string)=>{
-    return ApiService[APIConfig.PRINT_AUTHORIZATION_TO_RELEASE_FORM.METHOD](APIConfig.PRINT_AUTHORIZATION_TO_RELEASE_FORM.URL(clientId,appointmentId));
+const printAuthorizationForm = (clientId:string,appointmentId:string,payload:any)=>{
+    return ApiService[APIConfig.PRINT_AUTHORIZATION_TO_RELEASE_FORM.METHOD](APIConfig.PRINT_AUTHORIZATION_TO_RELEASE_FORM.URL(clientId,appointmentId,payload));
 }
 
 
