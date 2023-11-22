@@ -785,8 +785,8 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
     ], [removePaymentFromSelectedMarkAsPaidList]);
 
     useEffect(() => {
-        dispatch(setCurrentNavParams("Billing"));
-    }, [dispatch]);
+       !clientId && dispatch(setCurrentNavParams("Billing"));
+    }, [dispatch,clientId]);
 
     const handleTabChange = useCallback((e: any, value: any) => {
         searchParams.set("activeTab", value);

@@ -25,8 +25,10 @@ const FormikInputComponent = (props: FormikInputComponentProps) => {
     const hasError = _.get(touched, name) && !!(_.get(errors, name));
 
     const textChangeHandler = useCallback((text: string) => {
-        setFieldValue(name, text);
-        setFieldTouched(name);
+        (async () => {
+            await setFieldValue(name, text,true);
+            await setFieldTouched(name);
+        })()
         if (onChange) {
             onChange(text);
         }
