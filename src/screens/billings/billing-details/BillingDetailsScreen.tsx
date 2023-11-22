@@ -32,6 +32,8 @@ import TextAreaComponent from "../../../shared/components/form-controls/text-are
 import momentTimezone from "moment-timezone";
 import IconButtonComponent from "../../../shared/components/icon-button/IconButtonComponent";
 import ChipComponent from "../../../shared/components/chip/ChipComponent";
+import LottieFileGenerationComponent
+    from "../../../shared/components/lottie-file-generation/LottieFileGenerationComponent";
 
 interface BillingDetailsScreenProps {
 
@@ -212,7 +214,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
         setIsInterventionIncompleteModalOpen(false);
     }, []);
 
-    console.log("billingDetails", billingDetails);
+
 
     const handleViewModeChange = useCallback(() => {
         if (billingDetails?.is_intervention_complete === false) {
@@ -973,7 +975,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                             </>
                             }
             >
-                <ImageConfig.ConfirmIcon/>
+                <LottieFileGenerationComponent autoplay={true} loop={true} animationData={ImageConfig.PopupLottie}/>
                 <FormControlLabelComponent label={"Select Mode of Payment"}/>
                 <SelectComponent
                     label={"Mode of Payment"}

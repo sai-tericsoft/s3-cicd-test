@@ -32,6 +32,8 @@ import commonService from "../../../../shared/services/common.service";
 import _ from "lodash";
 import momentTimezone from "moment-timezone";
 import ChipComponent from "../../../../shared/components/chip/ChipComponent";
+import LottieFileGenerationComponent
+    from "../../../../shared/components/lottie-file-generation/LottieFileGenerationComponent";
 
 interface ConsolidatedBillingDetailsScreenProps {
 
@@ -1020,7 +1022,7 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                                 </>
                                 }
                 >
-                    <ImageConfig.ConfirmIcon/>
+                    <LottieFileGenerationComponent autoplay={true} loop={true} animationData={ImageConfig.PopupLottie}/>
                     <FormControlLabelComponent label={"Select Mode of Payment"}/>
                     <SelectComponent
                         label={"Mode of Payment"}

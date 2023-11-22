@@ -40,6 +40,8 @@ import {ListItemButton} from "@mui/material";
 import EditBillingAddressComponent from "../edit-billing-address/EditBillingAddressComponent";
 import AddBillingAddressComponent from "../add-billing-address/AddBillingAddressComponent";
 import DrawerComponent from "../../../shared/components/drawer/DrawerComponent";
+import LottieFileGenerationComponent
+    from "../../../shared/components/lottie-file-generation/LottieFileGenerationComponent";
 
 interface PaymentListComponentProps {
 
@@ -1370,7 +1372,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                     </IconButtonComponent>
                     <span className={'back-text'}>Back</span>
                 </div>
-                <ImageConfig.ConfirmIcon/>
+                <LottieFileGenerationComponent autoplay={true} loop={true} animationData={ImageConfig.PopupLottie}/>
                 <FormControlLabelComponent label={"Select Mode of Payment"}/>
                 <SelectComponent
                     options={paymentModes || []}
