@@ -1,3 +1,4 @@
+
 import "./ExerciseLogAttachmentListComponent.scss";
 import CardComponent from "../../../shared/components/card/CardComponent";
 import {useParams} from "react-router-dom";

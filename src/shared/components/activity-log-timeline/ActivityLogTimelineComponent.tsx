@@ -46,6 +46,58 @@ const listOfObjectsFields: any = [
     "Email",
 ]
 
+const viewExerciseRecordColumn: any = [
+    {
+        title: "Exercise",
+        key: "exercise",
+        dataIndex: 'id',
+        width:100
+    },
+    {
+        title: 'Exercise Name',
+        key: 'exercise_name',
+        dataIndex: 'name',
+        width: 100
+    },
+    {
+        title: '(B)',
+        key: 'bilateral',
+        dataIndex: 'bilateral',
+        align: 'center',
+        width: 20,
+        render: (item: any) => {
+            return <>{item?.bilateral ? "Yes" : "-"}</>
+        }
+    },
+    {
+        title: "SET",
+        key: "set",
+        dataIndex: 'no_of_sets',
+        align: 'center',
+        width: 50
+    },
+    {
+        title: "REP",
+        key: "rep",
+        dataIndex: 'no_of_reps',
+        align: 'center',
+        width: 50
+    },
+    {
+        title: "Time",
+        key: "time",
+        dataIndex: 'time',
+        align: 'center',
+        width: 50
+    },
+    {
+        title: "Resistance",
+        key: "resistance",
+        dataIndex: 'resistance',
+        align: 'center',
+        width: 100
+    }
+];
 const ActivityLogTimelineComponent = (props: ActivityLogTimelineComponentProps) => {
     const {logsData} = props;
 
@@ -76,7 +128,7 @@ const ActivityLogTimelineComponent = (props: ActivityLogTimelineComponentProps) 
             align: 'center',
             fixed: 'left',
             key: 'left_result',
-            width: 150,
+            width: 100,
             render: (item: any) => {
                 return <div className={'result'}>
                     {item?.config?.Left?.result || "-"}
@@ -89,7 +141,7 @@ const ActivityLogTimelineComponent = (props: ActivityLogTimelineComponentProps) 
             align: 'center',
             fixed: 'left',
             key: 'right_result',
-            width: 150,
+            width: 100,
             render: (item: any) => {
                 return <div className={'result'}>
                     {item?.config?.Right?.result || "-"}
@@ -102,7 +154,7 @@ const ActivityLogTimelineComponent = (props: ActivityLogTimelineComponentProps) 
             align: 'center',
             fixed: 'left',
             key: 'central_result',
-            width: 150,
+            width: 130,
             render: (item: any) => {
                 return <div className={'result'}>
                     {item?.config?.Central?.result || "-"}
@@ -113,9 +165,8 @@ const ActivityLogTimelineComponent = (props: ActivityLogTimelineComponentProps) 
             title: 'Comments',
             dataIndex: 'comments',
             key: 'comments',
-            width: 147,
-            // align: 'center',
-            // fixed: 'right',
+            width: 150,
+            fixed: 'right',
             render: (item: any) => {
                 return <div className={'comments'}>
                     {item?.config?.comments || "N/A"}
@@ -129,12 +180,12 @@ const ActivityLogTimelineComponent = (props: ActivityLogTimelineComponentProps) 
             {
                 title: '',
                 fixed: 'left',
-                width: 180,
+                width: 120,
                 children: [
                     {
                         title: 'Movement',
                         key: 'movement',
-                        width: 180,
+                        width: 120,
                         // fixed: 'left',
                         render: (record: any) => {
                             console.log('record', record);
@@ -194,13 +245,12 @@ const ActivityLogTimelineComponent = (props: ActivityLogTimelineComponentProps) 
                 title: '',
                 key: 'comments-header',
                 fixed: 'right',
-                width: 300,
+                width: 100,
                 children: [
-                    {
-                        title: 'Comments',
+                    {title: 'Comments',
                         dataIndex: 'comments',
                         key: 'comments',
-                        width: 300,
+                        width: 100,
                         render: (item: any) => {
                             return <div
                                 className={'comment-text'}>{item?.config?.comments ? CommonService.capitalizeFirstLetter(item?.config?.comments) : "-"}</div>
@@ -351,7 +401,6 @@ const ActivityLogTimelineComponent = (props: ActivityLogTimelineComponentProps) 
                         </DataLabelValueComponent>
                     </div>
                 )
-
             case "Medical Diagnosis/Icd Codes":
                 return (<div>
                     <DataLabelValueComponent label={"From"}
@@ -471,6 +520,70 @@ const ActivityLogTimelineComponent = (props: ActivityLogTimelineComponentProps) 
                         }
                     </DataLabelValueComponent>
                 </div>)
+            case "Exercise Log":
+                return (<div>
+                    <DataLabelValueComponent label={"From"}
+                    >
+                        {
+                            logItem?.old_value ?
+                                <TableComponent
+                                    data={updated_value}
+                                    bordered={true}
+                                    showExpandColumn={false}
+                                    defaultExpandAllRows={true}
+                                    // noDataText={body_part?.rom_config?.length === 0 ? 'No Range of Motion or Strength found.' : 'No Range of Motion or Strength found for this body part.'}
+                                    // expandRowRenderer={
+                                    //     (row: any) => {
+                                    //         return (
+                                    //             <div
+                                    //                 key={row?.config?._id}
+                                    //                 className={'comment-row'}>
+                                    //                 <div
+                                    //                     className={'comment-icon'}>
+                                    //                     <ImageConfig.CommentIcon/>
+                                    //                 </div>
+                                    //                 <div
+                                    //                     className={'comment-text'}>{row?.config?.comments ? CommonService.capitalizeFirstLetter(row?.config?.comments) : "-"}</div>
+                                    //             </div>
+                                    //         )
+                                    //     }
+                                    // }
+                                    columns={viewExerciseRecordColumn}/> :
+                                "N/A"
+                        }
+                    </DataLabelValueComponent>
+                    <DataLabelValueComponent label={"To"}
+                    >
+                        {
+                            logItem?.updated_value && updated_value?.length > 0 ?
+                                <TableComponent
+                                    data={updated_value}
+                                    bordered={true}
+                                    showExpandColumn={false}
+                                    defaultExpandAllRows={true}
+                                    // noDataText={body_part?.rom_config?.length === 0 ? 'No Range of Motion or Strength found.' : 'No Range of Motion or Strength found for this body part.'}
+                                    // expandRowRenderer={
+                                    //     (row: any) => {
+                                    //         return (
+                                    //             <div
+                                    //                 key={row?.config?._id}
+                                    //                 className={'comment-row'}>
+                                    //                 <div
+                                    //                     className={'comment-icon'}>
+                                    //                     <ImageConfig.CommentIcon/>
+                                    //                 </div>
+                                    //                 <div
+                                    //                     className={'comment-text'}>{row?.config?.comments ? CommonService.capitalizeFirstLetter(row?.config?.comments) : "-"}</div>
+                                    //             </div>
+                                    //         )
+                                    //     }
+                                    // }
+                                    columns={viewExerciseRecordColumn}/> :
+                                "N/A"
+                        }
+                    </DataLabelValueComponent>
+                </div>)
+
             case "List of objects":
                 return (
                     <div className={'list-of-objects-activity-log'}>
