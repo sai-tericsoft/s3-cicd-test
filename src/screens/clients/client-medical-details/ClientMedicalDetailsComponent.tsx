@@ -311,14 +311,14 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                                     (Object.keys(clientMedicalDetails?.musculoskeletal_history || {})?.map((question, index) => {
                                         return <div key={question + index} className={"musculoskeletal-history-block"}>
                                             <div className="ts-row musculoskeletal-history-question-list">
-                                                <div className="ts-col-lg-2 font-weight-bold">
+                                                <div className="ts-col-lg-3 font-weight-bold">
                                                     {clientMedicalDetails?.musculoskeletal_history[question]?.title}
                                                 </div>
                                                 <div
-                                                    className="ts-col-lg-2 no-answer-text">
+                                                    className="ts-col-lg-1 text-align-right no-answer-text">
                                                     {clientMedicalDetails?.musculoskeletal_history[question]?.value ? "Yes" : "No"}
                                                 </div>
-                                                <div className="ts-col-lg-8 comments-section">
+                                                <div className="ts-col-lg-7 comments-section">
                                                     {
                                                         (clientMedicalDetails?.musculoskeletal_history[question]?.text) &&
                                                         <div className={'musculoskeletal-question'}>
