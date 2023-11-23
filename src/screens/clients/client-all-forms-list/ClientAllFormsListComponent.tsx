@@ -49,7 +49,6 @@ const ClientAllFormsListComponent = (props: ClientAllFormsListComponentProps) =>
                 if (form?.form_type === 'Personal and Medical Information') {
                     response = await CommonService._client.printPersonalAndMedicalInfo(payload)
                 } else if (form?.form_type === 'Waiver and Release of Liability' && clientId && appointmentId) {
-                    console.log('payload', payload);
                     response = await CommonService._client.printWaiverForm(clientId, appointmentId, payload)
                 } else if (form?.form_type === 'Authorization to Release Medical Information' && clientId && appointmentId) {
                     response = await CommonService._client.printAuthorizationForm(clientId, appointmentId, payload)

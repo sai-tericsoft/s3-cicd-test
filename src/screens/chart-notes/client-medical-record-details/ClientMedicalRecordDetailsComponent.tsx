@@ -367,6 +367,7 @@ const ClientMedicalRecordDetailsComponent = (props: ClientMedicalDetailsComponen
                             modalFooter={<>
                                 <ButtonComponent
                                                  color={'primary'}
+                                                 variant={'outlined'}
                                                  isLoading={isMedicalInterventionBeingAdded}
                                                  onClick={() => {
                                                      if (appointmentMode === REPEAT_LAST_TREATMENT) {
@@ -377,27 +378,27 @@ const ClientMedicalRecordDetailsComponent = (props: ClientMedicalDetailsComponen
                                                  }
                                                  }
                                 >
-                                    Continue
+                                    Continue As Walk In
                                 </ButtonComponent>
-                                <ButtonComponent variant={'outlined'}
+                                <ButtonComponent
                                                  className={'mrg-left-10'}
                                                  onClick={() => {
                                                      setIsTreatmentWithoutAppointmentModalOpen(false)
                                                      setIsBookAppointmentOpen(true)
                                                  }}
                                 >
-                                    Create Appointment
+                                    Schedule Now
                                 </ButtonComponent>
                             </>
                             }
             >
-                <LottieFileGenerationComponent loop={true} animationData={ImageConfig.ConfirmationLottie}
+                <LottieFileGenerationComponent loop={true} animationData={ImageConfig.PopupLottie}
                                                autoplay={true}/>
                 <div className={'treatment-without-application-info-title mrg-top-10'}>
-                    CONTINUE WITHOUT APPOINTMENT
+                    SCHEDULE APPOINTMENT
                 </div>
                 <div className={'treatment-without-application-info-description'}>
-                    Are you sure you do not require an appointment?
+                    Scheduling promotes productivity, so for a better visit, shall we schedule your appointment first?
                 </div>
             </ModalComponent>
 
