@@ -1014,7 +1014,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                         name="emergency_contact_info.primary_emergency.secondary_contact_info"
                                         render={(arrayHelpers) => (
                                             <>
-                                                {values?.emergency_contact_info?.primary_emergency?.secondary_contact_info ? <>
+                                                {values?.emergency_contact_info?.primary_emergency?.secondary_contact_info && values?.emergency_contact_info?.primary_emergency?.secondary_contact_info?.length > 0 ? <>
                                                         <FormControlLabelComponent label={'Alternate Phone'}
                                                                                    size={"sm"}/>
                                                         {values?.emergency_contact_info?.primary_emergency?.secondary_contact_info?.map((item: any, index: any) => {
@@ -1237,13 +1237,13 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                     name="emergency_contact_info.secondary_emergency.secondary_contact_info"
                                                     render={(arrayHelpers) => (
                                                         <>
-                                                            {values?.emergency_contact_info?.secondary_emergency?.secondary_contact_info ? <>
-
+                                                            {values?.emergency_contact_info?.secondary_emergency?.secondary_contact_info && values?.emergency_contact_info?.secondary_emergency?.secondary_contact_info?.length > 0 ? <>
+                                                                    <FormControlLabelComponent size={'sm'}
+                                                                                               label={'Alternate Phone'}/>
                                                                     {values?.emergency_contact_info?.secondary_emergency?.secondary_contact_info?.map((item: any, index: any) => {
                                                                         return (
                                                                             <>
-                                                                                <FormControlLabelComponent size={'sm'}
-                                                                                                           label={'Alternate Phone'}/>
+
                                                                                 <div className="ts-row" key={index}>
                                                                                     <div className="ts-col">
                                                                                         <Field
