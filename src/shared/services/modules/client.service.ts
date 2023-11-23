@@ -148,11 +148,23 @@ const printPersonalAndMedicalInfo = (payload:any)=>{
 }
 
 const printWaiverForm = (clientId:string,appointmentId:string,payload:any)=>{
-    return ApiService[APIConfig.PRINT_WAIVER_AND_RELEASE.METHOD](APIConfig.PRINT_WAIVER_AND_RELEASE.URL(clientId,appointmentId,payload));
+    return ApiService[APIConfig.PRINT_WAIVER_AND_RELEASE.METHOD](APIConfig.PRINT_WAIVER_AND_RELEASE.URL(clientId,appointmentId),payload);
 }
 
 const printAuthorizationForm = (clientId:string,appointmentId:string,payload:any)=>{
-    return ApiService[APIConfig.PRINT_AUTHORIZATION_TO_RELEASE_FORM.METHOD](APIConfig.PRINT_AUTHORIZATION_TO_RELEASE_FORM.URL(clientId,appointmentId,payload));
+    return ApiService[APIConfig.PRINT_AUTHORIZATION_TO_RELEASE_FORM.METHOD](APIConfig.PRINT_AUTHORIZATION_TO_RELEASE_FORM.URL(clientId,appointmentId),payload);
+}
+
+const printAttendancePolicyForm = (clientId:string,appointmentId:string,payload:any)=>{
+    return ApiService[APIConfig.PRINT_ATTENDANCE_POLICY.METHOD](APIConfig.PRINT_ATTENDANCE_POLICY.URL(clientId,appointmentId),payload);
+}
+
+const printNoticeOfPrivacyForm = (clientId:string,appointmentId:string,payload:any)=>{
+    return ApiService[APIConfig.PRINT_NOTICE_OF_PRIVACY_PRACTICES.METHOD](APIConfig.PRINT_NOTICE_OF_PRIVACY_PRACTICES.URL(clientId,appointmentId),payload);
+}
+
+const printNewInjuryForm = (clientId:string,appointmentId:string,payload:any)=>{
+    return ApiService[APIConfig.PRINT_NEW_INJURY_FORM.METHOD](APIConfig.PRINT_NEW_INJURY_FORM.URL(clientId,appointmentId),payload);
 }
 
 
@@ -189,7 +201,10 @@ const ClientService = {
     getClientAllFormList,
     printPersonalAndMedicalInfo,
     printWaiverForm,
-    printAuthorizationForm
+    printAuthorizationForm,
+    printAttendancePolicyForm,
+    printNoticeOfPrivacyForm,
+    printNewInjuryForm
 }
 
 

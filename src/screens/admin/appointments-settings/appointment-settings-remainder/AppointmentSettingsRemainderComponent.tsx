@@ -229,7 +229,7 @@ const AppointmentSettingsRemainderComponent = (props: AppointmentSettingsRemaind
                                     mentionsList?.map((mention) => {
                                         return (
                                             <div>
-                                                <ChipComponent label={mention.display}/>
+                                                <ChipComponent label={mention.display} className={'inactive'}/>
                                             </div>
                                         )
                                     })
@@ -362,7 +362,7 @@ const AppointmentSettingsRemainderComponent = (props: AppointmentSettingsRemaind
                                     mentionsList.map((mention) => {
                                         return (
                                             <div>
-                                                <ChipComponent label={mention.display}/>
+                                                <ChipComponent label={mention.display} className={'inactive'}/>
                                             </div>
                                         )
                                     })

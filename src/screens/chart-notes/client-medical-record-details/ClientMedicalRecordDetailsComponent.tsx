@@ -288,7 +288,7 @@ const ClientMedicalRecordDetailsComponent = (props: ClientMedicalDetailsComponen
                             setIsAddTreatmentModalOpen(false)
                             setIsAppointmentSelectionModalOpen(true)
                         }}>
-                        With Appointment
+                        Scheduled Appointment
                     </ButtonComponent>
 
                     <ButtonComponent
@@ -298,7 +298,7 @@ const ClientMedicalRecordDetailsComponent = (props: ClientMedicalDetailsComponen
                             setIsTreatmentWithoutAppointmentModalOpen(true);
                         }}
                         fullWidth={true}>
-                        Without Appointment
+                        Walk In Client
                     </ButtonComponent>
                 </>
 

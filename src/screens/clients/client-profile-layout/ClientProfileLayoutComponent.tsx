@@ -90,7 +90,7 @@ const ClientProfileLayoutComponent = (props: ClientProfileLayoutComponentProps) 
                 image: ImageConfig.PopupLottie,
                 showLottie:true,
                 confirmationTitle: 'RESEND INVITE LINK',
-                confirmationSubTitle: 'Are you sure you want to resent the invite link?',
+                confirmationSubTitle: 'Are you sure you want to resent the invite link:',
                 confirmationDescription:<div className="transfer-file-to">
                     <div className={'mrg-bottom-15'}>
                         <span className={'client-case-name-title '}>Client:</span> <span className={clientBasicDetails?.is_alias_name_set ? "alias-name":""}>{commonService.generateClientNameFromClientDetails(clientBasicDetails)}</span>

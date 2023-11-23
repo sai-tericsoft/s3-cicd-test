@@ -144,7 +144,7 @@ const AppointmentSettingsCancellationComponent = (props: AppointmentSettingsCanc
                                         mentionsList.map((mention) => {
                                             return (
                                                 <div>
-                                                    <ChipComponent label={mention.display}/>
+                                                    <ChipComponent label={mention.display} className={'inactive'}/>
                                                 </div>
                                             )
                                         })
@@ -287,7 +287,7 @@ const AppointmentSettingsCancellationComponent = (props: AppointmentSettingsCanc
                                         mentionsList.map((mention) => {
                                             return (
                                                 <div>
-                                                    <ChipComponent label={mention.display}/>
+                                                    <ChipComponent label={mention.display} className={'inactive'}/>
                                                 </div>
                                             )
                                         })

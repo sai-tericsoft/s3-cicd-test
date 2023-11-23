@@ -94,7 +94,8 @@ const UserDetailsLayoutComponent = (props: UserDetailsLayoutComponentProps) => {
     const deleteUser = useCallback(() => {
         CommonService.onConfirm({
             confirmationTitle: "REMOVE USER",
-            image: ImageConfig.RemoveImage,
+            image: ImageConfig.ConfirmationLottie,
+            showLottie: true,
             confirmationSubTitle: "Are you sure you want to permanently delete this user? This action cannot be undone."
         }).then(() => {
             if (userId) {

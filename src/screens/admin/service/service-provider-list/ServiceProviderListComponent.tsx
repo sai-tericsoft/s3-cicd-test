@@ -65,7 +65,7 @@ const ServiceProviderListComponent = (props: ServiceProviderComponentProps) => {
             confirmationTitle: "UNLINK PROVIDER",
             image: ImageConfig.ConfirmationLottie,
             showLottie: true,
-            confirmationSubTitle: `Do you want to remove "${item.first_name} ${item.last_name}" as a provider for "${serviceDetails.name}"?`
+            confirmationSubTitle: `Are you sure you want to unlink "${item.first_name} ${item.last_name}" as a provider for "${serviceDetails.name}"?`
 
         }).then(() => {
             CommonService._service.ServiceProviderUnlinkAPICall(serviceId, item?.provider_id, {})

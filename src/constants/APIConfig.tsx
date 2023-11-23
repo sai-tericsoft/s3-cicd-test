@@ -1075,6 +1075,18 @@ const APIConfig: IAPIConfig = {
     PRINT_AUTHORIZATION_TO_RELEASE_FORM: {
         URL: (clientId: string,appointmentId:string) => ENV.API_URL + '/client/' + clientId + '/appointment/'+ appointmentId +  '/authorizationToRMI/generatePDF',
         METHOD: "post"
+    },
+    PRINT_ATTENDANCE_POLICY: {
+        URL: (clientId: string,appointmentId:string) => ENV.API_URL + '/client/' + clientId + '/appointment/'+ appointmentId +  '/attendancePolicy/generatePDF',
+        METHOD: "post"
+    },
+    PRINT_NOTICE_OF_PRIVACY_PRACTICES: {
+        URL: (clientId: string,appointmentId:string) => ENV.API_URL + '/client/' + clientId + '/appointment/'+ appointmentId +  '/privacyNotice/generatePDF',
+        METHOD: "post"
+    },
+    PRINT_NEW_INJURY_FORM: {
+        URL: (clientId: string,appointmentId:string) => ENV.API_URL + '/client/' + clientId + '/appointment/'+ appointmentId +  '/newInjuryForm/generatePDF',
+        METHOD: "post"
     }
 }
 

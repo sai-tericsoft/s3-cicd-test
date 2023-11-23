@@ -232,7 +232,7 @@ const AppointmentSettingsRescheduleComponent = (props: AppointmentSettingsResche
                                         mentionsList?.map((mention) => {
                                             return (
                                                 <div>
-                                                    <ChipComponent label={mention.display}/>
+                                                    <ChipComponent label={mention.display} className={'inactive'}/>
                                                 </div>
                                             )
                                         })
@@ -374,7 +374,7 @@ const AppointmentSettingsRescheduleComponent = (props: AppointmentSettingsResche
                                         mentionsList.map((mention) => {
                                             return (
                                                 <div>
-                                                    <ChipComponent label={mention.display}/>
+                                                    <ChipComponent label={mention.display} className={'inactive'}/>
                                                 </div>
                                             )
                                         })

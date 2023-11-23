@@ -84,7 +84,7 @@ const ClientAddComponent = (props: ClientAddComponentProps) => {
             image: ImageConfig.PopupLottie,
             showLottie:true,
             confirmationTitle: 'SEND INVITE LINK',
-            confirmationSubTitle: 'Are you sure you want to send invite link to',//${values.first_name} ${values.last_name} having email ${values.primary_email}?`,
+            confirmationSubTitle: 'Are you sure you want to send invite link to:',//${values.first_name} ${values.last_name} having email ${values.primary_email}?`,
             confirmationDescription:<div className="transfer-file-to">
                 <div className={'mrg-bottom-15'}>
                     <span className={'client-case-name-title '}>Client:</span> <span>{values.first_name} {values.last_name}</span>

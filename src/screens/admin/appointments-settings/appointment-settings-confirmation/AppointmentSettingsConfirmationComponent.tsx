@@ -147,7 +147,7 @@ const AppointmentSettingsConfirmationComponent = (props: AppointmentSettingsConf
                                         mentionsList.map((mention) => {
                                             return (
                                                 <div>
-                                                    <ChipComponent label={mention.display}/>
+                                                    <ChipComponent label={mention.display} className={'inactive'}/>
                                                 </div>
                                             )
                                         })
@@ -293,7 +293,7 @@ const AppointmentSettingsConfirmationComponent = (props: AppointmentSettingsConf
                                         mentionsList.map((mention) => {
                                             return (
                                                 <div>
-                                                    <ChipComponent label={mention.display}/>
+                                                    <ChipComponent label={mention.display} className={'inactive'}/>
                                                 </div>
                                             )
                                         })
