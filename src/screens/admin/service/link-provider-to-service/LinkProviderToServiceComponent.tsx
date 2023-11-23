@@ -10,10 +10,12 @@ import {useDispatch} from "react-redux";
 import LoaderComponent from "../../../../shared/components/loader/LoaderComponent";
 import StatusCardComponent from "../../../../shared/components/status-card/StatusCardComponent";
 import BasicDetailsCardComponent from "../../../../shared/components/basic-details-card/BasicDetailsCardComponent";
-import {APIConfig} from "../../../../constants";
+import {APIConfig, ImageConfig} from "../../../../constants";
 import AutoCompleteDropdownComponent
     from "../../../../shared/components/form-controls/auto-complete/AutoCompleteComponent";
 import ServiceSlotsComponent from "../service-slots/ServiceSlotsComponent";
+import IconButtonComponent from "../../../../shared/components/icon-button/IconButtonComponent";
+import ToolTipComponent from "../../../../shared/components/tool-tip/ToolTipComponent";
 
 interface LinkProviderToServiceComponentProps {
 
@@ -96,6 +98,16 @@ const LinkProviderToServiceComponent = (props: LinkProviderToServiceComponentPro
                                     setSelectedProviderIDForLinking(value);
                                 }}
                             />
+                        </div>
+                        <div className="ts-col-1 mrg-top-5">
+                            <IconButtonComponent className={"form-helper-icon"}>
+                                <ToolTipComponent
+                                    showArrow={true}
+                                    position={"right"}
+                                    tooltip={"The provider will be linked to the service within the assigned facilities. To assign a new facility make changes in the User Management section."}>
+                                    <ImageConfig.InfoIcon/>
+                                </ToolTipComponent>
+                            </IconButtonComponent>
                         </div>
                     </div>
                     <ServiceSlotsComponent userId={selectedProviderIDForLinking?._id} serviceId={serviceId}/>
