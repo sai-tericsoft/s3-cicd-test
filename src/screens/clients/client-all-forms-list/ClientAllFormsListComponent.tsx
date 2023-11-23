@@ -59,6 +59,8 @@ const ClientAllFormsListComponent = (props: ClientAllFormsListComponentProps) =>
                     response = await CommonService._client.printNoticeOfPrivacyForm(clientId, appointmentId, payload)
                 } else if (form?.form_type === 'New Injury/Condition Information' && clientId && appointmentId) {
                     response = await CommonService._client.printNewInjuryForm(clientId, appointmentId, payload)
+                }else{
+                    return;
                 }
                 cb(response?.data?.url);
             } catch (error: any) {
