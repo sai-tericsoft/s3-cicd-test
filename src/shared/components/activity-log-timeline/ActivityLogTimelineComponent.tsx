@@ -109,7 +109,7 @@ const ActivityLogTimelineComponent = (props: ActivityLogTimelineComponentProps) 
         str += log?.sub_section && (log?.sub_section + '$');
         str += log?.field_name && (log?.field_name + '$');
         str += log?.value ? (log?.value) : '';
-        str.charAt(str.length - 1) === '$' && (str = str.slice(0, -1));
+        str.charAt(str?.length - 1) === '$' && (str = str.slice(0, -1));
         str = str.replace(/\$+/g, ' > ');
         return str;
     }
@@ -264,7 +264,7 @@ const ActivityLogTimelineComponent = (props: ActivityLogTimelineComponentProps) 
         // Check correct time format and split into components
         time = time.toString().match(/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [time];
 
-        if (time.length > 1) { // If time format correct
+        if (time?.length > 1) { // If time format correct
             time = time.slice(1);  // Remove full string match value
             time[5] = +time[0] < 12 ? 'AM' : 'PM'; // Set AM/PM
             time[0] = +time[0] % 12 || 12; // Adjust hours
@@ -443,7 +443,7 @@ const ActivityLogTimelineComponent = (props: ActivityLogTimelineComponentProps) 
                     <DataLabelValueComponent label={"To"}
                     >
                         {
-                            logItem?.updated_value && logItem?.updated_value?.special_tests.length > 0 ?
+                            logItem?.updated_value && logItem?.updated_value?.special_tests?.length > 0 ?
                                 <TableComponent
                                     data={logItem?.updated_value?.special_tests}
                                     columns={SpecialTestsColumns}

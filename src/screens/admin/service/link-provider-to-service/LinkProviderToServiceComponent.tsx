@@ -14,6 +14,7 @@ import {APIConfig} from "../../../../constants";
 import AutoCompleteDropdownComponent
     from "../../../../shared/components/form-controls/auto-complete/AutoCompleteComponent";
 import ServiceSlotsComponent from "../service-slots/ServiceSlotsComponent";
+import IconButtonComponent from "../../../../shared/components/icon-button/IconButtonComponent";
 
 interface LinkProviderToServiceComponentProps {
 
@@ -96,6 +97,9 @@ const LinkProviderToServiceComponent = (props: LinkProviderToServiceComponentPro
                                     setSelectedProviderIDForLinking(value);
                                 }}
                             />
+                        </div>
+                        <div>
+                            <IconButtonComponent/>
                         </div>
                     </div>
                     <ServiceSlotsComponent userId={selectedProviderIDForLinking?._id} serviceId={serviceId}/>
