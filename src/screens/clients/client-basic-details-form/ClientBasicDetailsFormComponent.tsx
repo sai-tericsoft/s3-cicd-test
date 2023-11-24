@@ -1131,6 +1131,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                 <div className={'d-flex ts-align-items-center mrg-bottom-24'}>
                                                     <FormControlLabelComponent label={"Secondary Emergency Contact"}/>
                                                     <ButtonComponent className={'remove-contact-button'}
+                                                                     size={'small'}
                                                                      prefixIcon={<ImageConfig.CloseIcon/>}
                                                                      variant={'contained'} color={'error'}
                                                                      onClick={() => {
