@@ -149,7 +149,7 @@ const AppointmentSettingsRescheduleComponent = (props: AppointmentSettingsResche
                         <>
                             <div className="d-flex ts-justify-content-between">
                                 <QuestionComponent title={"Message (SMS)"}
-                                                   description={"Create an SMS message that a client will receive when an appointment is confirmed."}
+                                                   description={"Create an SMS message that a client will receive when an appointment is rescheduled."}
                                 ></QuestionComponent>
                                 <div>
                                     <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>}
@@ -215,7 +215,7 @@ const AppointmentSettingsRescheduleComponent = (props: AppointmentSettingsResche
                                         </ToolTipComponent>
                                     </div>
                                 </div>
-                                <div className={'message-description'}>Create an SMS message that a client will receive when an appointment is confirmed.</div>
+                                <div className={'message-description'}>Create an SMS message that a client will receive when an appointment is rescheduled.</div>
                             </div>
                             <MentionsComponent
                                 data={mentionsList}
@@ -268,7 +268,7 @@ const AppointmentSettingsRescheduleComponent = (props: AppointmentSettingsResche
 
                         <div className="d-flex ts-justify-content-between">
                             <QuestionComponent title={"Email"}
-                                               description={"Create an Email message that a client will receive when an appointment is confirmed."}
+                                               description={"Create an Email message that a client will receive when an appointment is rescheduled."}
                             ></QuestionComponent>
                             <div>
                                 <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>}
@@ -343,7 +343,7 @@ const AppointmentSettingsRescheduleComponent = (props: AppointmentSettingsResche
                                         </ToolTipComponent>
                                     </div>
                                 </div>
-                                <div className={'message-description mrg-bottom-5'}>Create an Email message that a client will receive when an appointment is confirmed.</div>
+                                <div className={'message-description mrg-bottom-5'}>Create an Email message that a client will receive when an appointment is rescheduled.</div>
 
                             </div>
                             <div>
