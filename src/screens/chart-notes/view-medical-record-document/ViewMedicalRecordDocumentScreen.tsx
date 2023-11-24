@@ -115,15 +115,15 @@ const ViewMedicalRecordDocumentScreen = (props: ViewMedicalRecordDocumentScreenP
                             });
                             setIsMedicalRecordAttachmentDeleting(false);
                             CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY] || "Successfully deleted attachment", "success");
-                            const referrer: any = searchParams.get("referrer");
-                            const module_name: any = searchParams.get("module_name");
-                            if (referrer && referrer !== "undefined" && referrer !== "null") {
-                                if (module_name === "client_module") {
-                                    navigate(referrer);
-                                } else {
-
-                                }
-                            }
+                            //const referrer: any = searchParams.get("referrer");
+                            //const module_name: any = searchParams.get("module_name");
+                            // if (referrer && referrer !== "undefined" && referrer !== "null") {
+                            //     if (module_name === "client_module") {
+                            //         navigate(referrer);
+                            //     } else {
+                            //
+                            //     }
+                            // }
                         }).catch((error: any) => {
                         setIsMedicalRecordAttachmentDeleting(false);
                         CommonService._alert.showToast(error?.error || "Error deleting an attachment", "success");
@@ -132,7 +132,7 @@ const ViewMedicalRecordDocumentScreen = (props: ViewMedicalRecordDocumentScreenP
                     CommonService._alert.showToast('Medical Record Document Id is missing', "error");
                 }
             });
-        }, [medicalRecordDocumentId, navigate, searchParams]);
+        }, [medicalRecordDocumentId]);
 
         const handleMedicalRecordDocumentAttachmentAdd = useCallback(() => {
             if (medicalRecordDocumentId) {
