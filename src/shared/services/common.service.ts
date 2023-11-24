@@ -167,8 +167,8 @@ const generateUseCaseFromCaseDetails2 = (case_details: any) => {
 }
 
 const generateUseCaseFromCaseDetails3 = (case_details: any) => {
-    return `${CommonService.convertDateFormat2(case_details?.created_at)} - ${case_details?.injury_details?.map((bodyPart: any, index: number) => {
-        return (bodyPart?.body_part_name +" "+ (bodyPart?.body_side ? `(${bodyPart.body_side})` : ' ') + (index !== case_details?.injury_details?.length - 1 ? ' ' : ''))
+    return `${CommonService.convertDateFormat2(case_details?.created_at)} - ${case_details?.injury_details?.map((bodyPart: any) => {
+        return (bodyPart?.body_part_name +(" ")+ (bodyPart?.body_side ? `(${bodyPart.body_side})` : ' '))
     })} `
 }
 
