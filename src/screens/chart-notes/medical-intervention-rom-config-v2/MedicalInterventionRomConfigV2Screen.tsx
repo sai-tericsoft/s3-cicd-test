@@ -394,7 +394,7 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
                     };
                     bodyPartConfig?.selected_sides?.forEach((side: any) => {
                         const sideData = movementDataTemp?.[side];
-                        if (sideData) {
+                        if (sideData &&(sideData?.arom || sideData?.prom || sideData?.strength)) {
                             movementData.config[side] = {
                                 arom: sideData?.arom,
                                 prom: sideData?.prom,
@@ -402,11 +402,19 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
                             }
                         }
                     });
-                    movementData.config.comments = movementDataTemp?.comments;
-                    movementData.config.commentsTemp = movementDataTemp?.commentsTemp;
-                    bodyPartData.rom_config.push(movementData);
+                    if(movementDataTemp?.comments){
+                        movementData.config.comments = movementDataTemp?.comments;
+                    }
+                    if(movementDataTemp?.commentsTemp){
+                        movementData.config.commentsTemp = movementDataTemp?.commentsTemp;
+                    }
+                    if(Object.keys(movementData.config).length > 0) {
+                        bodyPartData.rom_config.push(movementData);
+                    }
                 });
-                config.push(bodyPartData);
+                if(bodyPartData?.rom_config?.length > 0){
+                    config.push(bodyPartData);
+                }
             });
             setSubmitting(true);
             CommonService._chartNotes.SaveMedicalInterventionROMConfigAPICall(medicalInterventionId, {config})
