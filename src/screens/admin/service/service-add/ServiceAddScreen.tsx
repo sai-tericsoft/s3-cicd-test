@@ -210,6 +210,7 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                                                                     <div>
                                                                         {(index > 0) && <ButtonComponent
                                                                             color={'error'}
+                                                                            size={'small'}
                                                                             prefixIcon={<ImageConfig.CloseIcon height={'10'} width={'10'}/>}
                                                                             onClick={() => {
                                                                                 arrayHelpers.remove(index);
@@ -354,6 +355,7 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                                                                         label={`Follow Up Consultation Details ${index + 1}`}/>
                                                                     <div>
                                                                         {(index > 0) && <ButtonComponent
+                                                                            size={'small'}
                                                                             className={'mrg-bottom-25 mrg-left-20'}
                                                                             color={'error'}
                                                                             prefixIcon={<ImageConfig.CloseIcon/>}

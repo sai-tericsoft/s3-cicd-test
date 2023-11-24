@@ -164,6 +164,18 @@ const ServiceCategoryEditComponent = (props: ServiceCategoryEditComponentProps) 
                                         <FormControlLabelComponent size={"sm"} label={'Service Category Color'}/>
 
                                         <div className="color-picker-wrapper">
+                                            {values.bg_color_code && <div className='preview-wrapper'>
+                                                <FormControlLabelComponent size={"sm"}
+                                                                           label={"Preview"}/>
+                                                <div className='preview-button' style={{
+                                                    background: `rgba(${values.bg_color_code.r}, ${values.bg_color_code.g}, ${values.bg_color_code.b}, ${values.bg_color_code.a})`,
+                                                    color: `rgba(${values.text_color_code.r}, ${values.text_color_code.g}, ${values.text_color_code.b}, ${values.text_color_code.a})`
+                                                }}>
+                                                    SC (1)
+                                                </div>
+
+                                            </div>
+                                            }
 
                                             <div className='ts-row'>
                                                 <div className='ts-col-6'>
@@ -193,19 +205,6 @@ const ServiceCategoryEditComponent = (props: ServiceCategoryEditComponentProps) 
                                                     </Field>
                                                 </div>
                                             </div>
-
-                                            {values.bg_color_code && <div className='preview-wrapper'>
-                                                <FormControlLabelComponent size={"sm"}
-                                                                           label={"Preview"}/>
-                                                <div className='preview-button' style={{
-                                                    background: `rgba(${values.bg_color_code.r}, ${values.bg_color_code.g}, ${values.bg_color_code.b}, ${values.bg_color_code.a})`,
-                                                    color: `rgba(${values.text_color_code.r}, ${values.text_color_code.g}, ${values.text_color_code.b}, ${values.text_color_code.a})`
-                                                }}>
-                                                    SC (1)
-                                                </div>
-
-                                            </div>
-                                            }
                                         </div>
 
                                     </div>

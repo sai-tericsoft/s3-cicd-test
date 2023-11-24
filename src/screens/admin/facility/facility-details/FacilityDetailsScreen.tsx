@@ -71,7 +71,7 @@ const FacilityDetailsScreen = (props: FacilityDetailsScreenProps) => {
                             title={facilityDetails?.name}
                             status={facilityDetails?.is_active}
                             avatarUrl={facilityDetails?.image?.url}
-                            subTitle={facilityDetails?.location_details?.title?.toLocaleUpperCase()} // TODO
+                            subTitle={facilityDetails?.location?.toLocaleUpperCase()} // TODO
                         ></BasicDetailsCardComponent>
                     </div>
                     <CardComponent title={"Facility Details"}>
@@ -83,7 +83,7 @@ const FacilityDetailsScreen = (props: FacilityDetailsScreenProps) => {
                             </div>
                             <div className={'ts-col-lg-3'}>
                                 <DataLabelValueComponent label={"Facility Location"}>
-                                    {facilityDetails?.location_details?.title || "N/A"}
+                                    {facilityDetails?.location_details?.title?.toLocaleUpperCase() || "N/A"}
                                 </DataLabelValueComponent>
                             </div>
                         </div>
