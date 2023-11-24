@@ -153,6 +153,11 @@ const ViewExerciseRecordScreen = (props: ViewExerciseLogComponentProps) => {
     }, []);
 
 
+    const handleView = useCallback((attachment: any) => {
+        CommonService._communications.LightBoxSubject.next([attachment]);
+    }, []);
+
+
     return (
         <div className={'view-exercise-log-component'}>
             <PageHeaderComponent title={"View Exercise Record"}/>
@@ -236,6 +241,7 @@ const ViewExerciseRecordScreen = (props: ViewExerciseLogComponentProps) => {
                                             {item?.attachments?.length > 0 && item?.attachments?.map((attachment: any) => {
                                                 return <ChipComponent label={attachment?.name}
                                                                       color={'success'}
+                                                                      onClick={()=>handleView(attachment)}
                                                                       className={'mrg-right-10'}
                                                                       key={attachment?._id}
                                                                       prefixIcon={ImageConfig.PDFIcon}/>
