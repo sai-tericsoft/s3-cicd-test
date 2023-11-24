@@ -113,7 +113,6 @@ const MedicalRecordAttachmentBasicDetailsCardComponent = (props: MedicalRecordAt
         }
 }, [medicalRecordDetails?._id, medicalRecordDocumentId,noteTypeCategory]);
     
-    console.log('tempAttachmentDetails',tempAttachmentDetails);
 
     return (
         <div className={"medical-record-attachment-basic-details-card-component"}>
