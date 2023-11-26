@@ -193,11 +193,11 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
             }
         }
 
-        const bodySidesColumns = bodyPart.body_part_details.sides.map((side:any)=>{
+        const bodySidesColumns = bodyPart.body_part_details.sides.map((side: any) => {
             return {
                 title: side + " Side",
-                key:side,
-                dataIndex:side,
+                key: side,
+                dataIndex: side,
                 align: 'center',
                 fixed: 'left',
                 width: 150,
@@ -209,7 +209,7 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
             }
         })
         return (
-            [testNameColumn,...bodySidesColumns,commentsColumn]
+            [testNameColumn, ...bodySidesColumns, commentsColumn]
         )
     }, [])
 
@@ -373,29 +373,42 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
         }
     }, [medicalInterventionDetails]);
 
+    const handleScrollToLastPosition = useCallback((last_position:string) => {
+        const ele = document.getElementById(last_position);
+        const scroller = document.getElementById('page-content-holder');
+        if (ele && scroller) {
+            const rect = ele.getBoundingClientRect();
+            const containerRect = scroller.getBoundingClientRect();
+            const targetScrollTop = scroller.scrollTop + rect.top - containerRect.top - 280;
+            const maxScrollTop = scroller.scrollHeight - scroller.clientHeight - 280;
+            const scrollPosition = Math.min(targetScrollTop, maxScrollTop);
+
+            // Add a scroll event listener to the scroller
+            const handleScroll = () => {
+                // Delete the "last_position" parameter from searchParams
+                searchParams.delete("last_position");
+                setSearchParams(searchParams);
+
+                // Remove the event listener to avoid unnecessary deletions
+                scroller.removeEventListener("scroll", handleScroll);
+            };
+
+            // Scroll to the desired position
+            scroller.scrollTo({ top: scrollPosition, behavior: 'smooth' });
+
+            // Add the scroll event listener
+            scroller.addEventListener("scroll", handleScroll);
+        }
+    },[]);
+
     useEffect(() => {
-        if (isMedicalInterventionDetailsLoaded && medicalInterventionDetails?.created_at) {
+        if (isMedicalInterventionDetailsLoaded) {
             const last_position: any = searchParams.get("last_position");
             if (last_position) {
-                const ele = document.getElementById(last_position);
-                const scroller = document.getElementById('page-content-holder');
-                if (ele && scroller) {
-                    (async () => {
-                        const rect = ele.getBoundingClientRect();
-                        const containerRect = scroller.getBoundingClientRect();
-                        const targetScrollTop = scroller.scrollTop + rect.top - containerRect.top;
-                        const maxScrollTop = scroller.scrollHeight - scroller.clientHeight;
-                        const scrollPosition = Math.min(targetScrollTop, maxScrollTop);
-                        await scroller.scrollTo({top: scrollPosition, behavior: 'smooth'})
-                        setTimeout(() => {
-                            searchParams.delete("last_position");
-                            setSearchParams(searchParams);
-                        }, 1000);
-                    })();
-                }
+                handleScrollToLastPosition(last_position);
             }
         }
-    }, [isMedicalInterventionDetailsLoaded, medicalInterventionDetails, setSearchParams, searchParams]);
+    }, [isMedicalInterventionDetailsLoaded, setSearchParams, searchParams]);
 
 
     useEffect(() => {
@@ -463,7 +476,7 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
             {
                 isMedicalInterventionDetailsLoaded && <>
                     <PageHeaderComponent
-                        title={medicalInterventionDetails?.is_discharge ? "Add Discharge Summary" :"Add Treatment Intervention"}
+                        title={medicalInterventionDetails?.is_discharge ? "Add Discharge Summary" : "Add Treatment Intervention"}
                         actions={
                             <div className="last-updated-status">
                                 <div className="last-updated-status-text">Last updated on:&nbsp;</div>
