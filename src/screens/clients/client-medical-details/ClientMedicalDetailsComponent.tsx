@@ -6,12 +6,13 @@ import {useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
-import React from "react";
+import React, {useCallback, useEffect} from "react";
 import LinkComponent from "../../../shared/components/link/LinkComponent";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import {ImageConfig} from "../../../constants";
 import HorizontalLineComponent
     from "../../../shared/components/horizontal-line/horizontal-line/HorizontalLineComponent";
+import {useSearchParams} from "react-router-dom";
 
 interface ClientMedicalDetailsComponentProps {
     clientId: string;
@@ -20,7 +21,7 @@ interface ClientMedicalDetailsComponentProps {
 const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps) => {
 
     const {clientId} = props;
-
+    const [searchParams, setSearchParams] = useSearchParams();
     const {
         clientMedicalDetails,
         clientBasicDetails,
@@ -28,6 +29,36 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
         isClientMedicalDetailsLoaded,
         isClientMedicalDetailsLoadingFailed
     } = useSelector((state: IRootReducerState) => state.client);
+
+    const handleScrollToLastPosition = useCallback((last_position: string) => {
+        const ele = document.getElementById(last_position);
+        if (ele) {
+            // Add a scroll event listener to the scroller
+            const handleScroll = () => {
+                // Delete the "last_position" parameter from searchParams
+                searchParams.delete("last_position");
+                setSearchParams(searchParams);
+
+                // Remove the event listener to avoid unnecessary deletions
+                ele.removeEventListener("scroll", handleScroll);
+            };
+
+            // Scroll to the desired position
+            ele.scrollIntoView({behavior: "smooth", block: "start"});
+
+            // Add the scroll event listener
+            ele.addEventListener("scroll", handleScroll);
+        }
+    }, [searchParams, setSearchParams]);
+
+    useEffect(() => {
+        if (isClientMedicalDetailsLoaded && clientMedicalDetails) {
+            const last_position: any = searchParams.get("lastPosition");
+            if (last_position) {
+                handleScrollToLastPosition(last_position);
+            }
+        }
+    }, [isClientMedicalDetailsLoaded, clientMedicalDetails, handleScrollToLastPosition, searchParams]);
 
 
     return (
@@ -42,14 +73,16 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                 <StatusCardComponent title={"Failed to fetch client Details"}/>
             }
             {
-                (isClientMedicalDetailsLoaded && clientMedicalDetails) && <>
+                (isClientMedicalDetailsLoaded && clientMedicalDetails) && <div id={'medical-history-holder'}>
                     <CardComponent title={'Personal Habits'} actions={<LinkComponent
                         route={CommonService._client.NavigateToClientEdit(clientId, "personalHabits")}>
                         <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>} size={"small"}>
                             Edit
                         </ButtonComponent>
                     </LinkComponent>
-                    }>
+                    }
+                                   id={"personalHabits"}
+                    >
                         <div className={'ts-row mrg-bottom-20'}>
                             <div className={'ts-col-lg-4'}>
                                 Smoke/Chew Tobacco?
@@ -122,7 +155,9 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                                            Edit
                                        </ButtonComponent>
                                    </LinkComponent>
-                                   }>
+                                   }
+                                   id={"allergies"}
+                    >
                         <div
                             className={'allergies-na'}> {clientMedicalDetails?.allergies ? clientMedicalDetails?.allergies.split("\n").map((i: any, key: any) => {
                             return <li key={key}>{i}</li>;
@@ -134,7 +169,9 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                             Edit
                         </ButtonComponent>
                     </LinkComponent>
-                    }>
+                    }
+                                   id={"medicalSupplements"}
+                    >
                         <DataLabelValueComponent label={'Prescription Medications'}>
                             {clientMedicalDetails?.medications?.prescription_medication || "N/A"}
                         </DataLabelValueComponent>
@@ -148,7 +185,9 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                             Edit
                         </ButtonComponent>
                     </LinkComponent>
-                    }>
+                    }
+                                   id={"medicalProvider"}
+                    >
                         <div className={'ts-row'}>
                             <div className={'ts-col-lg-3'}>
                                 <DataLabelValueComponent label={'Family Doctor Name'}>
@@ -188,7 +227,9 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                             Edit
                         </ButtonComponent>
                     </LinkComponent>
-                    }>
+                    }
+                                   id={"medicalHistory"}
+                    >
                         {
                             (clientMedicalDetails?.medical_history?.questions_details && clientMedicalDetails?.medical_history?.questions_details?.length > 0) &&
                             <div className={"allergies-na text"}>
@@ -227,7 +268,9 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                                     Edit
                                 </ButtonComponent>
                             </LinkComponent>
-                            }>
+                            }
+                                           id={"medicalFemaleOnly"}
+                            >
                                 <div className={'ts-row'}>
                                     <div className={'females-only-block'}>
                                         <div className={'ts-col-12'}>
@@ -240,7 +283,8 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                                         </div>
                                         <div className={'ts-col-12'}>
                                             <DataLabelValueComponent label={'Nursing?'} direction={'row'}>
-                                                <div className={'no-answer-text'}>{clientMedicalDetails?.females_only_questions?.["Nursing?"] || "N/A"}</div>
+                                                <div
+                                                    className={'no-answer-text'}>{clientMedicalDetails?.females_only_questions?.["Nursing?"] || "N/A"}</div>
                                             </DataLabelValueComponent>
                                         </div>
                                     </div>
@@ -254,7 +298,9 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                             Edit
                         </ButtonComponent>
                     </LinkComponent>
-                    }>
+                    }
+                                   id={"surgicalHistory"}
+                    >
                         {
                             (clientMedicalDetails?.surgical_history?.questions_details && clientMedicalDetails?.surgical_history?.questions_details?.length > 0) &&
                             <div className={"allergies-na text"}>
@@ -294,7 +340,9 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                                            Edit
                                        </ButtonComponent>
                                    </LinkComponent>
-                                   }>
+                                   }
+                                   id={"musculoskeletalHistory"}
+                    >
                         {(Object.keys(clientMedicalDetails?.musculoskeletal_history || {}).length === 0) && (Object.keys(clientMedicalDetails?.musculoskeletal_history || {}).length === 0) &&
                             <div className={'allergies-na'}> {
                                 (Object.keys(clientMedicalDetails?.musculoskeletal_history || {}).length === 0) && <>
@@ -341,7 +389,7 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
 
 
                     </CardComponent>
-                </>
+                </div>
             }
         </div>
     );

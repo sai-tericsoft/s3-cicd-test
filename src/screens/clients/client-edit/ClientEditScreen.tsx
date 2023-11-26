@@ -204,7 +204,7 @@ const ClientEditScreen = (props: ClientEditScreenProps) => {
                 } else if (currentStep === "accountDetails") {
                     navigate(CommonService._client.NavigateToClientDetails(clientId, "accountDetails"));
                 } else {
-                    navigate(CommonService._client.NavigateToClientDetails(clientId, "medicalHistoryQuestionnaire"));
+                    navigate(CommonService._client.NavigateToClientDetails(clientId, "medicalHistoryQuestionnaire",currentStep));
                 }
             }
         }));
