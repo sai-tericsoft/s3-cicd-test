@@ -399,7 +399,7 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
             // Add the scroll event listener
             scroller.addEventListener("scroll", handleScroll);
         }
-    },[]);
+    },[searchParams,setSearchParams]);
 
     useEffect(() => {
         if (isMedicalInterventionDetailsLoaded) {
@@ -408,7 +408,7 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                 handleScrollToLastPosition(last_position);
             }
         }
-    }, [isMedicalInterventionDetailsLoaded, setSearchParams, searchParams]);
+    }, [isMedicalInterventionDetailsLoaded, handleScrollToLastPosition, searchParams]);
 
 
     useEffect(() => {
