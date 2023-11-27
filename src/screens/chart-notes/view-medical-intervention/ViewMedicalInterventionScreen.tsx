@@ -316,7 +316,6 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
         }
     }, [navigate, medicalRecordId, medicalInterventionId]);
 
-
     return (
         <div className={'add-medical-intervention-screen'}>
             {
@@ -1231,6 +1230,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                             className={"display-flex flex-direction-row-reverse mrg-top-20 mrg-bottom-25"}>
                                             <ESignApprovalComponent isSigned={medicalInterventionDetails?.is_signed}
                                                                     isSigning={isSigningInProgress}
+                                                                    signature_url={medicalInterventionDetails?.signature}
                                                 // isLoading={isFormBeingUpdated || formik.isSubmitting}
                                                                     canSign={medicalInterventionDetails?.can_sign}
                                                                     signedAt={medicalInterventionDetails?.signed_on}
