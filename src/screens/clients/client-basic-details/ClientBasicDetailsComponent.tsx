@@ -397,7 +397,7 @@ const ClientBasicDetailsComponent = (props: ClientBasicDetailsComponentProps) =>
                             })
                         }
                     </CardComponent>
-                    <CardComponent title={'Work Information'} className={'work-info-card'}>
+                    <CardComponent title={'Work Information'} className={'pdd-bottom-0'}>
                         <div className={'ts-row'}>
                             <div className={'ts-col-lg-3'}>
                                 <DataLabelValueComponent label={'Occupation'}>
@@ -407,7 +407,6 @@ const ClientBasicDetailsComponent = (props: ClientBasicDetailsComponentProps) =>
                             <div className={'ts-col-lg-3'}>
                                 <DataLabelValueComponent label={'Employment Status'}>
                                     <div> {clientBasicDetails?.work_info?.employment_status_details?.title || 'N/A'}</div>
-                                    <br/>
                                 </DataLabelValueComponent>
                             </div>
                         </div>
