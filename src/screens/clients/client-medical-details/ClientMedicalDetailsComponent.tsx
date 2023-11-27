@@ -37,7 +37,7 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
             ele.scrollIntoView({behavior: "smooth", block: "start"});
             // Add the scroll event listener
         }
-    }, [searchParams, setSearchParams]);
+    }, []);
 
     useEffect(() => {
         if (isClientMedicalDetailsLoaded && clientMedicalDetails) {

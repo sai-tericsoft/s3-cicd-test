@@ -5,8 +5,15 @@
   display: flex;
   flex-direction: column;
 
+  .appointment-details-title {
+    font-weight: 700;
+    font-size:1.2857rem;
+    line-height: 24px;
+    margin-bottom: 24px;
+  }
+
   .drawer-header {
-    justify-content: flex-start !important;
+    justify-content: space-between !important;
 
     .back-btn {
       justify-content: center;
@@ -14,12 +21,6 @@
       display: flex;
       cursor: pointer;
       margin-right: 10px;
-    }
-
-    .appointment-details-title {
-      font-weight: 700;
-      font-size:1.2857rem;
-      line-height: 24px
     }
   }
 
