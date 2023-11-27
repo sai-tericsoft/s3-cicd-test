@@ -12,6 +12,7 @@ import FormikTextAreaComponent from "../../form-controls/formik-text-area/Formik
 import {CommonService} from "../../../services";
 import {IAPIResponseType} from "../../../models/api.model";
 import HorizontalLineComponent from "../../horizontal-line/horizontal-line/HorizontalLineComponent";
+import {ImageConfig} from "../../../../constants";
 
 
 interface BookAppointmentPaymentComponentProps {
@@ -42,7 +43,7 @@ const addAppointmentPaymentValidationSchema = Yup.object().shape({
 });
 
 const BookAppointmentPaymentComponent = (props: BookAppointmentPaymentComponentProps) => {
-    const {onComplete, booking} = props;
+    const {onComplete, booking,onClose,onBack} = props;
     const {paymentModes} = useSelector((state: IRootReducerState) => state.staticData);
     const [availableCouponsList, setAvailableCouponsList] = useState<any[]>([]);
     const [selectedCoupon, setSelectedCoupon] = useState<any>(undefined);
@@ -144,18 +145,16 @@ const BookAppointmentPaymentComponent = (props: BookAppointmentPaymentComponentP
     return (
         <div className={'book-appointment-payment-component'}>
             <div className="drawer-header">
-                {/*<div className="back-btn" onClick={onBack}><ImageConfig.LeftArrow/></div>*/}
+                <div className="back-btn" onClick={onBack}><ImageConfig.LeftArrow/></div>
                 {/*<ToolTipComponent tooltip={"Close"} position={"left"}>*/}
-                {/*    <div className="drawer-close"*/}
-                {/*         id={'book-appointment-close-btn'}*/}
-                {/*         onClick={(event) => {*/}
-                {/*             if (onClose) {*/}
-                {/*                 onClose();*/}
-                {/*             }*/}
-                {/*         }}>*/}
-                {/*        <ImageConfig.CloseIcon/>*/}
-                {/*    </div>*/}
-                {/*</ToolTipComponent>*/}
+                <div className="drawer-close"
+                     id={'book-appointment-close-btn'}
+                     onClick={(event) => {
+                         if (onClose) {
+                             onClose();
+                         }
+                     }
+                     }><ImageConfig.CloseIcon/></div>
             </div>
             <div className="secure-checkout-title">Secure Checkout</div>
             <Formik
