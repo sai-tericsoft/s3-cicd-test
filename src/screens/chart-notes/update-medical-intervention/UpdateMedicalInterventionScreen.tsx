@@ -376,6 +376,7 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
     const handleScrollToLastPosition = useCallback((last_position:string) => {
         const ele = document.getElementById(last_position);
         const scroller = document.getElementById('page-content-holder');
+        console.log("ele", ele, scroller);
         if (ele && scroller) {
             const rect = ele.getBoundingClientRect();
             const containerRect = scroller.getBoundingClientRect();
@@ -386,14 +387,21 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
             // Add a scroll event listener to the scroller
             const handleScroll = () => {
                 // Delete the "last_position" parameter from searchParams
-                searchParams.delete("last_position");
-                setSearchParams(searchParams);
+                console.log("handleScroll");
+                setTimeout(() => {
+                    searchParams.delete("last_position");
+                    setSearchParams(searchParams);
+                }
+                , 2000);
+                // searchParams.delete("last_position");
+                // setSearchParams(searchParams);
 
                 // Remove the event listener to avoid unnecessary deletions
                 scroller.removeEventListener("scroll", handleScroll);
             };
 
             // Scroll to the desired position
+            console.log("scrollPosition", scrollPosition);
             scroller.scrollTo({ top: scrollPosition, behavior: 'smooth' });
 
             // Add the scroll event listener
@@ -404,6 +412,7 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
     useEffect(() => {
         if (isMedicalInterventionDetailsLoaded) {
             const last_position: any = searchParams.get("last_position");
+            console.log("last_position", last_position);
             if (last_position) {
                 handleScrollToLastPosition(last_position);
             }
