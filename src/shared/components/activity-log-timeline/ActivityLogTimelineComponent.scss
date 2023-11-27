@@ -43,6 +43,21 @@
 
   .default-activity-log .data-label-value:last-child {
       margin-bottom: 0px;
+
+  }
+  .old-value-log{
+    white-space: pre-wrap;
+    max-width: 600px;
+    overflow-wrap: break-word;
+  }
+  .updated-value-log{
+    white-space: pre-wrap;
+    max-width: 600px;
+    overflow-wrap: break-word;
+  }
+  .activity-lod-data-value{
+    width: 100%;
+    white-space: pre-wrap;
   }
   .MuiAccordionSummary-expandIconWrapper{
     width: 20px;

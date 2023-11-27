@@ -90,7 +90,13 @@ const ChartNotesActivityLogsComponent = (props: ChartNotesActivityLogsComponentP
                         placeholder={"Search using activity name"}
                         value={chartNotesActivityLogFilterState.search}
                         onSearchChange={(value) => {
-                            setChartNotesActivityLogFilterState({...chartNotesActivityLogFilterState, search: value})
+                            pageNumRef.current = 1;
+                            if(value) {
+                                setChartNotesActivityLogFilterState({
+                                    ...chartNotesActivityLogFilterState,
+                                    search: value,
+                                })
+                            }
                         }}
                     />&nbsp;&nbsp;&nbsp;&nbsp;
                 {/*<DateRangePickerComponent*/}
@@ -120,6 +126,7 @@ const ChartNotesActivityLogsComponent = (props: ChartNotesActivityLogsComponentP
                             if (value) {
                                 newState['start_date'] = moment(value[0])?.format('YYYY-MM-DD');
                                 newState['end_date'] = moment(value[1])?.format('YYYY-MM-DD');
+                                pageNumRef.current = 1;
                                 // newState['date_range'] = value;
                             } else {
                                 delete newState['date_range'];
