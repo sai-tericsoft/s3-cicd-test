@@ -282,7 +282,7 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                                             </DataLabelValueComponent>
                                         </div>
                                         <div className={'ts-col-12'}>
-                                            <DataLabelValueComponent label={'Nursing?'} direction={'row'}>
+                                            <DataLabelValueComponent className={'mrg-bottom-0'} label={'Nursing?'} direction={'row'}>
                                                 <div
                                                     className={'no-answer-text'}>{clientMedicalDetails?.females_only_questions?.["Nursing?"] || "N/A"}</div>
                                             </DataLabelValueComponent>
