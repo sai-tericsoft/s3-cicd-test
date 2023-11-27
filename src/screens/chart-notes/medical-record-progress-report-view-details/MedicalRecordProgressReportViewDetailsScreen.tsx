@@ -294,6 +294,7 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
                                             <div className={'ts-col-md-4 ts-col-lg-8'}/>
                                             <div className={'ts-col-md-4 ts-col-lg-4'}>
                                                 <ESignApprovalComponent isSigned={progressReportDetails?.is_signed}
+                                                                        signature_url={progressReportDetails?.signature}
                                                                         signedAt={progressReportDetails?.signed_on}/>
                                             </div>
                                         </div>
