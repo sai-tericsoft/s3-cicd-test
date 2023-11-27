@@ -384,26 +384,35 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
 
                                 {isFullCardOpen && <>
                                     <div className={'ts-row'}>
-                                        <div className={'ts-col-md-4 ts-col-lg'}>
+                                        <div className={'ts-col-md-4 ts-col-lg-12 card-container'}>
 
                                             <DataLabelValueComponent label={'Injury/Condition Description'}>
                                                 <ul>
-                                                    {clientMedicalRecord?.injury_description ? clientMedicalRecord?.injury_description.split("\n")?.filter((i: any) => i !== "")?.map((i: any, key: any) => {
+                                                    {clientMedicalRecord?.injury_description && clientMedicalRecord?.injury_description.split("\n")?.filter((i: any) => i !== "")?.map((i: any, key: any) => {
                                                         return <li key={key}>{i}</li>;
-                                                    }) : "N/A"}
+                                                    })}
                                                 </ul>
+                                                <div className={'no-text'}>
+                                                    {
+                                                        !clientMedicalRecord?.injury_description &&
+                                                        'N/A'
+                                                    }
+                                                </div>
                                             </DataLabelValueComponent>
 
                                         </div>
                                     </div>
                                     <div className={'ts-row'}>
-                                        <div className={'ts-col-md-4 ts-col-lg'}>
+                                        <div className={'ts-col-md-4 ts-col-lg card-container'}>
                                             <DataLabelValueComponent label={'Restrictions/Limitations'}>
                                                 <ul>
-                                                    {clientMedicalRecord?.limitations ? clientMedicalRecord?.limitations.split("\n")?.filter((i: any) => i !== "")?.map((i: any, key: any) => {
+                                                    {clientMedicalRecord?.limitations && clientMedicalRecord?.limitations?.split("\n")?.filter((i: any) => i !== "")?.map((i: any, key: any) => {
                                                         return <li key={key}>{i}</li>;
-                                                    }) : "N/A"}
+                                                    })}
                                                 </ul>
+                                                <div className={'no-text'}>
+                                                    N/A
+                                                </div>
                                             </DataLabelValueComponent>
 
                                         </div>

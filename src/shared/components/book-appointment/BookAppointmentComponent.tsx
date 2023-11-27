@@ -114,6 +114,17 @@ const BookAppointmentComponent = (props: BookAppointmentComponentProps) => {
             {
                 step === 'client' && <>
                     <div className={'client-search-wrapper'}>
+                        <div className="drawer-header">
+                            <div className="back-btn"/>
+                            <div className="drawer-close"
+                                 id={'book-appointment-close-btn'}
+                                 onClick={(event) => {
+                                     if (onClose) {
+                                         onClose();
+                                     }
+                                 }
+                                 }><ImageConfig.CloseIcon/></div>
+                        </div>
                         <div className="client-search-input">
                             <SearchComponent value={clientSearch}
                                              label={"Search"}
@@ -155,6 +166,9 @@ const BookAppointmentComponent = (props: BookAppointmentComponentProps) => {
             {
                 step === 'form' &&
                 <BookAppointmentFormComponent preFillData={preFillData} client={selectedClient}
+                                              onBack={() => {
+                                                  setStep('client');
+                                              }}
                                               onComplete={onFormComplete} onClose={onClose}/>
             }
             {
@@ -169,7 +183,7 @@ const BookAppointmentComponent = (props: BookAppointmentComponentProps) => {
             {
                 step === 'payment' && <BookAppointmentPaymentComponent onBack={
                     () => {
-                        setStep('form');
+                        setStep('overview');
                     }
                 } booking={booking} onComplete={onPaymentComplete} onClose={onClose}/>
             }

@@ -18,13 +18,11 @@ interface BookAppointmentOverviewComponentProps {
 }
 
 const BookAppointmentOverviewComponent = (props: BookAppointmentOverviewComponentProps) => {
-    const {onComplete, bookingDraft} = props;
+    const {onComplete, bookingDraft,onBack,onClose} = props;
     const {appointmentTypes} = useSelector((state: IRootReducerState) => state.staticData);
     // const [serviceDetails, setServiceDetails] = useState<any | null>(null);
     const [bookType, setBookType] = useState<any | null>(null);
     const [isBookingLoading, setIsBookingLoading] = useState<boolean>(false);
-
-    console.log('bookingDraft', bookingDraft);
 
 
     // const getServiceView = useCallback(
@@ -90,19 +88,19 @@ const BookAppointmentOverviewComponent = (props: BookAppointmentOverviewComponen
     return (
         <div className={'book-appointment-overview-component'}>
             <div className="drawer-header">
-                {/*<div className="back-btn" onClick={onBack}><ImageConfig.LeftArrow/></div>*/}
-                <div className="appointment-details-title">Appointment Details</div>
+                <div className="back-btn" onClick={onBack}><ImageConfig.LeftArrow/></div>
                 {/*<ToolTipComponent tooltip={"Close"} position={"left"}>*/}
-                {/*    <div className="drawer-close"*/}
-                {/*         id={'book-appointment-close-btn'}*/}
-                {/*         onClick={(event) => {*/}
-                {/*             if (onClose) {*/}
-                {/*                 onClose();*/}
-                {/*             }*/}
-                {/*         }*/}
-                {/*         }><ImageConfig.CloseIcon/></div>*/}
+                    <div className="drawer-close"
+                         id={'book-appointment-close-btn'}
+                         onClick={(event) => {
+                             if (onClose) {
+                                 onClose();
+                             }
+                         }
+                         }><ImageConfig.CloseIcon/></div>
                 {/*</ToolTipComponent>*/}
             </div>
+            <div className="appointment-details-title">Appointment Details</div>
             <div className="details-header">
                 <div className="block-body">
                     <div className="block-content">
