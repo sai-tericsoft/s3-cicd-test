@@ -642,23 +642,22 @@ const ActivityLogTimelineComponent = (props: ActivityLogTimelineComponentProps) 
                     <div className={'default-activity-log'}>
                         <DataLabelValueComponent label={"From"}
                         >
-                            {old_value ? <>
-                                <div>
+                            {old_value ?
+                                <div className={'old-value-log'}>
                                     {
                                         JSON.stringify(old_value)
                                     }
-                                </div>
-                            </> : 'N/A'}
+                                </div> : 'N/A'}
                         </DataLabelValueComponent>
                         <DataLabelValueComponent label={"To"}
                         >
-                            {updated_value ? <>
+                            {updated_value ?
                                 <div className={'updated-value-log'}>
                                     {
                                         JSON.stringify(updated_value)
                                     }
                                 </div>
-                            </> : 'N/A'}
+                            : 'N/A'}
                         </DataLabelValueComponent>
                     </div>
                 )

@@ -34,20 +34,8 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
         const ele = document.getElementById(last_position);
         if (ele) {
             // Add a scroll event listener to the scroller
-            const handleScroll = () => {
-                // Delete the "last_position" parameter from searchParams
-                searchParams.delete("last_position");
-                setSearchParams(searchParams);
-
-                // Remove the event listener to avoid unnecessary deletions
-                ele.removeEventListener("scroll", handleScroll);
-            };
-
-            // Scroll to the desired position
             ele.scrollIntoView({behavior: "smooth", block: "start"});
-
             // Add the scroll event listener
-            ele.addEventListener("scroll", handleScroll);
         }
     }, [searchParams, setSearchParams]);
 
@@ -56,9 +44,11 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
             const last_position: any = searchParams.get("lastPosition");
             if (last_position) {
                 handleScrollToLastPosition(last_position);
+                searchParams.delete("lastPosition");
+                setSearchParams(searchParams);
             }
         }
-    }, [isClientMedicalDetailsLoaded, clientMedicalDetails, handleScrollToLastPosition, searchParams]);
+    }, [isClientMedicalDetailsLoaded, clientMedicalDetails, handleScrollToLastPosition, searchParams,setSearchParams]);
 
 
     return (

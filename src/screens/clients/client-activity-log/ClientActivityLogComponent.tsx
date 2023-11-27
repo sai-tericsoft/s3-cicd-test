@@ -76,6 +76,9 @@ const ClientActivityLogComponent = (props: ClientActivityLogComponentProps) => {
                         placeholder={"Search using activity name"}
                         value={clientActivityLogFilterState.search}
                         onSearchChange={(value) => {
+                            if(value) {
+                                pageNumRef.current = 1;
+                            }
                             setClientActivityLogFilterState({...clientActivityLogFilterState, search: value})
                         }}
                     />&nbsp;&nbsp;&nbsp;&nbsp;
@@ -86,6 +89,7 @@ const ClientActivityLogComponent = (props: ClientActivityLogComponentProps) => {
                         setClientActivityLogFilterState((oldState: any) => {
                             const newState = {...oldState};
                             if (value) {
+                                pageNumRef.current = 1;
                                 newState['start_date'] = moment(value[0])?.format('YYYY-MM-DD');
                                 newState['end_date'] = moment(value[1])?.format('YYYY-MM-DD');
                                 // newState['date_range'] = value;
