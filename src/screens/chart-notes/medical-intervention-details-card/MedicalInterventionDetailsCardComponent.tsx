@@ -394,26 +394,35 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
                         </div>
                         {
                             isFullCardOpen && <div className={'ts-row'}>
-                                <div className={'ts-col'}>
+                                <div className={'ts-col card-container'}>
                                     <DataLabelValueComponent label={'Injury/Condition Description'}>
                                         <ul>
-                                            {medicalInterventionDetails?.medical_record_details?.injury_description ? medicalInterventionDetails?.medical_record_details?.injury_description.split("\n")?.filter((i: any) => i !== "")?.map((i: any, key: any) => {
+                                            {medicalInterventionDetails?.medical_record_details?.injury_description && medicalInterventionDetails?.medical_record_details?.injury_description.split("\n")?.filter((i: any) => i !== "")?.map((i: any, key: any) => {
                                                 return <li key={key}>{i}</li>;
-                                            }) : "N/A"}
+                                            })}
                                         </ul>
+                                        <div className={'no-text'}>
+                                            {
+                                                !medicalInterventionDetails?.medical_record_details?.injury_description &&
+                                                "N/A"
+                                            }
+                                        </div>
                                     </DataLabelValueComponent>
                                 </div>
                             </div>
 
                         }
                         {isFullCardOpen && <div className={'ts-row'}>
-                            <div className={'ts-col'}>
+                            <div className={'ts-col card-container'}>
                                 <DataLabelValueComponent label={'Restrictions/Limitations'}>
                                     <ul>
-                                        {medicalInterventionDetails?.medical_record_details?.limitations ? medicalInterventionDetails?.medical_record_details?.limitations?.split("\n")?.filter((i: any) => i !== "")?.map((i: any, key: any) => {
+                                        {medicalInterventionDetails?.medical_record_details?.limitations && medicalInterventionDetails?.medical_record_details?.limitations?.split("\n")?.filter((i: any) => i !== "")?.map((i: any, key: any) => {
                                             return <li key={key}>{i}</li>;
-                                        }) : "N/A"}
+                                        })}
                                     </ul>
+                                    <div className={'no-text'}>
+                                        {!medicalInterventionDetails?.medical_record_details?.limitations && "N/A"}
+                                    </div>
                                 </DataLabelValueComponent>
                             </div>
                         </div>}

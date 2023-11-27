@@ -15,6 +15,15 @@
       }
     }
   }
+  .card-container {
+      li {
+        word-wrap: break-word;
+      }
+    .no-text{
+      text-align: left!important;
+      padding-left: 0px !important;
+    }
+  }
   .edit-icon{
     margin-left: 4px !important;
   }
