@@ -13,6 +13,7 @@ import ChipComponent from "../../../shared/components/chip/ChipComponent";
 import {setCurrentNavParams} from "../../../store/actions/navigation.action";
 import {useDispatch} from "react-redux";
 import ClientAllFormsListComponent from "../client-all-forms-list/ClientAllFormsListComponent";
+import commonService from "../../../shared/services/common.service";
 
 interface ClientAppointmentDetailsComponentProps {
 
@@ -83,7 +84,8 @@ const ClientAppointmentDetailsComponent = (props: ClientAppointmentDetailsCompon
                             <div className={"medical-record-attachment-basic-details-header"}>
                                 <div className={"medical-record-attachment-basic-details-name-status-wrapper"}>
                                     <div className={"medical-record-attachment-basic-details-name"}>
-                                        <span className={appointmentDetails?.client_details?.is_alias_name_set ? 'alias-name':''}> {CommonService.extractName(appointmentDetails.client_details)}</span>
+                                        <span
+                                            className={appointmentDetails?.client_details?.is_alias_name_set ? 'alias-name' : ''}> {CommonService.extractName(appointmentDetails.client_details)}</span>
                                     </div>
                                     <div className={"medical-record-attachment-basic-details-status"}>
                                         <ChipComponent label={appointmentDetails?.status}
@@ -122,11 +124,9 @@ const ClientAppointmentDetailsComponent = (props: ClientAppointmentDetailsCompon
 
                                 <div className="ts-col-md-6 ts-col-lg-3">
                                     <DataLabelValueComponent label={"Appointment Booked By"}>
-                                        {appointmentDetails?.client_details?.is_alias_name_set ?
-                                            <span className={'alias-name'}>
-                                                {CommonService.extractName(appointmentDetails?.client_details)}
-                                            </span> : CommonService.extractName(appointmentDetails?.client_details)}
-
+                                        {
+                                            appointmentDetails?.booked_by_details?.first_name ?  commonService.capitalizeFirstLetterOfEachWord(appointmentDetails?.booked_by_details?.first_name + " " + appointmentDetails?.booked_by_details?.last_name) : "N/A"
+                                        }
                                     </DataLabelValueComponent>
                                 </div>
 
@@ -135,7 +135,8 @@ const ClientAppointmentDetailsComponent = (props: ClientAppointmentDetailsCompon
                         </CardComponent>
                     </div>
 
-                <ClientAllFormsListComponent clientId={appointmentDetails?.client_id} appointmentId={clientAppointmentId}/>
+                    <ClientAllFormsListComponent clientId={appointmentDetails?.client_id}
+                                                 appointmentId={clientAppointmentId}/>
 
                     <div className={'medical-record-document-attachment'}>
                         {
