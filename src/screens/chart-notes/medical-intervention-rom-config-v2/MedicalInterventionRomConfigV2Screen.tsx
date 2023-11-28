@@ -421,7 +421,6 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
                 .then((response: any) => {
                     CommonService._alert.showToast(response.message || 'Saved ROM information', 'success');
                     // (medicalRecordId && medicalInterventionId) && navigate(CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, medicalInterventionId) + `?last_position=${last_position}`);
-
                 })
                 .catch((error: any) => {
                     CommonService.handleErrors(error.error || error.errors || 'Error saving ROM configuration', 'error');

@@ -92,7 +92,7 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
     const [isSavingInProgress, setIsSavingProgress] = useState<boolean>(false);
     // const [isFormBeingUpdated, setIsFormBeingUpdated] = useState<boolean>(false);
     const [signedObject, setSignedObject] = useState<any>(null);
-
+    const [isDataLoaded, setIsDataLoaded] = useState<boolean>(false);
     // const SpecialTestsColumns: ITableColumn[] = useMemo<ITableColumn[]>(() => [
     //     {
     //         title: 'Test Name',
@@ -370,10 +370,11 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
             delete medicalInterventionDetailsCopy.is_signed;
             delete medicalInterventionDetailsCopy.signed_on;
             setAddMedicalInterventionFormInitialValues(medicalInterventionDetailsCopy);
+            setIsDataLoaded(true);
         }
     }, [medicalInterventionDetails]);
 
-    const handleScrollToLastPosition = useCallback((last_position:string) => {
+    const handleScrollToLastPosition = useCallback((last_position: string) => {
         const ele = document.getElementById(last_position);
         const scroller = document.getElementById('page-content-holder');
         if (ele && scroller) {
@@ -385,30 +386,30 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
 
             // Add a scroll event listener to the scroller
             const handleScroll = () => {
-                // Delete the "last_position" parameter from searchParams
+
                 searchParams.delete("last_position");
                 setSearchParams(searchParams);
 
                 // Remove the event listener to avoid unnecessary deletions
                 scroller.removeEventListener("scroll", handleScroll);
             };
-
             // Scroll to the desired position
-            scroller.scrollTo({ top: scrollPosition, behavior: 'smooth' });
+            scroller.scrollTo({top: scrollPosition, behavior: 'smooth'});
 
             // Add the scroll event listener
             scroller.addEventListener("scroll", handleScroll);
         }
-    },[searchParams,setSearchParams]);
+    }, [searchParams, setSearchParams]);
 
     useEffect(() => {
-        if (isMedicalInterventionDetailsLoaded) {
+        if (isMedicalInterventionDetailsLoaded  && isDataLoaded) {
             const last_position: any = searchParams.get("last_position");
+            console.log("last_position", last_position);
             if (last_position) {
                 handleScrollToLastPosition(last_position);
             }
         }
-    }, [isMedicalInterventionDetailsLoaded, handleScrollToLastPosition, searchParams]);
+    }, [isMedicalInterventionDetailsLoaded, handleScrollToLastPosition, searchParams,isDataLoaded]);
 
 
     useEffect(() => {
