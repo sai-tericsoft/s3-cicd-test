@@ -51,14 +51,14 @@ const ClientAppointmentsTableComponent = (props: ClientAppointmentsTableComponen
                     return <>
                         {
                             item?.medical_record_id ?<>
-                        {CommonService.generateUseCaseFromCaseDetails(item?.case_details).length > 30 ?
+                        {CommonService.generateUseCaseFromCaseDetails(item?.case_details).length > 28 ?
                             <ToolTipComponent
                                 tooltip={item?.case_details && CommonService.generateUseCaseFromCaseDetails(item?.case_details)}
                                 position={"top"}
                                 showArrow={true}
                             >
                                 <div>{
-                                    CommonService.generateUseCaseFromCaseDetails(item?.case_details)?.slice(0, 20) + "..."
+                                    CommonService.generateUseCaseFromCaseDetails(item?.case_details)?.slice(0, 28) + "..."
                                 }
                                 </div>
                             </ToolTipComponent> : <> {CommonService.generateUseCaseFromCaseDetails(item?.case_details)}</>
