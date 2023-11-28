@@ -500,7 +500,7 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
         } else {
             CommonService._alert.showToast('Please select a medical intervention', 'error');
         }
-    }, [medicalInterventionId, medicalRecordId, navigate, last_position]);
+    }, [medicalInterventionId, medicalRecordId, navigate]);
 
     const handleBodyPartDelete = useCallback((bodyPartId: string) => {
         if (medicalInterventionId) {
