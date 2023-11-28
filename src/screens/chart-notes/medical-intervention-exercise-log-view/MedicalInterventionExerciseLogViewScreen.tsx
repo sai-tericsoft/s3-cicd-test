@@ -64,7 +64,7 @@ const MedicalInterventionExerciseLogViewScreen = (props: MedicalInterventionExer
             width: 100,
             align: 'center',
             render: (item: any) => {
-                return <div>{item?.bilateral ? 'Y' : '-'}</div>
+                return <div>{item?.bilateral ? 'Yes' : '-'}</div>
             }
         },
         {

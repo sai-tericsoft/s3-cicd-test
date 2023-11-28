@@ -490,7 +490,7 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
             CommonService._chartNotes.SaveMedicalInterventionSpecialTestAPICall(medicalInterventionId, {config})
                 .then((response: any) => {
                     CommonService._alert.showToast(response.message || 'Saved Special Test information', 'success');
-                    medicalRecordId && navigate(CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, medicalInterventionId) + `?last_position=${last_position}`)
+                    // medicalRecordId && navigate(CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, medicalInterventionId) + `?last_position=${last_position}`)
                 })
                 .catch((error: any) => {
                     CommonService.handleErrors(error.error || error.errors || 'Error saving Special Test configuration', 'error');
