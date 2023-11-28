@@ -9,7 +9,6 @@ import {CommonService} from "../../../shared/services";
 import {ImageConfig, Misc} from "../../../constants";
 import {useNavigate, useParams} from "react-router-dom";
 import {setCurrentNavParams} from "../../../store/actions/navigation.action";
-import LinkComponent from "../../../shared/components/link/LinkComponent";
 import {ITableColumn} from "../../../shared/models/table.model";
 import {IRootReducerState} from "../../../store/reducers";
 import IconButtonComponent from "../../../shared/components/icon-button/IconButtonComponent";
@@ -31,7 +30,6 @@ import EditProgressReportCardComponent from "../edit-progress-report-card/EditPr
 import moment from "moment-timezone";
 import CheckBoxComponent from "../../../shared/components/form-controls/check-box/CheckBoxComponent";
 import commonService from "../../../shared/services/common.service";
-import {getServiceProviderList} from "../../../store/actions/service.action";
 
 interface ProgressRecordAdvancedDetailsUpdateScreenProps {
 
@@ -279,7 +277,7 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
                 CommonService._alert.showToast(error.error || "Error deleting provider", "error");
             })
         })
-    }, [progressReportId]);
+    }, [medicalRecordId,navigate]);
 
     return (
         <div className={'progress-record-advanced-details-update-screen'}>
