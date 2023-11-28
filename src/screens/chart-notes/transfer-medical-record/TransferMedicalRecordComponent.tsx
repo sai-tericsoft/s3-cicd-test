@@ -213,7 +213,6 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
 
             });
         }, [handleTransferMedicalRecord]);
-        console.log('selectedClient', selectedClient);
 
         const confirmTransferCase = useCallback(() => {
             CommonService.onConfirm({
@@ -229,7 +228,7 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
                     <div>
                         <span className={'client-case-name-title mrg-left-10'}>Case:&nbsp;</span>
                         <span>{selectedMedicalRecordToTransferUnder?.injury_details?.map((injury: any, index: number) => {
-                            return <>{injury.body_part_details.name} {injury.body_side ? `(${injury.body_side})` : ''} {index !== selectedMedicalRecordToTransferUnder?.injury_details.length - 1 ? <>,</> : ""}</>
+                            return <>{" "}{injury.body_part_details.name} {injury.body_side ? `(${injury.body_side})` : ''}{index !== selectedMedicalRecordToTransferUnder?.injury_details.length - 1 ? <>,</> : ""}</>
                         })}</span>
                     </div>
                 </div>

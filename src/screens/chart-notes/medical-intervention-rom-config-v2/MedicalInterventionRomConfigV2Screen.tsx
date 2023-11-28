@@ -420,8 +420,7 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
             CommonService._chartNotes.SaveMedicalInterventionROMConfigAPICall(medicalInterventionId, {config})
                 .then((response: any) => {
                     CommonService._alert.showToast(response.message || 'Saved ROM information', 'success');
-                    console.log('response', last_position);
-                    (medicalRecordId && medicalInterventionId && last_position) && navigate(CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, medicalInterventionId) + `?last_position=${last_position}`);
+                    // (medicalRecordId && medicalInterventionId) && navigate(CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, medicalInterventionId) + `?last_position=${last_position}`);
                 })
                 .catch((error: any) => {
                     CommonService.handleErrors(error.error || error.errors || 'Error saving ROM configuration', 'error');

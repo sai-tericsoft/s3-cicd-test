@@ -411,7 +411,10 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
                                                     })}
                                                 </ul>
                                                 <div className={'no-text'}>
-                                                    N/A
+                                                    {
+                                                        !clientMedicalRecord?.limitations &&
+                                                        'N/A'
+                                                    }
                                                 </div>
                                             </DataLabelValueComponent>
 

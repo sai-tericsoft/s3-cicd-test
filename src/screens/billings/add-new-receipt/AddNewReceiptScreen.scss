@@ -211,6 +211,11 @@
 .select-billing-address {
   //height: calc(100vh - 190px);
   overflow: auto;
+  .card-heading {
+    color: #212B36;
+    font-weight: 500;
+    margin-left: -5px;
+  }
 
   .select-address-card {
     border: 1px solid #ABB6BE;
@@ -232,11 +237,6 @@
         align-items: center;
         padding-left: 17px;
 
-        .card-heading {
-          color: #212B36;
-          font-weight: 500;
-          margin-left: -5px;
-        }
       }
     }
   }

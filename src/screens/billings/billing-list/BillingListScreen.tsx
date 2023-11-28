@@ -1399,8 +1399,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                                 return <div className={'select-address-card'}>
                                     <div className={'select-address-card-header'}>
                                         <div className={'btn-heading-wrapper'}>
-                                            <div
-                                                className={'card-heading'}>{item?.name}</div>
+                                            <b>{item?.name}</b>
                                             <div className={'mrg-left-10'}>
                                                 {item?.is_default && <ChipComponent className={'draft'} label={'Default'}/>}
                                             </div>
@@ -1425,7 +1424,10 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                                         </div>
                                     </div>
                                     <div className={'mrg-15'}>
-                                        {item?.address_line}, {item?.city}, {item?.state}, {item?.country} {item?.zip_code}
+                                      <span className={'card-heading'}>Address:</span>  {item?.address_line}, {item?.city}, {item?.state}, {item?.country} {item?.zip_code}
+                                    </div>
+                                    <div className={'mrg-15'}>
+                                        <span className={'card-heading'}>Phone Number:</span>  {CommonService.formatPhoneNumber(item?.phone)}
                                     </div>
                                 </div>
                             })
