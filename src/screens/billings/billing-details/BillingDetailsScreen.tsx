@@ -435,6 +435,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
         }
         setSelectedChanged(false);
         BillingAddressStep();
+        closeBillingAddressFormDrawer();
     }, [BillingAddressStep, tempSelectedAddress]);
 
     const handleRadioButtonClick = useCallback((address: any) => {
