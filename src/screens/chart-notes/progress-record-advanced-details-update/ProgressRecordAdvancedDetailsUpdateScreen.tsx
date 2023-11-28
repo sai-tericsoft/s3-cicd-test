@@ -6,7 +6,7 @@ import FormikTextAreaComponent from "../../../shared/components/form-controls/fo
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import {useDispatch, useSelector} from "react-redux";
 import {CommonService} from "../../../shared/services";
-import {ImageConfig} from "../../../constants";
+import {ImageConfig, Misc} from "../../../constants";
 import {useNavigate, useParams} from "react-router-dom";
 import {setCurrentNavParams} from "../../../store/actions/navigation.action";
 import LinkComponent from "../../../shared/components/link/LinkComponent";
@@ -31,6 +31,7 @@ import EditProgressReportCardComponent from "../edit-progress-report-card/EditPr
 import moment from "moment-timezone";
 import CheckBoxComponent from "../../../shared/components/form-controls/check-box/CheckBoxComponent";
 import commonService from "../../../shared/services/common.service";
+import {getServiceProviderList} from "../../../store/actions/service.action";
 
 interface ProgressRecordAdvancedDetailsUpdateScreenProps {
 
@@ -262,6 +263,23 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
             patchDataToProgressReportForm(clientMedicalRecordProgressReportDetails);
         }
     }, [patchDataToProgressReportForm, clientMedicalRecordProgressReportDetails]);
+
+    const handleDiscardProgressReport = useCallback((progressReportId: string) => {
+        CommonService.onConfirm({
+            confirmationTitle: "DISCARD PROGRESS REPORT",
+            image: ImageConfig.ConfirmationLottie,
+            showLottie: true,
+            confirmationSubTitle: "Are you sure you want to discard this progress report?"
+        }).then(() => {
+            CommonService._chartNotes.DeleteProgressReport(progressReportId)
+                .then((response) => {
+                    CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+                    medicalRecordId && navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId) + '?activeTab=attachmentList');
+                }).catch((error: any) => {
+                CommonService._alert.showToast(error.error || "Error deleting provider", "error");
+            })
+        })
+    }, [progressReportId]);
 
     return (
         <div className={'progress-record-advanced-details-update-screen'}>
@@ -512,19 +530,18 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
                                 </div>
                                 <div className="t-form-actions mrg-bottom-0">
                                     {
-                                        medicalRecordId && <>
-                                            <LinkComponent
-                                                route={CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId) + '?activeTab=attachmentList'}>
-                                                <ButtonComponent
-                                                    variant={"outlined"}
-                                                    size={'large'}
-                                                    id={"progress_report_update_cancel_btn"}
-                                                    disabled={formik.isSubmitting}>
-                                                    Cancel
-                                                </ButtonComponent>
-                                            </LinkComponent>
-                                            &nbsp;
-                                        </>
+                                        <ButtonComponent
+                                            variant={"outlined"}
+                                            onClick={() => {
+                                                if (progressReportId) {
+                                                    handleDiscardProgressReport(progressReportId)
+                                                }
+                                            }}
+                                            size={'large'}
+                                            id={"progress_report_update_cancel_btn"}
+                                            disabled={formik.isSubmitting}>
+                                            Discard Report
+                                        </ButtonComponent>
                                     }
                                     {/*<ButtonComponent*/}
                                     {/*    type={"submit"}*/}

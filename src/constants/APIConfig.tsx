@@ -1087,6 +1087,10 @@ const APIConfig: IAPIConfig = {
     PRINT_NEW_INJURY_FORM: {
         URL: (clientId: string,appointmentId:string) => ENV.API_URL + '/client/' + clientId + '/appointment/'+ appointmentId +  '/newInjuryForm/generatePDF',
         METHOD: "post"
+    },
+    DELETE_PROGRESS_REPORT: {
+        URL: (progressReportId: string) => ENV.API_URL + '/progressReport/' + progressReportId,
+        METHOD: "delete"
     }
 }
 
