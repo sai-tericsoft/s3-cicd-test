@@ -12,16 +12,19 @@ import {Misc} from "../../../../constants";
 import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "../../../../store/reducers";
 import {getBillingSettings} from "../../../../store/actions/billings.action";
+import FormControlLabelComponent from "../../../../shared/components/form-control-label/FormControlLabelComponent";
 
 interface FooterNoteComponentProps {
 
 }
 
 const defaultFooterNote: any = {
-    footer_note: ''
+    footer_note: '',
+    footer_note_second_line: '',
 }
 const FooterNoteValidationSchema = Yup.object().shape({
-    footer_note: Yup.string().max(300, ' '),
+    footer_note: Yup.string().max(90, ' '),
+    footer_note_second_line: Yup.string().max(90, ' '),
 });
 
 const FooterNoteComponent = (props: FooterNoteComponentProps) => {
@@ -90,6 +93,7 @@ const FooterNoteComponent = (props: FooterNoteComponentProps) => {
                                 return (
                                     <Form className={'t-form'} noValidate={true}>
                                         <div className={'default-message-box'}>
+                                            <FormControlLabelComponent label={"Footer Line 1"}/>
                                             <Field name={'footer_note'}>
                                                 {
                                                     (field: FieldProps) => (
@@ -104,12 +108,36 @@ const FooterNoteComponent = (props: FooterNoteComponentProps) => {
                                             </Field>
                                         </div>
                                         <div className={'ts-col-md-12'}>
-                                            {(values.footer_note?.length) > 300 ?
+                                            {(values.footer_note?.length) > 90 ?
                                                 <div className={'alert-error'}>Characters
-                                                    Limit:{(values?.footer_note?.length)}/300</div> :
+                                                    Limit:{(values?.footer_note?.length)}/90</div> :
                                                 <div className={'no-alert'}>Characters
-                                                    Limit:{(values?.footer_note?.length)}/300</div>}
+                                                    Limit:{(values?.footer_note?.length)}/90</div>}
                                         </div>
+                                        <div className={'default-message-box'}>
+                                            <FormControlLabelComponent label={"Footer Line 2"}/>
+                                            <Field name={'footer_note_second_line'}>
+                                                {
+                                                    (field: FieldProps) => (
+                                                        <FormikTextAreaComponent
+                                                            label={'Enter your message here'}
+                                                            placeholder={' '}
+                                                            formikField={field}
+                                                            fullWidth={true}
+                                                        />
+                                                    )
+                                                }
+                                            </Field>
+                                        </div>
+                                        <div className={'ts-col-md-12'}>
+                                            {(values.footer_note_second_line?.length) > 90 ?
+                                                <div className={'alert-error'}>Characters
+                                                    Limit:{(values?.footer_note_second_line?.length)}/90</div> :
+                                                <div className={'no-alert'}>Characters
+                                                    Limit:{(values?.footer_note_second_line?.length)}/90</div>}
+                                        </div>
+
+
                                         <div className="t-form-actions">
                                             <ButtonComponent
                                                 onClick={() => resetForm()}
