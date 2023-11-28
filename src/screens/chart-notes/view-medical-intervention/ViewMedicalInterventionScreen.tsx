@@ -501,7 +501,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                         <div
                                                             className={medicalInterventionDetails?.status === 'draft' ? 'readonly-text' : 'completed-text'}>
                                                             {medicalInterventionDetails?.objective?.observation ? medicalInterventionDetails?.objective?.observation.split("\n").map((i: any, key: any) => {
-                                                                return <div key={key}>{i}</div>;
+                                                                return <div className={'completed-text'} key={key}>{i}</div>;
                                                             }) : "Not Tested"}
                                                         </div>
                                                     </div>

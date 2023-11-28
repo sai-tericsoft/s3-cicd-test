@@ -5,6 +5,7 @@
 }
 
 .add-medical-intervention-screen {
+  word-break: break-word;
 
   .t-cell-description {
     padding-left: 20px !important;
@@ -16,6 +17,7 @@
 
     .readonly-text {
       margin-bottom: 24px;
+      word-wrap: break-word;
     }
 
     .form-control-label-component {
@@ -37,8 +39,10 @@
 
   .completed-wrapper {
     display: flex;
-    .body-part-card{
-      .card-header{
+    word-wrap: break-word;
+
+    .body-part-card {
+      .card-header {
         min-height: 40px !important;
       }
     }
@@ -76,6 +80,7 @@
     .completed-text {
       //margin-left: 30px;
       margin-bottom: 30px;
+      word-wrap: break-word;
     }
   }
 
