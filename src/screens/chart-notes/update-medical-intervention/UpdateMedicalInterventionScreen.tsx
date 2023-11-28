@@ -404,13 +404,11 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
     useEffect(() => {
         if (isMedicalInterventionDetailsLoaded  && isDataLoaded) {
             const last_position: any = searchParams.get("last_position");
-            console.log("last_position", last_position);
             if (last_position) {
                 handleScrollToLastPosition(last_position);
             }
         }
     }, [isMedicalInterventionDetailsLoaded, handleScrollToLastPosition, searchParams,isDataLoaded]);
-
 
     useEffect(() => {
         if (medicalRecordId) {

@@ -51,7 +51,7 @@ const ClientEditScreen = (props: ClientEditScreenProps) => {
             switch (currentStep) {
                 case "basicDetails":
                 case "accountDetails": {
-                    navigate(CommonService._client.NavigateToClientDetails(clientId, currentStep));
+                    navigate(CommonService._client.NavigateToClientDetails(clientId, currentStep,currentStep));
                     break;
                 }
                 // case "personalHabits":
@@ -62,7 +62,7 @@ const ClientEditScreen = (props: ClientEditScreenProps) => {
                 // case "surgicalHistory":
                 // case "musculoskeletalHistory":
                 case "musculoskeletalHistory": {
-                    navigate(CommonService._client.NavigateToClientDetails(clientId, "medicalHistoryQuestionnaire"));
+                    navigate(CommonService._client.NavigateToClientDetails(clientId, "medicalHistoryQuestionnaire",currentStep));
                     break;
                 }
                 default: {
