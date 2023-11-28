@@ -6,10 +6,9 @@ import FormikTextAreaComponent from "../../../shared/components/form-controls/fo
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import {useDispatch, useSelector} from "react-redux";
 import {CommonService} from "../../../shared/services";
-import {ImageConfig} from "../../../constants";
+import {ImageConfig, Misc} from "../../../constants";
 import {useNavigate, useParams} from "react-router-dom";
 import {setCurrentNavParams} from "../../../store/actions/navigation.action";
-import LinkComponent from "../../../shared/components/link/LinkComponent";
 import {ITableColumn} from "../../../shared/models/table.model";
 import {IRootReducerState} from "../../../store/reducers";
 import IconButtonComponent from "../../../shared/components/icon-button/IconButtonComponent";
@@ -263,6 +262,23 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
         }
     }, [patchDataToProgressReportForm, clientMedicalRecordProgressReportDetails]);
 
+    const handleDiscardProgressReport = useCallback((progressReportId: string) => {
+        CommonService.onConfirm({
+            confirmationTitle: "DISCARD PROGRESS REPORT",
+            image: ImageConfig.ConfirmationLottie,
+            showLottie: true,
+            confirmationSubTitle: "Are you sure you want to discard this progress report?"
+        }).then(() => {
+            CommonService._chartNotes.DeleteProgressReport(progressReportId)
+                .then((response) => {
+                    CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+                    medicalRecordId && navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId) + '?activeTab=attachmentList');
+                }).catch((error: any) => {
+                CommonService._alert.showToast(error.error || "Error deleting provider", "error");
+            })
+        })
+    }, [medicalRecordId,navigate]);
+
     return (
         <div className={'progress-record-advanced-details-update-screen'}>
             <PageHeaderComponent title={mode === 'add' ? "Add Therapy Progress Report" : "Edit Therapy Progress Report"}
@@ -512,19 +528,18 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
                                 </div>
                                 <div className="t-form-actions mrg-bottom-0">
                                     {
-                                        medicalRecordId && <>
-                                            <LinkComponent
-                                                route={CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId) + '?activeTab=attachmentList'}>
-                                                <ButtonComponent
-                                                    variant={"outlined"}
-                                                    size={'large'}
-                                                    id={"progress_report_update_cancel_btn"}
-                                                    disabled={formik.isSubmitting}>
-                                                    Cancel
-                                                </ButtonComponent>
-                                            </LinkComponent>
-                                            &nbsp;
-                                        </>
+                                        <ButtonComponent
+                                            variant={"outlined"}
+                                            onClick={() => {
+                                                if (progressReportId) {
+                                                    handleDiscardProgressReport(progressReportId)
+                                                }
+                                            }}
+                                            size={'large'}
+                                            id={"progress_report_update_cancel_btn"}
+                                            disabled={formik.isSubmitting}>
+                                            Discard Report
+                                        </ButtonComponent>
                                     }
                                     {/*<ButtonComponent*/}
                                     {/*    type={"submit"}*/}

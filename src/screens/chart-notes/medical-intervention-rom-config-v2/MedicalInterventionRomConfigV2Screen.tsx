@@ -430,7 +430,7 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
         } else {
             CommonService._alert.showToast('Please select a medical intervention', 'error');
         }
-    }, [medicalInterventionId, medicalRecordId, navigate, last_position]);
+    }, [medicalInterventionId]);
 
     const handleBodyPartDelete = useCallback((bodyPartId: string) => {
         if (medicalInterventionId) {

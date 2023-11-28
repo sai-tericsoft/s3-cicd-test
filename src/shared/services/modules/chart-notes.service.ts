@@ -348,6 +348,10 @@ const PrintExerciseLog = (medicalInterventionId:string,payload:any) => {
     return ApiService[APIConfig.PRINT_EXERCISE_LOG.METHOD](APIConfig.PRINT_EXERCISE_LOG.URL(medicalInterventionId),payload);
 }
 
+const DeleteProgressReport = (progressReportId:string) => {
+    return ApiService[APIConfig.DELETE_PROGRESS_REPORT.METHOD](APIConfig.DELETE_PROGRESS_REPORT.URL(progressReportId));
+}
+
 
 const ChartNotesService = {
     MedicalRecordAddAPICall,
@@ -422,7 +426,8 @@ const ChartNotesService = {
     PrintExerciseRecord,
     PrintSurgeryRecord,
     PrintDocument,
-    PrintExerciseLog
+    PrintExerciseLog,
+    DeleteProgressReport
 }
 
 export default ChartNotesService;
