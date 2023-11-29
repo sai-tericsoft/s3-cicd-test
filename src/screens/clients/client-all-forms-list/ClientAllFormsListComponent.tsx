@@ -86,6 +86,7 @@ const ClientAllFormsListComponent = (props: ClientAllFormsListComponentProps) =>
                     isGetAllFormListLoaded &&
                     <div>
                         {getAllFormList?.length > 0 && getAllFormList?.map((pendingForm: any, index: number) => {
+                            console.log('pendingForm', pendingForm);
                             return <>
                                 <div className={'ts-col-lg-12'}>
                                     <CardComponent className={'pending-form-wrapper pdf'}>
@@ -93,9 +94,10 @@ const ClientAllFormsListComponent = (props: ClientAllFormsListComponentProps) =>
                                             <div className={'d-flex align-items-center form-name-icon'}>
                                                 <ImageConfig.DocumentIcon height={'40'} width={'40'}/>
                                                 <span className={'pending-form-title'}>{pendingForm?.form_type}</span><span>
-                                               {pendingForm?.status === 'pending' && <ChipComponent
-                                                   className={pendingForm?.status === 'pending' ? 'upcoming' : 'completed'}
-                                                   label={pendingForm?.status === 'pending' ? "Pending" : ''}/>}
+                                               {pendingForm?.status === 'pending' &&
+                                                <ChipComponent className={'mrg-left-10'}  color={pendingForm?.status === 'pending' ? 'primary' : 'secondary'}
+                                                                label={pendingForm?.status === 'pending' ? "Pending" : 'Completed'}/>
+                                                }
                                             </span>
                                             </div>
                                             {pendingForm?.status === 'completed' && <div>
