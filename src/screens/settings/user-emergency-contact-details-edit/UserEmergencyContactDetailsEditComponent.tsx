@@ -215,7 +215,6 @@ const UserEmergencyContactDetailsEditComponent = (props: UserEmergencyContactDet
                         // eslint-disable-next-line react-hooks/rules-of-hooks
                         useEffect(() => {
                             validateForm();
-                            console.log(values?.emergency_contact_info?.secondary_emergency);
                         }, [validateForm, values]);
                         return (
                             <Form noValidate={true} className={"t-form"} autoComplete="off">
@@ -301,6 +300,7 @@ const UserEmergencyContactDetailsEditComponent = (props: UserEmergencyContactDet
                                                 (field: FieldProps) => (
                                                     <FormikPhoneInputComponent
                                                         label={'Phone Number'}
+                                                        disabled={!values?.emergency_contact_info?.primary_emergency?.primary_contact_info?.phone_type}
                                                         // placeholder={'Phone Number'}
                                                         required={true}
                                                         formikField={field}
@@ -359,6 +359,7 @@ const UserEmergencyContactDetailsEditComponent = (props: UserEmergencyContactDet
                                                                                 (field: FieldProps) => (
                                                                                     <FormikPhoneInputComponent
                                                                                         label={'Phone Number'}
+                                                                                        disabled={values?.emergency_contact_info?.primary_emergency?.secondary_contact_info && !values?.emergency_contact_info?.primary_emergency?.secondary_contact_info[index]?.phone_type}
                                                                                         // placeholder={'Phone Number'}
                                                                                         formikField={field}
                                                                                         fullWidth={true}
@@ -522,6 +523,7 @@ const UserEmergencyContactDetailsEditComponent = (props: UserEmergencyContactDet
                                                             (field: FieldProps) => (
                                                                 <FormikPhoneInputComponent
                                                                     label={'Phone Number'}
+                                                                    disabled={!values?.emergency_contact_info?.secondary_emergency?.primary_contact_info?.phone_type}
                                                                     // placeholder={'Phone Number (Primary)'}
                                                                     formikField={field}
                                                                     fullWidth={true}
@@ -574,6 +576,7 @@ const UserEmergencyContactDetailsEditComponent = (props: UserEmergencyContactDet
                                                                                         (field: FieldProps) => (
                                                                                             <FormikPhoneInputComponent
                                                                                                 label={'Phone Number'}
+                                                                                                disabled={values?.emergency_contact_info?.secondary_emergency?.secondary_contact_info && !values?.emergency_contact_info?.secondary_emergency?.secondary_contact_info[index]?.phone_type}
                                                                                                 // placeholder={'Phone Number'}
                                                                                                 formikField={field}
                                                                                                 fullWidth={true}

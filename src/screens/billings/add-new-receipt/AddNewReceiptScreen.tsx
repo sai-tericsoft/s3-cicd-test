@@ -509,7 +509,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
     }, []);
 
     const closeBillingAddressFormDrawer = useCallback(() => {
-        // setIsClientBillingAddressDrawerOpened(false);
+        setIsClientBillingAddressDrawerOpened(false);
         setCurrentStep('selectAddress')
         getClientBillingAddressList()
     }, [getClientBillingAddressList]);
