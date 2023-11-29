@@ -502,7 +502,7 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
                             <div className={'client-intervention'}>{clientMedicalRecord?.intervention_linked_to}
                                 {clientMedicalRecord?.created_at && CommonService.transformTimeStamp(clientMedicalRecord?.created_at)}{" "}
                                 {"-"} {clientMedicalRecord?.injury_details.map((injury: any, index: number) => {
-                                    return <>{injury.body_part_details.name}({injury.body_side}) {index !== clientMedicalRecord?.injury_details.length - 1 ? <> | </> : ""}</>
+                                    return <>{" "}{injury.body_part_details.name}({injury.body_side}){index !== clientMedicalRecord?.injury_details.length - 1 ? <>,</> : ""}</>
                                 })}</div>
                             <span className={'view-all-body-parts'}
                                   onClick={openBodyPartsModal}> View All Body Parts </span>
