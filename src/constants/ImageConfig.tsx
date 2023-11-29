@@ -70,6 +70,7 @@ import {ReactComponent as PendingPayments} from './../assets/icons/pending_payme
 import {ReactComponent as CompletedPayments} from './../assets/icons/completed_payments.svg';
 import {ReactComponent as PendingAmount} from './../assets/icons/discount_amount.svg';
 import {ReactComponent as BillingListIcon} from './../assets/icons/billing-list.svg';
+import {ReactComponent as FolderIcon} from './../assets/icons/folder-icon.svg';
 
 
 import {ReactComponent as CircularShowMore} from './../assets/icons/circular_show_more.svg';
@@ -250,5 +251,6 @@ export {
     ShareIcon,
     PaymentStatusIcon,
     CrossOutlinedIcon,
-    BillingListIcon
+    BillingListIcon,
+    FolderIcon,
 }
