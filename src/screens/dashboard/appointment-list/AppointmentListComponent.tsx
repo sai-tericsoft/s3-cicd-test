@@ -1,6 +1,6 @@
 import "./AppointmentListComponent.scss";
 import {ITableColumn} from "../../../shared/models/table.model";
-import React, {useCallback, useMemo, useState} from "react";
+import React, {useMemo, useState} from "react";
 import {CommonService} from "../../../shared/services";
 import ChipComponent from "../../../shared/components/chip/ChipComponent";
 import CardComponent from "../../../shared/components/card/CardComponent";
@@ -8,10 +8,7 @@ import TableWrapperComponent from "../../../shared/components/table-wrapper/Tabl
 import {APIConfig} from "../../../constants";
 import DrawerComponent from "../../../shared/components/drawer/DrawerComponent";
 import AppointmentDetailsComponent from "../../../shared/components/appointment-details/AppointmentDetailsComponent";
-import ButtonComponent from "../../../shared/components/button/ButtonComponent";
-import LinkComponent from "../../../shared/components/link/LinkComponent";
-import {IAPIResponseType} from "../../../shared/models/api.model";
-import {useNavigate} from "react-router-dom";
+
 
 interface AppointmentListComponentProps {
 
@@ -21,27 +18,27 @@ const AppointmentListComponent = (props: AppointmentListComponentProps) => {
 
     const [openedAppointmentDetails, setOpenedAppointmentDetails] = useState<any | null>(null);
     const [refreshToken, setRefreshToken] = useState('');
-    const [isStartAppointmentLoading, setIsStartAppointmentLoading] = useState<boolean>(false);
-    const navigate = useNavigate();
+    // const [isStartAppointmentLoading, setIsStartAppointmentLoading] = useState<boolean>(false);
 
 
-    const handleStartAppointment = useCallback((item: any) => {
-        const payload = {};
-        setIsStartAppointmentLoading(true);
-        CommonService._appointment.appointmentStart(item._id, payload)
-            .then((response: IAPIResponseType<any>) => {
-                if (item?.appointment_type === 'initial_consultation') {
-                    navigate(CommonService._routeConfig.AddMedicalRecord(item?.client_id))
-                } else {
-                    navigate(CommonService._routeConfig.UpdateMedicalIntervention(item.medical_record_id, item.intervention_id) + '?mode=add');
-                }
-            })
-            .catch((error: any) => {
-            })
-            .finally(() => {
-                setIsStartAppointmentLoading(false);
-            })
-    }, [navigate]);
+
+    // const handleStartAppointment = useCallback((item: any) => {
+    //     const payload = {};
+    //     setIsStartAppointmentLoading(true);
+    //     CommonService._appointment.appointmentStart(item._id, payload)
+    //         .then((response: IAPIResponseType<any>) => {
+    //             if (item?.appointment_type === 'initial_consultation') {
+    //                 navigate(CommonService._routeConfig.AddMedicalRecord(item?.client_id))
+    //             } else {
+    //                 navigate(CommonService._routeConfig.UpdateMedicalIntervention(item.medical_record_id, item.intervention_id) + '?mode=add');
+    //             }
+    //         })
+    //         .catch((error: any) => {
+    //         })
+    //         .finally(() => {
+    //             setIsStartAppointmentLoading(false);
+    //         })
+    // }, [navigate]);
 
 
     const appointmentListColumns: ITableColumn[] = useMemo<ITableColumn[]>(() => [
@@ -61,7 +58,7 @@ const AppointmentListComponent = (props: AppointmentListComponentProps) => {
             align: 'center',
             width: 120,
             render: (item: any) => {
-                return <>{item?.duration ? item.duration +' mins ' : '-'} </>
+                return <>{item?.duration ? item.duration + ' mins ' : '-'} </>
             }
         },
         {
@@ -72,7 +69,8 @@ const AppointmentListComponent = (props: AppointmentListComponentProps) => {
             // sortable: true,
             width: 120,
             render: (item: any) => {
-                return <span className={item?.client_details?.is_alias_name_set ? 'alias-name':''}>{CommonService.extractName(item?.client_details)}</span>
+                return <span
+                    className={item?.client_details?.is_alias_name_set ? 'alias-name' : ''}>{CommonService.extractName(item?.client_details)}</span>
             }
 
         },
@@ -130,23 +128,23 @@ const AppointmentListComponent = (props: AppointmentListComponentProps) => {
             align: 'center',
             // fixed: "right",
             render: (item: any) => {
-                if (item?.status === 'upcoming') {
-                    return <LinkComponent
-                        onClick={() => handleStartAppointment(item)}
-                        // route={CommonService._routeConfig.UpdateMedicalIntervention(item?.medical_record_id, item?._id)}
-                    >
-                        <ButtonComponent isLoading={isStartAppointmentLoading}>Start
-                            Appointment</ButtonComponent></LinkComponent>
-                } else {
-                    if (item?._id) {
-                        return <div className={'link-component'} onClick={setOpenedAppointmentDetails.bind(null, item)}>
-                            View Details
-                        </div>
-                    }
+                // if (item?.status === 'upcoming') {
+                //     return <LinkComponent
+                //         onClick={() => handleStartAppointment(item)}
+                //         // route={CommonService._routeConfig.UpdateMedicalIntervention(item?.medical_record_id, item?._id)}
+                //     >
+                //         <ButtonComponent isLoading={isStartAppointmentLoading}>Start
+                //             Appointment</ButtonComponent></LinkComponent>
+                // }
+                if (item?._id) {
+                    return <div className={'link-component'} onClick={setOpenedAppointmentDetails.bind(null, item)}>
+                        View Details
+                    </div>
                 }
+
             }
         }
-    ], [handleStartAppointment, isStartAppointmentLoading]);
+    ], []);
 
 
     return (
