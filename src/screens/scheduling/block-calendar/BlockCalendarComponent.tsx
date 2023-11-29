@@ -453,7 +453,7 @@ const BlockCalendarComponent = (props: BlockCalenderComponentProps) => {
 
             <ModalComponent
                 isOpen={showAppointmentsModel}
-                size={'xl'}
+                size={'md'}
                 title={'Appointments'}
                 onClose={() => setIsShowAppointmentModel(false)}
                 modalFooter={<div className={'mrg-top-40'}>
