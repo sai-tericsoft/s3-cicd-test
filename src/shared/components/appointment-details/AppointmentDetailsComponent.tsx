@@ -178,7 +178,8 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
                             {/*         }><ImageConfig.CloseIcon/></div>*/}
                             {/*</ToolTipComponent>*/}
                         </div>
-                        <div className="appointment-details-heading">{details?.status === 'cancelled' ? 'Appointment Cancelled' : 'Appointment Details'}</div>
+                        <div
+                            className="appointment-details-heading">{details?.status === 'cancelled' ? 'Appointment Cancelled' : 'Appointment Details'}</div>
 
                         <div className={"status-block " + details?.status}>
                             <div className="status-info">
@@ -364,7 +365,18 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
                                             <ChipComponent className={'minutes-chip'} color={'success'}
                                                            label={details.duration + ' mins'}/>
                                         </div>
+                                        {details?.appointment_type === 'followup_consultation' &&
+                                            <div className="details-body-item">
+                                                <div className="item-heading">
+                                                    <ImageConfig.FolderIcon/>&nbsp;&nbsp;Case Name
+                                                </div>
+                                                <div
+                                                    className="item-value">{CommonService.generateUseCaseFromCaseDetails2(details?.case_details) || 'N/A'}</div>
+                                            </div>
+
+                                        }
                                     </div>
+
                                     {/*<div className="details-body-block">*/}
                                     {/*    <div className="details-body-item">*/}
                                     {/*        <div className="item-heading"><ImageConfig.CalendarIcon/>&nbsp;Appointment Status*/}
