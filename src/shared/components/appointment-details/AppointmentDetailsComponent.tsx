@@ -16,7 +16,6 @@ import AppointmentNoShowComponent from "./appointment-noshow/AppointmentNoShowCo
 import AppointmentCancelComponent from "./appointment-cancel/AppointmentCancelComponent";
 import AppointmentRescheduleComponent from "./appointment-reschedule/AppointmentRescheduleComponent";
 import AppointmentPaymentComponent from "./appointment-payment/AppointmentPaymentComponent";
-import {useNavigate} from "react-router-dom";
 import commonService from "../../services/common.service";
 
 interface AppointmentDetailsComponentProps {
@@ -29,13 +28,12 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
     const {onClose, appointment_id, onComplete} = props;
     const {appointmentTypes} = useSelector((state: IRootReducerState) => state.staticData);
     const [bookType, setBookType] = useState<any | null>(null);
-    const navigate = useNavigate();
     const [step, setStep] = useState<'details' | 'payment' | 'noshow' | 'checkin' | 'reschedule' | 'cancel'>('details');
     const [details, setDetails] = useState<any | null>(null);
     // const [formStatus, setFormStatus] = useState<any[] | null>(null);
     const [isDetailsLoading, setIsDetailsLoading] = useState<boolean>(false);
     const [isDetailsLoaded, setIsDetailsLoaded] = useState<boolean>(false);
-    const [isStartAppointmentLoading, setIsStartAppointmentLoading] = useState<boolean>(false);
+    // const [isStartAppointmentLoading, setIsStartAppointmentLoading] = useState<boolean>(false);
 
     useEffect(() => {
         if (details) {
@@ -125,34 +123,35 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
         [appointment_id],
     );
 
-    const handleStartAppointment = useCallback(() => {
-        const payload = {};
-        setIsStartAppointmentLoading(true);
-        CommonService._appointment.appointmentStart(appointment_id, payload)
-            .then((response: IAPIResponseType<any>) => {
-                if (details?.appointment_type === 'initial_consultation') {
-                    setIsStartAppointmentLoading(false);
-                    navigate(CommonService._routeConfig.AddMedicalRecord(details?.client_id))
-                } else {
-                    navigate(CommonService._routeConfig.UpdateMedicalIntervention(details.medical_record_id, details.intervention_id) + '?mode=add');
-                }
-            })
-            .catch((error: any) => {
-                setIsStartAppointmentLoading(false);
-            })
-            .finally(() => {
-            })
-    }, [appointment_id, details, navigate]);
+    // const handleStartAppointment = useCallback(() => {
+    //     const payload = {};
+    //     setIsStartAppointmentLoading(true);
+    //     CommonService._appointment.appointmentStart(appointment_id, payload)
+    //         .then((response: IAPIResponseType<any>) => {
+    //             if (details?.appointment_type === 'initial_consultation') {
+    //                 setIsStartAppointmentLoading(false);
+    //                 navigate(CommonService._routeConfig.AddMedicalRecord(details?.client_id))
+    //             } else {
+    //                 navigate(CommonService._routeConfig.UpdateMedicalIntervention(details.medical_record_id, details.intervention_id) + '?mode=add');
+    //             }
+    //         })
+    //         .catch((error: any) => {
+    //             setIsStartAppointmentLoading(false);
+    //         })
+    //         .finally(() => {
+    //         })
+    // }, [appointment_id, details, navigate]);
 
     const handleStopAppointment = useCallback(() => {
         const payload = {};
-        setIsStartAppointmentLoading(true);
+        // setIsStartAppointmentLoading(true);
         CommonService._appointment.appointmentStop(appointment_id, payload)
             .then((response: IAPIResponseType<any>) => {
                 onComplete && onComplete();
             })
             .catch((error: any) => {
-                setIsStartAppointmentLoading(false);
+                console.log(error);
+                // setIsStartAppointmentLoading(false);
             })
             .finally(() => {
             })
@@ -404,14 +403,14 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
                         {/*</div>*/}
 
 
-                        <div className="client-search-btn">
-                            {details && details.status === 'upcoming' && <ButtonComponent
-                                fullWidth={true}
-                                isLoading={isStartAppointmentLoading}
-                                onClick={handleStartAppointment}
-                            >Start Appointment</ButtonComponent>
-                            }
-                        </div>
+                        {/*<div className="client-search-btn">*/}
+                        {/*    {details && details.status === 'upcoming' && <ButtonComponent*/}
+                        {/*        fullWidth={true}*/}
+                        {/*        isLoading={isStartAppointmentLoading}*/}
+                        {/*        onClick={handleStartAppointment}*/}
+                        {/*    >Start Appointment</ButtonComponent>*/}
+                        {/*    }*/}
+                        {/*</div>*/}
 
 
                         <div className="client-search-btn">
