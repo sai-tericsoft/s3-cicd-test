@@ -600,6 +600,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                             label={'Phone Number'}
                                                             // placeholder={'Phone Number (Primary)'}
                                                             required={true}
+                                                            disabled={!values?.primary_contact_info?.phone_type}
                                                             formikField={field}
                                                             id={'primary_phone_number'}
                                                             fullWidth={true}
@@ -653,6 +654,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                                                     (field: FieldProps) => (
                                                                                         <FormikPhoneInputComponent
                                                                                             label={'Phone Number'}
+                                                                                            disabled={values?.secondary_contact_info && !values?.secondary_contact_info[index]?.phone_type}
                                                                                             // placeholder={'Phone Number'}
                                                                                             formikField={field}
                                                                                             fullWidth={true}
@@ -989,6 +991,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                     (field: FieldProps) => (
                                                         <FormikPhoneInputComponent
                                                             label={'Phone Number'}
+                                                            disabled={!values?.emergency_contact_info?.primary_emergency?.primary_contact_info?.phone_type}
                                                             // placeholder={'Phone Number'}
                                                             required={true}
                                                             formikField={field}
@@ -1043,6 +1046,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                                                 (field: FieldProps) => (
                                                                                     <FormikPhoneInputComponent
                                                                                         label={'Phone Number'}
+                                                                                        disabled={values?.emergency_contact_info?.primary_emergency?.secondary_contact_info && !values?.emergency_contact_info?.primary_emergency?.secondary_contact_info[index]?.phone_type}
                                                                                         // placeholder={'Phone Number'}
                                                                                         formikField={field}
                                                                                         fullWidth={true}
@@ -1215,6 +1219,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                                 (field: FieldProps) => (
                                                                     <FormikPhoneInputComponent
                                                                         label={'Phone Number'}
+                                                                        disabled={!values?.emergency_contact_info?.secondary_emergency?.primary_contact_info?.phone_type}
                                                                         // placeholder={'Phone Number (Primary)'}
                                                                         formikField={field}
                                                                         fullWidth={true}
@@ -1268,6 +1273,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                                                                 (field: FieldProps) => (
                                                                                                     <FormikPhoneInputComponent
                                                                                                         label={'Phone Number'}
+                                                                                                        disabled={values?.emergency_contact_info?.secondary_emergency?.secondary_contact_info && !values?.emergency_contact_info?.secondary_emergency?.secondary_contact_info[index]?.phone_type}
                                                                                                         // placeholder={'Phone Number'}
                                                                                                         formikField={field}
                                                                                                         fullWidth={true}
