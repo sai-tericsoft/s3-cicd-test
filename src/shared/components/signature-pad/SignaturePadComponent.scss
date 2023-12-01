@@ -9,7 +9,16 @@
     .signature-pad-options {
       display: flex;
       flex-direction: row-reverse;
+      //justify-content: space-between;
       //margin-bottom: 5px;
+    }
+
+    .signature-pad-save {
+      display: flex;
+      color: #00534F;
+      text-decoration: underline;
+      padding-right: 14px;
+
     }
 
     .signature-pad {
