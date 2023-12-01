@@ -148,7 +148,6 @@ const DateRangePickerComponentV2 = (props: DateRangePickerComponentProps) => {
                         editableDateInputs={false}
                         moveRangeOnFirstSelection={false}
                         ranges={range}
-                        maxDate={new Date()}
                         months={1}
                         direction="horizontal"
                         className="calendarElement"
