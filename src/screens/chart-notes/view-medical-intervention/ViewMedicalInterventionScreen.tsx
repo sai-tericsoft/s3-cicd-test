@@ -311,10 +311,13 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
     }, [onSubmit]);
 
     const handleEditSoapNote = useCallback(() => {
-        if (medicalRecordId && medicalInterventionId) {
+        if (medicalInterventionDetails?.can_edit === true && medicalRecordId && medicalInterventionId) {
             navigate(CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, medicalInterventionId));
+        } else {
+            CommonService._alert.showToast("ERROR - Unfortunately you are unable to make changes to this file as the time period to edit the file has expired. Please add an addendum SOAP note, or contact your supervisor.", "error");
         }
     }, [navigate, medicalRecordId, medicalInterventionId]);
+
 
     return (
         <div className={'add-medical-intervention-screen'}>
@@ -501,7 +504,8 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                         <div
                                                             className={medicalInterventionDetails?.status === 'draft' ? 'readonly-text' : 'completed-text'}>
                                                             {medicalInterventionDetails?.objective?.observation ? medicalInterventionDetails?.objective?.observation.split("\n").map((i: any, key: any) => {
-                                                                return <div className={'completed-text'} key={key}>{i}</div>;
+                                                                return <div className={'completed-text'}
+                                                                            key={key}>{i}</div>;
                                                             }) : "Not Tested"}
                                                         </div>
                                                     </div>

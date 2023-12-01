@@ -174,7 +174,15 @@ const MedicalInterventionExerciseLogViewScreen = (props: MedicalInterventionExer
                 setIsPrintLoading(false);
                 console.log(err);
             })
-    }, [medicalInterventionId])
+    }, [medicalInterventionId]);
+
+    const handleExerciseLogEdit = useCallback(() => {
+       if(medicalInterventionExerciseLogDetails?.can_edit===true && medicalRecordId && medicalInterventionId) {
+           navigate(CommonService._routeConfig.MedicalInterventionExerciseLogUpdate(medicalRecordId, medicalInterventionId, 'edit'));
+       }else{
+           CommonService._alert.showToast("ERROR - Unfortunately you are unable to make changes to this file as the time period to edit the file has expired. Please contact your supervisor.", "error");
+       }
+    }, [medicalInterventionId, medicalRecordId]);
 
     return (
         <div className={'medical-intervention-exercise-log-view-screen'}>
@@ -225,14 +233,15 @@ const MedicalInterventionExerciseLogViewScreen = (props: MedicalInterventionExer
                                                                  onClick={handlePrint}>
                                                     Print
                                                 </ButtonComponent>
-                                                <LinkComponent
-                                                    route={CommonService._routeConfig.MedicalInterventionExerciseLogUpdate(medicalRecordId, medicalInterventionId, 'edit')}>
+
+                                                     {/*route={CommonService._routeConfig.MedicalInterventionExerciseLogUpdate(medicalRecordId, medicalInterventionId, 'edit')}>*/}
                                                     <ButtonComponent
+                                                        onClick={handleExerciseLogEdit}
                                                         prefixIcon={<ImageConfig.EditIcon/>}
                                                     >
                                                         Edit Exercise Log
                                                     </ButtonComponent>
-                                                </LinkComponent>
+
                                             </>
                                         }
                                     </>
