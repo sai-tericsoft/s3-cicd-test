@@ -16,7 +16,6 @@ import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import MedicalInterventionLinkedToComponent
     from "../medical-intervention-linked-to/MedicalInterventionLinkedToComponent";
 import DataLabelValueComponent from "../../../shared/components/data-label-value/DataLabelValueComponent";
-import LinkComponent from "../../../shared/components/link/LinkComponent";
 import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
 import moment from "moment-timezone";
 import commonService from "../../../shared/services/common.service";
@@ -182,7 +181,7 @@ const MedicalInterventionExerciseLogViewScreen = (props: MedicalInterventionExer
        }else{
            CommonService._alert.showToast("ERROR - Unfortunately you are unable to make changes to this file as the time period to edit the file has expired. Please contact your supervisor.", "error");
        }
-    }, [medicalInterventionId, medicalRecordId]);
+    }, [medicalInterventionId,medicalInterventionExerciseLogDetails?.can_edit, medicalRecordId]);
 
     return (
         <div className={'medical-intervention-exercise-log-view-screen'}>

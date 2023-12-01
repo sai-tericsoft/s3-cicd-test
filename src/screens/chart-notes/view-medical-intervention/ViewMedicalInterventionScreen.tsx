@@ -316,7 +316,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
         } else {
             CommonService._alert.showToast("ERROR - Unfortunately you are unable to make changes to this file as the time period to edit the file has expired. Please add an addendum SOAP note, or contact your supervisor.", "error");
         }
-    }, [navigate, medicalRecordId, medicalInterventionId]);
+    }, [medicalInterventionDetails?.can_edit,navigate, medicalRecordId, medicalInterventionId]);
 
 
     return (
