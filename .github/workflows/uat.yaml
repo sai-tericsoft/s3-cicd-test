@@ -31,4 +31,21 @@ jobs:
       - name: Invalidate CloudFront
         run: aws cloudfront create-invalidation --distribution-id ${{
           secrets.CLOUDFRONT_DISTRIBUTION_ID_UAT }} --paths "/*"
-          
+
+      - name: Notify dedicated teams channel
+        uses: jdcargile/ms-teams-notification@v1.3
+        with:
+          github-token: ${{ github.token }} # this will use the runner's token.
+          ms-teams-webhook-uri: ${{ secrets.MS_TEAMS_WEBHOOK_URI }}
+          notification-summary: Admin-UAT deployed succesfully
+          notification-color: 28a745
+          timezone: Asia/Kolkata
+      - name: Notify dedicated teams channel
+        uses: jdcargile/ms-teams-notification@v1.3
+        if: failure()        
+        with:
+          github-token: ${{ github.token }} # this will use the runner's token.
+          ms-teams-webhook-uri: ${{ secrets.MS_TEAMS_WEBHOOK_URI }}
+          notification-summary: Admin-UAT deployment failed
+          notification-color: dc3545 
+          timezone: Asia/Kolkata                
