@@ -181,7 +181,7 @@ const MedicalInterventionExerciseLogViewScreen = (props: MedicalInterventionExer
        }else{
            CommonService._alert.showToast("ERROR - Unfortunately you are unable to make changes to this file as the time period to edit the file has expired. Please contact your supervisor.", "error");
        }
-    }, [medicalInterventionId,medicalInterventionExerciseLogDetails?.can_edit, medicalRecordId]);
+    }, [medicalInterventionId,medicalInterventionExerciseLogDetails?.can_edit, medicalRecordId,navigate]);
 
     return (
         <div className={'medical-intervention-exercise-log-view-screen'}>
