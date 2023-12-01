@@ -37,6 +37,26 @@ const ICDTableColumns: any = [
 
     }
 ];
+const BodyPartTableColumns: any = [
+    {
+        title: 'Body Side',
+        dataIndex: 'body_side',
+        key: 'body_side',
+        width: 180,
+    },
+    {
+        title: 'Body Part',
+        dataIndex: 'body_part',
+        key: 'body_part',
+
+    },
+    {
+        title: 'Injury Type',
+        dataIndex: 'injury_type',
+        key: 'injury_type',
+
+    }
+];
 const objectTypes: any = [
     "Personal Habits",
 ]
@@ -51,7 +71,7 @@ const viewExerciseRecordColumn: any = [
         title: "Exercise",
         key: "exercise",
         dataIndex: 'id',
-        width:100
+        width: 100
     },
     {
         title: 'Exercise Name',
@@ -247,7 +267,8 @@ const ActivityLogTimelineComponent = (props: ActivityLogTimelineComponentProps) 
                 fixed: 'right',
                 width: 100,
                 children: [
-                    {title: 'Comments',
+                    {
+                        title: 'Comments',
                         dataIndex: 'comments',
                         key: 'comments',
                         width: 100,
@@ -295,7 +316,7 @@ const ActivityLogTimelineComponent = (props: ActivityLogTimelineComponentProps) 
             old_value,
             section
         } = logItem;
-        field_name = field_name === "Surgeries" || field_name === "Medical History" ? "list of titles" : field_name;
+        field_name = (field_name === "Surgeries" || field_name === "Medical History" ) ? "list of titles" : field_name;
         field_name = objectTypes.includes(section) ? "object" : field_name;
         field_name = listOfObjectsFields.includes(field_name) ? "List of objects" : field_name;
         switch (field_name) {
@@ -583,6 +604,32 @@ const ActivityLogTimelineComponent = (props: ActivityLogTimelineComponentProps) 
                         }
                     </DataLabelValueComponent>
                 </div>)
+            case "Injury Details":
+                return (<div>
+                    <DataLabelValueComponent label={"From"}
+                    >
+                        {
+                            old_value && old_value?.length > 0 ?
+                                <TableComponent
+                                    data={old_value}
+                                    bordered={true}
+                                    columns={BodyPartTableColumns}/> :
+                                "N/A"
+
+                        }
+                    </DataLabelValueComponent>
+                    <DataLabelValueComponent label={"To"}
+                    >
+                        {
+                            updated_value && updated_value?.length > 0 ?
+                                <TableComponent
+                                    data={updated_value}
+                                    bordered={true}
+                                    columns={BodyPartTableColumns}/> :
+                                "N/A"
+                        }
+                    </DataLabelValueComponent>
+                </div>)
 
             case "List of objects":
                 return (
@@ -620,6 +667,7 @@ const ActivityLogTimelineComponent = (props: ActivityLogTimelineComponentProps) 
                         </DataLabelValueComponent>
                     </div>
                 )
+
             case 'object':
                 return (
                     <>
@@ -657,7 +705,7 @@ const ActivityLogTimelineComponent = (props: ActivityLogTimelineComponentProps) 
                                         JSON.stringify(updated_value)
                                     }
                                 </div>
-                            : 'N/A'}
+                                : 'N/A'}
                         </DataLabelValueComponent>
                     </div>
                 )
@@ -696,28 +744,28 @@ const ActivityLogTimelineComponent = (props: ActivityLogTimelineComponentProps) 
 
                                                                 return (
                                                                     <div className={'mrg-bottom-20'} key={index}>
-                                                                            <AccordionComponent
-                                                                                key={index}
-                                                                                forActivityLog={true}
-                                                                                title={getLogsStringWithArrows(log)}
-                                                                                disableExpanding={log.action !== 'Modified' ? true : false}
-                                                                                subTitle={` was ${log?.action?.toLowerCase()} by `}
-                                                                                name={log?.updated_by ? log?.updated_by?.name : ''}
-                                                                                actions={<div
-                                                                                    className={'log-status-wrapper'}>
-                                                                                    <div className={'log-item-action'}>
-                                                                                        <ChipComponent
-                                                                                            label={commonService.capitalizeFirstLetter(log.action)}
-                                                                                            className={log.action}/>
-                                                                                    </div>
-                                                                                    <div
-                                                                                        className={'updated-date mrg-left-20'}>
-                                                                                        {tConvert(moment(log?.updated_at).format('HH:mm'))}
-                                                                                    </div>
-                                                                                </div>}
-                                                                            >
-                                                                                {generateAccordionContent(log)}
-                                                                            </AccordionComponent>
+                                                                        <AccordionComponent
+                                                                            key={index}
+                                                                            forActivityLog={true}
+                                                                            title={getLogsStringWithArrows(log)}
+                                                                            disableExpanding={log.action !== 'Modified' ? true : false}
+                                                                            subTitle={` was ${log?.action?.toLowerCase()} by `}
+                                                                            name={log?.updated_by ? log?.updated_by?.name : ''}
+                                                                            actions={<div
+                                                                                className={'log-status-wrapper'}>
+                                                                                <div className={'log-item-action'}>
+                                                                                    <ChipComponent
+                                                                                        label={commonService.capitalizeFirstLetter(log.action)}
+                                                                                        className={log.action}/>
+                                                                                </div>
+                                                                                <div
+                                                                                    className={'updated-date mrg-left-20'}>
+                                                                                    {tConvert(moment(log?.updated_at).format('HH:mm'))}
+                                                                                </div>
+                                                                            </div>}
+                                                                        >
+                                                                            {generateAccordionContent(log)}
+                                                                        </AccordionComponent>
                                                                     </div>
                                                                 )
                                                             })}
