@@ -160,7 +160,7 @@ const ServiceCategoryEditComponent = (props: ServiceCategoryEditComponentProps) 
                                             )
                                         }
                                     </Field>
-                                    <div className="mrg-bottom-20">
+                                    <div className="mrg-bottom-20 service-category-color-heading">
                                         <FormControlLabelComponent size={"sm"} label={'Service Category Color'}/>
 
                                         <div className="color-picker-wrapper">
@@ -208,7 +208,7 @@ const ServiceCategoryEditComponent = (props: ServiceCategoryEditComponentProps) 
                                         </div>
 
                                     </div>
-                                    <div className="mrg-bottom-10">
+                                    <div className="mrg-bottom-10 upload-image-heading">
                                         <FormControlLabelComponent size={"sm"}
                                                                    label={"Upload Image for Service Category *"}/>
                                         <>
@@ -222,8 +222,8 @@ const ServiceCategoryEditComponent = (props: ServiceCategoryEditComponentProps) 
                                                                                  setFieldValue('image', file);
                                                                              }
                                                                          }}
-                                                                         acceptedFilesText={"PNG, JPG and JPEG files are allowed"}
-                                                                         acceptedFileTypes={["png", "jpg", "jpeg"]}
+                                                                         acceptedFilesText={"PNG and JPEG files are allowed"}
+                                                                         acceptedFileTypes={["png","jpeg"]}
                                                     />
                                                     {
                                                         (_.get(touched, "image") && !!(_.get(errors, "image"))) &&

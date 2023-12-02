@@ -39,7 +39,7 @@ const SystemSettingsFormInitialValues = {
         auto_lock_minutes: 10,
         uneditable_after_days: 7,
         buffer_time: 15,
-        admin_email:""
+        admin_email: ""
     }
 }
 
@@ -69,13 +69,16 @@ const SystemSettingsScreen = (props: SystemSettingsScreenProps) => {
             .then((response: IAPIResponseType<ISystemSettingsConfig>) => {
                 CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                 setIsSaving(false);
-                dispatch(setLoggedInUserData({...currentUser,auto_lock_minutes:values.other_settings.auto_lock_minutes} as ILoggedInUser));
+                dispatch(setLoggedInUserData({
+                    ...currentUser,
+                    auto_lock_minutes: values.other_settings.auto_lock_minutes
+                } as ILoggedInUser));
             })
             .catch((error: any) => {
                 CommonService.handleErrors(setErrors, error);
                 setIsSaving(false);
             });
-    }, [dispatch,currentUser]);
+    }, [dispatch, currentUser]);
 
     useEffect(() => {
         if (systemSettings) {
@@ -120,120 +123,123 @@ const SystemSettingsScreen = (props: SystemSettingsScreenProps) => {
                             }, [validateForm, values]);
                             return (
                                 <Form className="t-form" noValidate={true}>
-                                    <CardComponent title={"Other Settings"}>
-                                        <div className="t-form-controls">
-                                            <div className="ts-row">
-                                                <div className="ts-col-md-12 ts-col-md-6 ts-col-lg-7">
-                                                    <QuestionComponent title={"System Auto Lock"}
-                                                                       description={"The length of time before the system auto-saves the work that has been done, and locks the system if there’s been a certain length of inactivity."}
-                                                    ></QuestionComponent>
+                                    <div className={'other-settings-wrapper'}>
+                                        <CardComponent title={"Other Settings"}>
+                                            <div className="t-form-controls">
+                                                <div className="ts-row">
+                                                    <div className="ts-col-md-12 ts-col-md-6 ts-col-lg-7">
+                                                        <QuestionComponent title={"System Auto Lock"}
+                                                                           description={"The length of time before the system auto-saves the work that has been done, and locks the system if there’s been a certain length of inactivity."}
+                                                        ></QuestionComponent>
+                                                    </div>
+                                                    <div className={"ts-col-md-12 ts-col-md-6 ts-col-lg-1"}/>
+                                                    <div className="ts-col-md-12 ts-col-md-6 ts-col-lg-4">
+                                                        <Field name={'other_settings.auto_lock_minutes'}
+                                                               className="t-form-control">
+                                                            {
+                                                                (field: FieldProps) => (
+                                                                    <FormikSelectComponent
+                                                                        label={'Select Option'}
+                                                                        options={systemAutoLockDurationOptionList}
+                                                                        required={true}
+                                                                        formikField={field}
+                                                                        fullWidth={true}
+                                                                    />
+                                                                )
+                                                            }
+                                                        </Field>
+                                                    </div>
                                                 </div>
-                                                <div className={"ts-col-md-12 ts-col-md-6 ts-col-lg-1"}/>
-                                                <div className="ts-col-md-12 ts-col-md-6 ts-col-lg-4">
-                                                    <Field name={'other_settings.auto_lock_minutes'}
-                                                           className="t-form-control">
-                                                        {
-                                                            (field: FieldProps) => (
-                                                                <FormikSelectComponent
-                                                                    label={'Select'}
-                                                                    options={systemAutoLockDurationOptionList}
-                                                                    required={true}
-                                                                    formikField={field}
-                                                                    fullWidth={true}
-                                                                />
-                                                            )
-                                                        }
-                                                    </Field>
+                                                <HorizontalLineComponent/>
+                                                <div className="ts-row">
+                                                    <div className="ts-col-md-12 ts-col-md-6 ts-col-lg-7">
+                                                        <QuestionComponent title={"Files Uneditable after"}
+                                                                           description={"Makes file uneditable after XX days."}
+                                                        ></QuestionComponent>
+                                                    </div>
+                                                    <div className={"ts-col-md-12 ts-col-md-6 ts-col-lg-1"}/>
+                                                    <div className="ts-col-md-12 ts-col-md-6 ts-col-lg-4">
+                                                        <Field name={'other_settings.uneditable_after_days'}
+                                                               className="t-form-control">
+                                                            {
+                                                                (field: FieldProps) => (
+                                                                    <FormikSelectComponent
+                                                                        label={'Select Option'}
+                                                                        options={filesUneditableAfterOptionList}
+                                                                        required={true}
+                                                                        formikField={field}
+                                                                        fullWidth={true}
+                                                                    />
+                                                                )
+                                                            }
+                                                        </Field>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <HorizontalLineComponent/>
-                                            <div className="ts-row">
-                                                <div className="ts-col-md-12 ts-col-md-6 ts-col-lg-7">
-                                                    <QuestionComponent title={"Files Uneditable after"}
-                                                                       description={"Makes file uneditable after XX days."}
-                                                    ></QuestionComponent>
-                                                </div>
-                                                <div className={"ts-col-md-12 ts-col-md-6 ts-col-lg-1"}/>
-                                                <div className="ts-col-md-12 ts-col-md-6 ts-col-lg-4">
-                                                    <Field name={'other_settings.uneditable_after_days'}
-                                                           className="t-form-control">
-                                                        {
-                                                            (field: FieldProps) => (
-                                                                <FormikSelectComponent
-                                                                    label={'Select'}
-                                                                    options={filesUneditableAfterOptionList}
-                                                                    required={true}
-                                                                    formikField={field}
-                                                                    fullWidth={true}
-                                                                />
-                                                            )
-                                                        }
-                                                    </Field>
-                                                </div>
-                                            </div>
 
-                                            <HorizontalLineComponent/>
-                                            <div className="ts-row">
-                                                <div className="ts-col-md-12 ts-col-md-6 ts-col-lg-7">
-                                                    <QuestionComponent title={"Scheduling Buffer Time"}
-                                                                       description={"The buffer time to be considered while generating appointment time slots for each provider."}
-                                                    ></QuestionComponent>
+                                                <HorizontalLineComponent/>
+                                                <div className="ts-row">
+                                                    <div className="ts-col-md-12 ts-col-md-6 ts-col-lg-7">
+                                                        <QuestionComponent title={"Scheduling Buffer Time"}
+                                                                           description={"The buffer time to be considered while generating appointment time slots for each provider."}
+                                                        ></QuestionComponent>
+                                                    </div>
+                                                    <div className={"ts-col-md-12 ts-col-md-6 ts-col-lg-1"}/>
+                                                    <div className="ts-col-md-12 ts-col-md-6 ts-col-lg-4">
+                                                        <Field name={'other_settings.buffer_time'}
+                                                               className="t-form-control">
+                                                            {
+                                                                (field: FieldProps) => (
+                                                                    <FormikSelectComponent
+                                                                        label={'Select Option'}
+                                                                        options={systemAutoLockDurationOptionList}
+                                                                        required={true}
+                                                                        formikField={field}
+                                                                        fullWidth={true}
+                                                                    />
+                                                                )
+                                                            }
+                                                        </Field>
+                                                    </div>
                                                 </div>
-                                                <div className={"ts-col-md-12 ts-col-md-6 ts-col-lg-1"}/>
-                                                <div className="ts-col-md-12 ts-col-md-6 ts-col-lg-4">
-                                                    <Field name={'other_settings.buffer_time'}
-                                                           className="t-form-control">
-                                                        {
-                                                            (field: FieldProps) => (
-                                                                <FormikSelectComponent
-                                                                    label={'Select'}
-                                                                    options={systemAutoLockDurationOptionList}
-                                                                    required={true}
-                                                                    formikField={field}
-                                                                    fullWidth={true}
-                                                                />
-                                                            )
-                                                        }
-                                                    </Field>
+                                                <HorizontalLineComponent/>
+                                                <div className="ts-row">
+                                                    <div className="ts-col-md-12 ts-col-md-6 ts-col-lg-7">
+                                                        <QuestionComponent title={"Admin Email"}
+                                                                           description={"Users of this application will be sending notifications about records, SOAP notes, or any issues to the email address listed here."}
+                                                        ></QuestionComponent>
+                                                    </div>
+                                                    <div className={"ts-col-md-12 ts-col-md-6 ts-col-lg-1"}/>
+                                                    <div className="ts-col-md-12 ts-col-md-6 ts-col-lg-4">
+                                                        <Field name={'other_settings.admin_email'}
+                                                               className="t-form-control">
+                                                            {
+                                                                (field: FieldProps) => (
+                                                                    <FormikInputComponent
+                                                                        label={'Email'}
+                                                                        placeholder={'example@email.com'}
+                                                                        required={true}
+                                                                        formikField={field}
+                                                                        fullWidth={true}
+                                                                    />
+                                                                )
+                                                            }
+                                                        </Field>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <HorizontalLineComponent/>
-                                            <div className="ts-row">
-                                                <div className="ts-col-md-12 ts-col-md-6 ts-col-lg-7">
-                                                    <QuestionComponent title={"Admin Email"}
-                                                                       description={"The email address provided here will be notified by application users of any chart note or SOAP Note, if required."}
-                                                    ></QuestionComponent>
-                                                </div>
-                                                <div className={"ts-col-md-12 ts-col-md-6 ts-col-lg-1"}/>
-                                                <div className="ts-col-md-12 ts-col-md-6 ts-col-lg-4">
-                                                    <Field name={'other_settings.admin_email'}
-                                                           className="t-form-control">
-                                                        {
-                                                            (field: FieldProps) => (
-                                                                <FormikInputComponent
-                                                                    label={'Enter Admin Email'}
-                                                                    required={true}
-                                                                    formikField={field}
-                                                                    fullWidth={true}
-                                                                />
-                                                            )
-                                                        }
-                                                    </Field>
-                                                </div>
-                                            </div>
 
-                                        </div>
-                                        <div className="t-form-actions">
-                                            <ButtonComponent
-                                                isLoading={isSaving}
-                                                type={"submit"}
-                                                id={"save_btn"}
-                                                disabled={CommonService.isEqual(values, systemSettingsFormInitialValues)}
-                                            >
-                                                {isSaving ? "Saving" : "Save"}
-                                            </ButtonComponent>
-                                        </div>
-                                    </CardComponent>
+                                            </div>
+                                            <div className="t-form-actions">
+                                                <ButtonComponent
+                                                    isLoading={isSaving}
+                                                    type={"submit"}
+                                                    id={"save_btn"}
+                                                    disabled={CommonService.isEqual(values, systemSettingsFormInitialValues)}
+                                                >
+                                                    {isSaving ? "Saving" : "Save"}
+                                                </ButtonComponent>
+                                            </div>
+                                        </CardComponent>
+                                    </div>
                                 </Form>
                             )
                         }}

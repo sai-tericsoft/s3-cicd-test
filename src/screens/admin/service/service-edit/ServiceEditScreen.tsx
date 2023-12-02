@@ -176,6 +176,12 @@ const ServiceEditScreen = (props: ServiceEditComponentProps) => {
         }
     }, [navigate, serviceId]);
 
+    const handleBackNavigation = useCallback(() => {
+        if (serviceId) {
+            navigate(CommonService._routeConfig.ServiceDetails(serviceId));
+        }
+    }, [navigate, serviceId]);
+
     return (
         <div className={'service-add-component'}>
             <div className={'service-category-service-edit-form'}>
@@ -590,19 +596,22 @@ const ServiceEditScreen = (props: ServiceEditComponentProps) => {
                                         </>
                                     </CardComponent>
                                     <div className="t-form-actions">
-                                        <LinkComponent route={CommonService._routeConfig.ServiceDetails(serviceId)}>
+                                        {/*<LinkComponent route={CommonService._routeConfig.ServiceDetails(serviceId)}>*/}
                                             <ButtonComponent
                                                 variant={"outlined"}
+                                                size={"large"}
+                                                onClick={handleBackNavigation}
                                                 disabled={isServiceEditInProgress}
                                                 id={"sv_cancel_btn"}
                                             >
                                                 Cancel
                                             </ButtonComponent>
-                                        </LinkComponent>
-                                        &nbsp;
+                                        {/*</LinkComponent>*/}
+                                        &nbsp; &nbsp;
                                         <ButtonComponent
                                             isLoading={isServiceEditInProgress}
                                             type={"submit"}
+                                            size={"large"}
                                             id={"sv_save_btn"}
                                         >
                                             {isServiceEditInProgress ? "Saving" : "Save"}

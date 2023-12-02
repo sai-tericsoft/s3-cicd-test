@@ -4,6 +4,10 @@
   .t-tabs-wrapper {
     height: auto !important;
 
+    .t-tab-panel {
+      padding: 0 !important;
+    }
+
     .message-section {
       padding: 20px;
       border: 1px solid #ABB6BE;
@@ -35,6 +39,7 @@
         flex-wrap: wrap;
       }
     }
+
 
     .email-section {
       border: 1px solid #ABB6BE;
@@ -82,6 +87,7 @@
     display: flex;
     padding: 10px 0 0 10px;
     justify-content: center;
+    margin-top: 8px;
 
     .tooltip-text-pointer {
       //width: 5px;

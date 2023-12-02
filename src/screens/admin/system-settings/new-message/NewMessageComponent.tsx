@@ -78,7 +78,7 @@ const NewMessageComponent = (props: NewMessageComponentProps) => {
                                             {
                                                 (field: FieldProps) => (
                                                     <FormikTextAreaComponent
-                                                        label={''}
+                                                        label={'Enter your message here'}
                                                         placeholder={'New Message'}
                                                         formikField={field}
                                                         fullWidth={true}
@@ -102,7 +102,7 @@ const NewMessageComponent = (props: NewMessageComponentProps) => {
                                                                 options={validDaysList}
                                                                 displayWith={item => item?.title}
                                                                 valueExtractor={item => item?.code}
-                                                                label={'Select'}
+                                                                label={'Select Option'}
                                                                 formikField={field}
                                                                 fullWidth={true}
                                                             />

@@ -121,7 +121,7 @@ const ServiceCategoryAddComponent = (props: ServiceCategoryAddComponentProps) =>
                                             )
                                         }
                                     </Field>
-                                    <div className="mrg-bottom-20">
+                                    <div className="mrg-bottom-20 service-category-color-heading">
                                         <FormControlLabelComponent size={"sm"} label={'Service Category Color'}/>
 
                                         <div className="color-picker-wrapper">
@@ -169,7 +169,7 @@ const ServiceCategoryAddComponent = (props: ServiceCategoryAddComponentProps) =>
                                         </div>
 
                                     </div>
-                                    <div className="mrg-bottom-20">
+                                    <div className="mrg-bottom-20 upload-image-heading">
                                         <FormControlLabelComponent size={"sm"}
                                                                    label={"Upload Image for Service Category *"}
                                         />
@@ -184,8 +184,8 @@ const ServiceCategoryAddComponent = (props: ServiceCategoryAddComponentProps) =>
                                                                                  setFieldValue('image', file);
                                                                              }
                                                                          }}
-                                                                         acceptedFilesText={"PNG, JPG and JPEG files are allowed upto 10MB"}
-                                                                         acceptedFileTypes={["png", "jpg", "jpeg"]}
+                                                                         acceptedFilesText={"PNG and JPEG files are allowed upto 10MB"}
+                                                                         acceptedFileTypes={["png", "jpeg"]}
                                                     />
                                                     {
                                                         (_.get(touched, "image") && !!(_.get(errors, "image"))) &&

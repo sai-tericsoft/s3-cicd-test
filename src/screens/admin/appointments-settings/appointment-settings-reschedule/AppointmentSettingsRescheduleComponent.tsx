@@ -122,7 +122,7 @@ const AppointmentSettingsRescheduleComponent = (props: AppointmentSettingsResche
                         <div className={"ts-col-md-12 ts-col-md-6 ts-col-lg-2"}/>
                         <div className="ts-col-md-12 ts-col-md-6 ts-col-lg-4">
                             <SelectComponent
-                                label="Select number"
+                                label="Select Option"
                                 className="t-form-control"
                                 options={reschedulingTimesList || []}
                                 value={selectedTimesTemp}
@@ -133,7 +133,7 @@ const AppointmentSettingsRescheduleComponent = (props: AppointmentSettingsResche
                             />
                         </div>
                     </div>
-                    <div className={'display-flex ts-justify-content-center'}>
+                    <div className={'display-flex ts-justify-content-center mrg-bottom-25'}>
                         <ButtonComponent
                             onClick={() => {
                                 setSelectedTimes(selectedTimesTemp);
@@ -144,7 +144,7 @@ const AppointmentSettingsRescheduleComponent = (props: AppointmentSettingsResche
                         </ButtonComponent>
                     </div>
 
-                    <HorizontalLineComponent/>
+                    <HorizontalLineComponent className={'mrg-top-15 mrg-bottom-15'}/>
                     {messageMode === 'view' &&
                         <>
                             <div className="d-flex ts-justify-content-between">
@@ -179,32 +179,41 @@ const AppointmentSettingsRescheduleComponent = (props: AppointmentSettingsResche
                                             position={'top'}
                                             backgroundColor={'#FFF5D3'}
                                             tooltip={<div className="pdd-10">
-                                                <div>To create a custom template with pre-defined keywords and specific
+                                                <b>To create a custom template with pre-defined keywords and specific
                                                     formatting
                                                     rules, please follow the instructions below:
-                                                </div>
-                                                <div className="">
+                                                </b>
+                                                <div className="mrg-top-10">
                                                     <div className="tooltip-text-row-wrapper">
-                                                        <div className="tooltip-text-pointer">*</div>
-                                                        <div className="tooltip-text">Start by typing your message in the
-                                                            template
-                                                            box.
-                                                        </div>
+                                                        {/*<div className="tooltip-text-pointer">*</div>*/}
+                                                        <ul>
+                                                            <li className="tooltip-text">Start by typing your message in
+                                                                the
+                                                                template
+                                                                box.
+                                                            </li>
+                                                        </ul>
                                                     </div>
 
                                                     <div className="tooltip-text-row-wrapper">
-                                                        <div className="tooltip-text-pointer">*</div>
-                                                        <div className="tooltip-text">To access the list of pre-defined
-                                                            keywords,
-                                                            type "@" in the text box. A
-                                                            dropdown
-                                                            list will appear with the available keywords. Select the appropriate
-                                                            keyword
-                                                            from the list by clicking on it or by using the arrow keys to
-                                                            navigate
-                                                            and
-                                                            pressing "Enter" to select it.
-                                                        </div>
+                                                        {/*<div className="tooltip-text-pointer">*</div>*/}
+                                                        <ul>
+                                                            <li className="tooltip-text">To access the list of
+                                                                pre-defined
+                                                                keywords,
+                                                                type "@" in the text box. A
+                                                                dropdown
+                                                                list will appear with the available keywords. Select the
+                                                                appropriate
+                                                                keyword
+                                                                from the list by clicking on it or by using the arrow
+                                                                keys
+                                                                to
+                                                                navigate
+                                                                and
+                                                                pressing "Enter" to select it.
+                                                            </li>
+                                                        </ul>
                                                     </div>
 
                                                 </div>
@@ -215,7 +224,9 @@ const AppointmentSettingsRescheduleComponent = (props: AppointmentSettingsResche
                                         </ToolTipComponent>
                                     </div>
                                 </div>
-                                <div className={'message-description'}>Create an SMS message that a client will receive when an appointment is rescheduled.</div>
+                                <div className={'message-description'}>Create an SMS message that a client will receive
+                                    when an appointment is rescheduled.
+                                </div>
                             </div>
                             <MentionsComponent
                                 data={mentionsList}
@@ -240,7 +251,7 @@ const AppointmentSettingsRescheduleComponent = (props: AppointmentSettingsResche
                                 </div>
                             </div>
 
-                            <div className="d-flex ts-justify-content-center">
+                            <div className="d-flex ts-justify-content-center mrg-bottom-25">
                                 <ButtonComponent variant={"outlined"}
                                                  disabled={isTemplateSaveInProgress}
                                                  onClick={() => {
@@ -307,32 +318,41 @@ const AppointmentSettingsRescheduleComponent = (props: AppointmentSettingsResche
                                             position={'top'}
                                             backgroundColor={'#FFF5D3'}
                                             tooltip={<div className="pdd-10">
-                                                <div>To create a custom template with pre-defined keywords and specific
+                                                <b>To create a custom template with pre-defined keywords and specific
                                                     formatting
                                                     rules, please follow the instructions below:
-                                                </div>
-                                                <div className="">
+                                                </b>
+                                                <div className="mrg-top-10">
                                                     <div className="tooltip-text-row-wrapper">
-                                                        <div className="tooltip-text-pointer">*</div>
-                                                        <div className="tooltip-text">Start by typing your message in the
-                                                            template
-                                                            box.
-                                                        </div>
+                                                        {/*<div className="tooltip-text-pointer">*</div>*/}
+                                                        <ul>
+                                                            <li className="tooltip-text">Start by typing your message in
+                                                                the
+                                                                template
+                                                                box.
+                                                            </li>
+                                                        </ul>
                                                     </div>
 
                                                     <div className="tooltip-text-row-wrapper">
-                                                        <div className="tooltip-text-pointer">*</div>
-                                                        <div className="tooltip-text">To access the list of pre-defined
-                                                            keywords,
-                                                            type "@" in the text box. A
-                                                            dropdown
-                                                            list will appear with the available keywords. Select the appropriate
-                                                            keyword
-                                                            from the list by clicking on it or by using the arrow keys to
-                                                            navigate
-                                                            and
-                                                            pressing "Enter" to select it.
-                                                        </div>
+                                                        {/*<div className="tooltip-text-pointer">*</div>*/}
+                                                        <ul>
+                                                            <li className="tooltip-text">To access the list of
+                                                                pre-defined
+                                                                keywords,
+                                                                type "@" in the text box. A
+                                                                dropdown
+                                                                list will appear with the available keywords. Select the
+                                                                appropriate
+                                                                keyword
+                                                                from the list by clicking on it or by using the arrow
+                                                                keys
+                                                                to
+                                                                navigate
+                                                                and
+                                                                pressing "Enter" to select it.
+                                                            </li>
+                                                        </ul>
                                                     </div>
 
                                                 </div>
@@ -343,7 +363,9 @@ const AppointmentSettingsRescheduleComponent = (props: AppointmentSettingsResche
                                         </ToolTipComponent>
                                     </div>
                                 </div>
-                                <div className={'message-description mrg-bottom-5'}>Create an Email message that a client will receive when an appointment is rescheduled.</div>
+                                <div className={'message-description mrg-bottom-5'}>Create an Email message that a
+                                    client will receive when an appointment is rescheduled.
+                                </div>
 
                             </div>
                             <div>

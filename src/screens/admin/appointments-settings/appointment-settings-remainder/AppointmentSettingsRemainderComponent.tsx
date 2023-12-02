@@ -138,7 +138,7 @@ const AppointmentSettingsRemainderComponent = (props: AppointmentSettingsRemaind
                             />
                         </div>
                     </div>
-                    <div className={'display-flex ts-justify-content-center'}>
+                    <div className={'display-flex ts-justify-content-center mrg-bottom-25'}>
                         <ButtonComponent
                             onClick={() => {
                                 setSelectedSecondaryHours(selectedSecondaryHoursTemp);
@@ -149,113 +149,128 @@ const AppointmentSettingsRemainderComponent = (props: AppointmentSettingsRemaind
                         </ButtonComponent>
                     </div>
 
-                    <HorizontalLineComponent/>
-                    {messageMode === 'view' &&
-                    <>
-                        <div className="d-flex ts-justify-content-between">
-                            <QuestionComponent title={"Message (SMS)"}
-                                               description={"Create an SMS message that a client will receive as an appointment reminder."}
-                            ></QuestionComponent>
-                            <div>
-                                <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>}
-                                                 onClick={() => {
-                                                     setMessageMode('edit')
-                                                 }}>
-                                    Edit
-                                </ButtonComponent>
-                            </div>
-                        </div>
-                        <div className="message-section"
-                             dangerouslySetInnerHTML={{__html: CommonService.cleanMentionsResponse(appointmentSettingsRemainderDetails?.sms?.content, mentionsList)}}>
+                    <HorizontalLineComponent className={'mrg-top-15 mrg-bottom-15'}/>
 
-                        </div>
-                    </>
+                    {messageMode === 'view' &&
+                        <>
+                            <div className="d-flex ts-justify-content-between">
+                                <QuestionComponent title={"Message (SMS)"}
+                                                   description={"Create an SMS message that a client will receive as an appointment reminder."}
+                                ></QuestionComponent>
+                                <div>
+                                    <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>}
+                                                     onClick={() => {
+                                                         setMessageMode('edit')
+                                                     }}>
+                                        Edit
+                                    </ButtonComponent>
+                                </div>
+                            </div>
+                            <div className="message-section"
+                                 dangerouslySetInnerHTML={{__html: CommonService.cleanMentionsResponse(appointmentSettingsRemainderDetails?.sms?.content, mentionsList)}}>
+
+                            </div>
+                        </>
                     }
 
                     {messageMode === 'edit' &&
-                    <>
-                        <div>
-                            <div className={'d-flex'}>
-                                <FormControlLabelComponent label={"Message (SMS)"} className={'message-heading'}/>
-                                <div className="info-tool-tip-wrapper">
-                                    <ToolTipComponent
-                                        showArrow={true}
-                                        position={'top'}
-                                        backgroundColor={'#FFF5D3'}
-                                        tooltip={<div className="pdd-10" >
-                                            <div>To create a custom template with pre-defined keywords and specific formatting
-                                                rules, please follow the instructions below:
-                                            </div>
-                                            <div className="">
-                                                <div className="tooltip-text-row-wrapper">
-                                                    <div className="tooltip-text-pointer">*</div>
-                                                    <div className="tooltip-text">Start by typing your message in the template box.</div>
-                                                </div>
-
-                                                <div className="tooltip-text-row-wrapper">
-                                                    <div className="tooltip-text-pointer">*</div>
-                                                    <div className="tooltip-text">To access the list of pre-defined keywords, type "@" in the text box. A
-                                                        dropdown
-                                                        list will appear with the available keywords. Select the appropriate
-                                                        keyword
-                                                        from the list by clicking on it or by using the arrow keys to navigate
-                                                        and
-                                                        pressing "Enter" to select it.
+                        <>
+                            <div>
+                                <div className={'d-flex'}>
+                                    <FormControlLabelComponent label={"Message (SMS)"} className={'message-heading'}/>
+                                    <div className="info-tool-tip-wrapper">
+                                        <ToolTipComponent
+                                            showArrow={true}
+                                            position={'top'}
+                                            backgroundColor={'#FFF5D3'}
+                                            tooltip={<div className="pdd-10">
+                                                <b>To create a custom template with pre-defined keywords and specific
+                                                    formatting
+                                                    rules, please follow the instructions below:
+                                                </b>
+                                                <div className="mrg-top-10">
+                                                    <div className="tooltip-text-row-wrapper">
+                                                        {/*<div className="tooltip-text-pointer">*</div>*/}
+                                                        <ul>
+                                                            <li className="tooltip-text">Start by typing your message in
+                                                                the template box.
+                                                            </li>
+                                                        </ul>
                                                     </div>
+
+                                                    <div className="tooltip-text-row-wrapper">
+                                                        {/*<div className="tooltip-text-pointer">*</div>*/}
+                                                        <ul>
+                                                            <li className="tooltip-text">To access the list of
+                                                                pre-defined
+                                                                keywords, type "@" in the text box. A
+                                                                dropdown
+                                                                list will appear with the available keywords. Select the
+                                                                appropriate
+                                                                keyword
+                                                                from the list by clicking on it or by using the arrow
+                                                                keys
+                                                                to navigate
+                                                                and
+                                                                pressing "Enter" to select it.
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+
                                                 </div>
+                                            </div>}
+                                        >
 
-                                            </div>
-                                        </div>}
-                                    >
+                                            <ImageConfig.InfoIcon height={'20'} width={'20'}/>
+                                        </ToolTipComponent>
 
-                                        <ImageConfig.InfoIcon height={'20'} width={'20'}/>
-                                    </ToolTipComponent>
-
+                                    </div>
+                                </div>
+                                <div className={'message-description'}>Create an SMS message that a client will receive
+                                    as an appointment reminder.
                                 </div>
                             </div>
-                            <div className={'message-description'}>Create an SMS message that a client will receive as an appointment reminder.</div>
-                        </div>
-                        <MentionsComponent
-                            data={mentionsList}
-                            inputHeight={180}
-                            value={messageValue}
-                            onChange={(value) => setMessageValue(value)}
-                            placeholder={"Enter text here"}
-                        />
-                        <div className="available-mentions-wrapper">
-                            <div className="available-mentions-title">Available Keywords</div>
-                            <div className="available-mentions-chips-wrapper">
-                                {
-                                    mentionsList?.map((mention) => {
-                                        return (
-                                            <div>
-                                                <ChipComponent label={mention.display} className={'inactive'}/>
-                                            </div>
-                                        )
-                                    })
-                                }
+                            <MentionsComponent
+                                data={mentionsList}
+                                inputHeight={180}
+                                value={messageValue}
+                                onChange={(value) => setMessageValue(value)}
+                                placeholder={"Enter text here"}
+                            />
+                            <div className="available-mentions-wrapper">
+                                <div className="available-mentions-title">Available Keywords</div>
+                                <div className="available-mentions-chips-wrapper">
+                                    {
+                                        mentionsList?.map((mention) => {
+                                            return (
+                                                <div>
+                                                    <ChipComponent label={mention.display} className={'inactive'}/>
+                                                </div>
+                                            )
+                                        })
+                                    }
+                                </div>
                             </div>
-                        </div>
-                        <div className="d-flex ts-justify-content-center">
-                            <ButtonComponent variant={"outlined"}
-                                             disabled={isTemplateSaveInProgress}
-                                             onClick={() => {
-                                                 setMessageMode('view');
-                                                 setMessageValue(messageVal);
-                                             }}
-                            >
-                                Cancel
-                            </ButtonComponent>&nbsp;&nbsp;
-                            <ButtonComponent
-                                isLoading={isTemplateSaveInProgress}
-                                type="button"
-                                disabled={messageValue?.length === 0 || messageValue === messageVal}
-                                onClick={onTemplateSubmit}
-                            >
-                                Save
-                            </ButtonComponent>
-                        </div>
-                    </>
+                            <div className="d-flex ts-justify-content-center mrg-bottom-25">
+                                <ButtonComponent variant={"outlined"}
+                                                 disabled={isTemplateSaveInProgress}
+                                                 onClick={() => {
+                                                     setMessageMode('view');
+                                                     setMessageValue(messageVal);
+                                                 }}
+                                >
+                                    Cancel
+                                </ButtonComponent>&nbsp;&nbsp;
+                                <ButtonComponent
+                                    isLoading={isTemplateSaveInProgress}
+                                    type="button"
+                                    disabled={messageValue?.length === 0 || messageValue === messageVal}
+                                    onClick={onTemplateSubmit}
+                                >
+                                    Save
+                                </ButtonComponent>
+                            </div>
+                        </>
                     }
 
                     <HorizontalLineComponent/>
@@ -278,7 +293,8 @@ const AppointmentSettingsRemainderComponent = (props: AppointmentSettingsRemaind
                         </div>
                         <div className="email-section">
                             <div className="email-header-section">
-                                <div className="email-screen__header__row" dangerouslySetInnerHTML={{__html: CommonService.cleanMentionsResponse(appointmentSettingsRemainderDetails?.email?.subject, mentionsList)}}>
+                                <div className="email-screen__header__row"
+                                     dangerouslySetInnerHTML={{__html: CommonService.cleanMentionsResponse(appointmentSettingsRemainderDetails?.email?.subject, mentionsList)}}>
                                 </div>
                                 <hr className="hr-line"/>
                             </div>
@@ -292,104 +308,118 @@ const AppointmentSettingsRemainderComponent = (props: AppointmentSettingsRemaind
 
 
                     {emailMode === 'edit' &&
-                    <>
-                        <div>
-                            <div className={'d-flex'}>
-                                <FormControlLabelComponent label={"Email"} className={'message-heading'}/>
-                                <div className="info-tool-tip-wrapper">
-                                    <ToolTipComponent
-                                        showArrow={true}
-                                        position={'top'}
-                                        backgroundColor={'#FFF5D3'}
-                                        tooltip={<div className="pdd-10" >
-                                            <div>To create a custom template with pre-defined keywords and specific formatting
-                                                rules, please follow the instructions below:
-                                            </div>
-                                            <div className="">
-                                                <div className="tooltip-text-row-wrapper">
-                                                    <div className="tooltip-text-pointer">*</div>
-                                                    <div className="tooltip-text">Start by typing your message in the template box.</div>
-                                                </div>
-
-                                                <div className="tooltip-text-row-wrapper">
-                                                    <div className="tooltip-text-pointer">*</div>
-                                                    <div className="tooltip-text">To access the list of pre-defined keywords, type "@" in the text box. A
-                                                        dropdown
-                                                        list will appear with the available keywords. Select the appropriate
-                                                        keyword
-                                                        from the list by clicking on it or by using the arrow keys to navigate
-                                                        and
-                                                        pressing "Enter" to select it.
+                        <>
+                            <div>
+                                <div className={'d-flex'}>
+                                    <FormControlLabelComponent label={"Email"} className={'message-heading'}/>
+                                    <div className="info-tool-tip-wrapper">
+                                        <ToolTipComponent
+                                            showArrow={true}
+                                            position={'top'}
+                                            backgroundColor={'#FFF5D3'}
+                                            tooltip={<div className="pdd-10">
+                                                <b>To create a custom template with pre-defined keywords and specific
+                                                    formatting
+                                                    rules, please follow the instructions below:
+                                                </b>
+                                                <div className="mrg-top-10">
+                                                    <div className="tooltip-text-row-wrapper">
+                                                        {/*<div className="tooltip-text-pointer">*</div>*/}
+                                                        <ul>
+                                                            <li className="tooltip-text">Start by typing your message in
+                                                                the template box.
+                                                            </li>
+                                                        </ul>
                                                     </div>
+
+                                                    <div className="tooltip-text-row-wrapper">
+                                                        {/*<div className="tooltip-text-pointer">*</div>*/}
+                                                        <ul>
+                                                            <li className="tooltip-text">To access the list of
+                                                                pre-defined
+                                                                keywords, type "@" in the text box. A
+                                                                dropdown
+                                                                list will appear with the available keywords. Select the
+                                                                appropriate
+                                                                keyword
+                                                                from the list by clicking on it or by using the arrow
+                                                                keys
+                                                                to navigate
+                                                                and
+                                                                pressing "Enter" to select it.
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+
                                                 </div>
+                                            </div>}
+                                        >
 
-                                            </div>
-                                        </div>}
-                                    >
+                                            <ImageConfig.InfoIcon height={'20'} width={'20'}/>
+                                        </ToolTipComponent>
 
-                                        <ImageConfig.InfoIcon height={'20'} width={'20'}/>
-                                    </ToolTipComponent>
+                                    </div>
+                                </div>
+                                <div className={'message-description mrg-bottom-5'}>Create an Email message that a
+                                    client will receive as an appointment reminder.
+                                </div>
 
+                            </div>
+                            <div>
+                                <div className="mention-field-titles">Subject :</div>
+                                <MentionsComponent
+                                    data={mentionsList}
+                                    inputHeight={50}
+                                    value={subjectValue}
+                                    onChange={(value) => setSubjectValue(value)}
+                                    placeholder={"Write Subject here"}
+                                />
+                            </div>
+                            <div>
+                                <div className="mention-field-titles">Body :</div>
+                                <MentionsComponent
+                                    data={mentionsList}
+                                    inputHeight={180}
+                                    value={emailValue}
+                                    onChange={(value) => setEmailValue(value)}
+                                    placeholder={"Enter text here"}
+                                />
+                            </div>
+                            <div className="available-mentions-wrapper">
+                                <div className="available-mentions-title">Available Keywords</div>
+                                <div className="available-mentions-chips-wrapper">
+                                    {
+                                        mentionsList.map((mention) => {
+                                            return (
+                                                <div>
+                                                    <ChipComponent label={mention.display} className={'inactive'}/>
+                                                </div>
+                                            )
+                                        })
+                                    }
                                 </div>
                             </div>
-                            <div className={'message-description mrg-bottom-5'}>Create an Email message that a client will receive as an appointment reminder.</div>
-
-                        </div>
-                        <div>
-                            <div className="mention-field-titles">Subject :</div>
-                            <MentionsComponent
-                                data={mentionsList}
-                                inputHeight={50}
-                                value={subjectValue}
-                                onChange={(value) => setSubjectValue(value)}
-                                placeholder={"Write Subject here"}
-                            />
-                        </div>
-                        <div>
-                            <div className="mention-field-titles">Body :</div>
-                            <MentionsComponent
-                                data={mentionsList}
-                                inputHeight={180}
-                                value={emailValue}
-                                onChange={(value) => setEmailValue(value)}
-                                placeholder={"Enter text here"}
-                            />
-                        </div>
-                        <div className="available-mentions-wrapper">
-                            <div className="available-mentions-title">Available Keywords</div>
-                            <div className="available-mentions-chips-wrapper">
-                                {
-                                    mentionsList.map((mention) => {
-                                        return (
-                                            <div>
-                                                <ChipComponent label={mention.display} className={'inactive'}/>
-                                            </div>
-                                        )
-                                    })
-                                }
+                            <div className="d-flex ts-justify-content-center">
+                                <ButtonComponent variant={"outlined"}
+                                                 disabled={isTemplateSaveInProgress}
+                                                 onClick={() => {
+                                                     setEmailMode('view');
+                                                     setEmailValue(emailSubVal);
+                                                     setSubjectValue(emailContentVal);
+                                                 }}
+                                >
+                                    Cancel
+                                </ButtonComponent>&nbsp;&nbsp;
+                                <ButtonComponent
+                                    isLoading={isTemplateSaveInProgress}
+                                    type="button"
+                                    disabled={emailValue?.length === 0 || emailValue === emailContentVal}
+                                    onClick={onTemplateSubmit}
+                                >
+                                    Save
+                                </ButtonComponent>
                             </div>
-                        </div>
-                        <div className="d-flex ts-justify-content-center">
-                            <ButtonComponent variant={"outlined"}
-                                             disabled={isTemplateSaveInProgress}
-                                             onClick={() => {
-                                                 setEmailMode('view');
-                                                 setEmailValue(emailSubVal);
-                                                 setSubjectValue(emailContentVal);
-                                             }}
-                            >
-                                Cancel
-                            </ButtonComponent>&nbsp;&nbsp;
-                            <ButtonComponent
-                                isLoading={isTemplateSaveInProgress}
-                                type="button"
-                                disabled={emailValue?.length === 0 || emailValue === emailContentVal}
-                                onClick={onTemplateSubmit}
-                            >
-                                Save
-                            </ButtonComponent>
-                        </div>
-                    </>
+                        </>
                     }
                 </div>
             </CardComponent>

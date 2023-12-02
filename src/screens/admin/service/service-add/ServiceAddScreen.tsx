@@ -119,11 +119,17 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
 
     }, [navigate, serviceCategoryId]);
 
+    const handleBackNavigation = useCallback(() => {
+        if (serviceCategoryId) {
+            navigate(CommonService._routeConfig.ServiceCategoryDetails(serviceCategoryId));
+        }
+    }, [navigate, serviceCategoryId]);
+
     return (
 
         <div className={'service-add-component'}>
 
-            <FormControlLabelComponent className={'page-normal-heading'} size={"lg"} label={'ADD SERVICE'}/>
+            <FormControlLabelComponent className={'page-normal-heading'} size={"lg"} label={'Add Service'}/>
             <div className={'service-category-service-add-form'}>
                 {
                     !serviceCategoryId &&
@@ -491,8 +497,8 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                                                                          setFieldValue('image', file);
                                                                      }
                                                                  }}
-                                                                 acceptedFilesText={"PNG, JPG and JPEG files are allowed upto 10MB"}
-                                                                 acceptedFileTypes={["png", "jpg", "jpeg"]}
+                                                                 acceptedFilesText={"PNG and JPEG files are allowed upto 10MB"}
+                                                                 acceptedFileTypes={["png", "jpeg"]}
                                             />
                                             {
                                                 (_.get(touched, "image") && !!(_.get(errors, "image"))) &&
@@ -513,20 +519,23 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                                         }
                                     </CardComponent>
                                     <div className="t-form-actions">
-                                        <LinkComponent
-                                            route={CommonService._routeConfig.ServiceCategoryDetails(serviceCategoryId)}>
+                                        {/*<LinkComponent*/}
+                                        {/*    route={CommonService._routeConfig.ServiceCategoryDetails(serviceCategoryId)}>*/}
                                             <ButtonComponent
                                                 variant={"outlined"}
+                                                size={"large"}
+                                                onClick={handleBackNavigation}
                                                 disabled={isServiceAddInProgress}
                                                 id={"sv_cancel_btn"}
                                             >
                                                 Cancel
                                             </ButtonComponent>
-                                        </LinkComponent>
+                                        {/*</LinkComponent>*/}
                                         &nbsp;
                                         <ButtonComponent
                                             isLoading={isServiceAddInProgress}
                                             type={"submit"}
+                                            size={"large"}
                                             className={'submit-cta'}
                                             id={"sv_save_btn"}
                                         >

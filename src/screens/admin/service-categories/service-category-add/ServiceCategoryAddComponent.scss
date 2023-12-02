@@ -5,6 +5,18 @@
       margin-bottom: 18px;
       font-weight: 700;
     }
+    .service-category-color-heading{
+      margin-top: 4px !important;
+      margin-bottom: 24px !important;
+      .form-control-label-component{
+        margin-bottom: 16px !important;
+      }
+    }
+  }
+  .upload-image-heading{
+    .form-control-label-component{
+      margin-bottom: 16px !important;
+    }
   }
 
   .color-picker-wrapper {
@@ -12,8 +24,13 @@
     border-radius: 4px;
     padding: 20px;
 
+
     .preview-wrapper {
       margin-bottom: 20px;
+
+      .form-control-label-component{
+        margin-bottom: 12px !important;
+      }
 
       .preview-button {
         margin-top: 10px;

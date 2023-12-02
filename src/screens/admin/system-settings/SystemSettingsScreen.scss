@@ -1,10 +1,18 @@
-.system-settings-screen{
+.system-settings-screen {
   margin-top: 52px;
-.horizontal-line-wrapper{
-  margin-top: 0px;
-}
-  .question-component{
-    .question-title{
+
+  .other-settings-wrapper {
+    .card-component {
+      margin-bottom: 0 !important;
+    }
+  }
+
+  .horizontal-line-wrapper {
+    margin-top: 0px;
+  }
+
+  .question-component {
+    .question-title {
       font-weight: 500;
       margin-bottom: 8px;
     }
