@@ -14,6 +14,7 @@ import moment from "moment/moment";
 import FormikDatePickerComponent from "../../form-controls/formik-date-picker/FormikDatePickerComponent";
 import commonService from "../../../services/common.service";
 import momentTimezone from "moment-timezone";
+import {useLocation} from "react-router-dom";
 
 interface BookAppointmentFormComponentProps {
     onClose?: () => void,
@@ -75,6 +76,10 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
     const [facilityList, setFacilityList] = useState<any[]>([]);
     const today = moment();
     const nextThreeMonths = moment().add(3, 'months');
+    const location = useLocation();
+
+    const isMedicalRecordDetails = location.pathname.includes('medical-record-details');
+
 
     const getClientCasesList = useCallback(
         (clientId: string) => {
@@ -449,7 +454,13 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
     return (
         <div className={`book-appointment-form-component`}>
             <div className="drawer-header">
-                <div className="back-btn" onClick={onBack}><ImageConfig.LeftArrow/></div>
+                {
+                    !isMedicalRecordDetails && <div className="back-btn" onClick={onBack}><ImageConfig.LeftArrow/></div>
+                }
+                {
+                    isMedicalRecordDetails && <div className="back-btn"/>
+                }
+
                 <div className="drawer-close"
                      id={'book-appointment-close-btn'}
                      onClick={(event) => {

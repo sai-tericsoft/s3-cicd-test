@@ -407,7 +407,7 @@ const ClientMedicalRecordDetailsComponent = (props: ClientMedicalDetailsComponen
                              className={'book-appointment-component-drawer'}>
 
                 <DrawerComponent isOpen={isBookAppointmentOpen}
-                                 showClose={true}
+                                 // showClose={true}
                                  onClose={setIsBookAppointmentOpen.bind(null, false)}
                                  className={'book-appointment-component-drawer'}>
                     <BookAppointmentComponent
