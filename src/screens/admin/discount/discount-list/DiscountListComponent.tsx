@@ -36,15 +36,13 @@ const DiscountListComponent = (props: DiscountListComponentProps) => {
                 render: (item: any) => {
                     return <>
                         {
-                            (item?.title.length) > 20 ?
+                            (item?.title?.length) > 15 ?
                                 <ToolTipComponent
                                     tooltip={item?.title}
                                     position={"top"}
                                     showArrow={true}
                                 >
-                                    <div className={"ellipses-for-table-data"}>
-                                        {item?.title}
-                                    </div>
+                                   <> {item?.title?.substring(0, 15) + '...'}</>
                                 </ToolTipComponent> :
                                 <>
                                     {item?.title}
@@ -97,7 +95,7 @@ const DiscountListComponent = (props: DiscountListComponentProps) => {
                 dataIndex: "action",
                 key: "action",
                 fixed: "right",
-                align: "center",
+                align: "right",
                 render: (item: any) => {
                     return <LinkComponent route={CommonService._routeConfig.CouponViewDetails(item?._id)}>View
                         Details</LinkComponent>
@@ -155,6 +153,7 @@ const DiscountListComponent = (props: DiscountListComponentProps) => {
                 <div className={'coupon-list'}>
                     <TableWrapperComponent url={APIConfig.GET_COUPON_LIST.URL}
                                            method={APIConfig.GET_COUPON_LIST.METHOD}
+                                           noDataText={'No results found'}
                                            extraPayload={discountListFilterState}
                                            columns={columns}/>
                 </div>

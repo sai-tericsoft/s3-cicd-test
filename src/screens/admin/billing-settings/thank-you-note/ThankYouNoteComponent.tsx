@@ -106,11 +106,11 @@ const ThankYouNoteComponent = (props: ThankYouNoteComponentProps) => {
                                         <div className={'ts-col-md-12'}>
                                             {(values.default_thankyou_note?.length) > 90 ?
                                                 <div className={'alert-error'}>Characters
-                                                    Limit:{(values.default_thankyou_note?.length)}/90</div> :
+                                                    Limit: {(values.default_thankyou_note?.length)}/90</div> :
                                                 <div className={'no-alert'}>Characters
-                                                    Limit:{(values.default_thankyou_note?.length)}/90</div>}
+                                                    Limit: {(values.default_thankyou_note?.length)}/90</div>}
                                         </div>
-                                        <div className="t-form-actions">
+                                        <div className="t-form-actions mrg-bottom-0">
                                             <ButtonComponent
                                                 onClick={() => resetForm()}
                                                 variant={'outlined'}

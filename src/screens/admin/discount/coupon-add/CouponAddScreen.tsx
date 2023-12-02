@@ -112,7 +112,11 @@ const CouponAddScreen = (props: CouponAddScreenProps) => {
 
     const handleCapitalText = useCallback((event:any)=>{
         setInputValue(event?.toUpperCase());
-    },[])
+    },[]);
+
+    const handleBackNavigation = useCallback(() => {
+        navigate(CommonService._routeConfig.DiscountList());
+    },[]);
 
     return (
         <div className={'coupon-add-screen'}>
@@ -434,20 +438,23 @@ const CouponAddScreen = (props: CouponAddScreenProps) => {
                             </CardComponent>
                             <div className="t-form-actions">
                                 {
-                                    <LinkComponent route={CommonService._routeConfig.DiscountList()}>
+                                    // <LinkComponent route={CommonService._routeConfig.DiscountList()}>
                                         <ButtonComponent
                                             variant={"outlined"}
+                                            size={'large'}
+                                            onClick={handleBackNavigation}
                                             disabled={isAddCouponInProgress}
                                             id={"medical_record_add_cancel_btn"}
                                         >
                                             Cancel
                                         </ButtonComponent>
-                                    </LinkComponent>
+                                    // </LinkComponent>
                                 }
                                 &nbsp;
                                 <ButtonComponent
                                     isLoading={isAddCouponInProgress}
                                     type={"submit"}
+                                    size={'large'}
                                     className={'submit-cta'}
                                     disabled={!isValid || isAddCouponInProgress}
                                     id={"medical_record_add_save_btn"}

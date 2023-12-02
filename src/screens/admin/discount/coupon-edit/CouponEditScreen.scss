@@ -1,12 +1,12 @@
 .coupon-edit-screen {
   .edit-coupon-heading {
     color: #6D6D6D;
-    font-size: 1.4286rem;
+    font-size: 18px;
     font-weight: 700;
     margin-bottom: 20px;
   }
-  .card-component .card-header .card-title-description-wrapper .card-title{
-    text-transform: capitalize;
+  .card-component .card-header .card-title-description-wrapper .card-title {
+      text-transform: capitalize;
   }
 
   .t-form {
@@ -15,9 +15,6 @@
     }
     .services-name{
       margin-left: 28px;
-    }
-    .card-component {
-      margin-bottom: 0px;
     }
     .status-heading{
       color: #ABB6BE;

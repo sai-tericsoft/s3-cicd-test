@@ -144,7 +144,13 @@ const CouponEditScreen = (props: CouponEditScreenProps) => {
                 CommonService.handleErrors(setErrors, error, true);
             });
         }
-    }, [couponId,navigate])
+    }, [couponId, navigate]);
+
+    const handleBackNavigation = useCallback(() => {
+        if (couponId) {
+            navigate(CommonService._routeConfig.CouponViewDetails(couponId));
+        }
+    }, [navigate, couponId]);
 
     return (
         <div className={'coupon-edit-screen'}>
@@ -465,21 +471,24 @@ const CouponEditScreen = (props: CouponEditScreenProps) => {
                                 />
                             </CardComponent>
                             <div className="t-form-actions">
-                                {couponId &&
-                                    <LinkComponent route={CommonService._routeConfig.CouponViewDetails(couponId)}>
+                                {/*{couponId &&*/}
+                                {/*    <LinkComponent route={CommonService._routeConfig.CouponViewDetails(couponId)}>*/}
                                         <ButtonComponent
                                             variant={"outlined"}
+                                            onClick={handleBackNavigation}
+                                            size={'large'}
                                             disabled={isEditCouponInProgress}
                                             id={"medical_record_add_cancel_btn"}
                                         >
                                             Cancel
                                         </ButtonComponent>
-                                    </LinkComponent>
-                                }
+                                {/*    </LinkComponent>*/}
+                                {/*}*/}
                                 &nbsp;
                                 <ButtonComponent
                                     isLoading={isEditCouponInProgress}
                                     type={"submit"}
+                                    size={'large'}
                                     className={'submit-cta'}
                                     disabled={!isValid || isEditCouponInProgress}
                                 >

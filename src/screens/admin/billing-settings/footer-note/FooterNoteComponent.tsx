@@ -110,9 +110,9 @@ const FooterNoteComponent = (props: FooterNoteComponentProps) => {
                                         <div className={'ts-col-md-12'}>
                                             {(values.footer_note?.length) > 90 ?
                                                 <div className={'alert-error'}>Characters
-                                                    Limit:{(values?.footer_note?.length)}/90</div> :
+                                                    Limit: {(values?.footer_note?.length)}/90</div> :
                                                 <div className={'no-alert'}>Characters
-                                                    Limit:{(values?.footer_note?.length)}/90</div>}
+                                                    Limit: {(values?.footer_note?.length)}/90</div>}
                                         </div>
                                         <div className={'default-message-box'}>
                                             <FormControlLabelComponent label={"Footer Line 2"}/>
@@ -132,13 +132,13 @@ const FooterNoteComponent = (props: FooterNoteComponentProps) => {
                                         <div className={'ts-col-md-12'}>
                                             {(values.footer_note_second_line?.length) > 90 ?
                                                 <div className={'alert-error'}>Characters
-                                                    Limit:{(values?.footer_note_second_line?.length)}/90</div> :
+                                                    Limit: {(values?.footer_note_second_line?.length)}/90</div> :
                                                 <div className={'no-alert'}>Characters
-                                                    Limit:{(values?.footer_note_second_line?.length)}/90</div>}
+                                                    Limit: {(values?.footer_note_second_line?.length)}/90</div>}
                                         </div>
 
 
-                                        <div className="t-form-actions">
+                                        <div className="t-form-actions mrg-bottom-0">
                                             <ButtonComponent
                                                 onClick={() => resetForm()}
                                                 variant={'outlined'}
