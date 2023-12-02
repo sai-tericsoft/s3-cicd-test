@@ -219,7 +219,7 @@ const UserSlotsDetailsComponent = (props: UserSlotsDetailsComponentProps) => {
 
                                                                         </div>
                                                                         {/*{index !== userSlots.day_scheduled_slots?.length - 1 &&*/}
-                                                                        <HorizontalLineComponent/>
+                                                                        <HorizontalLineComponent className={'divider'}/>
                                                                         {/*}*/}
 
                                                                     </div>

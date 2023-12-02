@@ -100,10 +100,16 @@ const UserBasicDetailsComponent = (props: UserBasicDetailsComponentProps) => {
                                     </DataLabelValueComponent>
                                 </div>
                                 <div className="ts-col-md-6 ts-col-lg-3">
-                                    <DataLabelValueComponent label={`SSN ${isSSNMasked ? '(Click to view)' : ''}`}>
-                                        <MaskTextComponent value={CommonService.formatSSNNumber(userBasicDetails?.ssn) || 'N/A'}
-                                                           onToggle={setIsSSNMasked}/>
-                                    </DataLabelValueComponent>
+                                    {userBasicDetails?.ssn ?
+                                        <DataLabelValueComponent label={`SSN ${isSSNMasked ? '(Click to view)' : ''}`}>
+                                            <MaskTextComponent
+                                                value={CommonService.formatSSNNumber(userBasicDetails?.ssn) || 'N/A'}
+                                                onToggle={setIsSSNMasked}/>
+                                        </DataLabelValueComponent> :
+                                        <DataLabelValueComponent label={'SSN'}>
+                                            N/A
+                                        </DataLabelValueComponent>
+                                    }
                                 </div>
                             </div>
                             <div className="ts-row">
@@ -515,7 +521,7 @@ const UserBasicDetailsComponent = (props: UserBasicDetailsComponentProps) => {
                                     {index !== userBasicDetails.professional_details.length - 1 &&
                                         <HorizontalLineComponent/>}
                                 </>
-                            }) : <StatusCardComponent title={'Professional Details Not Available'}/>
+                            }) : <StatusCardComponent className={'prof-educational-no-data'} title={'Professional details not yet added'}/>
                             }
                         </CardComponent>
 
@@ -567,7 +573,7 @@ const UserBasicDetailsComponent = (props: UserBasicDetailsComponentProps) => {
                                                 <HorizontalLineComponent/>}
                                         </>
                                     })
-                                    : <StatusCardComponent title={'Education Details Not Available'}/>
+                                    : <StatusCardComponent className={'prof-educational-no-data'} title={'Education details not yet added'}/>
                                 }
                             </CardComponent>
                         </div>

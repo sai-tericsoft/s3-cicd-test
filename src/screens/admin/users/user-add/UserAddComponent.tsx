@@ -39,11 +39,11 @@ const UserAddInitialValues: any = {
 const userAddValidationSchema = Yup.object({
     first_name: Yup.string().required('First Name is required'),
     last_name: Yup.string().required('Last Name is required'),
-    primary_email: Yup.string().email('Invalid email').required('Email Address is required'),
+    primary_email: Yup.string().email('Invalid email').required('Email is required'),
     primary_contact_info: Yup.object({
         phone: Yup.string()
             .required('Phone Number is required')
-            .test('is-ten-digits', 'Phone number must contain exactly 10 digits', (value:any) => {
+            .test('is-ten-digits', 'Phone number must contain exactly 10 digits', (value: any) => {
                 return value?.length === 10
             }),
     }),
@@ -84,6 +84,10 @@ const UserAddComponent = (props: UserAddComponentProps) => {
             navigate(CommonService._routeConfig.UserList());
         }));
     }, [dispatch, navigate]);
+
+    const handleBackNavigation = useCallback(() => {
+        navigate(CommonService._routeConfig.UserList());
+    }, [navigate]);
 
     return (
         <div className={'user-add-component'}>
@@ -211,21 +215,21 @@ const UserAddComponent = (props: UserAddComponentProps) => {
                                     </div>
                                 </div>
                                 <div className="t-form-actions">
-                                    {
-                                        <LinkComponent route={CommonService._routeConfig.UserList()}>
+
                                             <ButtonComponent
                                                 variant={"outlined"}
+                                                size={'large'}
+                                                onClick={handleBackNavigation}
                                                 disabled={isSubmitting}
                                                 id={"medical_record_add_cancel_btn"}
                                             >
                                                 Cancel
                                             </ButtonComponent>
-                                        </LinkComponent>
-                                    }
                                     &nbsp;
                                     <ButtonComponent
                                         isLoading={isSubmitting}
                                         type={"submit"}
+                                        size={'large'}
                                         className={'submit-cta'}
                                         disabled={!isValid || isSubmitting}
                                         id={"medical_record_add_save_btn"}
