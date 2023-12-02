@@ -460,31 +460,37 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
                     special_tests: []
                 };
                 const special_test_config = bodyPartConfig?.special_test_config;
+                console.log(special_test_config);
                 Object.keys(special_test_config).forEach((special_test_name: string) => {
                     const specialTestConfig = special_test_config[special_test_name];
-                    console.log(specialTestConfig);
-
-                    const config: any = {
-                        comments: specialTestConfig?.comments,
-                        commentsTemp: specialTestConfig?.commentsTemp,
+                    const config: any = {};
+                    if(specialTestConfig?.commentsTemp){
+                        config.comments = specialTestConfig?.commentsTemp;
+                    }
+                    if (specialTestConfig?.comments) {
+                        config.comments = specialTestConfig?.comments;
                     }
                     Object.keys(specialTestConfig).forEach((side: any) => {
-                        console.log(side);
                         if (side === 'commentsTemp') return;
                         if (side === 'comments') return;
                         const resultKeys = Object?.keys(specialTestConfig[side]?.result);
                         const result = resultKeys.find((key) => specialTestConfig[side]?.result[key] === true);
-                        config[side] = {
-                            result: result ? result : ""
+                        if (result) {
+                            config[side] = {
+                                result: result
+                            }
                         }
                     });
-                    bodyPartData.special_tests.push({
-                        name: special_test_name,
-                        config,
-                    });
+                    if (Object.keys(config).length > 0){
+                        bodyPartData.special_tests.push({
+                            name: special_test_name,
+                            config,
+                        });
+                    }
                 });
-                config.push(bodyPartData);
-
+                if (bodyPartData?.special_tests?.length > 0){
+                    config.push(bodyPartData);
+                }
             });
             setSubmitting(true);
             CommonService._chartNotes.SaveMedicalInterventionSpecialTestAPICall(medicalInterventionId, {config})

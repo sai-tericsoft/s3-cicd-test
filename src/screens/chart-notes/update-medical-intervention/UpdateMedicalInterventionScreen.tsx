@@ -270,7 +270,7 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                                 key: side + 'strength',
                                 align: 'center',
                                 // fixed: 'left',
-                                width: 43,
+                                width: 50,
                                 render: (item: any) => {
                                     return <div className={'movement-name'}>{item?.config[side]?.strength || "-"}</div>
                                 }
@@ -284,14 +284,14 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                         title: '',
                         key: 'comments-header',
                         fixed: 'right',
-                        width: 500,
+                        width: 400,
                         children: [
                             {
                                 title: 'Comments',
                                 dataIndex: 'comments',
                                 key: 'comments',
                                 align: 'center',
-                                width: 500,
+                                width: 400,
                                 render: (item: any) => {
                                     return <>
                                         {item?.config?.comments ?
