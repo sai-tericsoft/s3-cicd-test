@@ -380,8 +380,10 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
         if (ele && scroller) {
             const rect = ele.getBoundingClientRect();
             const containerRect = scroller.getBoundingClientRect();
-            const targetScrollTop = scroller.scrollTop + rect.top - containerRect.top - 280;
-            const maxScrollTop = scroller.scrollHeight - scroller.clientHeight - 280;
+            const topPadding = last_position !== 'icd_codes' ? 280 : 60;
+            const targetScrollTop = scroller.scrollTop + rect.top - containerRect.top - topPadding;
+            const maxScrollTop = scroller.scrollHeight - scroller.clientHeight - topPadding;
+
             const scrollPosition = Math.min(targetScrollTop, maxScrollTop);
 
             // Add a scroll event listener to the scroller
@@ -402,13 +404,13 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
     }, [searchParams, setSearchParams]);
 
     useEffect(() => {
-        if (isMedicalInterventionDetailsLoaded  && isDataLoaded) {
+        if (isMedicalInterventionDetailsLoaded && isDataLoaded) {
             const last_position: any = searchParams.get("last_position");
             if (last_position) {
                 handleScrollToLastPosition(last_position);
             }
         }
-    }, [isMedicalInterventionDetailsLoaded, handleScrollToLastPosition, searchParams,isDataLoaded]);
+    }, [isMedicalInterventionDetailsLoaded, handleScrollToLastPosition, searchParams, isDataLoaded]);
 
     useEffect(() => {
         if (medicalRecordId) {
