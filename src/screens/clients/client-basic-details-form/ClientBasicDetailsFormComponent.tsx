@@ -1006,7 +1006,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                 <ToolTipComponent
                                                     showArrow={true}
                                                     position={"left"}
-                                                    tooltip={"This phone number will be used to communicate with your emergency contact in case of emergency. Please ensure that this number is constantly operational."}>
+                                                    tooltip={"This phone number will be used to communicate with you whenever we need to get in touch with you. Please ensure that this number is valid and operational."}>
                                                     <ImageConfig.InfoIcon/>
                                                 </ToolTipComponent>
                                             </IconButtonComponent>
@@ -1137,7 +1137,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                     <ButtonComponent className={'remove-contact-button'}
                                                                      size={'small'}
                                                                      prefixIcon={<ImageConfig.CloseIcon/>}
-                                                                     variant={'contained'} color={'error'}
+                                                                     variant={'outlined'} color={'error'}
                                                                      onClick={() => {
                                                                          setFieldValue('show_secondary_emergency_form', false)
                                                                      }}
@@ -1233,7 +1233,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                             <ToolTipComponent
                                                                 showArrow={true}
                                                                 position={"left"}
-                                                                tooltip={"This phone number will be used to communicate with your emergency contact in case of emergency. Please ensure that this number is constantly operational."}>
+                                                                tooltip={"This phone number will be used to communicate with you whenever we need to get in touch with you. Please ensure that this number is valid and operational."}>
                                                                 <ImageConfig.InfoIcon/>
                                                             </ToolTipComponent>
                                                         </IconButtonComponent>

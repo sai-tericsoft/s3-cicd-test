@@ -119,7 +119,7 @@ const ClientMedicalSupplementsFormComponent = (props: ClientMedicalSupplementsFo
                                                     (field: FieldProps) => (
                                                         <FormikTextAreaComponent
                                                             id={"non_prescription_input"}
-                                                            label={"Non-Prescription Medications / Supplements"}
+                                                            label={"Non-Prescription Medications/Supplements"}
                                                             placeholder={"Enter your comments"}
                                                             // required={true}
                                                             formikField={field}

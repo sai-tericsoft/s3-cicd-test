@@ -216,7 +216,7 @@ const ClientAccountDetailsFormComponent = (props: ClientAccountDetailsFormCompon
                                                         (field: FieldProps) => (
                                                             <FormikSelectComponent
                                                                 options={referralTypeList}
-                                                                label={"Select"}
+                                                                label={"Select Option"}
                                                                 formikField={field}
                                                                 fullWidth={true}
                                                                 onUpdate={() => {
@@ -320,14 +320,15 @@ const ClientAccountDetailsFormComponent = (props: ClientAccountDetailsFormCompon
                                         }
                                         {
                                             values.referral_details.source === "other" && <>
-                                                <QuestionComponent title={"Please explain"}/>
+                                                <QuestionComponent title={"Please explain:"}/>
                                                 <div className="ts-row">
                                                     <div className="ts-col-md-4">
                                                         <Field name={`referral_details.source_info_name`}>
                                                             {
                                                                 (field: FieldProps) => (
                                                                     <FormikInputComponent
-                                                                        label={"Other info"}
+                                                                        label={"Additional Information"}
+                                                                        placeholder={"Enter your comments here"}
                                                                         formikField={field}
                                                                         fullWidth={true}
                                                                     />

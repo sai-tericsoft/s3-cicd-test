@@ -152,7 +152,7 @@ const ClientMedicalProviderInformationFormComponent = (props: ClientMedicalProvi
                                                             (field: FieldProps) => (
                                                                 <FormikInputComponent
                                                                     label={"Full Name"}
-                                                                    placeholder={'E.g. John'}
+                                                                    placeholder={'E.g. John Doe'}
                                                                     // required={true}
                                                                     formikField={field}
                                                                     fullWidth={true}
