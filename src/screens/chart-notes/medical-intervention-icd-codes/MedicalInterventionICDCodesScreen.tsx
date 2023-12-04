@@ -1,9 +1,9 @@
 import "./MedicalInterventionICDCodesScreen.scss";
 import {useNavigate, useParams, useSearchParams} from "react-router-dom";
-import React, {useCallback, useEffect, useState} from "react";
+import React, {useCallback, useEffect, useMemo, useState} from "react";
 import {CommonService} from "../../../shared/services";
 import {IAPIResponseType} from "../../../shared/models/api.model";
-import {Misc} from "../../../constants";
+import {ImageConfig, Misc} from "../../../constants";
 import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
 import {getMedicalInterventionDetails} from "../../../store/actions/chart-notes.action";
@@ -26,6 +26,7 @@ import IconButtonComponent from "../../../shared/components/icon-button/IconButt
 import IcdCodingToolComponent from "../../../shared/components/icd-coding-tool/IcdCodingToolComponent";
 import commonService from "../../../shared/services/common.service";
 import ModalComponent from "../../../shared/components/modal/ModalComponent";
+import TextAreaComponent from "../../../shared/components/form-controls/text-area/TextAreaComponent";
 
 interface MedicalInterventionICDCodesScreenProps {
 
@@ -72,9 +73,16 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
             CommonService._alert.showToast('InterventionId not found!', "error");
             return;
         }
+        const tempCodes: any[] = [];
+        codes.forEach((code: any) => {
+            tempCodes.push({
+                icd_code: code?.icd_code,
+                description: code?.description,
+            })
+        });
         setIsSubmitting(true);
         CommonService._chartNotes.AddMedicalInterventionICDCodesAPICall(medicalInterventionId, {
-            "icd_codes": codes,
+            "icd_codes": tempCodes,
             "mode": mode
         })
             .then((response: IAPIResponseType<any>) => {
@@ -108,7 +116,7 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
         }
     }, [navigate, dispatch, medicalRecordId, medicalInterventionId, searchParams, last_position]);
 
-    const selectesICDCodesColumns: ITableColumn[] = [
+    const selectesICDCodesColumns: ITableColumn[] = useMemo(() => [
         {
             title: 'ICD Code',
             dataIndex: 'icd_code',
@@ -116,13 +124,51 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
             width: 180,
             // fixed: 'left',
             // align: 'left',
-
         },
         {
             title: 'Description',
             dataIndex: 'description',
             key: 'description',
             width: 650,
+            render: (_: any, value: any) => {
+                return <div className={'description-wrapper'}>
+                    {
+                        value?.mode === 'edit' ?
+                            <TextAreaComponent
+                                label={''}
+                                value={value?.description}
+                                disabled={false}
+                                onChange={(text: string) => {
+                                    setSelectedICDCodes(selectedICDCodes.map((code) => {
+                                            if (code?.icd_code === value?.icd_code) {
+                                                code.description = text;
+                                            }
+                                            return code;
+                                        }
+                                    ))
+                                }
+                                }
+                                fullWidth={true}
+                            /> :
+                            <div className={'description'}>
+                                {value?.description}
+                                <IconButtonComponent
+                                    onClick={() => {
+                                        setSelectedICDCodes(selectedICDCodes.map((code) => {
+                                                if (code?.icd_code === value?.icd_code) {
+                                                    code.mode = 'edit';
+                                                }
+                                                return code;
+
+                                            }
+                                        ))
+                                    }}>
+                                    <ImageConfig.EditIcon/>
+                                </IconButtonComponent>
+                            </div>
+                    }
+                </div>
+            }
         },
         {
             key: 'actions',
@@ -143,11 +189,17 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
                 </IconButtonComponent>
             )
         }
-    ]
+    ], [selectedICDCodes]);
 
     useEffect(() => {
         if (medicalInterventionDetails) {
-            setSelectedICDCodes((medicalInterventionDetails?.linked_icd_codes || []).map((v: any) => v));
+            setSelectedICDCodes((medicalInterventionDetails?.linked_icd_codes || []).map((v: any) => {
+                return {
+                    icd_code: v?.icd_code,
+                    description: v?.description,
+                    mode: 'view'
+                }
+            }));
         }
     }, [medicalInterventionDetails]);
 
@@ -155,7 +207,7 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
         <div className={'medical-intervention-icd-codes-screen'}>
             <PageHeaderComponent title={'Add ICD Code'}/>
             {
-                isMedicalInterventionDetailsLoading && <LoaderComponent />
+                isMedicalInterventionDetailsLoading && <LoaderComponent/>
             }
             {
                 isMedicalInterventionDetailsLoadingFailed && <StatusCardComponent title={'Failed to load data'}/>
@@ -192,7 +244,8 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
                 <div className={'icd-codes-sub-title'}>
                     Selected ICD Code(s)
                 </div>
-                <div className={isMedicalInterventionDetailsLoading ? "icd-screen-actions-wrapper mrg-top-15" :"icd-screen-actions-wrapper"}>
+                <div
+                    className={isMedicalInterventionDetailsLoading ? "icd-screen-actions-wrapper mrg-top-15" : "icd-screen-actions-wrapper"}>
                     <ButtonComponent
                         className={'white-space-nowrap'}
                         type={"button"}
