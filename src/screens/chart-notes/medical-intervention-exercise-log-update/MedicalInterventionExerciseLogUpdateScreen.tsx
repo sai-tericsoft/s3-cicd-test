@@ -372,10 +372,13 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                 comments: values.comments
             };
             values.exercise_records.forEach((record: any, index: number) => {
-                payload.exercise_records.push({
-                    id: index === 0 ? "Warm Up" : "Ex " + index,
-                    ...record
-                });
+                if(record.name && (record.name || (record.no_of_reps !== '-' && record.no_of_reps) || (record.no_of_sets !== '-' && record.no_of_sets) || (record.resistance !== '-' && record.resistance) || (record.time !== '-' && record.time))) {
+                    payload.exercise_records.push({
+                        id: index === 0 ? "Warm Up" : "Ex " + index,
+                        ...record
+                    });
+                }
+
             });
             setSubmitting(true)
             CommonService._chartNotes.SaveMedicalInterventionExerciseLogAPICall(medicalInterventionId, payload)
