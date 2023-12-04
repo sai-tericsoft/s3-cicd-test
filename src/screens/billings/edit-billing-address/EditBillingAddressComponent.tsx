@@ -21,7 +21,7 @@ interface EditBillingAddressComponentProps {
 }
 
 const BillingAddressFormValidationSchema = Yup.object({
-    name: Yup.string().required("Name is required"),
+    name: Yup.string().required("Name of Client/Organisation"),
     address_line: Yup.string().required("Address Line is required"),
     city: Yup.string().required("City is required"),
     state: Yup.string().required("State is required"),
@@ -96,7 +96,8 @@ const EditBillingAddressComponent = (props: EditBillingAddressComponentProps) =>
                                     {
                                         (field: FieldProps) => (
                                             <FormikInputComponent
-                                                label={"Name of the Client/Organization"}
+                                                label={"Name of Client/Organization"}
+                                                placeholder={"Name of Client/Organization"}
                                                 required={true}
                                                 fullWidth={true}
                                                 formikField={field}
@@ -109,6 +110,7 @@ const EditBillingAddressComponent = (props: EditBillingAddressComponentProps) =>
                                         (field: FieldProps) => (
                                             <FormikPhoneInputComponent
                                                 label={'Phone Number'}
+                                                placeholder={'Enter Phone Number'}
                                                 formikField={field}
                                                 required={true}
                                                 fullWidth={true}
@@ -121,6 +123,7 @@ const EditBillingAddressComponent = (props: EditBillingAddressComponentProps) =>
                                         (field: FieldProps) => (
                                             <FormikInputComponent
                                                 label={"Address Line"}
+                                                placeholder={"Enter Address Line"}
                                                 required={true}
                                                 fullWidth={true}
                                                 formikField={field}
@@ -133,6 +136,7 @@ const EditBillingAddressComponent = (props: EditBillingAddressComponentProps) =>
                                         (field: FieldProps) => (
                                             <FormikInputComponent
                                                 label={"City"}
+                                                placeholder={"Enter City"}
                                                 required={true}
                                                 fullWidth={true}
                                                 formikField={field}
@@ -145,6 +149,7 @@ const EditBillingAddressComponent = (props: EditBillingAddressComponentProps) =>
                                         (field: FieldProps) => (
                                             <FormikInputComponent
                                                 label={"State"}
+                                                placeholder={"Enter State"}
                                                 required={true}
                                                 fullWidth={true}
                                                 formikField={field}
@@ -157,6 +162,7 @@ const EditBillingAddressComponent = (props: EditBillingAddressComponentProps) =>
                                         (field: FieldProps) => (
                                             <FormikInputComponent
                                                 label={"ZIP Code"}
+                                                placeholder={"Enter ZIP Code"}
                                                 required={true}
                                                 fullWidth={true}
                                                 formikField={field}
@@ -169,6 +175,7 @@ const EditBillingAddressComponent = (props: EditBillingAddressComponentProps) =>
                                         (field: FieldProps) => (
                                             <FormikInputComponent
                                                 label={"Country"}
+                                                placeholder={"Enter Country"}
                                                 required={true}
                                                 fullWidth={true}
                                                 formikField={field}

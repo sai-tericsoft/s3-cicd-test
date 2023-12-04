@@ -325,10 +325,11 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
 
     const ProductsColumns: ITableColumn[] = useMemo<ITableColumn[]>(() => [
         {
-            title: 'S.No',
+            title: 'S.No.',
             dataIndex: 's.no',
             key: 's.no',
             width: 100,
+            align: 'center',
             fixed: 'left',
             render: (record: any, index) => {
                 return <>{index + 1}</>
@@ -379,7 +380,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
             key: 'amount',
             align: 'center',
             fixed: 'right',
-            width: 80,
+            width: 100,
             render: (record: any) => {
                 return <>
                     {Misc.CURRENCY_SYMBOL}{CommonService.convertToDecimals(record?.amount * record?.units)}
@@ -501,6 +502,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                         type === 'invoice' && <>
                             <ButtonComponent
                                 prefixIcon={<ImageConfig.CircleCheck/>}
+                                size={'large'}
                                 onClick={openPaymentModeModal}
                                 disabled={isBillingBeingMarkedAsPaid || isButtonsAreBeingDisabled}
                                 isLoading={isBillingBeingMarkedAsPaid}
@@ -770,7 +772,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                                         <div className="add-new-invoice__payment__block__row subtotal">
                                             <div
                                                 className="add-new-invoice__payment__block__row__title">
-                                                Subtotal (Inc. Tax)
+                                                Subtotal (Inc. tax)
                                             </div>
                                             <div
                                                 className="add-new-invoice__payment__block__row__value">
@@ -789,7 +791,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                                         </div>
                                         <div className="add-new-invoice__payment__block__row grand">
                                             <div className="add-new-invoice__payment__block__row__title">
-                                                Grand Total (Inc. Tax)
+                                                Grand Total (Inc. tax)
                                             </div>
                                             <div
                                                 className="add-new-invoice__payment__block__row__value">{Misc.CURRENCY_SYMBOL}
@@ -859,6 +861,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                         {/*    Cancel*/}
                         {/*</ButtonComponent>*/}
                         <ButtonComponent variant={"contained"}
+                                         size={'large'}
                                          isLoading={isSubmitting}
                                          disabled={isSubmitting || thankYouNote?.length > 90}
                                          onClick={() => handleNoteAndComment(comments, thankYouNote, selectedAddress)}
@@ -874,7 +877,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                              showClose={true}>
                 {
                     currentStep === 'selectAddress' && <>
-                        <FormControlLabelComponent label={"Select Billing Address"}/>
+                        <FormControlLabelComponent size={'lg'} label={"Select Billing Address"}/>
                         <div className={'select-billing-address'}>
                             {getBillingList?.length > 0 && getBillingList?.map((item: any, index: number) => {
                                 return <div className={'select-address-card'}>
@@ -922,6 +925,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                             })
                             }
                             <ButtonComponent prefixIcon={<ImageConfig.AddIcon/>}
+                                             className={'mrg-bottom-30'}
                                              onClick={() => setCurrentStep("addAddress")} variant={"text"}>Add New
                                 Address</ButtonComponent>
                         </div>

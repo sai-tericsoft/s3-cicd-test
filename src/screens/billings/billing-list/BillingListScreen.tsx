@@ -263,19 +263,19 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                 let className = "";
                 if (item?.payment_for === 'appointment') {
                     className = "active";
-                } else if (item?.payment_for === 'no show') {
+                } else if (item?.payment_for === 'no_show') {
                     className = "no-show";
                 } else if (item?.payment_for === 'products') {
                     className = "products";
                 } else if (item?.payment_for === 'waived') {
                     className = "waived";
-                } else if (item?.payment_for === 'cancellation') {
+                } else if (item?.payment_for === 'cancelled') {
                     className = "cancellation";
                 }
                 return <>
                     {item?.payment_for ? <ChipComponent
                         className={`min-width-60 ${className}`}
-                        label={item?.payment_for}/> : '-'}
+                        label={CommonService.capitalizeFirstLetterAndRemoveUnderScore(item?.payment_for)}/> : '-'}
                 </>
             }
 
@@ -455,19 +455,19 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                 let className = "";
                 if (item?.payment_for === 'appointment') {
                     className = "active";
-                } else if (item?.payment_for === 'no show') {
+                } else if (item?.payment_for === 'no_show') {
                     className = "no-show";
                 } else if (item?.payment_for === 'products') {
                     className = "products";
                 } else if (item?.payment_for === 'waived') {
                     className = "waived";
-                } else if (item?.payment_for === 'cancellation') {
+                } else if (item?.payment_for === 'cancelled') {
                     className = "cancellation";
                 }
                 return <>
                     <ChipComponent
                         className={`min-width-60 ${className}`}
-                        label={item?.payment_for}/>
+                        label={CommonService.capitalizeFirstLetterAndRemoveUnderScore(item?.payment_for)}/>
                 </>
             }
         },
@@ -578,19 +578,19 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                 let className = "";
                 if (item?.payment_for === 'appointment') {
                     className = "active";
-                } else if (item?.payment_for === 'no show') {
+                } else if (item?.payment_for === 'no_show') {
                     className = "no-show";
                 } else if (item?.payment_for === 'products') {
                     className = "products";
                 } else if (item?.payment_for === 'waived') {
                     className = "waived";
-                } else if (item?.payment_for === 'cancellation') {
+                } else if (item?.payment_for === 'cancelled') {
                     className = "cancellation";
                 }
                 return <>
                     <ChipComponent
                         className={`min-width-60 ${className}`}
-                        label={item?.payment_for}/>
+                        label={CommonService.capitalizeFirstLetterAndRemoveUnderScore(item?.payment_for)}/>
                 </>
             }
         },
@@ -676,19 +676,19 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                 let className = "payment-for-chip";
                 if (item?.payment_for === 'appointment') {
                     className = "active";
-                } else if (item?.payment_for === 'no show') {
+                } else if (item?.payment_for === 'no_show') {
                     className = "no-show";
                 } else if (item?.payment_for === 'products') {
                     className = "products";
                 } else if (item?.payment_for === 'waived') {
                     className = "waived";
-                } else if (item?.payment_for === 'cancellation') {
+                } else if (item?.payment_for === 'cancelled') {
                     className = "cancellation";
                 }
                 return <>
                     <ChipComponent
                         className={`min-width-60 ${className}`}
-                        label={item?.payment_for || '-'}/>
+                        label={CommonService.capitalizeFirstLetterAndRemoveUnderScore(item?.payment_for) || '-'}/>
                 </>
             }
         },
@@ -785,8 +785,8 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
     ], [removePaymentFromSelectedMarkAsPaidList]);
 
     useEffect(() => {
-       !clientId && dispatch(setCurrentNavParams("Billing"));
-    }, [dispatch,clientId]);
+        !clientId && dispatch(setCurrentNavParams("Billing"));
+    }, [dispatch, clientId]);
 
     const handleTabChange = useCallback((e: any, value: any) => {
         searchParams.set("activeTab", value);
@@ -933,20 +933,14 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
     }, []);
 
     const handleConsolidatePayments = useCallback(() => {
-        commonService.openConfirmationDialog({
+
+        CommonService.onConfirm({
+            image: ImageConfig.PopupLottie,
+            showLottie: true,
             confirmationTitle: `CONSOLIDATE ${currentTab === 'pendingPayments' ? 'INVOICES' : 'RECEIPTS'}`,
-            confirmationSubTitle: "Are you sure you want to consolidate the\n" +
-                "selected payments?",
-            image: `${ImageConfig.confirmImage}`,
-            direction: "up",
-            yes: {
-                text: "Yes",
-                color: "primary"
-            },
-            no: {
-                text: "No",
-                color: "primary"
-            }
+            confirmationSubTitle: <div className={'mrg-bottom-30'}>Are you sure you want to consolidate the <br/>
+                selected payments?</div>
+
         }).then((response: any) => {
             handleCreateConsolidatedPayment(selectedPayments)
         }).catch((error: any) => {
@@ -1065,13 +1059,11 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                                 <DateRangePickerComponentV2
                                     value={clientListFilterState.date_range}
                                     onDateChange={(value: any) => {
-                                        console.log(value);
                                         setClientListFilterState((oldState: any) => {
                                             const newState = {...oldState};
                                             if (value) {
                                                 newState['start_date'] = moment(value[0])?.format('YYYY-MM-DD');
                                                 newState['end_date'] = moment(value[1])?.format('YYYY-MM-DD');
-                                                console.log(newState);
                                                 // newState['date_range'] = value;
                                             } else {
                                                 delete newState['date_range'];
@@ -1157,7 +1149,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                     </div>
                     <div
                         className={`consolidation-switch-label-component ${(selectedPayments?.length === 0 || currentTab === 'consolidatedPayments' || selectedPayments[0]?.payment_for === "products") && " disabled"}`}>
-                        Display all payments linked with the selected client
+                        Show payments for selected client and linked profiles
                     </div>
                 </div>
             }
@@ -1424,10 +1416,12 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                                         </div>
                                     </div>
                                     <div className={'mrg-15'}>
-                                      <span className={'card-heading'}>Address:</span>  {item?.address_line}, {item?.city}, {item?.state}, {item?.country} {item?.zip_code}
+                                        <span
+                                            className={'card-heading'}>Address:</span> {item?.address_line}, {item?.city}, {item?.state}, {item?.country} {item?.zip_code}
                                     </div>
                                     <div className={'mrg-15'}>
-                                        <span className={'card-heading'}>Phone Number:</span>  {CommonService.formatPhoneNumber(item?.phone)}
+                                        <span
+                                            className={'card-heading'}>Phone Number:</span> {CommonService.formatPhoneNumber(item?.phone)}
                                     </div>
                                 </div>
                             })
