@@ -752,7 +752,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                                             <div className={'ts-col-12 comment-wrapper'}>
                                                 <div className={'comment-heading'}>Comments</div>
                                                 <div
-                                                    className={'pdd-bottom-10'}>{comments?.length > 0 ? comments : 'N/A'}</div>
+                                                    className={'comment'}>{comments?.length > 0 ? comments : 'N/A'}</div>
                                             </div>
                                         }
                                     </DataLabelValueComponent>

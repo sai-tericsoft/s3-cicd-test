@@ -264,13 +264,13 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                 if (item?.payment_for === 'appointment') {
                     className = "active";
                 } else if (item?.payment_for === 'no_show') {
-                    className = "no-show";
+                    className = "no_show";
                 } else if (item?.payment_for === 'products') {
                     className = "products";
                 } else if (item?.payment_for === 'waived') {
                     className = "waived";
-                } else if (item?.payment_for === 'cancelled') {
-                    className = "cancellation";
+                } else if (item?.payment_for === 'canceled') {
+                    className = "canceled";
                 }
                 return <>
                     {item?.payment_for ? <ChipComponent
@@ -456,13 +456,13 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                 if (item?.payment_for === 'appointment') {
                     className = "active";
                 } else if (item?.payment_for === 'no_show') {
-                    className = "no-show";
+                    className = "no_show";
                 } else if (item?.payment_for === 'products') {
                     className = "products";
                 } else if (item?.payment_for === 'waived') {
                     className = "waived";
-                } else if (item?.payment_for === 'cancelled') {
-                    className = "cancellation";
+                } else if (item?.payment_for === 'canceled') {
+                    className = "canceled";
                 }
                 return <>
                     <ChipComponent
@@ -579,13 +579,13 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                 if (item?.payment_for === 'appointment') {
                     className = "active";
                 } else if (item?.payment_for === 'no_show') {
-                    className = "no-show";
+                    className = "no_show";
                 } else if (item?.payment_for === 'products') {
                     className = "products";
                 } else if (item?.payment_for === 'waived') {
                     className = "waived";
-                } else if (item?.payment_for === 'cancelled') {
-                    className = "cancellation";
+                } else if (item?.payment_for === 'canceled') {
+                    className = "canceled";
                 }
                 return <>
                     <ChipComponent
@@ -677,13 +677,13 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                 if (item?.payment_for === 'appointment') {
                     className = "active";
                 } else if (item?.payment_for === 'no_show') {
-                    className = "no-show";
+                    className = "no_show";
                 } else if (item?.payment_for === 'products') {
                     className = "products";
                 } else if (item?.payment_for === 'waived') {
                     className = "waived";
-                } else if (item?.payment_for === 'cancelled') {
-                    className = "cancellation";
+                } else if (item?.payment_for === 'canceled') {
+                    className = "canceled";
                 }
                 return <>
                     <ChipComponent
