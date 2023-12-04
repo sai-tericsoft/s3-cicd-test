@@ -179,7 +179,7 @@ const UserContactInformationEditComponent = (props: UserContactInformationEditCo
                                             <ToolTipComponent
                                                 showArrow={true}
                                                 position={"left"}
-                                                tooltip={"This phone number will be used as the primary number for your account. Please ensure that this number is constantly operational."}>
+                                                tooltip={"This phone number will be used to communicate with you whenever we need to get in touch with you. Please ensure that this number is valid and operational."}>
                                                 <ImageConfig.InfoIcon/>
                                             </ToolTipComponent>
                                         </IconButtonComponent>
@@ -300,7 +300,7 @@ const UserContactInformationEditComponent = (props: UserContactInformationEditCo
                                             <ToolTipComponent
                                                 showArrow={true}
                                                 position={"right"}
-                                                tooltip={"This email address will be used as the primary email address for your account. Please ensure that this email address is constantly operational."}>
+                                                tooltip={"This email address will be used to communicate with you whenever we need to get in touch with you. Please ensure that this email address is valid and operational."}>
                                                 <ImageConfig.InfoIcon/>
                                             </ToolTipComponent>
                                         </IconButtonComponent>

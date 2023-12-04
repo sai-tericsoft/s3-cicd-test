@@ -18,7 +18,6 @@ import FormikTextAreaComponent
     from "../../../../shared/components/form-controls/formik-text-area/FormikTextAreaComponent";
 import FormikCheckBoxComponent
     from "../../../../shared/components/form-controls/formik-check-box/FormikCheckBoxComponent";
-import LinkComponent from "../../../../shared/components/link/LinkComponent";
 import ButtonComponent from "../../../../shared/components/button/ButtonComponent";
 import {IRootReducerState} from "../../../../store/reducers";
 import {getCouponDetails} from "../../../../store/actions/discount.action";

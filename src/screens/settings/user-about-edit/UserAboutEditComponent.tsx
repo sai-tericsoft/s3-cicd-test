@@ -16,6 +16,7 @@ import IconButtonComponent from "../../../shared/components/icon-button/IconButt
 import FormikCheckBoxComponent from "../../../shared/components/form-controls/formik-check-box/FormikCheckBoxComponent";
 import {IAPIResponseType} from "../../../shared/models/api.model";
 import {setUserBasicDetails} from "../../../store/actions/user.action";
+import * as Yup from "yup";
 
 interface UserAboutEditComponentProps {
     handleNext: () => void
@@ -32,6 +33,13 @@ const formInitialValues: any = {
         speak: ""
     }]
 }
+
+const UserAboutValidationSchema = Yup.object().shape({
+    languages: Yup.array().of(Yup.object().shape({
+        name: Yup.string().required('Language is required'),
+    }))
+
+});
 
 const UserAboutEditComponent = (props: UserAboutEditComponentProps) => {
     const {handleNext, handlePrevious} = props;
@@ -76,12 +84,13 @@ const UserAboutEditComponent = (props: UserAboutEditComponentProps) => {
 
     return (
         <div className={'user-about-edit-component'}>
-            <div className={'edit-user-heading'}>EDIT ABOUT</div>
+            <div className={'edit-user-heading'}>Edit About</div>
             <CardComponent title={"ABOUT"} size={"md"}>
 
                 <Formik
                     initialValues={initialValues}
                     onSubmit={onSubmit}
+                    validationSchema={UserAboutValidationSchema}
                     validateOnChange={false}
                     validateOnBlur={true}
                     enableReinitialize={true}
@@ -131,21 +140,25 @@ const UserAboutEditComponent = (props: UserAboutEditComponentProps) => {
                                                         </div>
                                                         <div className="ts-col-1">
                                                             <div className="d-flex">
-                                                                <IconButtonComponent className={"form-helper-icon"}
-                                                                                     onClick={() => {
-                                                                                         arrayHelpers.push("");
-                                                                                     }}
-                                                                >
-                                                                    <ImageConfig.AddCircleIcon/>
-                                                                </IconButtonComponent>
+                                                                {
+                                                                    values?.specialities && (index === values?.specialities?.length - 1)
+                                                                    && values?.specialities?.length < 5 &&
+                                                                    <IconButtonComponent className={"form-helper-icon"}
+                                                                                         onClick={() => {
+                                                                                             arrayHelpers.push("");
+                                                                                         }}
+                                                                    >
+                                                                        <ImageConfig.AddCircleIcon/>
+                                                                    </IconButtonComponent>}
+
                                                                 {index > 0 &&
-                                                                <IconButtonComponent className={"form-helper-icon"}
-                                                                                     onClick={() => {
-                                                                                         arrayHelpers.remove(index);
-                                                                                     }}
-                                                                >
-                                                                    <ImageConfig.DeleteIcon/>
-                                                                </IconButtonComponent>}
+                                                                    <IconButtonComponent className={"form-helper-icon"}
+                                                                                         onClick={() => {
+                                                                                             arrayHelpers.remove(index);
+                                                                                         }}
+                                                                    >
+                                                                        <ImageConfig.DeleteIcon/>
+                                                                    </IconButtonComponent>}
                                                             </div>
                                                         </div>
                                                         <div className="ts-col"/>
@@ -219,21 +232,24 @@ const UserAboutEditComponent = (props: UserAboutEditComponentProps) => {
                                                     </div>
                                                     <div className="ts-col-1">
                                                         <div className="d-flex">
-                                                            <IconButtonComponent className={"form-helper-icon"}
-                                                                                 onClick={() => {
-                                                                                     arrayHelpers.push("");
-                                                                                 }}
-                                                            >
-                                                                <ImageConfig.AddCircleIcon/>
-                                                            </IconButtonComponent>
+                                                            {values?.languages && (index === values?.languages?.length - 1)
+                                                                && values?.languages?.length < 5 &&
+                                                                <IconButtonComponent className={"form-helper-icon"}
+                                                                                     onClick={() => {
+                                                                                         arrayHelpers.push("");
+                                                                                     }}
+                                                                >
+                                                                    <ImageConfig.AddCircleIcon/>
+                                                                </IconButtonComponent>}
                                                             {index > 0 &&
-                                                            <IconButtonComponent className={"form-helper-icon delete"}
-                                                                                 onClick={() => {
-                                                                                     arrayHelpers.remove(index);
-                                                                                 }}
-                                                            >
-                                                                <ImageConfig.DeleteIcon/>
-                                                            </IconButtonComponent>}
+                                                                <IconButtonComponent
+                                                                    className={"form-helper-icon delete"}
+                                                                    onClick={() => {
+                                                                        arrayHelpers.remove(index);
+                                                                    }}
+                                                                >
+                                                                    <ImageConfig.DeleteIcon/>
+                                                                </IconButtonComponent>}
                                                         </div>
                                                     </div>
                                                 </div>

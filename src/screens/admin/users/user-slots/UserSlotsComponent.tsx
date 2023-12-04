@@ -967,11 +967,11 @@ const UserSlotsComponent = (props: UserSlotsComponentProps) => {
                         ))}
                     </TabsWrapperComponent>
 
-                    <div className="h-v-center">
-                        <ButtonComponent onClick={() => navigate(CommonService._routeConfig.UserList())}>
-                            Go Back
-                        </ButtonComponent>
-                    </div>
+                    {/*<div className="h-v-center">*/}
+                    {/*    <ButtonComponent onClick={() => navigate(CommonService._routeConfig.UserList())}>*/}
+                    {/*        Go Back*/}
+                    {/*    </ButtonComponent>*/}
+                    {/*</div>*/}
                 </>
                 }
             </div>

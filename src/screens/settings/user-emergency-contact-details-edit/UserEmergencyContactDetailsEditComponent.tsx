@@ -20,7 +20,6 @@ import _ from "lodash";
 import {CommonService} from "../../../shared/services";
 import {IAPIResponseType} from "../../../shared/models/api.model";
 import {setUserBasicDetails} from "../../../store/actions/user.action";
-import FormDebuggerComponent from "../../../shared/components/form-debugger/FormDebuggerComponent";
 import {AddCircleIcon} from "../../../constants/ImageConfig";
 
 interface UserEmergencyContactDetailsEditComponentProps {
@@ -200,7 +199,7 @@ const UserEmergencyContactDetailsEditComponent = (props: UserEmergencyContactDet
 
     return (
         <div className={'user-emergency-contact-details-edit-component'}>
-            <div className={'edit-user-heading'}>EDIT Emergency Contact Information</div>
+            <div className={'edit-user-heading'}>Edit Emergency Contact Information</div>
             <CardComponent title={"Emergency Contact Information"} size={"md"}>
 
                 <Formik
@@ -218,7 +217,7 @@ const UserEmergencyContactDetailsEditComponent = (props: UserEmergencyContactDet
                         }, [validateForm, values]);
                         return (
                             <Form noValidate={true} className={"t-form"} autoComplete="off">
-                                <FormDebuggerComponent showDebugger={false} values={values} errors={errors}/>
+                                {/*<FormDebuggerComponent showDebugger={false} values={values} errors={errors}/>*/}
 
                                 <FormControlLabelComponent label={"Primary Emergency Contact"} size={'md'}/>
                                 <div className="ts-row">
@@ -315,7 +314,7 @@ const UserEmergencyContactDetailsEditComponent = (props: UserEmergencyContactDet
                                             <ToolTipComponent
                                                 showArrow={true}
                                                 position={"left"}
-                                                tooltip={"This phone number will be used to communicate with your emergency contact in case of emergency. Please ensure that this number is constantly operational."}>
+                                                tooltip={"This phone number will be used to communicate with you whenever we need to get in touch with you. Please ensure that this number is valid and operational."}>
                                                 <ImageConfig.InfoIcon/>
                                             </ToolTipComponent>
                                         </IconButtonComponent>

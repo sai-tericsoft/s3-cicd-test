@@ -71,7 +71,7 @@ const UserAddressDetailsEditComponent = (props: UserAddressDetailsEditComponentP
 
     return (
         <div className={'user-address-details-edit-component'}>
-            <div className={'edit-user-heading'}>EDIT Address Information</div>
+            <div className={'edit-user-heading'}>Edit       Address Information</div>
             <CardComponent title={"Address Information"} size={"md"}>
                 <Formik
                     validationSchema={formValidationSchema}

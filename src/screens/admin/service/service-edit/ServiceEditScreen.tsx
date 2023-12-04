@@ -25,7 +25,6 @@ import IconButtonComponent from "../../../../shared/components/icon-button/IconB
 import LoaderComponent from "../../../../shared/components/loader/LoaderComponent";
 import StatusCardComponent from "../../../../shared/components/status-card/StatusCardComponent";
 import {IService} from "../../../../shared/models/service.model";
-import LinkComponent from "../../../../shared/components/link/LinkComponent";
 import FormikSwitchComponent from "../../../../shared/components/form-controls/formik-switch/FormikSwitchComponent";
 
 interface ServiceEditComponentProps {

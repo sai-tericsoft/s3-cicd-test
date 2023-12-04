@@ -123,7 +123,7 @@ const MessageBoardComponent = (props: MessageBoardComponentProps) => {
                                             return (<>
                                                     <div className={'message-text'}>{message?.message}</div>
                                                     <div
-                                                        className={'time-stamp'}>{CommonService.transformTimeStamp(message?.updated_at)}</div>
+                                                        className={'time-stamp'}>{CommonService.transformTimeStamp2(message?.updated_at)}</div>
                                                     {(index !== messageHistory.length - 1) ?
                                                         <HorizontalLineComponent className={'horizontal-divider'}/> : <div className={'mrg-bottom-10'}/>
                                                     }

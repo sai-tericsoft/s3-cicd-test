@@ -27,7 +27,7 @@ interface UserEducationDetailsEditComponentProps {
 const UserEducationDetailsValidationSchema = Yup.object().shape({
     education_details: Yup.array().of(
         Yup.object().shape({
-            institution_name: Yup.string().required('Company name is required'),
+            institution_name: Yup.string().required('Institution name is required'),
             start_date: Yup.mixed().required('Start date is required'),
             end_date: Yup.mixed().required('End date is required'),
         })
@@ -97,7 +97,7 @@ const UserEducationDetailsEditComponent = (props: UserEducationDetailsEditCompon
 
     return (
         <div className={'user-education-details-edit-component'}>
-            <div className={'edit-user-heading'}>EDIT Education details</div>
+            <div className={'edit-user-heading'}>Edit Education details</div>
             <CardComponent title={"Education details"} size={"md"}>
 
                 <Formik
@@ -218,6 +218,7 @@ const UserEducationDetailsEditComponent = (props: UserEducationDetailsEditCompon
                                                                                 placeholder={'MM-DD-YYYY'}
                                                                                 required={true}
                                                                                 minDate={moment(values?.education_details[index]?.start_date)}
+                                                                                maxDate={moment()}
                                                                                 formikField={field}
                                                                                 fullWidth={true}
                                                                             />

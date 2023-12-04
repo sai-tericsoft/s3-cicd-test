@@ -8,7 +8,6 @@ import _ from "lodash";
 import {Field, FieldArray, FieldProps, Form, Formik, FormikHelpers} from "formik";
 import CardComponent from "../../../../shared/components/card/CardComponent";
 import {Misc} from "../../../../constants";
-import LinkComponent from "../../../../shared/components/link/LinkComponent";
 import ButtonComponent from "../../../../shared/components/button/ButtonComponent";
 import * as Yup from "yup";
 import {getAllServiceList} from "../../../../store/actions/service.action";
@@ -116,7 +115,7 @@ const CouponAddScreen = (props: CouponAddScreenProps) => {
 
     const handleBackNavigation = useCallback(() => {
         navigate(CommonService._routeConfig.DiscountList());
-    },[]);
+    },[navigate]);
 
     return (
         <div className={'coupon-add-screen'}>

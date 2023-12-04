@@ -93,7 +93,7 @@ const UserProfessionalDetailsEditComponent = (props: UserProfessionalDetailsEdit
 
     return (
         <div className={'user-professional-details-edit-component'}>
-            <div className={'edit-user-heading'}>EDIT Professional details</div>
+            <div className={'edit-user-heading'}>Edit Professional details</div>
             <CardComponent title={"professional details"} size={"md"}>
 
                 <Formik
@@ -211,6 +211,7 @@ const UserProfessionalDetailsEditComponent = (props: UserProfessionalDetailsEdit
                                                                                 placeholder={'MM-DD-YYYY'}
                                                                                 formikField={field}
                                                                                 minDate={moment(values?.professional_details[index]?.start_date)}
+                                                                                maxDate={moment()}
                                                                                 fullWidth={true}
                                                                                 required={true}
                                                                             />
