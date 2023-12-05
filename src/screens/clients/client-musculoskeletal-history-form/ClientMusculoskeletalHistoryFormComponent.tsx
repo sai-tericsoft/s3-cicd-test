@@ -92,21 +92,16 @@ const ClientMusculoskeletalHistoryFormComponent = (props: ClientMusculoskeletalF
                             initialValues={clientMusculoskeletalHistoryFormInitialValues}
                             onSubmit={onSubmit}
                             enableReinitialize={true}
-                            validateOnChange={true}
-                            validateOnBlur={true}
+                            validateOnChange={false}
+                            validateOnBlur={false}
                             validateOnMount={true}>
                             {({values, setFieldValue, isValid, validateForm}) => {
-                                // eslint-disable-next-line react-hooks/rules-of-hooks
-                                // useEffect(() => {
-                                //     validateForm();
-                                // }, [validateForm, values]);
                                 return (
                                     <Form noValidate={true} className={"t-form"}>
                                         {
                                             musculoskeletalHistoryOptionsList?.map((question: IMusculoskeletalHistoryOption) => {
                                                 const {_id, title, placeholder} = question;
-                                                return <>
-                                                    <div className="ts-row mrg-top-10 mrg-bottom-10"
+                                                return <div className="ts-row mrg-top-10 mrg-bottom-10"
                                                          key={_id}>
                                                         <div className="ts-col-md-3">
                                                             <div className={"mrg-bottom-10"}>
@@ -153,7 +148,6 @@ const ClientMusculoskeletalHistoryFormComponent = (props: ClientMusculoskeletalF
                                                             }
                                                         </div>
                                                     </div>
-                                                </>
                                             })
                                         }
                                         <div className="t-form-actions">
