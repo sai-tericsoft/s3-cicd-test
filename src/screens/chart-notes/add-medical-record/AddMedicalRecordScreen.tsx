@@ -386,7 +386,7 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
                 initialValues={addMedicalRecordFormInitialValues}
                 onSubmit={onSubmit}
                 validateOnChange={false}
-                validateOnBlur={true}
+                validateOnBlur={false}
                 enableReinitialize={true}
                 validateOnMount={true}>
                 {({values, touched, errors, setFieldValue, validateForm}) => {

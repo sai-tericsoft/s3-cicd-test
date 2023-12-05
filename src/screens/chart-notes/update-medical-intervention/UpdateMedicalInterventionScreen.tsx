@@ -507,16 +507,11 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                             onSubmit(values, formikHelpers, false);
                             // }
                         }}
-                        validateOnChange={true}
-                        validateOnBlur={true}
+                        validateOnChange={false}
+                        validateOnBlur={false}
                         enableReinitialize={true}
                         validateOnMount={true}>
                         {(formik) => {
-                            // eslint-disable-next-line react-hooks/rules-of-hooks
-                            // useEffect(() => {
-                            //     formik.validateForm();
-                            //     // eslint-disable-next-line react-hooks/exhaustive-deps
-                            // }, [formik.validateForm, formik.values]);
                             return (
                                 <Form className="t-form" noValidate={true}>
                                     <FormAutoSave formikCtx={formik} delay={500}/>
