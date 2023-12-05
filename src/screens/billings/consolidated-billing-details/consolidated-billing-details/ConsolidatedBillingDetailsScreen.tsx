@@ -28,7 +28,6 @@ import {setCurrentNavParams} from "../../../../store/actions/navigation.action";
 import {useLocation, useNavigate, useParams, useSearchParams} from "react-router-dom";
 import {IAPIResponseType} from "../../../../shared/models/api.model";
 import ModalComponent from "../../../../shared/components/modal/ModalComponent";
-import commonService from "../../../../shared/services/common.service";
 import _ from "lodash";
 import momentTimezone from "moment-timezone";
 import ChipComponent from "../../../../shared/components/chip/ChipComponent";
@@ -111,13 +110,13 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
         }, [billingSettings?.default_thankyou_note, billingDetails?.thankyou_note, searchParams, billingDetails?.comments]);
 
         useEffect(() => {
-            const referrer: any = searchParams.get("referrer");
+            // const referrer: any = searchParams.get("referrer");
             dispatch(setCurrentNavParams("View Invoice", null, () => {
-                if (referrer) {
-                    navigate(referrer);
-                } else {
-                    navigate(CommonService._routeConfig.BillingList());
-                }
+                // if (referrer) {
+                //     navigate(referrer);
+                // } else {
+                navigate(CommonService._routeConfig.BillingList() + '?activeTab=consolidatedPayments');
+                // }
             }));
         }, [navigate, dispatch, searchParams]);
 
@@ -156,9 +155,9 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
             CommonService.onConfirm({
                 image: ImageConfig.ConfirmationLottie,
                 showLottie: true,
-                confirmationTitle: `DELETE CONSOLIDATED ${type.toLocaleUpperCase()}`,
+                confirmationTitle: `DELETE CONSOLIDATED ${type?.toLocaleUpperCase()}`,
                 confirmationSubTitle: 'Are you sure you want to permanently delete this\n' +
-                    'consolidated invoice? This action cannot be undone.'
+                    `consolidated ${type}? This action cannot be undone.`
             }).then(() => {
                 setIsConsolidatedBillDeleted(true);
                 consolidatedBillingId && CommonService._billingsService.DeleteConsolidatedBill(consolidatedBillingId, {})
@@ -175,26 +174,21 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
         }, [consolidatedBillingId, navigate]);
 
         const handleRemovePayment = useCallback((item: any, index: number) => () => {
-            setIsMarkAsPaidDisabled(true);
+
             if (billingDetails.bill_ids.length === 1) {
                 handleDeleteConsolidatedBill(billingDetails?.bill_type);
             } else {
-                commonService.openConfirmationDialog({
-                    confirmationTitle: "REMOVE RECEIPT",
-                    confirmationSubTitle: "Are you sure you want to remove the\n" +
-                        "selected receipt?",
-                    image: `${ImageConfig.confirmImage}`,
-                    yes: {
-                        text: "Yes",
-                        color: "primary"
-                    },
-                    no: {
-                        text: "No",
-                        color: "primary"
-                    }
+                CommonService.onConfirm({
+                    image: ImageConfig.PopupLottie,
+                    showLottie: true,
+                    confirmationTitle: 'REMOVE RECEIPT',
+                    confirmationSubTitle: <div className={'mrg-bottom-30'}>Are you sure you want to remove the<br/>
+                        selected receipt?</div>
                 }).then((response: any) => {
+                    setIsMarkAsPaidDisabled(false);
                     removePayment(item, index, billingDetails)
                 }).catch((error: any) => {
+                    setIsMarkAsPaidDisabled(false);
                 })
             }
         }, [billingDetails, removePayment, handleDeleteConsolidatedBill]);
@@ -226,7 +220,7 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                 title: 'Provider',
                 key: 'provider',
                 dataIndex: 'provider',
-                align: 'center',
+                align: 'left',
                 render: (item: any) => {
                     return <>{CommonService.extractName(item?.provider_details)}<br/>
                         {item?.provider_details?.npi_number || '-'}</>
@@ -239,9 +233,14 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                 width: 220,
 
                 render: (item: any) => {
-                    return <>{item?.service_details?.name || '-'}
-                        <br/>{CommonService.capitalizeFirstLetter(item?.appointment_type)}({item?.duration}minutes)
-                    </>
+                    return <div>
+                        <div>{item?.service_details?.name || '-'}</div>
+                        <br/>
+                        <div className={'appointment-type'}>
+                            <i>{CommonService.capitalizeFirstLetterAndRemoveUnderScore(item?.appointment_type)}{" "}
+                                ({item?.duration}minutes)</i>
+                        </div>
+                    </div>
                 }
             },
             {
@@ -259,7 +258,7 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                 key: 'qty',
                 dataIndex: 'qty',
                 align: 'center',
-                width: 60,
+                width: 70,
                 render: (item: any) => {
                     return <>{item?.qty || "-"}</>
                 }
@@ -269,9 +268,9 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                 key: 'discount',
                 dataIndex: 'discount',
                 align: 'center',
-                width: 60,
+                width: 70,
                 render: (item: any) => {
-                    return <>{item?.discount ? <>{Misc.CURRENCY_SYMBOL}{CommonService.convertToDecimals(item?.discount)}</> : "-"}</>
+                    return <>{item?.discount ? <>{Misc.CURRENCY_SYMBOL}{CommonService.convertToDecimals(item?.discount)}</> : "$0.00"}</>
                 }
             },
             {
@@ -279,7 +278,7 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                 key: 'total',
                 dataIndex: 'total',
                 align: 'center',
-                width: 60,
+                width: 70,
                 render: (item: any) => {
                     return <>{item?.total ? <>{Misc.CURRENCY_SYMBOL}{CommonService.convertToDecimals(item?.total)}</> : "-"}</>
                 }
@@ -289,10 +288,10 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                 dataIndex: "actions",
                 key: "actions",
                 fixed: 'right',
-                width: 70,
+                width: 50,
                 render: (item: any, index: any) => {
                     return <IconButtonComponent onClick={handleRemovePayment(item, index)}>
-                        <ImageConfig.CircleCancel/>
+                        <ImageConfig.CrossOutlinedIcon/>
                     </IconButtonComponent>
                 }
             }
@@ -396,25 +395,25 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
 
         }, [consolidatedBillingId]);
 
-    const handleDeleteBillingAddress = useCallback((billingAddress: any) => {
-        CommonService.onConfirm({
-            image: ImageConfig.ConfirmationLottie,
-            showLottie: true,
-            confirmationTitle: 'DELETE ADDRESS',
-            confirmationSubTitle: <div className={'text-center mrg-bottom-20'}>Are you sure you want to permanently
-                delete <br/> this address?</div>,
+        const handleDeleteBillingAddress = useCallback((billingAddress: any) => {
+            CommonService.onConfirm({
+                image: ImageConfig.ConfirmationLottie,
+                showLottie: true,
+                confirmationTitle: 'DELETE ADDRESS',
+                confirmationSubTitle: <div className={'text-center mrg-bottom-20'}>Are you sure you want to permanently
+                    delete <br/> this address?</div>,
 
-        }).then(() => {
-            CommonService._billingsService.DeleteBillingAddress(billingAddress?._id, billingAddress)
-                .then((response: any) => {
-                    CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
-                    closeBillingAddressFormDrawer();
-                }).catch((error: any) => {
-                CommonService._alert.showToast(error.error || "Error in deleting", "error");
-            });
-        })
+            }).then(() => {
+                CommonService._billingsService.DeleteBillingAddress(billingAddress?._id, billingAddress)
+                    .then((response: any) => {
+                        CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+                        closeBillingAddressFormDrawer();
+                    }).catch((error: any) => {
+                    CommonService._alert.showToast(error.error || "Error in deleting", "error");
+                });
+            })
 
-    }, [closeBillingAddressFormDrawer]);
+        }, [closeBillingAddressFormDrawer]);
 
         const getLinkedClientList = useCallback(() => {
             CommonService._billingsService.LinkedClientListAPICall(billingDetails?.client_id, {})
@@ -519,6 +518,7 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                             searchParams.get('type') !== 'completed' &&
                             <>
                                 <ButtonComponent variant={'outlined'} color={'error'}
+                                                 size={'large'}
                                                  isLoading={isConsolidatedBillDeleted}
                                                  disabled={isMarkAsPaidDisabled}
                                                  onClick={() => handleDeleteConsolidatedBill(billingDetails?.bill_type)}
@@ -528,6 +528,7 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                                 {searchParams.get('type') === 'consolidatedInvoice' &&
                                     <ButtonComponent
                                         prefixIcon={<ImageConfig.CircleCheck/>}
+                                        size={'large'}
                                         onClick={openPaymentModeModal}
                                         disabled={isBillingBeingMarkedAsPaid || isMarkAsPaidDisabled}
                                         isLoading={isBillingBeingMarkedAsPaid}
@@ -538,7 +539,8 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                             </>
                         }
                         <MenuDropdownComponent className={'billing-details-drop-down-menu'} menuBase={
-                            <ButtonComponent size={'large'} variant={'outlined'} disabled={isMarkAsPaidDisabled}
+                            <ButtonComponent size={'large'} variant={'outlined'}
+                                             disabled={isMarkAsPaidDisabled}
                                              fullWidth={true}>
                                 Select Action &nbsp;<ImageConfig.SelectDropDownIcon/>
                             </ButtonComponent>
@@ -664,7 +666,7 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                                                 <div className={'ts-col-lg-3'}>
                                                     <DataLabelValueComponent label={'Client Name'}>
                                                         <div className={'d-flex'}>
-                                                            {CommonService.extractName(billDetail?.client_details) + "(" + billDetail?.client_details?.client_id + ")"}&nbsp;
+                                                            {CommonService.extractName(billDetail?.client_details) + (" ") + "(ID: " + billDetail?.client_details?.client_id + ")"}&nbsp;
                                                             {/*<LinkComponent>View Details</LinkComponent>*/}
                                                         </div>
                                                     </DataLabelValueComponent>
@@ -672,13 +674,18 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                                                 <div className={'ts-col-lg-3'}/>
                                                 <div className={'ts-col'}>
                                                     <DataLabelValueComponent label={'Case Name'}>
-                                                        {billDetail?.medical_record_details?.injury_details && billDetail?.medical_record_details?.injury_details?.map((injury: any, index: number) => {
-                                                            return (
-                                                                <>
-                                                                    {index === 0 ? CommonService.convertDateFormat2(billDetail?.created_at) : " "} - {injury?.body_part_name}( {injury?.body_side} )
-                                                                </>
-                                                            )
-                                                        })}
+
+                                                        {/*{billDetail?.medical_record_details?.injury_details && billDetail?.medical_record_details?.injury_details?.map((injury: any, index: number) => {*/}
+                                                        {/*    return (*/}
+                                                        {/*        <>*/}
+                                                        {/*            {index === 0 ? CommonService.convertDateFormat2(billDetail?.created_at) : " "} - {injury?.body_part_name} ({injury?.body_side})*/}
+                                                        {/*        </>*/}
+                                                        {/*    )*/}
+                                                        {/*})}*/}
+                                                        {billDetail?.medical_record_details?.created_at && CommonService.convertDateFormat2(billDetail?.medical_record_details?.created_at)}{" "}
+                                                        {"-"} {billDetail?.medical_record_details?.injury_details?.length > 0 ? billDetail?.medical_record_details?.injury_details?.map((injury: any, index: number) => {
+                                                        return <>{" "}{injury?.body_part_name}{injury.body_side ? `(${injury.body_side})` : ''}{index !== billDetail?.medical_record_details?.injury_details?.length - 1 ? <>,</> : ''}</>
+                                                    }) : "N/A"}
                                                         {
                                                             billDetail?.medical_record_details === undefined && <>N/A</>
                                                         }
@@ -689,7 +696,7 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                                             {
                                                 billingDetails?.bills_details?.length > 1 && <>
                                                     <div className={'ts-row'}>
-                                                        <div className={'ts-col-lg-9 '}/>
+                                                        <div className={'ts-col-lg-8 mrg-right-40'}/>
                                                         <div className={'ts-col-3 mrg-top-25'}>
                                                             <div className={'d-flex ts-justify-content-sm-between'}>
                                                                 <div className={'payment-type-header'}>
@@ -851,6 +858,7 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                             <div className={'d-flex ts-justify-content-center mrg-top-20'}>
                                 <ButtonComponent
                                     isLoading={isSubmitting}
+                                    size={'large'}
                                     disabled={thankYouNote?.length > 90}
                                     onClick={() => handleSave(thankYouNote, comments, selectedAddress, billingDetails)}>Save</ButtonComponent>
                             </div>}
@@ -907,7 +915,7 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                                                             <ListItemButton onClick={() => handleEdit(item)}>
                                                                 Edit
                                                             </ListItemButton>,
-                                                            <ListItemButton onClick={()=>handleDeleteBillingAddress(item)}>
+                                                            <ListItemButton onClick={() => handleDeleteBillingAddress(item)}>
                                                                 Delete
                                                             </ListItemButton>,
                                                             <ListItemButton onClick={() => onBillingAddressFormSubmit(item?._id)}>
@@ -917,10 +925,12 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                                                     </div>
                                                 </div>
                                                 <div className={'mrg-15'}>
-                                                    <span className={'card-heading'}>Address:</span>  {item?.address_line}, {item?.city}, {item?.state}, {item?.country} {item?.zip_code}
+                                                    <span
+                                                        className={'card-heading'}>Address:</span> {item?.address_line}, {item?.city}, {item?.state}, {item?.country} {item?.zip_code}
                                                 </div>
                                                 <div className={'mrg-15'}>
-                                                    <span className={'card-heading'}>Phone Number:</span>  {CommonService.formatPhoneNumber(item?.phone)}
+                                                    <span
+                                                        className={'card-heading'}>Phone Number:</span> {CommonService.formatPhoneNumber(item?.phone)}
                                                 </div>
                                                 {/*<div className={'ts-row mrg-top-10'}>*/}
                                                 {/*    <div className={'ts-col-lg-1'}/>*/}

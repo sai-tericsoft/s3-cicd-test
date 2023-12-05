@@ -613,6 +613,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             title: 'Invoice/Receipt No.',
             key: 'billing_number',
             width: 200,
+            fixed: 'left',
             align: 'center',
             render: (item: any) => {
                 let route = '';
@@ -696,6 +697,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             title: '',
             key: 'action',
             fixed: 'right',
+            align: 'right',
             dataIndex: 'action',
             render: (item: any) => {
                 let route = '';
@@ -1252,27 +1254,28 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                     />
                 </TabContentComponent>
                 {
-                    !clientId &&
-                    <TabContentComponent value={'consolidatedPayments'} selectedTab={currentTab}>
-                        <TableWrapperComponent
-                            url={APIConfig.CONSOLIDATED_PAYMENT_LIST.URL}
-                            extraPayload={
-                                clientListFilterState
-                            }
-                            noDataText={(<div className={'no-client-text-wrapper'}>
-                                <div>{clientListFilterState.search ?
-                                    <img src={ImageConfig.Search} alt="client-search"/> : ''}</div>
-                                <div
-                                    className={'no-client-heading mrg-bottom-15'}>{clientListFilterState.search ? 'Sorry, no results found!' : ''}</div>
-                                <div className={'no-client-description'}>
-                                    {clientListFilterState.search ? 'There is no payment available by the client name you have searched.' : 'Currently there is no consolidated payments.'}
-                                </div>
-                            </div>)}
-                            method={APIConfig.CONSOLIDATED_PAYMENT_LIST.METHOD}
-                            onSort={handleSort}
-                            columns={consolidatedPayments}
-                        />
-                    </TabContentComponent>
+                    !clientId && <div className={'consolidated-table-wrapper'}>
+                        <TabContentComponent value={'consolidatedPayments'} selectedTab={currentTab}>
+                            <TableWrapperComponent
+                                url={APIConfig.CONSOLIDATED_PAYMENT_LIST.URL}
+                                extraPayload={
+                                    clientListFilterState
+                                }
+                                noDataText={(<div className={'no-client-text-wrapper'}>
+                                    <div>{clientListFilterState.search ?
+                                        <img src={ImageConfig.Search} alt="client-search"/> : ''}</div>
+                                    <div
+                                        className={'no-client-heading mrg-bottom-15'}>{clientListFilterState.search ? 'Sorry, no results found!' : ''}</div>
+                                    <div className={'no-client-description'}>
+                                        {clientListFilterState.search ? 'There is no payment available by the client name you have searched.' : 'Currently there is no consolidated payments.'}
+                                    </div>
+                                </div>)}
+                                method={APIConfig.CONSOLIDATED_PAYMENT_LIST.METHOD}
+                                onSort={handleSort}
+                                columns={consolidatedPayments}
+                            />
+                        </TabContentComponent>
+                    </div>
                 }
             </TabsWrapperComponent>
             {/*Outstanding Balance Modal start*/}
