@@ -74,7 +74,7 @@ const InventoryListScreen = (props: InventoryListScreenProps) => {
             sortable: true,
             render: (item: any) => {
                 return <>
-                    {item?.quantity <=0 ? <ChipComponent className={'out-of-stock-chip'} label={'out of stock'}/> : item.quantity}
+                    {item?.quantity <=0 ? <ChipComponent className={'out-of-stock-chip'} label={'Out of stock'}/> : item.quantity}
                 </>
             }
         },
