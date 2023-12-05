@@ -66,7 +66,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
             key: "date",
             dataIndex: "date",
             align:'center',
-            width: 140,
+            width: 120,
             render: (item: any) => {
                 return CommonService.convertDateFormat(item.appointment_date, 'DD-MMM-YYYY')
             }
@@ -96,10 +96,10 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
             key: "last_name",
             dataIndex: "last_name",
             // sortable: true,
-            // width: 160,
+            width: 110,
             render: (item: any) => {
                 return <>
-                    {CommonService.extractName(item?.client_details)?.length > 20 ?
+                    {CommonService.extractName(item?.client_details)?.length > 10 ?
                         <ToolTipComponent
                             tooltip={item?.client_details && CommonService.extractName(item?.client_details)}
                             position={"top"}
@@ -113,6 +113,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                             <span className={item?.client_details?.is_alias_name_set ? "alias-name":""}> {item?.client_details && CommonService.extractName(item?.client_details)}</span>
                         </>
                     }
+
                     {/*{CommonService.extractName(item?.client_details)}*/}
                 </>
             }
@@ -180,8 +181,8 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
             title: "",
             dataIndex: "actions",
             key: "actions",
-            width: 120,
-            fixed: "left",
+            width: 100,
+            align: 'right',
             render: (item: any) => {
                 if (item?._id) {
                     return <div className={'link-component'} onClick={setOpenedAppointmentDetails.bind(null, item)}>

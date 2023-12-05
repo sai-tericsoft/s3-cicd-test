@@ -185,11 +185,13 @@
           .unpaid {
             color: #DE1C4E;
             background-color: #FFE2E9;
+            width: 75px !important;
           }
 
           .paid {
             color: #00534F;
             background-color: #E4F6EA;
+            width:70px !important;
           }
 
           &.green {
