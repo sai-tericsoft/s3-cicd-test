@@ -1,22 +1,40 @@
-.consolidated-billing-details-component{
-  .billing-details-container{
-    .payment-type-header{
+.consolidated-billing-details-component {
+  .billing-details-container {
+    .payment-type-header {
       color: #6D6D6D;
       padding-bottom: 9px;
       padding-right: 20px;
     }
-    .payment-type-header-total{
+
+    .payment-type-header-total {
       color: #212B36;
       padding-bottom: 24px;
       padding-right: 20px;
       font-weight: 500;
 
     }
-    .t-table-wrapper{
-      .t-table{
-        min-height: fit-content!important;
+
+    .t-table-wrapper {
+      .t-table {
+        min-height: fit-content !important;
+
+        .t-cell-receipt {
+          padding-left: 16px !important;
+        }
+
+        .t-cell-invoice {
+          padding-left: 16px !important;
+        }
+        .t-cell-actions{
+            padding-right: 16px !important;
+        }
       }
     }
+
+    .appointment-type {
+      margin-top: -14px;
+    }
+
     .alert-error {
       display: flex;
       flex-direction: row-reverse;
@@ -28,6 +46,7 @@
       margin-top: -12px;
       margin-bottom: 24px;
     }
+
     .no-alert {
       display: flex;
       flex-direction: row-reverse;
