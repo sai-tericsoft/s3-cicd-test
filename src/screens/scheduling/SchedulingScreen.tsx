@@ -171,6 +171,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
             align: 'center',
             width: 100,
             render: (item: any) => {
+                console.log(item?.status_details);
                 return <ChipComponent label={item?.status_details?.admin_title}
                                       className={item?.status_details?.code}
                 />

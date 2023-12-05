@@ -269,8 +269,8 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                     className = "products";
                 } else if (item?.payment_for === 'waived') {
                     className = "waived";
-                } else if (item?.payment_for === 'canceled') {
-                    className = "canceled";
+                } else if (item?.payment_for === 'cancelled') {
+                    className = "cancelled";
                 }
                 return <>
                     {item?.payment_for ? <ChipComponent
@@ -461,8 +461,8 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                     className = "products";
                 } else if (item?.payment_for === 'waived') {
                     className = "waived";
-                } else if (item?.payment_for === 'canceled') {
-                    className = "canceled";
+                } else if (item?.payment_for === 'cancelled') {
+                    className = "cancelled";
                 }
                 return <>
                     <ChipComponent
@@ -584,8 +584,8 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                     className = "products";
                 } else if (item?.payment_for === 'waived') {
                     className = "waived";
-                } else if (item?.payment_for === 'canceled') {
-                    className = "canceled";
+                } else if (item?.payment_for === 'cancelled') {
+                    className = "cancelled";
                 }
                 return <>
                     <ChipComponent
@@ -682,8 +682,8 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                     className = "products";
                 } else if (item?.payment_for === 'waived') {
                     className = "waived";
-                } else if (item?.payment_for === 'canceled') {
-                    className = "canceled";
+                } else if (item?.payment_for === 'cancelled') {
+                    className = "cancelled";
                 }
                 return <>
                     <ChipComponent
