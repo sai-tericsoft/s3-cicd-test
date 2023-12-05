@@ -185,13 +185,12 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
                             <div className="status-info">
                                 {details?.status === 'scheduled' && <>
                                     <div className="info-text">
-                                        Appointment Fees : ${CommonService.convertToDecimals(+(details?.amount))}
+                                        Appointment Fees: ${CommonService.convertToDecimals(+(details?.amount))}
                                     </div>
                                 </>}
                                 {details?.status === 'upcoming' && <>
                                     <div className="info-text">
-                                        Check-in Time
-                                        : {CommonService.getHoursAndMinutesFromMinutes(details?.start_time)}
+                                        Check-in Time: {CommonService.getHoursAndMinutesFromMinutes(details?.start_time)}
                                     </div>
                                 </>}
                                 {details?.status === 'engaged' && <>
@@ -202,23 +201,20 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
                                 </>}
                                 {details?.status === 'cancelled' && <>
                                     <div className="info-text">
-                                        Cancellation Fees
-                                        : {(details?.waive_cancellation_fee) ? 'Waived Off' : '$' + (CommonService.convertToDecimals(+(details?.amount)) || '0.00')}
+                                        Cancellation Fees: {(details?.waive_cancellation_fee) ? 'Waived Off' : '$' + (CommonService.convertToDecimals(+(details?.amount)) || '0.00')}
                                     </div>
                                 </>}
                                 {details?.status === 'no_show' && <>
                                     <div className="info-text">
-                                        No Show Fees :
+                                        No Show Fees:
                                         {(details?.waive_no_show_fee) ? ' Waived Off' : ' $' + (CommonService.convertToDecimals(+(details?.amount)) || '0.00')}
                                     </div>
                                 </>}
                                 {details?.status === 'completed' && <>
                                     <div className="info-text">
-                                        Session Start Time
-                                        : {details?.actual_start_time && CommonService.getHoursAndMinutesFromMinutes(details?.actual_start_time)}
+                                        Session Start Time: {details?.actual_start_time && CommonService.getHoursAndMinutesFromMinutes(details?.actual_start_time)}
                                         <br/>
-                                        Session End Time
-                                        : {details?.actual_end_time && CommonService.getHoursAndMinutesFromMinutes(details?.actual_end_time)}
+                                        Session End Time: {details?.actual_end_time && CommonService.getHoursAndMinutesFromMinutes(details?.actual_end_time)}
                                     </div>
                                 </>}
                             </div>
@@ -239,7 +235,7 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
                                     <div
                                         className="content-title">{moment(Math.floor(details.start_time / 60) + ':' + details.start_time % 60, 'hh:mm').format('hh:mm A')}</div>
                                 </div>
-                                <div className="block-content mrg-left-40">
+                                <div className="block-content mrg-left-30">
                                     {details?.status === 'scheduled' &&
                                         <MenuDropdownComponent menuBase={
                                             <ButtonComponent size={'large'} className={'select-dropdown'}
@@ -355,7 +351,7 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
                                                 <ImageConfig.MedicalServicesIcon/>&nbsp;&nbsp;Service
                                             </div>
                                             <div
-                                                className="item-value">{details?.category_details?.name || 'N/A'} / {details?.service_details?.name || 'N/A'}</div>
+                                                className="item-value">{details?.category_details?.name || 'N/A'} | {details?.service_details?.name || 'N/A'}</div>
                                         </div>
 
                                         <div
