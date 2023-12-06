@@ -313,7 +313,7 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
 
     useEffect(() => {
         if (medicalInterventionId && (!medicalInterventionDetails || (medicalInterventionDetails?._id !== medicalInterventionId))) {
-           dispatch(getMedicalInterventionDetails(medicalInterventionId));
+            dispatch(getMedicalInterventionDetails(medicalInterventionId));
         }
     }, [medicalInterventionId, medicalInterventionDetails, dispatch]);
 
@@ -343,19 +343,19 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
         const rom_config = medicalInterventionDetails?.rom_config;
         // const injury_details = medicalInterventionDetails?.medical_record_details?.injury_details;
         // if (romConfig?.length > 0) {
-            rom_config?.forEach((injury: any) => {
-                if (!romConfig?.find((item: any) => item?.body_part?._id === injury?.body_part_id)) {
-                    romConfig.push({
-                        body_part: injury?.body_part_details,
-                        rom_config: injury?.rom_config || [],
-                        selected_sides: injury?.selected_sides || [],
-                        mode: 'read'
-                    });
-                } else {
-                    const bodyPartIndex = romConfig.findIndex((item: any) => item?.body_part?._id === injury?.body_part_id);
-                    romConfig[bodyPartIndex].selected_sides.push(injury.body_side);
-                }
-            });
+        rom_config?.forEach((injury: any) => {
+            if (!romConfig?.find((item: any) => item?.body_part?._id === injury?.body_part_id)) {
+                romConfig.push({
+                    body_part: injury?.body_part_details,
+                    rom_config: injury?.rom_config || [],
+                    selected_sides: injury?.selected_sides || [],
+                    mode: 'read'
+                });
+            } else {
+                const bodyPartIndex = romConfig.findIndex((item: any) => item?.body_part?._id === injury?.body_part_id);
+                romConfig[bodyPartIndex].selected_sides.push(injury.body_side);
+            }
+        });
         // }
         // else {
         //     rom_config?.forEach((injury: any) => {
@@ -394,7 +394,7 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
                     };
                     bodyPartConfig?.selected_sides?.forEach((side: any) => {
                         const sideData = movementDataTemp?.[side];
-                        if (sideData &&(sideData?.arom || sideData?.prom || sideData?.strength)) {
+                        if (sideData && (sideData?.arom || sideData?.prom || sideData?.strength)) {
                             movementData.config[side] = {
                                 arom: sideData?.arom,
                                 prom: sideData?.prom,
@@ -402,17 +402,17 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
                             }
                         }
                     });
-                    if(movementDataTemp?.comments){
+                    if (movementDataTemp?.comments) {
                         movementData.config.comments = movementDataTemp?.comments;
                     }
-                    if(movementDataTemp?.commentsTemp){
+                    if (movementDataTemp?.commentsTemp) {
                         movementData.config.commentsTemp = movementDataTemp?.commentsTemp;
                     }
-                    if(Object.keys(movementData.config).length > 0) {
+                    if (Object.keys(movementData.config).length > 0) {
                         bodyPartData.rom_config.push(movementData);
                     }
                 });
-                if(bodyPartData?.rom_config?.length > 0){
+                if (bodyPartData?.rom_config?.length > 0) {
                     config.push(bodyPartData);
                 }
             });
