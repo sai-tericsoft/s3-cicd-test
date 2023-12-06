@@ -68,7 +68,7 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
             key: "body_part",
             align: 'center',
             dataIndex: "body_part",
-            width: 153,
+            width: 183,
             render: (item: any) => {
                 return <>{item?.injury_details?.length > 1 ?
                     <ToolTipComponent
@@ -87,7 +87,7 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
             key: "body_side",
             align: 'center',
             dataIndex: "body_side",
-            width: 130,
+            width: 100,
             render: (item: any) => {
                 return <>{item?.injury_details[0]?.body_side || "N/A"}</>
             }
@@ -108,7 +108,7 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
             title: "Last Provider",
             key: "last_provider",
             dataIndex: "last_provider",
-            align: "center",
+            align: "left",
             width: 140,
             sortable: true,
             render: (item: IClientBasicDetails) => {

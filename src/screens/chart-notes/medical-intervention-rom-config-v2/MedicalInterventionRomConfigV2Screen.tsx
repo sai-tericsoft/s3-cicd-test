@@ -419,7 +419,7 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
             setSubmitting(true);
             CommonService._chartNotes.SaveMedicalInterventionROMConfigAPICall(medicalInterventionId, {config})
                 .then((response: any) => {
-                    CommonService._alert.showToast(response.message || 'Saved ROM information', 'success');
+                    // CommonService._alert.showToast(response.message || 'Saved ROM information', 'success');
                     // (medicalRecordId && medicalInterventionId) && navigate(CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, medicalInterventionId) + `?last_position=${last_position}`);
                 })
                 .catch((error: any) => {
@@ -638,13 +638,13 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
                                                                                         color={"error"}
                                                                                         variant={"outlined"}
                                                                                         prefixIcon={
-                                                                                            <ImageConfig.DeleteIcon/>}
+                                                                                            <ImageConfig.CloseIcon/>}
                                                                                         onClick={() => {
                                                                                             handleBodyPartDelete(bodyPartId);
                                                                                         }}
                                                                                         disabled={isSubmitting || isBodyPartBeingDeleted}
                                                                                     >
-                                                                                        Delete
+                                                                                        Remove Body Part
                                                                                     </ButtonComponent>
                                                                                 </>}>
                                                                                 <div className={'body-part-rom-config'}>
@@ -747,7 +747,7 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
                                                     </ButtonComponent>
 
                                                 </div>
-                                                <div className={"h-v-center"}>
+                                                <div className={"h-v-center pdd-top-30"}>
                                                     <ButtonComponent
                                                         type={"submit"}
                                                         size={'large'}

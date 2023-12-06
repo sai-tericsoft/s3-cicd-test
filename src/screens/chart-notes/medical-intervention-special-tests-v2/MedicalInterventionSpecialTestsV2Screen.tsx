@@ -495,7 +495,7 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
             setSubmitting(true);
             CommonService._chartNotes.SaveMedicalInterventionSpecialTestAPICall(medicalInterventionId, {config})
                 .then((response: any) => {
-                    CommonService._alert.showToast(response.message || 'Saved Special Test information', 'success');
+                    // CommonService._alert.showToast(response.message || 'Saved Special Test information', 'success');
                     // medicalRecordId && navigate(CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, medicalInterventionId) + `?last_position=${last_position}`)
                 })
                 .catch((error: any) => {
@@ -519,7 +519,7 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
                 setIsBodyPartBeingDeleted(true);
                 CommonService._chartNotes.DeleteBodyPartUnderMedicalInterventionSpecialTestAPICall(medicalInterventionId, bodyPartId)
                     .then((response: any) => {
-                        CommonService._alert.showToast(response.message, 'success');
+                        // CommonService._alert.showToast(response.message, 'success');
                         setIsBodyPartBeingDeleted(false);
                         // remove body part from global rom config and rom form values
                         const specialTestConfig = globalSpecialTestConfig?.filter((item: any) => item?.body_part?._id !== bodyPartId);
@@ -701,13 +701,13 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
                                                                             color={"error"}
                                                                             variant={'outlined'}
                                                                             prefixIcon={
-                                                                                <ImageConfig.DeleteIcon/>}
+                                                                                <ImageConfig.CloseIcon/>}
                                                                             onClick={() => {
                                                                                 handleBodyPartDelete(bodyPartId);
                                                                             }}
                                                                             disabled={isSubmitting || isBodyPartBeingDeleted}
                                                                         >
-                                                                            Delete
+                                                                            Remove Body Part
                                                                         </ButtonComponent>
                                                                     </>}>
                                                                     <div className={'body-part-rom-config'}>

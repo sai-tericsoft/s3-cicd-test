@@ -86,7 +86,7 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
             "mode": mode
         })
             .then((response: IAPIResponseType<any>) => {
-                CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+                // CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                 // if (medicalInterventionDetails?.status === 'completed') {
                 //     navigate(CommonService._routeConfig.ViewMedicalIntervention(medicalRecordId, medicalInterventionId));
                 // } else {
@@ -276,10 +276,10 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
             <TableV2Component
                 data={selectedICDCodes}
                 columns={selectesICDCodesColumns}
-                noDataText={"No ICD Codes selected"}
+                noDataText={"No ICD Code selected"}
             />
 
-            <div className="text-center d-flex align-items-center justify-content-center">
+            <div className="text-center d-flex align-items-center justify-content-center mrg-top-30">
                 {(medicalRecordId && medicalInterventionId) && <LinkComponent
                     route={CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, medicalInterventionId) + `?last_position=${last_position}`}>
                     <ButtonComponent variant={"outlined"}

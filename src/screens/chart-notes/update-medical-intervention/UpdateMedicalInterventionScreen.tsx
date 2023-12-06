@@ -60,12 +60,13 @@ const ICDTableColumns: any = [
         title: 'ICD Code',
         dataIndex: 'icd_code',
         key: 'icd_code',
-        width: 180,
+        width: 100,
     },
     {
         title: 'Description',
         dataIndex: 'description',
         key: 'description',
+        width: 900,
     }
 ]
 
@@ -184,7 +185,7 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                         item?.config?.comments ?
                             <ToolTipComponent tooltip={item?.config?.comments}>
                                 <div
-                                    className={'comment-text'}>{item?.config?.comments?.length ? CommonService.capitalizeFirstLetter(item?.config?.comments?.substring(0, 60) + '...') : item?.config?.comments}
+                                    className={'comment-text'}>{item?.config?.comments?.length ? CommonService.capitalizeFirstLetter(item?.config?.comments?.substring(0, 80) + '...') : item?.config?.comments}
                                 </div>
                             </ToolTipComponent> : '-'
                     }
@@ -297,7 +298,7 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                                         {item?.config?.comments ?
                                             <ToolTipComponent tooltip={item?.config?.comments}>
                                                 <div
-                                                    className={'comment-text'}>{item?.config?.comments?.length ? CommonService.capitalizeFirstLetter(item?.config?.comments?.substring(0, 60) + '...') : item?.config?.comments}
+                                                    className={'comment-text'}> fgsfdgsf{item?.config?.comments?.length>80 ? CommonService.capitalizeFirstLetter(item?.config?.comments?.substring(0, 80) + '...') : item?.config?.comments}
                                                 </div>
                                             </ToolTipComponent> : '-'}
                                     </>
@@ -1017,7 +1018,7 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                                                                             size={"large"}
                                                                             className={'rom-special-test-icd-11-cta'}
                                                                         >
-                                                                            Medical Diagnosis / ICD Codes
+                                                                            Medical Diagnosis/ICD Codes
                                                                         </ButtonComponent>
                                                                     </LinkComponent>
                                                                 }
@@ -1027,7 +1028,7 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                                                                         <div className="card-styling">
                                                                             <CardComponent size={'sm'}
                                                                                            className={'icd-codes-header'}
-                                                                                           title={'Medical Diagnosis/ICD Codes:'}
+                                                                                           title={'Medical Diagnosis/ICD Code:'}
                                                                                            actions={
                                                                                                <DraftReadonlySwitcherComponent
                                                                                                    condition={true}

@@ -206,7 +206,7 @@ const ClientMedicalRecordDetailsComponent = (props: ClientMedicalDetailsComponen
             setIsMedicalInterventionBeingAdded(true);
             CommonService._chartNotes.AddNewMedicalInterventionAPICall(medicalRecordId, payload)
                 .then((response: IAPIResponseType<any>) => {
-                    CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+                    // CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                     navigate(CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, response?.data._id) + '?mode=add');
                     setIsMedicalInterventionBeingAdded(false);
                     setSelectedAppointment(null);

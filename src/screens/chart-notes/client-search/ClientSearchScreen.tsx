@@ -173,7 +173,7 @@ const ClientSearchScreen = (props: ClientSearchScreenProps) => {
                         <div
                             className={'no-client-heading mrg-bottom-15'}>{clientListFilterState.search ? 'Sorry, no results found!' : ''}</div>
                         <div className={'no-client-description'}>
-                            {clientListFilterState.search ? 'There is no client available by the name you have searched.' : 'Currently, there is no client added.'}
+                            {clientListFilterState.search ? 'There is no client available by the ID/Name/Phone you have searched' : 'Currently, there is no client added.'}
                         </div>
                     </div>)}
                     method={APIConfig.CLIENT_LIST.METHOD}

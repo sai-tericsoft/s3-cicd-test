@@ -274,11 +274,11 @@ const EditMedicalRecordComponent = (props: EditMedicalRecordComponentProps) => {
                                                                     disabled={values?.injury_details?.length === 1}
                                                                     color={"error"}
                                                                     variant={"outlined"}
-                                                                    prefixIcon={<ImageConfig.DeleteIcon/>}
+                                                                    prefixIcon={<ImageConfig.CloseIcon height={'16'} width={'16'}/>}
                                                                     onClick={() => {
                                                                         arrayHelpers.remove(index);
                                                                     }}>
-                                                                    Delete
+                                                                    Remove Body Part
                                                                 </ButtonComponent>
                                                             </div>
                                                         }
@@ -358,7 +358,7 @@ const EditMedicalRecordComponent = (props: EditMedicalRecordComponentProps) => {
                                                 )
                                             })}
                                             {
-                                                <div className={'add-body-part-button'}>
+                                                <div>
                                                     <ButtonComponent
                                                         onClick={() => {
                                                             arrayHelpers.push(MEDICAL_RECORD_BODY_PART);

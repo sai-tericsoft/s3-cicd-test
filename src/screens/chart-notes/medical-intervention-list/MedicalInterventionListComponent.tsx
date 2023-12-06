@@ -124,7 +124,7 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
             key: 'status',
             dataIndex: 'status',
             align: 'center',
-            width: 110,
+            width: 130,
             sortable: true,
             render: (item: any) => {
                 return <ChipComponent label={item?.status}
@@ -135,7 +135,7 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
             title: 'Posted By',
             key: 'posted_by',
             dataIndex: 'name',
-            width: 125,
+            width: 135,
             sortable: true,
             render: (item: any) => {
                 return (CommonService.capitalizeFirstLetter(item?.posted_by?.first_name) + " " + CommonService.capitalizeFirstLetter(item?.posted_by?.last_name))
@@ -190,7 +190,7 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
                 method={APIConfig.MEDICAL_RECORD_CONSOLIDATED_INTERVENTIONS_AND_ATTACHMENTS.METHOD}
                 columns={MedicalInterventionListColumns}
                 refreshToken={refreshToken}
-                noDataText={'Currently, there is no note added to this medical record.'}
+                noDataText={'No note added to this record'}
                 onSort={handleClientMedicalListSort}
                 extraPayload={medicalRecordListFilterState}
             />
