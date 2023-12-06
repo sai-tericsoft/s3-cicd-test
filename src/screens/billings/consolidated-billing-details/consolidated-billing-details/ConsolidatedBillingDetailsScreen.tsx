@@ -666,7 +666,7 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                                                 <div className={'ts-col-lg-3'}>
                                                     <DataLabelValueComponent label={'Client Name'}>
                                                         <div className={'d-flex'}>
-                                                            {CommonService.extractName(billDetail?.client_details) + (" ") + "(ID: " + billDetail?.client_details?.client_id + ")"}&nbsp;
+                                                            {CommonService.extractName(billDetail?.client_details) + " (ID: " + billDetail?.client_details?.client_id + ")"}&nbsp;
                                                             {/*<LinkComponent>View Details</LinkComponent>*/}
                                                         </div>
                                                     </DataLabelValueComponent>
