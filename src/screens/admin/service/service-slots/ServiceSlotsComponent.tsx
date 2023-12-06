@@ -350,7 +350,7 @@ const ServiceSlotsComponent = (props: ServiceSlotsComponentProps) => {
 
     const onSlotAdd = useCallback(
         (values: any, {setErrors, setSubmitting}: FormikHelpers<any>) => {
-            const payload = {...values};
+            const payload = {...values,service_id:serviceId,facility_id:facilityId,provider_id:userId};
             if (serviceId) {
                 if (payload.is_same_slots) {
                     delete payload.scheduled_slots;
@@ -416,7 +416,7 @@ const ServiceSlotsComponent = (props: ServiceSlotsComponentProps) => {
 
                 // Perform the API request with the updated payload
                 userId && CommonService._user
-                    .addUserSlots(userId, facilityId, payload)
+                    .addUserSlotsForService( payload)
                     .then((response) => {
                         setSubmitting(false);
                         // navigate(CommonService._routeConfig.UserList());

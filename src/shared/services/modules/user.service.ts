@@ -69,6 +69,10 @@ const addUserSlots = (userId: string, facilityId: string, payload: any) => {
     return ApiService[APIConfig.ADD_USER_SLOTS.METHOD](APIConfig.ADD_USER_SLOTS.URL(userId, facilityId), payload);
 }
 
+const addUserSlotsForService = (payload: any) => {
+    return ApiService[APIConfig.ADD_USER_SLOTS_FOR_SERVICE.METHOD](APIConfig.ADD_USER_SLOTS_FOR_SERVICE.URL, payload);
+}
+
 const deleteUser = (userId: string, payload: any) => {
     return ApiService[APIConfig.DELETE_USER.METHOD](APIConfig.DELETE_USER.URL(userId), payload);
 }
@@ -104,7 +108,8 @@ const UserService = {
     slotDetailsAPICall,
     NavigateToSettingsSlotsEdit,
     NavigateToUserSlotsEdit,
-    getUserGlobalSlots
+    getUserGlobalSlots,
+    addUserSlotsForService
 }
 
 export default UserService;

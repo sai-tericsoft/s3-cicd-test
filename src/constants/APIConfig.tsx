@@ -969,6 +969,10 @@ const APIConfig: IAPIConfig = {
         URL: (userId: any, facilityId: any) => ENV.API_URL + '/user/' + userId + '/facility/' + facilityId + '/globalSlots',
         METHOD: "post"
     },
+    ADD_USER_SLOTS_FOR_SERVICE: {
+        URL:  ENV.API_URL + '/addServiceToProvider',
+        METHOD: "post"
+    },
 
     DELETE_USER: {
         URL: (userId: any) => ENV.API_URL + '/user/' + userId,
