@@ -165,7 +165,8 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
             {!details && isDetailsLoaded && <ErrorComponent errorText={'Failed to load details'}/>}
             {details && isDetailsLoaded && <>
                 {
-                    step === 'details' && <div className={'appointment-details-wrapper'}>
+                    step === 'details' &&
+                    <div className={'appointment-details-wrapper'}>
                         <div className="drawer-header">
                             {/*<ToolTipComponent tooltip={"Close"} position={"left"}>*/}
                             {/*    <div className="drawer-close"*/}
@@ -195,13 +196,14 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
                                 </>}
                                 {details?.status === 'engaged' && <>
                                     <div className="info-text">
-                                        Session Start Time
-                                        : {CommonService.getHoursAndMinutesFromMinutes(details?.actual_start_time)}
+                                        Session Start
+                                        Time: {CommonService.getHoursAndMinutesFromMinutes(details?.actual_start_time)}
                                     </div>
                                 </>}
                                 {details?.status === 'cancelled' && <>
                                     <div className="info-text">
-                                        Cancellation Fees: {(details?.waive_cancellation_fee) ? 'Waived Off' : '$' + (CommonService.convertToDecimals(+(details?.amount)) || '0.00')}
+                                        Cancellation
+                                        Fees: {(details?.waive_cancellation_fee) ? 'Waived Off' : '$' + (CommonService.convertToDecimals(+(details?.amount)) || '0.00')}
                                     </div>
                                 </>}
                                 {details?.status === 'no_show' && <>
@@ -212,9 +214,12 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
                                 </>}
                                 {details?.status === 'completed' && <>
                                     <div className="info-text">
-                                        Session Start Time: {details?.actual_start_time && CommonService.getHoursAndMinutesFromMinutes(details?.actual_start_time)}
+                                        <div className={'pdd-bottom-5'}>Session Start
+                                            Time: {details?.actual_start_time && CommonService.getHoursAndMinutesFromMinutes(details?.actual_start_time)}
+                                        </div>
                                         <br/>
-                                        Session End Time: {details?.actual_end_time && CommonService.getHoursAndMinutesFromMinutes(details?.actual_end_time)}
+                                        Session End
+                                        Time: {details?.actual_end_time && CommonService.getHoursAndMinutesFromMinutes(details?.actual_end_time)}
                                     </div>
                                 </>}
                             </div>
@@ -223,7 +228,6 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
                             </div>
                         </div>
                         <div className="details-header">
-
                             <div className="block-body pdd-top-20 pdd-bottom-5">
                                 <div className="block-content">
                                     <ImageConfig.CalendarIcon/>
@@ -236,7 +240,7 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
                                         className="content-title">{moment(Math.floor(details.start_time / 60) + ':' + details.start_time % 60, 'hh:mm').format('hh:mm A')}</div>
                                 </div>
                                 <div className="block-content mrg-left-30">
-                                    {details?.status === 'scheduled' &&
+                                    {(details?.status === 'scheduled' || details?.status === 'upcoming') &&
                                         <MenuDropdownComponent menuBase={
                                             <ButtonComponent size={'large'} className={'select-dropdown'}
                                                              variant={'outlined'} fullWidth={true}>

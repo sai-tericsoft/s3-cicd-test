@@ -56,7 +56,7 @@ const addAppointmentValidationSchema = Yup.object().shape({
 });
 
 const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) => {
-    const {onComplete,onClose,onBack, preFillData, client, isLoading} = props;
+    const {onComplete, onClose, onBack, preFillData, client, isLoading} = props;
     const {appointmentTypes} = useSelector((state: IRootReducerState) => state.staticData);
     const [clientCasesList, setClientCasesList] = useState<any[] | null>(null);
     const [serviceCategoryList, setServiceCategoryList] = useState<any[] | null>(null);
@@ -100,7 +100,7 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
     );
 
     const getAvailableDatesList = useCallback(
-        (providerId: string, serviceId: string, facilityId: string,duration?:any) => {
+        (providerId: string, serviceId: string, facilityId: string, duration?: any) => {
             setIsDatesListLoading(true);
             setAvailableDates([]);
             const payload = {
@@ -208,7 +208,8 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
                 service_id: serviceId,
                 facility_id: facilityId,
                 duration: duration,
-                timezone: momentTimezone.tz.guess(),            }
+                timezone: momentTimezone.tz.guess(),
+            }
             CommonService._user.getUserAvailableTimesList(providerId, payload)
                 .then((response: IAPIResponseType<any>) => {
                     setAvailableRawTimes(response.data || []);
@@ -672,7 +673,14 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
                                                             required={true}
                                                             disabled={isClientCasesListLoading}
                                                             options={clientCasesList || []}
-                                                            displayWith={item => (item?.created_at && CommonService.convertDateFormat2(item?.created_at) + " - " + (item?.injury_details.map((injury: any, index: number) => (injury?.body_part_details?.name + "(" + injury?.body_side + ")"))).join(' | '))}
+                                                            displayWith={item => (
+                                                                item.created_at && CommonService.convertDateFormat2(item.created_at) + " - " +
+                                                                (item.injury_details.length > 3
+                                                                        ?
+                                                                        item.injury_details.slice(0, 3).map((injury: any) => injury.body_part_details?.name + " (" + injury.body_side + ") ").join(', ') + " ..."
+                                                                        : item.injury_details.map((injury: any) => injury.body_part_details?.name + " (" + injury.body_side + ") ").join(', ')
+                                                                )
+                                                            )}
                                                             valueExtractor={(option: any) => option}
                                                             label={'Case'}
                                                             fullWidth={true}
@@ -729,7 +737,7 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
                                                                 setFieldTouched('date', false);
                                                                 setFieldValue('time', undefined);
                                                                 setFieldTouched('time', false);
-                                                                getAvailableDatesList(values.provider._id, values.service._id, value._id,values?.duration);
+                                                                getAvailableDatesList(values.provider._id, values.service._id, value._id, values?.duration);
                                                             }
                                                         }}
                                                         fullWidth={true}

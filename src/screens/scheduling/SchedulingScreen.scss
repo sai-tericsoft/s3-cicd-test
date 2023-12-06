@@ -8,6 +8,7 @@
     justify-content: space-between;
     align-content: center;
 
+
     .scheduling-header-search-wrapper {
       flex: 1;
       max-width: 40%;
@@ -176,8 +177,15 @@
           margin-left: 10px;
           flex: 1;
 
+          .MuiPaper-root-MuiMenu-paper-MuiPaper-root-MuiPopover-paper {
+            height: 150px !important;
+            border: 1px solid red;
+
+          }
+
           .select-component {
             margin-bottom: 0px !important;
+
           }
 
           .MuiToggleButton-primary {
@@ -289,8 +297,10 @@
         }
       }
     }
-    .scheduling-calendar-right-side-space{
+
+    .scheduling-calendar-right-side-space {
       width: 16px;
+
       .scheduling-calendar-day-wise-time-header {
         background-color: #E1EBEA;
         min-height: 48px;
@@ -306,7 +316,7 @@
       width: calc(100% - 80px);
       overflow: auto;
 
-      .scheduling-calendar-day-wise-item{
+      .scheduling-calendar-day-wise-item {
         width: 25%;
       }
 
@@ -317,7 +327,7 @@
         }
 
         &.view-3day {
-          width:calc(100% / 3);
+          width: calc(100% / 3);
         }
 
         &.view-5day {
@@ -389,10 +399,12 @@
               top: 50%;
               z-index: 1;
             }
+
             .scheduling-calendar-hour-block-content:has(.appointment) {
               flex-direction: column;
               column-gap: 1px;
             }
+
             .scheduling-calendar-hour-block-content {
               position: relative;
               z-index: 2;
@@ -566,7 +578,7 @@
   }
 }
 
-  .text-date-picker {
-    position: absolute !important;
-    visibility: hidden;
-  }
+.text-date-picker {
+  position: absolute !important;
+  visibility: hidden;
+}

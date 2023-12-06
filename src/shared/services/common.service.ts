@@ -152,7 +152,8 @@ const convertDateFormat = (date: Date, format: string = 'YYYY-MM-DD') => {
 const convertDateFormat2 = (date: Date, format: string = 'DD-MMM-YYYY') => {
     return moment(date).format(format);
 }
-
+//item?.created_at && CommonService.convertDateFormat2(item?.created_at) + " - " + (item?.injury_details.map((injury: any, index: number) =>
+// (injury?.body_part_details?.name + "(" + injury?.body_side + ")"))).join(','))
 
 const generateUseCaseFromCaseDetails = (case_details: any) => {
     return `${CommonService.convertDateFormat2(case_details?.case_date)} - ${case_details?.injury_details?.map((bodyPart: any) => {

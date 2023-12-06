@@ -43,6 +43,25 @@
       margin-bottom: 24px;
     }
 
+    .details-header {
+      .MuiPaper-root {
+        margin-left: 4px !important;
+      }
+
+      .block-body {
+        .MuiPaper-root {
+          margin-left: 4px !important;
+        }
+
+        .block-content {
+          .MuiPaper-root {
+            margin-left: 4px !important;
+          }
+
+        }
+      }
+    }
+
   }
 
 
@@ -57,7 +76,8 @@
       display: flex;
       align-items: center;
       color: #212B36;
-      .info-text{
+
+      .info-text {
         font-weight: 500;
       }
     }
@@ -114,9 +134,10 @@
         margin-right: 2px;
         white-space: nowrap;
 
-        &.select-dropdown{
+        &.select-dropdown {
           margin-left: 48px;
         }
+
         .content-title {
           margin-left: 10px;
           margin-right: 32px;
@@ -145,7 +166,8 @@
       .form-heading {
         margin-right: 210px;
       }
-      .status-heading{
+
+      .status-heading {
         margin-right: 43px;
       }
     }
@@ -153,12 +175,15 @@
     .details-body-block {
       border-top: 1px solid #E7E8EA;
       padding: 8px 0px;
-      .minutes-chip{
+
+      .minutes-chip {
         text-transform: lowercase;
       }
+
       .details-body-item {
         display: flex;
         align-items: center;
+
         .item-heading {
           flex: 1;
           font-weight: 400;
@@ -190,7 +215,7 @@
           .paid {
             color: #00534F;
             background-color: #E4F6EA;
-            width:70px !important;
+            width: 70px !important;
           }
 
           &.green {
@@ -204,9 +229,11 @@
       }
     }
   }
+
   .details-box-bottom {
-  margin-bottom: 58px;
+    margin-bottom: 58px;
     border: 1px solid #E7E8EA;
+
     .details-header {
       background: #F2F6F6;
       padding: 12px 12px 24px;
@@ -217,7 +244,8 @@
       .form-heading {
         margin-right: 210px;
       }
-      .status-heading{
+
+      .status-heading {
         margin-right: 43px;
       }
     }
