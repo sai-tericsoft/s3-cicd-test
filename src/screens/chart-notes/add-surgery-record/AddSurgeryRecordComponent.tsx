@@ -25,7 +25,7 @@ interface AddSurgeryRecordComponentProps {
     medicalRecordDetails: any;
     onSave: () => void;
     onCancel?: () => void;
-    setRefreshToken?:any;
+    setRefreshToken?: any;
 
 }
 
@@ -44,7 +44,7 @@ const addSurgeryRecordValidationSchema = Yup.object().shape({
 
 const AddSurgeryRecordComponent = (props: AddSurgeryRecordComponentProps) => {
 
-    const {medicalRecordDetails, onSave,setRefreshToken} = props;
+    const {medicalRecordDetails, onSave, setRefreshToken} = props;
     const {currentUser} = useSelector((state: IRootReducerState) => state.account);
     const [isSurgeryRecordAddInProgress, setIsSurgeryRecordAddInProgress] = useState<boolean>(false);
 
@@ -54,7 +54,7 @@ const AddSurgeryRecordComponent = (props: AddSurgeryRecordComponentProps) => {
             values.reported_by = values?.reported_by?._id;
             const formData = CommonService.getFormDataFromJSON(values);
             if (values.surgery_date) {
-                formData.append('surgery_date',values?.surgery_date);
+                formData.append('surgery_date', values?.surgery_date);
             }
             CommonService._chartNotes.AddSurgeryRecordAPICall(medicalRecordDetails._id, formData)
                 .then((response: IAPIResponseType<any>) => {
@@ -70,7 +70,7 @@ const AddSurgeryRecordComponent = (props: AddSurgeryRecordComponentProps) => {
                     setIsSurgeryRecordAddInProgress(false);
                 })
         }
-    }, [medicalRecordDetails, onSave,setRefreshToken]);
+    }, [medicalRecordDetails, onSave, setRefreshToken]);
 
     return (
         <div className={'edit-medical-record-component'}>
@@ -82,7 +82,7 @@ const AddSurgeryRecordComponent = (props: AddSurgeryRecordComponentProps) => {
                 validateOnBlur={true}
                 enableReinitialize={true}
                 validateOnMount={true}>
-                {({values, isValid, errors,touched, setFieldValue, validateForm}) => {
+                {({values, isValid, errors, touched, setFieldValue, validateForm}) => {
                     // eslint-disable-next-line react-hooks/rules-of-hooks
                     useEffect(() => {
                         validateForm();
@@ -136,9 +136,7 @@ const AddSurgeryRecordComponent = (props: AddSurgeryRecordComponentProps) => {
                                         )
                                     }
                                 </Field>
-                                <div className={'attachment-heading'}>
-                                    Attachment
-                                </div>
+
                                 {/*<FieldArray*/}
                                 {/*    name="documents"*/}
                                 {/*    render={arrayHelpers => (*/}
@@ -171,6 +169,9 @@ const AddSurgeryRecordComponent = (props: AddSurgeryRecordComponentProps) => {
                                 <>
                                     {
                                         (!values.attachment) && <>
+                                            <div className={'attachment-heading'}>
+                                               Upload Attachment
+                                            </div>
                                             <FilePickerComponent maxFileCount={1}
                                                                  onFilesDrop={(acceptedFiles, rejectedFiles) => {
                                                                      if (acceptedFiles && acceptedFiles.length > 0) {
@@ -178,7 +179,7 @@ const AddSurgeryRecordComponent = (props: AddSurgeryRecordComponentProps) => {
                                                                          setFieldValue('attachment', file);
                                                                      }
                                                                  }}
-                                                                 acceptedFileTypes={[ "png", "jpeg", "pdf"]}
+                                                                 acceptedFileTypes={["png", "jpeg", "pdf"]}
                                                                  acceptedFilesText={"PNG, JPEG and PDF files are allowed upto 100MB"}
                                             />
                                             {

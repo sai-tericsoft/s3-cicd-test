@@ -165,7 +165,8 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
                 // showLottie: true,
                 confirmationTitle: "DELETE ATTACHMENT",
                 confirmationDescription: <div className="delete-document">
-                    <div className={'delete-document-text text-center '}>Are you sure you want to delete this attachment?
+                    <div className={'delete-document-text text-center '}>Are you sure you want to delete this
+                        attachment?
                     </div>
                 </div>
             }).then((response: any) => {
@@ -274,11 +275,11 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
     }, [medicalRecordId, surgeryRecordId, navigate]);
 
     const handlePrint = useCallback(() => {
-        const payload={
+        const payload = {
             timezone: momentTimezone.tz.guess(),
         }
         if (medicalRecordId && surgeryRecordId) {
-            CommonService._chartNotes.PrintSurgeryRecord(medicalRecordId, surgeryRecordId,payload)
+            CommonService._chartNotes.PrintSurgeryRecord(medicalRecordId, surgeryRecordId, payload)
                 .then((res: any) => {
                     const attachment = {
                         type: 'application/pdf',
@@ -510,26 +511,26 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
                         <div className={'ts-row'}>
                             <div className={'ts-col-md-3'}>
                                 <DataLabelValueComponent label={'Date of Surgery'}>
-                                    {CommonService.convertDateFormat2(surgeryRecordDetails?.surgery_date) || "-"}
+                                    {CommonService.convertDateFormat2(surgeryRecordDetails?.surgery_date) || "N/A"}
                                 </DataLabelValueComponent>
                             </div>
                             <div className={'ts-col-md-2'}></div>
                             <div className={'ts-col-md-2'}>
                                 <DataLabelValueComponent label={'Name of Surgeon'}>
-                                    {surgeryRecordDetails?.surgeon_name || "-"}
+                                    {surgeryRecordDetails?.surgeon_name || "N/A"}
                                 </DataLabelValueComponent>
                             </div>
                             <div className={'ts-col-md-3'}></div>
                             <div className={'ts-col-md-2'}>
                                 <DataLabelValueComponent label={'Reported By'}>
-                                    {(surgeryRecordDetails?.reported_by_details?.first_name || '-') + ' ' + (surgeryRecordDetails?.reported_by_details?.last_name || '')}
+                                    {(surgeryRecordDetails?.reported_by_details?.first_name || '"N/A"') + ' ' + (surgeryRecordDetails?.reported_by_details?.last_name || '')}
                                 </DataLabelValueComponent>
                             </div>
                         </div>
                         <div className={'ts-row'}>
                             <div className={'ts-col-md-12'}>
                                 <DataLabelValueComponent label={'Brief Surgical Details'}>
-                                    {surgeryRecordDetails?.details || "-"}
+                                    {surgeryRecordDetails?.details || "N/A"}
                                 </DataLabelValueComponent>
                             </div>
                         </div>
@@ -582,7 +583,6 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
                             }, [validateForm, values]);
                             return (
                                 <Form className="t-form" noValidate={true}>
-                                    <FormControlLabelComponent label={"Attachment"} className={'attachment-heading'}/>
                                     <div className={"t-surgery-record-drawer-form-controls"}>
                                         <FieldArray
                                             name="attachment"
@@ -600,18 +600,23 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
                                                     })}
                                                 </>
                                             )}/>
-                                        {values?.attachment.length === 0 && <FilePickerComponent
-                                            maxFileCount={1}
-                                            id={"sv_upload_btn"}
-                                            onFilesDrop={(acceptedFiles, rejectedFiles) => {
-                                                if (acceptedFiles && acceptedFiles.length > 0) {
-                                                    const file = acceptedFiles[0];
-                                                    setFieldValue(`attachment[${values?.attachment?.length || 0}]`, file);
-                                                }
-                                            }}
-                                            acceptedFileTypes={[ "png", "jpeg", "pdf"]}
-                                            acceptedFilesText={"PNG, JPEG and PDF files are allowed upto 100MB"}
-                                        />}
+                                        {values?.attachment.length === 0 && <>
+                                            <FormControlLabelComponent label={"Upload Attachment"}
+                                                                       className={'attachment-heading'}/>
+
+                                            <FilePickerComponent
+                                                maxFileCount={1}
+                                                id={"sv_upload_btn"}
+                                                onFilesDrop={(acceptedFiles, rejectedFiles) => {
+                                                    if (acceptedFiles && acceptedFiles.length > 0) {
+                                                        const file = acceptedFiles[0];
+                                                        setFieldValue(`attachment[${values?.attachment?.length || 0}]`, file);
+                                                    }
+                                                }}
+                                                acceptedFileTypes={["png", "jpeg", "pdf"]}
+                                                acceptedFilesText={"PNG, JPEG and PDF files are allowed upto 100MB"}
+                                            /></>}
+
                                     </div>
                                     <div className="t-form-actions mrg-top-20">
                                         <ButtonComponent
