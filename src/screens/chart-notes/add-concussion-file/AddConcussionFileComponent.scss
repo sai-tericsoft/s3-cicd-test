@@ -5,6 +5,10 @@
     display: flex;
     justify-content: space-between;
     margin-bottom: 10px;
+    .back-btn{
+      width: 50px;
+      border-radius: 50%;
+    }
     .drawer-close {
       cursor: pointer;
       position: relative;

@@ -155,8 +155,8 @@ const AddConcussionFileComponent = (props: AddConcussionFileComponentProps) => {
                                 <Form className="t-form" noValidate={true}>
                                     <div className="t-form-controls">
                                         <InputComponent className="t-form-control"
-                                                        label={'Intervention Linked To'}
-                                                        placeholder={'Intervention Linked To'}
+                                                        label={'Intervention Linked to'}
+                                                        placeholder={'Intervention Linked to'}
                                                         value={CommonService.generateInterventionNameFromMedicalRecord(medicalRecordDetails)}
                                                         required={true}
                                                         fullWidth={true}

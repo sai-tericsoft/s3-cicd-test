@@ -43,7 +43,7 @@ const CouponAddInitialValues: any = {
 
 
 const couponAddValidationSchema = Yup.object({
-    title: Yup.string().required('Title is required and must have at least 3 characters'),
+    title: Yup.string().required('Title is required and must have at least 2 characters'),
     code: Yup.string().required('Coupon Code is required'),
     start_date: Yup.string().required('Start Date is required'),
     end_date: Yup.string().required('End Date is required'),

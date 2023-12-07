@@ -116,7 +116,7 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
             width: 170,
             sortable: true,
             render: (item: any) => {
-                return <>{CommonService.transformTimeStamp(item?.updated_at)}</>
+                return <>{CommonService.transformTimeStamp2(item?.updated_at)}</>
             }
         },
         {

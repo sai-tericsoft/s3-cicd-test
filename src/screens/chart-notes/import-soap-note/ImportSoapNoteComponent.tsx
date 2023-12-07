@@ -139,7 +139,7 @@ const ImportSoapNoteComponent = (props: ImportSoapNoteComponentProps) => {
                                 columns={medicalInterventionListColumns}
                                 loading={isInterventionListLoading}/>
             </div>
-            <ButtonComponent fullWidth={true} className={'mrg-top-20'}
+            <ButtonComponent fullWidth={true} className={'mrg-top-20 mrg-bottom-10'}
                              disabled={!selectedSoapNote || isSoapNoteImportBeingImported}
                              isLoading={isSoapNoteImportBeingImported}
                              onClick={() => handleImportSoapNote(selectedSoapNote)}>Import</ButtonComponent>

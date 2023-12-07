@@ -155,7 +155,7 @@ const TransferSoapNoteComponent = (props: TransferSoapNoteComponentProps) => {
                 <span className={'client-case-name-title'}>Client:</span> <span className={selectedClient?.is_alias_name_set ? "alias-name":""}>  {CommonService.extractName(selectedClient)}</span>
             </div>
             <div>
-                <span className={'client-case-name-title'}>Case:</span> <span>{CommonService.generateInterventionNameFromMedicalRecord(selectedMedicalRecord)}</span>
+                <span className={'client-case-name-title '}>Case:</span> <span>{CommonService.generateInterventionNameFromMedicalRecord(selectedMedicalRecord)}</span>
             </div>
         </div>
         }).then(() => {
@@ -236,7 +236,7 @@ const TransferSoapNoteComponent = (props: TransferSoapNoteComponentProps) => {
                                                 columns={clientListColumns}
                                                 loading={isClientListLoading}
                                                 hideHeader={false}
-                                                noDataText={'No Client Found'}
+                                                noDataText={'No client available by the Name/ID you have searched'}
                                                 onRowClick={(row: any) => {
                                                     setSelectedClient(row);
                                                 }}
@@ -280,7 +280,7 @@ const TransferSoapNoteComponent = (props: TransferSoapNoteComponentProps) => {
                                     <TableComponent
                                         data={medicalRecordList}
                                         loading={isMedicalRecordListLoading}
-                                        noDataText={'Currently, there are no open cases for this client.'}
+                                        noDataText={'No case is open for this client'}
                                         columns={medicalRecordColumns}
                                         onRowClick={(row) => {
                                             setSelectedMedicalRecord(row)

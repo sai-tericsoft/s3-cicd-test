@@ -90,16 +90,16 @@ const AddDryNeedlingFileComponent = (props: AddDryNeedlingFileComponentProps) =>
                             <Form className="t-form" noValidate={true}>
                                 <div className="t-form-controls">
                                     <InputComponent className="t-form-control"
-                                                    label={'Intervention Linked To'}
-                                                    placeholder={'Intervention Linked To'}
+                                                    label={'Intervention Linked to'}
+                                                    placeholder={'Intervention Linked to'}
                                                     value={CommonService.generateInterventionNameFromMedicalRecord(medicalRecordDetails)}
                                                     required={true}
                                                     fullWidth={true}
                                                     disabled={true}
                                     />
                                     <InputComponent className="t-form-control"
-                                                    label={'Attached By'}
-                                                    placeholder={'Attached By'}
+                                                    label={'Attached by'}
+                                                    placeholder={'Attached by'}
                                                     value={currentUser?.first_name + " " + currentUser?.last_name}
                                                     required={true}
                                                     fullWidth={true}

@@ -15,7 +15,6 @@ import FormikDatePickerComponent from "../../form-controls/formik-date-picker/Fo
 import commonService from "../../../services/common.service";
 import momentTimezone from "moment-timezone";
 import {useLocation} from "react-router-dom";
-
 interface BookAppointmentFormComponentProps {
     onClose?: () => void,
     onComplete?: (values: any) => void,
