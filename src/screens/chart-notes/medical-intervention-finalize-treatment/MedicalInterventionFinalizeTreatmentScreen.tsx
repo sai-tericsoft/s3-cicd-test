@@ -299,12 +299,12 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
     useEffect(() => {
         if (medicalRecordId && medicalInterventionId) {
             dispatch(setCurrentNavParams("Finalize Treatment", null, () => {
-                if (medicalInterventionDetails?.status === 'completed') {
-                    navigate(CommonService._routeConfig.ViewMedicalIntervention(medicalRecordId, medicalInterventionId));
-
-                } else {
-                    navigate(CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, medicalInterventionId));
-                }
+                // if (medicalInterventionDetails?.status === 'completed') {
+                //     navigate(CommonService._routeConfig.ViewMedicalIntervention(medicalRecordId, medicalInterventionId));
+                navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId));
+                // } else {
+                //     navigate(CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, medicalInterventionId));
+                // }
             }));
         }
     }, [dispatch, navigate, medicalInterventionDetails, medicalRecordId, medicalInterventionId]);

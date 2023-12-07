@@ -13,7 +13,7 @@ interface TableV2ComponentProps extends ITableComponentProps {
     errored?: boolean;
     noDataText?: string;
     showFooter?: boolean;
-    footer?: React.ReactNode;
+    // footer?: React.ReactNode;
 }
 
 const TableV2Component = (props: TableV2ComponentProps) => {
@@ -34,12 +34,12 @@ const TableV2Component = (props: TableV2ComponentProps) => {
         canExpandRow,
         expandRowRenderer,
         hideHeader,
-        footer
+        // footer
     } = props;
 
     const [tableColumns, setTableColumns] = useState<any>(props.columns);
     const size = props.size || "large";
-    const showFooter = props.showFooter || false;
+    // const showFooter = props.showFooter || false;
 
     const defaultRowKey = useCallback((item: any, index?: number) => item?._id || index, []);
 
@@ -124,7 +124,7 @@ const TableV2Component = (props: TableV2ComponentProps) => {
                 showSorterTooltip={false}
                 onChange={handleTableChange}
                 pagination={false}
-                footer={showFooter ? () => footer : undefined}
+                // footer={showFooter ? () => footer : undefined}
             />
         </div>
     );

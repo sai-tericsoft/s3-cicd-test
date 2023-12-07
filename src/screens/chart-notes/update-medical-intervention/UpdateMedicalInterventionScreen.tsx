@@ -435,14 +435,12 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
 
     const handleDiscardNote = useCallback(() => {
         CommonService.onConfirm({
-            image: ImageConfig.Confirm,
-            // showLottie: true,
+            image: ImageConfig.PopupLottie,
+            showLottie: true,
             confirmationTitle: "DISCARD SOAP NOTE",
-            // confirmationSubTitle: "\n"+
-            //     "",
             confirmationDescription: <div className={'discard-soap'}>
-                <div>Are you sure you want to permanently discard this</div>
-                <div>SOAP note? This action cannot be undone.</div>
+                <div>Are you sure you want to permanently discard this<br/>
+                SOAP note? This action cannot be undone.</div>
             </div>
         }).then(() => {
             (medicalInterventionId) && CommonService._chartNotes.DiscardSoapNote(medicalInterventionId, {})
