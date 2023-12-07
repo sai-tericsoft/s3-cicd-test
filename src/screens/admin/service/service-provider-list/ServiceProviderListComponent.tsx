@@ -14,6 +14,7 @@ import {getServiceProviderList} from "../../../../store/actions/service.action";
 import InsertLinkIcon from '@mui/icons-material/InsertLink';
 import {useNavigate} from "react-router-dom";
 import commonService from "../../../../shared/services/common.service";
+import LinkComponent from "../../../../shared/components/link/LinkComponent";
 
 interface ServiceProviderComponentProps {
     serviceId: string;
@@ -42,6 +43,21 @@ const ServiceProviderListComponent = (props: ServiceProviderComponentProps) => {
             }
         },
         {
+            key: 'viewDetails',
+            dataIndex: 'view_details',
+            title: '',
+            align:'right',
+            width: 100,
+            render: (item: any, index: number) => {
+                if (item._id && item.first_name && item.last_name) {
+                    return <LinkComponent id={"sv_view_details_" + index}
+                                          route={commonService._routeConfig.LinkProviderToSericeRoute(serviceId,item._id,item?.first_name,item?.last_name)}>
+                        View Details
+                    </LinkComponent>
+                }
+            }
+        },
+        {
             key: 'action',
             title: 'Action',
             width: 100,
@@ -60,7 +76,7 @@ const ServiceProviderListComponent = (props: ServiceProviderComponentProps) => {
         }
     ];
     const handleDeleteProvider = useCallback((item: any) => {
-        console.log('item',item)
+        console.log('item', item)
         CommonService.onConfirm({
             confirmationTitle: "UNLINK PROVIDER",
             image: ImageConfig.ConfirmationLottie,

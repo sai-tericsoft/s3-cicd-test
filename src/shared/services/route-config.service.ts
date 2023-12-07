@@ -368,8 +368,8 @@ const openMedicalRecordActivityLog = (medicalRecordId: string) => {
     return '/chart-notes/' + medicalRecordId + '/activity-log';
 }
 
-const LinkProviderToSericeRoute = (serviceId: string) => {
-    return '/admin/link-provider-to-service/' + serviceId;
+const LinkProviderToSericeRoute = (serviceId: string,userId?:string,first_name?:string,last_name?:string) => {
+    return '/admin/link-provider-to-service/' + serviceId +"?user_id="+userId+"&first_name="+first_name+"&last_name="+last_name;
 }
 
 const RouteConfigService = {

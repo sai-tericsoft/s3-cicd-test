@@ -1,5 +1,5 @@
 import "./LinkProviderToServiceComponent.scss";
-import {useNavigate, useParams} from "react-router-dom";
+import {useNavigate, useParams, useSearchParams} from "react-router-dom";
 import PageHeaderComponent from "../../../../shared/components/page-header/PageHeaderComponent";
 import React, {useCallback, useEffect, useState} from "react";
 import {IService} from "../../../../shared/models/service.model";
@@ -23,6 +23,7 @@ interface LinkProviderToServiceComponentProps {
 
 const LinkProviderToServiceComponent = (props: LinkProviderToServiceComponentProps) => {
     const {serviceId} = useParams();
+    const [searchParams] = useSearchParams();
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -60,6 +61,19 @@ const LinkProviderToServiceComponent = (props: LinkProviderToServiceComponentPro
             }
         }));
     }, [navigate, serviceDetails, dispatch, serviceId]);
+
+    useEffect(() => {
+        if(searchParams.get("user_id") && searchParams.get("first_name") && searchParams.get("last_name")){
+                setSelectedProviderIDForLinking(
+                    {
+                        _id:searchParams.get("user_id"),
+                        first_name:searchParams.get("first_name"),
+                        last_name:searchParams.get("last_name")
+                    }
+                )
+
+        }
+    }, [searchParams]);
 
     return (
         <div className={'link-provider-to-service-component'}>
