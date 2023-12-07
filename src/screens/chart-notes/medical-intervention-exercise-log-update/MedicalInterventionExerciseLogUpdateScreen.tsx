@@ -185,7 +185,7 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
             key: "bilateral",
             dataIndex: 'bilateral',
             align: 'center',
-            width: 20,
+            width: 40,
             render: (record: any, index: any) => {
                 return <Field
                     name={`exercise_records.${index}.bilateral`}
@@ -606,7 +606,7 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                                         }
 
                                         {(!selectedAttachments.length && !attachmentList.attachments.length) &&
-                                            <StatusCardComponent title={'No attachment has been added yet'}
+                                            <StatusCardComponent title={'No attachment has been added'}
                                                                  className={'mrg-bottom-25'}/>
                                         }
                                     </>

@@ -532,7 +532,7 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
                                                        method={APIConfig.CPT_CODES_LIST.METHOD}
                                                        isPaginated={true}
                                                        extraPayload={extraPayload}
-                                                       noDataText={'Searched CPT code was not found.'}
+                                                       noDataText={'Searched CPT code not found'}
                                                        type={"ant"}
                                                        columns={SelectCPTCodesColumns}/>
                             </div>

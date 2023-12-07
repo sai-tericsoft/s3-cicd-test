@@ -89,7 +89,7 @@ const TableV2Component = (props: TableV2ComponentProps) => {
                 className={`${loading ? "loading" : ""}`}
                 locale={{
                     emptyText: (
-                        <>
+                        <div className="table-no-data-wrapper">
                             {
                                 (!loading && data?.length === 0) ? <>
                                     {
@@ -101,7 +101,7 @@ const TableV2Component = (props: TableV2ComponentProps) => {
                                     }
                                 </> : <></>
                             }
-                        </>
+                        </div>
                     )
                 }}
                 onRow={(record, index) => {

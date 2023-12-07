@@ -155,10 +155,10 @@ const MedicalInterventionExerciseLogViewScreen = (props: MedicalInterventionExer
 
     const handlePrint = useCallback(() => {
         setIsPrintLoading(true);
-        const payload={
+        const payload = {
             timezone: momentTimezone.tz.guess(),
         }
-        medicalInterventionId && CommonService._chartNotes.PrintExerciseLog(medicalInterventionId,payload)
+        medicalInterventionId && CommonService._chartNotes.PrintExerciseLog(medicalInterventionId, payload)
             .then((res: any) => {
                 setIsPrintLoading(false);
                 const attachment = {
@@ -176,12 +176,12 @@ const MedicalInterventionExerciseLogViewScreen = (props: MedicalInterventionExer
     }, [medicalInterventionId]);
 
     const handleExerciseLogEdit = useCallback(() => {
-       if(medicalInterventionExerciseLogDetails?.can_edit===true && medicalRecordId && medicalInterventionId) {
-           navigate(CommonService._routeConfig.MedicalInterventionExerciseLogUpdate(medicalRecordId, medicalInterventionId, 'edit'));
-       }else{
-           CommonService._alert.showToast("ERROR - Unfortunately you are unable to make changes to this file as the time period to edit the file has expired. Please contact your supervisor.", "error");
-       }
-    }, [medicalInterventionId,medicalInterventionExerciseLogDetails?.can_edit, medicalRecordId,navigate]);
+        if (medicalInterventionExerciseLogDetails?.can_edit === true && medicalRecordId && medicalInterventionId) {
+            navigate(CommonService._routeConfig.MedicalInterventionExerciseLogUpdate(medicalRecordId, medicalInterventionId, 'edit'));
+        } else {
+            CommonService._alert.showToast("ERROR - Unfortunately you are unable to make changes to this file as the time period to edit the file has expired. Please contact your supervisor.", "error");
+        }
+    }, [medicalInterventionId, medicalInterventionExerciseLogDetails?.can_edit, medicalRecordId, navigate]);
 
     return (
         <div className={'medical-intervention-exercise-log-view-screen'}>
@@ -233,13 +233,13 @@ const MedicalInterventionExerciseLogViewScreen = (props: MedicalInterventionExer
                                                     Print
                                                 </ButtonComponent>
 
-                                                     {/*route={CommonService._routeConfig.MedicalInterventionExerciseLogUpdate(medicalRecordId, medicalInterventionId, 'edit')}>*/}
-                                                    <ButtonComponent
-                                                        onClick={handleExerciseLogEdit}
-                                                        prefixIcon={<ImageConfig.EditIcon/>}
-                                                    >
-                                                        Edit Exercise Log
-                                                    </ButtonComponent>
+                                                {/*route={CommonService._routeConfig.MedicalInterventionExerciseLogUpdate(medicalRecordId, medicalInterventionId, 'edit')}>*/}
+                                                <ButtonComponent
+                                                    onClick={handleExerciseLogEdit}
+                                                    prefixIcon={<ImageConfig.EditIcon/>}
+                                                >
+                                                    Edit Exercise Log
+                                                </ButtonComponent>
 
                                             </>
                                         }
@@ -312,13 +312,15 @@ const MedicalInterventionExerciseLogViewScreen = (props: MedicalInterventionExer
             }
             {isMedicalInterventionExerciseLogDetailsLoaded && medicalInterventionExerciseLogDetails && medicalInterventionExerciseLogDetails.comments &&
                 medicalInterventionExerciseLogDetails.comments.length > 0 &&
-                <CardComponent title={'Comments'} className='mrg-top-20'>
-                    <div className='pdd-bottom-20'>{medicalInterventionExerciseLogDetails.comments &&
-                        medicalInterventionExerciseLogDetails.comments?.split('\n').map((item: any) => {
-                            return <div>{item}</div>
-                        })
-                    }</div>
-                </CardComponent>
+                <div className={'comments-wrapper'}>
+                    <CardComponent title={'Comments'} className='mrg-top-20'>
+                        <div className='pdd-bottom-20'>{medicalInterventionExerciseLogDetails.comments &&
+                            medicalInterventionExerciseLogDetails.comments?.split('\n').map((item: any) => {
+                                return <div>{item}</div>
+                            })
+                        }</div>
+                    </CardComponent>
+                </div>
             }
 
         </div>

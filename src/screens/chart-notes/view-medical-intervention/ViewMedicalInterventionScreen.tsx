@@ -61,12 +61,13 @@ const ICDTableColumns: any = [
         title: 'ICD Code',
         dataIndex: 'icd_code',
         key: 'icd_code',
-        width: 180,
+        width: 100,
     },
     {
         title: 'Description',
         dataIndex: 'description',
         key: 'description',
+        width:900
 
     }
 ]
@@ -316,7 +317,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
         } else {
             CommonService._alert.showToast("ERROR - Unfortunately you are unable to make changes to this file as the time period to edit the file has expired. Please add an addendum SOAP note, or contact your supervisor.", "error");
         }
-    }, [medicalInterventionDetails?.can_edit,navigate, medicalRecordId, medicalInterventionId]);
+    }, [medicalInterventionDetails?.can_edit, navigate, medicalRecordId, medicalInterventionId]);
 
 
     return (
@@ -1081,168 +1082,170 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                             </div>
                                         </div>
                                     </CardComponent>
-                                    <CardComponent title={'Plan (P)'} actions={
-                                        search.showClear && <DraftReadonlySwitcherComponent
-                                            condition={medicalInterventionDetails?.status === 'draft'}
-                                            draft={<div className={'intervention-clear-button'} onClick={event => {
-                                                formik.setFieldValue('plan', {
-                                                    plan: "",
-                                                    md_recommendations: "",
-                                                    education: "",
-                                                    treatment_goals: "",
-                                                });
-                                            }
-                                            }>Clear</div>}
-                                            readonly={<></>}/>
-                                    }>
-                                        <div className="ts-row">
-                                            <div className="ts-col-12">
-                                                <DraftReadonlySwitcherComponent
-                                                    condition={medicalInterventionDetails?.status === 'draft'} draft={
-                                                    <Field name={'plan.plan'}>
-                                                        {
-                                                            (field: FieldProps) => (
-                                                                <FormikTextAreaComponent
-                                                                    label={'Plan'}
-                                                                    placeholder={'Plan'}
-                                                                    formikField={field}
-                                                                    required={false}
-                                                                    fullWidth={true}
-                                                                />
-                                                            )
-                                                        }
-                                                    </Field>
-                                                } readonly={
-                                                    <div
-                                                        className={medicalInterventionDetails?.status === 'draft' ? 'readonly-wrapper' : 'completed-wrapper'}>
-                                                        <div
-                                                            className={medicalInterventionDetails?.status === 'draft' ? "" : 'heading-wrapper'}>
-                                                            <FormControlLabelComponent
-                                                                size={'sm'}
-                                                                label={'Plan'}/></div>
-                                                        <div
-                                                            className={medicalInterventionDetails?.status === 'draft' ? 'readonly-text' : 'completed-text'}>
-                                                            {medicalInterventionDetails?.plan.plan ? medicalInterventionDetails?.plan.plan?.split("\n").map((i: any, key: any) => {
-                                                                return <div key={key}>{i}</div>;
-                                                            }) : "N/A"}
-                                                        </div>
-                                                    </div>
+                                    <div className={'plan-card-wrapper'}>
+                                        <CardComponent title={'Plan (P)'} actions={
+                                            search.showClear && <DraftReadonlySwitcherComponent
+                                                condition={medicalInterventionDetails?.status === 'draft'}
+                                                draft={<div className={'intervention-clear-button'} onClick={event => {
+                                                    formik.setFieldValue('plan', {
+                                                        plan: "",
+                                                        md_recommendations: "",
+                                                        education: "",
+                                                        treatment_goals: "",
+                                                    });
                                                 }
-                                                />
-                                                <DraftReadonlySwitcherComponent
-                                                    condition={medicalInterventionDetails?.status === 'draft'} draft={
-                                                    <Field name={'plan.md_recommendations'}>
-                                                        {
-                                                            (field: FieldProps) => (
-                                                                <FormikTextAreaComponent
-                                                                    label={'MD Recommendations'}
-                                                                    placeholder={'MD Recommendations'}
-                                                                    formikField={field}
-                                                                    required={false}
-                                                                    fullWidth={true}
-                                                                />
-                                                            )
-                                                        }
-                                                    </Field>
-                                                } readonly={
-                                                    <div
-                                                        className={medicalInterventionDetails?.status === 'draft' ? 'readonly-wrapper' : 'completed-wrapper'}>
+                                                }>Clear</div>}
+                                                readonly={<></>}/>
+                                        }>
+                                            <div className="ts-row">
+                                                <div className="ts-col-12">
+                                                    <DraftReadonlySwitcherComponent
+                                                        condition={medicalInterventionDetails?.status === 'draft'} draft={
+                                                        <Field name={'plan.plan'}>
+                                                            {
+                                                                (field: FieldProps) => (
+                                                                    <FormikTextAreaComponent
+                                                                        label={'Plan'}
+                                                                        placeholder={'Plan'}
+                                                                        formikField={field}
+                                                                        required={false}
+                                                                        fullWidth={true}
+                                                                    />
+                                                                )
+                                                            }
+                                                        </Field>
+                                                    } readonly={
                                                         <div
-                                                            className={medicalInterventionDetails?.status === 'draft' ? "" : 'heading-wrapper'}>
-                                                            <FormControlLabelComponent
-                                                                size={'sm'}
-                                                                label={'MD Recommendations'}/></div>
-                                                        <div
-                                                            className={medicalInterventionDetails?.status === 'draft' ? 'readonly-text' : 'completed-text'}>
-                                                            {medicalInterventionDetails?.plan.md_recommendations ? medicalInterventionDetails?.plan.md_recommendations?.split("\n").map((i: any, key: any) => {
-                                                                return <div key={key}>{i}</div>;
-                                                            }) : "N/A"}
+                                                            className={medicalInterventionDetails?.status === 'draft' ? 'readonly-wrapper' : 'completed-wrapper'}>
+                                                            <div
+                                                                className={medicalInterventionDetails?.status === 'draft' ? "" : 'heading-wrapper'}>
+                                                                <FormControlLabelComponent
+                                                                    size={'sm'}
+                                                                    label={'Plan'}/></div>
+                                                            <div
+                                                                className={medicalInterventionDetails?.status === 'draft' ? 'readonly-text' : 'completed-text'}>
+                                                                {medicalInterventionDetails?.plan.plan ? medicalInterventionDetails?.plan.plan?.split("\n").map((i: any, key: any) => {
+                                                                    return <div key={key}>{i}</div>;
+                                                                }) : "N/A"}
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                }
-                                                />
-                                                <DraftReadonlySwitcherComponent
-                                                    condition={medicalInterventionDetails?.status === 'draft'} draft={
-                                                    <Field name={'plan.education'}>
-                                                        {
-                                                            (field: FieldProps) => (
-                                                                <FormikTextAreaComponent
-                                                                    label={'Education'}
-                                                                    placeholder={'Education'}
-                                                                    formikField={field}
-                                                                    required={false}
-                                                                    fullWidth={true}
-                                                                />
-                                                            )
-                                                        }
-                                                    </Field>
-                                                } readonly={
-                                                    <div
-                                                        className={medicalInterventionDetails?.status === 'draft' ? 'readonly-wrapper' : 'completed-wrapper'}>
+                                                    }
+                                                    />
+                                                    <DraftReadonlySwitcherComponent
+                                                        condition={medicalInterventionDetails?.status === 'draft'} draft={
+                                                        <Field name={'plan.md_recommendations'}>
+                                                            {
+                                                                (field: FieldProps) => (
+                                                                    <FormikTextAreaComponent
+                                                                        label={'MD Recommendations'}
+                                                                        placeholder={'MD Recommendations'}
+                                                                        formikField={field}
+                                                                        required={false}
+                                                                        fullWidth={true}
+                                                                    />
+                                                                )
+                                                            }
+                                                        </Field>
+                                                    } readonly={
                                                         <div
-                                                            className={medicalInterventionDetails?.status === 'draft' ? "" : 'heading-wrapper'}>
-                                                            <FormControlLabelComponent
-                                                                size={'sm'}
-                                                                label={'Education'}/></div>
-                                                        <div
-                                                            className={medicalInterventionDetails?.status === 'draft' ? 'readonly-text' : 'completed-text'}>
-                                                            {medicalInterventionDetails?.plan.education ? medicalInterventionDetails?.plan.education?.split("\n").map((i: any, key: any) => {
-                                                                return <div key={key}>{i}</div>;
-                                                            }) : "N/A"}
+                                                            className={medicalInterventionDetails?.status === 'draft' ? 'readonly-wrapper' : 'completed-wrapper'}>
+                                                            <div
+                                                                className={medicalInterventionDetails?.status === 'draft' ? "" : 'heading-wrapper'}>
+                                                                <FormControlLabelComponent
+                                                                    size={'sm'}
+                                                                    label={'MD Recommendations'}/></div>
+                                                            <div
+                                                                className={medicalInterventionDetails?.status === 'draft' ? 'readonly-text' : 'completed-text'}>
+                                                                {medicalInterventionDetails?.plan.md_recommendations ? medicalInterventionDetails?.plan.md_recommendations?.split("\n").map((i: any, key: any) => {
+                                                                    return <div key={key}>{i}</div>;
+                                                                }) : "N/A"}
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                }
-                                                />
+                                                    }
+                                                    />
+                                                    <DraftReadonlySwitcherComponent
+                                                        condition={medicalInterventionDetails?.status === 'draft'} draft={
+                                                        <Field name={'plan.education'}>
+                                                            {
+                                                                (field: FieldProps) => (
+                                                                    <FormikTextAreaComponent
+                                                                        label={'Education'}
+                                                                        placeholder={'Education'}
+                                                                        formikField={field}
+                                                                        required={false}
+                                                                        fullWidth={true}
+                                                                    />
+                                                                )
+                                                            }
+                                                        </Field>
+                                                    } readonly={
+                                                        <div
+                                                            className={medicalInterventionDetails?.status === 'draft' ? 'readonly-wrapper' : 'completed-wrapper'}>
+                                                            <div
+                                                                className={medicalInterventionDetails?.status === 'draft' ? "" : 'heading-wrapper'}>
+                                                                <FormControlLabelComponent
+                                                                    size={'sm'}
+                                                                    label={'Education'}/></div>
+                                                            <div
+                                                                className={medicalInterventionDetails?.status === 'draft' ? 'readonly-text' : 'completed-text'}>
+                                                                {medicalInterventionDetails?.plan.education ? medicalInterventionDetails?.plan.education?.split("\n").map((i: any, key: any) => {
+                                                                    return <div key={key}>{i}</div>;
+                                                                }) : "N/A"}
+                                                            </div>
+                                                        </div>
+                                                    }
+                                                    />
 
 
-                                                <DraftReadonlySwitcherComponent
-                                                    condition={medicalInterventionDetails?.status === 'draft'} draft={
-                                                    <Field name={'plan.treatment_goals'}>
-                                                        {
-                                                            (field: FieldProps) => (
-                                                                <FormikTextAreaComponent
-                                                                    label={'Treatment Goals'}
-                                                                    placeholder={'Treatment Goals'}
-                                                                    formikField={field}
-                                                                    required={false}
-                                                                    fullWidth={true}
-                                                                />
-                                                            )
-                                                        }
-                                                    </Field>
-                                                } readonly={
-                                                    <div
-                                                        className={medicalInterventionDetails?.status === 'draft' ? 'readonly-wrapper' : 'completed-wrapper'}>
+                                                    <DraftReadonlySwitcherComponent
+                                                        condition={medicalInterventionDetails?.status === 'draft'} draft={
+                                                        <Field name={'plan.treatment_goals'}>
+                                                            {
+                                                                (field: FieldProps) => (
+                                                                    <FormikTextAreaComponent
+                                                                        label={'Treatment Goals'}
+                                                                        placeholder={'Treatment Goals'}
+                                                                        formikField={field}
+                                                                        required={false}
+                                                                        fullWidth={true}
+                                                                    />
+                                                                )
+                                                            }
+                                                        </Field>
+                                                    } readonly={
                                                         <div
-                                                            className={medicalInterventionDetails?.status === 'draft' ? "" : 'heading-wrapper'}>
-                                                            <FormControlLabelComponent
-                                                                size={'sm'}
-                                                                label={'Treatment Goals'}/>
+                                                            className={medicalInterventionDetails?.status === 'draft' ? 'readonly-wrapper' : 'completed-wrapper'}>
+                                                            <div
+                                                                className={medicalInterventionDetails?.status === 'draft' ? "" : 'heading-wrapper'}>
+                                                                <FormControlLabelComponent
+                                                                    size={'sm'}
+                                                                    label={'Treatment Goals'}/>
+                                                            </div>
+                                                            <div
+                                                                className={medicalInterventionDetails?.status === 'draft' ? 'readonly-text' : 'completed-text'}>
+                                                                {medicalInterventionDetails?.plan.treatment_goals ? medicalInterventionDetails?.plan.treatment_goals?.split("\n").map((i: any, key: any) => {
+                                                                    return <div key={key}>{i}</div>;
+                                                                }) : "N/A"}
+                                                            </div>
                                                         </div>
-                                                        <div
-                                                            className={medicalInterventionDetails?.status === 'draft' ? 'readonly-text' : 'completed-text'}>
-                                                            {medicalInterventionDetails?.plan.treatment_goals ? medicalInterventionDetails?.plan.treatment_goals?.split("\n").map((i: any, key: any) => {
-                                                                return <div key={key}>{i}</div>;
-                                                            }) : "N/A"}
-                                                        </div>
-                                                    </div>
-                                                }
-                                                />
+                                                    }
+                                                    />
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div
-                                            className={"display-flex flex-direction-row-reverse mrg-top-20 mrg-bottom-25"}>
-                                            <ESignApprovalComponent isSigned={medicalInterventionDetails?.is_signed}
-                                                                    isSigning={isSigningInProgress}
-                                                                    signature_url={medicalInterventionDetails?.signature}
-                                                // isLoading={isFormBeingUpdated || formik.isSubmitting}
-                                                                    canSign={medicalInterventionDetails?.can_sign}
-                                                                    signedAt={medicalInterventionDetails?.signed_on}
-                                                                    onSign={() => {
-                                                                        handleSign(formik.values, formik);
-                                                                    }}/>
-                                        </div>
-                                    </CardComponent>
+                                            <div
+                                                className={"display-flex flex-direction-row-reverse mrg-top-20 mrg-bottom-25"}>
+                                                <ESignApprovalComponent isSigned={medicalInterventionDetails?.is_signed}
+                                                                        isSigning={isSigningInProgress}
+                                                                        signature_url={medicalInterventionDetails?.signature}
+                                                    // isLoading={isFormBeingUpdated || formik.isSubmitting}
+                                                                        canSign={medicalInterventionDetails?.can_sign}
+                                                                        signedAt={medicalInterventionDetails?.signed_on}
+                                                                        onSign={() => {
+                                                                            handleSign(formik.values, formik);
+                                                                        }}/>
+                                            </div>
+                                        </CardComponent>
+                                    </div>
                                     {medicalInterventionDetails?.status === 'draft' && <div className="t-form-actions">
                                         <ButtonComponent
                                             onClick={(event) => {

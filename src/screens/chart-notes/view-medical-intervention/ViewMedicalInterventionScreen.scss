@@ -7,6 +7,12 @@
 .add-medical-intervention-screen {
   word-break: break-word;
 
+  .plan-card-wrapper{
+    .card-component{
+      margin-bottom: 0 !important;
+    }
+  }
+
   .t-cell-description {
     padding-left: 20px !important;
   }

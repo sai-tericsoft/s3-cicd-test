@@ -1,4 +1,10 @@
 .medical-intervention-exercise-log-view-screen {
+
+  .comments-wrapper{
+    .card-component {
+      margin-bottom: 0px !important;
+    }
+  }
 .medical-intervention-exercise-log-view-table-container{
   .t-table-wrapper {
     .t-cell-id{

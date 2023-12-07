@@ -1332,7 +1332,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                         direction={"row"}
                         label={"Total Amount (Inc.tax)"}>
                         <span>
-                            {Misc.CURRENCY_SYMBOL} {CommonService.convertToDecimals(selectedPayments.reduce((acc: any, payment: any) => acc + (payment?.total), 0))}
+                            {Misc.CURRENCY_SYMBOL}{CommonService.convertToDecimals(selectedPayments.reduce((acc: any, payment: any) => acc + (payment?.total), 0))}
                         </span>
                     </DataLabelValueComponent>
                 </div>
