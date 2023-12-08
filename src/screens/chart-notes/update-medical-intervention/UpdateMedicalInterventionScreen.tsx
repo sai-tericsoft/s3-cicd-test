@@ -185,7 +185,7 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                         item?.config?.comments ?
                             <ToolTipComponent tooltip={item?.config?.comments}>
                                 <div
-                                    className={'comment-text'}>{item?.config?.comments?.length ? CommonService.capitalizeFirstLetter(item?.config?.comments?.substring(0, 80) + '...') : item?.config?.comments}
+                                    className={'comment-text'}>{item?.config?.comments?.length>80 ? CommonService.capitalizeFirstLetter(item?.config?.comments?.substring(0, 80) + '...') : item?.config?.comments}
                                 </div>
                             </ToolTipComponent> : '-'
                     }
@@ -291,14 +291,13 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                                 title: 'Comments',
                                 dataIndex: 'comments',
                                 key: 'comments',
-                                align: 'center',
                                 width: 400,
                                 render: (item: any) => {
                                     return <>
                                         {item?.config?.comments ?
                                             <ToolTipComponent tooltip={item?.config?.comments}>
                                                 <div
-                                                    className={'comment-text'}> fgsfdgsf{item?.config?.comments?.length>80 ? CommonService.capitalizeFirstLetter(item?.config?.comments?.substring(0, 80) + '...') : item?.config?.comments}
+                                                    className={'comment-text'}> {item?.config?.comments?.length>80 ? CommonService.capitalizeFirstLetter(item?.config?.comments?.substring(0, 80) + '...') : item?.config?.comments}
                                                 </div>
                                             </ToolTipComponent> : '-'}
                                     </>
