@@ -21,7 +21,8 @@ interface BookAppointmentFormComponentProps {
     client?: any
     preFillData?: any
     isLoading?: boolean,
-    onBack?: () => void
+    onBack?: () => void,
+    need_intervention?: boolean
 }
 
 const addAppointmentFormInitialValues: any = {
@@ -55,7 +56,7 @@ const addAppointmentValidationSchema = Yup.object().shape({
 });
 
 const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) => {
-    const {onComplete, onClose, onBack, preFillData, client, isLoading} = props;
+    const {onComplete,need_intervention, onClose, onBack, preFillData, client, isLoading} = props;
     const {appointmentTypes} = useSelector((state: IRootReducerState) => state.staticData);
     const [clientCasesList, setClientCasesList] = useState<any[] | null>(null);
     const [serviceCategoryList, setServiceCategoryList] = useState<any[] | null>(null);
@@ -419,6 +420,8 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
         if (preFillData && formRef.current) {
             const currentDate = formRef.current.values.date;
             const date = preFillData.date;
+            const appointment_type = preFillData.appointment_type;
+            const caseDetails = preFillData.case;
             if (date && availableDates && currentDate?.date !== date) {
                 const selectedDate = (availableDates || []).find(value => value === date);
                 if (selectedDate) {
@@ -427,8 +430,14 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
                     formRef.current.setFieldValue('date', selectedDate);
                 }
             }
+            if(appointment_type){
+                formRef.current.setFieldValue('appointment_type', appointment_type);
+            }
+            if(caseDetails && clientCasesList){
+                formRef.current.setFieldValue('case', clientCasesList.find((value:any)=>value._id === caseDetails._id));
+            }
         }
-    }, [preFillData, availableDates])
+    }, [preFillData, availableDates,clientCasesList])
 
     useEffect(() => {
         console.log('prefill data changed', preFillData)
@@ -513,6 +522,7 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
                                                         url={APIConfig.CLIENT_LIST_LITE.URL}
                                                         method={APIConfig.CLIENT_LIST_LITE.METHOD}
                                                         fullWidth={true}
+                                                        readOnly={need_intervention}
                                                         onUpdate={value => {
                                                             if (value) {
                                                                 getClientCasesList(value._id);
@@ -533,6 +543,7 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
                                                         displayWith={(option: any) => (option?.name || '')}
                                                         valueExtractor={(option: any) => option || ''}
                                                         keyExtractor={item => item?._id || ''}
+                                                        readOnly={need_intervention}
                                                         label={'Service Category'}
                                                         fullWidth={true}
                                                         onUpdate={value => {
@@ -571,6 +582,7 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
                                                         required={true}
                                                         disabled={isServiceListLoading || !values?.service_category || (servicesList || []).length === 0}
                                                         options={servicesList || []}
+                                                        readOnly={need_intervention}
                                                         displayWith={(option: any) => (option?.name || '')}
                                                         valueExtractor={(option: any) => option}
                                                         selectedValues={servicesWithoutProviderList}
@@ -613,10 +625,12 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
                                                         required={true}
                                                         displayWith={(option: any) => (option.title)}
                                                         valueExtractor={(option: any) => option.code}
+                                                        readOnly={need_intervention}
                                                         label={'Appointment Type'}
                                                         fullWidth={true}
                                                         onUpdate={(value) => {
                                                             if (value) {
+                                                                console.log(value);
                                                                 setFieldValue('duration', undefined);
                                                                 setFieldTouched('duration', false);
                                                                 setFieldValue('provider', undefined);
@@ -662,7 +676,6 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
                                                 )
                                             }
                                         </Field>
-
                                         {
                                             values?.appointment_type?.includes('follow') && <Field name={'case'}>
                                                 {
@@ -671,6 +684,7 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
                                                             formikField={field}
                                                             required={true}
                                                             disabled={isClientCasesListLoading}
+                                                            readOnly={need_intervention}
                                                             options={clientCasesList || []}
                                                             displayWith={item => (
                                                                 item.created_at && CommonService.convertDateFormat2(item.created_at) + " - " +

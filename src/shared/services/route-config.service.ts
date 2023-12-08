@@ -42,8 +42,8 @@ const LoginRoute = () => {
 const ForgotPasswordRoute = () => {
     return FORGOT_PASSWORD_ROUTE;
 }
-const OtpVerificationRoute = (email:string) => {
-    return OTP_VERIFICATION_ROUTE+'/'+email;
+const OtpVerificationRoute = (email: string) => {
+    return OTP_VERIFICATION_ROUTE + '/' + email;
 }
 const ResetPasswordRoute = () => {
     return RESET_PASSWORD_ROUTE;
@@ -368,8 +368,9 @@ const openMedicalRecordActivityLog = (medicalRecordId: string) => {
     return '/chart-notes/' + medicalRecordId + '/activity-log';
 }
 
-const LinkProviderToSericeRoute = (serviceId: string,userId?:string,first_name?:string,last_name?:string) => {
-    return '/admin/link-provider-to-service/' + serviceId +"?user_id="+userId+"&first_name="+first_name+"&last_name="+last_name;
+const LinkProviderToSericeRoute = (serviceId: string, userId?: string, first_name?: string, last_name?: string) => {
+    if(!userId) return '/admin/link-provider-to-service/' + serviceId;
+    return '/admin/link-provider-to-service/' + serviceId +"?user_id=" + userId + "&first_name=" + first_name + "&last_name=" + last_name;
 }
 
 const RouteConfigService = {

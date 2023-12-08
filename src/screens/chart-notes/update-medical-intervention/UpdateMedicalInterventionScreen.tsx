@@ -194,7 +194,7 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
             }
         }
 
-        const bodySidesColumns = bodyPart.body_part_details.sides.map((side: any) => {
+        const bodySidesColumns = bodyPart.body_part_details?.sides?.map((side: any) => {
             return {
                 title: side + " Side",
                 key: side,
@@ -796,7 +796,7 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                                                                                        }
                                                                         >
 
-                                                                            {medicalInterventionDetails?.special_tests && medicalInterventionDetails?.special_tests.map((body_part: any) => {
+                                                                            {medicalInterventionDetails?.special_tests && medicalInterventionDetails?.special_tests?.map((body_part: any) => {
                                                                                 return (<div className={''}>
                                                                                     <CardComponent
                                                                                         className={'body-part-card'}

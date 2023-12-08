@@ -80,7 +80,12 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
                                         className={(!record.applicable_sides?.includes(side) || !record.applicable_rom?.includes('AROM')) ? "not-allowed" : ""}
                                         disabled={(!record.applicable_sides?.includes(side) || !record.applicable_rom?.includes('AROM'))}
                                         formikField={field}
-                                        size={"small"}/>
+                                        size={"small"}
+                                        onFocus={() => {
+
+                                        }
+                                        }
+                                    />
                                 )
                             }
                         </Field>;

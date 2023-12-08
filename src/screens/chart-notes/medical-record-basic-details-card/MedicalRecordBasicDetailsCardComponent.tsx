@@ -61,6 +61,7 @@ interface ClientMedicalDetailsCardComponentProps {
     showAction?: boolean
     setRefreshToken?: any;
     onEditCompleteAction?: any;
+    onMedicalRecordDataLoad?: Function
 }
 
 const NotifyAdminInitialValues: any = {
@@ -69,7 +70,7 @@ const NotifyAdminInitialValues: any = {
 
 const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardComponentProps) => {
 
-    const {showAction, setRefreshToken, onEditCompleteAction} = props;
+    const {showAction,onMedicalRecordDataLoad, setRefreshToken, onEditCompleteAction} = props;
     const {medicalRecordId} = useParams();
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -295,6 +296,12 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
             }
         }
     }, [clientMedicalRecord, medicalRecordId, handleMedicalRecordReOpen, openAddSurgeryRecord, addProgressRecord, openTransferMedicalRecordDrawer, handleNotifyAdmin, openMedicalRecordStatsModal, openMedicalRecordDocumentAddDrawer, handleDischargeCase, handleNotifyAdminModalOpen]);
+
+    useEffect(() => {
+        if(onMedicalRecordDataLoad && clientMedicalRecord){
+            onMedicalRecordDataLoad(clientMedicalRecord);
+        }
+    }, [onMedicalRecordDataLoad, clientMedicalRecord]);
 
     return (
         <div className={'client-medical-details-card-component'}>

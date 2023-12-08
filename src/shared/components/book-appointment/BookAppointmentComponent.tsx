@@ -14,15 +14,18 @@ import TableComponent from "../table/TableComponent";
 import {ITableColumn} from "../../models/table.model";
 
 interface BookAppointmentComponentProps {
-    onClose?: () => void
-    onComplete?: () => void
-    preFillData?: any
-    selectedClient?: any
+    onClose?: () => void,
+    onComplete?: () => void,
+    preFillData?: any,
+    selectedClient?: any,
+    need_intervention?: boolean,
+    repeatLastTreatment?: (interventionId: any,appointmentId:any) => void,
+    addNewTreatment?: (interventionId: any,appointmentId:any) => void,
 }
 
 const BookAppointmentComponent = (props: BookAppointmentComponentProps) => {
 
-    const {onClose, onComplete, preFillData} = props;
+    const {onClose,repeatLastTreatment,addNewTreatment, need_intervention, preFillData} = props;
     const [step, setStep] = useState<'client' | 'form' | 'overview' | 'payment' | 'confirmation'>(props.selectedClient ? 'form' : 'client');
     const [selectedClient, setSelectedClient] = useState<any | null>(props.selectedClient ? props.selectedClient : null);
     const [clientSearch, setClientSearch] = useState<string>('');
@@ -31,7 +34,8 @@ const BookAppointmentComponent = (props: BookAppointmentComponentProps) => {
     // const [isClientListLoaded, setIsClientListLoaded] = useState<boolean>(false);
     const [booking, setBooking] = useState<any | null>(null)
     const [bookingDraft, setBookingDraft] = useState<any | null>(null);
-
+    const [interventionId, setInterventionId] = useState<any | null>(null);
+    const [appointmentId, setAppointmentId] = useState<any | null>(null);
     const getClientList = useCallback((search: string) => {
         // if (search === '') {
         //     setClientList([]);
@@ -58,7 +62,6 @@ const BookAppointmentComponent = (props: BookAppointmentComponentProps) => {
 
     const onFormComplete = useCallback(
         (values: any) => {
-            console.log(values);
             setBookingDraft(values);
             setStep('overview');
         },
@@ -70,6 +73,12 @@ const BookAppointmentComponent = (props: BookAppointmentComponentProps) => {
     }, [],);
 
     const onPaymentComplete = useCallback((values: any) => {
+        if(values?.appointment_id){
+            setAppointmentId(values?.appointment_id)
+        }
+        if(values?.intervention_id){
+            setInterventionId(values?.intervention_id)
+        }
         setStep('confirmation');
     }, [],);
 
@@ -100,7 +109,8 @@ const BookAppointmentComponent = (props: BookAppointmentComponentProps) => {
             render: (item: any) => {
                 return <RadioButtonComponent name={'selected-client'}
                                              value={item}
-                                             label={<><span className={item?.is_alias_name_set ? 'alias-name':''}>{`${CommonService.extractName(item)}`}</span> {`(ID: ${item.client_id || ''})`}</>}
+                                             label={<><span
+                                                 className={item?.is_alias_name_set ? 'alias-name' : ''}>{`${CommonService.extractName(item)}`}</span> {`(ID: ${item.client_id || ''})`}</>}
                                              checked={selectedClient?._id === item?._id}
                                              onChange={(value: any) => {
                                                  setSelectedClient(value);
@@ -169,7 +179,9 @@ const BookAppointmentComponent = (props: BookAppointmentComponentProps) => {
                                               onBack={() => {
                                                   setStep('client');
                                               }}
-                                              onComplete={onFormComplete} onClose={onClose}/>
+                                              onComplete={onFormComplete} onClose={onClose}
+                                              need_intervention={need_intervention}
+                />
             }
             {
                 step === 'overview' && <>
@@ -185,7 +197,9 @@ const BookAppointmentComponent = (props: BookAppointmentComponentProps) => {
                     () => {
                         setStep('overview');
                     }
-                } booking={booking} onComplete={onPaymentComplete} onClose={onClose}/>
+                } booking={booking} onComplete={onPaymentComplete} onClose={onClose}
+                                                                       need_intervention={need_intervention}
+                />
             }
             {
                 step === 'confirmation' && <div className={'booking-confirmation-wrapper'}>
@@ -197,10 +211,30 @@ const BookAppointmentComponent = (props: BookAppointmentComponentProps) => {
                         <div className="booking-confirmation-status-text">Booking Confirmed!</div>
                     </div>
                     <div className="booking-confirmation-action">
-                        <ButtonComponent fullWidth={true}
-                                         onClick={
-                                             onComplete
-                                         }>Close</ButtonComponent>
+                        {/*<ButtonComponent fullWidth={true}*/}
+                        {/*                 onClick={*/}
+                        {/*                     onComplete*/}
+                        {/*                 }>Close</ButtonComponent>*/}
+                        {
+                            need_intervention && <>
+                                <ButtonComponent
+                                    className={'width-50'}
+                                    onClick={()=>{
+                                        repeatLastTreatment && repeatLastTreatment(interventionId,appointmentId)
+                                    }}
+                                                 variant={"outlined"}>
+                                    Repeat Last Treatment
+                                </ButtonComponent>
+                                <ButtonComponent
+                                    className={'width-50'}
+                                    onClick={()=>{
+                                        addNewTreatment && addNewTreatment(interventionId,appointmentId)
+                                    }}
+                                                 prefixIcon={<ImageConfig.AddIcon/>}>
+                                    Add New Treatment
+                                </ButtonComponent>
+                            </>
+                        }
                     </div>
                 </div>
             }
