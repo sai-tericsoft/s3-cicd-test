@@ -151,7 +151,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                         item?.config?.comments ?
                             <ToolTipComponent tooltip={item?.config?.comments}>
                                 <div
-                                    className={'comment-text'}>{item?.config?.comments?.length ? CommonService.capitalizeFirstLetter(item?.config?.comments?.substring(0, 60) + '...') : item?.config?.comments}
+                                    className={'comment-text'}>{item?.config?.comments?.length > 80  ? CommonService.capitalizeFirstLetter(item?.config?.comments?.substring(0, 80 ) + '...') : item?.config?.comments}
                                 </div>
                             </ToolTipComponent> : '-'
                     }
@@ -242,7 +242,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                 {item?.config?.comments ?
                                     <ToolTipComponent tooltip={item?.config?.comments}>
                                         <div
-                                            className={'comment-text'}>{item?.config?.comments?.length ? CommonService.capitalizeFirstLetter(item?.config?.comments?.substring(0, 60) + '...') : item?.config?.comments}
+                                            className={'comment-text'}>{item?.config?.comments?.length> 80  ? CommonService.capitalizeFirstLetter(item?.config?.comments?.substring(0, 80 ) + '...') : item?.config?.comments}
                                         </div>
                                     </ToolTipComponent> : '-'}
                             </>
