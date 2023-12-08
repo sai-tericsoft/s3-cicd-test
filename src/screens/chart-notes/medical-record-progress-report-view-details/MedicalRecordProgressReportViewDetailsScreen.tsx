@@ -11,7 +11,7 @@ import TableComponent from "../../../shared/components/table/TableComponent";
 import {ITableColumn} from "../../../shared/models/table.model";
 import ESignApprovalComponent from "../../../shared/components/e-sign-approval/ESignApprovalComponent";
 import {CommonService} from "../../../shared/services";
-import {ImageConfig} from "../../../constants";
+import {ImageConfig, Misc} from "../../../constants";
 import {setCurrentNavParams} from "../../../store/actions/navigation.action";
 import PageHeaderComponent from "../../../shared/components/page-header/PageHeaderComponent";
 import ChipComponent from "../../../shared/components/chip/ChipComponent";
@@ -23,6 +23,8 @@ import moment from "moment-timezone";
 import LinkComponent from "../../../shared/components/link/LinkComponent";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import momentTimezone from "moment-timezone";
+import MenuDropdownComponent from "../../../shared/components/menu-dropdown/MenuDropdownComponent";
+import {ListItemButton} from "@mui/material";
 
 interface ProgressReportViewDetailsComponentProps {
 
@@ -74,7 +76,6 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
     } = useSelector((state: IRootReducerState) => state.client);
     const [searchParams] = useSearchParams();
     const [isFullCardOpen, setIsFullCardOpen] = useState<boolean>(false);
-    const [isPrintLoading, setIsPrintLoading] = useState<boolean>(false);
 
     const {
         isProgressReportDetailsLoaded,
@@ -96,13 +97,11 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
     }, [medicalRecordId, dispatch]);
 
     const handlePrint = useCallback(() => {
-        setIsPrintLoading(true);
-        const payload= {
+        const payload = {
             timezone: momentTimezone.tz.guess(),
         }
-        CommonService._chartNotes.PrintProgressReportAPICall(progressReportId,payload)
+        CommonService._chartNotes.PrintProgressReportAPICall(progressReportId, payload)
             .then((res: any) => {
-                setIsPrintLoading(false);
                 const attachment = {
                     type: 'application/pdf',
                     url: res.data.url,
@@ -112,7 +111,6 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
                 CommonService.printAttachment(attachment);
             })
             .catch((err: any) => {
-                setIsPrintLoading(false);
                 console.log(err);
             })
     }, [progressReportId])
@@ -136,6 +134,47 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
             }));
         }
     }, [searchParams, navigate, dispatch, medicalRecordId]);
+
+    const handleShareProgressReport = useCallback(() => {
+        CommonService.onConfirm({
+            image: ImageConfig.PopupLottie,
+            showLottie: true,
+            confirmationTitle: "SHARE WITH CLIENT",
+            confirmationDescription: <div className="delete-document">
+                <div className={'delete-document-text text-center '}>Are you sure you want to share this
+                    report <br/> with the client?
+                </div>
+            </div>
+        }).then(() => {
+            if (progressReportId) {
+                CommonService._chartNotes.UpdateProgressReportUnderMedicalRecordAPICall(progressReportId, {is_shared: true})
+                    .then((response: any) => {
+                        CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY] || "Report shared successfully", "success");
+                    }).catch((error: any) => {
+                    CommonService._alert.showToast(error?.error || "Error sharing document", "success");
+                })
+            }
+        })
+    }, [progressReportId]);
+
+    const handleDeleteProgressReport = useCallback(() => {
+        CommonService.onConfirm({
+            confirmationTitle: "DELETE REPORT",
+            image: ImageConfig.ConfirmationLottie,
+            showLottie: true,
+            confirmationSubTitle: <div>Are you sure you want to delete this report?<br/>
+                This action cannot be undone.
+            </div>
+        }).then(() => {
+            progressReportId && CommonService._chartNotes.DeleteProgressReport(progressReportId)
+                .then((response) => {
+                    CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+                    medicalRecordId && navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId) + '?activeTab=attachmentList');
+                }).catch((error: any) => {
+                    CommonService._alert.showToast(error.error || "Error deleting provider", "error");
+                })
+        })
+    }, [medicalRecordId, navigate,progressReportId]);
 
     console.log('progressReportDetails', progressReportDetails);
 
@@ -165,13 +204,31 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
                                             size={'small'}
                                             label={clientMedicalRecord?.status === 'completed' ? 'Closed - Resolved' : 'Open - Unresolved'}/>
                                     </span>
-                        <div className={'display-flex justify-content-end mrg-bottom-20'}>
-                            <ButtonComponent
-                                onClick={handlePrint}
-                                isLoading={isPrintLoading}
-                                disabled={isPrintLoading}
-                                prefixIcon={<ImageConfig.PrintIcon/>}>Print</ButtonComponent>
-                        </div>
+                        {/*<div className={'display-flex justify-content-end mrg-bottom-20'}>*/}
+                        {/*    <ButtonComponent*/}
+                        {/*        onClick={handlePrint}*/}
+                        {/*        isLoading={isPrintLoading}*/}
+                        {/*        disabled={isPrintLoading}*/}
+                        {/*        prefixIcon={<ImageConfig.PrintIcon/>}>Print</ButtonComponent>*/}
+                        {/*</div>*/}
+                        <MenuDropdownComponent className={'billing-details-drop-down-menu'} menuBase={
+                            <ButtonComponent size={'large'} variant={'outlined'} fullWidth={true}
+                            >
+                                Select Action &nbsp;<ImageConfig.SelectDropDownIcon/>
+                            </ButtonComponent>
+                        } menuOptions={[
+                            <ListItemButton onClick={handleShareProgressReport}>
+                                Share
+                            </ListItemButton>,
+                            <ListItemButton onClick={handlePrint}>
+                                Print
+                            </ListItemButton>,
+                            <ListItemButton onClick={handleDeleteProgressReport}>
+                                Delete Report
+                            </ListItemButton>,
+
+                        ]}
+                        />
                     </div>
 
                     <MedicalInterventionLinkedToComponent label={'Report Linked to:'}
