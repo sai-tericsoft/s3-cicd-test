@@ -347,7 +347,7 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
                         </div>
 
                         {isFullCardOpen && <>
-                            <DataLabelValueComponent label={'Medical Diagnosis/ICD Codes:'}>
+                            <DataLabelValueComponent label={'Medical Diagnosis/ICD Code:'}>
                                 {clientMedicalRecordProgressReportDetails?.linked_icd_codes?.length > 0 ?
                                     <>
                                         {clientMedicalRecordProgressReportDetails?.linked_icd_codes?.map((icdCode: any, index: number) => (
@@ -510,8 +510,7 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
                                         }
                                         <div className={"sign-note-wrapper ts-row "}>
                                             <div className={'sign-note ts-col-lg-4'}>
-                                                Note: By clicking the "Sign" button, your report will be saved.
-                                            </div>
+                                                Note: By clicking the "Sign" button, the report will be saved including the details you added.                                            </div>
                                         </div>
                                         <div className={'esign-pad'}>
                                             <div className={'esign ts-col-lg-4'}>

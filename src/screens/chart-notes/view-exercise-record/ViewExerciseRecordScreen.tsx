@@ -83,7 +83,6 @@ const ViewExerciseRecordScreen = (props: ViewExerciseLogComponentProps) => {
     const dispatch = useDispatch();
     const [isPrintLoading, setIsPrintLoading] = React.useState<boolean>(false);
     const [isPrintExerciseLogLoading, setIsPrintExerciseLogLoading] = React.useState<boolean>(false);
-
     const {
         medicalRecordViewExerciseRecord,
         isMedicalRecordViewExerciseRecordLoading,
@@ -109,7 +108,7 @@ const ViewExerciseRecordScreen = (props: ViewExerciseLogComponentProps) => {
             timezone: momentTimezone.tz.guess(),
         }
         if (medicalRecordId) {
-            CommonService._chartNotes.PrintExerciseRecord(medicalRecordId,payload)
+            CommonService._chartNotes.PrintExerciseRecord(medicalRecordId, payload)
                 .then((res: any) => {
                     setIsPrintLoading(false);
                     const attachment = {
@@ -134,7 +133,7 @@ const ViewExerciseRecordScreen = (props: ViewExerciseLogComponentProps) => {
             timezone: momentTimezone.tz.guess(),
         }
         if (medicalInterventionId) {
-            CommonService._chartNotes.PrintExerciseLog(medicalInterventionId,payload)
+            CommonService._chartNotes.PrintExerciseLog(medicalInterventionId, payload)
                 .then((res: any) => {
                     setIsPrintExerciseLogLoading(false);
                     const attachment = {
@@ -206,6 +205,7 @@ const ViewExerciseRecordScreen = (props: ViewExerciseLogComponentProps) => {
                                     </div>
                                 </div>
                                 <MedicalInterventionLinkedToComponent
+                                    label={'Record Linked to:'}
                                     medicalRecordDetails={medicalRecordViewExerciseRecord?.medical_record_details}/>
                             </CardComponent>
                             {/*<div className={'horizontal-line'}></div>*/}
@@ -241,10 +241,11 @@ const ViewExerciseRecordScreen = (props: ViewExerciseLogComponentProps) => {
                                             {item?.attachments?.length > 0 && item?.attachments?.map((attachment: any) => {
                                                 return <ChipComponent label={attachment?.name}
                                                                       color={'success'}
-                                                                      onClick={()=>handleView(attachment)}
+                                                                      onClick={() => handleView(attachment)}
                                                                       className={'mrg-right-10'}
                                                                       key={attachment?._id}
                                                                       prefixIcon={ImageConfig.PDFIcon}/>
+
                                             })}
                                         </div>
                                         {
@@ -262,10 +263,11 @@ const ViewExerciseRecordScreen = (props: ViewExerciseLogComponentProps) => {
                                     </div>
 
                                     {item && item.comments &&
-                                        item.comments.length > 0 &&
-                                        <CardComponent title={'Comments'} className='mrg-top-20'>
-                                            <div className='pdd-bottom-20'>{item.comments}</div>
-                                        </CardComponent>
+                                        item.comments.length > 0 && <div className={'comments-wrapper'}>
+                                            <CardComponent title={'Comments'} className='mrg-top-20'>
+                                                <div className='pdd-bottom-20'>{item.comments}</div>
+                                            </CardComponent>
+                                        </div>
                                     }
                                     {index !== medicalRecordViewExerciseRecord.exercise_logs.length - 1 && (
                                         <div className={'horizontal-line'}></div>

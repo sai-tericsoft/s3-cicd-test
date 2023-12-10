@@ -73,7 +73,7 @@ const ClientActivityLogComponent = (props: ClientActivityLogComponentProps) => {
                 <div className={'ts-col-lg-4 activity-log-search'}>
                     <SearchComponent
                         label={"Search"}
-                        placeholder={"Search using activity name"}
+                        placeholder={"Search using any keyword"}
                         value={clientActivityLogFilterState.search}
                         onSearchChange={(value) => {
                             if(value) {

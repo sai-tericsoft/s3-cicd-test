@@ -1,7 +1,14 @@
 .table-v2-component {
-  .ant-table-cell{
+  .ant-table {
+    td {
+    padding: 6px 16px !important;
+    }
+  }
+
+  .ant-table-cell {
     border-bottom: none !important;
   }
+
   .table-no-data-wrapper {
     min-height: 600px;
     display: flex;

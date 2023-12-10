@@ -21,6 +21,7 @@ import {useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
 import FormikSelectComponent from "../../../shared/components/form-controls/formik-select/FormikSelectComponent";
 import moment from "moment";
+import {useNavigate} from "react-router-dom";
 
 const AddMedicalRecordDocumentFormValidationSchema = Yup.object({
     document_date: Yup.mixed()
@@ -53,6 +54,7 @@ const AddMedicalRecordDocumentComponent = (props: AddMedicalRecordDocumentCompon
     const {medicalRecordDocumentTypes} = useSelector((state: IRootReducerState) => state.staticData);
     const {currentUser} = useSelector((state: IRootReducerState) => state.account);
     const [addMedicalRecordDocumentFormInitialValues] = useState<IMedicalRecordDocumentAddForm>(_.cloneDeep(AddMedicalRecordDocumentFormInitialValues));
+    const navigate = useNavigate();
 
     const [isMedicalRecordDocumentFileAddInProgress, setIsMedicalRecordDocumentFileAddInProgress] = useState(false);
 
@@ -66,6 +68,7 @@ const AddMedicalRecordDocumentComponent = (props: AddMedicalRecordDocumentCompon
             .then((response: IAPIResponseType<any>) => {
                 CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                 setIsMedicalRecordDocumentFileAddInProgress(false);
+                navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId) +'?activeTab=attachmentList')
                 setRefreshToken && setRefreshToken(Math.random().toString(36).substring(7));
                 onAdd(response.data);
             })
@@ -74,7 +77,7 @@ const AddMedicalRecordDocumentComponent = (props: AddMedicalRecordDocumentCompon
                 CommonService._alert.showToast(error, "error");
                 setIsMedicalRecordDocumentFileAddInProgress(false);
             })
-    }, [medicalRecordId, onAdd,setRefreshToken]);
+    }, [navigate,medicalRecordId, onAdd,setRefreshToken]);
 
     return (
         <div className="add-medical-record-document-component">

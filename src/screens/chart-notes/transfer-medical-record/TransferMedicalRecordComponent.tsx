@@ -81,15 +81,19 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
                 key: 'select',
                 dataIndex: 'select',
                 render: (item: any) => {
-                    return <CheckBoxComponent
-                        value={item?._id}
-                        label={item?.note_type}
-                        disabled={shouldTransferEntireMedicalRecord}
-                        checked={selectedMedicalInterventions?.findIndex((selectedItem: any) => selectedItem?._id === item?._id) > -1}
-                        onChange={(isChecked) => {
-                            handleSelectMedicalIntervention(isChecked, item);
-                        }}
-                    />
+                    const isChecked = selectedMedicalInterventions?.findIndex((selectedItem: any) => selectedItem?._id === item?._id) > -1;
+
+                    return (
+                        <CheckBoxComponent
+                            value={item?._id}
+                            label={item?.note_type.length > 16 ? `${item?.note_type.slice(0, 16)}...` : item?.note_type}
+                            disabled={shouldTransferEntireMedicalRecord}
+                            checked={isChecked}
+                            onChange={(isChecked) => {
+                                handleSelectMedicalIntervention(isChecked, item);
+                            }}
+                        />
+                    );
                 },
                 width: 150,
             },
@@ -174,6 +178,17 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
             }
         ], [selectedMedicalRecordToTransferUnder]);
 
+    useEffect(() => {
+        // Set the default value to "No" when the component mounts
+        setShouldTransferEntireMedicalRecord(false);
+
+        // Check if all checkboxes are selected and update the "Yes" radio button accordingly
+        const allSelected = selectedMedicalInterventions.length > 0 && medicalInterventionList.every((item:any) =>
+            selectedMedicalInterventions.some((selectedItem:any) => selectedItem?._id === item?._id)
+        );
+        setShouldTransferEntireMedicalRecord(allSelected);
+    }, [selectedMedicalInterventions, medicalInterventionList]);
+
 
         const handleTransferMedicalRecord = useCallback(() => {
             setIsMedicalRecordTransferUnderProgress(true);
@@ -226,7 +241,7 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
                         <span>{selectedClient?.is_alias_name_set ? selectedClient?.alias_first_name + ' ' + selectedClient?.alias_last_name : selectedClient?.first_name + " " + selectedClient?.last_name}</span>
                     </div>
                     <div>
-                        <span className={'client-case-name-title mrg-left-10'}>Case:&nbsp;</span>
+                        <span className={'client-case-name-title mrg-left-10'}>&nbsp;Case:</span>
                         <span>{selectedMedicalRecordToTransferUnder?.injury_details?.map((injury: any, index: number) => {
                             return <>{" "}{injury.body_part_details.name} {injury.body_side ? `(${injury.body_side})` : ''}{index !== selectedMedicalRecordToTransferUnder?.injury_details.length - 1 ? <>,</> : ""}</>
                         })}</span>
@@ -403,8 +418,7 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
                                     if (value) {
                                         handleSelectAllMedicalInterventions(true);
                                     }
-                                }
-                                }
+                                }}
                             />
                         </div>
                         <div className={'medical-intervention-list-wrapper'}>

@@ -57,11 +57,13 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
             key: 'comments',
             title: 'Comments',
             dataIndex: 'comment',
-            align: "center",
             width: 600,
             render: (item: any) => {
-                return <div className={'comment'}>{item?.comment ||
-                    <div className={'display-flex ts-justify-content-center'}>N/A</div>}</div>
+                return <>
+                    {item?.comment?.length > 0 ? <div className={'text-align-left'}>{item?.comment}</div> :
+                        <div className={'text-align-center'}>N/A</div>
+                    }
+                </>
             }
         }
     ];
@@ -174,7 +176,7 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
                     CommonService._alert.showToast(error.error || "Error deleting provider", "error");
                 })
         })
-    }, [medicalRecordId, navigate,progressReportId]);
+    }, [medicalRecordId, navigate, progressReportId]);
 
     console.log('progressReportDetails', progressReportDetails);
 
@@ -258,7 +260,7 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
 
                     {isFullCardOpen && <>
 
-                        <DataLabelValueComponent label={'Medical Diagnosis/ICD Codes:'}>
+                        <DataLabelValueComponent label={'Medical Diagnosis/ICD Code:'}>
                             {progressReportDetails?.linked_icd_codes?.length > 0 ?
                                 <>
                                     {progressReportDetails?.linked_icd_codes.map((icdCode: any) => (

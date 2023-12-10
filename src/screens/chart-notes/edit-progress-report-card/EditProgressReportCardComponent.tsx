@@ -37,11 +37,13 @@ const EditProgressReportCardComponent = (props: EditProgressReportCardComponentP
     const {
         clientMedicalRecord,
     } = useSelector((state: IRootReducerState) => state.client);
+    
+    console.log('clientMedicalRecordProgressReportDetails',clientMedicalRecordProgressReportDetails);
 
     useEffect(() => {
         setAddProgressReportBasicInitialValues({
             intervention_linked_to: CommonService.generateInterventionNameFromMedicalRecord(clientMedicalRecord),
-            onset_date: clientMedicalRecordProgressReportDetails?.onset_date,
+            onset_date: clientMedicalRecordProgressReportDetails?.medical_record_details?.onset_date && CommonService.getSystemFormatTimeStamp(clientMedicalRecordProgressReportDetails?.medical_record_details?.onset_date),
             surgery_date: clientMedicalRecordProgressReportDetails?.medical_record_details?.surgery_date && CommonService.getSystemFormatTimeStamp(clientMedicalRecordProgressReportDetails?.medical_record_details?.surgery_date),
             physician_name: clientMedicalRecordProgressReportDetails?.physician_name,
         })
