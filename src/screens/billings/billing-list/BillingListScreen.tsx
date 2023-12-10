@@ -761,7 +761,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
         },
 
         {
-            title: 'Amount (Inc. tax)',
+            title: 'Amount (Incl. tax)',
             key: 'amount',
             dataIndex: 'amount',
             width: 200,
@@ -1330,7 +1330,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                 <div className={"mark-as-paid-total-outstanding-balance"}>
                     <DataLabelValueComponent
                         direction={"row"}
-                        label={"Total Amount (Inc.tax)"}>
+                        label={"Total Amount (Incl.tax)"}>
                         <span>
                             {Misc.CURRENCY_SYMBOL}{CommonService.convertToDecimals(selectedPayments.reduce((acc: any, payment: any) => acc + (payment?.total), 0))}
                         </span>

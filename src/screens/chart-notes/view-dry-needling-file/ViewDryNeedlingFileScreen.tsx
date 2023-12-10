@@ -111,7 +111,7 @@ const ViewDryNeedlingFileScreen = (props: ViewDryNeedlingFileScreenProps) => {
                                 }
                             });
                             setIsDryNeedlingAttachmentDeleting(false);
-                            CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY] || "Successfully deleted attachment", "success");
+                            // CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY] || "Successfully deleted attachment", "success");
                         }).catch((error: any) => {
                         setIsDryNeedlingAttachmentDeleting(false);
                         CommonService._alert.showToast(error?.error || "Error deleting an attachment", "success");
@@ -171,7 +171,7 @@ const ViewDryNeedlingFileScreen = (props: ViewDryNeedlingFileScreenProps) => {
                         });
                         setIsDryNeedlingAttachmentAdding(false);
                         setDryNeedlingFileAttachmentFile(undefined);
-                        CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY] || "Successfully added attachment", "success");
+                        // CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY] || "Successfully added attachment", "success");
                     }).catch((error: any) => {
                     setIsDryNeedlingAttachmentAdding(false);
                     CommonService._alert.showToast(error?.error || "Error adding an attachment", "success");
@@ -285,6 +285,7 @@ const ViewDryNeedlingFileScreen = (props: ViewDryNeedlingFileScreenProps) => {
                                         <div className="t-form-actions">
                                             <ButtonComponent
                                                 variant={"outlined"}
+                                                size={'large'}
                                                 className={isDryNeedlingAttachmentAdding ? 'mrg-right-15' : ''}
                                                 onClick={() => setDryNeedlingFileAttachmentFile(undefined)}
                                                 disabled={isDryNeedlingAttachmentAdding}
@@ -292,6 +293,7 @@ const ViewDryNeedlingFileScreen = (props: ViewDryNeedlingFileScreenProps) => {
                                                 Cancel
                                             </ButtonComponent>&nbsp;&nbsp;
                                             <ButtonComponent
+                                                size={'large'}
                                                 className={'mrg-left-15'}
                                                 onClick={handleDryNeedlingFileAttachmentAdd}
                                                 disabled={!dryNeedlingFileAttachmentFile || isDryNeedlingAttachmentAdding}

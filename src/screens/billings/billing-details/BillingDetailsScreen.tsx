@@ -772,7 +772,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                                         <div className="add-new-invoice__payment__block__row subtotal">
                                             <div
                                                 className="add-new-invoice__payment__block__row__title">
-                                                Subtotal (Inc. tax)
+                                                Subtotal (Incl. tax)
                                             </div>
                                             <div
                                                 className="add-new-invoice__payment__block__row__value">
@@ -791,7 +791,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                                         </div>
                                         <div className="add-new-invoice__payment__block__row grand">
                                             <div className="add-new-invoice__payment__block__row__title">
-                                                Grand Total (Inc. tax)
+                                                Grand Total (Incl. tax)
                                             </div>
                                             <div
                                                 className="add-new-invoice__payment__block__row__value">{Misc.CURRENCY_SYMBOL}

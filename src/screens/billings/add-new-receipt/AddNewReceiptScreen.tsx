@@ -877,7 +877,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                                                         <div className="add-new-receipt__payment__block__row">
                                                             <div
                                                                 className="add-new-receipt__payment__block__row__title">Subtotal
-                                                                (Inc. tax)
+                                                                (Incl. tax)
                                                             </div>
                                                             <div
                                                                 className="add-new-receipt__payment__block__row__value">
@@ -905,7 +905,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                                                         <div className="add-new-receipt__payment__block__row grand">
                                                             <div
                                                                 className="add-new-receipt__payment__block__row__title">
-                                                                Grand Total (Inc. tax)
+                                                                Grand Total (Incl. tax)
                                                             </div>
 
                                                             <div

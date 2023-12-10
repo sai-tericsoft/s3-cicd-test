@@ -700,7 +700,7 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                                                         <div className={'ts-col-3 mrg-top-25'}>
                                                             <div className={'d-flex ts-justify-content-sm-between'}>
                                                                 <div className={'payment-type-header'}>
-                                                                    Subtotal (Inc. tax)
+                                                                    Subtotal (Incl. tax)
                                                                 </div>
                                                                 <div className={'payment-type-header'}>
                                                                     {Misc.CURRENCY_SYMBOL}{CommonService.convertToDecimals(billDetail?.totalAmount)}
@@ -716,7 +716,7 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                                                             </div>
                                                             <div className={'d-flex ts-justify-content-sm-between'}>
                                                                 <div className={'payment-type-header-total'}>
-                                                                    Amount (Inc.tax)
+                                                                    Amount (Incl.tax)
                                                                 </div>
                                                                 <div className={'payment-type-header-total'}>
                                                                     {Misc.CURRENCY_SYMBOL}{CommonService.convertToDecimals(billDetail?.totalPayableAmount) || '0.00'}
@@ -770,7 +770,7 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                                             <div className="add-new-invoice__payment__block__row subtotal">
                                                 <div
                                                     className="add-new-invoice__payment__block__row__title">
-                                                    Subtotal (Inc. tax)
+                                                    Subtotal (Incl. tax)
                                                 </div>
                                                 <div
                                                     className="add-new-invoice__payment__block__row__value">
@@ -789,7 +789,7 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                                             </div>
                                             <div className="add-new-invoice__payment__block__row grand">
                                                 <div className="add-new-invoice__payment__block__row__title">
-                                                    Grand Total (Inc. tax)
+                                                    Grand Total (Incl. tax)
                                                 </div>
                                                 <div
                                                     className="add-new-invoice__payment__block__row__value">{Misc.CURRENCY_SYMBOL}

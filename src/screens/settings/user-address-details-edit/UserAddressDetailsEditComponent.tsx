@@ -12,6 +12,7 @@ import {CommonService} from "../../../shared/services";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import {IAPIResponseType} from "../../../shared/models/api.model";
 import {setUserBasicDetails} from "../../../store/actions/user.action";
+import {Patterns} from "../../../constants";
 
 interface UserAddressDetailsEditComponentProps {
     handleNext: () => void
@@ -147,7 +148,7 @@ const UserAddressDetailsEditComponent = (props: UserAddressDetailsEditComponentP
                                                     <FormikInputComponent
                                                         label={'ZIP Code'}
                                                         placeholder={'Enter ZIP Code'}
-                                                        type={"text"}
+                                                        validationPattern={Patterns.FIVE_DIGITS_ONLY}
                                                         required={true}
                                                         formikField={field}
                                                         fullWidth={true}

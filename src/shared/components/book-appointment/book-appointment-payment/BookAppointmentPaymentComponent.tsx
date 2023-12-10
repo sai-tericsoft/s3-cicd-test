@@ -249,7 +249,7 @@ const BookAppointmentPaymentComponent = (props: BookAppointmentPaymentComponentP
                                                 label={"Checkout Summary"} className={'checkout-summary'}/>
                                             <div className="price-holder">
                                                 <div className="price-item">
-                                                    <div className="price-item-text">Amount (Inc. tax)</div>
+                                                    <div className="price-item-text">Amount (Incl. tax)</div>
                                                     <div
                                                         className="price-item-amount amount">${CommonService.convertToDecimals(+booking?.amount)}</div>
                                                 </div>
@@ -263,7 +263,7 @@ const BookAppointmentPaymentComponent = (props: BookAppointmentPaymentComponentP
                                                 </div>
                                                 <HorizontalLineComponent className={'horizontal-line'}/>
                                                 <div className="price-item price-item-total">
-                                                    <div className="price-item-text">Total Amount (Inc.tax)</div>
+                                                    <div className="price-item-text">Total Amount (Incl.tax)</div>
                                                     <div className="price-item-amount green">
                                                         ${selectedCoupon ? CommonService.convertToDecimals(payableAmount) : CommonService.convertToDecimals(+booking?.amount)}
                                                     </div>

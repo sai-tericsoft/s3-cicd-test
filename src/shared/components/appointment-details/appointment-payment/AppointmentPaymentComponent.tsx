@@ -218,7 +218,7 @@ const AppointmentPaymentComponent = (props: AppointmentPaymentComponentProps) =>
                                                 label={"Checkout Summary"} className={'checkout-summary'}/>
                                             <div className="price-holder">
                                                 <div className="price-item">
-                                                    <div className="price-item-text amount">Amount (Inc. tax)</div>
+                                                    <div className="price-item-text amount">Amount (Incl. tax)</div>
                                                     <div className="price-item-amount">${CommonService.convertToDecimals(+details?.amount)}</div>
                                                 </div>
                                                 <div className="price-item">

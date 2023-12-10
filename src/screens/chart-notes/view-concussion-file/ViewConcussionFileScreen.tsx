@@ -112,7 +112,7 @@ const ViewConcussionFileScreen = (props: ViewConcussionFileScreenProps) => {
                                 }
                             });
                             setIsConcussionFileAttachmentDeleting(false);
-                            CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY] || "Successfully deleted attachment", "success");
+                            // CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY] || "Successfully deleted attachment", "success");
                         }).catch((error: any) => {
                         setIsConcussionFileAttachmentDeleting(false);
                         CommonService._alert.showToast(error?.error || "Error deleting an attachment", "success");
@@ -146,7 +146,7 @@ const ViewConcussionFileScreen = (props: ViewConcussionFileScreenProps) => {
                                 } else {
                                     medicalRecordId && navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId) + '?activeTab=attachmentList');
                                 }
-                                CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY] || "Successfully deleted document", "success");
+                                // CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY] || "Successfully deleted document", "success");
                             }
                         ).catch((error: any) => {
                         CommonService._alert.showToast(error?.error || "Error deleting document", "success");
@@ -174,7 +174,7 @@ const ViewConcussionFileScreen = (props: ViewConcussionFileScreenProps) => {
                         });
                         setConcussionFileFileAttachmentFile(undefined);
                         setIsConcussionFileAttachmentAdding(false);
-                        CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY] || "Successfully added attachment", "success");
+                        // CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY] || "Successfully added attachment", "success");
                     }).catch((error: any) => {
                     setIsConcussionFileAttachmentAdding(false);
                     CommonService._alert.showToast(error?.error || "Error adding an attachment", "success");
@@ -291,6 +291,7 @@ const ViewConcussionFileScreen = (props: ViewConcussionFileScreenProps) => {
                                     <div className="t-form-actions">
                                         <ButtonComponent
                                             variant={"outlined"}
+                                            size={'large'}
                                             className={isConcussionFileAttachmentAdding ? 'mrg-right-15' : ''}
                                             onClick={() => setConcussionFileFileAttachmentFile(undefined)}
                                             disabled={isConcussionFileAttachmentAdding}
@@ -299,6 +300,7 @@ const ViewConcussionFileScreen = (props: ViewConcussionFileScreenProps) => {
                                         </ButtonComponent>&nbsp;&nbsp;
                                         <ButtonComponent
                                             className={'mrg-left-15'}
+                                            size={'large'}
                                             onClick={handleConcussionFileFileAttachmentAdd}
                                             disabled={!concussionFileAttachmentFile || isConcussionFileAttachmentAdding}
                                             isLoading={isConcussionFileAttachmentAdding}

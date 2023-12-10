@@ -177,7 +177,7 @@ const EditInventoryProductDetailsComponent = (props: EditInventoryProductDetails
                                                 (field: FieldProps) => (
                                                     <FormikInputComponent
                                                         titleCase={true}
-                                                        label={'Price (Inc.Tax)'}
+                                                        label={'Price (Incl.Tax)'}
                                                         formikField={field}
                                                         fullWidth={true}
                                                         required={true}

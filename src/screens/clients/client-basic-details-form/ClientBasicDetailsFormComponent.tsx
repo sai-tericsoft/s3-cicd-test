@@ -5,7 +5,7 @@ import _ from "lodash";
 import {Field, FieldArray, FieldProps, Form, Formik, FormikHelpers} from "formik";
 import {CommonService} from "../../../shared/services";
 import {IAPIResponseType} from "../../../shared/models/api.model";
-import {ImageConfig} from "../../../constants";
+import {ImageConfig, Patterns} from "../../../constants";
 import FormikInputComponent from "../../../shared/components/form-controls/formik-input/FormikInputComponent";
 import CardComponent from "../../../shared/components/card/CardComponent";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
@@ -878,6 +878,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                             label={'ZIP Code'}
                                                             placeholder={'Enter ZIP Code'}
                                                             type={"text"}
+                                                            validationPattern={Patterns.FIVE_DIGITS_ONLY}
                                                             required={true}
                                                             formikField={field}
                                                             fullWidth={true}

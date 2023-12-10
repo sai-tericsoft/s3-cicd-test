@@ -172,7 +172,7 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
             }).then((response: any) => {
                 CommonService._chartNotes.RemoveSurgeryRecordAttachmentAPICall(surgeryRecordId, attachmentId)
                     .then((response: IAPIResponseType<any>) => {
-                        CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+                        // CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                         getSurgeryRecord(surgeryRecordId);
                     })
                     .catch((error: any) => {
@@ -215,7 +215,7 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
                 const formData = CommonService.getFormDataFromJSON({attachment});
                 CommonService._chartNotes.AddSurgeryRecordAttachmentAPICall(surgeryRecordDetails._id, formData)
                     .then((response: IAPIResponseType<any>) => {
-                        CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+                        // CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                         // setShowAddAttachment(false);
                         getSurgeryRecord(surgeryRecordDetails._id);
                     })

@@ -114,7 +114,7 @@ const ViewMedicalRecordDocumentScreen = (props: ViewMedicalRecordDocumentScreenP
                                 }
                             });
                             setIsMedicalRecordAttachmentDeleting(false);
-                            CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY] || "Successfully deleted attachment", "success");
+                            // CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY] || "Successfully deleted attachment", "success");
                             //const referrer: any = searchParams.get("referrer");
                             //const module_name: any = searchParams.get("module_name");
                             // if (referrer && referrer !== "undefined" && referrer !== "null") {
@@ -151,7 +151,7 @@ const ViewMedicalRecordDocumentScreen = (props: ViewMedicalRecordDocumentScreenP
                         });
                         setMedicalRecordDocumentAttachmentFile(undefined);
                         setIsMedicalRecordAttachmentAdding(false);
-                        CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY] || "Successfully added attachment", "success");
+                        // CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY] || "Successfully added attachment", "success");
 
                     }).catch((error: any) => {
                     setIsMedicalRecordAttachmentAdding(false);
@@ -226,18 +226,23 @@ const ViewMedicalRecordDocumentScreen = (props: ViewMedicalRecordDocumentScreenP
         }, [medicalRecordDocumentId]);
 
         const removeAccess = useCallback((item: any) => {
-            const payload = {
-                is_shared: false
-            }
-            CommonService._chartNotes.MedicalRecordDocumentEditAPICall(item?._id, payload)
-                .then((response: any) => {
-                    commonService._alert.showToast("Access removed successfully", "success");
-                    setIsShared(false);
-                })
-                .catch((error: any) => {
-                    CommonService._alert.showToast(error.error || "Error removing access", "error");
-                });
-
+            CommonService.onConfirm({
+                image: ImageConfig.ConfirmationLottie,
+                showLottie: true,
+                confirmationTitle: "REMOVE ACCESS",
+            }).then(() => {
+                const payload = {
+                    is_shared: false
+                }
+                CommonService._chartNotes.MedicalRecordDocumentEditAPICall(item?._id, payload)
+                    .then((response: any) => {
+                        commonService._alert.showToast("Access removed successfully", "success");
+                        setIsShared(false);
+                    })
+                    .catch((error: any) => {
+                        CommonService._alert.showToast(error.error || "Error removing access", "error");
+                    });
+            })
         }, [])
 
 
@@ -301,12 +306,14 @@ const ViewMedicalRecordDocumentScreen = (props: ViewMedicalRecordDocumentScreenP
                                         <div className="t-form-actions">
                                             <ButtonComponent
                                                 variant={"outlined"}
+                                                size={'large'}
                                                 onClick={() => setMedicalRecordDocumentAttachmentFile(undefined)}
                                                 disabled={isMedicalRecordAttachmentAdding}
                                             >
                                                 Cancel
                                             </ButtonComponent>&nbsp;&nbsp;
                                             <ButtonComponent
+                                                size={'large'}
                                                 onClick={handleMedicalRecordDocumentAttachmentAdd}
                                                 disabled={!medicalRecordDocumentAttachmentFile || isMedicalRecordAttachmentAdding}
                                                 isLoading={isMedicalRecordAttachmentAdding}

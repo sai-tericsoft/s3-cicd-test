@@ -7,7 +7,7 @@ import {Field, FieldProps, Form, Formik, FormikHelpers} from "formik";
 import * as Yup from "yup";
 import _ from "lodash";
 import {CommonService} from "../../../shared/services";
-import {Misc} from "../../../constants";
+import {Misc, Patterns} from "../../../constants";
 import FormikCheckBoxComponent from "../../../shared/components/form-controls/formik-check-box/FormikCheckBoxComponent";
 import FormikPhoneInputComponent
     from "../../../shared/components/form-controls/formik-phone-input/FormikPhoneInputComponent";
@@ -164,6 +164,7 @@ const EditBillingAddressComponent = (props: EditBillingAddressComponentProps) =>
                                                 label={"ZIP Code"}
                                                 placeholder={"Enter ZIP Code"}
                                                 required={true}
+                                                validationPattern={Patterns.FIVE_DIGITS_ONLY}
                                                 fullWidth={true}
                                                 formikField={field}
                                             />
