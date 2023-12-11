@@ -10,23 +10,12 @@
   }
 
   .t-form {
-    //.t-form-controls{
-    //  height: calc(100vh - 195px);
-    //}
-    .MuiPaper-root .MuiPaper-elevation {
-      .MuiList-root,
-      .MuiList-padding,
-      .MuiMenu-list {
-        max-height: 90px !important;
-        height: 90px;
-      }
-    }
-
-    //.MuiList-root-MuiMenu-list{
-    //  max-height: 290px !important;
-    //}
     .t-form-actions {
       margin-bottom: 0px;
+    }
+
+    .t-form-control {
+
     }
 
     .file-picker-wrapper {
@@ -35,4 +24,7 @@
   }
 }
 
-
+.MuiList-root {
+  max-height: 290px !important;
+  overflow: auto;
+}

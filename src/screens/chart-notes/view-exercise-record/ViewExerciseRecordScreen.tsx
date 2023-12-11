@@ -82,7 +82,7 @@ const ViewExerciseRecordScreen = (props: ViewExerciseLogComponentProps) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [isPrintLoading, setIsPrintLoading] = React.useState<boolean>(false);
-    const [isPrintExerciseLogLoading, setIsPrintExerciseLogLoading] = React.useState<boolean>(false);
+    const [printExerciseLogLoading, setPrintExerciseLogLoading] = React.useState<{ [id: string]: boolean }>({});
     const {
         medicalRecordViewExerciseRecord,
         isMedicalRecordViewExerciseRecordLoading,
@@ -128,26 +128,39 @@ const ViewExerciseRecordScreen = (props: ViewExerciseLogComponentProps) => {
 
 
     const handlePrintExerciseLog = useCallback((medicalInterventionId?: string) => {
-        setIsPrintExerciseLogLoading(true);
-        const payload = {
-            timezone: momentTimezone.tz.guess(),
-        }
         if (medicalInterventionId) {
+            setPrintExerciseLogLoading((prevLoading) => ({
+                ...prevLoading,
+                [medicalInterventionId]: true,
+            }));
+
+            const payload = {
+                timezone: momentTimezone.tz.guess(),
+            };
+
             CommonService._chartNotes.PrintExerciseLog(medicalInterventionId, payload)
                 .then((res: any) => {
-                    setIsPrintExerciseLogLoading(false);
+                    setPrintExerciseLogLoading((prevLoading) => ({
+                        ...prevLoading,
+                        [medicalInterventionId]: false,
+                    }));
+
                     const attachment = {
                         type: 'application/pdf',
                         url: res.data.url,
                         name: 'progress report',
-                        key: ''
+                        key: '',
                     };
+
                     CommonService.printAttachment(attachment);
                 })
                 .catch((err: any) => {
-                    setIsPrintExerciseLogLoading(false);
-                    console.log(err);
-                })
+                    setPrintExerciseLogLoading((prevLoading) => ({
+                        ...prevLoading,
+                        [medicalInterventionId]: false,
+                    }));
+                    console.error(err);
+                });
         }
     }, []);
 
@@ -226,9 +239,9 @@ const ViewExerciseRecordScreen = (props: ViewExerciseLogComponentProps) => {
                                                         {item?.provider_details?.first_name} {item?.provider_details?.last_name}
                                                     </DataLabelValueComponent>
                                                 </div>
-                                                <div className={'print-button-wrapper'}>
+                                                <div className={'ts-col-4 print-button-wrapper'}>
                                                     <ButtonComponent prefixIcon={<ImageConfig.PrintIcon/>}
-                                                                     isLoading={isPrintExerciseLogLoading}
+                                                                     isLoading={printExerciseLogLoading[item?.intervention_id]}
                                                                      onClick={() => {
                                                                          handlePrintExerciseLog(item?.intervention_id)
                                                                      }}>Print</ButtonComponent>

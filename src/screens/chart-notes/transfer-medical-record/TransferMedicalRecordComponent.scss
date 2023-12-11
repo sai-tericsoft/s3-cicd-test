@@ -2,13 +2,21 @@
 
 .transfer-medical-record-component {
   height: calc(100vh - 50px);
-  .transfer-file-to-heading{
+
+  .transfer-file-to-heading {
     margin-top: 12px;
   }
+
   .back-cross-btn-wrapper {
     display: flex;
     justify-content: space-between;
     margin-bottom: 10px;
+
+    .back-btn {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+    }
 
     .drawer-close {
       cursor: pointer;
@@ -22,22 +30,23 @@
       @include display-center();
     }
   }
-    .cross-btn {
-      display: flex;
-        align-items: center;
-        justify-content: end;
 
-      .drawer-close {
-        cursor: pointer;
-        position: relative;
-        top: 2px;
-        background: #F4F4F8;
-        padding: 16px;
-        border-radius: 50%;
-        height: 46px;
-        width: 46px;
-        @include display-center();
-      }
+  .cross-btn {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+
+    .drawer-close {
+      cursor: pointer;
+      position: relative;
+      top: 2px;
+      background: #F4F4F8;
+      padding: 16px;
+      border-radius: 50%;
+      height: 46px;
+      width: 46px;
+      @include display-center();
+    }
 
   }
 
@@ -50,15 +59,18 @@
       color: #6D6D6D;
       border: 1px solid #F3F3F3;
     }
-    .client-list-heading{
+
+    .client-list-heading {
       margin-bottom: 16px;
     }
 
     .t-table-wrapper {
       height: calc(100vh - 330px);
-      .t-table{
+
+      .t-table {
         height: calc(100vh - 330px);
-        .table-no-data-wrapper{
+
+        .table-no-data-wrapper {
           min-height: 400px;
         }
       }
@@ -69,11 +81,13 @@
     .card-component {
       margin-bottom: 16px;
     }
-    .medical-intervention-list-wrapper{
-      .t-table-wrapper{
-        .t-table{
+
+    .medical-intervention-list-wrapper {
+      .t-table-wrapper {
+        .t-table {
           height: calc(100vh - 405px);
-          .table-no-data-wrapper{
+
+          .table-no-data-wrapper {
             min-height: 400px;
           }
         }
@@ -100,11 +114,13 @@
     .client-mini-card {
       display: flex;
       align-items: center;
-    .avatar-component{
-      background: #FEF0BF;
-      font-size: 18px;
-      color: #212B36;
-    }
+
+      .avatar-component {
+        background: #FEF0BF;
+        font-size: 18px;
+        color: #212B36;
+      }
+
       .client-name {
         margin-left: 20px;
         font-weight: $font-weight-bold;
@@ -112,11 +128,13 @@
       }
     }
   }
-  .case-list-table{
-    .t-table-wrapper{
-      .t-table{
+
+  .case-list-table {
+    .t-table-wrapper {
+      .t-table {
         height: calc(100vh - 345px);
-        .table-no-data-wrapper{
+
+        .table-no-data-wrapper {
           min-height: 400px;
         }
       }

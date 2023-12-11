@@ -336,7 +336,7 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                                     <FieldArray
                                         name="followup_consultation"
                                         render={arrayHelpers => (
-                                            <CardComponent title={"Follow Up Consultation Details"}
+                                            <CardComponent title={"Follow-Up Consultation Details"}
                                                            className={"consultation-card-item"}
                                                            actions={<>
                                                                <ButtonComponent size={"small"}
@@ -357,7 +357,7 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                                                                 <div
                                                                     className={"display-flex align-items-center"}>
                                                                     <FormControlLabelComponent
-                                                                        label={`Follow Up Consultation Details ${index + 1}`}/>
+                                                                        label={`Follow-up Consultation Details ${index + 1}`}/>
                                                                     <div>
                                                                         {(index > 0) && <ButtonComponent
                                                                             size={'small'}

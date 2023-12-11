@@ -45,12 +45,12 @@ interface AddMedicalRecordDocumentComponentProps {
     medicalRecordId: string;
     medicalRecordDetails: any;
     onCancel: () => void;
-    setRefreshToken?:any;
+    setRefreshToken?: any;
 }
 
 const AddMedicalRecordDocumentComponent = (props: AddMedicalRecordDocumentComponentProps) => {
 
-    const {onAdd, medicalRecordId, medicalRecordDetails,setRefreshToken} = props;
+    const {onAdd, medicalRecordId, medicalRecordDetails, setRefreshToken} = props;
     const {medicalRecordDocumentTypes} = useSelector((state: IRootReducerState) => state.staticData);
     const {currentUser} = useSelector((state: IRootReducerState) => state.account);
     const [addMedicalRecordDocumentFormInitialValues] = useState<IMedicalRecordDocumentAddForm>(_.cloneDeep(AddMedicalRecordDocumentFormInitialValues));
@@ -60,15 +60,15 @@ const AddMedicalRecordDocumentComponent = (props: AddMedicalRecordDocumentCompon
 
     const onSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
         setIsMedicalRecordDocumentFileAddInProgress(true);
-        const tempValues  = {...values}
+        const tempValues = {...values}
         // let tempDocument_date = tempValues.remove("document_date")
         const formData = CommonService.getFormDataFromJSON(tempValues);
-        formData.append("document_date",values?.document_date);
+        formData.append("document_date", values?.document_date);
         CommonService._chartNotes.MedicalRecordDocumentAddAPICall(medicalRecordId, formData)
             .then((response: IAPIResponseType<any>) => {
                 CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                 setIsMedicalRecordDocumentFileAddInProgress(false);
-                navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId) +'?activeTab=attachmentList')
+                navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId) + '?activeTab=attachmentList')
                 setRefreshToken && setRefreshToken(Math.random().toString(36).substring(7));
                 onAdd(response.data);
             })
@@ -77,7 +77,7 @@ const AddMedicalRecordDocumentComponent = (props: AddMedicalRecordDocumentCompon
                 CommonService._alert.showToast(error, "error");
                 setIsMedicalRecordDocumentFileAddInProgress(false);
             })
-    }, [navigate,medicalRecordId, onAdd,setRefreshToken]);
+    }, [navigate, medicalRecordId, onAdd, setRefreshToken]);
 
     return (
         <div className="add-medical-record-document-component">
@@ -93,7 +93,7 @@ const AddMedicalRecordDocumentComponent = (props: AddMedicalRecordDocumentCompon
                     validateOnMount={true}
                     onSubmit={onSubmit}
                 >
-                    {({values,isValid, touched, errors, setFieldValue, validateForm}) => {
+                    {({values, isValid, touched, errors, setFieldValue, validateForm}) => {
                         // eslint-disable-next-line react-hooks/rules-of-hooks
                         useEffect(() => {
                             validateForm();
@@ -117,20 +117,22 @@ const AddMedicalRecordDocumentComponent = (props: AddMedicalRecordDocumentCompon
                                                     fullWidth={true}
                                                     disabled={true}
                                     />
-                                    <Field name={'document_date'} className="t-form-control">
-                                        {
-                                            (field: FieldProps) => (
-                                                <FormikDatePickerComponent
-                                                    label={'Date of Document'}
-                                                    placeholder={'Enter Date of Document'}
-                                                    required={true}
-                                                    formikField={field}
-                                                    maxDate={moment()}
-                                                    fullWidth={true}
-                                                />
-                                            )
-                                        }
-                                    </Field>
+                                    <div className={'select-wrapper'}>
+                                        <Field name={'document_date'} className="t-form-control">
+                                            {
+                                                (field: FieldProps) => (
+                                                    <FormikDatePickerComponent
+                                                        label={'Date of Document'}
+                                                        placeholder={'Enter Date of Document'}
+                                                        required={true}
+                                                        formikField={field}
+                                                        maxDate={moment()}
+                                                        fullWidth={true}
+                                                    />
+                                                )
+                                            }
+                                        </Field>
+                                    </div>
                                     <Field name={'document_type_id'} className="t-form-control">
                                         {
                                             (field: FieldProps) => (
@@ -159,7 +161,8 @@ const AddMedicalRecordDocumentComponent = (props: AddMedicalRecordDocumentCompon
                                         }
                                     </Field>
                                     <div className="mrg-bottom-20">
-                                        <FormControlLabelComponent label={"Upload Document"} className={'upload-document-heading'}
+                                        <FormControlLabelComponent label={"Upload Document"}
+                                                                   className={'upload-document-heading'}
                                                                    required={true}/>
                                         <>
                                             {

@@ -56,7 +56,10 @@
   }
   .ts-row{
     .print-button-wrapper{
-      margin-left: 400px;
+      display: flex;
+      justify-content: end;
+      margin-left: -40px !important;
+
     }
   }
 }

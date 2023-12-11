@@ -413,7 +413,7 @@ const ServiceEditScreen = (props: ServiceEditComponentProps) => {
                                     <FieldArray
                                         name="followup_consultation"
                                         render={arrayHelpers => (
-                                            <CardComponent title={"Follow Up Consultation Details"}
+                                            <CardComponent title={"Follow-Up Consultation Details"}
                                                            className={"mrg-bottom-20"}
                                                            size={"md"}
                                                            actions={<>
@@ -436,7 +436,7 @@ const ServiceEditScreen = (props: ServiceEditComponentProps) => {
                                                                     className={"display-flex"}>
                                                                     <FormControlLabelComponent
                                                                         className={'mrg-top-10 mrg-right-20'}
-                                                                        label={`Follow Up Consultation Details ${index + 1}`}/>
+                                                                        label={`Follow-up Consultation Details ${index + 1}`}/>
                                                                     <div>
                                                                         {(index > 0) && <ButtonComponent
                                                                             color={'error'}

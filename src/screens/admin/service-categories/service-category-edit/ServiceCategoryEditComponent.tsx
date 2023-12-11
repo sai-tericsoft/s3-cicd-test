@@ -197,6 +197,7 @@ const ServiceCategoryEditComponent = (props: ServiceCategoryEditComponentProps) 
                                                             (field: FieldProps) => (
                                                                 <FormikColorPickerComponent
                                                                     label={'Text Color:'}
+                                                                    className={'mrg-right-10'}
                                                                     formikField={field}
                                                                     required={true}
                                                                 />

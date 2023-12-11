@@ -178,16 +178,16 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
             }
         ], [selectedMedicalRecordToTransferUnder]);
 
-    useEffect(() => {
-        // Set the default value to "No" when the component mounts
-        setShouldTransferEntireMedicalRecord(false);
+        useEffect(() => {
+            // Set the default value to "No" when the component mounts
+            setShouldTransferEntireMedicalRecord(false);
 
-        // Check if all checkboxes are selected and update the "Yes" radio button accordingly
-        const allSelected = selectedMedicalInterventions.length > 0 && medicalInterventionList.every((item:any) =>
-            selectedMedicalInterventions.some((selectedItem:any) => selectedItem?._id === item?._id)
-        );
-        setShouldTransferEntireMedicalRecord(allSelected);
-    }, [selectedMedicalInterventions, medicalInterventionList]);
+            // Check if all checkboxes are selected and update the "Yes" radio button accordingly
+            const allSelected = selectedMedicalInterventions.length > 0 && medicalInterventionList.every((item: any) =>
+                selectedMedicalInterventions.some((selectedItem: any) => selectedItem?._id === item?._id)
+            );
+            setShouldTransferEntireMedicalRecord(allSelected);
+        }, [selectedMedicalInterventions, medicalInterventionList]);
 
 
         const handleTransferMedicalRecord = useCallback(() => {
@@ -335,7 +335,10 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
                 {
                     (currentStep === "selectInterventions" || currentStep === 'selectTargetMedicalRecord') &&
                     <div className={'back-cross-btn-wrapper'}>
-                        <div className="back-btn" onClick={handleBack}><ImageConfig.LeftArrow/></div>
+                        <div className="back-btn" onClick={handleBack}>
+                            <div><ImageConfig.LeftArrow/> </div>
+                            <div className={'back-text'}>Back</div>
+                        </div>
                         {/*<ToolTipComponent tooltip={"Close"} position={"left"}>*/}
                         <div className="drawer-close"
                              id={'book-appointment-close-btn'}

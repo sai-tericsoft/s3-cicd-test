@@ -47,7 +47,7 @@ interface AddConcussionFileComponentProps {
 
 const AddConcussionFileComponent = (props: AddConcussionFileComponentProps) => {
 
-    const {onAdd, medicalInterventionId, medicalRecordDetails,onClose} = props;
+    const {onAdd, medicalInterventionId, medicalRecordDetails, onClose} = props;
     const [currentStep, setCurrentStep] = useState<"selectType" | "form">("selectType");
     const {concussionFileTypes} = useSelector((state: IRootReducerState) => state.staticData);
     const [selectedConcussionFileType, setSelectedConcussionFileType] = useState<IConcussionFileType | undefined>(undefined);
@@ -83,14 +83,17 @@ const AddConcussionFileComponent = (props: AddConcussionFileComponentProps) => {
         if (currentStep === "form") {
             setCurrentStep("selectType");
         }
-    },[currentStep]);
+    }, [currentStep]);
 
     return (
         <div className={'add-concussion-file-component'}>
             {
                 (currentStep === "form") &&
                 <div className={'back-cross-btn-wrapper'}>
-                    <IconButtonComponent className="back-btn" onClick={handleBack}><ImageConfig.LeftArrow/></IconButtonComponent>
+                    <div className="back-btn" onClick={handleBack}>
+                        <div><ImageConfig.LeftArrow/></div>
+                        <div className={'back-text'}>Back</div>
+                    </div>
                     {/*<ToolTipComponent tooltip={"Close"} position={"left"}>*/}
                     <div className="drawer-close"
                          id={'book-appointment-close-btn'}
@@ -146,7 +149,7 @@ const AddConcussionFileComponent = (props: AddConcussionFileComponentProps) => {
                         validateOnMount={true}
                         onSubmit={onSubmit}
                     >
-                        {({values,isValid, touched, errors, setFieldValue, validateForm}) => {
+                        {({values, isValid, touched, errors, setFieldValue, validateForm}) => {
                             // eslint-disable-next-line react-hooks/rules-of-hooks
                             useEffect(() => {
                                 validateForm();
