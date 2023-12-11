@@ -128,7 +128,7 @@ const ClientAppointmentsTableComponent = (props: ClientAppointmentsTableComponen
             align:"center",
             render: (item: any) => {
                 console.log(item?.status);
-                return <ChipComponent label={CommonService.capitalizeFirstLetterAndRemoveUnderScore(item?.status)}
+                return <ChipComponent label={CommonService.capitalizeFirstLetterAndRemoveUnderScore(item?.status_details?.admin_title)}
                                       className={item?.status}
                 />
             }
