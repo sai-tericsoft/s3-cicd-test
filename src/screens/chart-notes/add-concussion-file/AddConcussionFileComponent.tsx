@@ -20,7 +20,6 @@ import ErrorComponent from "../../../shared/components/error/ErrorComponent";
 import FilePreviewThumbnailComponent
     from "../../../shared/components/file-preview-thumbnail/FilePreviewThumbnailComponent";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
-import IconButtonComponent from "../../../shared/components/icon-button/IconButtonComponent";
 
 const AddConcussionFileAddFormValidationSchema = Yup.object({
     document_date: Yup.mixed()

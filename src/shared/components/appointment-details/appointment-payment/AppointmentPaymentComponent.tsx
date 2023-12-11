@@ -12,7 +12,6 @@ import FormControlLabelComponent from "../../form-control-label/FormControlLabel
 import FormikSelectComponent from "../../form-controls/formik-select/FormikSelectComponent";
 import FormikTextAreaComponent from "../../form-controls/formik-text-area/FormikTextAreaComponent";
 import HorizontalLineComponent from "../../horizontal-line/horizontal-line/HorizontalLineComponent";
-import {ImageConfig} from "../../../../constants";
 
 
 interface AppointmentPaymentComponentProps {
@@ -44,7 +43,7 @@ const addAppointmentPaymentValidationSchema = Yup.object().shape({
 
 const AppointmentPaymentComponent = (props: AppointmentPaymentComponentProps) => {
 
-    const {onComplete,onBack, details} = props;
+    const {onComplete, details} = props;
     const {paymentModes} = useSelector((state: IRootReducerState) => state.staticData);
     const [availableCouponsList, setAvailableCouponsList] = useState<any[]>([]);
     const [selectedCoupon, setSelectedCoupon] = useState<any>(undefined);
