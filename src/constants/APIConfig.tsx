@@ -105,6 +105,10 @@ const APIConfig: IAPIConfig = {
         URL: ENV.API_URL + '/unEditableTime',
         METHOD: 'get'
     },
+    GET_SPECIAL_TESTS_META_LIST: {
+        URL: (bodyPartId: string) => ENV.API_URL + '/bodyPart/' + bodyPartId + '/specialTestsMetaList',
+        METHOD: 'get'
+    },
     //meta end
 
     // authentication start
@@ -970,7 +974,7 @@ const APIConfig: IAPIConfig = {
         METHOD: "post"
     },
     ADD_USER_SLOTS_FOR_SERVICE: {
-        URL:  ENV.API_URL + '/addServiceToProvider',
+        URL: ENV.API_URL + '/addServiceToProvider',
         METHOD: "post"
     },
 
@@ -1021,7 +1025,7 @@ const APIConfig: IAPIConfig = {
         METHOD: "post"
     },
     DELETE_BILLING_ADDRESS: {
-        URL:(billingAddressId: string) => ENV.API_URL + '/billingAddress/' + billingAddressId,
+        URL: (billingAddressId: string) => ENV.API_URL + '/billingAddress/' + billingAddressId,
         METHOD: "delete"
     },
     CREATE_CONSOLIDATED_PAYMENT: {
@@ -1073,23 +1077,23 @@ const APIConfig: IAPIConfig = {
         METHOD: "post"
     },
     PRINT_WAIVER_AND_RELEASE: {
-        URL: (clientId: string,appointmentId:string) => ENV.API_URL + '/client/' + clientId + '/appointment/'+ appointmentId +  '/waiverForm/generatePDF',
+        URL: (clientId: string, appointmentId: string) => ENV.API_URL + '/client/' + clientId + '/appointment/' + appointmentId + '/waiverForm/generatePDF',
         METHOD: "post"
     },
     PRINT_AUTHORIZATION_TO_RELEASE_FORM: {
-        URL: (clientId: string,appointmentId:string) => ENV.API_URL + '/client/' + clientId + '/appointment/'+ appointmentId +  '/authorizationToRMI/generatePDF',
+        URL: (clientId: string, appointmentId: string) => ENV.API_URL + '/client/' + clientId + '/appointment/' + appointmentId + '/authorizationToRMI/generatePDF',
         METHOD: "post"
     },
     PRINT_ATTENDANCE_POLICY: {
-        URL: (clientId: string,appointmentId:string) => ENV.API_URL + '/client/' + clientId + '/appointment/'+ appointmentId +  '/attendancePolicy/generatePDF',
+        URL: (clientId: string, appointmentId: string) => ENV.API_URL + '/client/' + clientId + '/appointment/' + appointmentId + '/attendancePolicy/generatePDF',
         METHOD: "post"
     },
     PRINT_NOTICE_OF_PRIVACY_PRACTICES: {
-        URL: (clientId: string,appointmentId:string) => ENV.API_URL + '/client/' + clientId + '/appointment/'+ appointmentId +  '/privacyNotice/generatePDF',
+        URL: (clientId: string, appointmentId: string) => ENV.API_URL + '/client/' + clientId + '/appointment/' + appointmentId + '/privacyNotice/generatePDF',
         METHOD: "post"
     },
     PRINT_NEW_INJURY_FORM: {
-        URL: (clientId: string,appointmentId:string) => ENV.API_URL + '/client/' + clientId + '/appointment/'+ appointmentId +  '/newInjuryForm/generatePDF',
+        URL: (clientId: string, appointmentId: string) => ENV.API_URL + '/client/' + clientId + '/appointment/' + appointmentId + '/newInjuryForm/generatePDF',
         METHOD: "post"
     },
     DELETE_PROGRESS_REPORT: {

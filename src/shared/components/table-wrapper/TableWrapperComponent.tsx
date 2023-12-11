@@ -38,13 +38,16 @@ const TableWrapperComponent = (props: TableComponentProps) => {
     const getListData = useCallback(() => {
         const cancelTokenSource = CommonService.getCancelToken();
         const payload = _.cloneDeep({limit: pageSizeRef.current, ...extraPayload, page: pageNumRef.current + 1});
-        console.log(payload);
         if (payload?.sort && payload?.sort?.key) { // TODO to make sort more consistent
             payload.sort[payload.sort.key] = payload?.sort?.order;
             delete payload.sort.key;
             delete payload.sort.order;
         } else {
             delete payload.sort;
+        }
+        if(!isPaginated){
+            delete payload.limit;
+            delete payload.page;
         }
         let apiCall;
         if (method === "post") {
@@ -63,7 +66,7 @@ const TableWrapperComponent = (props: TableComponentProps) => {
         apiCall.then((response: IAPIResponseType<any>) => {
             if (response.data) {
                 if (isPaginated) {
-                    listData = response?.data?.docs || [];
+                    listData = response?.data?.docs || response?.data || [];
                     totalResultsRef.current = response?.data?.total;
                 } else {
                     listData = response?.data

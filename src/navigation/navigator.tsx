@@ -277,7 +277,8 @@ const Navigator = (props: NavigatorProps) => {
                             element={
                                 <Navigate to={DASHBOARD}/>
                             }
-                        />}
+                        />
+                    }
 
                     <Route path={DASHBOARD} element={<DashboardLayoutComponent/>}{...props}>
                         <Route
