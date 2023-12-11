@@ -242,9 +242,10 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
                     </div>
                     <div>
                         <span className={'client-case-name-title mrg-left-10'}>&nbsp;Case:</span>
-                        <span>{selectedMedicalRecordToTransferUnder?.injury_details?.map((injury: any, index: number) => {
-                            return <>{" "}{injury.body_part_details.name} {injury.body_side ? `(${injury.body_side})` : ''}{index !== selectedMedicalRecordToTransferUnder?.injury_details.length - 1 ? <>,</> : ""}</>
-                        })}</span>
+                        <span>
+                           &nbsp; {(selectedMedicalRecordToTransferUnder?.injury_details.length > 2 ? selectedMedicalRecordToTransferUnder.injury_details.slice(0, 2).map((injury: any) => injury.body_part_details?.name + " (" + injury.body_side + ") ").join(', ') + " ..."
+                                : selectedMedicalRecordToTransferUnder.injury_details.map((injury: any) => injury.body_part_details?.name + " (" + injury.body_side + ") ").join(', '))}
+                        </span>
                     </div>
                 </div>
             })
@@ -336,7 +337,7 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
                     (currentStep === "selectInterventions" || currentStep === 'selectTargetMedicalRecord') &&
                     <div className={'back-cross-btn-wrapper'}>
                         <div className="back-btn" onClick={handleBack}>
-                            <div><ImageConfig.LeftArrow/> </div>
+                            <div><ImageConfig.LeftArrow/></div>
                             <div className={'back-text'}>Back</div>
                         </div>
                         {/*<ToolTipComponent tooltip={"Close"} position={"left"}>*/}

@@ -18,7 +18,7 @@ interface BookAppointmentOverviewComponentProps {
 }
 
 const BookAppointmentOverviewComponent = (props: BookAppointmentOverviewComponentProps) => {
-    const {onComplete, bookingDraft,onBack,onClose} = props;
+    const {onComplete, bookingDraft, onBack, onClose} = props;
     const {appointmentTypes} = useSelector((state: IRootReducerState) => state.staticData);
     // const [serviceDetails, setServiceDetails] = useState<any | null>(null);
     const [bookType, setBookType] = useState<any | null>(null);
@@ -88,16 +88,19 @@ const BookAppointmentOverviewComponent = (props: BookAppointmentOverviewComponen
     return (
         <div className={'book-appointment-overview-component'}>
             <div className="drawer-header">
-                <div className="back-btn" onClick={onBack}><ImageConfig.LeftArrow/></div>
+                <div className="back-btn" onClick={onBack}>
+                    <div><ImageConfig.LeftArrow/></div>
+                    <div className={'back-text'}>Back</div>
+                </div>
                 {/*<ToolTipComponent tooltip={"Close"} position={"left"}>*/}
-                    <div className="drawer-close"
-                         id={'book-appointment-close-btn'}
-                         onClick={(event) => {
-                             if (onClose) {
-                                 onClose();
-                             }
+                <div className="drawer-close"
+                     id={'book-appointment-close-btn'}
+                     onClick={(event) => {
+                         if (onClose) {
+                             onClose();
                          }
-                         }><ImageConfig.CloseIcon/></div>
+                     }
+                     }><ImageConfig.CloseIcon/></div>
                 {/*</ToolTipComponent>*/}
             </div>
             <div className="appointment-details-title">Appointment Details</div>
@@ -131,7 +134,8 @@ const BookAppointmentOverviewComponent = (props: BookAppointmentOverviewComponen
                                 <div
                                     className="item-value">
                                     <span className={bookingDraft?.client?.is_alias_name_set ? "alias-name" : ""}>
-                                    {commonService.generateClientNameFromClientDetails(bookingDraft?.client)}</span></div>
+                                    {commonService.generateClientNameFromClientDetails(bookingDraft?.client)}</span>
+                                </div>
                             </div>
                             <div className="details-body-item">
                                 <div className="item-heading"><ImageConfig.CallIcon/>&nbsp;&nbsp;Phone Number</div>
@@ -170,7 +174,7 @@ const BookAppointmentOverviewComponent = (props: BookAppointmentOverviewComponen
                                         </div>
                                         <div className={'ts-col-6'}>
                                             <ChipComponent className={'minutes-chip'} color={'success'}
-                                                           label={ bookingDraft?.duration.duration + ' mins'}/>
+                                                           label={bookingDraft?.duration.duration + ' mins'}/>
                                         </div>
                                     </div>
                                 </div>

@@ -90,7 +90,7 @@ const ClientAddComponent = (props: ClientAddComponentProps) => {
                     <span className={'client-case-name-title '}>Client:</span> <span>{values.first_name} {values.last_name}</span>
                 </div>
                 <div>
-                    <span className={'client-case-name-title'}>Email:</span> <span>{values.primary_email}</span>
+                    <span className={'client-case-name-title'}>&nbsp;Email:</span> <span>{values.primary_email}</span>
                 </div>
             </div>
 

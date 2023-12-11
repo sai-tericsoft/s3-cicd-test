@@ -96,7 +96,7 @@ const ClientProfileLayoutComponent = (props: ClientProfileLayoutComponentProps) 
                         <span className={'client-case-name-title '}>Client:</span> <span className={clientBasicDetails?.is_alias_name_set ? "alias-name":""}>{commonService.generateClientNameFromClientDetails(clientBasicDetails)}</span>
                     </div>
                     <div>
-                        <span className={'client-case-name-title'}>Email:</span> <span>{clientBasicDetails.primary_email}</span>
+                        <span className={'client-case-name-title'}>&nbsp;Email:</span> <span>{clientBasicDetails.primary_email}</span>
                     </div>
                 </div>
             }).then(() => {

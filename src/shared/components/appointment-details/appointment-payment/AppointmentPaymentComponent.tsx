@@ -12,6 +12,7 @@ import FormControlLabelComponent from "../../form-control-label/FormControlLabel
 import FormikSelectComponent from "../../form-controls/formik-select/FormikSelectComponent";
 import FormikTextAreaComponent from "../../form-controls/formik-text-area/FormikTextAreaComponent";
 import HorizontalLineComponent from "../../horizontal-line/horizontal-line/HorizontalLineComponent";
+import {ImageConfig} from "../../../../constants";
 
 
 interface AppointmentPaymentComponentProps {
@@ -43,7 +44,7 @@ const addAppointmentPaymentValidationSchema = Yup.object().shape({
 
 const AppointmentPaymentComponent = (props: AppointmentPaymentComponentProps) => {
 
-    const { onComplete, details} = props;
+    const {onComplete,onBack, details} = props;
     const {paymentModes} = useSelector((state: IRootReducerState) => state.staticData);
     const [availableCouponsList, setAvailableCouponsList] = useState<any[]>([]);
     const [selectedCoupon, setSelectedCoupon] = useState<any>(undefined);
@@ -120,8 +121,11 @@ const AppointmentPaymentComponent = (props: AppointmentPaymentComponentProps) =>
     return (
         <div className={'appointment-payment-component'}>
             <div className="drawer-header">
-                {/*<div className="back-btn" onClick={onBack}><ImageConfig.LeftArrow/></div>*/}
-                {/*<ToolTipComponent tooltip={"Close"} position={"left"}>*/}
+                {/*<div className="back-btn" onClick={onBack}>*/}
+                {/*    <div><ImageConfig.LeftArrow/></div>*/}
+                {/*    <div className={'back-text'}>Back</div>*/}
+                {/*</div>*/}
+                {/*/!*<ToolTipComponent tooltip={"Close"} position={"left"}>*!/*/}
                 {/*    <div className="drawer-close"*/}
                 {/*         id={'appointment-close-btn'}*/}
                 {/*         onClick={(event) => {*/}
@@ -219,13 +223,15 @@ const AppointmentPaymentComponent = (props: AppointmentPaymentComponentProps) =>
                                             <div className="price-holder">
                                                 <div className="price-item">
                                                     <div className="price-item-text amount">Amount (Incl. tax)</div>
-                                                    <div className="price-item-amount">${CommonService.convertToDecimals(+details?.amount)}</div>
+                                                    <div
+                                                        className="price-item-amount">${CommonService.convertToDecimals(+details?.amount)}</div>
                                                 </div>
                                                 <div className="price-item">
                                                     <div className="price-item-text discount">Discount</div>
                                                     <div className="price-item-amount red">
                                                         {/*{selectedCoupon ? `- $ ${CommonService.convertToDecimals(discountAmount)}` : `$0` || 'N/A'}*/}
-                                                        {selectedCoupon ? `- $${CommonService.convertToDecimals(discountAmount)}` : <div className={'zero-discount'}>$0.00</div> || 'N/A'}
+                                                        {selectedCoupon ? `- $${CommonService.convertToDecimals(discountAmount)}` :
+                                                            <div className={'zero-discount'}>$0.00</div> || 'N/A'}
 
                                                     </div>
                                                 </div>

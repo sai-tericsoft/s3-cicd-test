@@ -464,7 +464,10 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
         <div className={`book-appointment-form-component`}>
             <div className="drawer-header">
                 {
-                    !isMedicalRecordDetails && <div className="back-btn" onClick={onBack}><ImageConfig.LeftArrow/></div>
+                    !isMedicalRecordDetails && <div className="back-btn" onClick={onBack}>
+                        <div><ImageConfig.LeftArrow/></div>
+                        <div className={'back-text'}>Back</div>
+                    </div>
                 }
                 {
                     isMedicalRecordDetails && <div className="back-btn"/>

@@ -22,7 +22,7 @@ interface BookAppointmentPaymentComponentProps {
     onComplete?: (values: any) => void,
     booking: any,
     need_intervention?: any,
-    caseDetails?:any,
+    caseDetails?: any,
 }
 
 const addAppointmentPaymentInitialValues: any = {
@@ -47,13 +47,13 @@ const addAppointmentPaymentValidationSchema = Yup.object().shape({
 });
 
 const BookAppointmentPaymentComponent = (props: BookAppointmentPaymentComponentProps) => {
-    const {onComplete,need_intervention, booking,onClose,onBack} = props;
+    const {onComplete, need_intervention, booking, onClose, onBack} = props;
     const {paymentModes} = useSelector((state: IRootReducerState) => state.staticData);
     const [availableCouponsList, setAvailableCouponsList] = useState<any[]>([]);
     const [selectedCoupon, setSelectedCoupon] = useState<any>(undefined);
     const [discountAmount, setDiscountAmount] = useState<number>(0);
     const [payableAmount, setPayableAmount] = useState<number>(0);
-    const [appointmentAndInterventionIds,setAppointmentAndInterventionIds ] = useState<any>('');
+    const [appointmentAndInterventionIds, setAppointmentAndInterventionIds] = useState<any>('');
 
     const onCouponSelect = useCallback((value: any) => {
         setSelectedCoupon(value);
@@ -107,7 +107,7 @@ const BookAppointmentPaymentComponent = (props: BookAppointmentPaymentComponentP
         })
             .then((response: IAPIResponseType<any>) => {
                 if (onComplete) {
-                    onComplete({...response.data,...appointmentAndInterventionIds});
+                    onComplete({...response.data, ...appointmentAndInterventionIds});
                 }
             })
             .catch((error: any) => {
@@ -116,7 +116,7 @@ const BookAppointmentPaymentComponent = (props: BookAppointmentPaymentComponentP
             .finally(() => {
                 setSubmitting(false);
             })
-    }, [onComplete, selectedCoupon?._id,appointmentAndInterventionIds]);
+    }, [onComplete, selectedCoupon?._id, appointmentAndInterventionIds]);
 
     const createBooking = useCallback((values: any, {setErrors, setSubmitting}: FormikHelpers<any>) => {
             //medical_record_id
@@ -124,14 +124,17 @@ const BookAppointmentPaymentComponent = (props: BookAppointmentPaymentComponentP
             const payload: any = {
                 ...booking
             }
-            if(need_intervention){
+            if (need_intervention) {
                 payload.need_intervention = need_intervention;
                 payload.intervention_date = moment().format('YYYY-MM-DD');
             }
             CommonService._appointment.addAppointment(payload)
                 .then((response: IAPIResponseType<any>) => {
                     if (response?.data) {
-                        setAppointmentAndInterventionIds({appointmentId:response.data._id,interventionId:response.data.intervention_id});
+                        setAppointmentAndInterventionIds({
+                            appointmentId: response.data._id,
+                            interventionId: response.data.intervention_id
+                        });
                         onSubmitAppointmentPayment({
                             ...values,
                             appointmentId: response.data._id
@@ -145,7 +148,7 @@ const BookAppointmentPaymentComponent = (props: BookAppointmentPaymentComponentP
                     setSubmitting(true);
                 })
         },
-        [booking, onSubmitAppointmentPayment,need_intervention]
+        [booking, onSubmitAppointmentPayment, need_intervention]
     );
 
 
@@ -154,7 +157,10 @@ const BookAppointmentPaymentComponent = (props: BookAppointmentPaymentComponentP
     return (
         <div className={'book-appointment-payment-component'}>
             <div className="drawer-header">
-                <div className="back-btn" onClick={onBack}><ImageConfig.LeftArrow/></div>
+                <div className="back-btn" onClick={onBack}>
+                    <div><ImageConfig.LeftArrow/></div>
+                    <div className={'back-text'}>Back</div>
+                </div>
                 {/*<ToolTipComponent tooltip={"Close"} position={"left"}>*/}
                 <div className="drawer-close"
                      id={'book-appointment-close-btn'}
