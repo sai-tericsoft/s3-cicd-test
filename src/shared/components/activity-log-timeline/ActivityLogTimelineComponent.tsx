@@ -316,7 +316,7 @@ const ActivityLogTimelineComponent = (props: ActivityLogTimelineComponentProps) 
             old_value,
             section
         } = logItem;
-        field_name = (field_name === "Surgeries" || field_name === "Medical History" ) ? "list of titles" : field_name;
+        field_name = (field_name === "Surgeries" || field_name === "Medical History") ? "list of titles" : field_name;
         field_name = objectTypes.includes(section) ? "object" : field_name;
         field_name = listOfObjectsFields.includes(field_name) ? "List of objects" : field_name;
         switch (field_name) {
@@ -690,7 +690,7 @@ const ActivityLogTimelineComponent = (props: ActivityLogTimelineComponentProps) 
                     <div className={'default-activity-log'}>
                         <DataLabelValueComponent label={"From"}
                         >
-                            {old_value ?
+                            {(old_value || old_value === false) ?
                                 <div className={'old-value-log'}>
                                     {
                                         JSON.stringify(old_value)
@@ -699,7 +699,7 @@ const ActivityLogTimelineComponent = (props: ActivityLogTimelineComponentProps) 
                         </DataLabelValueComponent>
                         <DataLabelValueComponent label={"To"}
                         >
-                            {updated_value ?
+                            {(updated_value || updated_value === false) ?
                                 <div className={'updated-value-log'}>
                                     {
                                         JSON.stringify(updated_value)
