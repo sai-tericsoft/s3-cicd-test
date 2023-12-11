@@ -297,7 +297,7 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
             updatedGlobalRomConfig.push({
                 body_part: selectedBodyPart,
                 rom_config: [],
-                selected_sides: [...selectedBodyPart?.sides],
+                selected_sides: [...selectedBodyPart?.rom_applicable_sides],
                 mode: 'write'
             });
         }
@@ -307,7 +307,7 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
         for (const selectedBodyPart of selectedBodyPartsToBeAdded) {
             romFormValuesCopy[selectedBodyPart._id] = generateROMConfigForAnInjury(
                 selectedBodyPart,
-                [...selectedBodyPart?.sides],
+                [...selectedBodyPart?.rom_applicable_sides],
                 []
             );
         }
@@ -583,7 +583,7 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
                                 >
                                     {(formik) => {
                                         const {validateForm, values, isValid, setFieldValue, isSubmitting} = formik;
-// eslint-disable-next-line react-hooks/rules-of-hooks
+                                        // eslint-disable-next-line react-hooks/rules-of-hooks
                                         useEffect(() => {
                                             validateForm();
                                             setRomFormValues(values);

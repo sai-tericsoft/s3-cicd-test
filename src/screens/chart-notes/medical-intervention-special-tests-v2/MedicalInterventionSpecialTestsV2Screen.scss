@@ -12,13 +12,14 @@
   }
 
   .rom-config-table-container {
-    .t-table{
-      .t-thead{
-        .t-th{
+    .t-table {
+      .t-thead {
+        .t-th {
           height: 80px !important;
         }
       }
     }
+
     .t-table-wrapper {
       .t-table {
         min-height: max-content !important;
@@ -58,6 +59,35 @@
 
   .check-box-component {
     margin-left: 35px !important;
+  }
+
+}
+
+.add-special-test-drawer {
+
+  .add-special-test-drawer-title {
+    margin-top: 11px;
+    margin-bottom: 15px;
+    color: #212B36;
+    font-size: 20px;
+    font-weight: 700;
+
+    .selected-body-part {
+      color: #212B36;
+      font-size: 16px;
+      font-weight: 400;
+    }
+  }
+
+  .add-special-test-drawer-body {
+    height: calc(100vh - 270px);
+    .t-table-wrapper {
+      height: calc(100vh - 280px);
+      .table-no-data-wrapper{
+        min-height: 300px!important;
+      }
+    }
+    margin-bottom: 30px;
   }
 
 }

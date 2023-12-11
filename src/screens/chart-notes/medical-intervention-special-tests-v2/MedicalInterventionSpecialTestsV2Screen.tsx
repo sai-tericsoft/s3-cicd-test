@@ -3,7 +3,7 @@ import PageHeaderComponent from "../../../shared/components/page-header/PageHead
 import MedicalRecordBasicDetailsCardComponent
     from "../medical-record-basic-details-card/MedicalRecordBasicDetailsCardComponent";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
-import React, {useCallback, useEffect, useState} from "react";
+import React, {useCallback, useEffect, useMemo, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
 import {useNavigate, useParams, useSearchParams} from "react-router-dom";
@@ -11,7 +11,7 @@ import {getMedicalInterventionDetails} from "../../../store/actions/chart-notes.
 import {IBodyPart, IBodyPartSpecialTestConfig} from "../../../shared/models/static-data.model";
 import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
-import {ImageConfig} from "../../../constants";
+import {APIConfig, ImageConfig} from "../../../constants";
 import {Field, FieldProps, Form, Formik, FormikHelpers} from "formik";
 import TableComponent from "../../../shared/components/table/TableComponent";
 import CardComponent from "../../../shared/components/card/CardComponent";
@@ -24,6 +24,9 @@ import FormikTextAreaComponent from "../../../shared/components/form-controls/fo
 import CheckBoxComponent from "../../../shared/components/form-controls/check-box/CheckBoxComponent";
 import {setCurrentNavParams} from "../../../store/actions/navigation.action";
 import FormikCheckBoxComponent from "../../../shared/components/form-controls/formik-check-box/FormikCheckBoxComponent";
+import DrawerComponent from "../../../shared/components/drawer/DrawerComponent";
+import SearchComponent from "../../../shared/components/search/SearchComponent";
+import TableWrapperComponent from "../../../shared/components/table-wrapper/TableWrapperComponent";
 
 interface MedicalInterventionSpecialTestV2ScreenProps {
 
@@ -34,6 +37,11 @@ const SPECIAL_TEST_CONFIG_INITIAL_VALUES = {
 }
 
 // const SPECIAL_TEST_APPLICABLE_BODY_SIDES = ['Left', 'Right', 'Central'];
+
+const INITIAL_SPECIAL_TEST_FILTER_STATE = {
+    body_part_id: "",
+    search: "",
+}
 
 const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecialTestV2ScreenProps) => {
 
@@ -53,12 +61,47 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
     const [selectedBodyPartForComments, setSelectedBodyPartForComments] = useState<any>(undefined);
     const [selectedSpecialTestForComments, setSelectedSpecialTestForComments] = useState<any>(undefined);
     const [isBodyPartBeingDeleted, setIsBodyPartBeingDeleted] = useState<boolean>(false);
-    const [isAddSpecialTestModalOpen, setIsAddSpecialTestModalOpen] = useState<boolean>(false);
+    const [isAddSpecialTestDrawerOpen, setIsAddSpecialTestDrawerOpen] = useState<boolean>(false);
     const [showAddBodyPartModal, setShowAddBodyPartModal] = useState<boolean>(false);
     const [selectedBodyPartsToBeAdded, setSelectedBodyPartsToBeAdded] = useState<any[]>([]);
+    const [specialTestsFilterState, setSpecialTestsFilterState] = useState<any>(INITIAL_SPECIAL_TEST_FILTER_STATE); // {body_part_id: {selected_sides: [], special_tests: []}}
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
     const last_position: any = searchParams.get("last_position");
+    // const [bodyPartSelectedTest, setBodyPartSelectedTest] = useState<any>(undefined);
+
+    const handleBodySideSelect = useCallback((isSelected: boolean, specialTest: string) => {
+        if (isSelected) {
+            setSelectedBodyPartForSpecialTestSelection({
+                ...selectedBodyPartForSpecialTestSelection,
+                tempSelectedSpecialTests: [...selectedBodyPartForSpecialTestSelection?.tempSelectedSpecialTests, specialTest]
+            });
+        } else {
+            setSelectedBodyPartForSpecialTestSelection({
+                ...selectedBodyPartForSpecialTestSelection,
+                tempSelectedSpecialTests: selectedBodyPartForSpecialTestSelection?.tempSelectedSpecialTests?.filter((item: string) => item !== specialTest)
+            });
+        }
+    }, [selectedBodyPartForSpecialTestSelection]);
+
+    const specialTestSelectionColumns = useMemo(() => [
+        {
+            title: 'Special Tests',
+            key: 'special_tests',
+            render: (record: any) => {
+                return <div className="body-part-special-tests">
+                    <CheckBoxComponent
+                        label={record.name}
+                        checked={selectedBodyPartForSpecialTestSelection?.tempSelectedSpecialTests?.includes(record.name)}
+                        onChange={(isChecked: boolean) => {
+                            handleBodySideSelect(isChecked,record?.name);
+                        }}
+                    />
+
+                </div>
+            }
+        },
+    ], [selectedBodyPartForSpecialTestSelection,handleBodySideSelect]);
 
     const handleCheckBoxChange = (formik: any, groupName: string, selectedValue: any, options: any[]) => {
         return (isChecked: boolean) => {
@@ -349,7 +392,7 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
             updatedGlobalRomConfig.push({
                 body_part: selectedBodyPart,
                 rom_config: [],
-                selected_sides: [...selectedBodyPart?.sides],
+                selected_sides: [...selectedBodyPart?.special_test_applicable_sides],
                 mode: 'write'
             });
         }
@@ -359,7 +402,7 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
         for (const selectedBodyPart of selectedBodyPartsToBeAdded) {
             specialTestFormValuesCopy[selectedBodyPart._id] = generateSpecialTestConfigForAnInjury(
                 selectedBodyPart,
-                [...selectedBodyPart?.sides],
+                [...selectedBodyPart?.special_test_applicable_sides],
                 []
             );
         }
@@ -393,12 +436,9 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
     useEffect(() => {
         const specialTestConfig: any = [];
         const special_test_config = medicalInterventionDetails?.special_tests;
-        console.log(medicalInterventionDetails);
-        console.log(special_test_config);
         const injury_details = medicalInterventionDetails?.medical_record_details?.injury_details;
         if (special_test_config?.length > 0) {
             special_test_config?.forEach((injury: any) => {
-                console.log(injury.special_tests);
                 const configArray = injury?.special_tests || [];
                 const finalConfigArray: any = [];
                 configArray?.forEach((config: any) => {
@@ -418,7 +458,7 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
                     specialTestConfig.push({
                         body_part: injury?.body_part_details,
                         special_test_config: injury?.special_tests || [],
-                        selected_sides: injury?.body_part_details?.sides,
+                        selected_sides: injury?.body_part_details?.special_test_applicable_sides,
                         mode: 'write'
                     });
                     // } else {
@@ -436,7 +476,7 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
                         specialTestConfig.push({
                             body_part: injury?.body_part_details,
                             special_test_config: [],
-                            selected_sides: injury?.body_part_details?.sides,
+                            selected_sides: injury?.body_part_details?.special_test_applicable_sides,
                             mode: 'write'
                         });
                         // } else {
@@ -464,7 +504,7 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
                 Object.keys(special_test_config).forEach((special_test_name: string) => {
                     const specialTestConfig = special_test_config[special_test_name];
                     const config: any = {};
-                    if(specialTestConfig?.commentsTemp){
+                    if (specialTestConfig?.commentsTemp) {
                         config.comments = specialTestConfig?.commentsTemp;
                     }
                     if (specialTestConfig?.comments) {
@@ -481,14 +521,14 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
                             }
                         }
                     });
-                    if (Object.keys(config).length > 0){
+                    if (Object.keys(config).length > 0) {
                         bodyPartData.special_tests.push({
                             name: special_test_name,
                             config,
                         });
                     }
                 });
-                if (bodyPartData?.special_tests?.length > 0){
+                if (bodyPartData?.special_tests?.length > 0) {
                     config.push(bodyPartData);
                 }
             });
@@ -541,27 +581,19 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
             ...bodyPart,
             tempSelectedSpecialTests: _.cloneDeep(Object.keys(specialTestFormValues?.[bodyPart?._id]?.special_test_config)) || []
         });
-        setIsAddSpecialTestModalOpen(true);
+        setSpecialTestsFilterState((prevFilterState: any) => {
+            return {
+                ...prevFilterState,
+                body_part_id: bodyPart?._id
+            }
+        })
+        setIsAddSpecialTestDrawerOpen(true);
     }, [specialTestFormValues]);
 
     const closeAddSpecialTestModal = useCallback(() => {
         setSelectedBodyPartForSpecialTestSelection(undefined);
-        setIsAddSpecialTestModalOpen(false);
+        setIsAddSpecialTestDrawerOpen(false);
     }, []);
-
-    const handleBodySideSelect = useCallback((isSelected: boolean, specialTest: string) => {
-        if (isSelected) {
-            setSelectedBodyPartForSpecialTestSelection({
-                ...selectedBodyPartForSpecialTestSelection,
-                tempSelectedSpecialTests: [...selectedBodyPartForSpecialTestSelection?.tempSelectedSpecialTests, specialTest]
-            });
-        } else {
-            setSelectedBodyPartForSpecialTestSelection({
-                ...selectedBodyPartForSpecialTestSelection,
-                tempSelectedSpecialTests: selectedBodyPartForSpecialTestSelection?.tempSelectedSpecialTests?.filter((item: string) => item !== specialTest)
-            });
-        }
-    }, [selectedBodyPartForSpecialTestSelection]);
 
     const addSpecialTestToBodyPart = useCallback((bodyPart: any, test: string) => {
         // add special test to body part
@@ -606,9 +638,9 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
         setSelectedBodyPartForSpecialTestSelection(undefined);
     }, [closeAddSpecialTestModal, selectedBodyPartForSpecialTestSelection, addSpecialTestToBodyPart, removeSpecialTestFromBodyPart]);
 
-    const handleSpecialTestAddSelectCancel = useCallback(() => {
-        closeAddSpecialTestModal();
-    }, [closeAddSpecialTestModal]);
+    // const handleSpecialTestAddSelectCancel = useCallback(() => {
+    //     closeAddSpecialTestModal();
+    // }, [closeAddSpecialTestModal]);
 
     return (
         <div className={'medical-intervention-rom-config-v2-screen'}>
@@ -815,46 +847,87 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
                     </>
                 }
             </>
-            <ModalComponent isOpen={isAddSpecialTestModalOpen}
-                            title={"Add Special Tests:"}
-                            className={"intervention-special-test-selection-modal"}
-                            modalFooter={<div>
-                                <ButtonComponent
-                                    onClick={handleSpecialTestAddSelectCancel}
-                                    variant={"outlined"}
-                                >
-                                    Cancel
-                                </ButtonComponent>&nbsp;&nbsp;
-                                <ButtonComponent
-                                    className={'mrg-left-15'}
-                                    onClick={handleSpecialTestSelectConfirm}>
-                                    Add Test
-                                </ButtonComponent>
-                            </div>}
+            <DrawerComponent isOpen={isAddSpecialTestDrawerOpen}
+                             onClose={closeAddSpecialTestModal}
+                             showClose={true}
             >
-                <div className={'body-side-modal'}>
-                    <div>
-                        <div className={'intervention-special-test-selection-modal-title'}>
-                            Body Part: {selectedBodyPartForSpecialTestSelection?.name}
-                        </div>
+                <div className={'add-special-test-drawer'}>
+                    <div className={'add-special-test-drawer-title'}>
+                        Add Test <span
+                        className={'selected-body-part'}>(Body part: {selectedBodyPartForSpecialTestSelection?.name})</span>
                     </div>
-                    <>
-                        {
-                            selectedBodyPartForSpecialTestSelection?.special_tests?.map((test: string) => {
-                                const name = test;
-                                return <CheckBoxComponent
-                                    label={name}
-                                    key={name}
-                                    checked={selectedBodyPartForSpecialTestSelection?.tempSelectedSpecialTests?.includes(name)}
-                                    onChange={(isChecked) => {
-                                        handleBodySideSelect(isChecked, name);
-                                    }}
-                                />
-                            })
-                        }
-                    </>
+                    <SearchComponent label={'Search'}
+                                     placeholder={'Search using Test Name'}
+                                     value={specialTestsFilterState?.search}
+                                     onSearchChange={(value: any) => {
+                                         setSpecialTestsFilterState((prevFilterState: any) => {
+                                             return {
+                                                 ...prevFilterState,
+                                                 search: value
+                                             }
+                                         })
+                                     }}
+                    />
+                    <div className={'add-special-test-drawer-body'}>
+                        <TableWrapperComponent
+                            url={APIConfig.GET_SPECIAL_TESTS_META_LIST.URL(selectedBodyPartForSpecialTestSelection?._id)}
+                            method={"get"}
+                            columns={specialTestSelectionColumns}
+                            isPaginated={false}
+                            extraPayload={specialTestsFilterState}
+                            />
+                    </div>
+                    <div className={'add-special-test-drawer-action'}>
+                        <ButtonComponent
+                            variant={"contained"}
+                            onClick={handleSpecialTestSelectConfirm}
+                            fullWidth={true}
+                        >
+                            Next
+                        </ButtonComponent>
+                    </div>
                 </div>
-            </ModalComponent>
+            </DrawerComponent>
+            {/*<ModalComponent isOpen={isAddSpecialTestDrawerOpen}*/}
+            {/*                title={"Add Special Tests:"}*/}
+            {/*                className={"intervention-special-test-selection-modal"}*/}
+            {/*                modalFooter={<div>*/}
+            {/*                    <ButtonComponent*/}
+            {/*                        onClick={handleSpecialTestAddSelectCancel}*/}
+            {/*                        variant={"outlined"}*/}
+            {/*                    >*/}
+            {/*                        Cancel*/}
+            {/*                    </ButtonComponent>&nbsp;&nbsp;*/}
+            {/*                    <ButtonComponent*/}
+            {/*                        className={'mrg-left-15'}*/}
+            {/*                        onClick={handleSpecialTestSelectConfirm}>*/}
+            {/*                        Add Test*/}
+            {/*                    </ButtonComponent>*/}
+            {/*                </div>}*/}
+            {/*>*/}
+            {/*    <div className={'body-side-modal'}>*/}
+            {/*        <div>*/}
+            {/*            <div className={'intervention-special-test-selection-modal-title'}>*/}
+            {/*                Body Part: {selectedBodyPartForSpecialTestSelection?.name}*/}
+            {/*            </div>*/}
+            {/*        </div>*/}
+            {/*        <>*/}
+            {/*            {*/}
+            {/*                selectedBodyPartForSpecialTestSelection?.special_tests?.map((test: string) => {*/}
+            {/*                    const name = test;*/}
+            {/*                    return <CheckBoxComponent*/}
+            {/*                        label={name}*/}
+            {/*                        key={name}*/}
+            {/*                        checked={selectedBodyPartForSpecialTestSelection?.tempSelectedSpecialTests?.includes(name)}*/}
+            {/*                        onChange={(isChecked) => {*/}
+            {/*                            handleBodySideSelect(isChecked, name);*/}
+            {/*                        }}*/}
+            {/*                    />*/}
+            {/*                })*/}
+            {/*            }*/}
+            {/*        </>*/}
+            {/*    </div>*/}
+            {/*</ModalComponent>*/}
             <ModalComponent
                 isOpen={showAddBodyPartModal}
                 title={"Add Body Part: "}

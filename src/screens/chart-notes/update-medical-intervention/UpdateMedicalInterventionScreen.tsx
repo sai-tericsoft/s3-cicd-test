@@ -194,7 +194,7 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
             }
         }
 
-        const bodySidesColumns = bodyPart.body_part_details?.sides?.map((side: any) => {
+        const bodySidesColumns = bodyPart.body_part_details?.special_test_applicable_sides?.map((side: any) => {
             return {
                 title: side + " Side",
                 key: side,
