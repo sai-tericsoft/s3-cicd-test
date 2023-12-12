@@ -84,6 +84,8 @@ const BookAppointmentOverviewComponent = (props: BookAppointmentOverviewComponen
         },
         [onComplete],
     );
+    
+    console.log('bookingDraft',bookingDraft);
 
     return (
         <div className={'book-appointment-overview-component'}>
@@ -177,6 +179,18 @@ const BookAppointmentOverviewComponent = (props: BookAppointmentOverviewComponen
                                                            label={bookingDraft?.duration.duration + ' mins'}/>
                                         </div>
                                     </div>
+                                </div>
+                            </div>
+                            <div className="details-body-item">
+                                <div className="item-heading"><ImageConfig.FolderIcon/>&nbsp;&nbsp;Case Name
+                                </div>
+                                <div
+                                    className="item-value">
+                                    {CommonService.generateInterventionNameFromMedicalRecord(bookingDraft?.case) || 'N/A'}
+                                    <div>
+
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
