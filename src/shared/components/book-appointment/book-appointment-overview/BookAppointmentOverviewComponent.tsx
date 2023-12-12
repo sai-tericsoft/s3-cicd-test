@@ -85,8 +85,6 @@ const BookAppointmentOverviewComponent = (props: BookAppointmentOverviewComponen
         [onComplete],
     );
     
-    console.log('bookingDraft',bookingDraft);
-
     return (
         <div className={'book-appointment-overview-component'}>
             <div className="drawer-header">
