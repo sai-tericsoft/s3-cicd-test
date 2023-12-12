@@ -37,6 +37,9 @@
         row-gap: 20px;
         column-gap: 20px;
         flex-wrap: wrap;
+        .inactive{
+          text-transform: lowercase !important;
+        }
       }
     }
 
