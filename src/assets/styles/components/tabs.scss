@@ -6,26 +6,28 @@
   flex-direction: column;
 
   .t-tabs {
-    //border-bottom: 1px solid #dfdfdf;
+    background-color: #FFFFFF;
+    .MuiTabs-root{
+      border-radius: 8px !important;
+      box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    }
 
+    &:first-child {
+      border-top-left-radius: 8px;
+      border-bottom-left-radius: 8px;
+
+    }
+    &:last-child {
+      border-top-right-radius: 8px;
+      border-bottom-right-radius: 8px;
+
+    }
     .t-tab {
-      //
-      border: 1px solid #E7E7E7;
-      //border-bottom: 2px solid #E7E7E7;
       background: #FFFFFF;
       text-transform: unset !important;
       font-size: 14px;
       font-weight: $font-weight-normal;
-      text-decoration: underline;
 
-      //&:first-child {
-      //  border-left: 2px solid #E7E7E7;
-      //}
-      //
-      //&:last-child {
-      //  border-right: 2px solid #E7E7E7;
-      //
-      //}
     }
 
     .t-tab.Mui-selected {
@@ -34,9 +36,12 @@
 
     &.primary {
       .t-tab.Mui-selected {
-        background: $primary-color !important;
+
+        background: linear-gradient(to right, #285778, #47A3AA)!important;
         color: $white;
         font-weight: 500;
+        margin: 8px;
+        border-radius: 8px;
       }
     }
   }

@@ -117,7 +117,7 @@
     width: #{$side-bar-holder-width}px;
     min-width: #{$side-bar-holder-width}px;
     height: 100vh;
-    background: $side-bar-holder-bg-color;
+    background: linear-gradient(to bottom, #285778, #47A3AA);;
     position: relative;
 
     .logo-holder {
