@@ -466,7 +466,7 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
         }
 
     }, [medicalInterventionId]);
-
+    
     return (
         <div className={'add-medical-intervention-screen'}>
             {
@@ -1337,6 +1337,7 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                                                 <ESignApprovalComponent isSigned={signedObject?.is_signed}
                                                                         isSigning={isSigningInProgress}
                                                     // isLoading={formik.isSubmitting}
+                                                                        signature_url={medicalInterventionDetails?.signature}
                                                                         canSign={true}
                                                                         signedAt={signedObject?.signed_on}
                                                                         onSign={() => {

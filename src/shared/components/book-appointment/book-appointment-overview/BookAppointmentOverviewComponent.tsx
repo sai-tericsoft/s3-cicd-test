@@ -84,7 +84,7 @@ const BookAppointmentOverviewComponent = (props: BookAppointmentOverviewComponen
         },
         [onComplete],
     );
-    
+
     return (
         <div className={'book-appointment-overview-component'}>
             <div className="drawer-header">

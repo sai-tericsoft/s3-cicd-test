@@ -371,7 +371,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
             align: 'center',
             width: 40,
             render: (record: any) => {
-                return <>{Misc.CURRENCY_SYMBOL}{CommonService.convertToDecimals(record?.amount)}</>
+                return <>{Misc.CURRENCY_SYMBOL}{CommonService.convertToDecimals(record?.rate)}</>
             }
         },
         {
@@ -383,7 +383,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
             width: 100,
             render: (record: any) => {
                 return <>
-                    {Misc.CURRENCY_SYMBOL}{CommonService.convertToDecimals(record?.amount * record?.units)}
+                    {Misc.CURRENCY_SYMBOL}{CommonService.convertToDecimals(record?.rate * record?.units)}
                 </>
             }
         }
