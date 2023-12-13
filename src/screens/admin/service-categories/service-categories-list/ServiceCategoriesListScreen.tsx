@@ -83,20 +83,21 @@ const ServiceCategoriesListScreen = (props: ServiceCategoriesListScreenProps) =>
                     </ButtonComponent>
                 </div>
             </div>
+
+            <div>
+                {
+                    isServiceCategoryListLoading &&
+                    <div><LoaderComponent type={'progress'}/></div>
+                }
+                {
+                    isServiceCategoryListLoadingFailed &&
+                    <StatusCardComponent  className="h-v-center loading-and-failed-message-wrapper"
+                                          title={"Unable to load data. Please wait a moment and try again."}/>
+                }
+            </div>
             <CardComponent className="service-category-list-card">
                 <div className="service-category-list-wrapper">
-                    <div>
-                        {
-                            isServiceCategoryListLoading &&
-                            <div className="h-v-center loading-and-failed-message-wrapper"><LoaderComponent
-                                type={"spinner"}/></div>
-                        }
-                        {
-                            isServiceCategoryListLoadingFailed &&
-                            <StatusCardComponent  className="h-v-center loading-and-failed-message-wrapper"
-                                title={"Unable to load data. Please wait a moment and try again."}/>
-                        }
-                    </div>
+
                     {
                         isServiceCategoryListLoaded && <>
                             {serviceCategoryList?.length === 0 &&
