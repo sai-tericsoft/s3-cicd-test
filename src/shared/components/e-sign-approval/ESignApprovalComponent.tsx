@@ -32,7 +32,6 @@ const ESignApprovalComponent = (props: ESignApprovalComponentProps) => {
         }
     }, [onSign]);
 
-    console.log(signature_url);
 
     useEffect(() => {
         if(!signature_url){
