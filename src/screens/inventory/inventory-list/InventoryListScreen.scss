@@ -8,6 +8,7 @@
 
 
   .t-table-wrapper .t-table {
+    height: calc(100vh - 220px) !important;
     .t-th, .t-td {
       &:first-child {
         padding-left: 30px;
