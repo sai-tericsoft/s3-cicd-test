@@ -1,9 +1,22 @@
-.user-slots-details-component{
-  .t-tabs-wrapper{
-    .t-tab-panel{
-      .card-component{
+.user-slots-details-component {
+  .t-tabs-wrapper {
+    .t-tab-panel {
+      padding-bottom: 0 !important;
+
+      .card-component {
         margin-bottom: 0px !important;
+
+        .slots-timings-table-view-wrapper {
+          .horizontal-line-wrapper {
+            margin-bottom: 0 !important;
+          }
+        }
+
+        .divider {
+          margin-bottom: 0 !important;
+        }
       }
     }
+
   }
 }
