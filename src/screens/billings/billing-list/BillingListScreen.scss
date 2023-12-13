@@ -4,7 +4,10 @@
   }
 
   .billing-stats-card {
-    //padding: 0 8px !important;
+    padding: 0 8px !important;
+    &.last-card{
+      padding-right: 10px !important;
+    }
   }
 
   .consolidation-switch-wrapper {

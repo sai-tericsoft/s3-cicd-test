@@ -1189,7 +1189,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                                         icon={<ImageConfig.CompletedPayments/>}
                                     />
                                 </div>
-                                <div className="ts-col-lg-3 ts-col-md-6 ts-col-sm-6 billing-stats-card">
+                                <div className="ts-col-lg-3 ts-col-md-6 ts-col-sm-6 billing-stats-card last-card">
                                     <BillingStatsCardComponent
                                         title={"Discount Amount"}
                                         amount={billingStats?.discounts}
