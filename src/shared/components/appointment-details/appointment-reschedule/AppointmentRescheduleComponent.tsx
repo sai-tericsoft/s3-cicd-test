@@ -15,6 +15,7 @@ import FormikDatePickerComponent from "../../form-controls/formik-date-picker/Fo
 import LoaderComponent from "../../loader/LoaderComponent";
 import commonService from "../../../services/common.service";
 import momentTimezone from "moment-timezone";
+import LottieFileGenerationComponent from "../../lottie-file-generation/LottieFileGenerationComponent";
 
 interface AppointmentRescheduleComponentProps {
     onClose?: () => void,
@@ -549,10 +550,10 @@ const AppointmentRescheduleComponent = (props: AppointmentRescheduleComponentPro
                     {/*</ToolTipComponent>*/}
                 </div>
                 <div className="flex-1 booking-confirmation-status">
-                    <div className="booking-confirmation-status-icon"
-                         style={{backgroundImage: 'url(' + ImageConfig.AppointmentConfirm + ')'}}>
-                        <ImageConfig.VerifiedCheck width={24}/>
-                    </div>
+                    {/*<div className="booking-confirmation-status-icon"*/}
+                    {/*     style={{backgroundImage: 'url(' + ImageConfig.AppointmentConfirm + ')'}}>*/}
+                    {/*    <ImageConfig.VerifiedCheck width={24}/>*/}
+                    {/*</div>*/}
                     <div className="booking-confirmation-status-text">
                         Are you sure with rescheduling the appointment
                         with <b>{reschedule.provider?.first_name}&nbsp;{reschedule.provider?.last_name}</b> on <b>{CommonService.convertDateFormat2(reschedule.date)}</b> at&nbsp;
@@ -576,10 +577,13 @@ const AppointmentRescheduleComponent = (props: AppointmentRescheduleComponentPro
             </>}
             {step === 'confirm' && <>
                 <div className="flex-1 booking-confirmation-status">
-                    <div className="booking-confirmation-status-icon"
-                         style={{backgroundImage: 'url(' + ImageConfig.AppointmentConfirm + ')'}}>
-                        <ImageConfig.VerifiedCheck width={24}/>
-                    </div>
+                    {/*<div className="booking-confirmation-status-icon"*/}
+                    {/*     style={{backgroundImage: 'url(' + ImageConfig.AppointmentConfirm + ')'}}>*/}
+                    {/*    <ImageConfig.VerifiedCheck width={24}/>*/}
+                    {/*</div>*/}
+                    <LottieFileGenerationComponent animationData={ImageConfig.CheckLottie} autoplay={true}
+
+                    />
                     <div className="booking-confirmation-status-text">
                         Booking Rescheduled!
                     </div>
