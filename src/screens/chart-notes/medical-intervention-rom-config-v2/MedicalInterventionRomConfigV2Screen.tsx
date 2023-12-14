@@ -346,8 +346,8 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
     useEffect(() => {
         const romConfig: any = [];
         const rom_config = medicalInterventionDetails?.rom_config;
-        // const injury_details = medicalInterventionDetails?.medical_record_details?.injury_details;
-        // if (romConfig?.length > 0) {
+        console.log("rom_config", rom_config);
+        const injury_details = medicalInterventionDetails?.medical_record_details?.injury_details;
         rom_config?.forEach((injury: any) => {
             if (!romConfig?.find((item: any) => item?.body_part?._id === injury?.body_part_id)) {
                 romConfig.push({
@@ -359,6 +359,22 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
             } else {
                 const bodyPartIndex = romConfig.findIndex((item: any) => item?.body_part?._id === injury?.body_part_id);
                 romConfig[bodyPartIndex].selected_sides.push(injury.body_side);
+            }
+        });
+        injury_details?.forEach((injury: any) => {
+            const injuryBodyPart = bodyPartList?.find((bodyPart: any) => bodyPart?._id === injury?.body_part_id);
+            if (injuryBodyPart && injuryBodyPart?.rom_applicable_sides?.includes(injury?.body_side)){
+                if (!romConfig?.find((item: any) => item?.body_part?._id === injury?.body_part_id)) {
+                    romConfig.push({
+                        body_part: injury?.body_part_details,
+                        rom_config: [],
+                        selected_sides: [injury?.body_side],
+                        mode: 'write'
+                    });
+                } else {
+                    const bodyPartIndex = romConfig.findIndex((item: any) => item?.body_part?._id === injury?.body_part_id);
+                    romConfig[bodyPartIndex].selected_sides.push(injury?.body_side);
+                }
             }
         });
         // }
@@ -379,7 +395,7 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
         // }
         setGlobalRomConfig(romConfig);
         buildRomConfig(romConfig);
-    }, [medicalInterventionDetails, buildRomConfig]);
+    }, [medicalInterventionDetails, buildRomConfig,bodyPartList]);
 
     const handleROMConfigSave = useCallback((values: any, {setSubmitting}: FormikHelpers<any>) => {
         if (medicalInterventionId) {
