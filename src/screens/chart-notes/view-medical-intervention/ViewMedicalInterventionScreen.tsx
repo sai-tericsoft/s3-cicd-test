@@ -323,7 +323,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
         if (medicalRecordId) {
             navigate(CommonService._routeConfig.MedicalInterventionExerciseLogView(medicalRecordId, medicalInterventionDetails?._id))
         }
-    }, [navigate])
+    }, [navigate,medicalInterventionDetails?._id, medicalRecordId])
 
     return (
         <div className={'add-medical-intervention-screen'}>

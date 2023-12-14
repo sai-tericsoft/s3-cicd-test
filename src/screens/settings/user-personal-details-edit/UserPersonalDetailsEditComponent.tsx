@@ -140,7 +140,9 @@ const UserPersonalDetailsEditComponent = (props: UserPersonalDetailsEditComponen
                         // eslint-disable-next-line react-hooks/rules-of-hooks
                         useEffect(() => {
                             validateForm();
+                            console.log('val', values);
                         }, [validateForm, values]);
+
                         return (
                             <Form noValidate={true} className={"t-form"}>
                                 {/*<FormDebuggerComponent showDebugger={true} values={values} errors={errors}/>*/}
@@ -322,6 +324,10 @@ const UserPersonalDetailsEditComponent = (props: UserPersonalDetailsEditComponen
                                         />
                                         <SignaturePadComponent
                                             image={values?.signature}
+                                            onClear={() => {
+                                                setFieldValue('signature', '');
+                                            }
+                                            }
                                             onSign={(signImage) => {
                                                 setFieldValue('signature', signImage);
                                             }}/>
@@ -336,10 +342,14 @@ const UserPersonalDetailsEditComponent = (props: UserPersonalDetailsEditComponen
 
                                 {(values?.signature && userBasicDetails?.signature) && <div className="user-signature">
                                     <ESignApprovalComponent isSigned={true}
+                                                            onSign={() => {
+                                                                setFieldValue('signature', values?.signature);
+
+                                                            }}
                                                             signature_url={values?.signature}
                                     /> <br/>
                                     <LinkComponent onClick={() => {
-                                        setFieldValue('signature', "");
+                                        setFieldValue('signature', '');
                                     }
                                     }>
                                         Remove Signature
@@ -352,7 +362,7 @@ const UserPersonalDetailsEditComponent = (props: UserPersonalDetailsEditComponen
                                         size={'large'}
                                         className={'submit-cta'}
                                         isLoading={isSubmitting}
-                                        disabled={isSubmitting || !isValid || CommonService.isEqual(values, initialValues)}
+                                        disabled={isSubmitting || !isValid || CommonService.isEqual(values, initialValues) || !values?.signature}
                                         type={"submit"}
                                     >
                                         {isSubmitting ? "Saving" : "Save"}
