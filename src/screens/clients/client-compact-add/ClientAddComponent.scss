@@ -26,6 +26,22 @@
       margin-left: 14px;
     }
   }
+  .message-box-wrapper{
+    background-color: #F7F9F9;
+    margin-left: 12px;
+    padding: 12px;
+    border-radius: 10px;
+    .message-heading{
+      font-weight: 700;
+      text-decoration: underline;
+      padding-left: 12px;
+    }
+    .list-text{
+      padding-top: 12px;
+      padding-bottom: 20px;
+    }
+
+  }
   .MuiFormControlLabel-label{
     color: #000000;
   }
