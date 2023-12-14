@@ -39,7 +39,7 @@ const formValidationSchema = Yup.object({
         .max(9, 'SSN cannot be more than 9-digits'),
     gender: Yup.string().required('Gender is required'),
     // npi_number: Yup.string().required('NPI number is required'),
-    assigned_facilities: Yup.array().required('Gender is required'),
+    assigned_facilities: Yup.array().min(1, 'At least one facility must be assigned'),
     // signature: Yup.string().required()
 });
 
