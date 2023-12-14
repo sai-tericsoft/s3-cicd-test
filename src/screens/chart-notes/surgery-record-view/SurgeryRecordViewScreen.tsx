@@ -205,7 +205,7 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
             })
         })
 
-    }, [medicalRecordId, navigate]);
+    }, []);
 
 
     const onAttachmentSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
