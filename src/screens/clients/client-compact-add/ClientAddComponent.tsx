@@ -5,7 +5,7 @@ import {Field, FieldProps, Form, Formik, FormikHelpers} from "formik";
 import FormikInputComponent from "../../../shared/components/form-controls/formik-input/FormikInputComponent";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import {CommonService} from "../../../shared/services";
-import { ImageConfig, Misc} from "../../../constants";
+import {ImageConfig, Misc} from "../../../constants";
 import {useNavigate} from "react-router-dom";
 import * as Yup from "yup";
 import FormikPhoneInputComponent
@@ -40,7 +40,7 @@ const clientAddsValidationSchema = Yup.object({
     primary_contact_info: Yup.object({
         phone: Yup.string()
             .required('Phone Number is required')
-            .test('is-ten-digits', 'Phone number must contain exactly 10 digits', (value:any) => {
+            .test('is-ten-digits', 'Phone number must contain exactly 10 digits', (value: any) => {
                 return value?.length === 10
             }),
     }),
@@ -82,12 +82,13 @@ const ClientAddComponent = (props: ClientAddComponentProps) => {
         };
         CommonService.onConfirm({
             image: ImageConfig.PopupLottie,
-            showLottie:true,
+            showLottie: true,
             confirmationTitle: 'SEND INVITE LINK',
             confirmationSubTitle: 'Are you sure you want to send invite link to:',//${values.first_name} ${values.last_name} having email ${values.primary_email}?`,
-            confirmationDescription:<div className="transfer-file-to">
+            confirmationDescription: <div className="transfer-file-to">
                 <div className={'mrg-bottom-15'}>
-                    <span className={'client-case-name-title '}>Client:</span> <span>{values.first_name} {values.last_name}</span>
+                    <span className={'client-case-name-title '}>Client:</span>
+                    <span>{values.first_name} {values.last_name}</span>
                 </div>
                 <div>
                     <span className={'client-case-name-title'}>&nbsp;Email:</span> <span>{values.primary_email}</span>
@@ -192,6 +193,34 @@ const ClientAddComponent = (props: ClientAddComponentProps) => {
                                         )
                                     }
                                 </Field>
+                                <div className={'ts-row'}>
+                                    <div className={'message-box-wrapper'}>
+                                        <div className={'message-heading'}>
+                                            Check the box based on client type:
+                                        </div>
+                                        <ul className={'list-text'}>
+                                            <li>
+                                                If client is new and will self sign up: Uncheck box, Click "Send
+                                                Invite Link"
+                                            </li>
+                                        </ul>
+                                        <ul>
+                                            <li>
+                                                If client exists already:
+                                            </li>
+                                        </ul>
+                                        <ul className={'pdd-left-25'}>
+                                            <li>
+                                                Want notification: Uncheck box, Click "Proceed with Adding Client"
+                                            </li>
+                                            <li>
+                                                Do NOT want notification: Check box, Click "Proceed with Adding
+                                                Client"
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                </div>
 
                                 {/*<>*/}
                                 {/*    {*/}
