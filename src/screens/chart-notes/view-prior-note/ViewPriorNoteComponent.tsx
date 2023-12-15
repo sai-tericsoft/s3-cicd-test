@@ -8,6 +8,8 @@ import {IRootReducerState} from "../../../store/reducers";
 import TableComponent from "../../../shared/components/table/TableComponent";
 import {useLocation} from "react-router-dom";
 import FormControlLabelComponent from "../../../shared/components/form-control-label/FormControlLabelComponent";
+import {ImageConfig} from "../../../constants";
+import React from "react";
 
 interface ViewPriorNoteComponentProps {
     medicalRecordDetails: any;
@@ -28,6 +30,16 @@ const ViewPriorNoteComponent = (props: ViewPriorNoteComponentProps) => {
 
 
     const ViewPriorNoteColumns: ITableColumn[] = [
+        {
+            title: '',
+            key: "flag",
+            dataIndex: 'is_flagged',
+            width: 40,
+            fixed: 'left',
+            render: (item: any) => {
+                return <div className={'flag-wrapper'}>{item?.is_flagged && <ImageConfig.FlagIcon/>}</div>
+            }
+        },
         {
             title: "Date",
             key: "date",

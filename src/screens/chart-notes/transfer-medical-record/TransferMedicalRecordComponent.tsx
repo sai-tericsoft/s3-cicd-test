@@ -76,6 +76,17 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
         }, [selectedMedicalInterventions]);
 
         const MedicalInterventionListColumns: ITableColumn[] = useMemo(() => [
+
+            {
+                title: '',
+                key: "flag",
+                dataIndex: 'is_flagged',
+                width: 40,
+                fixed: 'left',
+                render: (item: any) => {
+                    return <div className={'flag-wrapper'}>{item?.is_flagged && <ImageConfig.FlagIcon/>}</div>
+                }
+            },
             {
                 title: "File Name",
                 key: 'select',
@@ -95,7 +106,7 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
                         />
                     );
                 },
-                width: 150,
+                width: 120,
             },
             {
                 title: 'Date',
