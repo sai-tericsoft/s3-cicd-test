@@ -1,4 +1,4 @@
-const primary = "#00534F";
+const primary = "#275778";
 const secondary = "#000";
 const info = "#5d9eff";
 const backgroundColor = "#FBFCFC";

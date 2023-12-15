@@ -325,7 +325,7 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
 
                     {
                         (isClientMedicalRecordLoaded && clientMedicalRecord) && <>
-                            <CardComponent color={'primary'}>
+                            <CardComponent>
                                 <div className={'client-name-button-wrapper'}>
                                     <span className={'client-name-wrapper'}>
                                         <span className={'client-name'}>

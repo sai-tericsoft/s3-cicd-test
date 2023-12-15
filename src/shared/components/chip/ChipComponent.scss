@@ -8,18 +8,18 @@
   text-transform: capitalize;
 
   &.active {
-    background: #BDE8CA;
-    color: #00534F;
+    background: #2CA091;
+    color: #FFFFFF;
   }
 
   &.inactive {
-    background: #DDDDDD;
-    color: #5e5e5e;
+    background: #B7B7B7;
+    color: #FFFFFF;
   }
 
   &.completed {
-    background: #E4F6EA;
-    color: #00534F;
+    background: #2CA091;
+    color: #2CA091;
   }
 
   &.out_of_stock {
@@ -28,8 +28,8 @@
   }
 
   &.draft {
-    background: #FFEDDD;
-    color: #EF7300;
+    background: #8A54AF;
+    color: #FFFFFF;
   }
   &.Modified{
     background: #FFEDDD;

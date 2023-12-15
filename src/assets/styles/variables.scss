@@ -1,6 +1,6 @@
 @import "mixins";
 
-$primary-color: #00534F;
+$primary-color: #275778;
 $secondary-color: #000000;
 $accent-color: #FFE49A;
 $warn-color: #E84142;
@@ -24,16 +24,16 @@ $font-weight-bolder: 700;
 $body-background-color: #FFFFFF;
 $body-color: #212B36;
 $text-light-1: #ABB6BE;
-$text-light-2: #6D6D6D;
+$text-light-2: #275778;
 
 // side menu
 $side-bar-holder-width: 220;
 $side-bar-holder-bg-color: #00534F;
-$side-menu-active-link-bg-color: #ffffff; // #BDE8CA;
-$side-menu-hover-link-bg-color: #ffffff; //#BDE8CA;
-$side-menu-active-link-color: #00534F;
+$side-menu-active-link-bg-color: #D5EEFF; // #BDE8CA;
+$side-menu-hover-link-bg-color: #D5EEFF; //#BDE8CA;
+$side-menu-active-link-color: #275778;
 $side-menu-active-link-font-weight: $font-weight-bold;
-$side-menu-hover-link-color: #00534F;
+$side-menu-hover-link-color: #275778;
 $side-menu-link-color: #ffffff;
 $side-menu-link-font-weight: $font-weight-normal;
 $side-bar-toggle-icon-color: #00534F;

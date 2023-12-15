@@ -14,10 +14,12 @@ $avatar-xl-dimension: 76px;
 
   &.circle {
     border-radius: 50%;
+    color: #FFF;
   }
 
   &.square {
     border-radius: 10px;
+    color: #FFF;
   }
 
   img {
