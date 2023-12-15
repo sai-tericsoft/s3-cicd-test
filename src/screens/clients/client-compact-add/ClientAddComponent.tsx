@@ -16,6 +16,9 @@ import {
     setClientMedicalDetails
 } from "../../../store/actions/client.action";
 import FormikCheckBoxComponent from "../../../shared/components/form-controls/formik-check-box/FormikCheckBoxComponent";
+import FormikDatePickerComponent
+    from "../../../shared/components/form-controls/formik-date-picker/FormikDatePickerComponent";
+import moment from "moment";
 
 
 interface ClientAddComponentProps {
@@ -25,6 +28,7 @@ interface ClientAddComponentProps {
 const clientAddInitialValues: any = {
     first_name: '',
     last_name: '',
+    dob: '',
     primary_email: '',
     primary_contact_info: {
         phone: ''
@@ -149,6 +153,20 @@ const ClientAddComponent = (props: ClientAddComponentProps) => {
                                                 label={'Last Name'}
                                                 placeholder={'E.g. Doe'}
                                                 formikField={field}
+                                                required={true}
+                                                fullWidth={true}
+                                            />
+                                        )
+                                    }
+                                </Field>
+                                <Field name={'dob'}>
+                                    {
+                                        (field: FieldProps) => (
+                                            <FormikDatePickerComponent
+                                                label={'Date of Birth'}
+                                                placeholder={'MM/DD/YYYY'}
+                                                formikField={field}
+                                                maxDate={moment()}
                                                 required={true}
                                                 fullWidth={true}
                                             />
