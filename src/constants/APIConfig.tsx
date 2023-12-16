@@ -736,6 +736,14 @@ const APIConfig: IAPIConfig = {
         URL: ENV.API_URL + '/product/lite',
         METHOD: 'get'
     },
+    GET_PRODUCT_STOCK_INCOMING_LIST: {
+        URL:(productId:string)=> ENV.API_URL + '/product/' + productId + '/stockIncomingList',
+        METHOD: 'get'
+    },
+    GET_PRODUCT_STOCK_OUTGOING_LIST: {
+        URL:(productId:string)=> ENV.API_URL + '/product/' + productId + '/stockOutgoingList',
+        METHOD: 'get'
+    },
     UPDATE_INVENTORY_PRODUCT_QUANTITY: {
         URL: (productId: string) => ENV.API_URL + '/product/' + productId + '/updateStock',
         METHOD: 'put'
