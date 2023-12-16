@@ -55,7 +55,7 @@ const InventoryProductViewDetailsComponent = (props: InventoryProductViewDetails
                 <StatusCardComponent title={"Failed to fetch product details"}/>
             }
             {isInventoryProductLoaded && <>
-                <PageHeaderComponent title={'Product Details'} className={'product-details-heading'} />
+                <PageHeaderComponent title={'Product Details'} className={'product-details-heading'}/>
                 <CardComponent color={'primary'}>
                     <div className={'image-button-wrapper'}>
                         <div className={'image-details-wrapper'}>
@@ -63,10 +63,9 @@ const InventoryProductViewDetailsComponent = (props: InventoryProductViewDetails
                                 <AvatarComponent url={inventoryProductDetails?.image?.url} size={'xl'}/>
                             </div>
                             <div className={'product-details-wrapper'}>
-                                <DataLabelValueComponent id={"qty_available"} label={'Quantity Available: '} className={'quantity-available'} direction={'row'}>
-                                    {inventoryProductDetails?.quantity}
-                                </DataLabelValueComponent>
-                                <FormControlLabelComponent id="product_title" size={'xl'} label={inventoryProductDetails?.name} className={'inventory-product-details'}/>
+                                <FormControlLabelComponent id="product_title" size={'xl'}
+                                                           label={inventoryProductDetails?.name}
+                                                           className={'inventory-product-details'}/>
                                 <div id={"product_desc"} className={'description'}>
                                     {inventoryProductDetails?.description}
                                 </div>
@@ -79,6 +78,36 @@ const InventoryProductViewDetailsComponent = (props: InventoryProductViewDetails
                             </LinkComponent>
                         </div>
                     </div>
+                    <div className={'ts-row'}>
+                        <div className={'ts-col-md-4 ts-col-lg'}>
+                            <DataLabelValueComponent id={"prod_code"} label={'Product Code'}>
+                                {inventoryProductDetails?.code}
+                            </DataLabelValueComponent>
+                        </div>
+                        <div className={'ts-col-md-4 ts-col-lg'}>
+                            <DataLabelValueComponent id={"qty_available"} label={'Quantity Available'}
+                                                     className={'quantity-available'}>
+                                {inventoryProductDetails?.quantity}
+                            </DataLabelValueComponent>
+                        </div>
+                        <div className={'ts-col-md-4 ts-col-lg'}>
+                            <DataLabelValueComponent id={"retail_price"} label={'Retail Price (Incl. tax)*'}>
+                                {inventoryProductDetails?.retail_price}
+                            </DataLabelValueComponent>
+                        </div>
+                        <div className={'ts-col-md-4 ts-col-lg'}>
+                            <DataLabelValueComponent id={"sale_price"} label={'Sale Price (Incl. tax)*'}>
+                                {inventoryProductDetails?.sale_price}
+                            </DataLabelValueComponent>
+                        </div>
+                        <div className={'ts-col-md-4 ts-col-lg'}>
+                            <DataLabelValueComponent id={"sold_quantity"} label={'Sold Quantity'}>
+                                {inventoryProductDetails?.sold_quantity}
+                            </DataLabelValueComponent>
+                        </div>
+
+                    </div>
+
 
                 </CardComponent>
                 <CardComponent title={'Product Details'}>
@@ -101,10 +130,10 @@ const InventoryProductViewDetailsComponent = (props: InventoryProductViewDetails
                     </div>
                 </CardComponent>
             </>
-                }
-                </div>
-                );
+            }
+        </div>
+    );
 
-            };
+};
 
-            export default InventoryProductViewDetailsComponent;
+export default InventoryProductViewDetailsComponent;
