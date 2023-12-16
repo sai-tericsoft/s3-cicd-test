@@ -20,6 +20,7 @@ import {IAPIResponseType} from "../../../shared/models/api.model";
 import {Misc, Patterns} from "../../../constants";
 import * as Yup from "yup";
 import {IRootReducerState} from "../../../store/reducers";
+import FormikSelectComponent from "../../../shared/components/form-controls/formik-select/FormikSelectComponent";
 
 interface EditInventoryProductDetailsComponentProps {
 
@@ -32,14 +33,38 @@ const inventoryProductInitialValues = {
     price: '',
     description: '',
     image: '',
+    retail_price: '',
+    sale_price: '',
+    discount_type: '',
+    discount: ''
 }
 
 const inventoryProductValidationSchema = Yup.object({
     name: Yup.string().required('Product Name is required'),
     code: Yup.string().required('Product Code is required'),
     quantity: Yup.number().required('Quantity is required'),
-    price: Yup.number().required('Price is required'),
     image: Yup.mixed().required('Image field is required'),
+    retail_price: Yup.number().required('Retail Price is required'),
+    discount_type: Yup.string().required('Discount Type is required'),
+    discount: Yup.number().when('discount_type', {
+        is: (discountType: any) => ['amount', 'percentage'].includes(discountType),
+        then: Yup.number()
+            .when('discount_type', {
+                is: 'amount',
+                then: Yup.number()
+                    .required('Discount is required when Discount Type is specified')
+                    .max(
+                        Yup.ref('retail_price'),
+                        'Discount Amount cannot be greater than Retail Price'
+                    ),
+            })
+            .when('discount_type', {
+                is: 'percentage',
+                then: Yup.number()
+                    .required('Discount is required when Discount Type is specified')
+                    .max(100, 'Discount Percentage cannot be greater than 100'),
+            }),
+    }),
 });
 
 
@@ -64,6 +89,10 @@ const EditInventoryProductDetailsComponent = (props: EditInventoryProductDetails
                 price: inventoryProductDetails?.price,
                 description: inventoryProductDetails?.description,
                 image: inventoryProductDetails?.image,
+                retail_price: inventoryProductDetails?.retail_price,
+                sale_price: inventoryProductDetails?.sale_price,
+                discount_type: inventoryProductDetails?.discount_type,
+                discount: inventoryProductDetails?.discount
             })
         }
 
@@ -97,6 +126,30 @@ const EditInventoryProductDetailsComponent = (props: EditInventoryProductDetails
         }
     }, [navigate, dispatch, productId]);
 
+    const calculateSalePrice = useCallback((retailPrice: any, discountType: any, discount: any) => {
+        if (!retailPrice || !discountType) {
+            return null;
+        }
+        switch (discountType) {
+            case 'percentage'   :
+                if (discount === 100) return 0;
+                const discountAmount = (retailPrice * discount) / 100;
+                return retailPrice - discountAmount;
+            case 'amount'   :
+                if ((retailPrice - discount) > 0) {
+                    return retailPrice - discount;
+                } else if ((retailPrice - discount) === 0) {
+                    return 0;
+                }
+                return null;
+
+            case'n/a':
+                return retailPrice;
+            default:
+                return null;
+        }
+    }, []);
+
     return (
         <div className={'edit-inventory-product-component'}>
             <PageHeaderComponent title={'Edit Product'}/>
@@ -111,7 +164,9 @@ const EditInventoryProductDetailsComponent = (props: EditInventoryProductDetails
                     // eslint-disable-next-line react-hooks/rules-of-hooks
                     useEffect(() => {
                         validateForm();
-                    }, [validateForm, values]);
+                        calculateSalePrice(values?.retail_price, values?.discount_type, values?.discount);
+                        setFieldValue('sale_price', calculateSalePrice(values?.retail_price, values?.discount_type, values?.discount));
+                    }, [validateForm, values,setFieldValue]);
                     return (
                         <Form className="t-form" noValidate={true}>
                             <CardComponent title={"Product"}>
@@ -141,20 +196,24 @@ const EditInventoryProductDetailsComponent = (props: EditInventoryProductDetails
                                 </Field>
                             </CardComponent>
                             <CardComponent title={"Product Details"}>
-                                <Field name={'code'}>
-                                    {
-                                        (field: FieldProps) => (
-                                            <FormikInputComponent
-                                                titleCase={true}
-                                                label={'Product Code'}
-                                                formikField={field}
-                                                fullWidth={true}
-                                                required={true}
-                                            />
-                                        )
-                                    }
-                                </Field>
                                 <div className={'ts-row'}>
+                                    <div className={'ts-col-md-6'}>
+                                        <Field name={'code'}>
+                                            {
+                                                (field: FieldProps) => (
+                                                    <FormikInputComponent
+                                                        titleCase={true}
+                                                        label={'Product Code'}
+                                                        placeholder={'Enter Product Code'}
+                                                        formikField={field}
+                                                        fullWidth={true}
+                                                        required={true}
+                                                    />
+                                                )
+                                            }
+                                        </Field>
+                                    </div>
+
                                     <div className={'ts-col-md-6'}>
                                         <Field name={'quantity'}>
                                             {
@@ -162,31 +221,113 @@ const EditInventoryProductDetailsComponent = (props: EditInventoryProductDetails
                                                     <FormikInputComponent
                                                         titleCase={true}
                                                         label={'Quantity'}
+                                                        placeholder={'Enter Quantity'}
                                                         formikField={field}
                                                         fullWidth={true}
                                                         required={true}
-                                                        validationPattern={Patterns.POSITIVE_WHOLE_NUMBERS}
+                                                        validationPattern={Patterns.POSITIVE_INTEGERS_WITH_DECIMALS}
+                                                    />
+                                                )
+                                            }
+                                        </Field>
+                                    </div>
+                                </div>
+                                <div className={'ts-row'}>
+                                    <div className={'ts-col-md-6'}>
+                                        <Field name={'retail_price'}>
+                                            {
+                                                (field: FieldProps) => (
+                                                    <FormikInputComponent
+                                                        titleCase={true}
+                                                        label={'Retail Price'}
+                                                        placeholder={'Retail Price'}
+                                                        formikField={field}
+                                                        fullWidth={true}
+                                                        required={true}
+                                                        validationPattern={Patterns.POSITIVE_INTEGERS_WITH_DECIMALS}
                                                     />
                                                 )
                                             }
                                         </Field>
                                     </div>
                                     <div className={'ts-col-md-6'}>
-                                        <Field name={'price'}>
+                                        <Field name={'sale_price'}>
                                             {
                                                 (field: FieldProps) => (
                                                     <FormikInputComponent
                                                         titleCase={true}
-                                                        label={'Price (Incl.Tax)'}
+                                                        label={'Sale Price'}
+                                                        disabled={true}
+                                                        placeholder={'Sale Price'}
                                                         formikField={field}
                                                         fullWidth={true}
                                                         required={true}
-                                                        validationPattern={Patterns.POSITIVE_INTEGERS_PARTIAL}
+                                                        validationPattern={Patterns.POSITIVE_INTEGERS_WITH_DECIMALS}
                                                     />
                                                 )
                                             }
                                         </Field>
                                     </div>
+                                </div>
+                                <div className={'ts-row'}>
+                                    <div className={'ts-col-md-6'}>
+                                        <Field name={'discount_type'}>
+                                            {
+                                                (field: FieldProps) => (
+                                                    <FormikSelectComponent
+                                                        label={'Discount Type'}
+                                                        options={CommonService._staticData.discountTypeForInventory}
+                                                        displayWith={item => item?.title}
+                                                        valueExtractor={item => item?.code}
+                                                        formikField={field}
+                                                        fullWidth={true}
+                                                        required={true}
+                                                    />
+                                                )
+                                            }
+                                        </Field>
+                                    </div>
+                                    {
+                                        (values.discount_type === 'percentage') && <div className={'ts-col-md-6'}>
+                                            <Field name={'discount'}>
+                                                {
+                                                    (field: FieldProps) => (
+                                                        <FormikInputComponent
+                                                            titleCase={true}
+                                                            label={'Percentage of Retail Price'}
+                                                            placeholder={'Percentage of Retail Price'}
+                                                            prefix={'%'}
+                                                            formikField={field}
+                                                            fullWidth={true}
+                                                            required={true}
+                                                            validationPattern={Patterns.POSITIVE_INTEGERS_WITH_DECIMALS}
+                                                        />
+                                                    )
+                                                }
+                                            </Field>
+                                        </div>
+                                    }
+                                    {
+                                        (values.discount_type === 'amount') && <div className={'ts-col-md-6'}>
+                                            <Field name={'discount'}>
+                                                {
+                                                    (field: FieldProps) => (
+                                                        <FormikInputComponent
+                                                            titleCase={true}
+                                                            label={'Sale Price (Incl.tax)'}
+                                                            placeholder={'Sale Price (Incl.tax)'}
+                                                            prefix={'$'}
+                                                            formikField={field}
+                                                            fullWidth={true}
+                                                            required={true}
+                                                            validationPattern={Patterns.POSITIVE_INTEGERS_WITH_DECIMALS}
+                                                        />
+                                                    )
+                                                }
+                                            </Field>
+                                        </div>
+                                    }
+
                                 </div>
                             </CardComponent>
                             <CardComponent title={"Upload Image"}>
