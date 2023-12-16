@@ -45,7 +45,7 @@ const InventoryListScreen = (props: InventoryListScreenProps) => {
     const {inventoryProductList} = useSelector((state: IRootReducerState) => state.inventory);
     const [isQuantityUpdateLoading, setIsQuantityUpdateLoading] = useState<boolean>(false);
     const [refreshToken, setRefreshToken] = useState<string>('');
-    
+
     const InventoryListTableColumns = useMemo<any>(() => [
         {
             title: 'Product Name',
@@ -74,18 +74,29 @@ const InventoryListScreen = (props: InventoryListScreenProps) => {
             sortable: true,
             render: (item: any) => {
                 return <>
-                    {item?.quantity <=0 ? <ChipComponent className={'out-of-stock-chip'} label={'Out of stock'}/> : item.quantity}
+                    {item?.quantity <= 0 ?
+                        <ChipComponent className={'out-of-stock-chip'} label={'Out of stock'}/> : item.quantity}
                 </>
             }
         },
         {
-            title: 'Retail Price',
-            dataIndex: 'price',
+            title: 'Retail Price (Incl. tax)',
+            dataIndex: 'retail_price',
             key: 'price',
             align: 'center',
             width: 186,
             render: (item: any) => {
-                return <> {Misc.CURRENCY_SYMBOL}{CommonService.convertToDecimals(item?.price)} </>
+                return <> {Misc.CURRENCY_SYMBOL}{CommonService.convertToDecimals(item?.retail_price)} </>
+            }
+        },
+        {
+            title: 'Sale Price (Incl. tax)',
+            dataIndex: 'sale_price',
+            key: 'sale_price',
+            align: 'center',
+            width: 186,
+            render: (item: any) => {
+                return <> {Misc.CURRENCY_SYMBOL}{CommonService.convertToDecimals(item?.sale_price)} </>
             }
         },
         {
@@ -171,7 +182,8 @@ const InventoryListScreen = (props: InventoryListScreenProps) => {
                     </div>
                 </div>
                 <div className="list-options">
-                    <ButtonComponent id={"update_product_btn"} variant={'outlined'} onClick={handleUpdateQuantityModalOpen}
+                    <ButtonComponent id={"update_product_btn"} variant={'outlined'}
+                                     onClick={handleUpdateQuantityModalOpen}
                                      className={'update_product_btn'}>
                         Update Quantity
                     </ButtonComponent>
@@ -188,9 +200,11 @@ const InventoryListScreen = (props: InventoryListScreenProps) => {
                                        method={APIConfig.GET_INVENTORY_LIST.METHOD}
                                        columns={InventoryListTableColumns}
                                        extraPayload={inventoryListFilterState}
-                                       noDataText={ (<div className={'no-client-text-wrapper'}>
-                                           <div>{inventoryListFilterState.search?<img src={ImageConfig.Search} alt="client-search"/>:''}</div>
-                                           <div className={'no-client-heading mrg-bottom-15'}>{inventoryListFilterState.search? 'Sorry, no results found!':''}</div>
+                                       noDataText={(<div className={'no-client-text-wrapper'}>
+                                           <div>{inventoryListFilterState.search ?
+                                               <img src={ImageConfig.Search} alt="client-search"/> : ''}</div>
+                                           <div
+                                               className={'no-client-heading mrg-bottom-15'}>{inventoryListFilterState.search ? 'Sorry, no results found!' : ''}</div>
                                            <div className={'no-client-description'}>
                                                {inventoryListFilterState.search ? 'There is no product available by the name or code you have searched.' : 'Currently there is no product added.'}
                                            </div>
