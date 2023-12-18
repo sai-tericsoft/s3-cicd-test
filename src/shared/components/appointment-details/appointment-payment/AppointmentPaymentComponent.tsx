@@ -11,6 +11,7 @@ import FormControlLabelComponent from "../../form-control-label/FormControlLabel
 import FormikSelectComponent from "../../form-controls/formik-select/FormikSelectComponent";
 import FormikTextAreaComponent from "../../form-controls/formik-text-area/FormikTextAreaComponent";
 import HorizontalLineComponent from "../../horizontal-line/horizontal-line/HorizontalLineComponent";
+import {ImageConfig} from "../../../../constants";
 
 
 interface AppointmentPaymentComponentProps {
@@ -43,7 +44,7 @@ const addAppointmentPaymentValidationSchema = Yup.object().shape({
 
 const AppointmentPaymentComponent = (props: AppointmentPaymentComponentProps) => {
 
-    const {onComplete, details } = props;
+    const {onComplete, details, onBack,onClose} = props;
     const {paymentModes} = useSelector((state: IRootReducerState) => state.staticData);
     const [availableCouponsList, setAvailableCouponsList] = useState<any[]>([]);
     const [selectedCoupon, setSelectedCoupon] = useState<any>(undefined);
@@ -98,7 +99,13 @@ const AppointmentPaymentComponent = (props: AppointmentPaymentComponentProps) =>
             if (values.payment_type === 'reserved') {
                 delete values.payment_mode;
             }
-            const payload = {...values, total: +values?.amount, discount: 0, coupon_id: selectedCoupon?._id,payment_type: 'current'}
+            const payload = {
+                ...values,
+                total: +values?.amount,
+                discount: 0,
+                coupon_id: selectedCoupon?._id,
+                payment_type: 'current'
+            }
             CommonService._appointment.appointmentPayment(appointmentId, payload)
                 .then((response: IAPIResponseType<any>) => {
                     if (onComplete) {
@@ -120,19 +127,19 @@ const AppointmentPaymentComponent = (props: AppointmentPaymentComponentProps) =>
     return (
         <div className={'appointment-payment-component'}>
             <div className="drawer-header">
-                {/*<div className="back-btn" onClick={onBack}>*/}
-                {/*    <div><ImageConfig.LeftArrow/></div>*/}
-                {/*    <div className={'back-text'}>Back</div>*/}
-                {/*</div>*/}
-                {/*/!*<ToolTipComponent tooltip={"Close"} position={"left"}>*!/*/}
-                {/*    <div className="drawer-close"*/}
-                {/*         id={'appointment-close-btn'}*/}
-                {/*         onClick={(event) => {*/}
-                {/*             if (onClose) {*/}
-                {/*                 onClose();*/}
-                {/*             }*/}
-                {/*         }*/}
-                {/*         }><ImageConfig.CloseIcon/></div>*/}
+                <div className="back-btn" onClick={onBack}>
+                    <div><ImageConfig.LeftArrow/></div>
+                    <div className={'back-text'}>Back</div>
+                </div>
+                {/*<ToolTipComponent tooltip={"Close"} position={"left"}>*/}
+                <div className="drawer-close"
+                     id={'appointment-close-btn'}
+                     onClick={(event) => {
+                         if (onClose) {
+                             onClose();
+                         }
+                     }
+                     }><ImageConfig.CloseIcon/></div>
                 {/*</ToolTipComponent>*/}
             </div>
             <div className="secure-checkout-heading">Secure Checkout</div>
@@ -195,84 +202,84 @@ const AppointmentPaymentComponent = (props: AppointmentPaymentComponentProps) =>
                                         {/*        </label>*/}
                                         {/*    </div>*/}
                                         {/*}*/}
-                                            <>
-                                                <FormControlLabelComponent
-                                                    className={'add-gift-card-msg'}
-                                                    label={"Add a gift card or promotion code or voucher"}/>
-                                                <Field name={'available_coupons'}>
-                                                    {
-                                                        (field: FieldProps) => (
-                                                            <FormikSelectComponent
-                                                                formikField={field}
-                                                                size={"small"}
-                                                                fullWidth={true}
-                                                                isClear={true}
-                                                                label={'Available Coupons'}
-                                                                options={availableCouponsList}
-                                                                displayWith={(option: any) => option?.title}
-                                                                valueExtractor={(option: any) => option}
-                                                                onUpdate={(value: any) => {
-                                                                    onCouponSelect(value);
-                                                                }}
+                                        <>
+                                            <FormControlLabelComponent
+                                                className={'add-gift-card-msg'}
+                                                label={"Add a gift card or promotion code or voucher"}/>
+                                            <Field name={'available_coupons'}>
+                                                {
+                                                    (field: FieldProps) => (
+                                                        <FormikSelectComponent
+                                                            formikField={field}
+                                                            size={"small"}
+                                                            fullWidth={true}
+                                                            isClear={true}
+                                                            label={'Available Coupons'}
+                                                            options={availableCouponsList}
+                                                            displayWith={(option: any) => option?.title}
+                                                            valueExtractor={(option: any) => option}
+                                                            onUpdate={(value: any) => {
+                                                                onCouponSelect(value);
+                                                            }}
 
 
-                                                            />
-                                                        )
-                                                    }
-                                                </Field>
-                                                <FormControlLabelComponent
-                                                    label={"Checkout Summary"} className={'checkout-summary'}/>
-                                                <div className="price-holder">
-                                                    <div className="price-item">
-                                                        <div className="price-item-text amount">Amount (Incl. tax)</div>
-                                                        <div
-                                                            className="price-item-amount">${CommonService.convertToDecimals(+details?.amount)}</div>
-                                                    </div>
-                                                    <div className="price-item">
-                                                        <div className="price-item-text discount">Discount</div>
-                                                        <div className="price-item-amount red">
-                                                            {/*{selectedCoupon ? `- $ ${CommonService.convertToDecimals(discountAmount)}` : `$0` || 'N/A'}*/}
-                                                            {selectedCoupon ? `- $${CommonService.convertToDecimals(discountAmount)}` :
-                                                                <div className={'zero-discount'}>$0.00</div> || 'N/A'}
+                                                        />
+                                                    )
+                                                }
+                                            </Field>
+                                            <FormControlLabelComponent
+                                                label={"Checkout Summary"} className={'checkout-summary'}/>
+                                            <div className="price-holder">
+                                                <div className="price-item">
+                                                    <div className="price-item-text amount">Amount (Incl. tax)</div>
+                                                    <div
+                                                        className="price-item-amount">${CommonService.convertToDecimals(+details?.amount)}</div>
+                                                </div>
+                                                <div className="price-item">
+                                                    <div className="price-item-text discount">Discount</div>
+                                                    <div className="price-item-amount red">
+                                                        {/*{selectedCoupon ? `- $ ${CommonService.convertToDecimals(discountAmount)}` : `$0` || 'N/A'}*/}
+                                                        {selectedCoupon ? `- $${CommonService.convertToDecimals(discountAmount)}` :
+                                                            <div className={'zero-discount'}>$0.00</div> || 'N/A'}
 
-                                                        </div>
-                                                    </div>
-                                                    <HorizontalLineComponent/>
-                                                    <div className="price-item price-item-total">
-                                                        <div className="price-item-text">Total Amount</div>
-                                                        <div className="price-item-amount green">
-                                                            ${selectedCoupon ? CommonService.convertToDecimals(payableAmount) : CommonService.convertToDecimals(+details?.amount)}
-                                                        </div>
                                                     </div>
                                                 </div>
-                                                <Field name={'payment_mode'}>
-                                                    {
-                                                        (field: FieldProps) => (
-                                                            <FormikSelectComponent
-                                                                formikField={field}
-                                                                required={true}
-                                                                options={paymentModes || []}
-                                                                displayWith={(option: any) => (option.title)}
-                                                                valueExtractor={(option: any) => option.code}
-                                                                label={'Payment Mode'}
-                                                                fullWidth={true}
-                                                            />
-                                                        )
-                                                    }
-                                                </Field>
-                                                <Field name={'comments'}>
-                                                    {
-                                                        (field: FieldProps) => (
-                                                            <FormikTextAreaComponent
-                                                                formikField={field}
-                                                                label={'Comments'}
-                                                                placeholder={'Add comments or transaction ID'}
-                                                                fullWidth={true}
-                                                            />
-                                                        )
-                                                    }
-                                                </Field>
-                                            </>
+                                                <HorizontalLineComponent/>
+                                                <div className="price-item price-item-total">
+                                                    <div className="price-item-text">Total Amount</div>
+                                                    <div className="price-item-amount green">
+                                                        ${selectedCoupon ? CommonService.convertToDecimals(payableAmount) : CommonService.convertToDecimals(+details?.amount)}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <Field name={'payment_mode'}>
+                                                {
+                                                    (field: FieldProps) => (
+                                                        <FormikSelectComponent
+                                                            formikField={field}
+                                                            required={true}
+                                                            options={paymentModes || []}
+                                                            displayWith={(option: any) => (option.title)}
+                                                            valueExtractor={(option: any) => option.code}
+                                                            label={'Payment Mode'}
+                                                            fullWidth={true}
+                                                        />
+                                                    )
+                                                }
+                                            </Field>
+                                            <Field name={'comments'}>
+                                                {
+                                                    (field: FieldProps) => (
+                                                        <FormikTextAreaComponent
+                                                            formikField={field}
+                                                            label={'Comments'}
+                                                            placeholder={'Add comments or transaction ID'}
+                                                            fullWidth={true}
+                                                        />
+                                                    )
+                                                }
+                                            </Field>
+                                        </>
 
                                     </div>
                                     <div className="client-search-btn">

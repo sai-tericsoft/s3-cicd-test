@@ -168,15 +168,16 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
                     step === 'details' &&
                     <div className={'appointment-details-wrapper'}>
                         <div className="drawer-header">
+                            <div className="back-btn" />
                             {/*<ToolTipComponent tooltip={"Close"} position={"left"}>*/}
-                            {/*    <div className="drawer-close"*/}
-                            {/*         id={'book-appointment-close-btn'}*/}
-                            {/*         onClick={(event) => {*/}
-                            {/*             if (onClose) {*/}
-                            {/*                 onClose();*/}
-                            {/*             }*/}
-                            {/*         }*/}
-                            {/*         }><ImageConfig.CloseIcon/></div>*/}
+                            <div className="drawer-close"
+                                 id={'appointment-close-btn'}
+                                 onClick={(event) => {
+                                     if (onClose) {
+                                         onClose();
+                                     }
+                                 }
+                                 }><ImageConfig.CloseIcon/></div>
                             {/*</ToolTipComponent>*/}
                         </div>
                         <div

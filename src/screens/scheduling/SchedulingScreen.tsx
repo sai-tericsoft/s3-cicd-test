@@ -1174,7 +1174,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
 
             <DrawerComponent isOpen={!!openedAppointmentDetails}
                              onClose={setOpenedAppointmentDetails.bind(null, null)}
-                             showClose={true}
+                             // showClose={true}
                              className={'book-appointment-component-drawer'}>
 
                 <AppointmentDetailsComponent

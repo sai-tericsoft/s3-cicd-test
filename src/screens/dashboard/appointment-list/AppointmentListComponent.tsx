@@ -165,7 +165,8 @@ const AppointmentListComponent = (props: AppointmentListComponentProps) => {
                     />
                 </div>
             </CardComponent>
-            <DrawerComponent isOpen={!!openedAppointmentDetails} onClose={setOpenedAppointmentDetails.bind(null, null)}
+            <DrawerComponent isOpen={!!openedAppointmentDetails}
+                             onClose={setOpenedAppointmentDetails.bind(null, null)}
                              className={'book-appointment-component-drawer'}>
 
                 <AppointmentDetailsComponent
