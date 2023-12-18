@@ -1,11 +1,30 @@
 .progress-report-view-details-screen {
-  .card-component{
+  .medical-record-attachment-remove-access-wrapper {
+    display: flex;
+    justify-content: space-between;
+    padding: 13px 15px;
+    background-color: #FEF0BF;
+    border: 1px solid #E7A933;
+    border-radius: 6px;
+    margin-bottom: 16px;
+
+    .link-component {
+      color: #1A222B;
+      font-size: 14px;
+      font-weight: 400;
+    }
+
+  }
+
+  .card-component {
     margin-bottom: 23px !important;
   }
-  .edit-progress-report-cta{
+
+  .edit-progress-report-cta {
     margin-bottom: 4px;
     margin-left: 15px;
   }
+
   .show-more-less {
     color: #83909D;
     cursor: pointer;
@@ -33,12 +52,13 @@
       }
 
       .progress-stats-table {
-        .t-table-wrapper{
-          .t-table{
+        .t-table-wrapper {
+          .t-table {
             min-height: 340px;
 
           }
         }
+
         .card-component {
           padding: 0;
           border-bottom: none;
