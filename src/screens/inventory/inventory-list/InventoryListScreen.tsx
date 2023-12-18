@@ -51,7 +51,7 @@ const InventoryListScreen = (props: InventoryListScreenProps) => {
             title: 'Product Name',
             dataIndex: 'name',
             key: 'name',
-            width: 463,
+            width: 363,
             fixed: 'left',
             render: (item: any) => {
                 return <LinkComponent route={CommonService._routeConfig.InventoryProductViewDetails(item?._id)}>
