@@ -25,6 +25,7 @@ import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import momentTimezone from "moment-timezone";
 import MenuDropdownComponent from "../../../shared/components/menu-dropdown/MenuDropdownComponent";
 import {ListItemButton} from "@mui/material";
+import commonService from "../../../shared/services/common.service";
 
 interface ProgressReportViewDetailsComponentProps {
 
@@ -78,6 +79,7 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
     } = useSelector((state: IRootReducerState) => state.client);
     const [searchParams] = useSearchParams();
     const [isFullCardOpen, setIsFullCardOpen] = useState<boolean>(false);
+    const [isShared, setIsShared] = useState<boolean>(false);
 
     const {
         isProgressReportDetailsLoaded,
@@ -152,8 +154,10 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
                 CommonService._chartNotes.UpdateProgressReportUnderMedicalRecordAPICall(progressReportId, {is_shared: true})
                     .then((response: any) => {
                         CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY] || "Report shared successfully", "success");
+                        setIsShared(true);
                     }).catch((error: any) => {
                     CommonService._alert.showToast(error?.error || "Error sharing document", "success");
+                    setIsShared(false)
                 })
             }
         })
@@ -178,6 +182,33 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
         })
     }, [medicalRecordId, navigate, progressReportId]);
 
+    const removeAccess = useCallback((item: any) => {
+        const payload = {
+            is_shared: false
+        }
+        CommonService._chartNotes.UpdateProgressReportUnderMedicalRecordAPICall(item?._id, payload)
+            .then((response: any) => {
+                commonService._alert.showToast("Access removed successfully", "success");
+                setIsShared(false);
+            })
+            .catch((error: any) => {
+                CommonService._alert.showToast(error.error || "Error removing access", "error");
+            });
+
+    }, [])
+
+    const handleRemoveAccess = useCallback((item: any) => {
+        CommonService.onConfirm({
+            image: ImageConfig.PopupLottie,
+            showLottie: true,
+            confirmationTitle: "REMOVE ACCESS",
+            confirmationSubTitle: "Are you sure you want to remove access for this shared document?",
+        })
+            .then((res: any) => {
+                removeAccess(item);
+            })
+    }, [removeAccess]);
+
     console.log('progressReportDetails', progressReportDetails);
 
     return (
@@ -191,6 +222,23 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
                         {progressReportDetails?.last_updated_by_details?.first_name ? progressReportDetails?.last_updated_by_details?.first_name + ' ' + progressReportDetails?.last_updated_by_details?.last_name : ' N/A'}
                     </div>
                 </div>}/>
+            {
+                isShared &&
+                <div className={"medical-record-attachment-remove-access-wrapper"}>
+                    <div className={"medical-record-attachment-data-wrapper"}>
+                        This file was shared to the client
+                        on <b>{progressReportDetails?.shared_at ? CommonService.transformTimeStamp(progressReportDetails?.shared_at) : 'N/A'}</b>.
+                    </div>
+                    <LinkComponent
+                        onClick={() => {
+                            handleRemoveAccess(progressReportDetails);
+                        }}
+
+                    >
+                        Remove Access
+                    </LinkComponent>
+                </div>
+            }
             {
                 <CardComponent color={'primary'}>
                     <div className={'client-name-button-wrapper'}>
