@@ -7,7 +7,6 @@ import * as Yup from "yup";
 import {useSelector} from "react-redux";
 import {IRootReducerState} from "../../../../store/reducers";
 import {Field, FieldProps, Form, Formik, FormikHelpers, FormikProps} from "formik";
-import {RadioButtonComponent} from "../../form-controls/radio-button/RadioButtonComponent";
 import FormControlLabelComponent from "../../form-control-label/FormControlLabelComponent";
 import FormikSelectComponent from "../../form-controls/formik-select/FormikSelectComponent";
 import FormikTextAreaComponent from "../../form-controls/formik-text-area/FormikTextAreaComponent";
@@ -18,7 +17,8 @@ interface AppointmentPaymentComponentProps {
     onClose?: () => void,
     onBack?: () => void,
     onComplete?: (values: any) => void,
-    details: any
+    details: any;
+    previousStep?: string;
 }
 
 const addAppointmentPaymentInitialValues: any = {
@@ -31,11 +31,11 @@ const addAppointmentPaymentInitialValues: any = {
 
 
 const addAppointmentPaymentValidationSchema = Yup.object().shape({
-    payment_type: Yup.string().required('Payment type is required'),
-    payment_mode: Yup.mixed().when("payment_type", {
-        is: 'current',
-        then: Yup.mixed().required('Payment mode is required')
-    }),
+    // payment_type: Yup.string().when('previousStep', {
+    //     is: (previousStep: string) => previousStep !== 'ViewAppointmentDetails',
+    //     then: Yup.string().required('Payment type is required'),
+    // }),
+    payment_mode: Yup.mixed().required('Payment mode is required'),
     promotion_code: Yup.string(),
     amount: Yup.number(),
     comments: Yup.string(),
@@ -43,7 +43,7 @@ const addAppointmentPaymentValidationSchema = Yup.object().shape({
 
 const AppointmentPaymentComponent = (props: AppointmentPaymentComponentProps) => {
 
-    const {onComplete, details} = props;
+    const {onComplete, details } = props;
     const {paymentModes} = useSelector((state: IRootReducerState) => state.staticData);
     const [availableCouponsList, setAvailableCouponsList] = useState<any[]>([]);
     const [selectedCoupon, setSelectedCoupon] = useState<any>(undefined);
@@ -98,7 +98,7 @@ const AppointmentPaymentComponent = (props: AppointmentPaymentComponentProps) =>
             if (values.payment_type === 'reserved') {
                 delete values.payment_mode;
             }
-            const payload = {...values, total: +values?.amount, discount: 0, coupon_id: selectedCoupon?._id}
+            const payload = {...values, total: +values?.amount, discount: 0, coupon_id: selectedCoupon?._id,payment_type: 'current'}
             CommonService._appointment.appointmentPayment(appointmentId, payload)
                 .then((response: IAPIResponseType<any>) => {
                     if (onComplete) {
@@ -157,6 +157,7 @@ const AppointmentPaymentComponent = (props: AppointmentPaymentComponentProps) =>
                         }, [validateForm, values]);
                         return (
                             <Form className="t-form" noValidate={true}>
+                                {/*<FormDebuggerComponent values={values} errors={errors}/>*/}
                                 <>
                                     <div className={"t-appointment-drawer-form-controls height-100"}>
                                         <div
@@ -168,108 +169,110 @@ const AppointmentPaymentComponent = (props: AppointmentPaymentComponentProps) =>
                                                 ${CommonService.convertToDecimals(+details?.amount) || '0.00'}
                                             </div>
                                         </div>
-                                        <div className="ts-row option-item-wrapper mrg-bottom-15 mrg-top-15">
-                                            <label className="ts-col option-item-block">
-                                                <div className="option-item">
-                                                    <RadioButtonComponent checked={values.payment_type === 'current'}
-                                                                          onChange={value => {
-                                                                              setFieldValue('payment_type', 'current')
-                                                                          }}
-                                                                          name={'payment-type'}/>
-                                                </div>
-                                                <div className="option-item-text">Pay Now</div>
-                                            </label>
-                                            <label className="ts-col option-item-block">
-                                                <div className="option-item">
-                                                    <RadioButtonComponent checked={values.payment_type === 'reserved'}
-                                                                          onChange={value => {
-                                                                              setFieldValue('payment_type', 'reserved')
-                                                                          }}
-                                                                          name={'payment-type'}/>
-                                                </div>
-                                                <div className="option-item-text">Reserve without paying</div>
-                                            </label>
-                                        </div>
+                                        {/*{previousStep !== 'ViewAppointmentDetails' &&*/}
+                                        {/*    <div className="ts-row option-item-wrapper mrg-bottom-15 mrg-top-15">*/}
+                                        {/*        <label className="ts-col option-item-block">*/}
+                                        {/*            <div className="option-item">*/}
+                                        {/*                <RadioButtonComponent*/}
+                                        {/*                    checked={values.payment_type === 'current'}*/}
+                                        {/*                    onChange={value => {*/}
+                                        {/*                        setFieldValue('payment_type', 'current')*/}
+                                        {/*                    }}*/}
+                                        {/*                    name={'payment-type'}/>*/}
+                                        {/*            </div>*/}
+                                        {/*            <div className="option-item-text">Pay Now</div>*/}
+                                        {/*        </label>*/}
+                                        {/*        <label className="ts-col option-item-block">*/}
+                                        {/*            <div className="option-item">*/}
+                                        {/*                <RadioButtonComponent*/}
+                                        {/*                    checked={values.payment_type === 'reserved'}*/}
+                                        {/*                    onChange={value => {*/}
+                                        {/*                        setFieldValue('payment_type', 'reserved')*/}
+                                        {/*                    }}*/}
+                                        {/*                    name={'payment-type'}/>*/}
+                                        {/*            </div>*/}
+                                        {/*            <div className="option-item-text">Reserve without paying</div>*/}
+                                        {/*        </label>*/}
+                                        {/*    </div>*/}
+                                        {/*}*/}
+                                            <>
+                                                <FormControlLabelComponent
+                                                    className={'add-gift-card-msg'}
+                                                    label={"Add a gift card or promotion code or voucher"}/>
+                                                <Field name={'available_coupons'}>
+                                                    {
+                                                        (field: FieldProps) => (
+                                                            <FormikSelectComponent
+                                                                formikField={field}
+                                                                size={"small"}
+                                                                fullWidth={true}
+                                                                isClear={true}
+                                                                label={'Available Coupons'}
+                                                                options={availableCouponsList}
+                                                                displayWith={(option: any) => option?.title}
+                                                                valueExtractor={(option: any) => option}
+                                                                onUpdate={(value: any) => {
+                                                                    onCouponSelect(value);
+                                                                }}
 
 
-                                        {values.payment_type === 'current' && <>
-                                            <FormControlLabelComponent
-                                                className={'add-gift-card-msg'}
-                                                label={"Add a gift card or promotion code or voucher"}/>
-                                            <Field name={'available_coupons'}>
-                                                {
-                                                    (field: FieldProps) => (
-                                                        <FormikSelectComponent
-                                                            formikField={field}
-                                                            size={"small"}
-                                                            fullWidth={true}
-                                                            isClear={true}
-                                                            label={'Available Coupons'}
-                                                            options={availableCouponsList}
-                                                            displayWith={(option: any) => option?.title}
-                                                            valueExtractor={(option: any) => option}
-                                                            onUpdate={(value: any) => {
-                                                                onCouponSelect(value);
-                                                            }}
+                                                            />
+                                                        )
+                                                    }
+                                                </Field>
+                                                <FormControlLabelComponent
+                                                    label={"Checkout Summary"} className={'checkout-summary'}/>
+                                                <div className="price-holder">
+                                                    <div className="price-item">
+                                                        <div className="price-item-text amount">Amount (Incl. tax)</div>
+                                                        <div
+                                                            className="price-item-amount">${CommonService.convertToDecimals(+details?.amount)}</div>
+                                                    </div>
+                                                    <div className="price-item">
+                                                        <div className="price-item-text discount">Discount</div>
+                                                        <div className="price-item-amount red">
+                                                            {/*{selectedCoupon ? `- $ ${CommonService.convertToDecimals(discountAmount)}` : `$0` || 'N/A'}*/}
+                                                            {selectedCoupon ? `- $${CommonService.convertToDecimals(discountAmount)}` :
+                                                                <div className={'zero-discount'}>$0.00</div> || 'N/A'}
 
-
-                                                        />
-                                                    )
-                                                }
-                                            </Field>
-                                            <FormControlLabelComponent
-                                                label={"Checkout Summary"} className={'checkout-summary'}/>
-                                            <div className="price-holder">
-                                                <div className="price-item">
-                                                    <div className="price-item-text amount">Amount (Incl. tax)</div>
-                                                    <div
-                                                        className="price-item-amount">${CommonService.convertToDecimals(+details?.amount)}</div>
-                                                </div>
-                                                <div className="price-item">
-                                                    <div className="price-item-text discount">Discount</div>
-                                                    <div className="price-item-amount red">
-                                                        {/*{selectedCoupon ? `- $ ${CommonService.convertToDecimals(discountAmount)}` : `$0` || 'N/A'}*/}
-                                                        {selectedCoupon ? `- $${CommonService.convertToDecimals(discountAmount)}` :
-                                                            <div className={'zero-discount'}>$0.00</div> || 'N/A'}
-
+                                                        </div>
+                                                    </div>
+                                                    <HorizontalLineComponent/>
+                                                    <div className="price-item price-item-total">
+                                                        <div className="price-item-text">Total Amount</div>
+                                                        <div className="price-item-amount green">
+                                                            ${selectedCoupon ? CommonService.convertToDecimals(payableAmount) : CommonService.convertToDecimals(+details?.amount)}
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                <HorizontalLineComponent/>
-                                                <div className="price-item price-item-total">
-                                                    <div className="price-item-text">Total Amount</div>
-                                                    <div className="price-item-amount green">
-                                                        ${selectedCoupon ? CommonService.convertToDecimals(payableAmount) : CommonService.convertToDecimals(+details?.amount)}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <Field name={'payment_mode'}>
-                                                {
-                                                    (field: FieldProps) => (
-                                                        <FormikSelectComponent
-                                                            formikField={field}
-                                                            required={true}
-                                                            options={paymentModes || []}
-                                                            displayWith={(option: any) => (option.title)}
-                                                            valueExtractor={(option: any) => option.code}
-                                                            label={'Payment Mode'}
-                                                            fullWidth={true}
-                                                        />
-                                                    )
-                                                }
-                                            </Field>
-                                            <Field name={'comments'}>
-                                                {
-                                                    (field: FieldProps) => (
-                                                        <FormikTextAreaComponent
-                                                            formikField={field}
-                                                            label={'Comments'}
-                                                            placeholder={'Add comments or transaction ID'}
-                                                            fullWidth={true}
-                                                        />
-                                                    )
-                                                }
-                                            </Field>
-                                        </>}
+                                                <Field name={'payment_mode'}>
+                                                    {
+                                                        (field: FieldProps) => (
+                                                            <FormikSelectComponent
+                                                                formikField={field}
+                                                                required={true}
+                                                                options={paymentModes || []}
+                                                                displayWith={(option: any) => (option.title)}
+                                                                valueExtractor={(option: any) => option.code}
+                                                                label={'Payment Mode'}
+                                                                fullWidth={true}
+                                                            />
+                                                        )
+                                                    }
+                                                </Field>
+                                                <Field name={'comments'}>
+                                                    {
+                                                        (field: FieldProps) => (
+                                                            <FormikTextAreaComponent
+                                                                formikField={field}
+                                                                label={'Comments'}
+                                                                placeholder={'Add comments or transaction ID'}
+                                                                fullWidth={true}
+                                                            />
+                                                        )
+                                                    }
+                                                </Field>
+                                            </>
 
                                     </div>
                                     <div className="client-search-btn">

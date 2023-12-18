@@ -191,7 +191,8 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
                                 </>}
                                 {details?.status === 'upcoming' && <>
                                     <div className="info-text">
-                                        Check-in Time: {CommonService.getHoursAndMinutesFromMinutes(details?.start_time)}
+                                        Check-in
+                                        Time: {CommonService.getHoursAndMinutesFromMinutes(details?.start_time)}
                                     </div>
                                 </>}
                                 {details?.status === 'engaged' && <>
@@ -426,18 +427,36 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
 
 
                         <div className="client-search-btn">
-                            {details && details.status === 'scheduled' && <ButtonComponent
-                                fullWidth={true}
-                                onClick={
-                                    () => {
-                                        if (details.payment_status === 'unpaid') {
-                                            setStep('payment');
-                                        } else {
-                                            onCheckIn();
-                                        }
+                            {details && details.status === 'scheduled' &&
+                                <div className={'ts-row'}>
+                                    {
+                                        details.payment_status === 'unpaid' &&
+                                        <div className={'ts-col'}>
+                                            <ButtonComponent onClick={() => onCheckIn()}
+                                                             variant={'outlined'}
+                                                             fullWidth={true}
+                                            >
+                                                Check In
+                                            </ButtonComponent>
+                                        </div>
                                     }
-                                }
-                            >{details.payment_status === 'unpaid' ? 'Update Payment Status' : 'Check-in'}</ButtonComponent>
+                                    <div className={'ts-col'}>
+                                        <ButtonComponent
+                                            fullWidth={true}
+                                            onClick={
+                                                () => {
+                                                    if (details.payment_status === 'unpaid') {
+                                                        setStep('payment');
+                                                    } else {
+                                                        onCheckIn();
+                                                    }
+                                                }
+                                            }
+                                        >
+                                            {details.payment_status === 'unpaid' ? 'Update Payment Status' : 'Check-in'}
+                                        </ButtonComponent>
+                                    </div>
+                                </div>
                             }
                         </div>
 
@@ -487,6 +506,7 @@ const AppointmentDetailsComponent = (props: AppointmentDetailsComponentProps) =>
                     <AppointmentPaymentComponent onComplete={values => {
                         onCheckIn()
                     }} details={details} onBack={onBack}
+                                                 previousStep={'ViewAppointmentDetails'}
                                                  onClose={onClose}
                     />
                 }
