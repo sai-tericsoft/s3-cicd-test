@@ -23,6 +23,7 @@ const FormikPhoneInputComponent = (props: FormikPhoneInputComponentProps) => {
     const hasError = _.get(touched, name) && !!(_.get(errors, name));
 
     const textChangeHandler = useCallback((text: string) => {
+
         setFieldValue(name, text);
         setFieldTouched(name);
         if (onChange) {
@@ -31,9 +32,10 @@ const FormikPhoneInputComponent = (props: FormikPhoneInputComponentProps) => {
     }, [setFieldValue, setFieldTouched, name, onChange]);
 
     const onInputBlur = useCallback(() => {
+
         handleBlur(name);
-        setFieldTouched(name);
-    }, [name, handleBlur, setFieldTouched]);
+        // setFieldTouched(name);
+    }, [name, handleBlur]);
 
     return (
         <PhoneInputComponent

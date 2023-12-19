@@ -1,8 +1,8 @@
 import "./ClientBasicDetailsFormComponent.scss";
 import * as Yup from "yup";
-import React, {useCallback, useEffect, useState} from "react";
+import React, {useCallback, useEffect, useRef, useState} from "react";
 import _ from "lodash";
-import {Field, FieldArray, FieldProps, Form, Formik, FormikHelpers} from "formik";
+import {Field, FieldArray, FieldProps, Form, Formik, FormikHelpers, FormikProps} from "formik";
 import {CommonService} from "../../../shared/services";
 import {IAPIResponseType} from "../../../shared/models/api.model";
 import {ImageConfig, Patterns} from "../../../constants";
@@ -240,6 +240,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
     const [isClientBasicDetailsSavingInProgress, setIsClientBasicDetailsSavingInProgress] = useState<boolean>(false);
     const dispatch = useDispatch();
 
+    const formikRef = useRef<FormikProps<any>>(null);
     const {
         clientBasicDetails,
         isClientBasicDetailsLoaded,
@@ -332,7 +333,10 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
             if (!clientBasicDetails?.primary_contact_info) {
                 clientBasicDetails.primary_contact_info = PhoneObj;
             }
-            setClientBasicDetailsFormInitialValues(clientBasicDetails);
+            setClientBasicDetailsFormInitialValues(clientBasicDetails);//TODO: Will fix this later
+            setTimeout(() => {
+                formikRef.current?.validateForm(clientBasicDetails);
+            }, 100);
         }
     }, [clientBasicDetails])
 
@@ -367,15 +371,17 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                     validationSchema={ClientBasicDetailsFormValidationSchema}
                     initialValues={clientBasicDetailsFormInitialValues}
                     onSubmit={onSubmit}
-                    validateOnChange={false}
+                    innerRef={formikRef}
                     validateOnBlur={true}
+                    validateOnChange={true}
                     enableReinitialize={true}
-                    validateOnMount={true}>
+                    validateOnMount={true}
+                    >
                     {({values, touched, errors, setFieldValue, validateForm, isValid}) => {
                         // eslint-disable-next-line react-hooks/rules-of-hooks
-                        useEffect(() => {
-                            validateForm();
-                        }, [validateForm, values]);
+                        // useEffect(() => {
+                        //     validateForm();
+                        // }, [validateForm, values]);
                         return (
                             <Form noValidate={true} className={"t-form"}>
                                 {/*<FormDebuggerComponent showDebugger={true} values={values} errors={errors}/>*/}
