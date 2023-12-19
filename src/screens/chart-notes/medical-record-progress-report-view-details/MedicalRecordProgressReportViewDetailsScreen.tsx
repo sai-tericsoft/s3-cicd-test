@@ -153,11 +153,10 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
             if (progressReportId) {
                 CommonService._chartNotes.UpdateProgressReportUnderMedicalRecordAPICall(progressReportId, {is_shared: true})
                     .then((response: any) => {
+                        dispatch(getProgressReportViewDetails(progressReportId))
                         CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY] || "Report shared successfully", "success");
-                        setIsShared(true);
                     }).catch((error: any) => {
                     CommonService._alert.showToast(error?.error || "Error sharing document", "success");
-                    setIsShared(false)
                 })
             }
         })
@@ -189,7 +188,7 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
         CommonService._chartNotes.UpdateProgressReportUnderMedicalRecordAPICall(item?._id, payload)
             .then((response: any) => {
                 commonService._alert.showToast("Access removed successfully", "success");
-                setIsShared(false);
+                progressReportId && dispatch(getProgressReportViewDetails(progressReportId));
             })
             .catch((error: any) => {
                 CommonService._alert.showToast(error.error || "Error removing access", "error");
@@ -223,11 +222,11 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
                     </div>
                 </div>}/>
             {
-                isShared &&
+                progressReportDetails?.is_shared &&
                 <div className={"medical-record-attachment-remove-access-wrapper"}>
                     <div className={"medical-record-attachment-data-wrapper"}>
                         This file was shared to the client
-                        on <b>{progressReportDetails?.shared_at ? CommonService.transformTimeStamp(progressReportDetails?.shared_at) : 'N/A'}</b>.
+                        on <b>{progressReportDetails?.shared_at && CommonService.transformTimeStamp(progressReportDetails?.shared_at)}</b>.
                     </div>
                     <LinkComponent
                         onClick={() => {
