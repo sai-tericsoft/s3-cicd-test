@@ -15,6 +15,7 @@ import FormikDatePickerComponent from "../../form-controls/formik-date-picker/Fo
 import commonService from "../../../services/common.service";
 import momentTimezone from "moment-timezone";
 import {useLocation} from "react-router-dom";
+
 interface BookAppointmentFormComponentProps {
     onClose?: () => void,
     onComplete?: (values: any) => void,
@@ -56,7 +57,7 @@ const addAppointmentValidationSchema = Yup.object().shape({
 });
 
 const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) => {
-    const {onComplete,need_intervention, onClose, onBack, preFillData, client, isLoading} = props;
+    const {onComplete, need_intervention, onClose, onBack, preFillData, client, isLoading} = props;
     const {appointmentTypes} = useSelector((state: IRootReducerState) => state.staticData);
     const [clientCasesList, setClientCasesList] = useState<any[] | null>(null);
     const [serviceCategoryList, setServiceCategoryList] = useState<any[] | null>(null);
@@ -430,14 +431,14 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
                     formRef.current.setFieldValue('date', selectedDate);
                 }
             }
-            if(appointment_type){
+            if (appointment_type) {
                 formRef.current.setFieldValue('appointment_type', appointment_type);
             }
-            if(caseDetails && clientCasesList){
-                formRef.current.setFieldValue('case', clientCasesList.find((value:any)=>value._id === caseDetails._id));
+            if (caseDetails && clientCasesList) {
+                formRef.current.setFieldValue('case', clientCasesList.find((value: any) => value._id === caseDetails._id));
             }
         }
-    }, [preFillData, availableDates,clientCasesList])
+    }, [preFillData, availableDates, clientCasesList])
 
     useEffect(() => {
         console.log('prefill data changed', preFillData)
@@ -691,10 +692,16 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
                                                             options={clientCasesList || []}
                                                             displayWith={item => (
                                                                 item.created_at && CommonService.convertDateFormat2(item.created_at) + " - " +
-                                                                (item.injury_details.length > 3
-                                                                        ?
-                                                                        item.injury_details.slice(0, 3).map((injury: any) => injury.body_part_details?.name + " (" + injury.body_side + ") ").join(', ') + " ..."
-                                                                        : item.injury_details.map((injury: any) => injury.body_part_details?.name + " (" + injury.body_side + ") ").join(', ')
+                                                                (
+                                                                    item.injury_details.length > 3
+                                                                        ? item.injury_details.slice(0, 3).map((injury: any) =>
+                                                                        injury.body_part_details?.name +
+                                                                        (injury.body_side ? ` (${injury.body_side})` : "")
+                                                                    ).join(', ') + " ..."
+                                                                        : item.injury_details.map((injury: any) =>
+                                                                            injury.body_part_details?.name +
+                                                                            (injury.body_side ? ` (${injury.body_side})` : "")
+                                                                        ).join(', ')
                                                                 )
                                                             )}
                                                             valueExtractor={(option: any) => option}

@@ -79,7 +79,6 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
     } = useSelector((state: IRootReducerState) => state.client);
     const [searchParams] = useSearchParams();
     const [isFullCardOpen, setIsFullCardOpen] = useState<boolean>(false);
-    const [isShared, setIsShared] = useState<boolean>(false);
 
     const {
         isProgressReportDetailsLoaded,
@@ -160,7 +159,7 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
                 })
             }
         })
-    }, [progressReportId]);
+    }, [dispatch,progressReportId]);
 
     const handleDeleteProgressReport = useCallback(() => {
         CommonService.onConfirm({
@@ -194,7 +193,7 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
                 CommonService._alert.showToast(error.error || "Error removing access", "error");
             });
 
-    }, [])
+    }, [dispatch,progressReportId])
 
     const handleRemoveAccess = useCallback((item: any) => {
         CommonService.onConfirm({
