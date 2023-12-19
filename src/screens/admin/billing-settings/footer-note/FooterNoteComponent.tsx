@@ -142,11 +142,12 @@ const FooterNoteComponent = (props: FooterNoteComponentProps) => {
                                             <ButtonComponent
                                                 onClick={() => resetForm()}
                                                 variant={'outlined'}
-                                                className={isSaving ? 'mrg-right-15' : ''}
+                                                className={isSaving ? 'mrg-right-10' : ''}
                                                 id={"cancel_btn"}
                                             >
                                                 Cancel
                                             </ButtonComponent>
+                                            &nbsp;&nbsp;
                                             <ButtonComponent
                                                 isLoading={isSaving}
                                                 className={'submit-cta'}
