@@ -3,7 +3,7 @@ import CardComponent from "../../../shared/components/card/CardComponent";
 import PageHeaderComponent from "../../../shared/components/page-header/PageHeaderComponent";
 import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
-import {useNavigate, useParams, useSearchParams} from "react-router-dom";
+import {useLocation, useNavigate, useParams, useSearchParams} from "react-router-dom";
 import React, {useCallback, useEffect, useState} from "react";
 import {getInventoryProductDetails} from "../../../store/actions/inventory.action";
 import DataLabelValueComponent from "../../../shared/components/data-label-value/DataLabelValueComponent";
@@ -27,75 +27,6 @@ interface InventoryProductViewDetailsComponentProps {
 
 }
 
-const InventoryStockIncomingListColumns = [
-    {
-        title: "Stock Quantity",
-        key: "stock_quantity",
-        dataIndex: "quantity",
-        width: 80,
-    },
-    {
-        title: "Updated By",
-        key: "updated_by",
-        dataIndex: "updated_by",
-        width: 50,
-        render: (item: any) => {
-            return <span>{item?.updated_by_details?.first_name} {item?.updated_by_details?.last_name}</span>
-        }
-    },
-    {
-        title: "Updated On",
-        key: "updated_on",
-        dataIndex: "updated_at",
-        width: 50,
-        render: (item: any) => {
-            return <>{CommonService.transformTimeStamp2(item?.updated_at)}</>
-        }
-    },
-];
-
-const InventoryStockOutgoingListColumns = [
-    {
-        title: "Client ID",
-        key: "client_id",
-        dataIndex: "client_id",
-        width: 160,
-    },
-    {
-        title: "Client Name",
-        key: "client_name",
-        dataIndex: "client_name",
-        width: 150,
-        render: (item: any) => {
-            return <span>{item?.client_details?.first_name} {item?.client_details?.last_name}</span>
-        }
-    },
-    {
-        title: "Stock Quantity",
-        key: "stock_quantity",
-        dataIndex: "quantity",
-        width: 80,
-    },
-    {
-        title: "Sold By",
-        key: "sold_by",
-        dataIndex: "sold_by",
-        width: 50,
-        render: (item: any) => {
-            return <span>{item?.sold_by_details?.first_name} {item?.sold_by_details?.last_name}</span>
-        }
-    },
-    {
-        title: "Sold On",
-        key: "sold_on",
-        dataIndex: "sold_on",
-        width: 50,
-        render: (item: any) => {
-            return <>{CommonService.transformTimeStamp2(item?.sold_on)}</>
-        }
-    }
-];
-
 type InventoryStockTabType = "stockIncoming" | "stockOutgoing";
 
 const InventoryStockTypes: any = ['stockIncoming', 'stockOutgoing'];
@@ -105,7 +36,9 @@ const InventoryProductViewDetailsComponent = (props: InventoryProductViewDetails
     const {productId} = useParams();
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const location = useLocation();
     const [searchParams, setSearchParams] = useSearchParams();
+
     const [currentTab, setCurrentTab] = useState<InventoryStockTabType>("stockIncoming");
     const {
         isInventoryProductDetailsLoading,
@@ -119,6 +52,80 @@ const InventoryProductViewDetailsComponent = (props: InventoryProductViewDetails
             dispatch(getInventoryProductDetails(productId));
         }
     }, [productId, dispatch]);
+
+    const InventoryStockIncomingListColumns = [
+        {
+            title: "Stock Quantity",
+            key: "stock_quantity",
+            dataIndex: "quantity",
+            width: 80,
+        },
+        {
+            title: "Updated By",
+            key: "updated_by",
+            dataIndex: "updated_by",
+            width: 50,
+            render: (item: any) => {
+                return <span>{item?.updated_by_details?.first_name} {item?.updated_by_details?.last_name}</span>
+            }
+        },
+        {
+            title: "Updated On",
+            key: "updated_on",
+            dataIndex: "updated_at",
+            width: 50,
+            render: (item: any) => {
+                return <>{CommonService.transformTimeStamp2(item?.updated_at)}</>
+            }
+        },
+    ];
+
+    const InventoryStockOutgoingListColumns = [
+        {
+            title: "Client ID",
+            key: "client_id",
+            dataIndex: "client_id",
+            width: 160,
+            render: (item: any) => {
+                return <LinkComponent
+                    route={CommonService._routeConfig.ClientProfileDetails(item?.client_details?._id)+'?referrer=' + location.pathname + '?activeTab=stockOutgoing'}>{item?.client_details?.client_id}</LinkComponent>
+            }
+
+        },
+        {
+            title: "Client Name",
+            key: "client_name",
+            dataIndex: "client_name",
+            width: 150,
+            render: (item: any) => {
+                return <span>{item?.client_details?.first_name} {item?.client_details?.last_name}</span>
+            }
+        },
+        {
+            title: "Stock Quantity",
+            key: "stock_quantity",
+            dataIndex: "quantity",
+            width: 80,
+        },
+        {
+            title: "Sold By",
+            key: "sold_by",
+            dataIndex: "sold_by",
+            width: 50,
+            render: (item: any) => {
+                return <span>{item?.sold_by_details?.first_name} {item?.sold_by_details?.last_name}</span>
+            }
+        },
+        {
+            title: "Sold On",
+            key: "sold_on",
+            dataIndex: "sold_on",
+            width: 50,
+            render: (item: any) => {
+                return <>{CommonService.transformTimeStamp2(item?.sold_on)}</>
+            }
+        }
+    ];
 
     const handleTabChange = useCallback((e: any, value: any) => {
         searchParams.set("activeTab", value);
