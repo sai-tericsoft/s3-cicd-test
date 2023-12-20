@@ -367,7 +367,8 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                 }
             </>
             {
-                ((mode === "edit" && isClientBasicDetailsLoaded && clientBasicDetails) || mode === "add") && <> <Formik
+                ((mode === "edit" && isClientBasicDetailsLoaded && clientBasicDetails) || mode === "add") && <>
+                    <Formik
                     validationSchema={ClientBasicDetailsFormValidationSchema}
                     initialValues={clientBasicDetailsFormInitialValues}
                     onSubmit={onSubmit}
@@ -379,9 +380,9 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                     >
                     {({values, touched, errors, setFieldValue, validateForm, isValid}) => {
                         // eslint-disable-next-line react-hooks/rules-of-hooks
-                        // useEffect(() => {
-                        //     validateForm();
-                        // }, [validateForm, values]);
+                        useEffect(() => {
+                            validateForm();
+                        }, [validateForm, values]);
                         return (
                             <Form noValidate={true} className={"t-form"}>
                                 {/*<FormDebuggerComponent showDebugger={true} values={values} errors={errors}/>*/}
