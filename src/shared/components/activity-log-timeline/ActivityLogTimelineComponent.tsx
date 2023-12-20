@@ -75,9 +75,14 @@ const CPTColumn: any = [
         key:'units_of_care',
     },
     {
-        title:'minutes',
+        title:'Minutes',
         dataIndex:'minutes',
         key:'minutes',
+    },
+    {
+        title:'Notes',
+        dataIndex:'notes',
+        key:'notes',
     }
 ]
 const BodyPartTableColumns: any = [
