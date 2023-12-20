@@ -37,6 +37,54 @@ const ICDTableColumns: any = [
 
     }
 ];
+
+const progressReportColumn: any = [
+    {
+        title: 'Name',
+        dataIndex: 'name',
+        key: 'name',
+
+    },
+    {
+        title: 'Result',
+        dataIndex: 'result',
+        key: 'result',
+        render: (item: any) => {
+            return <>{item?.result ? item?.result : "N/A"}</>
+        }
+    },
+    {
+        title: 'Comment',
+        dataIndex: 'comment',
+        key: 'comment',
+        render: (item: any) => {
+            return <>{item?.comment ? item?.comment : "N/A"}</>
+        }
+    }
+]
+
+const CPTColumn: any = [
+    {
+        title: 'CPT Code',
+        dataIndex: 'cpt_code',
+        key: 'cpt_code',
+    },
+    {
+        title:'Units Of Care',
+        dataIndex:'units_of_care',
+        key:'units_of_care',
+    },
+    {
+        title:'Minutes',
+        dataIndex:'minutes',
+        key:'minutes',
+    },
+    {
+        title:'Notes',
+        dataIndex:'notes',
+        key:'notes',
+    }
+]
 const BodyPartTableColumns: any = [
     {
         title: 'Body Side',
@@ -118,6 +166,7 @@ const viewExerciseRecordColumn: any = [
         width: 100
     }
 ];
+
 const ActivityLogTimelineComponent = (props: ActivityLogTimelineComponentProps) => {
     const {logsData} = props;
 
@@ -443,6 +492,56 @@ const ActivityLogTimelineComponent = (props: ActivityLogTimelineComponentProps) 
                                     data={logItem?.updated_value}
                                     bordered={true}
                                     columns={ICDTableColumns}/> :
+                                "N/A"
+                        }
+                    </DataLabelValueComponent>
+                </div>)
+            case "Progress Stats":
+                return (<div>
+                    <DataLabelValueComponent label={"From"}
+                    >
+                        {
+                            logItem?.old_value ?
+                                <TableComponent
+                                    data={logItem?.old_value}
+                                    bordered={true}
+                                    columns={progressReportColumn}/> :
+                                "N/A"
+                        }
+                    </DataLabelValueComponent>
+                    <DataLabelValueComponent label={"To"}
+                    >
+                        {
+                            logItem?.updated_value && updated_value?.length > 0 ?
+                                <TableComponent
+                                    data={logItem?.updated_value}
+                                    bordered={true}
+                                    columns={progressReportColumn}/> :
+                                "N/A"
+                        }
+                    </DataLabelValueComponent>
+                </div>)
+            case "CPT Codes":
+                return (<div>
+                    <DataLabelValueComponent label={"From"}
+                    >
+                        {
+                            logItem?.old_value && logItem?.old_value?.length > 0 ?
+                                <TableComponent
+                                    data={logItem?.old_value}
+                                    bordered={true}
+                                    columns={CPTColumn}/> :
+                                "N/A"
+                        }
+                    </DataLabelValueComponent>
+                    <DataLabelValueComponent label={"To"}
+                    >
+                        {
+                            logItem?.updated_value && logItem?.updated_value?.length > 0 ?
+                                <TableComponent
+                                    data={logItem?.updated_value}
+                                    bordered={true}
+                                    columns={CPTColumn}/> :
                                 "N/A"
                         }
                     </DataLabelValueComponent>
