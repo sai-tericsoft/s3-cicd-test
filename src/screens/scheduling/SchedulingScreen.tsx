@@ -864,7 +864,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                                             <ToolTipComponent key={index} tooltip={
                                                                 <>
                                                                     <b>{CommonService.capitalizeFirstLetter(value.first_name) + ' ' + CommonService.capitalizeFirstLetter(value.last_name)}</b><br/>
-                                                                    <div className={'mrg-top-5'}>No of Appointments
+                                                                    <div className={'mrg-top-5'}>No. of Appointments
                                                                         : {value?.count || 0}</div>
                                                                 </>
                                                             }
@@ -1051,7 +1051,8 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                                                                              height: (appointment.end_time - appointment.start_time)*2,
                                                                                              minHeight: (appointment.end_time - appointment.start_time)*2,
                                                                                              maxHeight: (appointment.end_time - appointment.start_time)*2
-                                                                                         }}>
+                                                                                         }}
+                                                                                    >
                                                                                         <CalendarAppointmentCard
                                                                                             title={appointment.client_details}
                                                                                             timeSlot={CommonService.getHoursAndMinutesFromMinutes(appointment.start_time) + ' - ' + CommonService.getHoursAndMinutesFromMinutes(appointment.end_time)}

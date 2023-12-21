@@ -179,7 +179,7 @@ const APIConfig: IAPIConfig = {
         METHOD: "get"
     },
     SERVICE_PROVIDER_UNLINK: {
-        URL: (serviceId: string, providerId: string) => ENV.API_URL + '/service/' + serviceId + "/unlink/" + providerId,
+        URL: ( providerId: string) => ENV.API_URL + "/user/" + providerId,
         METHOD: "delete"
     },
     SERVICE_PROVIDER_LINK: {
