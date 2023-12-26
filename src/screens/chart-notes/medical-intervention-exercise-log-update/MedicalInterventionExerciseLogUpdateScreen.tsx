@@ -367,12 +367,12 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
 
     const rows = formRef?.current?.values?.exercise_records?.length;
     console.log('rows', rows);
-    const columns =  7;
+    const columns = 7;
 
     useEffect(() => {
         const cellId = `row-${currentRow}-column-${currentColumn}`;
         console.log('cellId', cellId);
-        const cell = document.getElementById(cellId)?.querySelector('input');
+        const cell = document.getElementById(cellId)?.querySelector('input') ||  document.getElementById(cellId) ;
         if (cell) {
             cell.focus();
         }
@@ -393,8 +393,7 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
             case 'ArrowLeft':
                 if (currentColumn > 0) {
                     setCurrentColumn(currentColumn - 1);
-                }
-                else if (currentColumn === 0 && currentRow > 0) {
+                } else if (currentColumn === 0 && currentRow > 0) {
                     setCurrentColumn(columns - 1);
                     setCurrentRow(currentRow - 1);
                 }
@@ -402,8 +401,7 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
             case 'ArrowRight':
                 if (currentColumn < columns - 1) {
                     setCurrentColumn(currentColumn + 1);
-                }
-                else if (currentColumn === columns - 1 && currentRow < rows - 1) {
+                } else if (currentColumn === columns - 1 && currentRow < rows - 1) {
                     setCurrentColumn(0);
                     setCurrentRow(currentRow + 1);
                 }
