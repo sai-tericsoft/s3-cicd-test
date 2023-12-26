@@ -34,6 +34,9 @@ import EditBillingAddressComponent from "../edit-billing-address/EditBillingAddr
 import {getBillingFromAddress, getBillingSettings} from "../../../store/actions/billings.action";
 import AddBillingAddressComponent from "../add-billing-address/AddBillingAddressComponent";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
+import ChipComponent from "../../../shared/components/chip/ChipComponent";
+import MenuDropdownComponent from "../../../shared/components/menu-dropdown/MenuDropdownComponent";
+import {ListItemButton} from "@mui/material";
 
 interface AddNewReceiptScreenProps {
 
@@ -436,7 +439,8 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
             render: (item: any) => {
                 return <RadioButtonComponent name={'selected-client'}
                                              value={item}
-                                             label={<><span className={item?.is_alias_name_set ? 'alias-name':''}>{`${CommonService.extractName(item)}`}</span> {`(ID: ${item.client_id || ''})`}</>}
+                                             label={<><span
+                                                 className={item?.is_alias_name_set ? 'alias-name' : ''}>{`${CommonService.extractName(item)}`}</span> {`(ID: ${item.client_id || ''})`}</>}
                                              checked={selectedClient?._id === item?._id}
                                              onChange={(value: any) => {
                                                  formRef?.current?.setFieldValue('client_id', value._id);
@@ -637,6 +641,38 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
     useEffect(() => {
         getClientList();
     }, [getClientList]);
+
+    const handleDeleteBillingAddress = useCallback((billingAddress: any) => {
+        CommonService.onConfirm({
+            image: ImageConfig.ConfirmationLottie,
+            showLottie: true,
+            confirmationTitle: 'DELETE ADDRESS',
+            confirmationSubTitle: <div className={'text-center mrg-bottom-20'}>Are you sure you want to permanently
+                delete <br/> this address?</div>,
+
+        }).then(() => {
+            CommonService._billingsService.DeleteBillingAddress(billingAddress?._id, billingAddress)
+                .then((response: any) => {
+                    CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+                    closeBillingAddressFormDrawer();
+                }).catch((error: any) => {
+                CommonService._alert.showToast(error.error || "Error in deleting", "error");
+            });
+        })
+
+    }, [closeBillingAddressFormDrawer]);
+
+    const onBillingAddressFormSubmit = useCallback((billingAddressId: string) => {
+        CommonService._client.UpdateClientBillingAddress(billingAddressId, {is_default: true})
+            .then((response: any) => {
+                getClientBillingAddressList();
+                CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+                getClientBillingAddressList();
+            })
+            .catch((error: any) => {
+                console.log(error);
+            });
+    }, [getClientBillingAddressList]);
 
 
     return (
@@ -1074,59 +1110,38 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                                             <RadioButtonComponent
                                                 checked={selectedChanged ? tempSelectedAddress === item : selectedAddress === item}
                                                 onChange={() => handleRadioButtonClick(item)}/>
-                                            <div
-                                                className={'card-heading'}>{item?.is_default ? 'Default Address' : 'Other Address'}</div>
+                                            <b>{item?.name}</b>
+                                            <div className={'mrg-left-10'}>
+                                                {item?.is_default && <ChipComponent className={'draft'} label={'Default'}/>}
+                                            </div>
                                         </div>
                                         <div className={'btn-wrapper'}>
-                                            <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>} variant={'text'}
-                                                             onClick={() => handleEdit(item)}>
-                                                Edit
-                                            </ButtonComponent>
+                                            {/*<ButtonComponent prefixIcon={<ImageConfig.EditIcon/>} variant={'text'}*/}
+                                            {/*                 onClick={() => handleEdit(item)}>*/}
+                                            {/*    Edit*/}
+                                            {/*</ButtonComponent>*/}
+                                            <MenuDropdownComponent className={'billing-details-drop-down-menu'} menuBase={
+                                                <IconButtonComponent>
+                                                    <ImageConfig.MoreVerticalIcon/>
+                                                </IconButtonComponent>
+                                            } menuOptions={[
+                                                <ListItemButton onClick={() => handleEdit(item)}>
+                                                    Edit
+                                                </ListItemButton>,
+                                                <ListItemButton onClick={() => handleDeleteBillingAddress(item)}>
+                                                    Delete
+                                                </ListItemButton>,
+                                                <ListItemButton onClick={() => onBillingAddressFormSubmit(item?._id)}>
+                                                    Make as Default
+                                                </ListItemButton>,
+                                            ]}/>
                                         </div>
                                     </div>
-                                    <div className={'ts-row mrg-top-10'}>
-                                        <div className={'ts-col-lg-1'}/>
-                                        <div className={'ts-col-lg-6'}>
-                                            <DataLabelValueComponent label={'Name of Client/Organisation'}>
-                                                {item?.name || 'N/A'}
-                                            </DataLabelValueComponent>
-                                        </div>
-                                        <div className={'ts-col-lg-4'}>
-                                            <DataLabelValueComponent label={'Address Line'}>
-                                                {item?.address_line || 'N/A'}
-                                            </DataLabelValueComponent>
-                                        </div>
-                                        <div className={'ts-col-lg-2'}/>
-
+                                    <div className={'mrg-15'}>
+                                        <span className={'card-heading'}>Address:</span> {item?.address_line}, {item?.city}, {item?.state}, {item?.country} {item?.zip_code}
                                     </div>
-                                    <div className={'ts-row'}>
-                                        <div className={'ts-col-lg-1'}/>
-                                        <div className={'ts-col-lg-6'}>
-                                            <DataLabelValueComponent label={'City'}>
-                                                {item?.city || "N/A"}
-                                            </DataLabelValueComponent>
-                                        </div>
-                                        <div className={'ts-col-lg-4'}>
-                                            <DataLabelValueComponent label={'State'}>
-                                                {item?.state || 'N/A'}
-                                            </DataLabelValueComponent>
-                                        </div>
-                                        <div className={'ts-col-lg-2'}/>
-
-                                    </div>
-                                    <div className={'ts-row'}>
-                                        <div className={'ts-col-lg-1'}/>
-                                        <div className={'ts-col-lg-6'}>
-                                            <DataLabelValueComponent label={'ZIP Code'}>
-                                                {item?.zip_code || 'N/A'}
-                                            </DataLabelValueComponent>
-                                        </div>
-                                        <div className={'ts-col-lg-4'}>
-                                            <DataLabelValueComponent label={'Country'}>
-                                                {item?.country || 'N/A'}                                       </DataLabelValueComponent>
-                                        </div>
-                                        <div className={'ts-col-lg-2'}/>
-
+                                    <div className={'mrg-15'}>
+                                        <span className={'card-heading'}>Phone Number:</span>  {CommonService.formatPhoneNumber(item?.phone)}
                                     </div>
                                 </div>
                             })
