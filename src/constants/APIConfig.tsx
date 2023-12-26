@@ -1107,6 +1107,10 @@ const APIConfig: IAPIConfig = {
     DELETE_PROGRESS_REPORT: {
         URL: (progressReportId: string) => ENV.API_URL + '/progressReport/' + progressReportId,
         METHOD: "delete"
+    },
+    PRINT_INJURY_CONDITION_FORM: {
+        URL:(medicalRecordId:string)=> ENV.API_URL + '/medicalRecord/' + medicalRecordId + '/injuryMainPage/generatePDF',
+        METHOD: "post"
     }
 }
 
