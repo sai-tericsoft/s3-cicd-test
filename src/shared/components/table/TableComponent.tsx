@@ -18,6 +18,8 @@ interface TableComponentProps extends ITableComponentProps {
     noDataText?: string;
     noDataImage?: any;
     className?: any;
+    onKeyDown?: (event: React.KeyboardEvent<HTMLDivElement>) => void;
+    tabIndex?: number;
 }
 
 const TableComponent = (props: TableComponentProps) => {
@@ -39,7 +41,9 @@ const TableComponent = (props: TableComponentProps) => {
         data,
         sort,
         onSort,
-        className
+        className,
+        onKeyDown,
+        tabIndex,
     } = props;
     const size = props.size || "medium";
 
@@ -199,14 +203,17 @@ const TableComponent = (props: TableComponentProps) => {
                                         prepareRow(row);
                                         return (
                                             <>
-                                                <div className={`t-tr ${onRowClick ? 't-tr-clickable' : ''}`}
+                                                <div className={`t-tr row-item-${index} ${onRowClick ? 't-tr-clickable' : ''}`}
                                                      key={index}
                                                      onClick={() => handleRowClick(row)} {...row.getRowProps()}>
-                                                    {row.cells.map((cell: any, index: any) => {
+                                                    {row.cells.map((cell: any, columnIndex: any) => {
                                                         return (
                                                             <div {...cell.getCellProps()}
-                                                                 key={index}
-                                                                 className={getTDClasses(cell.column)}>
+                                                                 onKeyDown={onKeyDown}
+                                                                 tabIndex={tabIndex}
+                                                                 key={columnIndex}
+                                                                 id={"row-" + index + "-column-" + columnIndex}
+                                                                 className={"row-" + index + "-column-" + columnIndex + ' ' + getTDClasses(cell.column)}>
                                                                 {cell.render('Cell')}
                                                             </div>
                                                         )
