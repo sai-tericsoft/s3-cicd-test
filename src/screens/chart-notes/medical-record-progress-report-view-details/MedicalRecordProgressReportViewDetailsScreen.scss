@@ -97,6 +97,9 @@
       font-size: 1.4286rem;
       font-weight: 700;
       margin-bottom: 12px;
+      .MuiChip-root {
+        width: 150px !important;
+      }
 
       .client-name {
         padding-right: 10px;
