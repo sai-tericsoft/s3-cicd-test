@@ -84,7 +84,7 @@ const ServiceProviderListComponent = (props: ServiceProviderComponentProps) => {
             confirmationSubTitle: `Are you sure you want to unlink "${item.first_name} ${item.last_name}" as a provider for "${serviceDetails.name}"?`
 
         }).then(() => {
-            CommonService._service.ServiceProviderUnlinkAPICall(item?._id, {})
+            CommonService._service.ServiceProviderUnlinkAPICall(serviceId,item?._id, {})
                 .then((response) => {
                     CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                     dispatch(getServiceProviderList(serviceId));
