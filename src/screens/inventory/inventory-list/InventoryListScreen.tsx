@@ -96,7 +96,7 @@ const InventoryListScreen = (props: InventoryListScreenProps) => {
             align: 'center',
             width: 186,
             render: (item: any) => {
-                return <> {Misc.CURRENCY_SYMBOL}{CommonService.convertToDecimals(item?.sale_price)} </>
+                return <> {Misc.CURRENCY_SYMBOL}{CommonService.convertToDecimals(item?.sale_price) || '0.00'} </>
             }
         },
         {

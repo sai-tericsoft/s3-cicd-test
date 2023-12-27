@@ -56,13 +56,13 @@ const inventoryProductValidationSchema = Yup.object({
                     .max(
                         Yup.ref('retail_price'),
                         'Discount Amount cannot be greater than Retail Price'
-                    ),
+                    ).required('Discount is required'),
             })
             .when('discount_type', {
                 is: 'percentage',
                 then: Yup.number()
                     .required('Discount is required when Discount Type is specified')
-                    .max(100, 'Discount Percentage cannot be greater than 100'),
+                    .max(100, 'Discount Percentage cannot be greater than 100').required('Discount is required'),
             }),
     }),
 });
