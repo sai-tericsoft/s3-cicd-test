@@ -365,16 +365,24 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
         }
     ], []);
 
+    const inputRef = useRef<HTMLInputElement | null>(null);
+    const columnsStartIndex = 1;
     const rows = formRef?.current?.values?.exercise_records?.length;
     console.log('rows', rows);
-    const columns = 7;
+    const columns = 6;
 
     useEffect(() => {
-        const cellId = `row-${currentRow}-column-${currentColumn}`;
+        // Adjust the calculation of the actual column index
+        const actualColumn = currentColumn + columnsStartIndex;
+        const cellId = `row-${currentRow}-column-${actualColumn}`;
         console.log('cellId', cellId);
-        const cell = document.getElementById(cellId)?.querySelector('input') ||  document.getElementById(cellId) ;
-        if (cell) {
-            cell.focus();
+
+        const cell = document.getElementById(cellId);
+        const inputField = cell?.querySelector('input');
+
+        if (inputField) {
+            inputRef.current = inputField as HTMLInputElement;
+            inputRef.current.focus();
         }
     }, [currentRow, currentColumn]);
 
