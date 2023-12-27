@@ -366,12 +366,12 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
         },
         {
             title: 'Rate',
-            dataIndex: 'rate',
-            key: 'rate',
+            dataIndex: 'sale_price',
+            key: 'sale_price',
             align: 'center',
             width: 40,
             render: (record: any) => {
-                return <>{Misc.CURRENCY_SYMBOL}{CommonService.convertToDecimals(record?.rate)}</>
+                return <>{Misc.CURRENCY_SYMBOL}{CommonService.convertToDecimals(record?.sale_price)}</>
             }
         },
         {
@@ -383,7 +383,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
             width: 100,
             render: (record: any) => {
                 return <>
-                    {Misc.CURRENCY_SYMBOL}{CommonService.convertToDecimals(record?.rate * record?.units)}
+                    {Misc.CURRENCY_SYMBOL}{CommonService.convertToDecimals(record?.amount)}
                 </>
             }
         }

@@ -37,7 +37,7 @@ const discountTypeForInventory = [{
     code:"amount"
 },{
     title: "N/A",
-    code:"n/a"
+    code:"N/A"
 }];
 
 

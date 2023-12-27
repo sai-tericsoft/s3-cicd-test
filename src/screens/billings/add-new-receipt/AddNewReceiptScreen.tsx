@@ -81,7 +81,7 @@ const ProductRow = {
     product: undefined,
     product_id: undefined,
     amount: undefined,
-    units: undefined,
+    sale_price: undefined,
     quantity: undefined,
     discount: undefined,
     showQuantity: false,
@@ -195,7 +195,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                                 displayWith={(item: any) => item?.name || ''}
                                 onUpdate={(item: any) => {
                                     field.form.setFieldValue(`products[${index}].product_id`, item._id);
-                                    field.form.setFieldValue(`products[${index}].rate`, item.price);
+                                    field.form.setFieldValue(`products[${index}].sale_price`, item.sale_price);
                                     field.form.setFieldValue(`products[${index}].quantity`, item.quantity);
                                     field.form.setFieldValue(`products[${index}].units`, 0);
                                     field.form.setFieldValue(`products[${index}].showQuantity`, false);
@@ -244,7 +244,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                                         disabled={!field.form.values?.products?.[index]?.product_id}
                                         // validationPattern={Patterns.POSITIVE_WHOLE_NUMBERS}
                                         onChange={(value: any) => {
-                                            field.form.setFieldValue(`products[${index}].amount`, field.form.values?.products?.[index]?.rate * value);
+                                            field.form.setFieldValue(`products[${index}].amount`, field.form.values?.products?.[index]?.sale_price * value);
                                         }
                                         }
                                     /> : "-"
@@ -264,7 +264,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                 <Field name={`products[${index}].discount`} className="t-form-control">
                     {(field: FieldProps) => {
                         const quantity = _.get(field.form?.values, `products[${index}].quantity`);
-                        const rate = field.form.values?.products?.[index]?.rate;
+                        const rate = field.form.values?.products?.[index]?.sale_price;
                         const units = field.form.values?.products?.[index]?.units;
                         const amount = rate && units ? rate * units : 0;
                         const discount = field.form.values?.products?.[index]?.discount || 0;
@@ -318,15 +318,15 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
         },
         {
             title: "Rate",
-            dataIndex: "rate",
-            key: "rate",
+            dataIndex: "sale_price",
+            key: "sale_price",
             align: 'center',
             width: 70,
-            render: (record: any, index: number) => <Field name={`products[${index}].units`} className="t-form-control">
+            render: (record: any, index: number) => <Field name={`products[${index}].sale_price`} className="t-form-control">
                 {
                     (field: FieldProps) => (
                         <>
-                            {field.form.values?.products?.[index]?.rate ? <> {Misc.CURRENCY_SYMBOL}{CommonService.convertToDecimals(field.form.values?.products?.[index]?.rate) || "-"} </> : "-"}
+                            {field.form.values?.products?.[index]?.sale_price ? <> {Misc.CURRENCY_SYMBOL}{CommonService.convertToDecimals(field.form.values?.products?.[index]?.sale_price) || "-"} </> : "-"}
                         </>
                     )
                 }
@@ -595,7 +595,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
         let totalAmount = 0;
         if (formRef.current?.values?.products) {
             totalAmount = formRef.current?.values?.products?.reduce((acc: number, curr: any) => {
-                return (curr.rate && curr.units) ? acc + ((curr?.rate) * (curr?.units)) - ((curr?.discount || "0.00")) : acc;
+                return (curr.sale_price && curr.units) ? acc + ((curr?.sale_price) * (curr?.units)) - ((curr?.discount || "0.00")) : acc;
             }, 0);
         } else {
             totalAmount = 0;
