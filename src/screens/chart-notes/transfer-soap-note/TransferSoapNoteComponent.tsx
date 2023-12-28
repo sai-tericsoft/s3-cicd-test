@@ -164,7 +164,7 @@ const TransferSoapNoteComponent = (props: TransferSoapNoteComponentProps) => {
                 medical_record_id: selectedMedicalRecord?._id
             })
                 .then((response: any) => {
-                    CommonService._alert.showToast('SOAP note has been transferred successfully.', "success");
+                    CommonService._alert.showToast('SOAP note has been transferred successfully', "success");
                     onTransferSoapNote();
                     setIsSoapNoteTransferUnderProgress(false);
                     navigate(CommonService._routeConfig.UpdateMedicalIntervention(selectedMedicalRecord?._id, medicalInterventionId));
