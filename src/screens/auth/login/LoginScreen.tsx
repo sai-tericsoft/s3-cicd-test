@@ -45,7 +45,7 @@ const LoginScreen = (props: LoginScreenProps) => {
         if (ENV.ENV_MODE === "dev") {
             setLoginFormInitialValues({
                 email: "terrill@gmail.com",
-                password: "12345678",
+                password: "Terrill@123",
             })
         }
     }, []);
