@@ -4,29 +4,45 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  .t-appointment-drawer-form-controls{
-    .add-gift-card-msg{
+
+  .t-appointment-drawer-form-controls {
+    .add-gift-card-msg {
       margin-top: 21px;
       font-weight: 500;
       margin-bottom: 16px;
     }
   }
 
-  .secure-checkout-heading{
+  .coupon-code-wrapper {
+    margin-bottom: 24px;
+    .input-component {
+      margin-bottom: 0 !important;
+    }
+    .coupon-valid{
+      font-size: 14px;
+      color: #15A563;
+      &.invalid{
+        color: #ED2B2D;
+      }
+    }
+  }
+
+  .secure-checkout-heading {
     font-weight: 700;
     font-size: 1.4286rem;
     margin-top: 25px;
-    margin-bottom:5px ;
+    margin-bottom: 5px;
   }
 
   .t-form {
     display: flex;
     flex-direction: column;
     height: 100%;
-    .checkout-summary{
+
+    .checkout-summary {
       font-size: 16px;
       font-weight: 700;
-      margin-top:6px ;
+      margin-top: 6px;
       margin-bottom: 16px !important;
     }
   }
@@ -54,7 +70,7 @@
 
   .payment-block {
     padding: 10px;
-    margin:20px 0px;
+    margin: 20px 0px;
     background: #F9F9FB;
     border-radius: 5px;
 
@@ -160,8 +176,9 @@
       .option-item {
         flex: 0;
         margin-left: 8px;
-        .MuiFormControlLabel-root{
-          margin-right:0px;
+
+        .MuiFormControlLabel-root {
+          margin-right: 0px;
         }
       }
 
@@ -187,10 +204,12 @@
         font-size: 1.1429rem;
         color: #919191;
         padding-bottom: 10px;
-        &.discount{
+
+        &.discount {
           color: #919191;
         }
-        &.amount{
+
+        &.amount {
           color: #919191
         }
       }
@@ -222,7 +241,8 @@
 
         &.red {
           color: #37A850 !important;
-          .zero-discount{
+
+          .zero-discount {
             color: #919191;
           }
         }
@@ -231,11 +251,13 @@
 
     }
   }
-  .horizontal-line-wrapper{
+
+  .horizontal-line-wrapper {
     margin: 5px 0;
   }
-  .client-search-btn{
-    margin-top:5px;
+
+  .client-search-btn {
+    margin-top: 5px;
   }
 
 }

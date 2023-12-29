@@ -1111,6 +1111,10 @@ const APIConfig: IAPIConfig = {
     PRINT_INJURY_CONDITION_FORM: {
         URL:(medicalRecordId:string)=> ENV.API_URL + '/medicalRecord/' + medicalRecordId + '/injuryMainPage/generatePDF',
         METHOD: "post"
+    },
+    CHECK_COUPON_AVAILABILITY: {
+        URL: ENV.API_URL + '/checkCouponValidity',
+        METHOD: "post"
     }
 }
 
