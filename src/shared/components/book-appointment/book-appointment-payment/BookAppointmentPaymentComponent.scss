@@ -11,6 +11,19 @@
       margin-bottom: 16px;
     }
   }
+  .coupon-code-wrapper {
+    margin-bottom: 24px;
+    .input-component {
+      margin-bottom: 0 !important;
+    }
+    .coupon-valid{
+      font-size: 14px;
+      color: #15A563;
+      &.invalid{
+        color: #ED2B2D;
+      }
+    }
+  }
 
   .t-form {
     display: flex;
