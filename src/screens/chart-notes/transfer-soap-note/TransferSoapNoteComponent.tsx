@@ -10,7 +10,7 @@ import StatusCardComponent from "../../../shared/components/status-card/StatusCa
 import CardComponent from "../../../shared/components/card/CardComponent";
 import AvatarComponent from "../../../shared/components/avatar/AvatarComponent";
 import TableComponent from "../../../shared/components/table/TableComponent";
-import {ImageConfig} from "../../../constants";
+import {ImageConfig, Misc} from "../../../constants";
 import {useNavigate} from "react-router-dom";
 import FormControlLabelComponent from "../../../shared/components/form-control-label/FormControlLabelComponent";
 
@@ -164,7 +164,7 @@ const TransferSoapNoteComponent = (props: TransferSoapNoteComponentProps) => {
                 medical_record_id: selectedMedicalRecord?._id
             })
                 .then((response: any) => {
-                    CommonService._alert.showToast('SOAP note has been transferred successfully.', "success");
+                    CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                     onTransferSoapNote();
                     setIsSoapNoteTransferUnderProgress(false);
                     navigate(CommonService._routeConfig.UpdateMedicalIntervention(selectedMedicalRecord?._id, medicalInterventionId));
