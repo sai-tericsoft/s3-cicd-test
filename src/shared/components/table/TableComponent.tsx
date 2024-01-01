@@ -20,6 +20,7 @@ interface TableComponentProps extends ITableComponentProps {
     className?: any;
     onKeyDown?: (event: React.KeyboardEvent<HTMLDivElement>) => void;
     tabIndex?: number;
+    onClick?: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
 }
 
 const TableComponent = (props: TableComponentProps) => {
@@ -44,6 +45,7 @@ const TableComponent = (props: TableComponentProps) => {
         className,
         onKeyDown,
         tabIndex,
+        onClick,
     } = props;
     const size = props.size || "medium";
 
@@ -212,6 +214,9 @@ const TableComponent = (props: TableComponentProps) => {
                                                                  onKeyDown={onKeyDown}
                                                                  tabIndex={tabIndex}
                                                                  key={columnIndex}
+                                                                 data-column={columnIndex}
+                                                                 data-row={index}
+                                                                 onClick={onClick}
                                                                  id={"row-" + index + "-column-" + columnIndex}
                                                                  className={"row-" + index + "-column-" + columnIndex + ' ' + getTDClasses(cell.column)}>
                                                                 {cell.render('Cell')}

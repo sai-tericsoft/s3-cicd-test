@@ -571,26 +571,27 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
     const [currentColumn, setCurrentColumn] = React.useState(0);
     const inputRef = useRef<HTMLInputElement | null>(null);
     const [rowsAndColumnsArray, setRowsAndColumnsArray] = useState<{ rows: number; columns: number }[]>([]);
+    const columnsStartIndex = 0;
 
-    const columnsStartIndex = 1;
-    const tableRef = useRef(null);
 
     useEffect(() => {
         const calculatedArray = Object.values(romFormValues).map((bodyPart: any) => ({
             rows: bodyPart?.movements?.length || 0,
-            columns: bodyPart?.selected_sides?.length * 3 || 0,
+            columns: (bodyPart?.selected_sides?.length * 3 ) + 1|| 0,
         }));
 
         setRowsAndColumnsArray(calculatedArray);
     }, [romFormValues]);
 
     console.log('Rows and Columns Array:', rowsAndColumnsArray);
+    console.log('Current Row:', currentRow);
+    console.log('Current Column:', currentColumn);
 
     useEffect(() => {
         const actualColumn = currentColumn + columnsStartIndex;
         const cellId = `row-${currentRow}-column-${actualColumn}`;
         console.log('cellId', cellId);
-        
+
         const cell = document.getElementById(cellId);
         const inputField = cell?.querySelector('input');
 
@@ -600,11 +601,9 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
         }
     }, [currentRow, currentColumn]);
 
-
     const handleKeyDown = useCallback((index: number, event: any) => {
         console.log('index', index);
 
-        // Get the rows and columns from the state
         const bodyPartInfo = rowsAndColumnsArray[index] || { rows: 0, columns: 0 };
         const rows = bodyPartInfo.rows;
         console.log('rows', rows);
@@ -643,6 +642,17 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
         }
     }, [currentRow, currentColumn, rowsAndColumnsArray]);
 
+    const handleContainerClick = (event: React.MouseEvent<HTMLDivElement>, tableIndex: any) => {
+        const clickedRowIndex = Number(event.currentTarget.getAttribute('data-row'));
+        const clickedColumnIndex = Number(event.currentTarget.getAttribute('data-column'));
+
+        console.log('Clicked Row Index:', clickedRowIndex);
+        console.log('Clicked Column Index:', clickedColumnIndex);
+        console.log('Table Index:', tableIndex);
+
+        setCurrentRow(clickedRowIndex);
+        setCurrentColumn(clickedColumnIndex);
+    };
 
     return (
         <div className={'medical-intervention-rom-config-v2-screen'}>
@@ -761,9 +771,11 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
                                                                                             <div
                                                                                                 className={'rom-config-table-container'}>
                                                                                                 <TableComponent
-                                                                                                    id={`rom-config-table-${bodyPartId}`}
                                                                                                     onKeyDown={handleKeyDown.bind(null, index)}
                                                                                                     tabIndex={0}
+                                                                                                    data-row={index}
+                                                                                                    data-column={index}
+                                                                                                    onClick={(event) => handleContainerClick(event, index)}
                                                                                                     data={bodyPart?.movements || []}
                                                                                                     bordered={true}
                                                                                                     canExpandRow={() => true}
