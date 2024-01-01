@@ -249,28 +249,6 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
         }
     }, [medicalInterventionId, dispatch]);
 
-    const handleInjuryConditionPrint = useCallback(() => {
-
-            if (medicalRecordId) {
-                const payload = {
-                    timezone: momentTimezone.tz.guess(),
-                }
-                CommonService._chartNotes.PrintInjuryConditionForm(medicalRecordId, payload)
-                    .then((res: any) => {
-                        const attachment = {
-                            type: 'application/pdf',
-                            url: res.data.url,
-                            name: 'injury condition',
-                            key: ''
-                        };
-                        CommonService.printAttachment(attachment);
-                    })
-                    .catch((err: any) => {
-                        console.log(err);
-                    });
-            }
-    }, [medicalRecordId]);
-
     // const handleEditSoapNote = useCallback(() => {
     //     if (medicalRecordId && medicalInterventionId) {
     //         navigate(CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, medicalInterventionId));
@@ -300,13 +278,12 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
                 <ListItem onClick={openAddDryNeedlingFileDrawer}>
                     Add Dry Needling File
                 </ListItem>,
-                <ListItem onClick={handleInjuryConditionPrint}>Print Injury Form</ListItem>,
                 <ListItem onClick={openAddConcussionFileDrawer}>Add Concussion</ListItem>,
                 <ListItem onClick={openViewPriorNoteDrawer}>View Prior Note</ListItem>,
                 <ListItem onClick={openImportSoapNoteDrawer}>Import SOAP Note</ListItem>]
             );
         }
-    }, [handleNotifyAdmin,handleInjuryConditionPrint, handleNotifyAdminModalOpen, comingSoon, mode, openMedicalRecordDocumentAddDrawer, openTransferSoapNoteDrawer, openAddConcussionFileDrawer, openAddDryNeedlingFileDrawer, openImportSoapNoteDrawer, openViewPriorNoteDrawer, medicalInterventionDetails]);
+    }, [handleNotifyAdmin, handleNotifyAdminModalOpen, comingSoon, mode, openMedicalRecordDocumentAddDrawer, openTransferSoapNoteDrawer, openAddConcussionFileDrawer, openAddDryNeedlingFileDrawer, openImportSoapNoteDrawer, openViewPriorNoteDrawer, medicalInterventionDetails]);
 
     return (
         <div className={'client-medical-details-card-component'}>
