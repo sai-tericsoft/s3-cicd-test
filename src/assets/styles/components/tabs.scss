@@ -53,12 +53,14 @@
       text-transform: unset !important;
       font-weight: $font-weight-normal;
       font-size: 14px !important;
+      color:$primary-color;
 
     }
 
 
     .t-tab.Mui-selected {
       font-weight: $font-weight-bolder;
+        color: $primary-color !important;
     }
 
     &.primary {
