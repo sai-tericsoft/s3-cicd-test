@@ -684,27 +684,27 @@
   font-weight: 500;
 
   &.no_show {
-    background: #EFEFEF;
-    color: #717171;
+    background: #EB9A78;
+    color: #FFFFFF;
     width: 100px;
   }
 
   &.scheduled {
-    background: #E8F2FF;
-    color: #1C5EDE;
+    background: #558BB0;
+    color: #FFFFFF;
     width: 100px;
   }
 
   &.upcoming {
-    background: #FFF7EA;
-    color: #DE561C;
+    background: #8A54AF;
+    color: #FFFFFF;
     width: 100px;
     text-transform: none;
   }
 
   &.engaged {
-    background: #BDE8CA;
-    color: #00534F;
+    background: #2CA091;
+    color: #FFFFFF;
     width: 100px;
   }
 
@@ -715,8 +715,8 @@
   }
 
   &.cancelled {
-    background: #FFE2E9;
-    color: #DE1C4E;
+    background: #D26060;
+    color: #FFFFFF;
     width: 100px;
   }
 }

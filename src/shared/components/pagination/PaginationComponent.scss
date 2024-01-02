@@ -2,14 +2,17 @@
   background-color: white;
   border: 1px solid #E7E7E7;
   border-top: none;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
 }
 
-.MuiTablePagination-displayedRows,  .MuiTablePagination-selectLabel {
+.MuiTablePagination-displayedRows, .MuiTablePagination-selectLabel {
 
   //margin-top: 2px !important;
   font-size: 14px !important;
 }
-.MuiTablePagination-select{
+
+.MuiTablePagination-select {
   font-size: 14px !important;
   margin-top: 5px !important;
 }
