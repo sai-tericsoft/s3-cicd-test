@@ -145,6 +145,9 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
         clientMedicalRecord,
         isClientMedicalRecordLoaded,
     } = useSelector((state: IRootReducerState) => state.client);
+    const [currentRow, setCurrentRow] = React.useState(0);
+    const [currentColumn, setCurrentColumn] = React.useState(0);
+
 
     const medicalInterventionExerciseLogColumns = useMemo<any>(() => [
         {
@@ -362,6 +365,67 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
         }
     ], []);
 
+    const inputRef = useRef<HTMLInputElement | null>(null);
+    const columnsStartIndex = 0;  // Start from column 1
+    const rows = formRef?.current?.values?.exercise_records?.length;
+    const tableIndex = 0;
+    const columns = 7;  // Go up to column 6
+
+    useEffect(() => {
+        // Adjust the calculation of the actual column index
+        const actualColumn = currentColumn + columnsStartIndex;
+        const cellId = `row-${currentRow}-column-${actualColumn}-table-index-${tableIndex}`;
+
+        const cell = document.getElementById(cellId);
+        const inputField = cell?.querySelector('input');
+
+        if (inputField) {
+            inputRef.current = inputField as HTMLInputElement;
+            inputRef.current.focus();
+        }
+    }, [currentRow, currentColumn]);
+
+    const handleKeyDown = useCallback((event: any) => {
+        switch (event.key) {
+            case 'ArrowUp':
+                if (currentRow > 0) {
+                    setCurrentRow(currentRow - 1);
+                }
+                break;
+            case 'ArrowDown':
+                if (currentRow < rows - 1) {
+                    setCurrentRow(currentRow + 1);
+                }
+                break;
+            case 'ArrowLeft':
+                if (currentColumn > 0) {
+                    setCurrentColumn(currentColumn - 1);
+                } else if (currentColumn === 0 && currentRow > 0) {
+                    setCurrentColumn(columns - 1);
+                    setCurrentRow(currentRow - 1);
+                }
+                break;
+            case 'ArrowRight':
+                if (currentColumn < columns - 1) {
+                    setCurrentColumn(currentColumn + 1);
+                } else if (currentColumn === columns - 1 && currentRow < rows - 1) {
+                    setCurrentColumn(0);
+                    setCurrentRow(currentRow + 1);
+                }
+                break;
+            default:
+                break;
+        }
+    },[currentColumn, currentRow, columns, rows]);
+
+    const handleContainerClick = (event: React.MouseEvent<HTMLDivElement>) => {
+        const clickedRowIndex = Number(event.currentTarget.getAttribute('data-row'));
+        const clickedColumnIndex = Number(event.currentTarget.getAttribute('data-column'));
+
+        setCurrentRow(clickedRowIndex);
+        setCurrentColumn(clickedColumnIndex);
+    };
+
     const handleSubmit = useCallback((values: any, {setSubmitting}: FormikHelpers<any>) => {
         if (selectedAttachments.length > 0) {
             handleFileSubmit();
@@ -372,7 +436,7 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                 comments: values.comments
             };
             values.exercise_records.forEach((record: any, index: number) => {
-                if(record.name && (record.name || (record.no_of_reps !== '-' && record.no_of_reps) || (record.no_of_sets !== '-' && record.no_of_sets) || (record.resistance !== '-' && record.resistance) || (record.time !== '-' && record.time))) {
+                if (record.name && (record.name || (record.no_of_reps !== '-' && record.no_of_reps) || (record.no_of_sets !== '-' && record.no_of_sets) || (record.resistance !== '-' && record.resistance) || (record.time !== '-' && record.time))) {
                     payload.exercise_records.push({
                         id: index === 0 ? "Warm Up" : "Ex " + index,
                         ...record
@@ -547,8 +611,6 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                         accept={"application/pdf"}
                         onChange={(event: any) => {
                             if (event.target.files.length > 0) {
-                                console.log(event);
-                                console.log(event.target.files[0]);
                                 const selectedFile = event.target.files[0];
                                 if (selectedFile) {
                                     setSelectedAttachments((prevState: any) => [...(prevState || []), selectedFile]);
@@ -632,7 +694,6 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                         {({values, validateForm, isSubmitting, setFieldValue, isValid}) => {
                             // eslint-disable-next-line react-hooks/rules-of-hooks
                             useEffect(() => {
-                                console.log(values);
                                 validateForm();
                             }, [validateForm, values]);
                             return (
@@ -659,7 +720,12 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                                             <CardComponent>
                                                 <TableComponent
                                                     data={values.exercise_records}
+                                                    onClick={(event) => handleContainerClick(event)}
                                                     bordered={true}
+                                                    tabIndex={0}
+                                                    tableIndex={tableIndex}
+                                                    onKeyDown={handleKeyDown}
+                                                    rowClassName={(record: any, index: any) => ('row-' + index)}
                                                     rowKey={(record: any, index: any) => index}
                                                     columns={medicalInterventionExerciseLogColumns}/>
                                                 <div className={"h-v-center mrg-top-20 mrg-bottom-20"}>
