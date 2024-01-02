@@ -3,7 +3,7 @@ import React, {useCallback, useEffect, useMemo, useRef, useState} from "react";
 import {Field, FieldProps, Form, Formik, FormikHelpers, FormikProps} from "formik";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import TableComponent from "../../../shared/components/table/TableComponent";
-import _, {values} from "lodash";
+import _ from "lodash";
 import IconButtonComponent from "../../../shared/components/icon-button/IconButtonComponent";
 import FormikInputComponent from "../../../shared/components/form-controls/formik-input/FormikInputComponent";
 import {ImageConfig, Misc} from "../../../constants";
@@ -366,16 +366,15 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
     ], []);
 
     const inputRef = useRef<HTMLInputElement | null>(null);
-    const columnsStartIndex = 1;
+    const columnsStartIndex = 0;  // Start from column 1
     const rows = formRef?.current?.values?.exercise_records?.length;
-    console.log('rows', rows);
-    const columns = 6;
+    const tableIndex = 0;
+    const columns = 7;  // Go up to column 6
 
     useEffect(() => {
         // Adjust the calculation of the actual column index
         const actualColumn = currentColumn + columnsStartIndex;
-        const cellId = `row-${currentRow}-column-${actualColumn}`;
-        console.log('cellId', cellId);
+        const cellId = `row-${currentRow}-column-${actualColumn}-table-index-${tableIndex}`;
 
         const cell = document.getElementById(cellId);
         const inputField = cell?.querySelector('input');
@@ -386,7 +385,7 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
         }
     }, [currentRow, currentColumn]);
 
-    const handleKeyDown = (event: any) => {
+    const handleKeyDown = useCallback((event: any) => {
         switch (event.key) {
             case 'ArrowUp':
                 if (currentRow > 0) {
@@ -417,6 +416,14 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
             default:
                 break;
         }
+    },[currentColumn, currentRow, columns, rows]);
+
+    const handleContainerClick = (event: React.MouseEvent<HTMLDivElement>) => {
+        const clickedRowIndex = Number(event.currentTarget.getAttribute('data-row'));
+        const clickedColumnIndex = Number(event.currentTarget.getAttribute('data-column'));
+
+        setCurrentRow(clickedRowIndex);
+        setCurrentColumn(clickedColumnIndex);
     };
 
     const handleSubmit = useCallback((values: any, {setSubmitting}: FormikHelpers<any>) => {
@@ -604,8 +611,6 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                         accept={"application/pdf"}
                         onChange={(event: any) => {
                             if (event.target.files.length > 0) {
-                                console.log(event);
-                                console.log(event.target.files[0]);
                                 const selectedFile = event.target.files[0];
                                 if (selectedFile) {
                                     setSelectedAttachments((prevState: any) => [...(prevState || []), selectedFile]);
@@ -689,7 +694,6 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                         {({values, validateForm, isSubmitting, setFieldValue, isValid}) => {
                             // eslint-disable-next-line react-hooks/rules-of-hooks
                             useEffect(() => {
-                                console.log(values);
                                 validateForm();
                             }, [validateForm, values]);
                             return (
@@ -716,8 +720,10 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                                             <CardComponent>
                                                 <TableComponent
                                                     data={values.exercise_records}
+                                                    onClick={(event) => handleContainerClick(event)}
                                                     bordered={true}
                                                     tabIndex={0}
+                                                    tableIndex={tableIndex}
                                                     onKeyDown={handleKeyDown}
                                                     rowClassName={(record: any, index: any) => ('row-' + index)}
                                                     rowKey={(record: any, index: any) => index}

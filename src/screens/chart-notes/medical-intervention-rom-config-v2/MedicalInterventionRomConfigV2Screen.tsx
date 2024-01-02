@@ -348,7 +348,6 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
     useEffect(() => {
         const romConfig: any = [];
         const rom_config = medicalInterventionDetails?.rom_config;
-        console.log("rom_config", rom_config);
         const injury_details = medicalInterventionDetails?.medical_record_details?.injury_details;
         rom_config?.forEach((injury: any) => {
             if (!romConfig?.find((item: any) => item?.body_part?._id === injury?.body_part_id)) {
@@ -571,26 +570,21 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
     const [currentColumn, setCurrentColumn] = React.useState(0);
     const inputRef = useRef<HTMLInputElement | null>(null);
     const [rowsAndColumnsArray, setRowsAndColumnsArray] = useState<{ rows: number; columns: number }[]>([]);
+    const [tableIndex, setTableIndex] = useState<number>(0);
     const columnsStartIndex = 0;
 
 
     useEffect(() => {
         const calculatedArray = Object.values(romFormValues).map((bodyPart: any) => ({
             rows: bodyPart?.movements?.length || 0,
-            columns: (bodyPart?.selected_sides?.length * 3 ) + 1|| 0,
+            columns: (bodyPart?.selected_sides?.length * 3) + 1 || 0,
         }));
-
         setRowsAndColumnsArray(calculatedArray);
     }, [romFormValues]);
 
-    console.log('Rows and Columns Array:', rowsAndColumnsArray);
-    console.log('Current Row:', currentRow);
-    console.log('Current Column:', currentColumn);
-
     useEffect(() => {
         const actualColumn = currentColumn + columnsStartIndex;
-        const cellId = `row-${currentRow}-column-${actualColumn}`;
-        console.log('cellId', cellId);
+        const cellId = `row-${currentRow}-column-${actualColumn}-table-index-${tableIndex}`;
 
         const cell = document.getElementById(cellId);
         const inputField = cell?.querySelector('input');
@@ -599,16 +593,13 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
             inputRef.current = inputField as HTMLInputElement;
             inputRef.current.focus();
         }
-    }, [currentRow, currentColumn]);
+    }, [currentRow, currentColumn, tableIndex]);
 
-    const handleKeyDown = useCallback((index: number, event: any) => {
-        console.log('index', index);
+    const handleKeyDown = useCallback((tableIndex: number, event: any) => {
 
-        const bodyPartInfo = rowsAndColumnsArray[index] || { rows: 0, columns: 0 };
+        const bodyPartInfo = rowsAndColumnsArray[tableIndex] || {rows: 0, columns: 0};
         const rows = bodyPartInfo.rows;
-        console.log('rows', rows);
         const columns = bodyPartInfo.columns;
-        console.log('columns', columns);
 
         switch (event.key) {
             case 'ArrowUp':
@@ -642,17 +633,14 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
         }
     }, [currentRow, currentColumn, rowsAndColumnsArray]);
 
-    const handleContainerClick = (event: React.MouseEvent<HTMLDivElement>, tableIndex: any) => {
+    const handleContainerClick = useCallback((event: React.MouseEvent<HTMLDivElement>, index: any) => {
         const clickedRowIndex = Number(event.currentTarget.getAttribute('data-row'));
         const clickedColumnIndex = Number(event.currentTarget.getAttribute('data-column'));
 
-        console.log('Clicked Row Index:', clickedRowIndex);
-        console.log('Clicked Column Index:', clickedColumnIndex);
-        console.log('Table Index:', tableIndex);
-
         setCurrentRow(clickedRowIndex);
         setCurrentColumn(clickedColumnIndex);
-    };
+        setTableIndex(index);
+    }, []);
 
     return (
         <div className={'medical-intervention-rom-config-v2-screen'}>
@@ -771,10 +759,11 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
                                                                                             <div
                                                                                                 className={'rom-config-table-container'}>
                                                                                                 <TableComponent
-                                                                                                    onKeyDown={handleKeyDown.bind(null, index)}
+                                                                                                    onKeyDown={handleKeyDown.bind(null, tableIndex)}
                                                                                                     tabIndex={0}
                                                                                                     data-row={index}
                                                                                                     data-column={index}
+                                                                                                    tableIndex={index}
                                                                                                     onClick={(event) => handleContainerClick(event, index)}
                                                                                                     data={bodyPart?.movements || []}
                                                                                                     bordered={true}
