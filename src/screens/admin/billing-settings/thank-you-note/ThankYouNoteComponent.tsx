@@ -22,7 +22,7 @@ const defaultThankYouNote: any = {
     default_thankyou_note: ''
 }
 const ThankYouNoteValidationSchema = Yup.object().shape({
-    default_thankyou_note: Yup.string().max(200, ' '),
+    default_thankyou_note: Yup.string().max(90, ' '),
 });
 
 const ThankYouNoteComponent = (props: ThankYouNoteComponentProps) => {
@@ -104,11 +104,11 @@ const ThankYouNoteComponent = (props: ThankYouNoteComponentProps) => {
                                             </Field>
                                         </div>
                                         <div className={'ts-col-md-12'}>
-                                            {(values.default_thankyou_note?.length) > 200 ?
+                                            {(values.default_thankyou_note?.length) > 90 ?
                                                 <div className={'alert-error'}>Characters
-                                                    Limit: {(values.default_thankyou_note?.length)}/200</div> :
+                                                    Limit: {(values.default_thankyou_note?.length)}/90</div> :
                                                 <div className={'no-alert'}>Characters
-                                                    Limit: {(values.default_thankyou_note?.length)}/200</div>}
+                                                    Limit: {(values.default_thankyou_note?.length)}/90</div>}
                                         </div>
                                         <div className="t-form-actions mrg-bottom-0">
                                             <ButtonComponent

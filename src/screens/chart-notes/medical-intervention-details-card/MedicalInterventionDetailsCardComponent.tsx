@@ -43,6 +43,7 @@ import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 import FormikDatePickerComponent
     from "../../../shared/components/form-controls/formik-date-picker/FormikDatePickerComponent";
 import commonService from "../../../shared/services/common.service";
+import momentTimezone from "moment-timezone";
 
 interface MedicalInterventionDetailsCardComponentProps {
     showAction?: boolean,

@@ -22,9 +22,9 @@ const ServiceEditAPICall = (serviceId: string, payload: any) => {
     return ApiService[APIConfig.SERVICE_EDIT.METHOD](APIConfig.SERVICE_EDIT.URL(serviceId), payload, {'Content-Type': 'multipart/form-data'});
 }
 
-const ServiceProviderUnlinkAPICall = (providerId: string, payload: any) => {
+const ServiceProviderUnlinkAPICall = (serviceId:string,providerId: string, payload: any) => {
     // @ts-ignore
-    return ApiService[APIConfig.SERVICE_PROVIDER_UNLINK.METHOD](APIConfig.SERVICE_PROVIDER_UNLINK.URL(providerId), payload)
+    return ApiService[APIConfig.SERVICE_PROVIDER_UNLINK.METHOD](APIConfig.SERVICE_PROVIDER_UNLINK.URL(serviceId,providerId), payload)
 }
 
 const ServiceProviderLinkAPICall = (serviceId: string, payload: any) => {

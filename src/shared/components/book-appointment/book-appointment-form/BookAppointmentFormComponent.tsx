@@ -693,8 +693,8 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
                                                             displayWith={item => (
                                                                 item.created_at && CommonService.convertDateFormat2(item.created_at) + " - " +
                                                                 (
-                                                                    item.injury_details.length > 3
-                                                                        ? item.injury_details.slice(0, 3).map((injury: any) =>
+                                                                    item.injury_details.length > 2
+                                                                        ? item.injury_details.slice(0, 2).map((injury: any) =>
                                                                         injury.body_part_details?.name +
                                                                         (injury.body_side ? ` (${injury.body_side})` : "")
                                                                     ).join(', ') + " ..."
