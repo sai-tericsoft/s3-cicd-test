@@ -5,6 +5,21 @@
   height: 100%;
   overflow: auto;
 
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #275778; /* Set a color for the scrollbar handle */
+    border-radius: 8px; /* Add rounded corners to the scrollbar handle */
+  }
+
   .t-table {
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
@@ -170,6 +185,7 @@
     .t-tr {
       &:last-child {
         border-bottom: none;
+
         .t-td {
           //padding-right: 20px;
           //border-bottom: 1px solid #F3F3F3 !important;
