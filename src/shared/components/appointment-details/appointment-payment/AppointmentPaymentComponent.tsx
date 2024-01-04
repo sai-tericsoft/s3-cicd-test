@@ -123,7 +123,7 @@ const AppointmentPaymentComponent = (props: AppointmentPaymentComponentProps) =>
                     setSubmitting(false);
                 })
         },
-        [onComplete, selectedCoupon,details?.client_id,details?.service_id],);
+        [onComplete,details?.client_id,details?.service_id],);
 
     const handleCouponAvailability = useCallback(() => {
         const payload = {

@@ -319,7 +319,7 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
                 ]);
             }
         }
-    }, [clientMedicalRecord, medicalRecordId, handleMedicalRecordReOpen, openAddSurgeryRecord, addProgressRecord, openTransferMedicalRecordDrawer, handleNotifyAdmin, openMedicalRecordStatsModal, openMedicalRecordDocumentAddDrawer, handleDischargeCase, handleNotifyAdminModalOpen]);
+    }, [clientMedicalRecord, medicalRecordId,handleInjuryConditionPrint, handleMedicalRecordReOpen, openAddSurgeryRecord, addProgressRecord, openTransferMedicalRecordDrawer, handleNotifyAdmin, openMedicalRecordStatsModal, openMedicalRecordDocumentAddDrawer, handleDischargeCase, handleNotifyAdminModalOpen]);
 
     useEffect(() => {
         if (onMedicalRecordDataLoad && clientMedicalRecord) {
