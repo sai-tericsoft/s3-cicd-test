@@ -7,10 +7,14 @@
       display: flex;
       font-weight: 500;
       font-size: 1.1429rem;
+      color: #1D1C1D;
       justify-content: space-between;
       align-items: center;
       margin-bottom: 15px;
       cursor: pointer;
+    }
+    .title-answer{
+      color: #7F7F7F;
     }
   }
 }

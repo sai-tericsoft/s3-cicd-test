@@ -149,7 +149,7 @@ const FooterNoteComponent = (props: FooterNoteComponentProps) => {
                                             </ButtonComponent>
                                             <ButtonComponent
                                                 isLoading={isSaving}
-                                                className={'submit-cta'}
+                                                className={'submit-cta mrg-left-15'}
                                                 type={"submit"}
                                                 id={"save_btn"}
                                                 disabled={!isValid || values?.footer_note === "" || CommonService.isEqual(values, defaultFooterNote)}
