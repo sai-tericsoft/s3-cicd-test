@@ -91,7 +91,7 @@ export const themeOptions: ThemeOptions = {
             contrastText: '#FFF'
         },
     },
-    typography: {fontFamily: 'inter'},
+    typography: {fontFamily: 'nunito'},
 };
 const theme = createTheme(themeOptions);
 

@@ -49,7 +49,7 @@ const ToolTipComponent = (props: React.PropsWithChildren<ToolTipComponentProps>)
                          sx: {
                              marginRight:'20px',
                              fontSize: '12px',
-                             fontFamily: "inter",
+                             fontFamily: "nunito",
                              padding: '10px',
                              bgcolor: backgroundColor || '#DEFFE8',
                              color: textColor || '#282828',

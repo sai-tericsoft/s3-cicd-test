@@ -215,7 +215,10 @@
     }
 
     .page-content-holder {
-      background: $page-content-bg-color;
+      background-color: $page-content-bg-color;
+      background-image: url("../../assets/images/background.png");
+      background-size: cover;
+      background-position: center;
       padding: 30px;
       height: calc(100vh - #{$header-height}px);
       overflow-x: hidden;
