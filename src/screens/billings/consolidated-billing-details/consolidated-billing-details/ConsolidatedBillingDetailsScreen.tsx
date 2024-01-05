@@ -798,31 +798,30 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                                                     }
                                                 </div>
                                             </div>
-                                            {searchParams.get('type') === 'consolidatedReceipt' &&
-                                                <div className="add-new-invoice__payment__block__row date">
-                                                    <div className="add-new-invoice__payment__block__row__title">
-                                                        Payment Date
-                                                    </div>
-                                                    <div
-                                                        className="add-new-invoice__payment__block__row__value">
-                                                        {CommonService.convertDateFormat2(billingDetails?.created_at)}
-                                                    </div>
-                                                </div>
-                                            }
-                                            {/*// }*/}
+                                            {/*{searchParams.get('type') === 'consolidatedReceipt' &&*/}
+                                            {/*    <div className="add-new-invoice__payment__block__row date">*/}
+                                            {/*        <div className="add-new-invoice__payment__block__row__title">*/}
+                                            {/*            Payment Date*/}
+                                            {/*        </div>*/}
+                                            {/*        <div*/}
+                                            {/*            className="add-new-invoice__payment__block__row__value">*/}
+                                            {/*            {CommonService.convertDateFormat2(billingDetails?.created_at)}*/}
+                                            {/*        </div>*/}
+                                            {/*    </div>*/}
+                                            {/*}*/}
 
-                                            {searchParams.get('type') === 'consolidatedReceipt' &&
-                                                <div className="add-new-invoice__payment__block__row date">
-                                                    <div
-                                                        className="add-new-invoice__payment__block__row__title">
-                                                        Payment Method
-                                                    </div>
-                                                    <div
-                                                        className="add-new-invoice__payment__block__row__value">
-                                                        {billingDetails?.payment_mode_details?.title || billingDetails?.payment_mode || "N/A"}
-                                                    </div>
-                                                </div>
-                                            }
+                                            {/*{searchParams.get('type') === 'consolidatedReceipt' &&*/}
+                                            {/*    <div className="add-new-invoice__payment__block__row date">*/}
+                                            {/*        <div*/}
+                                            {/*            className="add-new-invoice__payment__block__row__title">*/}
+                                            {/*            Payment Method*/}
+                                            {/*        </div>*/}
+                                            {/*        <div*/}
+                                            {/*            className="add-new-invoice__payment__block__row__value">*/}
+                                            {/*            {billingDetails?.payment_mode_details?.title || billingDetails?.payment_mode || "N/A"}*/}
+                                            {/*        </div>*/}
+                                            {/*    </div>*/}
+                                            {/*}*/}
 
 
                                         </div>
