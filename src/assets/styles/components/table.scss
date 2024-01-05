@@ -35,7 +35,7 @@
 
     .autoComplete-component-wrapper, .input-component {
       margin-bottom: 0 !important;
-      border-bottom: 1px solid #FEFEFE !important;
+      border-bottom: 1px solid #E2E2E2 !important;
     }
 
     .MuiFormHelperText-root.Mui-error {
@@ -102,7 +102,7 @@
 
       .t-tr:has(.selected-row) {
         .t-td {
-          background-color: #EFFAF2;
+          background-color: #ECF7FF;
         }
       }
 

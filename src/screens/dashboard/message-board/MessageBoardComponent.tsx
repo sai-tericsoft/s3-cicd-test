@@ -139,7 +139,6 @@ const MessageBoardComponent = (props: MessageBoardComponentProps) => {
                         <CardComponent className={'birthday-board'}>
                             <div className={'today-birthday-text'}>
                                 <div className={'birthday-heading'}> Today's Birthday(s)</div>
-                                <div className={'mrg-top-5'}><ImageConfig.CAKE_ICON/></div>
                             </div>
                             {
                                 birthdayListData.length === 0 && <div className={'coming-soon-image-text-wrapper'}>

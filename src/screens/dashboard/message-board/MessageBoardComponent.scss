@@ -70,6 +70,9 @@
   .birthday-board {
     height: 280px;
     overflow: auto;
+    background-image: url("../../../assets/icons/cake_black.svg");
+    background-repeat: no-repeat;
+    background-position: right;
 
     .birthday-detail-wrapper {
       display: flex;
