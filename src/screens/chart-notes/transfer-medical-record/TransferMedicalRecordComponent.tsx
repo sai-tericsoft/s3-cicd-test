@@ -14,7 +14,7 @@ import RadioButtonGroupComponent, {
 import CardComponent from "../../../shared/components/card/CardComponent";
 import LinkComponent from "../../../shared/components/link/LinkComponent";
 import CheckBoxComponent from "../../../shared/components/form-controls/check-box/CheckBoxComponent";
-import {ImageConfig} from "../../../constants";
+import {ImageConfig, Misc} from "../../../constants";
 
 interface TransferMedicalRecordComponentProps {
     onClose: () => void;
@@ -216,7 +216,7 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
             CommonService._chartNotes.TransferMedicalRecordAPICall(selectedClient?._id, payload)
                 .then((response: IAPIResponseType<any>) => {
                     onMedicalRecordTransfer(response?.data);
-                    CommonService._alert.showToast("File(s) have been transferred successfully.", 'success');
+                    CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                     setRefreshToken(Math.random().toString(36).substring(7));
                     setIsMedicalRecordTransferUnderProgress(false);
                 }).catch((error: any) => {
