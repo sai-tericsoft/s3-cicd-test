@@ -61,7 +61,10 @@ const ClientAddComponent = (props: ClientAddComponentProps) => {
     const dispatch = useDispatch();
 
     const onSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
-        const payload = {...values};
+        const payload = {
+            ...values,
+            send_onboarded_email:(values?.send_onboarded_email ? false: true)
+        };
         setIsClientAddInProgress(true);
         CommonService._client.ClientBasicDetailsAddAPICall(payload)
             .then((response: any) => {
@@ -82,7 +85,7 @@ const ClientAddComponent = (props: ClientAddComponentProps) => {
         const payload = {
             ...values,
             send_invite: true,
-            // send_onboarded_email: false
+            send_onboarded_email: false
         };
         CommonService.onConfirm({
             image: ImageConfig.PopupLottie,
@@ -207,6 +210,7 @@ const ClientAddComponent = (props: ClientAddComponentProps) => {
                                                 formikField={field}
                                                 required={false}
                                                 labelPlacement={"end"}
+
                                             />
                                         )
                                     }
