@@ -579,6 +579,18 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
         }
     }, [getServiceList]);
 
+    const closeBookAppointmentDrawer = useCallback(() => {
+        setIsBookAppointmentOpen(false);
+        setBookAppointmentPreFill({});
+        setRefreshToken(Math.random().toString())
+    },[]);
+
+    useEffect(() => {
+        if (!isBookAppointmentOpen) {
+            setRefreshToken(Math.random().toString())
+        }
+    },[isBookAppointmentOpen]);
+
     return (
         <div className={'scheduling-list-component'}>
             <div className="ts-row scheduling-header-wrapper">
@@ -1205,8 +1217,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                             } else {
                                 setRefreshToken(Math.random().toString());
                             }
-                            setIsBookAppointmentOpen(false);
-                            setBookAppointmentPreFill({})
+                            closeBookAppointmentDrawer();
                         }
                     }
                     onClose={
