@@ -639,7 +639,7 @@ const convertToDecimals = (value: number | string) => {
         return tempValue.toFixed(2)
     }
     if (!value) return 0;
-    return +value.toFixed(2)
+    return value.toFixed(2)
 }
 
 const calculateFinalAmountFromDiscountPercentage = (percentage: any, totalAmount: number) => {
