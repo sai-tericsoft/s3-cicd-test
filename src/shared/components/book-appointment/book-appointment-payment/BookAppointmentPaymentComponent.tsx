@@ -30,7 +30,7 @@ interface BookAppointmentPaymentComponentProps {
 const addAppointmentPaymentInitialValues: any = {
     appointmentId: '',
     payment_type: '',
-    mode: '',
+    payment_mode: '',
     coupon_code: '',
     comments: ''
 };
@@ -38,7 +38,7 @@ const addAppointmentPaymentInitialValues: any = {
 
 const addAppointmentPaymentValidationSchema = Yup.object().shape({
     payment_type: Yup.string().required('Payment type is required'),
-    mode: Yup.mixed().when("payment_type", {
+    payment_mode: Yup.mixed().when("payment_type", {
         is: 'current',
         then: Yup.mixed().required('Payment Mode is required')
     }),
@@ -105,8 +105,6 @@ const BookAppointmentPaymentComponent = (props: BookAppointmentPaymentComponentP
         delete values.appointmentId;
         CommonService._appointment.appointmentPayment(appointmentId, {
             ...values,
-            total: +values?.amount,
-            discount: 0,
             coupon_id: selectedCoupon?._id,
             coupon_code: values?.coupon_code,
             client_id: booking?.client_id,
@@ -236,7 +234,8 @@ const BookAppointmentPaymentComponent = (props: BookAppointmentPaymentComponentP
                 validationSchema={addAppointmentPaymentValidationSchema}
                 initialValues={{
                     ...addAppointmentPaymentInitialValues,
-                    amount: booking?.amount || 0,
+                    amount: CommonService.convertToDecimals(+(booking?.amount)) || 0,
+
                 }}
                 onSubmit={createBooking}
                 validateOnChange={false}
@@ -344,7 +343,7 @@ const BookAppointmentPaymentComponent = (props: BookAppointmentPaymentComponentP
                                                 </div>
                                             </div>
 
-                                            <Field name={'mode'}>
+                                            <Field name={'payment_mode'}>
                                                 {
                                                     (field: FieldProps) => (
                                                         <FormikSelectComponent

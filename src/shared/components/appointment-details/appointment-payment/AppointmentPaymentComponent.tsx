@@ -104,8 +104,6 @@ const AppointmentPaymentComponent = (props: AppointmentPaymentComponentProps) =>
             }
             const payload = {
                 ...values,
-                total: +values?.amount,
-                discount: 0,
                 coupon_code: values?.coupon_code,
                 client_id: details?.client_id,
                 service_id: details?.service_id,
@@ -204,7 +202,7 @@ const AppointmentPaymentComponent = (props: AppointmentPaymentComponentProps) =>
                 validationSchema={addAppointmentPaymentValidationSchema}
                 initialValues={{
                     ...addAppointmentPaymentInitialValues,
-                    amount: CommonService.convertToDecimals(+(details?.amount)) || 0,
+                    amount: CommonService.convertToDecimals((details?.amount))|| 0,
                     appointmentId: details?._id
                 }}
                 onSubmit={onSubmitAppointmentPayment}
