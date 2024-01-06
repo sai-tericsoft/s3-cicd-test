@@ -325,6 +325,8 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
         }
     }, [navigate,medicalInterventionDetails?._id, medicalRecordId])
 
+    console.log('medicalInterventionDetails', medicalInterventionDetails);
+
     return (
         <div className={'add-medical-intervention-screen'}>
             {
@@ -960,7 +962,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                             {/*}*/}
                                                             {/*{*/}
 
-                                                            {medicalInterventionDetails?.linked_icd_codes?.length === 0 &&
+                                                            {(medicalInterventionDetails?.linked_icd_codes ===undefined || medicalInterventionDetails?.linked_icd_codes?.length === 0) &&
                                                                 <div className={'display-flex rom-icd-not-tested-block'}>
                                                                     <FormControlLabelComponent
                                                                         size={'sm'}
