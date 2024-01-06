@@ -57,6 +57,7 @@ const BookAppointmentPaymentComponent = (props: BookAppointmentPaymentComponentP
     const [appointmentAndInterventionIds, setAppointmentAndInterventionIds] = useState<any>('');
     const [isCouponCodeApplied, setIsCouponCodeApplied] = useState<boolean>();
     const [isCouponValid, setIsCouponValid] = useState<boolean>();
+    const [couponApplyButtonText, setCouponApplyButtonText] = useState<string>('Apply');
 
     // const onCouponSelect = useCallback((value: any) => {
     //     setSelectedCoupon(value);
@@ -122,7 +123,7 @@ const BookAppointmentPaymentComponent = (props: BookAppointmentPaymentComponentP
             .finally(() => {
                 setSubmitting(false);
             })
-    }, [onComplete, selectedCoupon?._id,booking?.client_id, booking?.service_id,appointmentAndInterventionIds]);
+    }, [onComplete, selectedCoupon?._id, booking?.client_id, booking?.service_id, appointmentAndInterventionIds]);
 
     const handleCouponAvailability = useCallback(() => {
         const payload = {
@@ -133,6 +134,7 @@ const BookAppointmentPaymentComponent = (props: BookAppointmentPaymentComponentP
         }
         CommonService._appointment.CheckCouponAvailability(payload)
             .then((response: IAPIResponseType<any>) => {
+                setCouponApplyButtonText('Applied');
                 setIsCouponCodeApplied(true);
                 setIsCouponValid(true);
                 if (response?.data) {
@@ -156,6 +158,7 @@ const BookAppointmentPaymentComponent = (props: BookAppointmentPaymentComponentP
             })
             .catch((error: any) => {
                 if (error?.errors?.coupon_code) {
+                    setCouponApplyButtonText('Apply');
                     setIsCouponCodeApplied(true);
                     setIsCouponValid(false);
                 }
@@ -167,6 +170,7 @@ const BookAppointmentPaymentComponent = (props: BookAppointmentPaymentComponentP
         formRef?.current?.setFieldValue('coupon_code', '');
         setIsCouponCodeApplied(false);
         setIsCouponValid(false);
+        setSelectedCoupon('Apply');
         // setSelectedCoupon(undefined);
         // setDiscountAmount(0);
         // setPayableAmount(0);
@@ -311,8 +315,8 @@ const BookAppointmentPaymentComponent = (props: BookAppointmentPaymentComponentP
                                                 <div className={'ts-col-3'}>
                                                     <ButtonComponent size={'large'} className={'mrg-top-5'}
                                                                      fullWidth={true}
-                                                                     disabled={!values?.coupon_code}
-                                                                     onClick={handleCouponAvailability}>{isCouponCodeApplied ? 'Applied!' : 'Apply'}</ButtonComponent>
+                                                                     disabled={!values?.coupon_code || (isCouponCodeApplied && !isCouponValid)}
+                                                                     onClick={handleCouponAvailability}>{couponApplyButtonText}</ButtonComponent>
                                                 </div>
                                             </div>
                                             <FormControlLabelComponent

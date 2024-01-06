@@ -53,6 +53,7 @@ const AppointmentPaymentComponent = (props: AppointmentPaymentComponentProps) =>
     const [payableAmount, setPayableAmount] = useState<number>(0);
     const [isCouponCodeApplied, setIsCouponCodeApplied] = useState<boolean>();
     const [isCouponValid, setIsCouponValid] = useState<boolean>();
+    const [couponApplyButtonText,setCouponApplyButtonText] = useState<string>('Apply');
 
     // const onCouponSelect = useCallback((value: any) => {
     //     setSelectedCoupon(value);
@@ -135,6 +136,7 @@ const AppointmentPaymentComponent = (props: AppointmentPaymentComponentProps) =>
         CommonService._appointment.CheckCouponAvailability(payload)
             .then((response: IAPIResponseType<any>) => {
                 setIsCouponCodeApplied(true);
+                setCouponApplyButtonText('Applied!');
                 setIsCouponValid(true);
                 if (response?.data) {
                     setSelectedCoupon(response.data);
@@ -158,6 +160,7 @@ const AppointmentPaymentComponent = (props: AppointmentPaymentComponentProps) =>
             .catch((error: any) => {
                 if (error?.errors?.coupon_code) {
                     setIsCouponCodeApplied(true);
+                    setCouponApplyButtonText('Apply');
                     setIsCouponValid(false);
                 }
             });
@@ -168,6 +171,7 @@ const AppointmentPaymentComponent = (props: AppointmentPaymentComponentProps) =>
         formRef?.current?.setFieldValue('coupon_code', '');
         setIsCouponCodeApplied(false);
         setIsCouponValid(false);
+        setCouponApplyButtonText('Apply');
         // setSelectedCoupon(undefined);
         // setDiscountAmount(0);
         // setPayableAmount(0);
@@ -279,8 +283,8 @@ const AppointmentPaymentComponent = (props: AppointmentPaymentComponentProps) =>
                                                 </div>
                                                 <div className={'ts-col-3'}>
                                                     <ButtonComponent size={'large'} className={'mrg-top-5'} fullWidth={true}
-                                                                     disabled={!values?.coupon_code}
-                                                                     onClick={handleCouponAvailability}>{isCouponCodeApplied ? 'Applied!' : 'Apply'}</ButtonComponent>
+                                                                     disabled={!values?.coupon_code || (isCouponCodeApplied && !isCouponValid)}
+                                                                     onClick={handleCouponAvailability}>{couponApplyButtonText}</ButtonComponent>
                                                 </div>
                                             </div>
 
