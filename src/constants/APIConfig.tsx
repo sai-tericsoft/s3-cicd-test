@@ -235,7 +235,7 @@ const APIConfig: IAPIConfig = {
         METHOD: "put"
     },
     CLIENT_LIST_LITE: {
-        URL: ENV.API_URL + "/client/lite",
+        URL: ENV.API_URL + "/client/lite?is_active=true",
         METHOD: "get"
     },
     CLIENT_BASIC_DETAILS_ADD: {
