@@ -1115,6 +1115,10 @@ const APIConfig: IAPIConfig = {
     CHECK_COUPON_AVAILABILITY: {
         URL: ENV.API_URL + '/checkCouponValidity',
         METHOD: "post"
+    },
+    PRINT_SOAP_NOTE: {
+        URL: (interventionId: string) => ENV.API_URL + '/intervention/' + interventionId + '/generatePDF',
+        METHOD: "post"
     }
 }
 

@@ -356,6 +356,10 @@ const PrintInjuryConditionForm = (medicalRecordId:string,payload:any) => {
     return ApiService[APIConfig.PRINT_INJURY_CONDITION_FORM.METHOD](APIConfig.PRINT_INJURY_CONDITION_FORM.URL(medicalRecordId),payload);
 }
 
+const PrintSOAPNote = (medicalInterventionId:string,payload:any) => {
+    return ApiService[APIConfig.PRINT_SOAP_NOTE.METHOD](APIConfig.PRINT_SOAP_NOTE.URL(medicalInterventionId),payload);
+}
+
 
 const ChartNotesService = {
     MedicalRecordAddAPICall,
@@ -433,6 +437,7 @@ const ChartNotesService = {
     PrintExerciseLog,
     DeleteProgressReport,
     PrintInjuryConditionForm,
+    PrintSOAPNote
 }
 
 export default ChartNotesService;
