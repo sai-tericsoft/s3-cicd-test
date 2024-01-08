@@ -246,12 +246,13 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
         },
         {
             title: 'Total Amount',
-            key: 'amount',
+            key: 'total',
             align: 'center',
-            dataIndex: 'amount',
+            dataIndex: 'total',
             width: 120,
             render: (item: any) => {
-                return <>{Misc.CURRENCY_SYMBOL}{CommonService.convertToDecimals(item?.total)}</>
+                console.log('item',item);
+                return <>{Misc.CURRENCY_SYMBOL}{CommonService.convertToDecimals(+item?.total)}</>
             }
         },
         {
