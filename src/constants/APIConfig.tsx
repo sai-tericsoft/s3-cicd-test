@@ -121,7 +121,7 @@ const APIConfig: IAPIConfig = {
         METHOD: "get"
     },
     LOGOUT: {
-        URL: ENV.API_URL + "/login",
+        URL: ENV.API_URL + "/logout",
         METHOD: "delete"
     },
     VERIFY_PASSWORD: {

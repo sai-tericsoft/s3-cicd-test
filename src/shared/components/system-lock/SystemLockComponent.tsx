@@ -2,7 +2,7 @@ import "./SystemLockComponent.scss";
 import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
 import {useCallback, useEffect, useState} from "react";
-import {logout, setSystemLocked} from "../../../store/actions/account.action";
+import {setSystemLocked} from "../../../store/actions/account.action";
 import ModalComponent from "../modal/ModalComponent";
 import moment from "moment";
 import ButtonComponent from "../button/ButtonComponent";
@@ -54,10 +54,14 @@ const SystemLockComponent = (props: SystemLockLockComponentProps) => {
     }, [dispatch, account.lastActivityTime, account.isSystemLocked, account.currentUser]);
 
     const handleSessionExit = useCallback(() => {
-        CommonService._alert.showToast("Logged out", "success");
-        navigate(CommonService._routeConfig.LoginRoute());
         dispatch(setSystemLocked(false, 'auto'));
-        dispatch(logout());
+        CommonService._account.LogoutAPICall()
+        .then((response:any)=>{
+            navigate(CommonService._routeConfig.LoginRoute());
+
+        })
+
+        // dispatch(logout());
     }, [dispatch, navigate]);
 
     const handleSessionResume = useCallback((values: any) => {
@@ -93,9 +97,9 @@ const SystemLockComponent = (props: SystemLockLockComponentProps) => {
                 {
                     currentStep === "prompt" && <div className={"t-form"}>
                         <div className={"system-lock-icon"}>
-                          <LottieFileGenerationComponent loop={true}
-                                                         autoplay={true}
-                                                         animationData={ImageConfig.LockLottie}/>
+                            <LottieFileGenerationComponent loop={true}
+                                                           autoplay={true}
+                                                           animationData={ImageConfig.LockLottie}/>
                         </div>
                         <div className={"system-lock-title"}>
                             {account.systemLockReason === 'auto' ? "You still there?" : "System Locked!"}
