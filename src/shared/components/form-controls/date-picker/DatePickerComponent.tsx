@@ -98,7 +98,7 @@ const DatePickerComponent = (props: DatePickerComponentProps) => {
                             name: name,
                             id: id,
                             color: color,
-                            onClick: () => setOpen(true)
+                            onClick: () => setOpen(!disabled),  // Open only if not disabled
                         },
                     }}
                 />

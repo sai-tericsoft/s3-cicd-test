@@ -232,7 +232,7 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
                 });
         }
 
-    },[]);
+    },[medicalInterventionId]);
 
     const handleNotifyAdminModalClose = useCallback(() => {
         setNotifyAdminFormInitialValues(_.cloneDeep(NotifyAdminInitialValues));
@@ -307,7 +307,7 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
                 <ListItem onClick={openImportSoapNoteDrawer}>Import SOAP Note</ListItem>]
             );
         }
-    }, [handleNotifyAdmin, handleNotifyAdminModalOpen, comingSoon, mode, openMedicalRecordDocumentAddDrawer, openTransferSoapNoteDrawer, openAddConcussionFileDrawer, openAddDryNeedlingFileDrawer, openImportSoapNoteDrawer, openViewPriorNoteDrawer, medicalInterventionDetails]);
+    }, [handleNotifyAdmin,handleSOAPNotePrint, handleNotifyAdminModalOpen, comingSoon, mode, openMedicalRecordDocumentAddDrawer, openTransferSoapNoteDrawer, openAddConcussionFileDrawer, openAddDryNeedlingFileDrawer, openImportSoapNoteDrawer, openViewPriorNoteDrawer, medicalInterventionDetails]);
 
     return (
         <div className={'client-medical-details-card-component'}>
