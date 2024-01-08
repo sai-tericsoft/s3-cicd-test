@@ -251,7 +251,6 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             dataIndex: 'total',
             width: 120,
             render: (item: any) => {
-                console.log('item',item);
                 return <>{Misc.CURRENCY_SYMBOL}{CommonService.convertToDecimals(+item?.total)}</>
             }
         },
