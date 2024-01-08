@@ -36,13 +36,13 @@ const DiscountListComponent = (props: DiscountListComponentProps) => {
                 render: (item: any) => {
                     return <>
                         {
-                            (item?.title?.length) > 15 ?
+                            (item?.title?.length) > 14 ?
                                 <ToolTipComponent
                                     tooltip={item?.title}
                                     position={"top"}
                                     showArrow={true}
                                 >
-                                   <> {item?.title?.substring(0, 15) + '...'}</>
+                                   <div> {item?.title?.substring(0, 15) + '...'}</div>
                                 </ToolTipComponent> :
                                 <>
                                     {item?.title}
