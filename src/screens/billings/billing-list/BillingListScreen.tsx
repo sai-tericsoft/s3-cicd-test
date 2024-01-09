@@ -802,6 +802,14 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
         const step: PaymentsListTabType = searchParams.get("activeTab") as PaymentsListTabType;
         if (step && PaymentsListTabTypes.includes(step)) {
             setCurrentTab(step);
+            setClientListFilterState((oldState: any) => {
+                return {
+                    ...oldState,
+                    date_range: [],  // Reset date range to initial state
+                    start_date: undefined,  // Reset start date to initial state
+                    end_date: undefined  // Reset end date to initial state
+                };
+            });
         } else {
             searchParams.set("activeTab", PaymentsListTabTypes[0]);
             setSearchParams(searchParams);
