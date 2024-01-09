@@ -45,15 +45,7 @@ const UserBasicDetailsComponent = (props: UserBasicDetailsComponentProps) => {
     return (
         <div className={'user-basic-details-component'}>
             <div className={'client-basic-details-component'}>
-                {/*{*/}
-                {/*    isUserBasicDetailsLoading && <div>*/}
-                {/*        <LoaderComponent/>*/}
-                {/*    </div>*/}
-                {/*}*/}
-                {/*{*/}
-                {/*    isUserBasicDetailsLoadingFailed &&*/}
-                {/*    <StatusCardComponent title={"Failed to fetch client Details"}/>*/}
-                {/*}*/}
+
                 {
                     (isUserBasicDetailsLoaded && userBasicDetails) && <>
                         <CardComponent title={'Basic Details'} actions={<LinkComponent
@@ -124,9 +116,9 @@ const UserBasicDetailsComponent = (props: UserBasicDetailsComponentProps) => {
                                     <DataLabelValueComponent label={'Assigned Facilities'}>
                                         {userBasicDetails?.assigned_facility_details?.map((facility: any) => {
                                             return <div className="d-flex">
-                                                <div>{facility.name}</div>
+                                                <div>{facility?.name}</div>
                                                 &nbsp; - &nbsp;
-                                                <div>{facility.location}</div>
+                                                <div>{facility?.location}</div>
                                             </div>
                                         })}
                                     </DataLabelValueComponent>
@@ -146,7 +138,7 @@ const UserBasicDetailsComponent = (props: UserBasicDetailsComponentProps) => {
                         </CardComponent>
                         <CardComponent title={'About'}
                                        actions={<LinkComponent
-                                           route={path.includes('settings') ? CommonService._user.NavigateToSettingEdit(userBasicDetails._id, "about") : CommonService._user.NavigateToUserEdit(userBasicDetails._id, "about")}>
+                                           route={path.includes('settings') ? CommonService._user.NavigateToSettingEdit(userBasicDetails?._id, "about") : CommonService._user.NavigateToUserEdit(userBasicDetails?._id, "about")}>
                                            <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>} size={"small"}>
                                                Edit
                                            </ButtonComponent>
@@ -177,7 +169,7 @@ const UserBasicDetailsComponent = (props: UserBasicDetailsComponentProps) => {
                                     return <>
                                         <div className="ts-col-md-6 ts-col-lg-3">
                                             <DataLabelValueComponent label={`Language ${index + 1}`}>
-                                                {CommonService.capitalizeFirstLetterAndRemoveUnderScore(language.name) || 'N/A'}
+                                                {CommonService.capitalizeFirstLetterAndRemoveUnderScore(language?.name) || 'N/A'}
                                             </DataLabelValueComponent>
                                         </div>
 
@@ -205,7 +197,7 @@ const UserBasicDetailsComponent = (props: UserBasicDetailsComponentProps) => {
                         </CardComponent>
                         <CardComponent title={'Contact Information'}
                                        actions={<LinkComponent
-                                           route={path.includes('settings') ? CommonService._user.NavigateToSettingEdit(userBasicDetails._id, "contact_information") : CommonService._user.NavigateToUserEdit(userBasicDetails._id, "contact_information")}>
+                                           route={path.includes('settings') ? CommonService._user.NavigateToSettingEdit(userBasicDetails?._id, "contact_information") : CommonService._user.NavigateToUserEdit(userBasicDetails?._id, "contact_information")}>
                                            <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>} size={"small"}>
                                                Edit
                                            </ButtonComponent>
@@ -242,87 +234,78 @@ const UserBasicDetailsComponent = (props: UserBasicDetailsComponentProps) => {
                                 </div>
                             </div>
                             <div className="ts-row">
-                                {/*{userBasicDetails?.secondary_contact_info?.length > 0 && (userBasicDetails?.secondary_contact_info[0]?.phone !== "" || userBasicDetails?.secondary_emails[0]?.email !== "")*/}
-                                {/*    &&  <HorizontalLineComponent className={'alternate-heading-horizontal-line'}/>}*/}
                                 <div className="ts-col-6">
                                     {
                                         userBasicDetails?.secondary_contact_info?.length > 0 &&
                                         userBasicDetails?.secondary_contact_info[0]?.phone !== "" &&
                                         <>
-                                            {/*<FormControlLabelComponent size={'sm'} label={'Alternate Phone:'}/>*/}
                                             <div className={'phone-email-heading'}>Alternate Phone:</div>
+                                            {
+                                                userBasicDetails?.secondary_contact_info.map((phone_number: any, index: number) => (
+                                                    <div className={'ts-row'} key={index}>
+                                                        {
+                                                            phone_number?.phone_type && phone_number?.phone &&
+                                                            <>
+                                                                <div className={'ts-col-6'}>
+                                                                    <DataLabelValueComponent label={'Phone Type'}>
+                                                                        {CommonService.capitalizeFirstLetter(phone_number?.phone_type) || "N/A"}
+                                                                    </DataLabelValueComponent>
+                                                                </div>
+                                                                <div className={'ts-col-4'}>
+                                                                    <DataLabelValueComponent label={'Phone Number'}>
+                                                                        {CommonService.formatPhoneNumber(phone_number?.phone || 'N/A')}
+                                                                    </DataLabelValueComponent>
+                                                                </div>
+                                                            </>
+                                                        }
+                                                    </div>
+                                                ))
+                                            }
                                         </>
-                                    }
-                                    {
-                                        userBasicDetails?.secondary_contact_info?.map((phone_number: any, index: number) => {
-                                            return <>
-                                                {
-                                                    phone_number?.phone_type && phone_number?.phone && <>
-                                                        <div className={'ts-row'}>
-                                                            <div className={'ts-col-6'}>
-                                                                <DataLabelValueComponent label={'Phone Type'}>
-                                                                    {CommonService.capitalizeFirstLetter(phone_number?.phone_type) || "N/A"}
-                                                                </DataLabelValueComponent>
-                                                            </div>
-                                                            <div className={'ts-col-4'}>
-                                                                <DataLabelValueComponent label={'Phone Number'}>
-                                                                    {CommonService.formatPhoneNumber(phone_number?.phone || 'N/A')}
-                                                                </DataLabelValueComponent>
-                                                            </div>
-                                                        </div>
-                                                    </>
-                                                }
-                                            </>
-                                        })
-
                                     }
                                 </div>
                                 <div className="ts-col-4">
-                                    {userBasicDetails?.secondary_emails?.length > 0 &&
+                                    {
+                                        userBasicDetails?.secondary_emails?.length > 0 &&
                                         userBasicDetails?.secondary_emails[0]?.email !== "" &&
                                         <>
-                                            {/*<FormControlLabelComponent size={'sm'} label={'Alternate Email:'}/>*/}
                                             <div className={'phone-email-heading'}>Alternate Email:</div>
-                                        </>
-
-                                    }
-                                    <div className={'ts-row'}>
-                                        {
-                                            userBasicDetails?.secondary_emails?.map((email: any, index: number) => {
-                                                return <>
-                                                    {
-                                                        email?.email && <div className={'ts-col-12'}>
+                                            {
+                                                userBasicDetails?.secondary_emails.map((email: any, index: number) => (
+                                                    <div className={'ts-col-12'} key={index}>
+                                                        {
+                                                            email?.email &&
                                                             <DataLabelValueComponent label={'Email'}>
                                                                 {email?.email || 'N/A'}
                                                             </DataLabelValueComponent>
-                                                        </div>
-                                                    }
-                                                </>
-                                            })
-                                        }
-                                    </div>
+                                                        }
+                                                    </div>
+                                                ))
+                                            }
+                                        </>
+                                    }
                                 </div>
                             </div>
 
                         </CardComponent>
                         <CardComponent title={'Address Information'} actions={<LinkComponent
-                            route={path.includes('settings') ? CommonService._user.NavigateToSettingEdit(userBasicDetails._id, "address") : CommonService._user.NavigateToUserEdit(userBasicDetails._id, "address")}>
+                            route={path.includes('settings') ? CommonService._user.NavigateToSettingEdit(userBasicDetails?._id, "address") : CommonService._user.NavigateToUserEdit(userBasicDetails?._id, "address")}>
                             <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>} size={"small"}>
                                 Edit
                             </ButtonComponent>
                         </LinkComponent>
                         }>
                             <DataLabelValueComponent label={'Address'}>
-                                {Object.keys(userBasicDetails?.address).length ? (
+                                {Object.keys(userBasicDetails?.address)?.length ? (
                                     <>
-                                        {userBasicDetails.address.address_line}, {userBasicDetails.address.city},&nbsp;
-                                        {userBasicDetails.address.state}, {userBasicDetails.address.country} {userBasicDetails.address.zip_code}
+                                        {userBasicDetails?.address?.address_line}, {userBasicDetails?.address.city},&nbsp;
+                                        {userBasicDetails?.address?.state}, {userBasicDetails?.address.country} {userBasicDetails?.address?.zip_code}
                                     </>
                                 ) : 'N/A'}
                             </DataLabelValueComponent>
                         </CardComponent>
                         <CardComponent title={'Emergency Contact Information'} actions={<LinkComponent
-                            route={path.includes('settings') ? CommonService._user.NavigateToSettingEdit(userBasicDetails._id, "emergency_contact_info") : CommonService._user.NavigateToUserEdit(userBasicDetails._id, "emergency_contact_info")}>
+                            route={path.includes('settings') ? CommonService._user.NavigateToSettingEdit(userBasicDetails?._id, "emergency_contact_info") : CommonService._user.NavigateToUserEdit(userBasicDetails?._id, "emergency_contact_info")}>
                             <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>} size={"small"}>
                                 Edit
                             </ButtonComponent>
