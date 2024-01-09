@@ -204,7 +204,6 @@ const UserSlotsDetailsComponent = (props: UserSlotsDetailsComponentProps) => {
                                                                             <>
                                                                                 {slot.slot_timings.length &&
                                                                                     slot.slot_timings.map((slot_timing: any, index: number) => {
-                                                                                        console.log('slot', slot_timing);
                                                                                         return (<div
                                                                                             className='ts-row slots-timings-sub-row-wrapper'>
                                                                                             <div
