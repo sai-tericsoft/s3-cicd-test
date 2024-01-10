@@ -428,6 +428,7 @@ const ClientMedicalRecordDetailsComponent = (props: ClientMedicalDetailsComponen
                                  className={'book-appointment-component-drawer'}>
                     <BookAppointmentComponent
                         selectedClient={selectedClient}
+                        isComingFromMedicalRecord={true}
                         onComplete={
                             () => {
                                 getAppointmentLite();
