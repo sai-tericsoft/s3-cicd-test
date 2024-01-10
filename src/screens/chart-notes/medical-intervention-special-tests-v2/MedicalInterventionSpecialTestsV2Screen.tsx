@@ -641,11 +641,6 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
             <MedicalRecordBasicDetailsCardComponent/>
             <>
                 {
-                    (isMedicalInterventionDetailsLoading) && <>
-                        <LoaderComponent/>
-                    </>
-                }
-                {
                     (isMedicalInterventionDetailsLoaded && medicalInterventionId) && <>
                         {
                             (globalSpecialTestConfig?.length === 0) && <>
