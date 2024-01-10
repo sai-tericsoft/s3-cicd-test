@@ -544,7 +544,7 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
                                                         formikField={field}
                                                         required={true}
                                                         options={serviceCategoryList || []}
-                                                        displayWith={(option: any) => (option?.name || '')}
+                                                        displayWith={(item: any) => item ? (item?.name?.length > 60 ? item?.name?.slice(0, 60) + '...' : item?.name) : ''}
                                                         valueExtractor={(option: any) => option || ''}
                                                         keyExtractor={item => item?._id || ''}
                                                         readOnly={need_intervention}
@@ -587,7 +587,7 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
                                                         disabled={isServiceListLoading || !values?.service_category || (servicesList || []).length === 0}
                                                         options={servicesList || []}
                                                         readOnly={need_intervention}
-                                                        displayWith={(option: any) => (option?.name || '')}
+                                                        displayWith={(item: any) => item ? (item?.name?.length > 60 ? item?.name?.slice(0, 60) + '...' : item?.name) : ''}
                                                         valueExtractor={(option: any) => option}
                                                         selectedValues={servicesWithoutProviderList}
                                                         keyExtractor={item => item._id}
@@ -627,7 +627,7 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
                                                         disabled={!values?.service || (appointmentTypes || []).length === 0}
                                                         options={appointmentTypes || []}
                                                         required={true}
-                                                        displayWith={(option: any) => (option.title)}
+                                                        displayWith={(item: any) => item ? (item?.title?.length > 60 ? item?.title?.slice(0, 60) + '...' : item?.title) : ''}
                                                         valueExtractor={(option: any) => option.code}
                                                         readOnly={need_intervention}
                                                         label={'Appointment Type'}
