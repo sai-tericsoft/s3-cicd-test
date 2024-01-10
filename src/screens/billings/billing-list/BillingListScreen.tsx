@@ -59,6 +59,7 @@ const ClientListFilterStateInitialValues = {
     start_date: null,
     end_date: null,
     linked_invoices: false,
+    linked_receipts: false,
     sort: {},
 }
 const BillingListScreen = (props: PaymentListComponentProps) => {
@@ -1143,6 +1144,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                                         {
                                             ...clientListFilterState,
                                             linked_invoices: value,
+                                            linked_receipts: value,
                                             client_id: undefined
                                         }
                                     );
@@ -1150,6 +1152,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                                     setClientListFilterState({
                                         ...clientListFilterState,
                                         linked_invoices: value,
+                                        linked_receipts: value,
                                         client_id: selectedPayments[0]?.client_id
                                     })
                                 }
