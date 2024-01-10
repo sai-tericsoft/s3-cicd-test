@@ -24,6 +24,7 @@ interface BookAppointmentFormComponentProps {
     isLoading?: boolean,
     onBack?: () => void,
     need_intervention?: boolean
+    shouldDisable?: boolean
 }
 
 const addAppointmentFormInitialValues: any = {
@@ -57,7 +58,7 @@ const addAppointmentValidationSchema = Yup.object().shape({
 });
 
 const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) => {
-    const {onComplete, need_intervention, onClose, onBack, preFillData, client, isLoading} = props;
+    const {onComplete,shouldDisable, need_intervention, onClose, onBack, preFillData, client, isLoading} = props;
     const {appointmentTypes} = useSelector((state: IRootReducerState) => state.staticData);
     const [clientCasesList, setClientCasesList] = useState<any[] | null>(null);
     const [serviceCategoryList, setServiceCategoryList] = useState<any[] | null>(null);
@@ -515,6 +516,7 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
                                                 (field: FieldProps) => (
                                                     <FormikAutoCompleteComponent
                                                         label={'Search'}
+                                                        disabled={shouldDisable}
                                                         placeholder={'Search using Name/ID '}
                                                         formikField={field}
                                                         dataListKey={'data'}
@@ -543,6 +545,7 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
                                                     <FormikSelectComponent
                                                         formikField={field}
                                                         required={true}
+                                                        disabled={shouldDisable}
                                                         options={serviceCategoryList || []}
                                                         displayWith={(item: any) => item ? (item?.name?.length > 60 ? item?.name?.slice(0, 60) + '...' : item?.name) : ''}
                                                         valueExtractor={(option: any) => option || ''}
@@ -584,7 +587,7 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
                                                     <FormikSelectComponent
                                                         formikField={field}
                                                         required={true}
-                                                        disabled={isServiceListLoading || !values?.service_category || (servicesList || []).length === 0}
+                                                        disabled={isServiceListLoading || !values?.service_category || (servicesList || []).length === 0 || shouldDisable}
                                                         options={servicesList || []}
                                                         readOnly={need_intervention}
                                                         displayWith={(item: any) => item ? (item?.name?.length > 60 ? item?.name?.slice(0, 60) + '...' : item?.name) : ''}
@@ -624,7 +627,7 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
                                                 (field: FieldProps) => (
                                                     <FormikSelectComponent
                                                         formikField={field}
-                                                        disabled={!values?.service || (appointmentTypes || []).length === 0}
+                                                        disabled={!values?.service || (appointmentTypes || []).length === 0 || shouldDisable}
                                                         options={appointmentTypes || []}
                                                         required={true}
                                                         displayWith={(item: any) => item ? (item?.title?.length > 60 ? item?.title?.slice(0, 60) + '...' : item?.title) : ''}
@@ -687,7 +690,7 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
                                                         <FormikSelectComponent
                                                             formikField={field}
                                                             required={true}
-                                                            disabled={isClientCasesListLoading}
+                                                            disabled={isClientCasesListLoading || shouldDisable}
                                                             readOnly={need_intervention}
                                                             options={clientCasesList || []}
                                                             displayWith={item => (

@@ -19,13 +19,14 @@ interface BookAppointmentComponentProps {
     preFillData?: any,
     selectedClient?: any,
     need_intervention?: boolean,
+    isComingFromMedicalRecord?: boolean,
     repeatLastTreatment?: (interventionId: any, appointmentId: any) => void,
     addNewTreatment?: (interventionId: any, appointmentId: any) => void,
 }
 
 const BookAppointmentComponent = (props: BookAppointmentComponentProps) => {
 
-    const {onClose,onComplete, repeatLastTreatment, addNewTreatment, need_intervention, preFillData} = props;
+    const {onClose,onComplete,isComingFromMedicalRecord, repeatLastTreatment, addNewTreatment, need_intervention, preFillData} = props;
     const [step, setStep] = useState<'client' | 'form' | 'overview' | 'payment' | 'confirmation'>(props.selectedClient ? 'form' : 'client');
     const [selectedClient, setSelectedClient] = useState<any | null>(props.selectedClient ? props.selectedClient : null);
     const [clientSearch, setClientSearch] = useState<string>('');
@@ -176,6 +177,7 @@ const BookAppointmentComponent = (props: BookAppointmentComponentProps) => {
             {
                 step === 'form' &&
                 <BookAppointmentFormComponent preFillData={preFillData} client={selectedClient}
+                                              shouldDisable={isComingFromMedicalRecord}
                                               onBack={() => {
                                                   setStep('client');
                                               }}
