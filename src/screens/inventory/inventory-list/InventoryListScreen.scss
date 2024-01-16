@@ -2,20 +2,27 @@
   .t-cell-code, .t-cell-quantity, .t-cell-price {
     text-align: center !important;
   }
-  .t-cell-action{
+
+  .t-cell-action {
     padding-right: 30px !important;
   }
 
 
   .t-table-wrapper .t-table {
     height: calc(100vh - 225px) !important;
+
     .t-th, .t-td {
       &:first-child {
         padding-left: 30px;
       }
 
     }
+
+    .table-no-data-wrapper {
+      min-height: 450px !important;
+    }
   }
+
   .out-of-stock-chip {
     background-color: #FFE2E9;
     color: #DE1C4E;

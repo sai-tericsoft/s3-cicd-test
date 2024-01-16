@@ -93,8 +93,7 @@
         }
 
         .table-no-data-wrapper {
-          height: calc(100vh - 500px) !important;
-         //height: calc(100vh - 200px) !important;
+          min-height: 345px !important;
         }
       }
 
