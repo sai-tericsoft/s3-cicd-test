@@ -156,7 +156,7 @@ const AppointmentPaymentComponent = (props: AppointmentPaymentComponentProps) =>
                 }
             })
             .catch((error: any) => {
-                if (error?.errors?.coupon_code) {
+                if (error) {
                     setIsCouponCodeApplied(true);
                     setCouponApplyButtonText('Apply');
                     setIsCouponValid(false);
