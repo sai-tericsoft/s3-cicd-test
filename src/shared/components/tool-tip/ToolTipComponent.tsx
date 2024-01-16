@@ -54,7 +54,7 @@ const ToolTipComponent = (props: React.PropsWithChildren<ToolTipComponentProps>)
                              bgcolor: backgroundColor || '#DEFFE8',
                              color: textColor || '#282828',
                              '& .MuiTooltip-arrow': {
-                                 color: backgroundColor || '#DEFFE8',
+                                 color: backgroundColor || '#DFF6F3',
                              },
                          },
                      },
