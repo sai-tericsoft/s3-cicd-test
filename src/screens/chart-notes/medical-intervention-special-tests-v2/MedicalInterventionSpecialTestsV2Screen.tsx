@@ -2,7 +2,6 @@ import "./MedicalInterventionSpecialTestsV2Screen.scss";
 import PageHeaderComponent from "../../../shared/components/page-header/PageHeaderComponent";
 import MedicalRecordBasicDetailsCardComponent
     from "../medical-record-basic-details-card/MedicalRecordBasicDetailsCardComponent";
-import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 import React, {useCallback, useEffect, useMemo, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
@@ -47,7 +46,6 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
     const dispatch = useDispatch();
     const {
         medicalInterventionDetails,
-        isMedicalInterventionDetailsLoading,
         isMedicalInterventionDetailsLoaded,
     } = useSelector((state: IRootReducerState) => state.chartNotes);
     const {bodyPartList} = useSelector((state: IRootReducerState) => state.staticData);

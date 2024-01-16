@@ -51,8 +51,8 @@ const formValidationSchema = Yup.object({
                 Yup.object().shape({
                     phone: Yup.string()
                         .test('is-ten-digits', 'Secondary Phone number must contain exactly 10 digits', (value: any) => {
-                            const digits = value.replace(/\D/g, ''); // Remove non-digits
-                            return digits.length === 10;
+                            const digits = value?.replace(/\D/g, ''); // Remove non-digits
+                            return digits?.length === 10;
                         }),
                 })
             ),
@@ -62,7 +62,7 @@ const formValidationSchema = Yup.object({
                 phone: Yup.string()
                     .test('is-ten-digits', 'Phone number must contain exactly 10 digits', function (value) {
                         if (value) {
-                            return value.length === 10;
+                            return value?.length === 10;
                         }
                         return true; // Allow empty value
                     })
@@ -73,7 +73,7 @@ const formValidationSchema = Yup.object({
                     phone: Yup.string()
                         .test('is-ten-digits', 'Phone number must contain exactly 10 digits', function (value) {
                             if (value) {
-                                return value.length === 10;
+                                return value?.length === 10;
                             }
                             return true; // Allow empty value
                         })
@@ -142,11 +142,11 @@ const UserEmergencyContactDetailsEditComponent = (props: UserEmergencyContactDet
         if (userBasicDetails) {
 
             const primaryEmergency = userBasicDetails?.emergency_contact_info?.primary_emergency;
-            if ((primaryEmergency?.secondary_contact_info?.every((contact: any) => contact.phone_type === "" && contact.phone === ""))) {
+            if ((primaryEmergency?.secondary_contact_info && primaryEmergency?.secondary_contact_info?.every((contact: any) => contact.phone_type === "" && contact.phone === ""))) {
                 userBasicDetails.emergency_contact_info.primary_emergency.secondary_contact_info = undefined;
             }
             const tempSecondaryEmergency = userBasicDetails?.emergency_contact_info?.secondary_emergency;
-            if ((tempSecondaryEmergency?.secondary_contact_info?.every((contact: any) => contact.phone_type === "" && contact.phone === ""))) {
+            if ((tempSecondaryEmergency?.secondary_contact_info && tempSecondaryEmergency?.secondary_contact_info?.every((contact: any) => contact.phone_type === "" && contact.phone === ""))) {
                 userBasicDetails.emergency_contact_info.secondary_emergency.secondary_contact_info = undefined;
             }
             if (tempSecondaryEmergency?.name || tempSecondaryEmergency?.language_details || tempSecondaryEmergency?.relationship || tempSecondaryEmergency?.primary_contact_info?.phone || tempSecondaryEmergency?.primary_contact_info?.phone_type || (tempSecondaryEmergency?.secondary_contact_info && tempSecondaryEmergency?.secondary_contact_info?.length > 0
@@ -166,8 +166,8 @@ const UserEmergencyContactDetailsEditComponent = (props: UserEmergencyContactDet
                     email: "",
                 }];
             }
-            if (!userBasicDetails?.secondary_emails?.some((item: any) => item.email !== "")) userBasicDetails.secondary_emails = undefined;
-            if (!userBasicDetails?.secondary_contact_info?.some((item: any) => item.phone !== "" || item.phone_type !== "")) userBasicDetails.secondary_contact_info = undefined;
+            if (userBasicDetails && userBasicDetails.secondary_emails && !userBasicDetails?.secondary_emails?.some((item: any) => item.email !== "")) userBasicDetails.secondary_emails = undefined;
+            if (userBasicDetails && userBasicDetails.secondary_contact_info &&!userBasicDetails?.secondary_contact_info?.some((item: any) => item.phone !== "" || item.phone_type !== "")) userBasicDetails.secondary_contact_info = undefined;
             if (!userBasicDetails?.primary_email) {
                 userBasicDetails.primary_email = "";
             }
