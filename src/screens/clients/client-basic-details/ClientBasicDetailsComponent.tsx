@@ -397,22 +397,20 @@ const ClientBasicDetailsComponent = (props: ClientBasicDetailsComponentProps) =>
                             })
                         }
                     </CardComponent>
-                    <div className={'work-information-wrapper'}>
-                        <CardComponent title={'Work Information'} className={'pdd-bottom-0'}>
-                            <div className={'ts-row'}>
-                                <div className={'ts-col-lg-3'}>
-                                    <DataLabelValueComponent label={'Occupation'}>
-                                        <div>{clientBasicDetails?.work_info?.occupation || 'N/A'}</div>
-                                    </DataLabelValueComponent>
-                                </div>
-                                <div className={'ts-col-lg-3'}>
-                                    <DataLabelValueComponent label={'Employment Status'}>
-                                        <div> {clientBasicDetails?.work_info?.employment_status_details?.title || 'N/A'}</div>
-                                    </DataLabelValueComponent>
-                                </div>
+                    <CardComponent title={'Work Information'}>
+                        <div className={'ts-row'}>
+                            <div className={'ts-col-lg-3'}>
+                                <DataLabelValueComponent label={'Occupation'}>
+                                    <div>{clientBasicDetails?.work_info?.occupation || 'N/A'}</div>
+                                </DataLabelValueComponent>
                             </div>
-                        </CardComponent>
-                    </div>
+                            <div className={'ts-col-lg-3'}>
+                                <DataLabelValueComponent label={'Employment Status'}>
+                                    <div> {clientBasicDetails?.work_info?.employment_status_details?.title || 'N/A'}</div>
+                                </DataLabelValueComponent>
+                            </div>
+                        </div>
+                    </CardComponent>
                 </>
             }
         </div>
