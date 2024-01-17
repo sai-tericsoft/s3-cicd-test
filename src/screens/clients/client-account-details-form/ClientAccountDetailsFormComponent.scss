@@ -1,22 +1,31 @@
-.client-medical-provider-information-form-component{
-  .card-component{
+.client-medical-provider-information-form-component {
+  .card-component {
     margin-bottom: 0 !important;
   }
 
-  .add-communication-referral-heading{
+  .communication-referral-heading {
+    color: #000000;
+    text-decoration: underline;
+    margin-bottom: 12px;
+  }
+
+  .add-communication-referral-heading {
     font-weight: 700;
     font-size: 1.2857rem;
     color: #00534F;
     margin-bottom: 24px;
   }
-  .horizontal-line-wrapper{
+
+  .horizontal-line-wrapper {
     border: 2px solid #CECECE;
   }
+
   .t-form {
     .t-form-actions {
       margin-top: 60px;
       margin-bottom: 24px;
-      .submit-cta{
+
+      .submit-cta {
         margin-left: 16px;
       }
     }

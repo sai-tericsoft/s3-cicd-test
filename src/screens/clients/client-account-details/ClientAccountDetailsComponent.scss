@@ -1,11 +1,23 @@
-.client-account-details-component{
-.question-component{
-  .question-title{
-  font-size: 1rem;
-    color: #A9B2B9;
+.client-account-details-component {
+  .card-component {
+    padding-bottom: 4px !important;
   }
-}
-  .horizontal-line-wrapper{
+
+  .communication-referral-heading {
+    color: #000000;
+    text-decoration: underline;
+    margin-bottom: 12px;
+  }
+
+  .question-component {
+    .question-title {
+      font-size: 1rem;
+      color: #A9B2B9;
+    }
+  }
+
+  .horizontal-line-wrapper {
     border: 2px solid #CECECE;
+    margin-top: 24px;
   }
 }

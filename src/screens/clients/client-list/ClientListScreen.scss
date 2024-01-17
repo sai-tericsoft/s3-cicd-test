@@ -1,10 +1,17 @@
-.client-list-screen{
-  .list-screen-header{
-    .list-search-filters{
-     .status-filter{
-       margin-left: -4px!important;
-     }
+.client-list-wrapper {
+  .card-component{
+    padding-bottom: 24px !important;
+    margin-bottom: 0 !important;
+    height: calc(100vh - 120px) !important;
+
+  }
+  .client-list-screen {
+    .list-screen-header {
+      .list-search-filters {
+        .status-filter {
+          margin-left: -4px !important;
+        }
+      }
     }
   }
-
 }

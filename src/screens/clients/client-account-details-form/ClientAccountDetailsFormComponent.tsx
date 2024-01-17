@@ -162,7 +162,7 @@ const ClientAccountDetailsFormComponent = (props: ClientAccountDetailsFormCompon
                                 }, [validateForm, values]);
                                 return (
                                     <Form noValidate={true} className={"t-form"}>
-                                        <FormControlLabelComponent label={"Communication Preferences"}/>
+                                        <FormControlLabelComponent className={'communication-referral-heading'} label={"Communication Preferences"}/>
                                         <div className="ts-row">
                                             <div className="ts-col-md-8">
                                                 <QuestionComponent title={"Appointment Reminders"}
