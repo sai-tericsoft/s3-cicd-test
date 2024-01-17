@@ -4,7 +4,7 @@ import ChipComponent from "../../../shared/components/chip/ChipComponent";
 import LinkComponent from "../../../shared/components/link/LinkComponent";
 import {CommonService} from "../../../shared/services";
 import TableWrapperComponent from "../../../shared/components/table-wrapper/TableWrapperComponent";
-import {APIConfig, ImageConfig} from "../../../constants";
+import {APIConfig} from "../../../constants";
 import {IClientBasicDetails, IClientListFilterState} from "../../../shared/models/client.model";
 import React from "react";
 
