@@ -254,7 +254,7 @@ const UserBasicDetailsComponent = (props: UserBasicDetailsComponentProps) => {
                                         </>
                                     }
                                     {
-                                        userBasicDetails?.secondary_contact_info?.map((phone_number: any, index: number) => {
+                                        userBasicDetails?.secondary_contact_info && userBasicDetails?.secondary_contact_info?.map((phone_number: any, index: number) => {
                                             return <>
                                                 {
                                                     phone_number?.phone_type && phone_number?.phone && <>
@@ -288,7 +288,7 @@ const UserBasicDetailsComponent = (props: UserBasicDetailsComponentProps) => {
                                     }
                                     <div className={'ts-row'}>
                                         {
-                                            userBasicDetails?.secondary_emails?.map((email: any, index: number) => {
+                                            userBasicDetails?.secondary_emails && userBasicDetails?.secondary_emails?.map((email: any, index: number) => {
                                                 return <>
                                                     {
                                                         email?.email && <div className={'ts-col-12'}>
