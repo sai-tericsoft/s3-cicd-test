@@ -129,7 +129,7 @@ const ClientProfileLayoutComponent = (props: ClientProfileLayoutComponentProps) 
                     }
 
                             <ButtonComponent variant={'outlined'}
-                                             className={`${currentTab === "basicDetails" && 'mrg-right-10'}`}
+                                             className={`${currentTab === "basicDetails" && 'mrg-right-15'}`}
                                              prefixIcon={<ImageConfig.SendIcon/>}
                                              onClick={() => handleResendLink(clientBasicDetails)}
                             >
