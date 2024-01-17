@@ -29,10 +29,7 @@ const ClientBasicDetailsComponent = (props: ClientBasicDetailsComponentProps) =>
         isClientBasicDetailsLoaded,
         isClientBasicDetailsLoadingFailed
     } = useSelector((state: IRootReducerState) => state.client);
-
-    const {
-        billingAddressList
-    } = useSelector((state: IRootReducerState) => state.billings);
+    
 
     const [isSSNMasked, setIsSSNMasked] = React.useState<boolean>(true);
     const [isFirstNameMasked, setIsFirstNameMasked] = React.useState<boolean>(true);
