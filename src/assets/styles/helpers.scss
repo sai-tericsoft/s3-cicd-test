@@ -256,17 +256,4 @@ $visibility-options: (visible, hidden, inherit, initial, unset);
 // visibility helpers ---< End
 
 
-@mixin display-center {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.success {
-  color: #00534F !important;
-}
-
-.error {
-  color: #E84142 !important;
-}
 
