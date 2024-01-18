@@ -1,7 +1,7 @@
 import "./MedicalRecordListScreen.scss";
 import {useNavigate, useParams, useSearchParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import React, {useCallback, useEffect, useState} from "react";
+import React, {useCallback, useEffect, useMemo, useState} from "react";
 import {IRootReducerState} from "../../../store/reducers";
 import {getClientBasicDetails,} from "../../../store/actions/client.action";
 import {setCurrentNavParams} from "../../../store/actions/navigation.action";
@@ -25,21 +25,23 @@ interface ClientBasicDetailsComponentProps {
 
 const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
 
-    const MedicalRecordListTableColumns: ITableColumn[] = [
-            {
-                title: '',
-                key: 'alert_icon',
-                fixed: "left",
-                width: 50,
-                render: (item: any) => {
-                    return <span className={`medical-record-alert ${item?.alert_type}`}>
+    const [searchParams] = useSearchParams();
+    const referrer: any = searchParams.get("referrer");
+
+    const MedicalRecordListTableColumns: ITableColumn[] = useMemo<ITableColumn[]>(() => [
+        {
+            title: '',
+            key: 'alert_icon',
+            fixed: "left",
+            width: 50,
+            render: (item: any) => {
+                return <span className={`medical-record-alert ${item?.alert_type}`}>
                     {
                         (item?.alert_type === "high" || item?.alert_type === "medium") &&
                         <ToolTipComponent
                             showArrow={true}
                             position={"right"}
-                            // tooltip={`Within ${item.diff_days} days, this medical record will reach its 90-day deadline date.`}>
-                            tooltip={<div>
+                            tooltip={<>
                                 {
                                     (item?.alert_type === 'medium') && <> Within <b> {item.diff_days} days</b>,
                                         this medical record will reach its
@@ -55,103 +57,102 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
                                         90-day deadline date.</>
                                 }
 
-                            </div>}>
+                            </>}>
                             <ImageConfig.AlertIcon/>
                         </ToolTipComponent>
                     }
                         </span>
-                }
-            },
-            {
-                title: "Date of Onset",
-                key: "onset_date",
-                dataIndex: "onset_set",
-                width: 150,
-                fixed: "left",
-                sortable: true,
-                render: (item: any) => {
-                    if (item?._id) {
-                        return <LinkComponent
-                            route={CommonService._routeConfig.ClientMedicalRecordDetails(item?._id,)}>
-                            {CommonService.convertDateFormat2(item?.onset_date)}
-                        </LinkComponent>
-                    }
-                }
-            },
-            {
-                title: "Body Part",
-                key: "body_part",
-                align: 'center',
-                dataIndex: "body_part",
-                width: 183,
-                render: (item: any) => {
-                    return <>{item?.injury_details?.length > 1 ?
-                        <ToolTipComponent
-                            showArrow={true}
-                            position={"right"}
-                            tooltip={item?.injury_details?.map((injury: any) => <div
-                                className={'mrg-bottom-5'}>{injury?.body_part_details?.name}</div>)}
-                        >
-                            <div> {item?.injury_details[0]?.body_part_details?.name} (+{item?.injury_details?.length})</div>
-                        </ToolTipComponent> : <>{item?.injury_details[0]?.body_part_details?.name}</>}
-                    </>
-
-                }
-            },
-            {
-                title: "Body Side",
-                key: "body_side",
-                align: 'center',
-                dataIndex: "body_side",
-                width: 100,
-                render: (item: any) => {
-                    return <>{item?.injury_details[0]?.body_side || "N/A"}</>
-                }
-            },
-            {
-                title: "Case Status",
-                dataIndex: "status",
-                key: "status",
-                align: 'center',
-                width: 175,
-                sortable: true,
-                render: (item: any) => {
-                    return <ChipComponent label={item?.status}
-                                          className={item?.status === 'Open - Unresolved' ? "active" : "inactive"}></ChipComponent>
+            }
+        },
+        {
+            title: "Date of Onset",
+            key: "onset_date",
+            dataIndex: "onset_set",
+            width: 150,
+            fixed: "left",
+            sortable: true,
+            render: (item: any) => {
+                if (item?._id) {
+                    return <LinkComponent
+                        route={CommonService._routeConfig.ClientMedicalRecordDetails(item?._id,)}>
+                        {CommonService.convertDateFormat2(item?.onset_date)}
+                    </LinkComponent>
                 }
             }
-            ,
-            {
-                title: "Last Provider",
-                key: "last_provider",
-                dataIndex: "last_provider",
-                align: "left",
-                width: 140,
-                sortable: true,
-                render: (item: IClientBasicDetails) => {
-                    return <span>
+        },
+        {
+            title: "Body Part",
+            key: "body_part",
+            align: 'center',
+            dataIndex: "body_part",
+            width: 183,
+            render: (item: any) => {
+                return <>{item?.injury_details?.length > 1 ?
+                    <ToolTipComponent
+                        showArrow={true}
+                        position={"right"}
+                        tooltip={item?.injury_details?.map((injury: any) => <div
+                            className={'mrg-bottom-5'}>{injury?.body_part_details?.name}</div>)}
+                    >
+                        <div> {item?.injury_details[0]?.body_part_details?.name} (+{item?.injury_details?.length})</div>
+                    </ToolTipComponent> : <>{item?.injury_details[0]?.body_part_details?.name}</>}
+                </>
+
+            }
+        },
+        {
+            title: "Body Side",
+            key: "body_side",
+            align: 'center',
+            dataIndex: "body_side",
+            width: 100,
+            render: (item: any) => {
+                return <>{item?.injury_details[0]?.body_side || "N/A"}</>
+            }
+        },
+        {
+            title: "Case Status",
+            dataIndex: "status",
+            key: "status",
+            align: 'center',
+            width: 175,
+            sortable: true,
+            render: (item: any) => {
+                return <ChipComponent label={item?.status}
+                                      className={item?.status === 'Open - Unresolved' ? "active" : "inactive"}></ChipComponent>
+            }
+        }
+        ,
+        {
+            title: "Last Provider",
+            key: "last_provider",
+            dataIndex: "last_provider",
+            align: "left",
+            width: 140,
+            sortable: true,
+            render: (item: IClientBasicDetails) => {
+                return <span>
                     {CommonService.capitalizeFirstLetter(item?.last_provider_details?.first_name) || '-'} {CommonService.capitalizeFirstLetter(item?.last_provider_details?.last_name)}
                 </span>
+            }
+        }
+        ,
+        {
+            title: "",
+            dataIndex: "actions",
+            key: "actions",
+            width: 120,
+            fixed: "right",
+            render: (item: IClientBasicDetails) => {
+                if (item?._id) {
+                    return <LinkComponent
+                        route={CommonService._routeConfig.ClientMedicalRecordDetails(item?._id) + '?referrer=' + referrer}>
+                        View Details
+                    </LinkComponent>
                 }
             }
-            ,
-            {
-                title: "",
-                dataIndex: "actions",
-                key: "actions",
-                width: 120,
-                fixed: "right",
-                render: (item: IClientBasicDetails) => {
-                    if (item?._id) {
-                        return <LinkComponent
-                            route={CommonService._routeConfig.ClientMedicalRecordDetails(item?._id) + '?referrer=' + referrer}>
-                            View Details
-                        </LinkComponent>
-                    }
-                }
-            }
-        ]
-    ;
+        }
+    ], [referrer]);
     const {
         clientId
     } = useParams();
@@ -171,8 +172,7 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
         isClientBasicDetailsLoadingFailed,
         clientBasicDetails,
     } = useSelector((state: IRootReducerState) => state.client);
-    const [searchParams] = useSearchParams();
-    const referrer: any = searchParams.get("referrer");
+
 
     useEffect(() => {
         if (clientId) {
