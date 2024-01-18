@@ -383,7 +383,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                     mode === "edit" &&
                                     <div
                                         className={"display-flex ts-justify-content-between mrg-bottom-15 align-items-center"}>
-                                        <div className={'edit-client-heading'}>Edit Client</div>
+                                        <div className={'edit-client-heading'}>Edit Client Details</div>
                                         <div className={"display-flex align-items-center"}>
 
                                             <div>Status:</div>
@@ -574,7 +574,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                     </div>
                                 </CardComponent>
                                 <CardComponent title={"Contact Information"} size={"md"}>
-                                    <FormControlLabelComponent size={'sm'} label={'Primary Phone :'}/>
+                                    <FormControlLabelComponent className={'contact-info-sub-heading'} size={'sm'} label={'Primary Phone :'}/>
                                     <div className="ts-row">
                                         <div className="ts-col">
                                             <Field name={'primary_contact_info.phone_type'}>
@@ -624,7 +624,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                     {
                                         values?.secondary_contact_info && values?.secondary_contact_info?.length > 0 ?
                                             <>
-                                                <FormControlLabelComponent size={'sm'} label={'Alternate Phone :'}/>
+                                                <FormControlLabelComponent size={'sm'} className={'contact-info-sub-heading'} label={'Alternate Phone :'}/>
                                                 <FieldArray
                                                     name="secondary_contact_info"
                                                     render={(arrayHelpers) => (
@@ -711,8 +711,8 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                 Add Alternate Phone
                                             </ButtonComponent>
                                     }
-                                    <HorizontalLineComponent/>
-                                    <FormControlLabelComponent size={'sm'} label={'Primary Email :'}/>
+                                    <HorizontalLineComponent className={'horizontal-divider'}/>
+                                    <FormControlLabelComponent size={'sm'} className={'contact-info-sub-heading'} label={'Primary Email :'}/>
                                     <div className="ts-row">
                                         <div className="ts-col">
                                             <Field name={'primary_email'}>
@@ -746,7 +746,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                     {
                                         values?.secondary_emails && values?.secondary_emails?.length > 0 ?
                                             <>
-                                                <FormControlLabelComponent size={'sm'} label={'Alternate Email :'}/>
+                                                <FormControlLabelComponent size={'sm'} className={'contact-info-sub-heading'} label={'Alternate Email :'}/>
                                                 <FieldArray
                                                     name="secondary_emails"
                                                     render={(arrayHelpers) => (
@@ -912,7 +912,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                     </div>
                                 </CardComponent>
                                 <CardComponent title={"Emergency Contact Information"} size={"md"}>
-                                    <FormControlLabelComponent label={"Primary Emergency Contact"} size={'sm'}/>
+                                    <FormControlLabelComponent className={'emergency-info-main-heading'} label={"Primary Emergency Contact"} size={'sm'}/>
                                     <div className="ts-row">
                                         <div className="ts-col">
                                             <Field name={'emergency_contact_info.primary_emergency.name'}>
@@ -967,7 +967,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                         </div>
                                         <div className="ts-col-1"></div>
                                     </div>
-                                    <FormControlLabelComponent size={'sm'} label={'Primary Phone :'}/>
+                                    <FormControlLabelComponent className={'contact-info-sub-heading'} size={'sm'} label={'Primary Phone :'}/>
                                     <div className="ts-row">
                                         <div className="ts-col">
                                             <Field
@@ -1019,7 +1019,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                         render={(arrayHelpers) => (
                                             <>
                                                 {values?.emergency_contact_info?.primary_emergency?.secondary_contact_info && values?.emergency_contact_info?.primary_emergency?.secondary_contact_info?.length > 0 ? <>
-                                                        <FormControlLabelComponent label={'Alternate Phone'}
+                                                        <FormControlLabelComponent className={'contact-info-sub-heading'} label={'Alternate Phone'}
                                                                                    size={"sm"}/>
                                                         {values?.emergency_contact_info?.primary_emergency?.secondary_contact_info?.map((item: any, index: any) => {
                                                             // @ts-ignore
@@ -1133,11 +1133,10 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                         {values.show_secondary_emergency_form &&
                                             <>
                                                 <HorizontalLineComponent className={'secondary-emergency-divider'}/>
-                                                <div className={'d-flex ts-align-items-center mrg-bottom-24'}>
-                                                    <FormControlLabelComponent label={"Secondary Emergency Contact"}/>
+                                                <div className={'d-flex ts-align-items-center'}>
+                                                    <FormControlLabelComponent className={'emergency-info-main-heading'} label={"Secondary Emergency Contact"}/>
                                                     <ButtonComponent className={'remove-contact-button'}
                                                                      size={'small'}
-                                                                     prefixIcon={<ImageConfig.CloseIcon/>}
                                                                      variant={'outlined'} color={'error'}
                                                                      onClick={() => {
                                                                          setFieldValue('show_secondary_emergency_form', false)

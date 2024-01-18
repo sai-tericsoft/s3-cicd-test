@@ -82,23 +82,24 @@ const ClientMedicalSupplementsFormComponent = (props: ClientMedicalSupplementsFo
                 ((mode === "edit" && clientMedicalDetails) || mode === "add") && <>
                     <FormControlLabelComponent className={'add-medication-heading'}
                                                label={CommonService.capitalizeFirstLetter(mode) + " Medications/Supplements"}/>
-                    <CardComponent title={"Medications/Supplements"}
-                                   description={"Please list all prescription and non-prescription medications for the client:"}>
-                        <Formik
-                            // validationSchema={ClientMedicalSupplementsValidationSchema}
-                            initialValues={clientMedicalSupplementsInitialValues}
-                            onSubmit={onSubmit}
-                            validateOnChange={false}
-                            validateOnBlur={true}
-                            enableReinitialize={true}
-                            validateOnMount={true}>
-                            {({values, isValid, validateForm}) => {
-                                // eslint-disable-next-line react-hooks/rules-of-hooks
-                                useEffect(() => {
-                                    validateForm();
-                                }, [validateForm, values]);
-                                return (
-                                    <Form noValidate={true} className={"t-form"}>
+
+                    <Formik
+                        // validationSchema={ClientMedicalSupplementsValidationSchema}
+                        initialValues={clientMedicalSupplementsInitialValues}
+                        onSubmit={onSubmit}
+                        validateOnChange={false}
+                        validateOnBlur={true}
+                        enableReinitialize={true}
+                        validateOnMount={true}>
+                        {({values, isValid, validateForm}) => {
+                            // eslint-disable-next-line react-hooks/rules-of-hooks
+                            useEffect(() => {
+                                validateForm();
+                            }, [validateForm, values]);
+                            return (
+                                <Form noValidate={true} className={"t-form"}>
+                                    <CardComponent title={"Medications/Supplements"}
+                                                   description={"Please list all prescription and non-prescription medications for the client:"}>
                                         <div>
                                             <Field name={`medications.prescription_medication`}>
                                                 {
@@ -129,45 +130,46 @@ const ClientMedicalSupplementsFormComponent = (props: ClientMedicalSupplementsFo
                                                 }
                                             </Field>
                                         </div>
-                                        <div className="t-form-actions">
-                                            <ButtonComponent
-                                                id={"home_btn"}
-                                                variant={"outlined"}
-                                                size={'large'}
-                                                onClick={onCancel}
-                                                disabled={isClientMedicalSupplementsSavingInProgress}
-                                                className={(isClientMedicalSupplementsSavingInProgress ? 'mrg-right-15' : '')}
+                                    </CardComponent>
+                                    <div className="t-form-actions">
+                                        <ButtonComponent
+                                            id={"home_btn"}
+                                            variant={"outlined"}
+                                            size={'large'}
+                                            onClick={onCancel}
+                                            disabled={isClientMedicalSupplementsSavingInProgress}
+                                            className={(isClientMedicalSupplementsSavingInProgress ? 'mrg-right-15' : '')}
 
-                                            >
-                                                Previous
-                                            </ButtonComponent>
-                                            <ButtonComponent
-                                                id={"save_next_btn"}
-                                                className={'submit-cta'}
-                                                size={'large'}
-                                                isLoading={isClientMedicalSupplementsSavingInProgress}
-                                                disabled={isClientMedicalSupplementsSavingInProgress || !isValid || CommonService.isEqual(values, clientMedicalSupplementsInitialValues)}
-                                                type={"submit"}
-                                            >
-                                                {isClientMedicalSupplementsSavingInProgress ? "Saving" : "Save"}
-                                            </ButtonComponent>
+                                        >
+                                            Previous
+                                        </ButtonComponent>
+                                        <ButtonComponent
+                                            id={"save_next_btn"}
+                                            className={'submit-cta'}
+                                            size={'large'}
+                                            isLoading={isClientMedicalSupplementsSavingInProgress}
+                                            disabled={isClientMedicalSupplementsSavingInProgress || !isValid || CommonService.isEqual(values, clientMedicalSupplementsInitialValues)}
+                                            type={"submit"}
+                                        >
+                                            {isClientMedicalSupplementsSavingInProgress ? "Saving" : "Save"}
+                                        </ButtonComponent>
 
-                                            <ButtonComponent
-                                                className={'submit-cta'}
-                                                size={'large'}
-                                                id={"next_btn"}
-                                                disabled={isClientMedicalSupplementsSavingInProgress || !CommonService.isEqual(values, clientMedicalSupplementsInitialValues)}
-                                                onClick={onNext}
-                                            >
-                                                Next
-                                            </ButtonComponent>
+                                        <ButtonComponent
+                                            className={'submit-cta'}
+                                            size={'large'}
+                                            id={"next_btn"}
+                                            disabled={isClientMedicalSupplementsSavingInProgress || !CommonService.isEqual(values, clientMedicalSupplementsInitialValues)}
+                                            onClick={onNext}
+                                        >
+                                            Next
+                                        </ButtonComponent>
 
-                                        </div>
-                                    </Form>
-                                )
-                            }}
-                        </Formik>
-                    </CardComponent>
+                                    </div>
+                                </Form>
+                            )
+                        }}
+                    </Formik>
+
                 </>
             }
         </div>

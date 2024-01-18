@@ -73,22 +73,23 @@ const ClientAllergiesFormComponent = (props: ClientAllergiesFormComponentProps) 
                 ((mode === "edit" && clientMedicalDetails) || mode === "add") && <>
                     <FormControlLabelComponent className={'add-allergies-heading'}
                                                label={CommonService.capitalizeFirstLetter(mode) + " Allergies"}/>
-                    <CardComponent title={'Allergies'}
-                                   description={"Please list all allergies for the client (i.e. Medications, Food, Environmental, Insects, Adhesives, etc.):"}>
-                        <Formik initialValues={clientAllergiesFormInitialValues}
-                                // validationSchema={ClientAllergiesValidationSchema}
-                                onSubmit={onSubmit}
-                                validateOnChange={false}
-                                validateOnBlur={true}
-                                enableReinitialize={true}
-                                validateOnMount={true}>
-                            {({values, isValid, validateForm}) => {
-                                // eslint-disable-next-line react-hooks/rules-of-hooks
-                                useEffect(() => {
-                                    validateForm();
-                                }, [validateForm, values]);
-                                return (
-                                    <Form noValidate={true} className={"t-form"}>
+
+                    <Formik initialValues={clientAllergiesFormInitialValues}
+                        // validationSchema={ClientAllergiesValidationSchema}
+                            onSubmit={onSubmit}
+                            validateOnChange={false}
+                            validateOnBlur={true}
+                            enableReinitialize={true}
+                            validateOnMount={true}>
+                        {({values, isValid, validateForm}) => {
+                            // eslint-disable-next-line react-hooks/rules-of-hooks
+                            useEffect(() => {
+                                validateForm();
+                            }, [validateForm, values]);
+                            return (
+                                <Form noValidate={true} className={"t-form"}>
+                                    <CardComponent title={'Allergies'}
+                                                   description={"Please list all allergies for the client (i.e. Medications, Food, Environmental, Insects, Adhesives, etc.):"}>
                                         <Field name={'allergies'}>
                                             {
                                                 (field: FieldProps) => (
@@ -102,44 +103,44 @@ const ClientAllergiesFormComponent = (props: ClientAllergiesFormComponentProps) 
                                                 )
                                             }
                                         </Field>
-                                        <div className="t-form-actions">
-                                            <ButtonComponent
-                                                id={"home"}
-                                                variant={"outlined"}
-                                                size={'large'}
-                                                disabled={isClientAllergiesSavingInProgress}
-                                                onClick={onCancel}
-                                                className={(isClientAllergiesSavingInProgress ? 'mrg-right-15' : '')}
-                                            >
-                                                Previous
-                                            </ButtonComponent>
-                                            <ButtonComponent
-                                                id={"save_next_btn"}
-                                                size={'large'}
-                                                className={'submit-cta'}
-                                                isLoading={isClientAllergiesSavingInProgress}
-                                                disabled={isClientAllergiesSavingInProgress || !isValid || CommonService.isEqual(values, clientAllergiesFormInitialValues)}
-                                                type={"submit"}
-                                            >
-                                                {isClientAllergiesSavingInProgress ? "Saving" : "Save"}
-                                            </ButtonComponent>
-                                            <ButtonComponent
-                                                size={'large'}
-                                                className={'submit-cta'}
-                                                id={"next_btn"}
-                                                disabled={isClientAllergiesSavingInProgress || !CommonService.isEqual(values, clientAllergiesFormInitialValues)}
-                                                onClick={onNext}
-                                            >
-                                                Next
-                                            </ButtonComponent>
+                                    </CardComponent>
+                                    <div className="t-form-actions">
+                                        <ButtonComponent
+                                            id={"home"}
+                                            variant={"outlined"}
+                                            size={'large'}
+                                            disabled={isClientAllergiesSavingInProgress}
+                                            onClick={onCancel}
+                                            className={(isClientAllergiesSavingInProgress ? 'mrg-right-15' : '')}
+                                        >
+                                            Previous
+                                        </ButtonComponent>
+                                        <ButtonComponent
+                                            id={"save_next_btn"}
+                                            size={'large'}
+                                            className={'submit-cta'}
+                                            isLoading={isClientAllergiesSavingInProgress}
+                                            disabled={isClientAllergiesSavingInProgress || !isValid || CommonService.isEqual(values, clientAllergiesFormInitialValues)}
+                                            type={"submit"}
+                                        >
+                                            {isClientAllergiesSavingInProgress ? "Saving" : "Save"}
+                                        </ButtonComponent>
+                                        <ButtonComponent
+                                            size={'large'}
+                                            className={'submit-cta'}
+                                            id={"next_btn"}
+                                            disabled={isClientAllergiesSavingInProgress || !CommonService.isEqual(values, clientAllergiesFormInitialValues)}
+                                            onClick={onNext}
+                                        >
+                                            Next
+                                        </ButtonComponent>
 
-                                        </div>
-                                    </Form>
-                                )
-                            }}
+                                    </div>
+                                </Form>
+                            )
+                        }}
 
-                        </Formik>
-                    </CardComponent>
+                    </Formik>
                 </>
             }
         </div>

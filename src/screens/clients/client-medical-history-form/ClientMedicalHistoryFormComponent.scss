@@ -1,19 +1,26 @@
-.client-medical-history-form-component{
-  .add-medical-history-heading{
+.client-medical-history-form-component {
+  .add-medical-history-heading {
     font-weight: 700;
-    font-size: 1.2857rem;
+    font-size: 20px;
     margin-bottom: 24px;
   }
+
   .t-form {
     .t-form-actions {
-      margin-top: 60px;
       margin-bottom: 24px;
-      .submit-cta{
+      margin-top: 30px;
+
+      .submit-cta {
         margin-left: 16px;
       }
     }
   }
-  .card-component{
-    margin-bottom: 0px;
+
+  .card-component {
+    padding-bottom: 4px;
+
+    .card-description {
+      margin-top: 0 !important;
+    }
   }
 }

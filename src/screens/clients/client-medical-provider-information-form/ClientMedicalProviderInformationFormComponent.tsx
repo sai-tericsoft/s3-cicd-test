@@ -29,11 +29,11 @@ interface ClientMedicalProviderInformationFormComponentProps {
 const ClientMedicalProviderInformationValidationSchema = Yup.object({
     medical_provider_info: Yup.object({
         md_phone: Yup.string()
-            .test('is-ten-digits', 'Phone number must contain exactly 10 digits', (value:any) => {
+            .test('is-ten-digits', 'Phone number must contain exactly 10 digits', (value: any) => {
                 return value?.length === 10
             }),
-        primary_phone:Yup.string()
-            .test('is-ten-digits', 'Phone number must contain exactly 10 digits', (value:any) => {
+        primary_phone: Yup.string()
+            .test('is-ten-digits', 'Phone number must contain exactly 10 digits', (value: any) => {
                 return value?.length === 10
             }),
     }),
@@ -95,22 +95,23 @@ const ClientMedicalProviderInformationFormComponent = (props: ClientMedicalProvi
                     ((mode === "edit" && clientMedicalDetails) || mode === "add") && <>
                         <FormControlLabelComponent className={'add-medical-provider-information-heading'}
                                                    label={CommonService.capitalizeFirstLetter(mode) + " Medical Provider Information"}/>
-                        <CardComponent title={"Medical Provider Information"}>
-                            <Formik
-                                validationSchema={ClientMedicalProviderInformationValidationSchema}
-                                initialValues={clientMedicalProviderInformationInitialValues}
-                                onSubmit={onSubmit}
-                                validateOnChange={false}
-                                validateOnBlur={true}
-                                enableReinitialize={true}
-                                validateOnMount={true}>
-                                {({values, isValid, validateForm}) => {
-                                    // eslint-disable-next-line react-hooks/rules-of-hooks
-                                    useEffect(() => {
-                                        validateForm();
-                                    }, [validateForm, values]);
-                                    return (
-                                        <Form noValidate={true} className={"t-form"}>
+
+                        <Formik
+                            validationSchema={ClientMedicalProviderInformationValidationSchema}
+                            initialValues={clientMedicalProviderInformationInitialValues}
+                            onSubmit={onSubmit}
+                            validateOnChange={false}
+                            validateOnBlur={true}
+                            enableReinitialize={true}
+                            validateOnMount={true}>
+                            {({values, isValid, validateForm}) => {
+                                // eslint-disable-next-line react-hooks/rules-of-hooks
+                                useEffect(() => {
+                                    validateForm();
+                                }, [validateForm, values]);
+                                return (
+                                    <Form noValidate={true} className={"t-form"}>
+                                        <CardComponent title={"Medical Provider Information"}>
                                             <FormControlLabelComponent label={"Family Doctor"}/>
                                             <div className="ts-row">
                                                 <div className="ts-col-md-6 ts-col-lg-4">
@@ -197,43 +198,43 @@ const ClientMedicalProviderInformationFormComponent = (props: ClientMedicalProvi
                                                     </Field>
                                                 </div>
                                             </div>
-                                            <div className="t-form-actions">
-                                                <ButtonComponent
-                                                    id={"home_btn"}
-                                                    variant={"outlined"}
-                                                    size={'large'}
-                                                    onClick={onCancel}
-                                                    disabled={isClientMedicalProviderInformationSavingInProgress}
-                                                    className={(isClientMedicalProviderInformationSavingInProgress ? 'mrg-right-15' : '')}
-                                                >
-                                                    Previous
-                                                </ButtonComponent>
-                                                <ButtonComponent
-                                                    id={"save_next_btn"}
-                                                    className={'submit-cta'}
-                                                    size={'large'}
-                                                    isLoading={isClientMedicalProviderInformationSavingInProgress}
-                                                    disabled={isClientMedicalProviderInformationSavingInProgress || !isValid || CommonService.isEqual(values, clientMedicalProviderInformationInitialValues)}
-                                                    type={"submit"}
-                                                >
-                                                    {isClientMedicalProviderInformationSavingInProgress ? "Saving" : "Save" }
-                                                </ButtonComponent>
-                                                <ButtonComponent
-                                                    className={'submit-cta'}
-                                                    size={'large'}
-                                                    id={"next_btn"}
-                                                    disabled={isClientMedicalProviderInformationSavingInProgress  }
-                                                    onClick={onNext}
-                                                >
-                                                    Next
-                                                </ButtonComponent>
+                                        </CardComponent>
+                                        <div className="t-form-actions">
+                                            <ButtonComponent
+                                                id={"home_btn"}
+                                                variant={"outlined"}
+                                                size={'large'}
+                                                onClick={onCancel}
+                                                disabled={isClientMedicalProviderInformationSavingInProgress}
+                                                className={(isClientMedicalProviderInformationSavingInProgress ? 'mrg-right-15' : '')}
+                                            >
+                                                Previous
+                                            </ButtonComponent>
+                                            <ButtonComponent
+                                                id={"save_next_btn"}
+                                                className={'submit-cta'}
+                                                size={'large'}
+                                                isLoading={isClientMedicalProviderInformationSavingInProgress}
+                                                disabled={isClientMedicalProviderInformationSavingInProgress || !isValid || CommonService.isEqual(values, clientMedicalProviderInformationInitialValues)}
+                                                type={"submit"}
+                                            >
+                                                {isClientMedicalProviderInformationSavingInProgress ? "Saving" : "Save"}
+                                            </ButtonComponent>
+                                            <ButtonComponent
+                                                className={'submit-cta'}
+                                                size={'large'}
+                                                id={"next_btn"}
+                                                disabled={isClientMedicalProviderInformationSavingInProgress}
+                                                onClick={onNext}
+                                            >
+                                                Next
+                                            </ButtonComponent>
 
-                                            </div>
-                                        </Form>
-                                    )
-                                }}
-                            </Formik>
-                        </CardComponent>
+                                        </div>
+                                    </Form>
+                                )
+                            }}
+                        </Formik>
                     </>
                 }
             </div>

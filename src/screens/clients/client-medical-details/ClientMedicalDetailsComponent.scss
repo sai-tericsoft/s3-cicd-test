@@ -1,18 +1,26 @@
 @import "src/assets/styles/common";
 
 .client-medical-details-component {
+  .card-component {
+    padding-bottom: 4px;
+  }
+
   .other-illness-heading {
     font-size: 14px;
     font-weight: 600;
-    margin-bottom: 5px;
   }
-  .no-answer-text{
+
+  .no-answer-text {
     font-weight: 500;
-    color: #212B36;
+    color: #1D1C1D;;
+  }
+
+  .personal-habit-heading {
+    color: #1D1C1D;
   }
 
   .other-illness-text {
-    margin-bottom: 24px;
+    margin-bottom: 20px;
   }
 
   .musculoskeletal-history-block {
@@ -25,7 +33,7 @@
       .data-label {
         font-weight: $font-weight-bolder;
         letter-spacing: 0.5px;
-        color: #212B36;
+        color: #1D1C1D;;
       }
 
       .data-value {
@@ -40,6 +48,7 @@
 
   .females-only-block {
     margin-bottom: 24px;
+
     .data-label-value {
       margin-bottom: 6px;
       justify-content: space-between;
@@ -56,24 +65,36 @@
   }
 
   .musculoskeletal-question {
-    color: #6D6D6D;
+    color: #1D1C1D;
     word-break: break-word;
   }
 
   .allergies-na {
-    margin-bottom: 24px;
+    margin-bottom: 20px;
     padding-bottom: 0px;
-    &.text{
+
+    &.text {
       margin-bottom: 24px;
     }
   }
-  .musculoskeletal-na{
-    margin-bottom: 0px;
+
+  .musculoskeletal-na {
+    margin-bottom: 0;
+  }
+
+  .medical-supplement-headings {
+    margin-bottom: 12px;
+    font-size: 14px;
+    color: #1D1C1D;
+
+  }
+  .medical-supplement-answer-text{
+    margin-bottom: 20px;
   }
 
   .musculoskeletal-card-body-table {
-    border: 1px solid #CECECE;
-    margin-bottom: 24px;
+    border: 1px solid #E2E2E2;
+    margin-bottom: 20px;
 
     .musculoskeletal-history-question-list {
       margin: 15px;

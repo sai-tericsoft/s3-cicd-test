@@ -4,10 +4,20 @@
       margin-top: -10px;
       margin-bottom: 10px;
       margin-left: -10px;
+
       .MuiFormControlLabel-root {
         display: flex;
         flex-direction: unset;
+        color: #275778;
       }
+
+      .MuiCheckbox-colorPrimary {
+        color: #275778;
+      }
+    }
+
+    .card-component {
+      padding-bottom: 4px;
     }
 
     .add-client-heading {
@@ -15,6 +25,11 @@
       font-size: 1.2857rem;
       color: #275778;
       margin-bottom: 20px;
+    }
+
+    .contact-info-sub-heading {
+      margin-bottom: 12px;
+      color: #212B36;
     }
 
     .edit-client-heading {
@@ -30,15 +45,27 @@
     .alternate-phone-divider {
       border: 2px solid #CECECE;
     }
+    .horizontal-divider{
+      margin-top: 4px !important;
+    }
 
     .remove-contact-button {
-      margin-bottom: 24px;
+      margin-bottom: 20px;
       margin-left: 20px;
       align-items: center;
     }
 
     .secondary-emergency-divider {
       border: 2px solid #CECECE;
+      margin-top: 24px;
+    }
+
+    .emergency-info-main-heading {
+      font-weight: 700;
+      font-size: 16px;
+      color: #212B36;
+      margin-bottom: 20px;
+      text-decoration: underline;
     }
 
     .t-form-actions {
@@ -46,7 +73,7 @@
       margin-bottom: 0px;
 
       .submit-cta {
-        margin-left: 16px;
+        margin-left: 12px;
       }
     }
 

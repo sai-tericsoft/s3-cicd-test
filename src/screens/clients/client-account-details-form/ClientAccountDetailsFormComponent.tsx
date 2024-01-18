@@ -55,7 +55,7 @@ const ClientAccountDetailsValidationSchema = Yup.object({
             is: 'friends_family_colleague',
             then: Yup.string()
                 .required('Phone Number is required')
-                .test('is-ten-digits', 'Phone number must contain exactly 10 digits', (value:any) => {
+                .test('is-ten-digits', 'Phone number must contain exactly 10 digits', (value: any) => {
                     return value?.length === 10
                 }),
             otherwise: Yup.string()
@@ -125,6 +125,12 @@ const ClientAccountDetailsFormComponent = (props: ClientAccountDetailsFormCompon
         }
     }, [mode, clientId, dispatch, clientAccountDetails]);
 
+    const handleCancel = useCallback(() => {
+        if (clientId) {
+            navigate('/clients/' + clientId + '/client-profile-details?currentStep=account-details');
+        }
+    }, [navigate, clientId]);
+
     return (
         <div className={'client-medical-provider-information-form-component'}>
             <FormControlLabelComponent className={'add-communication-referral-heading'}
@@ -146,23 +152,25 @@ const ClientAccountDetailsFormComponent = (props: ClientAccountDetailsFormCompon
             </>
             {
                 ((mode === "edit" && isClientAccountDetailsLoaded && clientAccountDetails) || mode === "add") && <>
-                    <CardComponent title={"Communication and Referral Details"}>
-                        <Formik
-                            initialValues={clientAccountDetailsFormInitialValues}
-                            validationSchema={ClientAccountDetailsValidationSchema}
-                            onSubmit={onSubmit}
-                            validateOnChange={false}
-                            validateOnBlur={true}
-                            enableReinitialize={true}
-                            validateOnMount={true}>
-                            {({values, errors, isValid, setFieldValue, validateForm}) => {
-                                // eslint-disable-next-line react-hooks/rules-of-hooks
-                                useEffect(() => {
-                                    validateForm();
-                                }, [validateForm, values]);
-                                return (
-                                    <Form noValidate={true} className={"t-form"}>
-                                        <FormControlLabelComponent className={'communication-referral-heading'} label={"Communication Preferences"}/>
+
+                    <Formik
+                        initialValues={clientAccountDetailsFormInitialValues}
+                        validationSchema={ClientAccountDetailsValidationSchema}
+                        onSubmit={onSubmit}
+                        validateOnChange={false}
+                        validateOnBlur={true}
+                        enableReinitialize={true}
+                        validateOnMount={true}>
+                        {({values, errors, isValid, setFieldValue, validateForm}) => {
+                            // eslint-disable-next-line react-hooks/rules-of-hooks
+                            useEffect(() => {
+                                validateForm();
+                            }, [validateForm, values]);
+                            return (
+                                <Form noValidate={true} className={"t-form"}>
+                                    <CardComponent title={"Communication and Referral Details"}>
+                                        <FormControlLabelComponent className={'communication-referral-heading'}
+                                                                   label={"Communication Preferences"}/>
                                         <div className="ts-row">
                                             <div className="ts-col-md-8">
                                                 <QuestionComponent title={"Appointment Reminders"}
@@ -235,7 +243,7 @@ const ClientAccountDetailsFormComponent = (props: ClientAccountDetailsFormCompon
                                             values.referral_details.source === "friends_family_colleague" && <>
                                                 <QuestionComponent title={"Please complete the following:"}/>
                                                 <div className="ts-row">
-                                                    <div className="ts-col-md-4">
+                                                    <div className="ts-col-md-6">
                                                         <Field name={`referral_details.source_info_name`}>
                                                             {
                                                                 (field: FieldProps) => (
@@ -250,7 +258,7 @@ const ClientAccountDetailsFormComponent = (props: ClientAccountDetailsFormCompon
                                                             }
                                                         </Field>
                                                     </div>
-                                                    <div className="ts-col-md-4">
+                                                    <div className="ts-col-md-6">
                                                         <Field name={`referral_details.source_info_phone`}>
                                                             {
                                                                 (field: FieldProps) => (
@@ -266,7 +274,7 @@ const ClientAccountDetailsFormComponent = (props: ClientAccountDetailsFormCompon
                                                     </div>
                                                 </div>
                                                 <div className="ts-row">
-                                                    <div className="ts-col-md-4">
+                                                    <div className="ts-col-md-6">
                                                         <Field name={`referral_details.source_info_email`}>
                                                             {
                                                                 (field: FieldProps) => (
@@ -280,7 +288,7 @@ const ClientAccountDetailsFormComponent = (props: ClientAccountDetailsFormCompon
                                                             }
                                                         </Field>
                                                     </div>
-                                                    <div className="ts-col-md-4">
+                                                    <div className="ts-col-md-6">
                                                         <Field name={`referral_details.source_info_relationship`}>
                                                             {
                                                                 (field: FieldProps) => (
@@ -339,23 +347,29 @@ const ClientAccountDetailsFormComponent = (props: ClientAccountDetailsFormCompon
                                                 </div>
                                             </>
                                         }
-                                        <div className="t-form-actions">
-                                            <ButtonComponent
-                                                id={"save_next_btn"}
-                                                isLoading={isClientAccountDetailsFormSavingInProgress}
-                                                size={'large'}
-                                                className={'submit-cta'}
-                                                disabled={isClientAccountDetailsFormSavingInProgress || !isValid}
-                                                type={"submit"}
-                                            >
-                                                {isClientAccountDetailsFormSavingInProgress ? "Saving" : "Save"}
-                                            </ButtonComponent>
-                                        </div>
-                                    </Form>
-                                )
-                            }}
-                        </Formik>
-                    </CardComponent>
+                                    </CardComponent>
+                                    <div className="t-form-actions">
+                                        <ButtonComponent variant={'outlined'}
+                                                         onClick={handleCancel}
+                                        >
+                                            Cancel
+                                        </ButtonComponent>
+                                        <ButtonComponent
+                                            id={"save_next_btn"}
+                                            isLoading={isClientAccountDetailsFormSavingInProgress}
+                                            size={'large'}
+                                            className={'submit-cta'}
+                                            disabled={isClientAccountDetailsFormSavingInProgress || !isValid}
+                                            type={"submit"}
+                                        >
+                                            {isClientAccountDetailsFormSavingInProgress ? "Saving" : "Save"}
+                                        </ButtonComponent>
+                                    </div>
+                                </Form>
+                            )
+                        }}
+                    </Formik>
+
                 </>
             }
         </div>
