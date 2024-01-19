@@ -5,19 +5,20 @@ import reportWebVitals from './reportWebVitals';
 import {BrowserRouter} from "react-router-dom";
 import {Provider} from "react-redux";
 import {store} from "./store";
-import {createRoot} from "react-dom/client";
+import ReactDOM from "react-dom";
 
-const domNode = document.getElementById('root') as HTMLElement;
-if (!domNode) throw new Error("Root node not found");
-const root = createRoot(domNode);
-root.render(
+//Todo: We are using react 17 because of bug in react 18 and redux mismatch.
+//Todo: Don't repeat this mistake again in next project
+
+ReactDOM.render(
     <React.StrictMode>
         <Provider store={store}>
             <BrowserRouter basename={process.env.PUBLIC_URL || ''}>
                 <App/>
             </BrowserRouter>
         </Provider>
-    </React.StrictMode>
+    </React.StrictMode>,
+    document.getElementById('root')
 );
 
 // If you want to start measuring performance in your app, pass a function
