@@ -92,22 +92,23 @@ const ClientMedicalFemaleOnlyFormComponent = (props: ClientMedicalFemaleOnlyForm
                 ((mode === "edit" && clientMedicalDetails) || mode === "add") && <>
                     <FormControlLabelComponent className={'add-females-only-heading'}
                                                label={CommonService.capitalizeFirstLetter(mode) + " Females Only"}/>
-                    <CardComponent title={"Females Only"} description={"Is the client currently:"}>
-                        <Formik
-                            validationSchema={ClientMedicalFemaleOnlyValidationSchema}
-                            initialValues={clientMedicalFemaleOnlyInitialValues}
-                            onSubmit={onSubmit}
-                            validateOnChange={false}
-                            validateOnBlur={true}
-                            enableReinitialize={true}
-                            validateOnMount={true}>
-                            {({values, isValid, validateForm}) => {
-                                // eslint-disable-next-line react-hooks/rules-of-hooks
-                                useEffect(() => {
-                                    validateForm();
-                                }, [validateForm, values]);
-                                return (
-                                    <Form noValidate={true} className={"t-form"}>
+                    <Formik
+                        validationSchema={ClientMedicalFemaleOnlyValidationSchema}
+                        initialValues={clientMedicalFemaleOnlyInitialValues}
+                        onSubmit={onSubmit}
+                        validateOnChange={false}
+                        validateOnBlur={true}
+                        enableReinitialize={true}
+                        validateOnMount={true}>
+                        {({values, isValid, validateForm}) => {
+                            // eslint-disable-next-line react-hooks/rules-of-hooks
+                            useEffect(() => {
+                                validateForm();
+                            }, [validateForm, values]);
+                            return (
+                                <Form noValidate={true} className={"t-form"}>
+                                    <CardComponent title={"Females Only"} description={"Is the client currently:"}>
+
                                         {
                                             FormQuestions.map((question: any) => {
                                                 const {key, title} = question;
@@ -133,39 +134,40 @@ const ClientMedicalFemaleOnlyFormComponent = (props: ClientMedicalFemaleOnlyForm
                                                 </div>
                                             })
                                         }
-                                        <div className="t-form-actions">
-                                            <ButtonComponent
-                                                variant={"outlined"}
-                                                onClick={onCancel}
-                                                size={'large'}
-                                                disabled={isClientMedicalFemaleOnlyFormSavingInProgress}
-                                                className={(isClientMedicalFemaleOnlyFormSavingInProgress ? 'mrg-right-15' : '')}
-                                            >
-                                                Previous
-                                            </ButtonComponent>
-                                            <ButtonComponent
-                                                className={'submit-cta'}
-                                                size={'large'}
-                                                isLoading={isClientMedicalFemaleOnlyFormSavingInProgress}
-                                                disabled={isClientMedicalFemaleOnlyFormSavingInProgress || !isValid || CommonService.isEqual(values, clientMedicalFemaleOnlyInitialValues)}
-                                                type={"submit"}
-                                            >
-                                                {isClientMedicalFemaleOnlyFormSavingInProgress ? "Saving" : "Save"}
-                                            </ButtonComponent>
-                                            <ButtonComponent
-                                                className={'submit-cta'}
-                                                disabled={isClientMedicalFemaleOnlyFormSavingInProgress || !isValid || !CommonService.isEqual(values, clientMedicalFemaleOnlyInitialValues)}
-                                                onClick={onNext}
-                                            >
-                                                Next
-                                            </ButtonComponent>
+                                    </CardComponent>
 
-                                        </div>
-                                    </Form>
-                                )
-                            }}
-                        </Formik>
-                    </CardComponent>
+                                    <div className="t-form-actions">
+                                        <ButtonComponent
+                                            variant={"outlined"}
+                                            onClick={onCancel}
+                                            size={'large'}
+                                            disabled={isClientMedicalFemaleOnlyFormSavingInProgress}
+                                            className={(isClientMedicalFemaleOnlyFormSavingInProgress ? 'mrg-right-15' : '')}
+                                        >
+                                            Previous
+                                        </ButtonComponent>
+                                        <ButtonComponent
+                                            className={'submit-cta'}
+                                            size={'large'}
+                                            isLoading={isClientMedicalFemaleOnlyFormSavingInProgress}
+                                            disabled={isClientMedicalFemaleOnlyFormSavingInProgress || !isValid || CommonService.isEqual(values, clientMedicalFemaleOnlyInitialValues)}
+                                            type={"submit"}
+                                        >
+                                            {isClientMedicalFemaleOnlyFormSavingInProgress ? "Saving" : "Save"}
+                                        </ButtonComponent>
+                                        <ButtonComponent
+                                            className={'submit-cta'}
+                                            disabled={isClientMedicalFemaleOnlyFormSavingInProgress || !isValid || !CommonService.isEqual(values, clientMedicalFemaleOnlyInitialValues)}
+                                            onClick={onNext}
+                                        >
+                                            Next
+                                        </ButtonComponent>
+
+                                    </div>
+                                </Form>
+                            )
+                        }}
+                    </Formik>
                 </>
             }
         </div>

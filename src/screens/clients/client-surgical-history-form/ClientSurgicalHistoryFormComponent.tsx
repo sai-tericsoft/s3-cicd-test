@@ -108,24 +108,25 @@ const ClientSurgicalHistoryFormComponent = (props: ClientSurgicalHistoryFormComp
                 ((mode === "edit" && clientMedicalDetails) || mode === "add") && <>
                     <FormControlLabelComponent className={'add-surgical-history-heading'}
                                                label={CommonService.capitalizeFirstLetter(mode) + " Surgical History"}/>
-                    <CardComponent title={"Surgical History"}
-                                   description={"Has the client ever had:"}>
-                        <Formik
-                            validationSchema={ClientSurgicalHistoryValidationSchema}
-                            initialValues={clientSurgicalHistoryInitialValues}
-                            onSubmit={onSubmit}
-                            validateOnChange={false}
-                            validateOnBlur={true}
-                            enableReinitialize={true}
-                            validateOnMount={true}>
-                            {({values, errors, setFieldTouched, setFieldValue, setFieldError, isValid, validateForm}) => {
-                                // eslint-disable-next-line react-hooks/rules-of-hooks
-                                useEffect(() => {
-                                    console.log(values);
-                                    validateForm();
-                                }, [validateForm, values]);
-                                return (
-                                    <Form noValidate={true} className={"t-form"}>
+
+                    <Formik
+                        validationSchema={ClientSurgicalHistoryValidationSchema}
+                        initialValues={clientSurgicalHistoryInitialValues}
+                        onSubmit={onSubmit}
+                        validateOnChange={false}
+                        validateOnBlur={true}
+                        enableReinitialize={true}
+                        validateOnMount={true}>
+                        {({values, errors, setFieldTouched, setFieldValue, setFieldError, isValid, validateForm}) => {
+                            // eslint-disable-next-line react-hooks/rules-of-hooks
+                            useEffect(() => {
+                                console.log(values);
+                                validateForm();
+                            }, [validateForm, values]);
+                            return (
+                                <Form noValidate={true} className={"t-form"}>
+                                    <CardComponent title={"Surgical History"}
+                                                   description={"Has the client ever had:"}>
                                         <div className="ts-row">
                                             {
                                                 surgicalHistoryOptionsList?.map((option: ISurgicalHistoryOption) => {
@@ -192,43 +193,44 @@ const ClientSurgicalHistoryFormComponent = (props: ClientSurgicalHistoryFormComp
                                                 </Field>
                                             </div>
                                         </div>}
-                                        <div className="t-form-actions">
-                                            <ButtonComponent
-                                                id={"home_btn"}
-                                                variant={"outlined"}
-                                                className={(isClientSurgicalHistorySavingInProgress ? 'mrg-right-15' : '')}
-                                                size={'large'}
-                                                onClick={onCancel}
-                                                disabled={isClientSurgicalHistorySavingInProgress}
-                                            >
-                                                Previous
-                                            </ButtonComponent>
-                                            <ButtonComponent
-                                                id={"save_next_btn"}
-                                                className={'submit-cta'}
-                                                size={'large'}
-                                                isLoading={isClientSurgicalHistorySavingInProgress}
-                                                disabled={isClientSurgicalHistorySavingInProgress || !isValid || CommonService.isEqual(values, clientSurgicalHistoryInitialValues)}
-                                                type={"submit"}
-                                            >
-                                                {isClientSurgicalHistorySavingInProgress ? "Saving" : "Save"}
-                                            </ButtonComponent>
-                                            <ButtonComponent
-                                                id={"next_btn"}
-                                                className={'submit-cta'}
-                                                size={'large'}
-                                                disabled={isClientSurgicalHistorySavingInProgress || !CommonService.isEqual(values, clientSurgicalHistoryInitialValues)}
-                                                onClick={onNext}
-                                            >
-                                                Next
-                                            </ButtonComponent>
+                                    </CardComponent>
+                                    <div className="t-form-actions">
+                                        <ButtonComponent
+                                            id={"home_btn"}
+                                            variant={"outlined"}
+                                            className={(isClientSurgicalHistorySavingInProgress ? 'mrg-right-15' : '')}
+                                            size={'large'}
+                                            onClick={onCancel}
+                                            disabled={isClientSurgicalHistorySavingInProgress}
+                                        >
+                                            Previous
+                                        </ButtonComponent>
+                                        <ButtonComponent
+                                            id={"save_next_btn"}
+                                            className={'submit-cta'}
+                                            size={'large'}
+                                            isLoading={isClientSurgicalHistorySavingInProgress}
+                                            disabled={isClientSurgicalHistorySavingInProgress || !isValid || CommonService.isEqual(values, clientSurgicalHistoryInitialValues)}
+                                            type={"submit"}
+                                        >
+                                            {isClientSurgicalHistorySavingInProgress ? "Saving" : "Save"}
+                                        </ButtonComponent>
+                                        <ButtonComponent
+                                            id={"next_btn"}
+                                            className={'submit-cta'}
+                                            size={'large'}
+                                            disabled={isClientSurgicalHistorySavingInProgress || !CommonService.isEqual(values, clientSurgicalHistoryInitialValues)}
+                                            onClick={onNext}
+                                        >
+                                            Next
+                                        </ButtonComponent>
 
-                                        </div>
-                                    </Form>
-                                )
-                            }}
-                        </Formik>
-                    </CardComponent>
+                                    </div>
+                                </Form>
+                            )
+                        }}
+                    </Formik>
+
                 </>
             }
         </div>

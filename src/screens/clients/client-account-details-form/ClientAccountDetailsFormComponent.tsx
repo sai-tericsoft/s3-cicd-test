@@ -212,10 +212,10 @@ const ClientAccountDetailsFormComponent = (props: ClientAccountDetailsFormCompon
                                             </div>
                                         </div>
                                         <HorizontalLineComponent/>
-                                        <FormControlLabelComponent label={"Referral Details"}/>
+                                        <FormControlLabelComponent className={'communication-referral-heading'} label={"Referral Details:"}/>
                                         <div className="ts-row">
                                             <div className="ts-col-md-8">
-                                                <QuestionComponent title={"How did you find us?"}
+                                                <QuestionComponent className={'referral-details-question'} title={"How did you find us?"}
                                                                    description={"Please choose an option that best describes how you heard about us."}/>
                                             </div>
                                             <div className="ts-col-md-4">
@@ -240,7 +240,7 @@ const ClientAccountDetailsFormComponent = (props: ClientAccountDetailsFormCompon
                                             </div>
                                         </div>
                                         {
-                                            values.referral_details.source === "friends_family_colleague" && <>
+                                            values.referral_details.source === "friends_family_colleague" && <div className={'other-wrapper'}>
                                                 <QuestionComponent title={"Please complete the following:"}/>
                                                 <div className="ts-row">
                                                     <div className="ts-col-md-6">
@@ -303,13 +303,13 @@ const ClientAccountDetailsFormComponent = (props: ClientAccountDetailsFormCompon
                                                         </Field>
                                                     </div>
                                                 </div>
-                                            </>
+                                            </div>
                                         }
                                         {
-                                            values.referral_details.source === "social_media" && <>
+                                            values.referral_details.source === "social_media" && <div className={'other-wrapper'}>
                                                 <QuestionComponent title={"Please select an option:"}/>
                                                 <div className="ts-row">
-                                                    <div className="ts-col-md-4">
+                                                    <div className="ts-col-md-6">
                                                         <Field name={`referral_details.source_info_name`}>
                                                             {
                                                                 (field: FieldProps) => (
@@ -324,13 +324,13 @@ const ClientAccountDetailsFormComponent = (props: ClientAccountDetailsFormCompon
                                                         </Field>
                                                     </div>
                                                 </div>
-                                            </>
+                                            </div>
                                         }
                                         {
-                                            values.referral_details.source === "other" && <>
+                                            values.referral_details.source === "other" && <div className={'other-wrapper'}>
                                                 <QuestionComponent title={"Please explain:"}/>
                                                 <div className="ts-row">
-                                                    <div className="ts-col-md-4">
+                                                    <div className="ts-col-md-12">
                                                         <Field name={`referral_details.source_info_name`}>
                                                             {
                                                                 (field: FieldProps) => (
@@ -345,7 +345,7 @@ const ClientAccountDetailsFormComponent = (props: ClientAccountDetailsFormCompon
                                                         </Field>
                                                     </div>
                                                 </div>
-                                            </>
+                                            </div>
                                         }
                                     </CardComponent>
                                     <div className="t-form-actions">

@@ -17,7 +17,6 @@ import {ITableColumn} from "../../models/table.model";
 import {CommonService} from "../../services";
 import TableComponent from "../table/TableComponent";
 import StatusCardComponent from "../status-card/StatusCardComponent";
-import CardComponent from "../card/CardComponent";
 
 interface ActivityLogTimelineComponentProps {
     logsData?: any;
@@ -715,7 +714,6 @@ const ActivityLogTimelineComponent = (props: ActivityLogTimelineComponentProps) 
 
     return (
         <div className={'activity-logs-timeline-component'}>
-            <CardComponent>
                 <Timeline
                     sx={{
                         [`& .${timelineItemClasses.root}:before`]: {
@@ -781,7 +779,6 @@ const ActivityLogTimelineComponent = (props: ActivityLogTimelineComponentProps) 
                         }
                     </>
                 </Timeline>
-            </CardComponent>
         </div>
     );
 

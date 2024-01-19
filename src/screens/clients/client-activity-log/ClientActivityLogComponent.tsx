@@ -11,6 +11,7 @@ import moment from "moment/moment";
 import CardsPaginationComponent from "../../../shared/components/cards-pagination/CardsPaginationComponent";
 import DateRangePickerComponentV2
     from "../../../shared/components/form-controls/date-range-pickerV2/DateRangePickerComponentV2";
+import CardComponent from "../../../shared/components/card/CardComponent";
 
 interface ClientActivityLogComponentProps {
     clientId: string;
@@ -76,7 +77,7 @@ const ClientActivityLogComponent = (props: ClientActivityLogComponentProps) => {
                         placeholder={"Search using any keyword"}
                         value={clientActivityLogFilterState.search}
                         onSearchChange={(value) => {
-                            if(value) {
+                            if (value) {
                                 pageNumRef.current = 1;
                             }
                             setClientActivityLogFilterState({...clientActivityLogFilterState, search: value})
@@ -114,14 +115,14 @@ const ClientActivityLogComponent = (props: ClientActivityLogComponentProps) => {
             }
             {
                 clientsActivityLogsLoaded &&
-                <>
+                <CardComponent>
 
                     <ActivityLogTimelineComponent
                         logsData={clientsActivityLogs}
                     />
                     <CardsPaginationComponent page={pageNumRef.current} totalResultsRef={totalResultsRef}
                                               onPageChange={handlePageNumberChange}/>
-                </>
+                </CardComponent>
             }
 
         </div>

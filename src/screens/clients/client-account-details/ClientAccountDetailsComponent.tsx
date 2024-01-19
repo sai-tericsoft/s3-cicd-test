@@ -52,7 +52,7 @@ const ClientAccountDetailsComponent = (props: ClientAccountDetailsComponentProps
                                    </>
                                    }
                     >
-                        <FormControlLabelComponent className={'communication-referral-heading'} label={"Communication Preferences"}/>
+                        <FormControlLabelComponent className={'communication-referral-heading'} label={"Communication Preferences:"}/>
                         <DataLabelValueComponent label={"Appointment Reminders"}>
                             {clientAccountDetails?.communication_preferences?.appointment_reminders_details?.title || "N/A"}
                         </DataLabelValueComponent>
@@ -62,7 +62,7 @@ const ClientAccountDetailsComponent = (props: ClientAccountDetailsComponentProps
                         </DataLabelValueComponent>
 
                         <HorizontalLineComponent/>
-                        <FormControlLabelComponent className={'communication-referral-heading'} label={"Referral Details"}/>
+                        <FormControlLabelComponent className={'communication-referral-heading'} label={"Referral Details:"}/>
                         <DataLabelValueComponent
                             label={"How did you find us?"}>{clientAccountDetails?.referral_details.source_details?.title || "N/A"}
                         </DataLabelValueComponent>

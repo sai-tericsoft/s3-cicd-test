@@ -1,16 +1,26 @@
-.client-surgical-history-form-component{
-    .add-surgical-history-heading{
-        font-weight: 700;
-        font-size: 1.2857rem;
-        margin-bottom: 24px;
+.client-surgical-history-form-component {
+  .add-surgical-history-heading {
+    font-weight: 700;
+    font-size: 20px;
+    margin-bottom: 24px;
+  }
+
+  .t-form {
+    .card-component {
+      padding-bottom: 4px;
+
+      .card-description {
+        margin-top: 0 !important;
+      }
     }
-    .t-form {
-        .t-form-actions {
-            margin-top: 60px;
-            margin-bottom: 24px;
-            .submit-cta{
-                margin-left: 16px;
-            }
-        }
+
+    .t-form-actions {
+      margin-bottom: 24px;
+      margin-top: 30px;
+
+      .submit-cta {
+        margin-left: 16px;
+      }
     }
+  }
 }
