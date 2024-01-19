@@ -104,10 +104,10 @@ const AddInventoryProductComponent = (props: AddInventoryProductComponentProps) 
                 case 'percentage'   :
                     if (discount === 100) return 0;
                     const discountAmount = (retailPrice * discount) / 100;
-                    return retailPrice - discountAmount;
+                    return CommonService.convertToDecimals(retailPrice - discountAmount);
                 case 'amount'   :
                     if ((retailPrice - discount) > 0) {
-                        return retailPrice - discount;
+                        return CommonService.convertToDecimals(retailPrice - discount);
                     } else if ((retailPrice - discount) === 0) {
                         return 0;
                     }
