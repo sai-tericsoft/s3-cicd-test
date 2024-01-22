@@ -24,9 +24,10 @@
       margin-left: 200px;
       margin-top: -10px;
       margin-bottom: 24px;
-      &.invalid-amount{
-        font-size: 14px!important;
-        margin-top: -5px!important;
+
+      &.invalid-amount {
+        font-size: 14px !important;
+        margin-top: -5px !important;
       }
     }
 
@@ -149,18 +150,19 @@
 
 .products-block {
   .products-block-wrapper {
-   .t-table-wrapper{
-     .t-table{
-       min-height: fit-content !important;
-       .t-cell-units,.t-cell-discount{
-         .input-component{
-           input {
-             text-align: center !important;
-           }
-         }
-       }
-     }
-   }
+    .t-table-wrapper {
+      .t-table {
+        min-height: fit-content !important;
+
+        .t-cell-units, .t-cell-discount {
+          .input-component {
+            input {
+              text-align: center !important;
+            }
+          }
+        }
+      }
+    }
 
     .t-tr {
       //padding-top: 5px !important;
@@ -201,8 +203,9 @@
 
   .t-table-wrapper {
     height: calc(100vh - 310px);
-    .table-no-data-wrapper{
-      min-height: 300px!important;
+
+    .table-no-data-wrapper {
+      min-height: 300px !important;
     }
   }
 
@@ -211,15 +214,21 @@
 .select-billing-address {
   height: calc(100vh - 190px);
   overflow: auto;
+
   .card-heading {
-    color: #212B36;
+    color: #7F7F7F;
     font-weight: 500;
     margin-left: -5px;
   }
 
+  .card-heading-answer {
+    color: #1D1C1D
+  }
+
   .select-address-card {
-    border: 1px solid #ABB6BE;
-    border-radius: 4px;
+    border: 1px solid #E2E2E2;
+    box-shadow: 0px 4px 8px 0px #D1D1D1;
+    border-radius: 8px;
     margin-bottom: 24px;
     width: 465px;
 
@@ -228,9 +237,9 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border-radius: 4px;
-      background: #F2F6F6;
-      height: 40px;
+      border-radius: 8px;
+      background: #ECF7FF;
+      height: 45px;
 
       .btn-heading-wrapper {
         display: flex;

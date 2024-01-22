@@ -1095,7 +1095,9 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                             }
                             {
                                 clientId &&
-                                <ButtonComponent className={'mrg-right-10'} prefixIcon={<ImageConfig.BillingListIcon/>}
+                                <ButtonComponent className={'mrg-right-10'}
+                                                 variant={'outlined'}
+                                                 prefixIcon={<ImageConfig.BillingListIcon/>}
                                                  onClick={openBillingAddressFormDrawer}>
                                     Billing Address
                                 </ButtonComponent>
@@ -1388,15 +1390,16 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                              showClose={true}>
                 {
                     currentStep === 'selectAddress' && <>
-                        <FormControlLabelComponent label={"Select Billing Address"}/>
+                        <FormControlLabelComponent size={'xl'} label={"Billing Address(es)"}/>
                         <div className={'select-billing-address'}>
                             {getBillingList?.length > 0 && getBillingList?.map((item: any, index: number) => {
                                 return <div className={'select-address-card'}>
                                     <div className={'select-address-card-header'}>
                                         <div className={'btn-heading-wrapper'}>
-                                            <b>{item?.name}</b>
+                                            <b className={'text-decoration-underline'}>{item?.name}</b>
                                             <div className={'mrg-left-10'}>
-                                                {item?.is_default && <ChipComponent className={'draft'} label={'Default'}/>}
+                                                {item?.is_default &&
+                                                    <ChipComponent className={'Modified'} label={'Default'}/>}
                                             </div>
                                         </div>
                                         <div className={'btn-wrapper'}>
@@ -1420,16 +1423,18 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                                     </div>
                                     <div className={'mrg-15'}>
                                         <span
-                                            className={'card-heading'}>Address:</span> {item?.address_line}, {item?.city}, {item?.state}, {item?.country} {item?.zip_code}
+                                            className={'card-heading'}>Address:</span> <span
+                                        className={'card-heading-answer'}>{item?.address_line}, {item?.city}, {item?.state}, {item?.country} {item?.zip_code}</span>
                                     </div>
                                     <div className={'mrg-15'}>
                                         <span
-                                            className={'card-heading'}>Phone Number:</span> {CommonService.formatPhoneNumber(item?.phone)}
+                                            className={'card-heading'}>Phone Number:</span> <span
+                                        className={'card-heading-answer'}>{CommonService.formatPhoneNumber(item?.phone)}</span>
                                     </div>
                                 </div>
                             })
                             }
-                            <ButtonComponent prefixIcon={<ImageConfig.AddIcon/>}
+                            <ButtonComponent prefixIcon={<ImageConfig.AddCircleIcon/>}
                                              onClick={() => setCurrentStep("addAddress")} variant={"text"}>Add New
                                 Address</ButtonComponent>
                         </div>

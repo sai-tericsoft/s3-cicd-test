@@ -8,9 +8,9 @@ import ClientDocumentsTableComponent from "../client-documents-table/ClientDocum
 import {useNavigate, useParams, useSearchParams} from "react-router-dom";
 import {CommonService} from "../../../shared/services";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
-import RemoveRedEyeRoundedIcon from '@mui/icons-material/RemoveRedEyeRounded';
 import DateRangePickerComponentV2
     from "../../../shared/components/form-controls/date-range-pickerV2/DateRangePickerComponentV2";
+import {ImageConfig} from "../../../constants";
 
 const CLIENT_DOCUMENT_LIST_TABLE = "ClientListScreen";
 
@@ -89,7 +89,8 @@ const ClientDocumentsComponent = (props: ClientDocumentsComponentProps) => {
                 </div>
                 <div>
                     <ButtonComponent
-                        prefixIcon={<RemoveRedEyeRoundedIcon/>}
+                        prefixIcon={<ImageConfig.EyeOutlined/>}
+                        variant={"outlined"}
                         onClick={() => {
                             clientId && navigate(CommonService._routeConfig.ClientSharedDocuments(clientId));
                         }}

@@ -1,10 +1,15 @@
 .client-documents-list-table-component {
   .t-cell-case_name {
-    padding-left: 30px !important;
+    padding-left: 20px !important;
   }
 
   .t-cell-actions {
-    padding-right: 30px !important;
+    padding-right: 20px !important;
+  }
+
+  .no-document-text {
+    color: #7F7F7F;
+    font-size: 24px;
   }
 
   margin-top: -5px;

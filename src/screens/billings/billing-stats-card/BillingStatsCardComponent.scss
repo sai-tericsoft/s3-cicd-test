@@ -6,6 +6,7 @@
   border-radius: 8px;
   margin-bottom: 10px;
   padding: 15px;
+  box-shadow: 0px 4px 8px 0px #D1D1D1;
 
   .billing-stats-card-wrapper {
     display: flex;
@@ -14,7 +15,7 @@
     .billing-stats-card-icon {
       width: 56px;
       height: 56px;
-      background: #f6f5f5;
+      background: #F0F6FA;;
       display: flex;
       align-items: center;
       justify-content: center;

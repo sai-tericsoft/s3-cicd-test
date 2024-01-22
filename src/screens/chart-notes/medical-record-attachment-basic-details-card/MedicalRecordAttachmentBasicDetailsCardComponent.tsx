@@ -129,7 +129,7 @@ const MedicalRecordAttachmentBasicDetailsCardComponent = (props: MedicalRecordAt
                     <div className={"medical-record-attachment-data-wrapper"}>
                         This file was shared to the client on <b>{tempAttachmentDetails?.shared_at ? moment(tempAttachmentDetails.shared_at).tz(moment.tz.guess()).format('DD-MMM-YYYY') : 'N/A'}</b>.
                     </div>
-                    <LinkComponent
+                    <LinkComponent className={'remove-access'}
                         onClick={() => {
                             handleRemoveAccess(tempAttachmentDetails);
                         }}

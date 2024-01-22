@@ -50,7 +50,7 @@ const BillingAddressFormInitialValues = {
 
 const EditBillingAddressComponent = (props: EditBillingAddressComponentProps) => {
     const [billingAddressFormInitialValues, setBillingAddressFormInitialValues] = useState<any>(_.cloneDeep(BillingAddressFormInitialValues));
-    const {billing_address, afterSave, onSave, onCancel} = props;
+    const {billing_address, afterSave, onSave} = props;
 
     useEffect(() => {
         setBillingAddressFormInitialValues(billing_address);
@@ -90,7 +90,7 @@ const EditBillingAddressComponent = (props: EditBillingAddressComponentProps) =>
                     }, [validateForm, values]);
                     return (
                         <Form className="t-form edit-billing-address-form" noValidate={true}>
-                            <FormControlLabelComponent size={"lg"} label={"Edit Billing To"} className="pdd-bottom-10"/>
+                            <FormControlLabelComponent size={"lg"} label={"Edit Billing Address"} className="pdd-bottom-10"/>
                             <div className="t-form-controls">
                                 <Field name={`name`} className="t-form-control">
                                     {
@@ -205,12 +205,13 @@ const EditBillingAddressComponent = (props: EditBillingAddressComponentProps) =>
                                 }
                             </div>
                             <div className="t-form-actions mrg-bottom-0">
-                                <ButtonComponent variant={"outlined"}
-                                                 onClick={onCancel}>
-                                    Cancel
-                                </ButtonComponent>&nbsp;&nbsp;
+                                {/*<ButtonComponent variant={"outlined"}*/}
+                                {/*                 onClick={onCancel}>*/}
+                                {/*    Cancel*/}
+                                {/*</ButtonComponent>&nbsp;&nbsp;*/}
                                 <ButtonComponent
                                     type="submit"
+                                    fullWidth={true}
                                     isLoading={isSubmitting}
                                     disabled={isSubmitting || !isValid}
                                 >

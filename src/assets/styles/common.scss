@@ -726,8 +726,8 @@
   }
 
   &.completed {
-    background: #F5F7F8;
-    color: #7583A6;
+    background: #B7B7B7;
+    color: #FFFFFF;
     width: 100px;
   }
 
@@ -929,6 +929,7 @@
 .billing-details-drop-down-menu {
   .MuiMenu-paper {
     margin-left: -5px;
+    border-radius:8px;
   }
 }
 

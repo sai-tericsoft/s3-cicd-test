@@ -1,6 +1,6 @@
 .payment-list-component {
   .t-tab-panel {
-    margin: 0 0 0 0 !important;
+    margin: 0 !important;
   }
 
   .billing-stats-card {
@@ -40,7 +40,7 @@
               padding-left: 20px !important;
             }
             .t-cell-action{
-                padding-right: 30px !important;
+                padding-right: 20px !important;
             }
           }
         }
@@ -55,15 +55,15 @@
       min-height: calc(100vh - 340px) !important;
 
       .t-cell-select {
-        padding-left: 30px !important;
+        padding-left: 20px !important;
       }
 
       .t-cell-receipt_no {
-        padding-left: 30px !important;
+        padding-left: 20px !important;
       }
 
       .t-cell-action {
-        padding-right: 29px !important;
+        padding-right: 20px !important;
       }
 
       .table-no-data-wrapper {
