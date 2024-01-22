@@ -344,7 +344,6 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                                     None Reported
                                 </>
                             }
-
                             </div>}
 
                         {
@@ -354,7 +353,7 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                                     (Object.keys(clientMedicalDetails?.musculoskeletal_history || {})?.map((question, index) => {
                                         return <div key={question + index} className={"musculoskeletal-history-block"}>
                                             <div className="ts-row musculoskeletal-history-question-list">
-                                                <div className="ts-col-lg-3">
+                                                <div className="ts-col-lg-4">
                                                     {clientMedicalDetails?.musculoskeletal_history[question]?.title}
                                                 </div>
                                                 <div

@@ -176,7 +176,8 @@ const ClientAccountDetailsFormComponent = (props: ClientAccountDetailsFormCompon
                                                 <QuestionComponent title={"Appointment Reminders"}
                                                                    description={"How would the client like to receive appointment reminders?"}/>
                                             </div>
-                                            <div className="ts-col-md-4">
+                                            <div className={'ts-col-md-1'}/>
+                                            <div className="ts-col-md-3">
                                                 <Field name={`communication_preferences.appointment_reminders`}>
                                                     {
                                                         (field: FieldProps) => (
@@ -196,7 +197,8 @@ const ClientAccountDetailsFormComponent = (props: ClientAccountDetailsFormCompon
                                                 <QuestionComponent title={"Appointment Confirmations"}
                                                                    description={"How would the client like to receive appointment confirmations?"}/>
                                             </div>
-                                            <div className="ts-col-md-4">
+                                            <div className={'ts-col-md-1'}/>
+                                            <div className="ts-col-md-3">
                                                 <Field name={`communication_preferences.appointment_confirmations`}>
                                                     {
                                                         (field: FieldProps) => (
@@ -212,13 +214,16 @@ const ClientAccountDetailsFormComponent = (props: ClientAccountDetailsFormCompon
                                             </div>
                                         </div>
                                         <HorizontalLineComponent/>
-                                        <FormControlLabelComponent className={'communication-referral-heading'} label={"Referral Details:"}/>
+                                        <FormControlLabelComponent className={'communication-referral-heading'}
+                                                                   label={"Referral Details:"}/>
                                         <div className="ts-row">
                                             <div className="ts-col-md-8">
-                                                <QuestionComponent className={'referral-details-question'} title={"How did you find us?"}
+                                                <QuestionComponent className={'referral-details-question'}
+                                                                   title={"How did you find us?"}
                                                                    description={"Please choose an option that best describes how you heard about us."}/>
                                             </div>
-                                            <div className="ts-col-md-4">
+                                            <div className={'ts-col-md-1'}/>
+                                            <div className="ts-col-md-3">
                                                 <Field name={`referral_details.source`}>
                                                     {
                                                         (field: FieldProps) => (
@@ -240,7 +245,8 @@ const ClientAccountDetailsFormComponent = (props: ClientAccountDetailsFormCompon
                                             </div>
                                         </div>
                                         {
-                                            values.referral_details.source === "friends_family_colleague" && <div className={'other-wrapper'}>
+                                            values.referral_details.source === "friends_family_colleague" &&
+                                            <div className={'other-wrapper'}>
                                                 <QuestionComponent title={"Please complete the following:"}/>
                                                 <div className="ts-row">
                                                     <div className="ts-col-md-6">
@@ -306,7 +312,8 @@ const ClientAccountDetailsFormComponent = (props: ClientAccountDetailsFormCompon
                                             </div>
                                         }
                                         {
-                                            values.referral_details.source === "social_media" && <div className={'other-wrapper'}>
+                                            values.referral_details.source === "social_media" &&
+                                            <div className={'other-wrapper'}>
                                                 <QuestionComponent title={"Please select an option:"}/>
                                                 <div className="ts-row">
                                                     <div className="ts-col-md-6">

@@ -7,10 +7,15 @@
 
   .t-form {
     .card-component {
-      padding-bottom: 4px;
+      padding-bottom: 24px;
 
       .card-description {
         margin-top: 0 !important;
+      }
+
+      .divider {
+        border: 2px solid #E2E2E2;
+        margin-top: 24px !important;
       }
     }
 

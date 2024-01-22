@@ -14,6 +14,8 @@ import FormControlLabelComponent from "../../../shared/components/form-control-l
 import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
 import {getClientMedicalDetails} from "../../../store/actions/client.action";
+import HorizontalLineComponent
+    from "../../../shared/components/horizontal-line/horizontal-line/HorizontalLineComponent";
 
 interface ClientMedicalFemaleOnlyFormComponentProps {
     clientId: string;
@@ -131,6 +133,11 @@ const ClientMedicalFemaleOnlyFormComponent = (props: ClientMedicalFemaleOnlyForm
                                                             }
                                                         </Field>
                                                     </div>
+                                                    {
+                                                        key !== FormQuestions[FormQuestions.length - 1].key &&
+                                                        <HorizontalLineComponent className={'divider'}/>
+                                                    }
+
                                                 </div>
                                             })
                                         }
