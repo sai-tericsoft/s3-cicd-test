@@ -15,7 +15,8 @@
     .table-actions-wrapper {
       .t-table-wrapper {
         height: calc(100vh - 480px) !important;
-        .t-table{
+
+        .t-table {
           min-height: 298px !important;
         }
       }
@@ -65,10 +66,10 @@
   }
 
   .t-table-wrapper {
-    //height: calc(100vh - 340px) !important;
+    height: calc(100vh - 340px) !important;
 
     .t-table {
-      //min-height: calc(100vh - 340px) !important;
+      min-height: calc(100vh - 340px) !important;
 
       .t-cell-select {
         padding-left: 20px !important;
@@ -110,22 +111,29 @@
   }
 
   .no-show {
-    background-color: #EFEFEF;
-    color: #717171;
+    background-color: #EB9A78;
+    color: #FFFFFF;
+  }
+
+  .active {
+    background-color: #558BB0;
+    color: #FFFFFF;
+
   }
 
   .products {
-    background-color: #E8F2FF;
-    color: #1C5EDE;
+    background-color: #2CA091;
+    color: #FFFFFF;
   }
 
   .waived {
-    background-color: #FFF7EA;
-    color: #DE561C;
+    background-color: #C6C141;
+    color: #FFFFFF;
   }
 
   .cancellation {
     background-color: #FFE2E9;
     color: #DE1C4E
   }
+
 }
