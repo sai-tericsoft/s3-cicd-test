@@ -932,49 +932,6 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                                                     <span
                                                         className={'card-heading'}>Phone Number:</span> {CommonService.formatPhoneNumber(item?.phone)}
                                                 </div>
-                                                {/*<div className={'ts-row mrg-top-10'}>*/}
-                                                {/*    <div className={'ts-col-lg-1'}/>*/}
-                                                {/*    <div className={'ts-col-lg-6'}>*/}
-                                                {/*        <DataLabelValueComponent label={'Name of Client/Organisation'}>*/}
-                                                {/*            {item?.name || 'N/A'}*/}
-                                                {/*        </DataLabelValueComponent>*/}
-                                                {/*    </div>*/}
-                                                {/*    <div className={'ts-col-lg-4'}>*/}
-                                                {/*        <DataLabelValueComponent label={'Address Line'}>*/}
-                                                {/*            {item?.address_line || 'N/A'}*/}
-                                                {/*        </DataLabelValueComponent>*/}
-                                                {/*    </div>*/}
-                                                {/*    <div className={'ts-col-lg-2'}/>*/}
-
-                                                {/*</div>*/}
-                                                {/*<div className={'ts-row'}>*/}
-                                                {/*    <div className={'ts-col-lg-1'}/>*/}
-                                                {/*    <div className={'ts-col-lg-6'}>*/}
-                                                {/*        <DataLabelValueComponent label={'City'}>*/}
-                                                {/*            {item?.city || "N/A"}*/}
-                                                {/*        </DataLabelValueComponent>*/}
-                                                {/*    </div>*/}
-                                                {/*    <div className={'ts-col-lg-4'}>*/}
-                                                {/*        <DataLabelValueComponent label={'State'}>*/}
-                                                {/*            {item?.state || 'N/A'}                                        </DataLabelValueComponent>*/}
-                                                {/*    </div>*/}
-                                                {/*    <div className={'ts-col-lg-2'}/>*/}
-
-                                                {/*</div>*/}
-                                                {/*<div className={'ts-row'}>*/}
-                                                {/*    <div className={'ts-col-lg-1'}/>*/}
-                                                {/*    <div className={'ts-col-lg-6'}>*/}
-                                                {/*        <DataLabelValueComponent label={'ZIP Code'}>*/}
-                                                {/*            {item?.zip_code || 'N/A'}*/}
-                                                {/*        </DataLabelValueComponent>*/}
-                                                {/*    </div>*/}
-                                                {/*    <div className={'ts-col-lg-4'}>*/}
-                                                {/*        <DataLabelValueComponent label={'Country'}>*/}
-                                                {/*            {item?.country || 'N/A'}                                       </DataLabelValueComponent>*/}
-                                                {/*    </div>*/}
-                                                {/*    <div className={'ts-col-lg-2'}/>*/}
-
-                                                {/*</div>*/}
                                             </div>
                                         })
                                         }

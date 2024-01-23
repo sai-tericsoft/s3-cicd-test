@@ -8,7 +8,7 @@ import * as Yup from "yup";
 import _ from "lodash";
 import FormikCheckBoxComponent from "../../../shared/components/form-controls/formik-check-box/FormikCheckBoxComponent";
 import {CommonService} from "../../../shared/services";
-import {Misc, Patterns} from "../../../constants";
+import {ImageConfig, Misc, Patterns} from "../../../constants";
 import FormikPhoneInputComponent
     from "../../../shared/components/form-controls/formik-phone-input/FormikPhoneInputComponent";
 
@@ -17,6 +17,7 @@ interface AddBillingAddressComponentProps {
     onCancel: () => void;
     onSave: (billing_address: any) => void;
     afterSave?: () => void;
+    onClose?: () => void;
 }
 
 const BillingAddressFormValidationSchema = Yup.object({
@@ -32,7 +33,8 @@ const BillingAddressFormValidationSchema = Yup.object({
                 return value.length === 10;
             }
             return true; // Allow empty value
-        })});
+        })
+});
 
 const BillingAddressFormInitialValues = {
     name: "",
@@ -48,7 +50,7 @@ const BillingAddressFormInitialValues = {
 const AddBillingAddressComponent = (props: AddBillingAddressComponentProps) => {
 
     const [billingAddressFormInitialValues] = useState<any>(_.cloneDeep(BillingAddressFormInitialValues));
-    const {clientId,onSave,onCancel,afterSave} = props;
+    const {clientId,onClose, onSave, onCancel, afterSave} = props;
 
     const onBillingAddressFormSubmit = useCallback((values: any, {setSubmitting, setErrors}: any) => {
         setSubmitting(true);
@@ -70,6 +72,26 @@ const AddBillingAddressComponent = (props: AddBillingAddressComponentProps) => {
 
     return (
         <div className={'add-billing-address-component'}>
+            <div className="drawer-header">
+                {
+                    <div className="back-btn" onClick={onCancel}>
+                        <div className={'back-arrow'}><ImageConfig.LeftArrow/></div>
+                        <div className={'back-text'}>Back</div>
+                    </div>
+                }
+                {
+                    <div className="back-btn"/>
+                }
+
+                <div className="drawer-close"
+                     id={'book-appointment-close-btn'}
+                     onClick={(event) => {
+                         if (onClose) {
+                             onClose();
+                         }
+                     }
+                     }><ImageConfig.CloseIcon/></div>
+            </div>
             <Formik
                 validationSchema={BillingAddressFormValidationSchema}
                 initialValues={billingAddressFormInitialValues}
@@ -80,14 +102,14 @@ const AddBillingAddressComponent = (props: AddBillingAddressComponentProps) => {
                 onSubmit={onBillingAddressFormSubmit}
             >
                 {(formik) => {
-                    const {values, validateForm, isValid, isSubmitting,setFieldValue} = formik;
+                    const {values, validateForm, isValid, isSubmitting, setFieldValue} = formik;
                     // eslint-disable-next-line react-hooks/rules-of-hooks
                     useEffect(() => {
                         validateForm();
                     }, [validateForm, values]);
                     return (
                         <Form className="t-form edit-billing-address-form" noValidate={true}>
-                            <FormControlLabelComponent size={"lg"} label={"Add Billing To"} />
+                            <FormControlLabelComponent size={"lg"} label={"Add Billing To"}/>
                             <div className="t-form-controls">
                                 <Field name={`name`} className="t-form-control">
                                     {
@@ -191,7 +213,7 @@ const AddBillingAddressComponent = (props: AddBillingAddressComponentProps) => {
                                                 formikField={field}
                                                 onChange={(isChecked) => {
                                                     if (isChecked) {
-                                                       setFieldValue("is_default",true);
+                                                        setFieldValue("is_default", true);
                                                     }
                                                 }}
                                             />
@@ -200,12 +222,9 @@ const AddBillingAddressComponent = (props: AddBillingAddressComponentProps) => {
                                 </Field>
                             </div>
                             <div className="t-form-actions mrg-bottom-0">
-                                <ButtonComponent variant={"outlined"}
-                                                    onClick={onCancel}
-                                >
-                                    Cancel
-                                </ButtonComponent>&nbsp;&nbsp;
+
                                 <ButtonComponent
+                                    fullWidth={true}
                                     type="submit"
                                     isLoading={isSubmitting}
                                     disabled={isSubmitting || !isValid}

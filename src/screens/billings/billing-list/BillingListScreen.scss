@@ -7,6 +7,21 @@
     //padding: 0 8px !important;
   }
 
+  .client-card {
+    margin-bottom: 0 !important;
+    padding-bottom: 24px !important;
+    height: calc(100vh - 380px) !important;
+
+    .table-actions-wrapper {
+      .t-table-wrapper {
+        height: calc(100vh - 480px) !important;
+        .t-table{
+          min-height: 298px !important;
+        }
+      }
+    }
+  }
+
   .consolidation-switch-wrapper {
     display: flex;
     align-items: center;
@@ -39,8 +54,9 @@
             .t-cell-billing_number {
               padding-left: 20px !important;
             }
-            .t-cell-action{
-                padding-right: 20px !important;
+
+            .t-cell-action {
+              padding-right: 20px !important;
             }
           }
         }
@@ -49,10 +65,10 @@
   }
 
   .t-table-wrapper {
-    height: calc(100vh - 340px) !important;
+    //height: calc(100vh - 340px) !important;
 
     .t-table {
-      min-height: calc(100vh - 340px) !important;
+      //min-height: calc(100vh - 340px) !important;
 
       .t-cell-select {
         padding-left: 20px !important;
@@ -74,16 +90,15 @@
 
   .t-tabs-wrapper {
     height: calc(100vh - 280px) !important;
-  }
 
-  .t-tab-panel {
-    padding: 0 !important;
-  }
-
-  .t-table-wrapper .t-table {
-    height: calc(100vh - 420px) !important;
+    &.client-billing {
+      height: calc(100vh - 290px) !important;
+    }
 
 
+    .t-tab-panel {
+      padding: 0 !important;
+    }
   }
 
   .search-component {
