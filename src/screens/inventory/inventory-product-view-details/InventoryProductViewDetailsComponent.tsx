@@ -202,7 +202,7 @@ const InventoryProductViewDetailsComponent = (props: InventoryProductViewDetails
                         </div>
                         <div className={'ts-col-md-4 ts-col-lg'}>
                             <DataLabelValueComponent id={"sale_price"} label={'Sale Price (Incl. tax)*'}>
-                                {inventoryProductDetails?.sale_price}
+                                {CommonService.convertToDecimals(inventoryProductDetails?.sale_price)}
                             </DataLabelValueComponent>
                         </div>
                         <div className={'ts-col-md-4 ts-col-lg'}>
