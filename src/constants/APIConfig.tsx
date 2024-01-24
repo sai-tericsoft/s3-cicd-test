@@ -179,7 +179,7 @@ const APIConfig: IAPIConfig = {
         METHOD: "get"
     },
     SERVICE_PROVIDER_UNLINK: {
-        URL: ( serviceId:string,providerId: string) => ENV.API_URL + '/service/' + serviceId + '/provider/'+ providerId + '/unlink',
+        URL: (serviceId: string, providerId: string) => ENV.API_URL + '/service/' + serviceId + '/provider/' + providerId + '/unlink',
         METHOD: "put"
     },
     SERVICE_PROVIDER_LINK: {
@@ -737,11 +737,11 @@ const APIConfig: IAPIConfig = {
         METHOD: 'get'
     },
     GET_PRODUCT_STOCK_INCOMING_LIST: {
-        URL:(productId:string)=> ENV.API_URL + '/product/' + productId + '/stockIncomingList',
+        URL: (productId: string) => ENV.API_URL + '/product/' + productId + '/stockIncomingList',
         METHOD: 'get'
     },
     GET_PRODUCT_STOCK_OUTGOING_LIST: {
-        URL:(productId:string)=> ENV.API_URL + '/product/' + productId + '/stockOutgoingList',
+        URL: (productId: string) => ENV.API_URL + '/product/' + productId + '/stockOutgoingList',
         METHOD: 'get'
     },
     UPDATE_INVENTORY_PRODUCT_QUANTITY: {
@@ -922,7 +922,7 @@ const APIConfig: IAPIConfig = {
         METHOD: 'delete'
     },
     DASHBOARD_MESSAGE_HISTORY: {
-        URL: ENV.API_URL + '/messageHistory',
+        URL: (is_complete_history: boolean) => ENV.API_URL + `/messageHistory?is_complete_history=${is_complete_history}`,
         METHOD: 'get'
     },
     DASHBOARD_DRAFT_NOTE_LIST: {
@@ -1109,7 +1109,7 @@ const APIConfig: IAPIConfig = {
         METHOD: "delete"
     },
     PRINT_INJURY_CONDITION_FORM: {
-        URL:(medicalRecordId:string)=> ENV.API_URL + '/medicalRecord/' + medicalRecordId + '/injuryMainPage/generatePDF',
+        URL: (medicalRecordId: string) => ENV.API_URL + '/medicalRecord/' + medicalRecordId + '/injuryMainPage/generatePDF',
         METHOD: "post"
     },
     CHECK_COUPON_AVAILABILITY: {

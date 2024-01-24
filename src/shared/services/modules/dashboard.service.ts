@@ -2,9 +2,9 @@ import {APIConfig} from "../../../constants";
 import {ApiService} from "../index";
 
 
-const dashboardMessageHistory = () => {
+const dashboardMessageHistory = (type:boolean) => {
     // @ts-ignore
-    return ApiService[APIConfig.DASHBOARD_MESSAGE_HISTORY.METHOD](APIConfig.DASHBOARD_MESSAGE_HISTORY.URL);
+    return ApiService[APIConfig.DASHBOARD_MESSAGE_HISTORY.METHOD](APIConfig.DASHBOARD_MESSAGE_HISTORY.URL(type));
 }
 const deleteDashboardMessage =(messageId:string,payload:any)=>{
     // @ts-ignore

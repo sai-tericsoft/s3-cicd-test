@@ -37,7 +37,7 @@ const EditMessageComponent = (props: EditMessageComponentProps) => {
         CommonService._dashboardService.editDashboardMessage(messageObject?._id, payload)
             .then((response: IAPIResponseType<any>) => {
                 CommonService._alert.showToast( "Message updated successfully!", "success");
-                dispatch(getAllMessageHistory());
+                dispatch(getAllMessageHistory(false));
                 onBack();
                 closeMessageDrawer();
             }).catch((error: any) => {
