@@ -39,7 +39,7 @@ const AllMessageHistoryComponent = (props: AllMessageHistoryComponentProps) => {
 
 
     useEffect(() => {
-        dispatch(getAllMessageHistory());
+        dispatch(getAllMessageHistory(true));
     }, [dispatch]);
 
     const handleCopyMessage = useCallback((id: string, message: any) => {
@@ -56,7 +56,7 @@ const AllMessageHistoryComponent = (props: AllMessageHistoryComponentProps) => {
             CommonService._dashboardService.deleteDashboardMessage(messageId, {})
                 .then((response: any) => {
                     CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
-                    dispatch(getAllMessageHistory());
+                    dispatch(getAllMessageHistory(true));
                 }).catch((error: any) => {
                 CommonService._alert.showToast(error.error, "error");
             });
