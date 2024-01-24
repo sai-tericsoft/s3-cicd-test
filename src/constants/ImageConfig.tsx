@@ -93,6 +93,7 @@ import PDFIcon from './../assets/icons/file-types/pdf.svg';
 import WordDocIcon from './../assets/icons/file-types/doc.svg';
 import ExcelIcon from './../assets/icons/file-types/xls.svg';
 import UnknownFileTypeIcon from '../assets/icons/file-types/unknown_file_type.svg';
+import ImageTypeIcon from '../assets/icons/file-types/image.svg';
 
 // MainMenu
 import {ReactComponent as DashboardIcon} from './../assets/icons/side-menu/dashboard.svg';
@@ -254,5 +255,6 @@ export {
     CrossOutlinedIcon,
     BillingListIcon,
     FolderIcon,
-    EyeOutlined
+    EyeOutlined,
+    ImageTypeIcon
 }
