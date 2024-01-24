@@ -575,10 +575,12 @@
 
         .card-component {
           width: 410px;
-          margin-bottom: 0px;
+          margin-bottom: 0;
+          background: #DFF6F3;
+          border:1px solid #E2E2E2;
 
           .card-body {
-            color: #212B36;
+            color: #7F7F7F;
             font-size: 1.1429rem;
             padding: 16px 12px 40px;
           }
@@ -676,7 +678,7 @@
   margin-top: 24px;
 
   .MuiTabs-scroller {
-    border-bottom: 1px solid #CECECE;
+    border-bottom: 1px solid #E2E2E2;
 
     .Mui-selected {
       border-bottom: 2px solid #275778;

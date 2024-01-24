@@ -121,7 +121,7 @@ const AppointmentListComponent = (props: AppointmentListComponentProps) => {
             }
         },
         {
-            title: "",
+            title: "Action",
             dataIndex: "actions",
             key: "actions",
             width: 120,

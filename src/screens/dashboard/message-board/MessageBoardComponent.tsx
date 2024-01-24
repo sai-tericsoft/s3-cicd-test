@@ -125,7 +125,8 @@ const MessageBoardComponent = (props: MessageBoardComponentProps) => {
                                                     <div
                                                         className={'time-stamp'}>{CommonService.transformTimeStamp2(message?.updated_at)}</div>
                                                     {(index !== messageHistory.length - 1) ?
-                                                        <HorizontalLineComponent className={'horizontal-divider'}/> : <div className={'mrg-bottom-10'}/>
+                                                        <HorizontalLineComponent className={'horizontal-divider'}/> :
+                                                        <div className={'mrg-bottom-10'}/>
                                                     }
                                                 </>
                                             )
@@ -160,10 +161,11 @@ const MessageBoardComponent = (props: MessageBoardComponentProps) => {
                                                                  title={commonService.generateClientNameFromClientDetails(birthday)}/>
                                             </div>
                                             <div
-                                                className={'client-name'}><span className={birthday?.is_alias_name_set ? 'alias-name':""}> { CommonService.generateClientNameFromClientDetails(birthday)} </span>(ID:{birthday?.client_id})
+                                                className={'client-name'}><span
+                                                className={birthday?.is_alias_name_set ? 'alias-name' : ""}> {CommonService.generateClientNameFromClientDetails(birthday)} </span>(ID:{birthday?.client_id})
                                             </div>
                                         </div>
-                                        <ButtonComponent color={"primary"}  className={'ts-col-1 icon-wrapper'}
+                                        <ButtonComponent color={"primary"} className={'ts-col-1 icon-wrapper'}
                                                          disabled={birthday?.is_notified}
                                                          onClick={() => handleSendWishes(birthday?._id)}>
                                             <ImageConfig.FORWARD_ICON/>
@@ -181,26 +183,28 @@ const MessageBoardComponent = (props: MessageBoardComponentProps) => {
                                  className={'t-view-all-message'}>
                     {mode === 'view' &&
                         <div>
-                            <FormControlLabelComponent label={'View All Messages'} size={'lg'}/>
+                            <FormControlLabelComponent label={'View All Message(s)'} size={'lg'}/>
                             {messageHistory?.map((message: any) => {
                                 return (<div className={'message-timestamp-wrapper'}>
                                         <div className={'message-edit-delete-button-wrapper'}>
                                             <div>
-                                                <CardComponent color={'primary'}>
+                                                <CardComponent className={'message-wrapper'}>
                                                     <div>{message?.message}</div>
                                                 </CardComponent>
                                             </div>
-                                            <span className={'mrg-left-10'}><IconButtonComponent onClick={() => {
+                                            <span className={'mrg-left-10'}><IconButtonComponent
+                                                onClick={() => handleMessageDelete(message?._id)}
+                                                color={'error'}><ImageConfig.DeleteIcon/></IconButtonComponent></span>
+
+                                            <span ><IconButtonComponent onClick={() => {
                                                 setEditableMessage(message)
                                                 setMode('edit');
 
                                             }}><ImageConfig.EditIcon/></IconButtonComponent></span>
-                                            <span><IconButtonComponent
-                                                onClick={() => handleMessageDelete(message?._id)}
-                                                color={'error'}><ImageConfig.DeleteIcon/></IconButtonComponent></span>
+
                                         </div>
                                         <div
-                                            className={'created-at-time-stamp message-timestamp'}>{CommonService.transformTimeStamp(message?.created_at)}</div>
+                                            className={'created-at-time-stamp message-timestamp'}>{CommonService.transformTimeStamp2(message?.created_at)}</div>
                                     </div>
                                 )
                             })}

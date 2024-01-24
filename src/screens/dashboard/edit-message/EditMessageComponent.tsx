@@ -67,7 +67,7 @@ const EditMessageComponent = (props: EditMessageComponentProps) => {
                                         {
                                             (field: FieldProps) => (
                                                 <FormikTextAreaComponent formikField={field}
-                                                                         label={''}
+                                                                         label={'Message'}
                                                                          fullWidth={true}
                                                                          placeholder={'Enter your message'}/>
                                             )
@@ -76,14 +76,12 @@ const EditMessageComponent = (props: EditMessageComponentProps) => {
                                 </div>
                             </div>
                             <div className={'t-form-actions'}>
-                                <ButtonComponent id={"cancel_btn"} variant={'outlined'} onClick={onBack}>
-                                    Cancel
-                                </ButtonComponent>
-                                &nbsp;
+
                                 <ButtonComponent className={'submit-cta'} id={"save_btn"} variant={'contained'}
                                                  color={'primary'}
+                                                 fullWidth={true}
                                                  disabled={!isValid} type={'submit'}>
-                                    Save
+                                   Update Message
                                 </ButtonComponent>
                             </div>
                         </Form>
