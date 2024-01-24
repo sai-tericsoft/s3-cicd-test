@@ -27,13 +27,12 @@
     }
 
     .contact-info-wrapper {
-      background-color: #ECF7FF;
+      background-color: #DFF6F3;
       height: 80px;
       border-radius: 8px;
-      margin-top: 60px;
 
       .card-component {
-        margin: 0px;
+        margin: 0;
       }
 
       .contact-number-wrapper {
@@ -47,9 +46,9 @@
         }
 
         .contact-text {
-          font-weight: 500;
+          font-weight: 700;
           color: #1D1C1D;
-          font-size: 18px;
+          font-size: 16px;
           margin: 17px 0 5px 24px;
         }
 
@@ -62,9 +61,9 @@
           align-items: center;
 
           .contact-number-wrapper {
-            font-weight: 500;
+            font-weight: 700;
             color: #1D1C1D;
-            font-size: 18px;
+            font-size: 16px;
             margin: 17px 24px 5px 0;
             align-items: center;
           }

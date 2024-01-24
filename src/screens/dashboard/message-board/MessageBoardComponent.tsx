@@ -92,7 +92,8 @@ const MessageBoardComponent = (props: MessageBoardComponentProps) => {
             }).catch((error: any) => {
             CommonService._alert.showToast(error.error, "error");
         })
-    }, [getBirthdayList])
+    }, [getBirthdayList]);
+
 
     return (
         <div className={'message-board-component'}>
@@ -196,7 +197,7 @@ const MessageBoardComponent = (props: MessageBoardComponentProps) => {
                                                 onClick={() => handleMessageDelete(message?._id)}
                                                 color={'error'}><ImageConfig.DeleteIcon/></IconButtonComponent></span>
 
-                                            <span ><IconButtonComponent onClick={() => {
+                                            <span><IconButtonComponent onClick={() => {
                                                 setEditableMessage(message)
                                                 setMode('edit');
 

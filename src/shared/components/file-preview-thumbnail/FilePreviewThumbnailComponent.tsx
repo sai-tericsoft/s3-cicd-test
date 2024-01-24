@@ -95,10 +95,10 @@ const FilePreviewThumbnailComponent = (props: FilePreviewThumbnailComponentProps
                                 size={"small"}
                                 className={"file-remove"}
                                 id={removeButtonId}
-                                prefixIcon={<ImageConfig.CloseIcon/>}
+                                prefixIcon={<ImageConfig.DeleteIcon/>}
                                 onClick={handleFileRemove}
                             >
-                                Remove
+                                Delete
                             </ButtonComponent>
                         }
                         {

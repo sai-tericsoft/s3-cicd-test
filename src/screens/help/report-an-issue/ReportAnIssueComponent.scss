@@ -9,6 +9,7 @@
   .t-form {
     .report-an-issue-wrapper{
       margin-top: 46px;
+      padding-bottom: 13px !important;
     }
     .t-form-actions{
       margin-top: 30px !important;
@@ -17,13 +18,18 @@
     .ts-row {
       .issue-heading {
         margin-left: 13px;
+        color: #212B36;
+        text-decoration: underline;
         margin-bottom: 15px !important;
       }
       .attachment-heading{
         margin-bottom: 15px !important;
+        color: #212B36;
+        text-decoration: underline;
       }
       .thumbnail-wrapper{
         margin-left: -10px !important;
+        padding-right: 0 !important;
       }
       .input-component{
         margin-bottom: 0px !important;

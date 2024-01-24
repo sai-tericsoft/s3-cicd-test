@@ -2,10 +2,12 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: #F0F5F4;
+  background: #DFF6F3;
   border-radius: 8px;
   padding: 14px;
   margin-bottom: 10px;
+  border: 1px solid #2CA091;
+  box-shadow: 0px 4px 8px 0px #D1D1D1;
 
   &.detailed {
 
