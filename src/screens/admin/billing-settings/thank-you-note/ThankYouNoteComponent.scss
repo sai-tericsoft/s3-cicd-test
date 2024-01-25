@@ -11,33 +11,44 @@
       float: end;
       margin-left: 200px;
       margin-top: -20px;
-      margin-bottom: 24px;
+      margin-bottom: 20px;
     }
+
     .no-alert {
       display: flex;
       flex-direction: row-reverse;
-      color: #83909D;
+      color: #7F7F7F;
       font-weight: 500;
       font-size: 0.85714rem;
       //margin-top: -10px;
-      margin-bottom: 24px;
+      margin-bottom: 20px;
 
     }
 
     .enter-message-text {
-      color: #6D6D6D;
+      color: #7F7F7F;
       padding: 0px !important;
-      margin-bottom: 15px;
+      margin-bottom: 12px;
+    }
+
+    .default-message-box {
+      .footer-heading {
+        color: #212B36 !important;
+      }
+    }
+
+    .MuiSvgIcon-root {
+      color: #275778;
     }
 
     .MuiPaper-elevation {
       box-shadow: none;
-      border: 1px solid #E7E7E7;
+      border: 1px solid #E2E2E2;
     }
 
     .MuiAccordionSummary-gutters {
       background-color: #ECF7FF;
-      //border-radius: 5px;
+      border-radius: 8px;
     }
 
     .MuiCollapse-wrapperInner {
