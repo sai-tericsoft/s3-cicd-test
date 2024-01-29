@@ -8,7 +8,7 @@ import CardComponent from "../../../shared/components/card/CardComponent";
 import DataLabelValueComponent from "../../../shared/components/data-label-value/DataLabelValueComponent";
 import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
-import {useLocation, useNavigate} from "react-router-dom";
+import {useLocation, useNavigate, useParams} from "react-router-dom";
 import {setCurrentNavParams} from "../../../store/actions/navigation.action";
 
 interface UserAccountDetailsComponentProps {
@@ -49,29 +49,31 @@ const UserAccountDetailsComponent = (props: UserAccountDetailsComponentProps) =>
                 {/*}*/}
                 {
                     (isUserBasicDetailsLoaded && userBasicDetails) && <>
-                        <CardComponent title={'Password'} actions={<LinkComponent
-                            route={path.includes('settings') ? CommonService._user.NavigateToSettingsAccountDetailsEdit(userBasicDetails._id, "reset_password") : CommonService._user.NavigateToUserAccountDetailsEdit(userBasicDetails._id, "reset_password")}>
+                        {path.includes('settings') &&
+                            <CardComponent title={'Password'} actions={<LinkComponent
+                                route={path.includes('settings') ? CommonService._user.NavigateToSettingsAccountDetailsEdit(userBasicDetails._id, "reset_password") : CommonService._user.NavigateToUserAccountDetailsEdit(userBasicDetails._id, "reset_password")}>
+                                <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>} size={"small"}>
+                                    Edit
+                                </ButtonComponent>
+                            </LinkComponent>}>
+                                <DataLabelValueComponent label={'Password'}>
+                                    **********
+                                </DataLabelValueComponent>
+
+                            </CardComponent>
+                        }
+                        <CardComponent title={'Communication Preferences'} actions={<LinkComponent
+                            route={path.includes('settings') ? CommonService._user.NavigateToSettingsAccountDetailsEdit(userBasicDetails._id, "communication_preferences") : CommonService._user.NavigateToUserAccountDetailsEdit(userBasicDetails._id, "communication_preferences")}>
+
                             <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>} size={"small"}>
                                 Edit
                             </ButtonComponent>
                         </LinkComponent>}>
-                            <DataLabelValueComponent label={'Password'}>
-                                **********
+                            <DataLabelValueComponent label={'Appointment Reminders'}>
+                                {userBasicDetails?.communication_preferences?.appointment_reminders_details?.title || 'N/A'}
                             </DataLabelValueComponent>
 
                         </CardComponent>
-                        {/*<CardComponent title={'Communication Preferences'} actions={<LinkComponent*/}
-                        {/*    route={path.includes('settings') ? CommonService._user.NavigateToSettingsAccountDetailsEdit(userBasicDetails._id, "communication_preferences") : CommonService._user.NavigateToUserAccountDetailsEdit(userBasicDetails._id, "communication_preferences")}>*/}
-
-                        {/*    <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>} size={"small"}>*/}
-                        {/*        Edit*/}
-                        {/*    </ButtonComponent>*/}
-                        {/*</LinkComponent>}>*/}
-                        {/*    <DataLabelValueComponent label={'Appointment Reminders'}>*/}
-                        {/*        {userBasicDetails?.communication_preferences?.appointment_reminders_details?.title || 'N/A'}*/}
-                        {/*    </DataLabelValueComponent>*/}
-
-                        {/*</CardComponent>*/}
                     </>
                 }
             </div>
