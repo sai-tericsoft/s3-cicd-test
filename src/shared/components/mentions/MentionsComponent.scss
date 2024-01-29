@@ -1,5 +1,6 @@
 @import "src/assets/styles/common";
-.MuiTypography-root:has(.mentions){
+
+.MuiTypography-root:has(.mentions) {
   line-height: unset !important;
 }
 .mentions {
@@ -11,13 +12,13 @@
   display: inline-block;
 }
 
-.mentions--singleLine .mentions__higlighter {
+.mentions--singleLine .mentions__highlighter {
   padding: 1px;
   border: 2px inset transparent;
 }
 
 .mentions--singleLine .mentions__input {
-  padding: 5px;
+  padding: 20px;
   border: 2px inset;
 }
 
@@ -25,7 +26,8 @@
   .mentions__control {
     font-family: $font-family;
     font-size: 16px;
-    border: 1px solid silver;
+    border: 1px solid #E2E2E2;
+    border-radius: 8px;
   }
 }
 
@@ -57,9 +59,9 @@
 }
 
 .mentions__suggestions__item--focused {
-  background-color: #cee4e5;
+  background-color: white;
 }
 
 .mentions__mention {
-  background-color: #cee4e5;
+  background-color: #D5EEFF;
 }

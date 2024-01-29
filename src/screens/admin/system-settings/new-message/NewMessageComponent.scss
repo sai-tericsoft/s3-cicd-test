@@ -1,45 +1,58 @@
-.new-message-component{
+.new-message-component {
   margin-top: 15px;
   margin-bottom: 24px;
-  .news-update-text{
+  box-shadow: 0px 4px 8px 0px #D1D1D1;
+  border-radius: 8px;
+
+  .news-update-text {
     color: #6D6D6D;
     margin-bottom: 24px;
   }
-  .MuiPaper-elevation{
+
+  .MuiPaper-elevation {
     box-shadow: none;
   }
-  .MuiAccordionSummary-gutters{
+
+  .MuiAccordionSummary-gutters {
     background-color: #ECF7FF;
   }
-  .MuiAccordionSummary-content{
+
+  .MuiAccordionSummary-content {
     color: #212B36;
     font-weight: 500;
     font-size: 1.1429rem;
   }
-  .Mui-Accordion-details{
+
+  .Mui-Accordion-details {
     padding: 16px;
   }
-  .enter-message-text{
+
+  .enter-message-text {
     color: #6D6D6D;
     //margin-top: 10px;
     margin-bottom: 15px;
   }
-  .no-of-days{
-    font-weight: 500;
+
+  .no-of-days {
+    font-weight: 700;
     margin-bottom: 8px;
-    font-size: 16px;
+    font-size: 14px;
   }
-  .select-text{
+
+  .select-text {
     color: #6D6D6D;
   }
-  .days-select-wrapper{
+
+  .days-select-wrapper {
     margin-bottom: 24px;
   }
+
   .t-form {
     .t-form-actions {
       margin-top: 0px;
       margin-bottom: 0px;
-      .submit-cta{
+
+      .submit-cta {
         margin-left: 16px;
       }
     }

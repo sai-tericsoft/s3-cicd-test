@@ -1,21 +1,28 @@
 .default-message-component {
+  box-shadow: 0px 4px 8px 0px #D1D1D1;
+  border-radius: 8px;
+
   .news-update-text {
     color: #6D6D6D;
     //margin-bottom: 15px;
     margin-bottom: 24px;
   }
-  .MuiPaper-elevation{
+
+  .MuiPaper-elevation {
     box-shadow: none;
     border: 1px solid #E7E7E7;
   }
+
   .MuiAccordionSummary-gutters {
     background-color: #ECF7FF;
     //border-radius: 5px;
   }
-  .MuiCollapse-wrapperInner{
+
+  .MuiCollapse-wrapperInner {
     padding: 24px;
-      .MuiAccordionDetails-root{
-        padding: 0px !important;
+
+    .MuiAccordionDetails-root {
+      padding: 0px !important;
     }
   }
 
@@ -24,15 +31,22 @@
     font-weight: 500;
     font-size: 1.1429rem;
   }
-    .MuiAccordionDetails {
-      padding: 24px;
-    }
+
+  .MuiAccordionDetails {
+    padding: 24px;
+  }
+
+  .MuiSvgIcon-root {
+    color: #275778;
+  }
+
   .enter-message-text {
     color: #6D6D6D;
     padding: 0px !important;
     margin-bottom: 15px;
   }
-  .default-message-box{
+
+  .default-message-box {
     margin-bottom: 24px;
   }
 
@@ -40,9 +54,10 @@
     .t-form-actions {
       margin-top: 0px;
       margin-bottom: 0px;
-     .submit-cta{
-       margin-left: 16px;
-     }
+
+      .submit-cta {
+        margin-left: 16px;
+      }
     }
   }
 }

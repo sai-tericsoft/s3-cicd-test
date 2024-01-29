@@ -107,6 +107,7 @@ const DefaultMessageComponent = (props: DefaultMessageComponentProps) => {
                                                                 placeholder={' '}
                                                                 formikField={field}
                                                                 fullWidth={true}
+                                                                required={true}
                                                             />
                                                         )
                                                     }

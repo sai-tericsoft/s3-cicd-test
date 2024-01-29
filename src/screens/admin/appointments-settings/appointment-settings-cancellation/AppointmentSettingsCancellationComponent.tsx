@@ -42,7 +42,6 @@ const AppointmentSettingsCancellationComponent = (props: AppointmentSettingsCanc
     }, [messageVal, emailSubVal, emailContentVal]);
 
     const onTemplateSubmit = useCallback(() => {
-        console.log(messageValue);
 
         const payload = {
             "sms": {
@@ -63,11 +62,13 @@ const AppointmentSettingsCancellationComponent = (props: AppointmentSettingsCanc
                     {messageMode === 'view' &&
                         <>
                             <div className="d-flex ts-justify-content-between">
-                                <QuestionComponent title={"Message (SMS)"}
+                                <QuestionComponent title={"Message (SMS):"}
                                                    description={"Create an SMS message that a client will receive when an appointment is cancelled."}
                                 ></QuestionComponent>
                                 <div>
                                     <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>}
+                                                     variant={"outlined"}
+                                                     className={'mrg-top-10'}
                                                      onClick={() => {
                                                          setMessageMode('edit')
                                                      }}>
@@ -91,7 +92,6 @@ const AppointmentSettingsCancellationComponent = (props: AppointmentSettingsCanc
                                         <ToolTipComponent
                                             showArrow={true}
                                             position={'top'}
-                                            backgroundColor={'#FFF5D3'}
                                             tooltip={<div className="pdd-10">
                                                 <b>To create a custom template with pre-defined keywords and specific
                                                     formatting
@@ -189,11 +189,13 @@ const AppointmentSettingsCancellationComponent = (props: AppointmentSettingsCanc
                     {emailMode === 'view' && <>
 
                         <div className="d-flex ts-justify-content-between">
-                            <QuestionComponent title={"Email"}
+                            <QuestionComponent title={"Email:"}
                                                description={"Create an Email message that a client will receive when an appointment is cancelled."}
                             ></QuestionComponent>
                             <div>
                                 <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>}
+                                                 variant={"outlined"}
+                                                 className={'mrg-top-10'}
                                                  onClick={() => {
                                                      setEmailMode('edit');
                                                  }}
@@ -207,7 +209,7 @@ const AppointmentSettingsCancellationComponent = (props: AppointmentSettingsCanc
                                 <div className="email-screen__header__row"
                                      dangerouslySetInnerHTML={{__html: CommonService.cleanMentionsResponse(appointmentSettingsCancellationDetails?.email?.subject, mentionsList)}}>
                                 </div>
-                                <hr className="hr-line"/>
+                                <HorizontalLineComponent className={'divider'}/>
                             </div>
 
                             <div className="email-screen-body"
@@ -232,7 +234,6 @@ const AppointmentSettingsCancellationComponent = (props: AppointmentSettingsCanc
                                         <ToolTipComponent
                                             showArrow={true}
                                             position={'top'}
-                                            backgroundColor={'#FFF5D3'}
                                             tooltip={<div className="pdd-10">
                                                 <b>To create a custom template with pre-defined keywords and specific
                                                     formatting
@@ -283,7 +284,7 @@ const AppointmentSettingsCancellationComponent = (props: AppointmentSettingsCanc
 
                             </div>
                             <div>
-                                <div className="mention-field-titles">Subject :</div>
+                                <div className="mention-field-titles">Subject:</div>
                                 <MentionsComponent
                                     data={mentionsList}
                                     inputHeight={50}
@@ -293,7 +294,7 @@ const AppointmentSettingsCancellationComponent = (props: AppointmentSettingsCanc
                                 />
                             </div>
                             <div>
-                                <div className="mention-field-titles">Body :</div>
+                                <div className="mention-field-titles">Body:</div>
                                 <MentionsComponent
                                     data={mentionsList}
                                     inputHeight={180}

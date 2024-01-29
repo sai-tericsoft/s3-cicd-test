@@ -93,20 +93,21 @@ const AppointmentSettingsRemainderComponent = (props: AppointmentSettingsRemaind
 
             <CardComponent title={"Appointment Reminder"} className={'appointment-reminder'}>
                 <div className="t-form-controls">
-                    <div className="ts-row">
-                        <div className="ts-col-md-12 ts-col-md-6 ts-col-lg-6">
+                    <div className="ts-row reschedule-wrapper">
+                        <div className="ts-col-md-12 ts-col-md-6 ts-col-lg-8">
                             <QuestionComponent title={"Primary Reminder Before"}
                                                description={"Select the number of hours prior to the appointment a client receives a Primary Appointment Reminder"}
                             ></QuestionComponent>
                         </div>
-                        <div className={"ts-col-md-12 ts-col-md-6 ts-col-lg-2"}/>
-                        <div className="ts-col-md-12 ts-col-md-6 ts-col-lg-4">
+                        <div className={"ts-col-md-12 ts-col-md-6 ts-col-lg-1"}/>
+                        <div className="ts-col-md-12 ts-col-md-6 ts-col-lg-3">
 
                             <SelectComponent
                                 label={"Select hours"}
                                 className={'t-form-control'}
                                 options={primaryRemainderHoursList || []}
                                 value={selectedPrimaryHours}
+                                required={true}
                                 fullWidth={true}
                                 onUpdate={(value) => {
                                     setSelectedPrimaryHours(value)
@@ -115,16 +116,17 @@ const AppointmentSettingsRemainderComponent = (props: AppointmentSettingsRemaind
                             />
                         </div>
                     </div>
-                    <div className="ts-row">
-                        <div className="ts-col-md-12 ts-col-md-6 ts-col-lg-6">
+                    <div className="ts-row reschedule-wrapper">
+                        <div className="ts-col-md-12 ts-col-md-6 ts-col-lg-8">
                             <QuestionComponent title={"Secondary Reminder Before"}
                                                description={"Select the number of hours prior to the appointment a client receives a Secondary Reminder."}
                             ></QuestionComponent>
                         </div>
-                        <div className={"ts-col-md-12 ts-col-md-6 ts-col-lg-2"}/>
-                        <div className="ts-col-md-12 ts-col-md-6 ts-col-lg-4">
+                        <div className={"ts-col-md-12 ts-col-md-6 ts-col-lg-1"}/>
+                        <div className="ts-col-md-12 ts-col-md-6 ts-col-lg-3">
                             <SelectComponent
                                 label={"Select hours"}
+                                required={true}
                                 className={'t-form-control'}
                                 options={secondaryRemainderHoursList || []}
                                 value={selectedSecondaryHours}
@@ -140,6 +142,7 @@ const AppointmentSettingsRemainderComponent = (props: AppointmentSettingsRemaind
                     </div>
                     <div className={'display-flex ts-justify-content-center mrg-bottom-25'}>
                         <ButtonComponent
+                            disabled={!selectedSecondaryHours || !selectedPrimaryHours}
                             onClick={() => {
                                 setSelectedSecondaryHours(selectedSecondaryHoursTemp);
                                 onTemplateSubmit('secondary_reminder_before', selectedSecondaryHoursTemp);
@@ -154,11 +157,13 @@ const AppointmentSettingsRemainderComponent = (props: AppointmentSettingsRemaind
                     {messageMode === 'view' &&
                         <>
                             <div className="d-flex ts-justify-content-between">
-                                <QuestionComponent title={"Message (SMS)"}
+                                <QuestionComponent title={"Message (SMS):"}
                                                    description={"Create an SMS message that a client will receive as an appointment reminder."}
                                 ></QuestionComponent>
                                 <div>
                                     <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>}
+                                                     variant={"outlined"}
+                                                     className={'mrg-top-10'}
                                                      onClick={() => {
                                                          setMessageMode('edit')
                                                      }}>
@@ -177,12 +182,11 @@ const AppointmentSettingsRemainderComponent = (props: AppointmentSettingsRemaind
                         <>
                             <div>
                                 <div className={'d-flex'}>
-                                    <FormControlLabelComponent label={"Message (SMS)"} className={'message-heading'}/>
+                                    <FormControlLabelComponent label={"Message (SMS):"} className={'message-heading'}/>
                                     <div className="info-tool-tip-wrapper">
                                         <ToolTipComponent
                                             showArrow={true}
                                             position={'top'}
-                                            backgroundColor={'#FFF5D3'}
                                             tooltip={<div className="pdd-10">
                                                 <b>To create a custom template with pre-defined keywords and specific
                                                     formatting
@@ -278,11 +282,13 @@ const AppointmentSettingsRemainderComponent = (props: AppointmentSettingsRemaind
                     {emailMode === 'view' && <>
 
                         <div className="d-flex ts-justify-content-between">
-                            <QuestionComponent title={"Email"}
+                            <QuestionComponent title={"Email:"}
                                                description={"Create an Email message that a client will receive as an appointment reminder."}
                             ></QuestionComponent>
                             <div>
                                 <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>}
+                                                 variant={"outlined"}
+                                                 className={'mrg-top-10'}
                                                  onClick={() => {
                                                      setEmailMode('edit');
                                                  }}
@@ -296,7 +302,7 @@ const AppointmentSettingsRemainderComponent = (props: AppointmentSettingsRemaind
                                 <div className="email-screen__header__row"
                                      dangerouslySetInnerHTML={{__html: CommonService.cleanMentionsResponse(appointmentSettingsRemainderDetails?.email?.subject, mentionsList)}}>
                                 </div>
-                                <hr className="hr-line"/>
+                                <HorizontalLineComponent className={'divider'}/>
                             </div>
 
                             <div className="email-screen-body"
@@ -311,12 +317,11 @@ const AppointmentSettingsRemainderComponent = (props: AppointmentSettingsRemaind
                         <>
                             <div>
                                 <div className={'d-flex'}>
-                                    <FormControlLabelComponent label={"Email"} className={'message-heading'}/>
+                                    <FormControlLabelComponent label={"Email:"} className={'message-heading'}/>
                                     <div className="info-tool-tip-wrapper">
                                         <ToolTipComponent
                                             showArrow={true}
                                             position={'top'}
-                                            backgroundColor={'#FFF5D3'}
                                             tooltip={<div className="pdd-10">
                                                 <b>To create a custom template with pre-defined keywords and specific
                                                     formatting
@@ -366,7 +371,7 @@ const AppointmentSettingsRemainderComponent = (props: AppointmentSettingsRemaind
 
                             </div>
                             <div>
-                                <div className="mention-field-titles">Subject :</div>
+                                <div className="mention-field-titles">Subject:</div>
                                 <MentionsComponent
                                     data={mentionsList}
                                     inputHeight={50}
@@ -376,7 +381,7 @@ const AppointmentSettingsRemainderComponent = (props: AppointmentSettingsRemaind
                                 />
                             </div>
                             <div>
-                                <div className="mention-field-titles">Body :</div>
+                                <div className="mention-field-titles">Body:</div>
                                 <MentionsComponent
                                     data={mentionsList}
                                     inputHeight={180}

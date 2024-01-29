@@ -91,17 +91,18 @@ const AppointmentSettingsRescheduleComponent = (props: AppointmentSettingsResche
 
             <CardComponent title={"Appointment Reschedule"} className={'appointment-reschedule'}>
                 <div className="t-form-controls">
-                    <div className="ts-row">
-                        <div className="ts-col-md-12 ts-col-md-6 ts-col-lg-6">
+                    <div className="ts-row reschedule-wrapper">
+                        <div className="ts-col-md-12 ts-col-md-6 ts-col-lg-8">
                             <QuestionComponent title={"Rescheduling Appointment"}
                                                description={"Rescheduling an appointment cannot be done within ‘x’ hours of the appointment"}
                             ></QuestionComponent>
                         </div>
-                        <div className={"ts-col-md-12 ts-col-md-6 ts-col-lg-2"}/>
-                        <div className="ts-col-md-12 ts-col-md-6 ts-col-lg-4">
+                        <div className={"ts-col-md-12 ts-col-md-6 ts-col-lg-1"}/>
+                        <div className="ts-col-md-12 ts-col-md-6 ts-col-lg-3">
                             <SelectComponent
                                 label={"Select hours"}
                                 className={'t-form-control'}
+                                required={true}
                                 options={reschedulingHoursList || []}
                                 value={selectedHours}
                                 fullWidth={true}
@@ -113,19 +114,20 @@ const AppointmentSettingsRescheduleComponent = (props: AppointmentSettingsResche
                             />
                         </div>
                     </div>
-                    <div className="ts-row">
-                        <div className="ts-col-md-12 ts-col-md-6 ts-col-lg-6">
+                    <div className="ts-row reschedule-wrapper">
+                        <div className="ts-col-md-12 ts-col-md-6 ts-col-lg-8">
                             <QuestionComponent title={"How many times an appointment can be rescheduled ?"}
                                                description={"Appointment cannot be rescheduled more than the defined amount of times"}
                             ></QuestionComponent>
                         </div>
-                        <div className={"ts-col-md-12 ts-col-md-6 ts-col-lg-2"}/>
-                        <div className="ts-col-md-12 ts-col-md-6 ts-col-lg-4">
+                        <div className={"ts-col-md-12 ts-col-md-6 ts-col-lg-1"}/>
+                        <div className="ts-col-md-12 ts-col-md-6 ts-col-lg-3">
                             <SelectComponent
                                 label="Select Option"
                                 className="t-form-control"
                                 options={reschedulingTimesList || []}
                                 value={selectedTimesTemp}
+                                required={true}
                                 fullWidth={true}
                                 onUpdate={(value: any) => {
                                     setSelectedTimesTemp(value);
@@ -135,6 +137,7 @@ const AppointmentSettingsRescheduleComponent = (props: AppointmentSettingsResche
                     </div>
                     <div className={'display-flex ts-justify-content-center mrg-bottom-25'}>
                         <ButtonComponent
+                            disabled={!selectedTimesTemp || !selectedHours}
                             onClick={() => {
                                 setSelectedTimes(selectedTimesTemp);
                                 onTemplateSubmit('max_rescheduling', selectedTimesTemp);
@@ -148,11 +151,13 @@ const AppointmentSettingsRescheduleComponent = (props: AppointmentSettingsResche
                     {messageMode === 'view' &&
                         <>
                             <div className="d-flex ts-justify-content-between">
-                                <QuestionComponent title={"Message (SMS)"}
+                                <QuestionComponent title={"Message (SMS):"}
                                                    description={"Create an SMS message that a client will receive when an appointment is rescheduled."}
                                 ></QuestionComponent>
                                 <div>
                                     <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>}
+                                                     variant={"outlined"}
+                                                     className={'mrg-top-10'}
                                                      onClick={() => {
                                                          setMessageMode('edit')
                                                      }}>
@@ -177,7 +182,6 @@ const AppointmentSettingsRescheduleComponent = (props: AppointmentSettingsResche
                                         <ToolTipComponent
                                             showArrow={true}
                                             position={'top'}
-                                            backgroundColor={'#FFF5D3'}
                                             tooltip={<div className="pdd-10">
                                                 <b>To create a custom template with pre-defined keywords and specific
                                                     formatting
@@ -278,11 +282,13 @@ const AppointmentSettingsRescheduleComponent = (props: AppointmentSettingsResche
                     {emailMode === 'view' && <>
 
                         <div className="d-flex ts-justify-content-between">
-                            <QuestionComponent title={"Email"}
+                            <QuestionComponent title={"Email:"}
                                                description={"Create an Email message that a client will receive when an appointment is rescheduled."}
                             ></QuestionComponent>
                             <div>
                                 <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>}
+                                                 variant={"outlined"}
+                                                 className={'mrg-top-10'}
                                                  onClick={() => {
                                                      setEmailMode('edit');
                                                  }}
@@ -296,7 +302,7 @@ const AppointmentSettingsRescheduleComponent = (props: AppointmentSettingsResche
                                 <div className="email-screen__header__row"
                                      dangerouslySetInnerHTML={{__html: CommonService.cleanMentionsResponse(appointmentSettingsReschedulingDetails?.email?.subject, mentionsList)}}>
                                 </div>
-                                <hr className="hr-line"/>
+                                <HorizontalLineComponent className={'divider'}/>
                             </div>
 
                             <div className="email-screen-body"
@@ -316,7 +322,6 @@ const AppointmentSettingsRescheduleComponent = (props: AppointmentSettingsResche
                                         <ToolTipComponent
                                             showArrow={true}
                                             position={'top'}
-                                            backgroundColor={'#FFF5D3'}
                                             tooltip={<div className="pdd-10">
                                                 <b>To create a custom template with pre-defined keywords and specific
                                                     formatting
@@ -369,7 +374,7 @@ const AppointmentSettingsRescheduleComponent = (props: AppointmentSettingsResche
 
                             </div>
                             <div>
-                                <div className="mention-field-titles">Subject :</div>
+                                <div className="mention-field-titles">Subject:</div>
                                 <MentionsComponent
                                     data={mentionsList}
                                     inputHeight={50}
@@ -379,7 +384,7 @@ const AppointmentSettingsRescheduleComponent = (props: AppointmentSettingsResche
                                 />
                             </div>
                             <div>
-                                <div className="mention-field-titles">Body :</div>
+                                <div className="mention-field-titles">Body:</div>
                                 <MentionsComponent
                                     data={mentionsList}
                                     inputHeight={180}

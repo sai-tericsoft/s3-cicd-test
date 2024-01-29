@@ -59,11 +59,13 @@ const AppointmentSettingsConfirmationComponent = (props: AppointmentSettingsConf
                     {messageMode === 'view' &&
                         <>
                             <div className="d-flex ts-justify-content-between">
-                                <QuestionComponent title={"Message (SMS)"}
+                                <QuestionComponent title={"Message (SMS):"}
                                                    description={"Create an SMS message that a client will receive when an appointment is confirmed."}
                                 ></QuestionComponent>
                                 <div>
                                     <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>}
+                                                     variant={"outlined"}
+                                                     className={'mrg-top-10'}
                                                      onClick={() => {
                                                          setMessageMode('edit')
                                                      }}>
@@ -85,12 +87,11 @@ const AppointmentSettingsConfirmationComponent = (props: AppointmentSettingsConf
                                 {/*                   description={"Message template for sending appointment confirmations."}*/}
                                 {/*></QuestionComponent>*/}
                                 <div className={'d-flex'}>
-                                    <FormControlLabelComponent label={"Message (SMS)"} className={'message-heading'}/>
+                                    <FormControlLabelComponent label={"Message (SMS):"} className={'message-heading'}/>
                                     <div className="info-tool-tip-wrapper">
                                         <ToolTipComponent
                                             showArrow={true}
                                             position={'top'}
-                                            backgroundColor={'#FFF5D3'}
                                             tooltip={<div className="pdd-10">
                                                 <b>To create a custom template with pre-defined keywords and specific
                                                     formatting
@@ -149,7 +150,7 @@ const AppointmentSettingsConfirmationComponent = (props: AppointmentSettingsConf
                             />
 
                             <div className="available-mentions-wrapper">
-                                <div className="available-mentions-title">Available Keywords</div>
+                                <div className="available-mentions-title">Available Keywords:</div>
                                 <div className="available-mentions-chips-wrapper">
                                     {
                                         mentionsList.map((mention) => {
@@ -189,11 +190,13 @@ const AppointmentSettingsConfirmationComponent = (props: AppointmentSettingsConf
                     {emailMode === 'view' && <>
 
                         <div className="d-flex ts-justify-content-between">
-                            <QuestionComponent title={"Email"}
+                            <QuestionComponent title={"Email:"}
                                                description={"Create an Email message that a client will receive when an appointment is confirmed."}
                             ></QuestionComponent>
                             <div>
                                 <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>}
+                                                 variant={"outlined"}
+                                                 className={'mrg-top-10'}
                                                  onClick={() => {
                                                      setEmailMode('edit');
                                                  }}
@@ -207,7 +210,7 @@ const AppointmentSettingsConfirmationComponent = (props: AppointmentSettingsConf
                                 <div className="email-screen__header__row"
                                      dangerouslySetInnerHTML={{__html: CommonService.cleanMentionsResponse(appointmentSettingsConfirmationDetails?.email?.subject, mentionsList)}}>
                                 </div>
-                                <hr className="hr-line"/>
+                                <HorizontalLineComponent className={'divider'}/>
                             </div>
 
                             <div className="email-screen-body"
@@ -232,7 +235,6 @@ const AppointmentSettingsConfirmationComponent = (props: AppointmentSettingsConf
                                         <ToolTipComponent
                                             showArrow={true}
                                             position={'top'}
-                                            backgroundColor={'#FFF5D3'}
                                             tooltip={<div className="pdd-10">
                                                 <b>To create a custom template with pre-defined keywords and specific
                                                     formatting
@@ -285,7 +287,7 @@ const AppointmentSettingsConfirmationComponent = (props: AppointmentSettingsConf
 
                             </div>
                             <div>
-                                <div className="mention-field-titles">Subject :</div>
+                                <div className="mention-field-titles">Subject:</div>
                                 <MentionsComponent
                                     data={mentionsList}
                                     inputHeight={50}
@@ -295,7 +297,7 @@ const AppointmentSettingsConfirmationComponent = (props: AppointmentSettingsConf
                                 />
                             </div>
                             <div>
-                                <div className="mention-field-titles">Body :</div>
+                                <div className="mention-field-titles">Body:</div>
                                 <MentionsComponent
                                     data={mentionsList}
                                     inputHeight={180}

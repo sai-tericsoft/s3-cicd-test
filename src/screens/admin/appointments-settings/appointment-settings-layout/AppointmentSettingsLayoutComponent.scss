@@ -4,16 +4,21 @@
   .t-tabs-wrapper {
     height: auto !important;
 
+    .t-tabs {
+      margin-bottom: 20px !important;
+    }
+
     .t-tab-panel {
       padding: 0 !important;
+      margin-bottom: 20px !important;
     }
 
     .message-section {
       padding: 20px;
-      border: 1px solid #ABB6BE;
-      border-radius: 10px;
+      border: 1px solid #E2E2E2;
+      border-radius: 8px;
       margin-bottom: 20px;
-      color: #6D6D6D;
+      color: #1D1C1D;
 
       .message-screen__body__row {
         padding: 10px 0;
@@ -22,13 +27,12 @@
 
     .available-mentions-wrapper {
       padding: 16px;
-      background: #F7F9F9;
+      background: #DFF6F3;
       border-radius: 10px;
       margin: 20px 0;
 
       .available-mentions-title {
         font-weight: 700;
-        font-size: 12px;
         padding-bottom: 10px;
       }
 
@@ -37,34 +41,39 @@
         row-gap: 20px;
         column-gap: 20px;
         flex-wrap: wrap;
-        .inactive{
+
+        .inactive {
           text-transform: lowercase !important;
+          background: #275778 !important;
+          width: 150px !important;
         }
       }
     }
 
 
     .email-section {
-      border: 1px solid #ABB6BE;
-      border-radius: 10px;
+      border: 1px solid #E2E2E2;
+      border-radius: 8px;
       color: #6D6D6D;
 
       .email-header-section {
-        background: #ECF7FF;
+        //background: #ECF7FF;
         border-radius: 10px 10px 0 0;
 
-        .email-screen__header__row {
-          color: #6D6D6D;
-          padding: 10px 20px;
+        .divider {
+          margin-top: 0 !important;
+          margin-bottom: 8px !important;
+          height: 2px !important;
+        }
 
-          .hr-line {
-            color: #D5D5D5;
-          }
+        .email-screen__header__row {
+          color: #1D1C1D;;
+          padding: 20px 20px;
         }
       }
 
       .email-screen-body {
-        padding: 10px 20px;
+        padding: 10px 20px 20px;
 
         .email-screen__body__row {
           padding: 10px 0;
@@ -75,14 +84,15 @@
     .mention-field-titles {
       //padding-bottom: 5px;
       font-size: 14px;
-      font-weight: 500;
+      font-weight: 700;
+      color: #1D1C1D;
     }
 
     .info-tool-tip-wrapper {
       //display: flex;
       //justify-content: end;
       //padding-top: 10px;
-      color: #1479FF;
+      color: #275778;
     }
   }
 
