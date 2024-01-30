@@ -40,6 +40,7 @@ const CouponDetailsComponent = (props: CouponDetailsComponentProps) => {
         {
             title: 'Service Category',
             key: 'service_category',
+            width: 100,
             render: (item: any) => {
                 return <>{item?.category_name || "-"}</>
             }
@@ -48,6 +49,7 @@ const CouponDetailsComponent = (props: CouponDetailsComponentProps) => {
             title: "Service",
             key: 'service',
             dataIndex: 'name',
+            width:500,
             render: (item: any) => {
                 return <div>{item?.services?.length > 0 && item?.services?.map((service: any) => {
                     return <>
@@ -97,7 +99,7 @@ const CouponDetailsComponent = (props: CouponDetailsComponentProps) => {
 
                                 {couponId && <LinkComponent route={CommonService._routeConfig.CouponEdit(couponId)}>
                                     <div>
-                                        <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>}>
+                                        <ButtonComponent variant={'outlined'} prefixIcon={<ImageConfig.EditIcon/>}>
                                             Edit Coupon
                                         </ButtonComponent>
                                     </div>
@@ -123,7 +125,7 @@ const CouponDetailsComponent = (props: CouponDetailsComponentProps) => {
                             </div>
                             <div className={'ts-col-md-4 ts-col-lg'}>
                                 <DataLabelValueComponent label={'Minimum Billing Amount'}>
-                                    {CommonService.convertToDecimals(+couponDetails?.min_billing_amount) || "N/A"}
+                                    <>{couponDetails?.min_billing_amount ? <>{Misc.CURRENCY_SYMBOL}{CommonService.convertToDecimals(+couponDetails?.min_billing_amount)}</> : "N/A"}</>
                                 </DataLabelValueComponent>
                             </div>
                         </div>
@@ -141,12 +143,12 @@ const CouponDetailsComponent = (props: CouponDetailsComponentProps) => {
                             {couponDetails?.discount_type === "percentage" && <>
                                 <div className={'ts-col-md-4 ts-col-lg'}>
                                     <DataLabelValueComponent label={'Percentage'}>
-                                        {couponDetails?.percentage+'%' || "N/A"}
+                                        {couponDetails?.percentage + '%' || "N/A"}
                                     </DataLabelValueComponent>
                                 </div>
                                 <div className={'ts-col-md-4 ts-col-lg'}>
                                     <DataLabelValueComponent label={'Maximum Discount Amount'}>
-                                        {couponDetails?.max_discount_amount ? <>{Misc.CURRENCY_SYMBOL} {CommonService.convertToDecimals(+couponDetails?.max_discount_amount)}</> : "N/A"}
+                                        {couponDetails?.max_discount_amount ? <>{Misc.CURRENCY_SYMBOL}{CommonService.convertToDecimals(+couponDetails?.max_discount_amount)}</> : "N/A"}
                                     </DataLabelValueComponent>
                                 </div>
                             </>}
@@ -171,10 +173,11 @@ const CouponDetailsComponent = (props: CouponDetailsComponentProps) => {
                         </div>
                     </CardComponent>
                     <CardComponent className={'coupon-valid-on-card'}>
-                        <FormControlLabelComponent label={"Coupon Valid On :"} size={'md'}/>
+                        <FormControlLabelComponent label={"Coupon valid on:"} size={'md'}/>
                         <div className={'ts-row'}>
                             <div className={'ts-col-lg-12'}>
                                 <TableComponent columns={couponValidOnColumn}
+                                                bordered={true}
                                                 data={couponDetails?.linked_services}
                                                 autoHeight={true}
                                 />

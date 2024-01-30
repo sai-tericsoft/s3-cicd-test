@@ -1,22 +1,25 @@
 .coupon-edit-screen {
-  .edit-coupon-heading {
-    color: #6D6D6D;
-    font-size: 18px;
-    font-weight: 700;
-    margin-bottom: 20px;
+  .card-component {
+    padding-bottom: 4px !important;
   }
-  .card-component .card-header .card-title-description-wrapper .card-title {
-      text-transform: capitalize;
+
+  .edit-coupon-heading {
+    color: #275778;
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 24px;
   }
 
   .t-form {
-    .edit-coupon-heading{
-      color: #00534F;
+    .edit-coupon-heading {
+      color: #275778;
     }
-    .services-name{
+
+    .services-name {
       margin-left: 28px;
     }
-    .status-heading{
+
+    .status-heading {
       color: #ABB6BE;
     }
 
@@ -39,36 +42,47 @@
     .select-discount-heading {
       margin-bottom: 20px;
       margin-right: 10px;
-      color: #07213C;
-      font-weight: 500;
-      font-size: 1.1429rem;
+      color: #212B36;
+      font-weight: 700;
     }
 
     .coupon-valid-on-service-text {
-      color: #6D6D6D;
-      margin-bottom: 24px;
-      font-size: 1.1429rem;
+      color: #212B36;
+      margin-bottom: 12px;
+      font-weight: 700;
     }
 
     .discount-type-wrapper {
       display: flex;
       align-items: center;
-      .discount-type-text{
+
+      .discount-type-text {
         margin-bottom: 20px;
-        font-weight: 700;
         text-transform: capitalize;
-        color: #07213C;
-        font-size:1.1429rem;
+        color: #1D1C1D;
       }
     }
-    .t-form-actions{
-      margin-bottom: 0px;
-      .submit-cta{
+
+    .t-form-actions {
+      margin-bottom: 0;
+      margin-top: 30px;
+
+      .submit-cta {
         margin-left: 16px;
       }
     }
-    .coupon-valid-on-card{
-      padding-bottom: 16px;
+
+    .coupon-valid-on-card {
+      padding-bottom: 24px !important;
+
+      .service-category-name {
+        .check-box-component {
+          .MuiTypography-root {
+            font-weight: 700 !important;
+            color: #1D1C1D !important;
+          }
+        }
+      }
     }
   }
 }

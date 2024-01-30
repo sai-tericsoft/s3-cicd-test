@@ -12,6 +12,7 @@ import ButtonComponent from "../../../../shared/components/button/ButtonComponen
 import {APIConfig, ImageConfig} from "../../../../constants";
 import TableWrapperComponent from "../../../../shared/components/table-wrapper/TableWrapperComponent";
 import {IClientBasicDetails} from "../../../../shared/models/client.model";
+import CardComponent from "../../../../shared/components/card/CardComponent";
 
 interface UserListComponentProps {
 
@@ -72,7 +73,7 @@ const UserListComponent = (props: UserListComponentProps) => {
                 }
             },
             {
-                title: "",
+                title: "Action",
                 dataIndex: "actions",
                 key: "actions",
                 width: 120,
@@ -147,11 +148,14 @@ const UserListComponent = (props: UserListComponentProps) => {
                 </div>
 
                 <div className={'user-list'}>
-                    <TableWrapperComponent url={APIConfig.USER_LIST.URL}
-                                           method={APIConfig.USER_LIST.METHOD}
-                                           extraPayload={userListFilterState}
-                                           onSort={handleUserSort}
-                                           columns={columns}/>
+                    <CardComponent>
+                        <TableWrapperComponent url={APIConfig.USER_LIST.URL}
+                                               method={APIConfig.USER_LIST.METHOD}
+                                               extraPayload={userListFilterState}
+                                               noDataText={<div className={'no-data-text'}>No coupon added yet.</div>}
+                                               onSort={handleUserSort}
+                                               columns={columns}/>
+                    </CardComponent>
                 </div>
             </div>
         );
