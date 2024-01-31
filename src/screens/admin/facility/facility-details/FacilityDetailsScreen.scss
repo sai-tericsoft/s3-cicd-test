@@ -38,6 +38,10 @@
   //  }
   //}
 
+  .card-component {
+    padding-bottom: 4px !important;
+  }
+
   .facility-details-information {
     .data-label-value {
       .data-label {
@@ -54,24 +58,39 @@
     //width: 48px;
     font-weight: $font-weight-bolder;
     //margin-left: 30px;
-    color: $warn-color;
+    color: #D26060;
   }
 
   .operating-hours-wrapper {
     //height: 380px;
-    margin-bottom: 0px !important;
     padding-bottom: 24px;
+  }
+
+  .operating-system-wrapper {
+    .card-component {
+      padding-bottom: 24px !important;
+    }
   }
 
   .facility-opening-hours-table-wrapper {
     display: flex;
-    border: 1px solid #E7E7E7;
+    border: 1px solid #E2E2E2;
+    border-radius: 8px;
 
     .weeks-days-table-header {
       //width: 554px;
-      height: 56px;
-      background: #E1EBEA;
+      height: 36px;
+      background: #ECF7FF;
+      border-top-left-radius: 8px;
       display: flex;
+      border-right: 1px solid #E2E2E2;
+
+      &.right-header {
+        border-right: none;
+        border-top-right-radius: 8px;
+        border-top-left-radius: 0;
+      }
+
 
       .week-days-timing-wrapper {
         display: flex;
@@ -107,35 +126,29 @@
     }
 
     .weeks-days-table-container {
-      //width: 554px;
+      height: 32px;
       border-bottom: 1px solid rgb(231, 231, 231);
 
-
-      //&.right-container {
-      //  //border-left: 1px solid rgb(231, 231, 231) !important;
-      //}
-      &.left-container{
+      &.left-container {
         border-right: 1px solid rgb(231, 231, 231) !important;
+        &:last-child {
+          border-bottom: none;
+        }
       }
 
       .horizontal-line-wrapper {
-        margin-bottom: 0px;
-        margin-top: 0px;
-        //border-bottom: 1px solid #e7e7e7;
-
+        margin-bottom: 0;
+        margin-top: 0;
       }
 
       .data-label-value {
         flex-direction: row;
-        padding-top: 17px;
-        padding-bottom: 17px;
+        padding-top: 6px;
         padding-left: 24px;
-        margin-bottom: 0px;
+        margin-bottom: 0;
         display: flex;
 
         .data-label {
-          //width: 133px;
-          //padding-left: 20px;
           color: #212B36;
           font-weight: 500;
           flex: 1;
@@ -158,34 +171,34 @@
       flex: 1;
     }
 
-    .column-right {
-      .weeks-days-table-container {
-        border-left: none;
-        border-right: none;
+    //.column-right {
+    //  .weeks-days-table-container {
+    //    border-left: none;
+    //    border-right: none;
+    //
+    //    &:first-child {
+    //      border-top: none;
+    //    }
+    //
+    //    &:first-child {
+    //      border-bottom: none;
+    //    }
+    //  }
+    //}
 
-        &:first-child {
-          border-top: none;
-        }
-
-        &:first-child {
-          border-bottom: none;
-        }
-      }
-    }
-
-    .column-left {
-      .weeks-days-table-container {
-        border-left: none;
-
-        &:first-child {
-          border-top: none;
-        }
-
-        &:last-child {
-          border-bottom: none;
-        }
-      }
-    }
+    //.column-left {
+    //  .weeks-days-table-container {
+    //    border-left: none;
+    //
+    //    &:first-child {
+    //      border-top: none;
+    //    }
+    //
+    //    &:last-child {
+    //      border-bottom: none;
+    //    }
+    //  }
+    //}
   }
 
   //
