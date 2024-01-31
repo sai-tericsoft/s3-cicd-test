@@ -213,31 +213,30 @@ const UserAddComponent = (props: UserAddComponentProps) => {
                                         </Field>
                                     </div>
                                 </div>
-                                <div className="t-form-actions">
-
-                                            <ButtonComponent
-                                                variant={"outlined"}
-                                                size={'large'}
-                                                onClick={handleBackNavigation}
-                                                disabled={isSubmitting}
-                                                id={"medical_record_add_cancel_btn"}
-                                            >
-                                                Cancel
-                                            </ButtonComponent>
-                                    &nbsp;
-                                    <ButtonComponent
-                                        isLoading={isSubmitting}
-                                        type={"submit"}
-                                        size={'large'}
-                                        className={'submit-cta'}
-                                        disabled={!isValid || isSubmitting}
-                                        id={"medical_record_add_save_btn"}
-                                    >
-                                        {isSubmitting ? "Saving" : "Save"}
-                                    </ButtonComponent>
-                                </div>
-
                             </CardComponent>
+                            <div className="t-form-actions">
+
+                                <ButtonComponent
+                                    variant={"outlined"}
+                                    size={'large'}
+                                    onClick={handleBackNavigation}
+                                    disabled={isSubmitting}
+                                    id={"medical_record_add_cancel_btn"}
+                                >
+                                    Cancel
+                                </ButtonComponent>
+                                &nbsp;
+                                <ButtonComponent
+                                    isLoading={isSubmitting}
+                                    type={"submit"}
+                                    size={'large'}
+                                    className={'submit-cta'}
+                                    disabled={!isValid || isSubmitting}
+                                    id={"medical_record_add_save_btn"}
+                                >
+                                    {isSubmitting ? "Saving" : "Save"}
+                                </ButtonComponent>
+                            </div>
                         </Form>
                     )
                 }}

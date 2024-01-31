@@ -1,10 +1,27 @@
-.user-list-component{
-  .t-table{
-    .t-cell-actions{
-      padding-right: 20px !important;
+.user-list-component {
+  .card-component {
+    padding-bottom: 24px !important;
+  }
+
+  .user-list {
+    .no-data-text {
+      font-size: 24px;
+      color: #7F7F7F;
     }
-    .t-cell-last_name{
-      padding-left: 20px !important;
+
+  }
+
+  .t-table-wrapper {
+    .t-table {
+      height: calc(100vh - 280px) !important;
+
+      .t-cell-actions {
+        padding-right: 20px !important;
+      }
+
+      .t-cell-last_name {
+        padding-left: 20px !important;
+      }
     }
   }
 }
