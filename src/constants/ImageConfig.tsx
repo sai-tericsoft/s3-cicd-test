@@ -125,6 +125,7 @@ import {ReactComponent as CommentIcon} from './../assets/icons/comment.svg';
 import {ReactComponent as NoDataDocumentsIcon} from '../assets/icons/no_documents.svg';
 import {ReactComponent as NoDataAppointmentsIcon} from '../assets/icons/no_appointments.svg';
 
+
 import {ReactComponent as TableRowExpandIcon} from './../assets/icons/table/expand.svg';
 import {ReactComponent as TableRowCollapseIcon} from './../assets/icons/table/collapse.svg';
 

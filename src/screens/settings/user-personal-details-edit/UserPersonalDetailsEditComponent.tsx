@@ -64,6 +64,7 @@ const UserPersonalDetailsEditComponent = (props: UserPersonalDetailsEditComponen
     } = useSelector((state: IRootReducerState) => state.staticData);
     const {currentUser}: any = useSelector((state: IRootReducerState) => state.account);
     const [initialValues, setInitialValues] = useState<any>(_.cloneDeep(formInitialValues));
+    const [isLoading, setIsLoading] = useState<boolean>(false)
     const {handleNext} = props
     const dispatch = useDispatch();
 
@@ -92,6 +93,7 @@ const UserPersonalDetailsEditComponent = (props: UserPersonalDetailsEditComponen
 
     const onSubmit = useCallback((values: any, {setErrors, setSubmitting}: FormikHelpers<any>) => {
         setSubmitting(true);
+        setIsLoading(true);
         const payload = {...values}
         if (payload.signature === initialValues.signature) {
             delete payload.signature
@@ -106,35 +108,38 @@ const UserPersonalDetailsEditComponent = (props: UserPersonalDetailsEditComponen
 
         CommonService._user.userEdit(userBasicDetails._id, payload)
             .then((response: IAPIResponseType<any>) => {
+                setIsLoading(false);
                 // CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                 setSubmitting(false);
                 dispatch(setUserBasicDetails(response.data));
             }).catch((error: any) => {
             CommonService.handleErrors(setErrors, error, true);
             setSubmitting(false);
+            setIsLoading(false);
         })
     }, [userBasicDetails, dispatch, initialValues]);
 
     return (
         <div className={'user-personal-details-edit-component'}>
-            <div className={'edit-user-heading'}>Edit Personal Details</div>
-            <CardComponent title={"Personal Details"} size={"md"}>
-                <Formik
-                    validationSchema={formValidationSchema}
-                    initialValues={initialValues}
-                    onSubmit={onSubmit}
-                    validateOnChange={false}
-                    validateOnBlur={true}
-                    enableReinitialize={true}
-                    validateOnMount={true}>
-                    {({values, touched, errors, setFieldValue, validateForm, isSubmitting, isValid}) => {
-                        // eslint-disable-next-line react-hooks/rules-of-hooks
-                        useEffect(() => {
-                            validateForm();
-                        }, [validateForm, values]);
-                        return (
-                            <Form noValidate={true} className={"t-form"}>
-                                {/*<FormDebuggerComponent showDebugger={true} values={values} errors={errors}/>*/}
+            <div className={'edit-user-heading'}>Edit Basic Details</div>
+
+            <Formik
+                validationSchema={formValidationSchema}
+                initialValues={initialValues}
+                onSubmit={onSubmit}
+                validateOnChange={false}
+                validateOnBlur={true}
+                enableReinitialize={true}
+                validateOnMount={true}>
+                {({values, touched, errors, setFieldValue, validateForm, isSubmitting, isValid}) => {
+                    // eslint-disable-next-line react-hooks/rules-of-hooks
+                    useEffect(() => {
+                        validateForm();
+                    }, [validateForm, values]);
+                    return (
+                        <Form noValidate={true} className={"t-form"}>
+                            {/*<FormDebuggerComponent showDebugger={true} values={values} errors={errors}/>*/}
+                            <CardComponent title={"Basic Details"} size={"md"}>
                                 <div className="ts-row">
                                     <div className="ts-col">
                                         <Field name={'first_name'}>
@@ -308,7 +313,7 @@ const UserPersonalDetailsEditComponent = (props: UserPersonalDetailsEditComponen
                                 {!(values?.signature && userBasicDetails?.signature) && <div className="ts-row">
                                     <div className="ts-col-12">
                                         <FormControlLabelComponent
-                                            className={"font-weight-thin"}
+                                            className={"signature-heading"}
                                             label={"Signature:"}
                                         />
                                         <SignaturePadComponent
@@ -336,36 +341,38 @@ const UserPersonalDetailsEditComponent = (props: UserPersonalDetailsEditComponen
                                         Remove Signature
                                     </LinkComponent>
                                 </div>}
+                            </CardComponent>
 
-                                <div className="t-form-actions">
-                                    <ButtonComponent
-                                        id={"save_btn"}
-                                        size={'large'}
-                                        className={'submit-cta'}
-                                        isLoading={isSubmitting}
-                                        disabled={isSubmitting || !isValid || CommonService.isEqual(values, initialValues)}
-                                        type={"submit"}
-                                    >
-                                        {isSubmitting ? "Saving" : "Save"}
-                                    </ButtonComponent>
-                                    <ButtonComponent
-                                        id={"cancel_btn"}
-                                        variant={"outlined"}
-                                        size={'large'}
-                                        className={'submit-cta'}
-                                        disabled={isSubmitting || !(!isValid || CommonService.isEqual(values, initialValues))}
-                                        onClick={handleNext}
-                                    >
-                                        Next
-                                    </ButtonComponent>
-                                </div>
-                            </Form>
-                        )
-                    }}
-                </Formik>
-            </CardComponent>
+                            <div className="t-form-actions">
+                                <ButtonComponent
+                                    id={"save_btn"}
+                                    size={'large'}
+                                    className={isLoading ? 'mrg-right-15' : 'submit-cta'}
+                                    isLoading={isSubmitting}
+                                    disabled={isSubmitting || !isValid || CommonService.isEqual(values, initialValues)}
+                                    type={"submit"}
+                                >
+                                    {isSubmitting ? "Saving" : "Save"}
+                                </ButtonComponent>
+                                <ButtonComponent
+                                    id={"cancel_btn"}
+                                    variant={"outlined"}
+                                    size={'large'}
+                                    className={'submit-cta'}
+                                    disabled={isSubmitting || !(!isValid || CommonService.isEqual(values, initialValues))}
+                                    onClick={handleNext}
+                                >
+                                    Next
+                                </ButtonComponent>
+                            </div>
+                        </Form>
+                    )
+                }}
+            </Formik>
+
         </div>
-    );
+    )
+        ;
 
 };
 

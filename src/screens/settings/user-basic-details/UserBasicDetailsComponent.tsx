@@ -167,7 +167,7 @@ const UserBasicDetailsComponent = (props: UserBasicDetailsComponentProps) => {
                                             {speciality || 'N/A'}
                                         </DataLabelValueComponent>
                                     </div>
-                                }) : <div className='ts-col-md-6 ts-col-lg-3'>N/A</div>
+                                }) : <div className='ts-col-md-6 ts-col-lg-3 no-message'>N/A</div>
                                 }
                             </div>
                             <HorizontalLineComponent className="user-details-horizontal-line"/>

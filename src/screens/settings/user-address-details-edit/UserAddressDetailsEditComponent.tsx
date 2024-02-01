@@ -72,23 +72,23 @@ const UserAddressDetailsEditComponent = (props: UserAddressDetailsEditComponentP
 
     return (
         <div className={'user-address-details-edit-component'}>
-            <div className={'edit-user-heading'}>Edit       Address Information</div>
-            <CardComponent title={"Address Information"} size={"md"}>
-                <Formik
-                    validationSchema={formValidationSchema}
-                    initialValues={initialValues}
-                    onSubmit={onSubmit}
-                    validateOnChange={false}
-                    validateOnBlur={true}
-                    enableReinitialize={true}
-                    validateOnMount={true}>
-                    {({values, touched, errors, setFieldValue, validateForm, isSubmitting, isValid}) => {
-                        // eslint-disable-next-line react-hooks/rules-of-hooks
-                        useEffect(() => {
-                            validateForm();
-                        }, [validateForm, values]);
-                        return (
-                            <Form noValidate={true} className={"t-form"} autoComplete="off">
+            <div className={'edit-user-heading'}>Edit Address Information</div>
+            <Formik
+                validationSchema={formValidationSchema}
+                initialValues={initialValues}
+                onSubmit={onSubmit}
+                validateOnChange={false}
+                validateOnBlur={true}
+                enableReinitialize={true}
+                validateOnMount={true}>
+                {({values, touched, errors, setFieldValue, validateForm, isSubmitting, isValid}) => {
+                    // eslint-disable-next-line react-hooks/rules-of-hooks
+                    useEffect(() => {
+                        validateForm();
+                    }, [validateForm, values]);
+                    return (
+                        <Form noValidate={true} className={"t-form"} autoComplete="off">
+                            <CardComponent title={"Address Information"} size={"md"}>
                                 {/*<FormDebuggerComponent showDebugger={true} values={values} errors={errors}/>*/}
                                 <div className="ts-row">
                                     <div className="ts-col">
@@ -178,44 +178,45 @@ const UserAddressDetailsEditComponent = (props: UserAddressDetailsEditComponentP
                                     <div className="ts-col">
                                     </div>
                                 </div>
+                            </CardComponent>
 
-                                <div className="t-form-actions">
-                                    <ButtonComponent
-                                        id={"cancel_btn"}
-                                        variant={"outlined"}
-                                        size={'large'}
-                                        className={'submit-cta'}
-                                        disabled={isSubmitting}
-                                        onClick={handlePrevious}
-                                    >
-                                        Previous
-                                    </ButtonComponent>
-                                    <ButtonComponent
-                                        id={"save_btn"}
-                                        size={'large'}
-                                        className={'submit-cta'}
-                                        isLoading={isSubmitting}
-                                        disabled={isSubmitting || !isValid || CommonService.isEqual(values, initialValues)}
-                                        type={"submit"}
-                                    >
-                                        {isSubmitting ? "Saving" : "Save"}
-                                    </ButtonComponent>
-                                    <ButtonComponent
-                                        id={"cancel_btn"}
-                                        variant={"outlined"}
-                                        size={'large'}
-                                        className={'submit-cta'}
-                                        disabled={isSubmitting || !(!isValid || CommonService.isEqual(values, initialValues))}
-                                        onClick={handleNext}
-                                    >
-                                        Next
-                                    </ButtonComponent>
-                                </div>
-                            </Form>
-                        )
-                    }}
-                </Formik>
-            </CardComponent>
+                            <div className="t-form-actions">
+                                <ButtonComponent
+                                    id={"cancel_btn"}
+                                    variant={"outlined"}
+                                    size={'large'}
+                                    className={'submit-cta'}
+                                    disabled={isSubmitting}
+                                    onClick={handlePrevious}
+                                >
+                                    Previous
+                                </ButtonComponent>
+                                <ButtonComponent
+                                    id={"save_btn"}
+                                    size={'large'}
+                                    className={'submit-cta'}
+                                    isLoading={isSubmitting}
+                                    disabled={isSubmitting || !isValid || CommonService.isEqual(values, initialValues)}
+                                    type={"submit"}
+                                >
+                                    {isSubmitting ? "Saving" : "Save"}
+                                </ButtonComponent>
+                                <ButtonComponent
+                                    id={"cancel_btn"}
+                                    variant={"outlined"}
+                                    size={'large'}
+                                    className={'submit-cta'}
+                                    disabled={isSubmitting || !(!isValid || CommonService.isEqual(values, initialValues))}
+                                    onClick={handleNext}
+                                >
+                                    Next
+                                </ButtonComponent>
+                            </div>
+                        </Form>
+                    )
+                }}
+            </Formik>
+
         </div>
     );
 

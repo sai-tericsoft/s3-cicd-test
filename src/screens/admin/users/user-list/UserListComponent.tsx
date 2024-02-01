@@ -152,7 +152,9 @@ const UserListComponent = (props: UserListComponentProps) => {
                         <TableWrapperComponent url={APIConfig.USER_LIST.URL}
                                                method={APIConfig.USER_LIST.METHOD}
                                                extraPayload={userListFilterState}
-                                               noDataText={<div className={'no-data-text'}>{userListFilterState?.search ? 'Sorry, no user found.':'No user added yet.'}</div>}
+                                               noDataText={<div className={'no-data-text'}>
+                                                   {(userListFilterState) ? 'Sorry, no data found.' : 'No user added yet.'}
+                                               </div>}
                                                onSort={handleUserSort}
                                                columns={columns}/>
                     </CardComponent>

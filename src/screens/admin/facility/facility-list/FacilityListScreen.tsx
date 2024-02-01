@@ -119,7 +119,7 @@ const FacilityListScreen = (props: FacilityListScreenProps) => {
                                        autoHeight={false}
                                        noDataText={(<div className={'no-features-text-wrapper'}>
                                            <div className={'no-features-description'}>
-                                               {facilityListFilterState.search ? 'Sorry, no facility found.' : 'No facility added yet.'}<br/>
+                                               {facilityListFilterState.search ? 'Sorry, no data found.' : 'No facility added yet.'}<br/>
                                            </div>
                                        </div>)}
                                        extraPayload={facilityListFilterState}

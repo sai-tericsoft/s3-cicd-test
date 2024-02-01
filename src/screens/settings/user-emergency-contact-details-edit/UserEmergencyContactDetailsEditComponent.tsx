@@ -200,26 +200,26 @@ const UserEmergencyContactDetailsEditComponent = (props: UserEmergencyContactDet
     return (
         <div className={'user-emergency-contact-details-edit-component'}>
             <div className={'edit-user-heading'}>Edit Emergency Contact Information</div>
-            <CardComponent title={"Emergency Contact Information"} size={"md"}>
 
-                <Formik
-                    validationSchema={formValidationSchema}
-                    initialValues={initialValues}
-                    onSubmit={onSubmit}
-                    validateOnChange={false}
-                    validateOnBlur={true}
-                    enableReinitialize={true}
-                    validateOnMount={true}>
-                    {({values, touched, errors, setFieldValue, validateForm, isSubmitting, isValid}) => {
-                        // eslint-disable-next-line react-hooks/rules-of-hooks
-                        useEffect(() => {
-                            validateForm();
-                        }, [validateForm, values]);
-                        return (
-                            <Form noValidate={true} className={"t-form"} autoComplete="off">
-                                {/*<FormDebuggerComponent showDebugger={false} values={values} errors={errors}/>*/}
-
-                                <FormControlLabelComponent label={"Primary Emergency Contact"} size={'md'}/>
+            <Formik
+                validationSchema={formValidationSchema}
+                initialValues={initialValues}
+                onSubmit={onSubmit}
+                validateOnChange={false}
+                validateOnBlur={true}
+                enableReinitialize={true}
+                validateOnMount={true}>
+                {({values, touched, errors, setFieldValue, validateForm, isSubmitting, isValid}) => {
+                    // eslint-disable-next-line react-hooks/rules-of-hooks
+                    useEffect(() => {
+                        validateForm();
+                    }, [validateForm, values]);
+                    return (
+                        <Form noValidate={true} className={"t-form"} autoComplete="off">
+                            {/*<FormDebuggerComponent showDebugger={false} values={values} errors={errors}/>*/}
+                            <CardComponent title={"Emergency Contact Information"} size={"md"}>
+                                <FormControlLabelComponent className={'main-heading'}
+                                                           label={"Primary Emergency Contact"} size={'md'}/>
                                 <div className="ts-row">
                                     <div className="ts-col">
                                         <Field name={'emergency_contact_info.primary_emergency.name'}>
@@ -274,7 +274,8 @@ const UserEmergencyContactDetailsEditComponent = (props: UserEmergencyContactDet
                                     </div>
                                     <div className="ts-col-1"></div>
                                 </div>
-                                <FormControlLabelComponent size={'sm'} label={'Primary Phone :'}/>
+                                <FormControlLabelComponent size={'sm'} className={'form-label'}
+                                                           label={'Primary Phone :'}/>
                                 <div className="ts-row">
                                     <div className="ts-col">
                                         <Field
@@ -329,7 +330,8 @@ const UserEmergencyContactDetailsEditComponent = (props: UserEmergencyContactDet
                                             {values?.emergency_contact_info?.primary_emergency?.secondary_contact_info?.length > 0 &&
                                             values?.emergency_contact_info?.primary_emergency?.secondary_contact_info?.length ?
                                                 <>
-                                                    <FormControlLabelComponent label={'Alternate Phone'}
+                                                    <FormControlLabelComponent className={'form-label'}
+                                                                               label={'Alternate Phone'}
                                                                                size={"sm"}/>
                                                     {values?.emergency_contact_info?.primary_emergency?.secondary_contact_info?.map((item: any, index: any) => {
                                                         // @ts-ignore
@@ -369,6 +371,14 @@ const UserEmergencyContactDetailsEditComponent = (props: UserEmergencyContactDet
                                                                     </div>
                                                                     <div className="ts-col-1">
                                                                         <div className="d-flex">
+                                                                            <IconButtonComponent
+                                                                                className={"form-helper-icon"}
+                                                                                onClick={() => {
+                                                                                    arrayHelpers.remove(index);
+                                                                                }}
+                                                                            >
+                                                                                <ImageConfig.DeleteIcon/>
+                                                                            </IconButtonComponent>
                                                                             {values?.emergency_contact_info.primary_emergency.secondary_contact_info &&
                                                                                 index === values.emergency_contact_info.primary_emergency.secondary_contact_info?.length - 1 &&
                                                                                 values.emergency_contact_info.primary_emergency.secondary_contact_info?.length < 3 && (
@@ -386,14 +396,6 @@ const UserEmergencyContactDetailsEditComponent = (props: UserEmergencyContactDet
                                                                                 )
                                                                             }
 
-                                                                            <IconButtonComponent
-                                                                                className={"form-helper-icon"}
-                                                                                onClick={() => {
-                                                                                    arrayHelpers.remove(index);
-                                                                                }}
-                                                                            >
-                                                                                <ImageConfig.DeleteIcon/>
-                                                                            </IconButtonComponent>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -434,12 +436,13 @@ const UserEmergencyContactDetailsEditComponent = (props: UserEmergencyContactDet
                                 <>
                                     {values.show_secondary_emergency_form &&
                                         <>
-                                            <HorizontalLineComponent className={'secondary-emergency-divider'}/>
+                                            <HorizontalLineComponent className={'horizontal-divider'}/>
                                             <div className={'d-flex ts-align-items-center mrg-bottom-24'}>
-                                                <FormControlLabelComponent label={"Secondary Emergency Contact"}/>
+                                                <FormControlLabelComponent className={'main-heading'}
+                                                                           label={"Secondary Emergency Contact"}/>
                                                 <ButtonComponent className={'remove-contact-button'}
-                                                                 prefixIcon={<ImageConfig.CloseIcon/>}
-                                                                 variant={'contained'} color={'error'}
+                                                                 prefixIcon={<ImageConfig.CrossOutlinedIcon/>}
+                                                                 variant={'outlined'} color={'error'}
                                                                  onClick={() => {
                                                                      setFieldValue('show_secondary_emergency_form', false)
                                                                  }}
@@ -498,7 +501,8 @@ const UserEmergencyContactDetailsEditComponent = (props: UserEmergencyContactDet
                                                 </div>
                                                 <div className="ts-col-1"></div>
                                             </div>
-                                            <FormControlLabelComponent size={'sm'} label={'Primary Phone :'}/>
+                                            <FormControlLabelComponent size={'sm'} className={'form-label'}
+                                                                       label={'Primary Phone :'}/>
                                             <div className="ts-row">
                                                 <div className="ts-col">
                                                     <Field
@@ -549,6 +553,7 @@ const UserEmergencyContactDetailsEditComponent = (props: UserEmergencyContactDet
                                                     <>
                                                         {values?.emergency_contact_info?.secondary_emergency?.secondary_contact_info?.length > 0 && values?.emergency_contact_info?.secondary_emergency?.secondary_contact_info ? <>
                                                                 <FormControlLabelComponent size={'sm'}
+                                                                                           className={'form-label'}
                                                                                            label={'Alternate Phone'}/>
                                                                 {values?.emergency_contact_info?.secondary_emergency?.secondary_contact_info?.map((item: any, index: any) => {
                                                                     return (
@@ -586,6 +591,14 @@ const UserEmergencyContactDetailsEditComponent = (props: UserEmergencyContactDet
                                                                             </div>
                                                                             <div className="ts-col-1">
                                                                                 <div className="d-flex">
+                                                                                    <IconButtonComponent
+                                                                                        className={"form-helper-icon"}
+                                                                                        onClick={() => {
+                                                                                            arrayHelpers.remove(index);
+                                                                                        }}
+                                                                                    >
+                                                                                        <ImageConfig.DeleteIcon/>
+                                                                                    </IconButtonComponent>
                                                                                     {values?.emergency_contact_info.secondary_emergency.secondary_contact_info &&
                                                                                         index === values.emergency_contact_info.secondary_emergency.secondary_contact_info?.length - 1 &&
                                                                                         values.emergency_contact_info.secondary_emergency.secondary_contact_info?.length < 3 &&
@@ -601,14 +614,6 @@ const UserEmergencyContactDetailsEditComponent = (props: UserEmergencyContactDet
                                                                                             <ImageConfig.AddCircleIcon/>
                                                                                         </IconButtonComponent>}
 
-                                                                                    <IconButtonComponent
-                                                                                        className={"form-helper-icon"}
-                                                                                        onClick={() => {
-                                                                                            arrayHelpers.remove(index);
-                                                                                        }}
-                                                                                    >
-                                                                                        <ImageConfig.DeleteIcon/>
-                                                                                    </IconButtonComponent>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -636,44 +641,45 @@ const UserEmergencyContactDetailsEditComponent = (props: UserEmergencyContactDet
                                         </>
                                     }
                                 </>
+                            </CardComponent>
 
-                                <div className="t-form-actions">
-                                    <ButtonComponent
-                                        id={"cancel_btn"}
-                                        variant={"outlined"}
-                                        size={'large'}
-                                        className={'submit-cta'}
-                                        disabled={isSubmitting}
-                                        onClick={handlePrevious}
-                                    >
-                                        Previous
-                                    </ButtonComponent>
-                                    <ButtonComponent
-                                        id={"save_btn"}
-                                        size={'large'}
-                                        className={'submit-cta'}
-                                        isLoading={isSubmitting}
-                                        disabled={isSubmitting || !isValid || CommonService.isEqual(values, initialValues)}
-                                        type={"submit"}
-                                    >
-                                        {isSubmitting ? "Saving" : "Save"}
-                                    </ButtonComponent>
-                                    <ButtonComponent
-                                        id={"cancel_btn"}
-                                        variant={"outlined"}
-                                        size={'large'}
-                                        className={'submit-cta'}
-                                        disabled={isSubmitting || !(!isValid || CommonService.isEqual(values, initialValues))}
-                                        onClick={handleNext}
-                                    >
-                                        Next
-                                    </ButtonComponent>
-                                </div>
-                            </Form>
-                        )
-                    }}
-                </Formik>
-            </CardComponent>
+
+                            <div className="t-form-actions">
+                                <ButtonComponent
+                                    id={"cancel_btn"}
+                                    variant={"outlined"}
+                                    size={'large'}
+                                    className={'submit-cta'}
+                                    disabled={isSubmitting}
+                                    onClick={handlePrevious}
+                                >
+                                    Previous
+                                </ButtonComponent>
+                                <ButtonComponent
+                                    id={"save_btn"}
+                                    size={'large'}
+                                    className={'submit-cta'}
+                                    isLoading={isSubmitting}
+                                    disabled={isSubmitting || !isValid || CommonService.isEqual(values, initialValues)}
+                                    type={"submit"}
+                                >
+                                    {isSubmitting ? "Saving" : "Save"}
+                                </ButtonComponent>
+                                <ButtonComponent
+                                    id={"cancel_btn"}
+                                    variant={"outlined"}
+                                    size={'large'}
+                                    className={'submit-cta'}
+                                    disabled={isSubmitting || !(!isValid || CommonService.isEqual(values, initialValues))}
+                                    onClick={handleNext}
+                                >
+                                    Next
+                                </ButtonComponent>
+                            </div>
+                        </Form>
+                    )
+                }}
+            </Formik>
         </div>
     );
 

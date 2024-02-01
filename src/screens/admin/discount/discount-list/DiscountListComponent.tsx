@@ -155,7 +155,7 @@ const DiscountListComponent = (props: DiscountListComponentProps) => {
                     <CardComponent>
                         <TableWrapperComponent url={APIConfig.GET_COUPON_LIST.URL}
                                                method={APIConfig.GET_COUPON_LIST.METHOD}
-                                               noDataText={<div className={'no-data-text'}>No coupon added yet.</div>}
+                                               noDataText={<div className={'no-data-text'}>{(discountListFilterState) ?'Sorry, no results found':'No coupon added yet.'}</div>}
                                                extraPayload={discountListFilterState}
                                                columns={columns}/>
                     </CardComponent>

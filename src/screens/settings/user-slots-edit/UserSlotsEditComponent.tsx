@@ -423,7 +423,7 @@ const UserSlotsEditComponent = (props: UserSlotsEditComponentProps) => {
                         CommonService.handleErrors(setErrors, error, true);
                     });
             },
-            [facilityId, userBasicDetails,handleGoBack]
+            [facilityId, userBasicDetails, handleGoBack]
         );
 
         const handleUserSlotsUpdate = useCallback((endTime: string, startTime: string, isSameSlots: boolean, faclityDays: any) => {
@@ -605,6 +605,8 @@ const UserSlotsEditComponent = (props: UserSlotsEditComponentProps) => {
                     )}
                 </>
                 {(isUserSlotsLoaded && isUserBasicDetailsLoaded && isUserGlobalSlotsLoaded) && <>
+                    <FormControlLabelComponent size={'xl'} label={'Edit Available Hours & Service'}/>
+
                     <TabsWrapperComponent>
                         <div className="tabs-wrapper">
                             <TabsComponent
@@ -925,19 +927,19 @@ const UserSlotsEditComponent = (props: UserSlotsEditComponentProps) => {
                                                                                                             className="ts-col-1">
                                                                                                             <div
                                                                                                                 className="d-flex">
-                                                                                                                    <IconButtonComponent
-                                                                                                                        className={"form-helper-icon"}
-                                                                                                                        disabled={!values?.scheduled_slots[index].is_selected}
-                                                                                                                        onClick={() => {
-                                                                                                                            arrayHelpers.push({
-                                                                                                                                start_time: "",
-                                                                                                                                end_time: "",
-                                                                                                                                service_id: "",
-                                                                                                                            });
-                                                                                                                        }}
-                                                                                                                    >
-                                                                                                                        <ImageConfig.AddCircleIcon />
-                                                                                                                    </IconButtonComponent>
+                                                                                                                <IconButtonComponent
+                                                                                                                    className={"form-helper-icon"}
+                                                                                                                    disabled={!values?.scheduled_slots[index].is_selected}
+                                                                                                                    onClick={() => {
+                                                                                                                        arrayHelpers.push({
+                                                                                                                            start_time: "",
+                                                                                                                            end_time: "",
+                                                                                                                            service_id: "",
+                                                                                                                        });
+                                                                                                                    }}
+                                                                                                                >
+                                                                                                                    <ImageConfig.AddCircleIcon/>
+                                                                                                                </IconButtonComponent>
                                                                                                                 {slotIndex > 0 &&
                                                                                                                     <IconButtonComponent
                                                                                                                         className={"form-helper-icon"}

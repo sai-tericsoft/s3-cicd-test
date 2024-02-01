@@ -574,7 +574,8 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                     </div>
                                 </CardComponent>
                                 <CardComponent title={"Contact Information"} size={"md"}>
-                                    <FormControlLabelComponent className={'contact-info-sub-heading'} size={'sm'} label={'Primary Phone :'}/>
+                                    <FormControlLabelComponent className={'contact-info-sub-heading'} size={'sm'}
+                                                               label={'Primary Phone :'}/>
                                     <div className="ts-row">
                                         <div className="ts-col">
                                             <Field name={'primary_contact_info.phone_type'}>
@@ -624,7 +625,9 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                     {
                                         values?.secondary_contact_info && values?.secondary_contact_info?.length > 0 ?
                                             <>
-                                                <FormControlLabelComponent size={'sm'} className={'contact-info-sub-heading'} label={'Alternate Phone :'}/>
+                                                <FormControlLabelComponent size={'sm'}
+                                                                           className={'contact-info-sub-heading'}
+                                                                           label={'Alternate Phone :'}/>
                                                 <FieldArray
                                                     name="secondary_contact_info"
                                                     render={(arrayHelpers) => (
@@ -665,6 +668,15 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                                         </div>
                                                                         <div className="ts-col-1">
                                                                             <div className="d-flex">
+                                                                                <IconButtonComponent
+                                                                                    className={"form-helper-icon"}
+                                                                                    color={"error"}
+                                                                                    onClick={() => {
+                                                                                        arrayHelpers.remove(index);
+                                                                                    }}
+                                                                                >
+                                                                                    <ImageConfig.DeleteIcon/>
+                                                                                </IconButtonComponent>
                                                                                 {
                                                                                     values?.secondary_contact_info && (index === values?.secondary_contact_info?.length - 1)
                                                                                     && values.secondary_contact_info.length < 3 &&
@@ -680,15 +692,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                                                         <ImageConfig.AddCircleIcon/>
                                                                                     </IconButtonComponent>
                                                                                 }
-                                                                                <IconButtonComponent
-                                                                                    className={"form-helper-icon"}
-                                                                                    color={"error"}
-                                                                                    onClick={() => {
-                                                                                        arrayHelpers.remove(index);
-                                                                                    }}
-                                                                                >
-                                                                                    <ImageConfig.DeleteIcon/>
-                                                                                </IconButtonComponent>
+
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -712,7 +716,8 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                             </ButtonComponent>
                                     }
                                     <HorizontalLineComponent className={'horizontal-divider'}/>
-                                    <FormControlLabelComponent size={'sm'} className={'contact-info-sub-heading'} label={'Primary Email :'}/>
+                                    <FormControlLabelComponent size={'sm'} className={'contact-info-sub-heading'}
+                                                               label={'Primary Email :'}/>
                                     <div className="ts-row">
                                         <div className="ts-col">
                                             <Field name={'primary_email'}>
@@ -746,7 +751,9 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                     {
                                         values?.secondary_emails && values?.secondary_emails?.length > 0 ?
                                             <>
-                                                <FormControlLabelComponent size={'sm'} className={'contact-info-sub-heading'} label={'Alternate Email :'}/>
+                                                <FormControlLabelComponent size={'sm'}
+                                                                           className={'contact-info-sub-heading'}
+                                                                           label={'Alternate Email :'}/>
                                                 <FieldArray
                                                     name="secondary_emails"
                                                     render={(arrayHelpers) => (
@@ -772,6 +779,15 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                                         </div>
                                                                         <div className="ts-col-1">
                                                                             <div className="d-flex">
+                                                                                <IconButtonComponent
+                                                                                    className={"form-helper-icon"}
+                                                                                    color={"error"}
+                                                                                    onClick={() => {
+                                                                                        arrayHelpers.remove(index);
+                                                                                    }}
+                                                                                >
+                                                                                    <ImageConfig.DeleteIcon/>
+                                                                                </IconButtonComponent>
                                                                                 {values?.secondary_emails && (index === values?.secondary_emails?.length - 1) &&
                                                                                     values.secondary_emails.length < 3 &&
                                                                                     <IconButtonComponent
@@ -785,15 +801,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                                                         <ImageConfig.AddCircleIcon/>
                                                                                     </IconButtonComponent>
                                                                                 }
-                                                                                <IconButtonComponent
-                                                                                    className={"form-helper-icon"}
-                                                                                    color={"error"}
-                                                                                    onClick={() => {
-                                                                                        arrayHelpers.remove(index);
-                                                                                    }}
-                                                                                >
-                                                                                    <ImageConfig.DeleteIcon/>
-                                                                                </IconButtonComponent>
+
                                                                             </div>
                                                                         </div>
                                                                         <div className="ts-col"/>
@@ -912,7 +920,8 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                     </div>
                                 </CardComponent>
                                 <CardComponent title={"Emergency Contact Information"} size={"md"}>
-                                    <FormControlLabelComponent className={'emergency-info-main-heading'} label={"Primary Emergency Contact"} size={'sm'}/>
+                                    <FormControlLabelComponent className={'emergency-info-main-heading'}
+                                                               label={"Primary Emergency Contact"} size={'sm'}/>
                                     <div className="ts-row">
                                         <div className="ts-col">
                                             <Field name={'emergency_contact_info.primary_emergency.name'}>
@@ -967,7 +976,8 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                         </div>
                                         <div className="ts-col-1"></div>
                                     </div>
-                                    <FormControlLabelComponent className={'contact-info-sub-heading'} size={'sm'} label={'Primary Phone :'}/>
+                                    <FormControlLabelComponent className={'contact-info-sub-heading'} size={'sm'}
+                                                               label={'Primary Phone :'}/>
                                     <div className="ts-row">
                                         <div className="ts-col">
                                             <Field
@@ -1019,7 +1029,8 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                         render={(arrayHelpers) => (
                                             <>
                                                 {values?.emergency_contact_info?.primary_emergency?.secondary_contact_info && values?.emergency_contact_info?.primary_emergency?.secondary_contact_info?.length > 0 ? <>
-                                                        <FormControlLabelComponent className={'contact-info-sub-heading'} label={'Alternate Phone'}
+                                                        <FormControlLabelComponent className={'contact-info-sub-heading'}
+                                                                                   label={'Alternate Phone'}
                                                                                    size={"sm"}/>
                                                         {values?.emergency_contact_info?.primary_emergency?.secondary_contact_info?.map((item: any, index: any) => {
                                                             // @ts-ignore
@@ -1058,6 +1069,16 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                                     </div>
                                                                     <div className="ts-col-1">
                                                                         <div className="d-flex">
+                                                                            {
+                                                                                <IconButtonComponent
+                                                                                    className={"form-helper-icon"}
+                                                                                    color={"error"}
+                                                                                    onClick={() => {
+                                                                                        arrayHelpers.remove(index);
+                                                                                    }}
+                                                                                >
+                                                                                    <ImageConfig.DeleteIcon/>
+                                                                                </IconButtonComponent>}
                                                                             {values?.emergency_contact_info?.primary_emergency?.secondary_contact_info && (index === values?.emergency_contact_info?.primary_emergency?.secondary_contact_info?.length - 1) &&
                                                                                 values.emergency_contact_info.primary_emergency.secondary_contact_info.length < 3 &&
                                                                                 <IconButtonComponent
@@ -1071,16 +1092,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                                                 >
                                                                                     <ImageConfig.AddCircleIcon/>
                                                                                 </IconButtonComponent>}
-                                                                            {
-                                                                                <IconButtonComponent
-                                                                                    className={"form-helper-icon"}
-                                                                                    color={"error"}
-                                                                                    onClick={() => {
-                                                                                        arrayHelpers.remove(index);
-                                                                                    }}
-                                                                                >
-                                                                                    <ImageConfig.DeleteIcon/>
-                                                                                </IconButtonComponent>}
+
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -1134,9 +1146,11 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                             <>
                                                 <HorizontalLineComponent className={'secondary-emergency-divider'}/>
                                                 <div className={'d-flex ts-align-items-center'}>
-                                                    <FormControlLabelComponent className={'emergency-info-main-heading'} label={"Secondary Emergency Contact"}/>
+                                                    <FormControlLabelComponent className={'emergency-info-main-heading'}
+                                                                               label={"Secondary Emergency Contact"}/>
                                                     <ButtonComponent className={'remove-contact-button'}
                                                                      size={'small'}
+                                                                     prefixIcon={<ImageConfig.CrossOutlinedIcon/>}
                                                                      variant={'outlined'} color={'error'}
                                                                      onClick={() => {
                                                                          setFieldValue('show_secondary_emergency_form', false)
@@ -1284,6 +1298,16 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                                                     </div>
                                                                                     <div className="ts-col-1">
                                                                                         <div className="d-flex">
+                                                                                            {
+                                                                                                <IconButtonComponent
+                                                                                                    className={"form-helper-icon"}
+                                                                                                    color={"error"}
+                                                                                                    onClick={() => {
+                                                                                                        arrayHelpers.remove(index);
+                                                                                                    }}
+                                                                                                >
+                                                                                                    <ImageConfig.DeleteIcon/>
+                                                                                                </IconButtonComponent>}
                                                                                             {values?.emergency_contact_info?.secondary_emergency?.secondary_contact_info && (index === values?.emergency_contact_info?.secondary_emergency?.secondary_contact_info?.length - 1) &&
                                                                                                 values.emergency_contact_info.secondary_emergency.secondary_contact_info.length < 3 &&
                                                                                                 <IconButtonComponent
@@ -1297,16 +1321,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                                                                 >
                                                                                                     <ImageConfig.AddCircleIcon/>
                                                                                                 </IconButtonComponent>}
-                                                                                            {
-                                                                                                <IconButtonComponent
-                                                                                                    className={"form-helper-icon"}
-                                                                                                    color={"error"}
-                                                                                                    onClick={() => {
-                                                                                                        arrayHelpers.remove(index);
-                                                                                                    }}
-                                                                                                >
-                                                                                                    <ImageConfig.DeleteIcon/>
-                                                                                                </IconButtonComponent>}
+
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
