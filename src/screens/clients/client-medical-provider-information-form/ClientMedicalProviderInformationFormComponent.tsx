@@ -62,7 +62,7 @@ const ClientMedicalProviderInformationFormComponent = (props: ClientMedicalProvi
 
         const onSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
             const payload = {...values, mode};
-            payload.medical_provider_info.last_examination_date = CommonService.convertDateFormat(payload.medical_provider_info.last_examination_date);
+            // payload.medical_provider_info.last_examination_date = CommonService.convertDateFormat(payload.medical_provider_info.last_examination_date);
             setIsClientMedicalProviderInformationSavingInProgress(true);
             CommonService._client.ClientMedicalProviderInformationAddAPICall(clientId, payload)
                 .then((response: IAPIResponseType<IClientMedicalProviderForm>) => {
@@ -134,7 +134,7 @@ const ClientMedicalProviderInformationFormComponent = (props: ClientMedicalProvi
                                                             (field: FieldProps) => (
                                                                 <FormikPhoneInputComponent
                                                                     label={"MD Phone"}
-                                                                    disabled={!values?.medical_provider_info?.family_doctor_name}
+                                                                    // disabled={!values?.medical_provider_info?.family_doctor_name}
                                                                     // placeholder={"MD Phone"}
                                                                     // required={true}
                                                                     formikField={field}

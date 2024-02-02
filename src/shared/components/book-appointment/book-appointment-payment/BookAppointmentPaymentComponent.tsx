@@ -13,7 +13,6 @@ import {CommonService} from "../../../services";
 import {IAPIResponseType} from "../../../models/api.model";
 import HorizontalLineComponent from "../../horizontal-line/horizontal-line/HorizontalLineComponent";
 import {ImageConfig} from "../../../../constants";
-import moment from "moment";
 import FormikInputComponent from "../../form-controls/formik-input/FormikInputComponent";
 import IconButtonComponent from "../../icon-button/IconButtonComponent";
 
@@ -183,7 +182,7 @@ const BookAppointmentPaymentComponent = (props: BookAppointmentPaymentComponentP
             }
             if (need_intervention) {
                 payload.need_intervention = need_intervention;
-                payload.intervention_date = moment().format('YYYY-MM-DD');
+                // payload.intervention_date = moment().format('YYYY-MM-DD');
             }
             CommonService._appointment.addAppointment(payload)
                 .then((response: IAPIResponseType<any>) => {

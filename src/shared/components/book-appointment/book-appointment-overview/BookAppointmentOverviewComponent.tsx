@@ -62,7 +62,7 @@ const BookAppointmentOverviewComponent = (props: BookAppointmentOverviewComponen
                 facility_id: booking.facility._id,
                 appointment_type: booking.appointment_type,
                 consultation_id: booking.duration._id,
-                appointment_date: CommonService.convertDateFormat(booking.date),
+                appointment_date: booking.date,
                 duration: parseInt(booking.duration.duration),
                 start_time: booking.time.start_min,
                 end_time: booking.time.end_min,

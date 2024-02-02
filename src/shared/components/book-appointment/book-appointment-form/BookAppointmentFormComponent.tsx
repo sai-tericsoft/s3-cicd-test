@@ -442,7 +442,6 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
     }, [preFillData, availableDates, clientCasesList])
 
     useEffect(() => {
-        console.log('prefill data changed', preFillData)
         if (preFillData && formRef.current) {
             if (preFillData.category_id) {
                 getServicesList(preFillData.category_id);

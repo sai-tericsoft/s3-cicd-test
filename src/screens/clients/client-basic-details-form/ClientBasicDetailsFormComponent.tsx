@@ -261,7 +261,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
             ...CommonService.removeKeysFromJSON(_.cloneDeep(values), ['language_details', 'phone_type_details', 'relationship_details', 'gender_details', 'employment_status_details']),
             mode
         };
-        payload['dob'] = CommonService.convertDateFormat(payload['dob']);
+        // payload['dob'] = CommonService.convertDateFormat(payload['dob']);
         if (payload.show_secondary_emergency_form === false) {
             payload.emergency_contact_info.secondary_emergency = undefined;
         }
@@ -1382,7 +1382,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                 </CardComponent>
                                 <div className="t-form-actions">
                                     <LinkComponent className={'text-decoration-none'}
-                                                   route={CommonService._routeConfig.ClientList()}>
+                                                   route={clientId && CommonService._routeConfig.ClientProfileDetails(clientId)}>
                                         <ButtonComponent
                                             id={"cancel_btn"}
                                             variant={"outlined"}

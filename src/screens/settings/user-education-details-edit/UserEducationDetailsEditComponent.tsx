@@ -72,8 +72,8 @@ const UserEducationDetailsEditComponent = (props: UserEducationDetailsEditCompon
         if (payload.education_details.length) {
             payload.education_details = payload.education_details.map((item: any) => ({
                 ...item,
-                start_date: CommonService.convertDateFormat(item?.start_date),
-                end_date: CommonService.convertDateFormat(item?.end_date),
+                // start_date: CommonService.convertDateFormat(item?.start_date),
+                // end_date: CommonService.convertDateFormat(item?.end_date),
             }));
         }
         setSubmitting(true);
