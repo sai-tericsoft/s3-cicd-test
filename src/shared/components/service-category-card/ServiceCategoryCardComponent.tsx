@@ -3,6 +3,7 @@ import {IServiceCategory} from "../../models/service-category.model";
 import {NavLink} from "react-router-dom";
 import {CommonService} from "../../services";
 import ToolTipComponent from "../tool-tip/ToolTipComponent";
+import ChipComponent from "../chip/ChipComponent";
 
 interface ServiceCategoryCardComponentProps {
     serviceCategory: IServiceCategory
@@ -30,7 +31,8 @@ const ServiceCategoryCardComponent = (props: ServiceCategoryCardComponentProps) 
                     </div>
                     <div className="service-category-separator"/>
                     <div className={`service-category-status `} id={`sc_${serviceCategory?.is_active}`}>
-                        {serviceCategory.is_active ? "Active" : "Inactive"}
+                        {/*{serviceCategory.is_active ? "Active" : "Inactive"}*/}
+                        <ChipComponent label={serviceCategory.is_active ? "Active" : "Inactive"} className={serviceCategory.is_active ? ' active' : 'inactive'}/>
                     </div>
                 </div>
             </div>

@@ -24,11 +24,11 @@
       flex-direction: column;
 
       .basic-details-card-legend {
-        font-weight: 500;
-        font-size: 16px;
+        font-weight: 700;
+        font-size: 12px;
         line-height: 16px;
         letter-spacing: 0.5px;
-        color: #8B8E90;
+        color: #7F7F7F;
         margin-bottom: 8px;
       }
 
@@ -39,10 +39,10 @@
 
         .basic-details-card-name {
           font-weight: 700;
-          font-size: 18px;
+          font-size: 20px;
           line-height: 28px;
           letter-spacing: 0.5px;
-          color: #212B36;
+          color: #1D1C1D;
           margin-right: 10px;
         }
 
@@ -55,7 +55,7 @@
 
     .basic-details-card-description {
       letter-spacing: 0.5px;
-      color: #858F94;
+      color: #1D1C1D;
       margin-top: 10px;
     }
   }

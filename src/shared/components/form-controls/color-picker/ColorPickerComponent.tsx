@@ -80,7 +80,7 @@ const ColorPickerComponent = (props: ColorPickerComponentProps) => {
         <div>
             <FormControl className={'color-component ' + className + ' '} error={hasError} disabled={disabled}>
                 {label &&
-                <div className="pdd-bottom-15">
+                <div className="label pdd-bottom-15">
                     {label} {required ? " * " : ""}
                 </div>
                 }

@@ -10,23 +10,24 @@ import {IService} from "../../../../shared/models/service.model";
 
 interface ServiceListComponentProps {
     serviceCategoryId: string;
-    refreshToken:any;
+    refreshToken: any;
 }
 
 const ServiceListComponent = (props: ServiceListComponentProps) => {
 
-    const {serviceCategoryId,refreshToken} = props;
+    const {serviceCategoryId, refreshToken} = props;
 
     const ServiceListTableColumns: ITableColumn[] = [
         {
             dataIndex: "name",
             key: "name",
             width: 700,
-            fixed:'left',
+            fixed: 'left',
             title: "Service Name",
-            render: ( item: IService, index: number) => {
-                if (item._id){
-                    return <LinkComponent id={"sv_view_details_" + index} route={CommonService._routeConfig.ServiceDetails(item._id)}>
+            render: (item: IService, index: number) => {
+                if (item._id) {
+                    return <LinkComponent id={"sv_view_details_" + index}
+                                          route={CommonService._routeConfig.ServiceDetails(item._id)}>
                         {item?.name}
                     </LinkComponent>
                 }
@@ -35,10 +36,10 @@ const ServiceListComponent = (props: ServiceListComponentProps) => {
         {
             dataIndex: "status",
             key: "status",
-            width: 300,
-            align:'center',
+            width: 200,
+            align: 'center',
             title: "Status",
-            render: ( item: any) => {
+            render: (item: any) => {
                 return <ChipComponent label={item?.is_active ? "Active" : "Inactive"}
                                       className={item?.is_active ? "active" : "inactive"}/>
             }
@@ -46,11 +47,12 @@ const ServiceListComponent = (props: ServiceListComponentProps) => {
         {
             dataIndex: "viewDetails",
             key: "viewDetails",
-            title: "",
-            fixed:'right',
-            render: ( item: IService, index: number) => {
-                if (item._id){
-                    return <LinkComponent id={"sv_view_details_" + index} route={CommonService._routeConfig.ServiceDetails(item._id)}>
+            title: "Action",
+            fixed: 'right',
+            render: (item: IService, index: number) => {
+                if (item._id) {
+                    return <LinkComponent id={"sv_view_details_" + index}
+                                          route={CommonService._routeConfig.ServiceDetails(item._id)}>
                         View Details
                     </LinkComponent>
                 }
@@ -83,7 +85,7 @@ const ServiceListComponent = (props: ServiceListComponentProps) => {
                     method={APIConfig.SERVICE_LIST.METHOD}
                     isPaginated={true}
                     refreshToken={refreshToken}
-                    noDataText={"Currently there are no services added in this category."}
+                    noDataText={<div className={'no-data-text'}>No service added yet.</div>}
                     columns={ServiceListTableColumns}
                 />
             </div>

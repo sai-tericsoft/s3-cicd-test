@@ -14,6 +14,8 @@ import ServiceCategoryEditComponent from "../service-category-edit/ServiceCatego
 import ServiceListComponent from "../../service/service-list/ServiceListComponent";
 import LoaderComponent from "../../../../shared/components/loader/LoaderComponent";
 import StatusCardComponent from "../../../../shared/components/status-card/StatusCardComponent";
+import CardComponent from "../../../../shared/components/card/CardComponent";
+import FormControlLabelComponent from "../../../../shared/components/form-control-label/FormControlLabelComponent";
 
 interface ServiceCategoryDetailsScreenProps {
 
@@ -54,7 +56,7 @@ const ServiceCategoryDetailsScreen = (props: ServiceCategoryDetailsScreenProps) 
     }, [serviceCategoryId, fetchServiceCategoryDetails]);
 
     useEffect(() => {
-        dispatch(setCurrentNavParams(serviceCategoryDetails?.name || "Service Category", null, ()=>{
+        dispatch(setCurrentNavParams(serviceCategoryDetails?.name || "Service Category", null, () => {
             navigate(CommonService._routeConfig.ServiceCategoryList());
         }));
     }, [navigate, serviceCategoryDetails, dispatch]);
@@ -85,6 +87,8 @@ const ServiceCategoryDetailsScreen = (props: ServiceCategoryDetailsScreenProps) 
             {
                 isServiceCategoryDetailsLoaded && <>
                     <div className={"service-category-details-card"}>
+                        <FormControlLabelComponent label={'View Service Category Details'} size={'xl'}/>
+
                         <BasicDetailsCardComponent
                             title={serviceCategoryDetails?.name}
                             status={serviceCategoryDetails?.is_active}
@@ -93,6 +97,7 @@ const ServiceCategoryDetailsScreen = (props: ServiceCategoryDetailsScreenProps) 
                             actions={<>
                                 <ButtonComponent
                                     prefixIcon={<ImageConfig.EditIcon/>}
+                                    variant={'outlined'}
                                     onClick={openServiceCategoryEditFormDrawer}
                                     id={"sc_edit_btn"}
                                 >
@@ -102,9 +107,9 @@ const ServiceCategoryDetailsScreen = (props: ServiceCategoryDetailsScreenProps) 
                         ></BasicDetailsCardComponent>
                     </div>
                     {
-                        serviceCategoryId && <div className="service-category-service-list">
+                        serviceCategoryId && <CardComponent className="service-category-service-list">
                             <ServiceListComponent refreshToken={refreshToken} serviceCategoryId={serviceCategoryId}/>
-                        </div>
+                        </CardComponent>
                     }
                 </>
             }

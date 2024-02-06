@@ -112,8 +112,8 @@ const ServiceCategoryEditComponent = (props: ServiceCategoryEditComponentProps) 
                                     <FormControlLabelComponent label={"Edit Service Category"}
                                                                size={"lg"}
                                                                className={"mrg-bottom-0"}/>
-                                    <div className={"display-flex align-items-center"}>
-                                        <div>Status:</div>
+                                    <div className={"switch-button-wrapper"}>
+                                        <div className={'status-switch-heading'}>Status:</div>
                                         <Field name={'is_active'} className="t-form-control">
                                             {
                                                 (field: FieldProps) => (
@@ -166,7 +166,7 @@ const ServiceCategoryEditComponent = (props: ServiceCategoryEditComponentProps) 
                                         <div className="color-picker-wrapper">
                                             {values.bg_color_code && <div className='preview-wrapper'>
                                                 <FormControlLabelComponent size={"sm"}
-                                                                           label={"Preview"}/>
+                                                                           label={"Preview:"}/>
                                                 <div className='preview-button' style={{
                                                     background: `rgba(${values.bg_color_code.r}, ${values.bg_color_code.g}, ${values.bg_color_code.b}, ${values.bg_color_code.a})`,
                                                     color: `rgba(${values.text_color_code.r}, ${values.text_color_code.g}, ${values.text_color_code.b}, ${values.text_color_code.a})`
@@ -211,7 +211,7 @@ const ServiceCategoryEditComponent = (props: ServiceCategoryEditComponentProps) 
                                     </div>
                                     <div className="mrg-bottom-10 upload-image-heading">
                                         <FormControlLabelComponent size={"sm"}
-                                                                   label={"Upload Image for Service Category *"}/>
+                                                                   label={"Upload Image*:"}/>
                                         <>
                                             {
                                                 (!values.image) && <>

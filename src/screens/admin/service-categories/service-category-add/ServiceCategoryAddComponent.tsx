@@ -71,7 +71,7 @@ const ServiceCategoryAddComponent = (props: ServiceCategoryAddComponentProps) =>
     return (
         <div className="service-category-add-component">
             <div className="service-category-add-form-container">
-                <div className={'service-category-add-heading'}>Add New Service Category</div>
+                <div className={'service-category-add-heading'}>Add Service Category</div>
                 <Formik
                     validationSchema={serviceCategoryAddFormValidationSchema}
                     initialValues={serviceCategoryAddFormInitialValues}
@@ -122,13 +122,13 @@ const ServiceCategoryAddComponent = (props: ServiceCategoryAddComponentProps) =>
                                         }
                                     </Field>
                                     <div className="mrg-bottom-20 service-category-color-heading">
-                                        <FormControlLabelComponent size={"sm"} label={'Service Category Color'}/>
+                                        <FormControlLabelComponent  size={"sm"} label={'Service Category Color:'}/>
 
                                         <div className="color-picker-wrapper">
                                             {values.bg_color_code && <div className='preview-wrapper'>
                                                 <FormControlLabelComponent size={"sm"}
-                                                                           label={"Preview"}/>
-                                                <div className='preview-button' style={{
+                                                                           label={"Preview:"}/>
+                                                <div className='ts-col-lg-12 preview-button' style={{
                                                     background: `rgba(${values.bg_color_code.r}, ${values.bg_color_code.g}, ${values.bg_color_code.b}, ${values.bg_color_code.a})`,
                                                     color: `rgba(${values.text_color_code.r}, ${values.text_color_code.g}, ${values.text_color_code.b}, ${values.text_color_code.a})`
                                                 }}>
@@ -171,7 +171,7 @@ const ServiceCategoryAddComponent = (props: ServiceCategoryAddComponentProps) =>
                                     </div>
                                     <div className="mrg-bottom-20 upload-image-heading">
                                         <FormControlLabelComponent size={"sm"}
-                                                                   label={"Upload Image for Service Category *"}
+                                                                   label={"Upload Image:*"}
                                         />
                                         <>
                                             {

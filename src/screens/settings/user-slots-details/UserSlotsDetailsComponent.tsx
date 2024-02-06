@@ -118,7 +118,7 @@ const UserSlotsDetailsComponent = (props: UserSlotsDetailsComponentProps) => {
 
                                 {isUserSlotsLoaded &&
                                     <>
-                                        {(userSlots && userSlots?.all_scheduled_slots?.length || userSlots?.day_scheduled_slots?.length) &&
+                                        {((userSlots && userSlots?.all_scheduled_slots?.length) || (userSlots?.day_scheduled_slots?.length)) &&
                                             <>
                                                 <CardComponent title={'Available Hours and Service'}
                                                                actions={<LinkComponent
