@@ -48,6 +48,7 @@ const ServiceListComponent = (props: ServiceListComponentProps) => {
             dataIndex: "viewDetails",
             key: "viewDetails",
             title: "Action",
+            align: 'center',
             fixed: 'right',
             render: (item: IService, index: number) => {
                 if (item._id) {

@@ -1,0 +1,21 @@
+.user-slots-component {
+  .no-provider-selected-wrapper {
+    .card-component {
+      min-height: calc(100vh - 420px);
+
+      .card-body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .no-selected-provider {
+          padding-top: 80px;
+          .no-provider-text {
+            color: #7F7F7F;
+            font-size: 24px;
+          }
+        }
+      }
+    }
+  }
+}

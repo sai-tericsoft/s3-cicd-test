@@ -65,7 +65,7 @@ const ServiceDetailsScreen = (props: ServiceDetailsScreenProps) => {
     }, [navigate, serviceId]);
 
     return (
-        <div className={'service-category-details-screen'}>
+        <div className={'service-details-screen'}>
             {
                 isServiceDetailsLoading && <LoaderComponent/>
             }

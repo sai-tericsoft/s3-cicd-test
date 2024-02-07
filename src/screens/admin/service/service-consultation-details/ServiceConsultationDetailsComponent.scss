@@ -1,27 +1,42 @@
 .service-consultation-details-component {
-  .t-cell-duration{
+  .t-cell-duration {
     padding-left: 30px !important;
   }
+
   .card-component {
     &.sm {
       .card-body {
         padding: 0;
       }
-    }
 
-    .card-header {
-      .card-title-description-wrapper {
-        .card-title {
-          font-weight: 700;
-          text-align: center;
-          text-decoration: underline;
-          text-transform: none;
+      .card-header {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+      }
+
+      .t-table {
+        width: 100%;
+        background-color: red !important;
+        border-radius: 0 0 8px 8px !important;
+        border-top: none !important;
+        border-bottom: none !important;
+        border-right: 1px solid #E2E2E2 !important;
+        border-left: 1px solid #E2E2E2 !important;
+
+        .t-thead {
+          .t-th {
+            background-color: #EDF5F7 !important;
+          }
+
         }
       }
+    }
 
-      .card-title {
-        margin-left: 30px;
-      }
+    .horizontal-divider {
+      border-bottom: 2px solid #CECECE;
+      margin-top: 0 !important;
     }
   }
 
