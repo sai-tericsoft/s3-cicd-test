@@ -21,8 +21,7 @@ import {ReactComponent as NewLogo} from './../assets/icons/logo-new.svg';
 import {ReactComponent as ShareIcon} from "./../assets/icons/share_icon.svg";
 import {ReactComponent as EyeOutlined} from "./../assets/icons/eye_outlined.svg";
 import {ReactComponent as PaymentStatusIcon} from "./../assets/icons/payment-status-icon.svg";
-
-
+import {ReactComponent as UpdateQuantityIcon} from './../assets/icons/update-quantity.svg';
 
 
 import {ReactComponent as PrintIcon} from './../assets/icons/print.svg';
@@ -257,5 +256,6 @@ export {
     BillingListIcon,
     FolderIcon,
     EyeOutlined,
-    ImageTypeIcon
+    ImageTypeIcon,
+    UpdateQuantityIcon
 }

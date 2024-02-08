@@ -1,12 +1,14 @@
-.add-inventory-product-component{
-  .file-upload{
+.add-inventory-product-component {
+  .card-component {
+    padding-bottom: 4px !important;
+  }
+
+  .file-upload {
     padding-bottom: 24px !important;
   }
-  .t-form-actions{
-    margin-bottom: 0px !important;
+
+  .t-form-actions {
+    margin-bottom: 0 !important;
     margin-top: 30px !important;
-    .cancel-cta{
-      margin-right: 14px !important;
-    }
   }
 }

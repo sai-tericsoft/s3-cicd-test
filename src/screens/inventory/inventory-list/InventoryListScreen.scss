@@ -2,8 +2,9 @@
   .t-cell-code, .t-cell-quantity, .t-cell-price {
     text-align: center !important;
   }
-  .t-cell-action{
-    padding-right: 30px !important;
+
+  .t-cell-action {
+    padding-right: 20px !important;
   }
 
 
@@ -15,10 +16,19 @@
 
     }
   }
-  .out-of-stock-chip {
-    background-color: #FFE2E9;
-    color: #DE1C4E;
-    text-transform: none !important;
 
+  .out-of-stock-chip {
+    background-color: #D26060;
+    color: #FFFFFF;
+    text-transform: none !important;
+  }
+
+  .list-content-wrapper {
+    .no-product-text-wrapper {
+      .no-product-description {
+        font-size: 24px;
+        color: #7F7F7F;
+      }
+    }
   }
 }

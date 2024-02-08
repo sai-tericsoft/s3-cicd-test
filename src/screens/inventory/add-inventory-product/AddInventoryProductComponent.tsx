@@ -1,5 +1,4 @@
 import "./AddInventoryProductComponent.scss";
-import PageHeaderComponent from "../../../shared/components/page-header/PageHeaderComponent";
 import {Field, FieldProps, Form, Formik, FormikHelpers} from "formik";
 import React, {useCallback, useEffect, useState} from "react";
 import CardComponent from "../../../shared/components/card/CardComponent";
@@ -11,7 +10,6 @@ import ErrorComponent from "../../../shared/components/error/ErrorComponent";
 import FilePreviewThumbnailComponent
     from "../../../shared/components/file-preview-thumbnail/FilePreviewThumbnailComponent";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
-import LinkComponent from "../../../shared/components/link/LinkComponent";
 import {CommonService} from "../../../shared/services";
 import {setCurrentNavParams} from "../../../store/actions/navigation.action";
 import {useDispatch} from "react-redux";
@@ -19,6 +17,7 @@ import {useNavigate} from "react-router-dom";
 import {IAPIResponseType} from "../../../shared/models/api.model";
 import {Misc, Patterns} from "../../../constants";
 import * as Yup from "yup";
+import FormControlLabelComponent from "../../../shared/components/form-control-label/FormControlLabelComponent";
 
 interface AddInventoryProductComponentProps {
 
@@ -51,15 +50,20 @@ const AddInventoryProductComponent = (props: AddInventoryProductComponentProps) 
     const onSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
         const payload = {...values};
         setIsInventoryProductAddInProgress(true);
-        CommonService._inventory.AddInventoryProductAPICall(payload)
-            .then((response: IAPIResponseType<any>) => {
+        try {
+            CommonService._inventory.AddInventoryProductAPICall(payload)
+                .then((response: IAPIResponseType<any>) => {
+                    setIsInventoryProductAddInProgress(false);
+                    CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+                    navigate(CommonService._routeConfig.InventoryList());
+                }).catch((error: any) => {
+                CommonService.handleErrors(setErrors, error, true);
                 setIsInventoryProductAddInProgress(false);
-                CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
-                navigate(CommonService._routeConfig.InventoryList());
-            }).catch((error: any) => {
-            CommonService.handleErrors(setErrors, error, true);
+            });
+        } catch (e) {
             setIsInventoryProductAddInProgress(false);
-        });
+            console.log(e, 'error');
+        }
 
     }, [navigate]);
 
@@ -70,9 +74,13 @@ const AddInventoryProductComponent = (props: AddInventoryProductComponentProps) 
         }));
     }, [navigate, dispatch]);
 
+    const handleCancel = useCallback(() => {
+        navigate(CommonService._routeConfig.InventoryList());
+    }, [navigate]);
+
     return (
         <div className={'add-inventory-product-component'}>
-            <PageHeaderComponent title={'Add Product'}/>
+            <FormControlLabelComponent label={"Add Product"} size={'xl'}/>
             <Formik initialValues={addInventoryProductInitialValues}
                     onSubmit={onSubmit}
                     validationSchema={inventoryProductValidationSchema}
@@ -167,7 +175,7 @@ const AddInventoryProductComponent = (props: AddInventoryProductComponentProps) 
                                     </div>
                                 </div>
                             </CardComponent>
-                            <CardComponent title={"Upload Image *"} className={'file-upload'}>
+                            <CardComponent title={"Upload Image*"} className={'file-upload'}>
                                 <>
                                     {
 
@@ -207,20 +215,20 @@ const AddInventoryProductComponent = (props: AddInventoryProductComponentProps) 
                                 </>
                             </CardComponent>
                             <div className="t-form-actions">
-                                <LinkComponent route={CommonService._routeConfig.InventoryList()}>
-                                    <ButtonComponent
-                                        variant={"outlined"}
-                                        id={"cancel_btn"}
-                                        size={"large"}
-                                        className={"cancel-cta"}
-                                    >
-                                        Cancel
-                                    </ButtonComponent>
-                                </LinkComponent>
+                                <ButtonComponent
+                                    variant={"outlined"}
+                                    id={"cancel_btn"}
+                                    size={"large"}
+                                    className={"cancel-cta"}
+                                    onClick={handleCancel}
+                                >
+                                    Cancel
+                                </ButtonComponent>
                                 &nbsp;
                                 <ButtonComponent
                                     type={"submit"}
                                     size={"large"}
+                                    className={'mrg-left-15'}
                                     isLoading={isInventoryProductAddInProgress}
                                     disabled={!isValid || isInventoryProductAddInProgress}
                                     id={"save_btn"}

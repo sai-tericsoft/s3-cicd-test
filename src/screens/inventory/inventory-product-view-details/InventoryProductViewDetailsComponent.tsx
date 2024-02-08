@@ -1,10 +1,9 @@
 import "./InventoryProductViewDetailsComponent.scss";
 import CardComponent from "../../../shared/components/card/CardComponent";
-import PageHeaderComponent from "../../../shared/components/page-header/PageHeaderComponent";
 import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
 import {useNavigate, useParams} from "react-router-dom";
-import React, {useEffect} from "react";
+import React, {useCallback, useEffect} from "react";
 import {getInventoryProductDetails} from "../../../store/actions/inventory.action";
 import DataLabelValueComponent from "../../../shared/components/data-label-value/DataLabelValueComponent";
 import FormControlLabelComponent from "../../../shared/components/form-control-label/FormControlLabelComponent";
@@ -15,7 +14,6 @@ import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
 import {setCurrentNavParams} from "../../../store/actions/navigation.action";
 import {CommonService} from "../../../shared/services";
-import LinkComponent from "../../../shared/components/link/LinkComponent";
 
 interface InventoryProductViewDetailsComponentProps {
 
@@ -45,6 +43,12 @@ const InventoryProductViewDetailsComponent = (props: InventoryProductViewDetails
         }));
     }, [navigate, dispatch]);
 
+    const handleEdit = useCallback((productId: string) => {
+        if (productId) {
+            navigate(CommonService._routeConfig.EditInventoryProduct(productId));
+        }
+    }, [navigate]);
+
     return (
         <div className={'inventory-product-view-details-component'}>
             {
@@ -55,7 +59,7 @@ const InventoryProductViewDetailsComponent = (props: InventoryProductViewDetails
                 <StatusCardComponent title={"Failed to fetch product details"}/>
             }
             {isInventoryProductLoaded && <>
-                <PageHeaderComponent title={'Product Details'} className={'product-details-heading'} />
+                <FormControlLabelComponent label={"View Product Details"} size={'xl'}/>
                 <CardComponent color={'primary'}>
                     <div className={'image-button-wrapper'}>
                         <div className={'image-details-wrapper'}>
@@ -63,20 +67,22 @@ const InventoryProductViewDetailsComponent = (props: InventoryProductViewDetails
                                 <AvatarComponent url={inventoryProductDetails?.image?.url} size={'xl'}/>
                             </div>
                             <div className={'product-details-wrapper'}>
-                                <DataLabelValueComponent id={"qty_available"} label={'Quantity Available: '} className={'quantity-available'} direction={'row'}>
+                                <DataLabelValueComponent id={"qty_available"} label={'Quantity Available: '}
+                                                         className={'quantity-available'} direction={'row'}>
                                     {inventoryProductDetails?.quantity}
                                 </DataLabelValueComponent>
-                                <FormControlLabelComponent id="product_title" size={'xl'} label={inventoryProductDetails?.name} className={'inventory-product-details'}/>
+                                <FormControlLabelComponent id="product_title" size={'xl'}
+                                                           label={inventoryProductDetails?.name}
+                                                           className={'inventory-product-details'}/>
                                 <div id={"product_desc"} className={'description'}>
                                     {inventoryProductDetails?.description}
                                 </div>
                             </div>
                         </div>
                         <div className={'button-wrapper'}>
-                            <LinkComponent
-                                route={CommonService._routeConfig.EditInventoryProduct(inventoryProductDetails?._id)}>
-                                <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>}>Edit Details</ButtonComponent>
-                            </LinkComponent>
+                            <ButtonComponent onClick={() => handleEdit(inventoryProductDetails?._id)}
+                                             variant={'outlined'}
+                                             prefixIcon={<ImageConfig.EditIcon/>}>Edit Details</ButtonComponent>
                         </div>
                     </div>
 
@@ -101,10 +107,10 @@ const InventoryProductViewDetailsComponent = (props: InventoryProductViewDetails
                     </div>
                 </CardComponent>
             </>
-                }
-                </div>
-                );
+            }
+        </div>
+    );
 
-            };
+};
 
-            export default InventoryProductViewDetailsComponent;
+export default InventoryProductViewDetailsComponent;
