@@ -1,11 +1,13 @@
 
 .activity-logs-timeline-component {
-  .t-table:not(.t-table-wrapper .t-table.auto-height){
+  .t-table:not(.t-table-wrapper .t-table.auto-height) {
     min-height: 100px !important;
   }
+
   .accordian-actions {
     margin-right: 0px !important;
   }
+
 
   .MuiTimelineConnector-root {
     background: #CFF2ED;
@@ -13,8 +15,8 @@
 
 
   .MuiTimelineDot-root {
-    margin-top: 0px !important;
-    margin-bottom: 0px !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
   }
 
   .initial-timeline-connector {
@@ -29,6 +31,15 @@
 
     .log-item-body {
       flex: 1;
+
+      .accordion-component {
+        .accordian-tile {
+          font-weight: 400 !important;
+          font-size: 14px !important;
+          text-decoration: none !important;
+          text-transform: capitalize !important;
+        }
+      }
     }
 
     .log-item-header {
@@ -43,32 +54,39 @@
   }
 
   .default-activity-log .data-label-value:last-child {
-      margin-bottom: 0px;
+    margin-bottom: 0px;
 
   }
-  .old-value-log{
+
+  .old-value-log {
     white-space: pre-wrap;
     max-width: 600px;
     overflow-wrap: break-word;
   }
-  .updated-value-log{
+
+  .updated-value-log {
     white-space: pre-wrap;
     max-width: 600px;
     overflow-wrap: break-word;
   }
-  .activity-lod-data-value{
+
+  .activity-lod-data-value {
     width: 100%;
     white-space: pre-wrap;
   }
-  .MuiAccordionSummary-expandIconWrapper{
+
+  .MuiAccordionSummary-expandIconWrapper {
     width: 20px;
   }
-  .activity-log-key-value-wrapper{
+
+  .activity-log-key-value-wrapper {
     margin-right: 20px;
-    .activity-log-key{
+
+    .activity-log-key {
 
     }
-    .activity-log-value{
+
+    .activity-log-value {
 
     }
   }

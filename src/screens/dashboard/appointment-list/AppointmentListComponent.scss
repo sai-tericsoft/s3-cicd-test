@@ -4,6 +4,11 @@
     overflow: auto;
     padding-bottom: 24px;
 
+    .no-data-text {
+      color: #7F7F7F;
+      font-size: 24px;
+    }
+
     .t-cell-time {
       padding-left: 30px !important;
     }
@@ -15,6 +20,7 @@
     .t-table-wrapper {
       .t-table {
         min-height: 287px !important;
+
         .table-no-data-wrapper {
           min-height: 300px !important;
         }

@@ -64,7 +64,6 @@ const UserPersonalDetailsEditComponent = (props: UserPersonalDetailsEditComponen
     } = useSelector((state: IRootReducerState) => state.staticData);
     const {currentUser}: any = useSelector((state: IRootReducerState) => state.account);
     const [initialValues, setInitialValues] = useState<any>(_.cloneDeep(formInitialValues));
-    const [isLoading, setIsLoading] = useState<boolean>(false)
     const {handleNext} = props
     const dispatch = useDispatch();
 
@@ -93,7 +92,6 @@ const UserPersonalDetailsEditComponent = (props: UserPersonalDetailsEditComponen
 
     const onSubmit = useCallback((values: any, {setErrors, setSubmitting}: FormikHelpers<any>) => {
         setSubmitting(true);
-        setIsLoading(true);
         const payload = {...values}
         if (payload.signature === initialValues.signature) {
             delete payload.signature
@@ -108,20 +106,18 @@ const UserPersonalDetailsEditComponent = (props: UserPersonalDetailsEditComponen
 
         CommonService._user.userEdit(userBasicDetails._id, payload)
             .then((response: IAPIResponseType<any>) => {
-                setIsLoading(false);
                 // CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                 setSubmitting(false);
                 dispatch(setUserBasicDetails(response.data));
             }).catch((error: any) => {
             CommonService.handleErrors(setErrors, error, true);
             setSubmitting(false);
-            setIsLoading(false);
         })
     }, [userBasicDetails, dispatch, initialValues]);
 
     return (
         <div className={'user-personal-details-edit-component'}>
-            <div className={'edit-user-heading'}>Edit Basic Details</div>
+            <FormControlLabelComponent label={'Edit Basic Details'} size={'xl'}/>
 
             <Formik
                 validationSchema={formValidationSchema}
@@ -346,18 +342,17 @@ const UserPersonalDetailsEditComponent = (props: UserPersonalDetailsEditComponen
                             <div className="t-form-actions">
                                 <ButtonComponent
                                     id={"save_btn"}
-                                    size={'large'}
-                                    className={isLoading ? 'mrg-right-15' : 'submit-cta'}
+                                    className={'mrg-right-15'}
                                     isLoading={isSubmitting}
                                     disabled={isSubmitting || !isValid || CommonService.isEqual(values, initialValues)}
                                     type={"submit"}
                                 >
                                     {isSubmitting ? "Saving" : "Save"}
                                 </ButtonComponent>
+                                &nbsp;
                                 <ButtonComponent
                                     id={"cancel_btn"}
                                     variant={"outlined"}
-                                    size={'large'}
                                     className={'submit-cta'}
                                     disabled={isSubmitting || !(!isValid || CommonService.isEqual(values, initialValues))}
                                     onClick={handleNext}

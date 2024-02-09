@@ -191,6 +191,7 @@ const UserAddressDetailsEditComponent = (props: UserAddressDetailsEditComponentP
                                 >
                                     Previous
                                 </ButtonComponent>
+                                &nbsp;
                                 <ButtonComponent
                                     id={"save_btn"}
                                     size={'large'}
@@ -201,6 +202,7 @@ const UserAddressDetailsEditComponent = (props: UserAddressDetailsEditComponentP
                                 >
                                     {isSubmitting ? "Saving" : "Save"}
                                 </ButtonComponent>
+                                &nbsp;
                                 <ButtonComponent
                                     id={"cancel_btn"}
                                     variant={"outlined"}

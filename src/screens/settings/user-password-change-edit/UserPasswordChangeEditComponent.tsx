@@ -151,7 +151,7 @@ const UserPasswordChangeEditComponent = (props: UserPasswordChangeEditComponentP
                                     </div>
                                     <div className={'ts-col-6 password-validation-wrapper'}>
                                         <div>
-                                            <div className={'password-header'}>Choose a Password</div>
+                                            <div className={'password-header'}>Choosing a Password</div>
                                             <div className={'password-message-text'}>To create a new password, you have
                                                 to meet all the following requirements:
                                             </div>

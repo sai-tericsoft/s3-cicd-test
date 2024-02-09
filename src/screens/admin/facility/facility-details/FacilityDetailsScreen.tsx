@@ -56,7 +56,7 @@ const FacilityDetailsScreen = (props: FacilityDetailsScreenProps) => {
     }, [facilityDetails, navigate, dispatch]);
 
     return (
-        <div className={'service-category-details-screen'}>
+        <div className={'facility-details-screen'}>
             {
                 isFacilityDetailsLoading && <LoaderComponent/>
             }

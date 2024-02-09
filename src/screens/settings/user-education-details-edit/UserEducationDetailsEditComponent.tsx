@@ -267,10 +267,11 @@ const UserEducationDetailsEditComponent = (props: UserEducationDetailsEditCompon
                                 >
                                     Previous
                                 </ButtonComponent>
+                                &nbsp;
                                 <ButtonComponent
                                     id={"save_btn"}
                                     size={'large'}
-                                    className={'submit-cta'}
+                                    className={'mrg-left-15'}
                                     isLoading={isSubmitting}
                                     disabled={isSubmitting || !isValid || CommonService.isEqual(values, initialValues)}
                                     type={"submit"}

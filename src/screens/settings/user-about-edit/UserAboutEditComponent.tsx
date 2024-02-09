@@ -45,7 +45,6 @@ const UserAboutEditComponent = (props: UserAboutEditComponentProps) => {
     const {handleNext, handlePrevious} = props;
     const dispatch = useDispatch();
     const [initialValues, setInitialValues] = useState<any>(_.cloneDeep(formInitialValues));
-    const [isLoading, setIsLoading] = useState<boolean>(false)
 
     const {languageList} = useSelector(
         (state: IRootReducerState) => state.staticData
@@ -70,18 +69,14 @@ const UserAboutEditComponent = (props: UserAboutEditComponentProps) => {
             ...CommonService.removeKeysFromJSON(_.cloneDeep(values), ['assigned_facility_details', 'gender_details']),
         };
 
-        setSubmitting(true);
-        setIsLoading(true);
-        CommonService._user.userEdit(userBasicDetails._id, payload)
+        setSubmitting(true);CommonService._user.userEdit(userBasicDetails._id, payload)
             .then((response: IAPIResponseType<any>) => {
                 // CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                 setSubmitting(false);
-                setIsLoading(false);
                 dispatch(setUserBasicDetails(response.data));
             }).catch((error: any) => {
             CommonService.handleErrors(setErrors, error, true);
             setSubmitting(false);
-            setIsLoading(false);
         })
     }, [userBasicDetails, dispatch]);
 
@@ -276,16 +271,18 @@ const UserAboutEditComponent = (props: UserAboutEditComponentProps) => {
                                 >
                                     Previous
                                 </ButtonComponent>
+                                &nbsp;
                                 <ButtonComponent
                                     id={"save_btn"}
                                     size={'large'}
                                     isLoading={isSubmitting}
-                                    className={isLoading ? 'mrg-right-15' : 'submit-cta'}
+                                    className={'mrg-right-15'}
                                     disabled={isSubmitting || !isValid || CommonService.isEqual(values, initialValues)}
                                     type={"submit"}
                                 >
                                     {isSubmitting ? "Saving" : "Save"}
                                 </ButtonComponent>
+                                &nbsp;
                                 <ButtonComponent
                                     id={"cancel_btn"}
                                     variant={"outlined"}

@@ -121,14 +121,15 @@ const UserProfessionalDetailsEditComponent = (props: UserProfessionalDetailsEdit
                                                     <>
                                                         <div className="d-flex ts-align-items-center">
                                                             <FormControlLabelComponent className={'form-label'}
-                                                                label={`Experience ${index + 1}:`}/>
+                                                                                       label={`Experience ${index + 1}:`}/>
                                                             {values?.professional_details.length > 1 &&
-                                                                <ButtonComponent className={'remove-contact-button mrg-top-10'}
-                                                                                 prefixIcon={<ImageConfig.CrossOutlinedIcon/>}
-                                                                                 variant={'outlined'} color={'error'}
-                                                                                 onClick={() => {
-                                                                                     arrayHelpers.remove(index);
-                                                                                 }}
+                                                                <ButtonComponent
+                                                                    className={'remove-contact-button mrg-top-10'}
+                                                                    prefixIcon={<ImageConfig.CrossOutlinedIcon/>}
+                                                                    variant={'outlined'} color={'error'}
+                                                                    onClick={() => {
+                                                                        arrayHelpers.remove(index);
+                                                                    }}
                                                                 >Remove Experience</ButtonComponent>}
                                                         </div>
                                                         <div className="ts-row">
@@ -261,6 +262,7 @@ const UserProfessionalDetailsEditComponent = (props: UserProfessionalDetailsEdit
                                 >
                                     Previous
                                 </ButtonComponent>
+                                &nbsp;
                                 <ButtonComponent
                                     id={"save_btn"}
                                     size={'large'}
@@ -271,6 +273,7 @@ const UserProfessionalDetailsEditComponent = (props: UserProfessionalDetailsEdit
                                 >
                                     {isSubmitting ? "Saving" : "Save"}
                                 </ButtonComponent>
+                                &nbsp;
                                 <ButtonComponent
                                     id={"cancel_btn"}
                                     variant={"outlined"}

@@ -246,8 +246,8 @@ const UserBasicDetailsComponent = (props: UserBasicDetailsComponentProps) => {
                                 {/*    &&  <HorizontalLineComponent className={'alternate-heading-horizontal-line'}/>}*/}
                                 <div className="ts-col-6">
                                     {
-                                        userBasicDetails?.secondary_contact_info?.length > 0 &&
-                                        userBasicDetails?.secondary_contact_info[0]?.phone !== "" &&
+                                        (userBasicDetails?.secondary_contact_info?.length > 0 &&
+                                        userBasicDetails?.secondary_contact_info[0]?.phone !== "") &&
                                         <>
                                             {/*<FormControlLabelComponent size={'sm'} label={'Alternate Phone:'}/>*/}
                                             <div className={'phone-email-heading'}>Alternate Phone:</div>
@@ -288,7 +288,7 @@ const UserBasicDetailsComponent = (props: UserBasicDetailsComponentProps) => {
                                     }
                                     <div className={'ts-row'}>
                                         {
-                                            userBasicDetails?.secondary_emails && userBasicDetails?.secondary_emails?.map((email: any, index: number) => {
+                                            (userBasicDetails?.secondary_emails && userBasicDetails?.secondary_emails?.length) && userBasicDetails?.secondary_emails?.map((email: any, index: number) => {
                                                 return <>
                                                     {
                                                         email?.email && <div className={'ts-col-12'}>

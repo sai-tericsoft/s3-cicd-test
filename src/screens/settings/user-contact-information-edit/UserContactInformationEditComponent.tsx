@@ -398,6 +398,7 @@ const UserContactInformationEditComponent = (props: UserContactInformationEditCo
                                 >
                                     Previous
                                 </ButtonComponent>
+                                &nbsp;
                                 <ButtonComponent
                                     id={"save_btn"}
                                     size={'large'}
@@ -408,6 +409,7 @@ const UserContactInformationEditComponent = (props: UserContactInformationEditCo
                                 >
                                     {isSubmitting ? "Saving" : "Save"}
                                 </ButtonComponent>
+                                &nbsp;
                                 <ButtonComponent
                                     id={"cancel_btn"}
                                     variant={"outlined"}

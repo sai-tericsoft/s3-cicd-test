@@ -21,7 +21,6 @@ const AppointmentListComponent = (props: AppointmentListComponentProps) => {
     // const [isStartAppointmentLoading, setIsStartAppointmentLoading] = useState<boolean>(false);
 
 
-
     // const handleStartAppointment = useCallback((item: any) => {
     //     const payload = {};
     //     setIsStartAppointmentLoading(true);
@@ -158,7 +157,8 @@ const AppointmentListComponent = (props: AppointmentListComponentProps) => {
                                            fixedHeader={true}
                                            autoHeight={true}
                                            refreshToken={refreshToken}
-                                           noDataText={'Currently, there are no appointments scheduled for today.'}
+                                           noDataText={<div className={'no-data-text'}>Currently, there are no appointments scheduled for
+                                               today.</div>}
                                            url={APIConfig.DASHBOARD_APPOINTMENT_LIST.URL}
                                            isPaginated={false}
                                            method={APIConfig.DASHBOARD_APPOINTMENT_LIST.METHOD}

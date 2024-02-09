@@ -765,6 +765,16 @@ const UserSlotsEditComponent = (props: UserSlotsEditComponentProps) => {
                                                                                     </div>
                                                                                     <div className="ts-col-1">
                                                                                         <div className="d-flex">
+                                                                                            {index > 0 &&
+                                                                                                <IconButtonComponent
+                                                                                                    className={"form-helper-icon"}
+                                                                                                    onClick={() => {
+                                                                                                        arrayHelpers.remove(index);
+                                                                                                        handleUserSlotsRemove(values.all_scheduled_slots[index]?.end_time, values.all_scheduled_slots[index]?.start_time, values.is_same_slots, facility?.timings)
+                                                                                                    }}
+                                                                                                >
+                                                                                                    <ImageConfig.DeleteIcon/>
+                                                                                                </IconButtonComponent>}
                                                                                             <IconButtonComponent
                                                                                                 className={"form-helper-icon"}
                                                                                                 onClick={() => {
@@ -777,16 +787,7 @@ const UserSlotsEditComponent = (props: UserSlotsEditComponentProps) => {
                                                                                             >
                                                                                                 <ImageConfig.AddCircleIcon/>
                                                                                             </IconButtonComponent>
-                                                                                            {index > 0 &&
-                                                                                                <IconButtonComponent
-                                                                                                    className={"form-helper-icon"}
-                                                                                                    onClick={() => {
-                                                                                                        arrayHelpers.remove(index);
-                                                                                                        handleUserSlotsRemove(values.all_scheduled_slots[index]?.end_time, values.all_scheduled_slots[index]?.start_time, values.is_same_slots, facility?.timings)
-                                                                                                    }}
-                                                                                                >
-                                                                                                    <ImageConfig.DeleteIcon/>
-                                                                                                </IconButtonComponent>}
+
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>)
@@ -927,6 +928,16 @@ const UserSlotsEditComponent = (props: UserSlotsEditComponentProps) => {
                                                                                                             className="ts-col-1">
                                                                                                             <div
                                                                                                                 className="d-flex">
+                                                                                                                {slotIndex > 0 &&
+                                                                                                                    <IconButtonComponent
+                                                                                                                        className={"form-helper-icon"}
+                                                                                                                        onClick={() => {
+                                                                                                                            arrayHelpers.remove(slotIndex);
+                                                                                                                            handleUserSlotsRemove(values?.scheduled_slots[index]?.slot_timings[slotIndex]?.end_time, values?.scheduled_slots[index]?.slot_timings[slotIndex]?.start_time, values?.is_same_slots, timings)
+                                                                                                                        }}
+                                                                                                                    >
+                                                                                                                        <ImageConfig.DeleteIcon/>
+                                                                                                                    </IconButtonComponent>}
                                                                                                                 <IconButtonComponent
                                                                                                                     className={"form-helper-icon"}
                                                                                                                     disabled={!values?.scheduled_slots[index].is_selected}
@@ -940,16 +951,6 @@ const UserSlotsEditComponent = (props: UserSlotsEditComponentProps) => {
                                                                                                                 >
                                                                                                                     <ImageConfig.AddCircleIcon/>
                                                                                                                 </IconButtonComponent>
-                                                                                                                {slotIndex > 0 &&
-                                                                                                                    <IconButtonComponent
-                                                                                                                        className={"form-helper-icon"}
-                                                                                                                        onClick={() => {
-                                                                                                                            arrayHelpers.remove(slotIndex);
-                                                                                                                            handleUserSlotsRemove(values?.scheduled_slots[index]?.slot_timings[slotIndex]?.end_time, values?.scheduled_slots[index]?.slot_timings[slotIndex]?.start_time, values?.is_same_slots, timings)
-                                                                                                                        }}
-                                                                                                                    >
-                                                                                                                        <ImageConfig.DeleteIcon/>
-                                                                                                                    </IconButtonComponent>}
                                                                                                             </div>
                                                                                                         </div>
                                                                                                     </div>)
