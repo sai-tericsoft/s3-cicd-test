@@ -578,7 +578,7 @@ const APIConfig: IAPIConfig = {
     },
     GET_MEDICAL_RECORD_ACTIVITY_LOGS: {
         URL: (medicalRecordId: string) => ENV.API_URL + '/medicalRecord/' + medicalRecordId + '/activityLog',
-        METHOD: 'get'
+        METHOD: 'post'
     },
     // chart notes end
     CASE_STATUS_LIST: {

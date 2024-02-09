@@ -16,6 +16,7 @@ import moment from "moment";
 import CardsPaginationComponent from "../../../shared/components/cards-pagination/CardsPaginationComponent";
 import DateRangePickerComponentV2
     from "../../../shared/components/form-controls/date-range-pickerV2/DateRangePickerComponentV2";
+import momentTimezone from "moment-timezone";
 
 interface ChartNotesActivityLogsComponentProps {
 
@@ -50,7 +51,10 @@ const ChartNotesActivityLogsComponent = (props: ChartNotesActivityLogsComponentP
     }, [navigate, dispatch, medicalRecordId]);
 
     const getClientActivityLogs = useCallback((medicalRecordId: any) => {
-        const payload = {...chartNotesActivityLogFilterState, page: pageNumRef.current, limit: pageSizeRef.current}
+        const payload = {
+            ...chartNotesActivityLogFilterState, page: pageNumRef.current, limit: pageSizeRef.current,
+            timezone: momentTimezone.tz.guess(),
+        }
         setMedicalRecordActivityLogsLoaded(false);
         setMedicalRecordActivityLogsLoading(true);
         setMedicalRecordActivityLogsLoadingFailed(false);
@@ -85,20 +89,20 @@ const ChartNotesActivityLogsComponent = (props: ChartNotesActivityLogsComponentP
         <div className={'chart-notes-activity-logs-component'}>
             <PageHeaderComponent title={"View Activity Log"}/>
             <div className="ts-col-md-8 d-flex ts-justify-content-start pdd-top-5">
-                    <SearchComponent
-                        label={"Search"}
-                        placeholder={"Search using activity name"}
-                        value={chartNotesActivityLogFilterState.search}
-                        onSearchChange={(value) => {
-                            pageNumRef.current = 1;
-                            if(value) {
-                                setChartNotesActivityLogFilterState({
-                                    ...chartNotesActivityLogFilterState,
-                                    search: value,
-                                })
-                            }
-                        }}
-                    />&nbsp;&nbsp;&nbsp;&nbsp;
+                <SearchComponent
+                    label={"Search"}
+                    placeholder={"Search using activity name"}
+                    value={chartNotesActivityLogFilterState.search}
+                    onSearchChange={(value) => {
+                        pageNumRef.current = 1;
+                        if (value) {
+                            setChartNotesActivityLogFilterState({
+                                ...chartNotesActivityLogFilterState,
+                                search: value,
+                            })
+                        }
+                    }}
+                />&nbsp;&nbsp;&nbsp;&nbsp;
                 {/*<DateRangePickerComponent*/}
                 {/*    label={"Select Date Range"}*/}
                 {/*    value={chartNotesActivityLogFilterState.date_range}*/}
