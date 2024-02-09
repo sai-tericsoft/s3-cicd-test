@@ -11,6 +11,7 @@ import moment from "moment/moment";
 import CardsPaginationComponent from "../../../shared/components/cards-pagination/CardsPaginationComponent";
 import DateRangePickerComponentV2
     from "../../../shared/components/form-controls/date-range-pickerV2/DateRangePickerComponentV2";
+import momentTimezone from "moment-timezone";
 
 interface ClientActivityLogComponentProps {
     clientId: string;
@@ -36,7 +37,9 @@ const ClientActivityLogComponent = (props: ClientActivityLogComponentProps) => {
     const pageSizeRef = useRef<number>(20);
 
     const getClientActivityLogs = useCallback((clientId: any) => {
-        const payload = {...clientActivityLogFilterState, page: pageNumRef.current, limit: pageSizeRef.current}
+        const payload = {...clientActivityLogFilterState, page: pageNumRef.current, limit: pageSizeRef.current,
+            timezone: momentTimezone.tz.guess(),
+        }
         setClientsActivityLogsLoaded(false);
         setClientsActivityLogsLoading(true);
         setClientsActivityLogsLoadingFailed(false);

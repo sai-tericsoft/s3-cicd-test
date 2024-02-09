@@ -296,7 +296,7 @@ const APIConfig: IAPIConfig = {
     },
     CLIENT_ACTIVITY_LOG: {
         URL: (clientId: string) => ENV.API_URL + '/client/' + clientId + '/activityLog',
-        METHOD: 'get'
+        METHOD: 'post'
     },
     ICD_CODE_LIST: {
         URL: ENV.API_URL + "/icdCodes",
