@@ -227,11 +227,11 @@ const ViewMedicalRecordDocumentScreen = (props: ViewMedicalRecordDocumentScreenP
         }, [medicalRecordDocumentId,getMedicalRecordDocumentDetails]);
 
         const removeAccess = useCallback((item: any) => {
-            CommonService.onConfirm({
-                image: ImageConfig.ConfirmationLottie,
-                showLottie: true,
-                confirmationTitle: "REMOVE ACCESS",
-            }).then(() => {
+            // CommonService.onConfirm({
+            //     image: ImageConfig.ConfirmationLottie,
+            //     showLottie: true,
+            //     confirmationTitle: "REMOVE ACCESS",
+            // }).then(() => {
                 const payload = {
                     is_shared: false
                 }
@@ -243,8 +243,8 @@ const ViewMedicalRecordDocumentScreen = (props: ViewMedicalRecordDocumentScreenP
                     .catch((error: any) => {
                         CommonService._alert.showToast(error.error || "Error removing access", "error");
                     });
-            })
-        }, [])
+            // })
+        }, []);
 
 
         return (

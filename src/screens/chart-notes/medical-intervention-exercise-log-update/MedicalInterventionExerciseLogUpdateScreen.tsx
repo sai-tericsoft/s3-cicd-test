@@ -123,7 +123,20 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                     CommonService._alert.showToast(error[Misc.API_RESPONSE_MESSAGE_KEY], "error");
                 })
         }
-    }, [dispatch, medicalInterventionId, selectedAttachments])
+    }, [dispatch, medicalInterventionId, selectedAttachments]);
+
+
+    const handleChange = (event:any) => {
+        const selectedFile = event.target.files[0];
+        // Check if the selected file is a PDF, JPEG, or PNG
+        const acceptedTypes = ['application/pdf', 'image/jpeg', 'image/png'];
+        if (selectedFile && acceptedTypes.includes(selectedFile.type)) {
+            setSelectedAttachments((prevState:any) => [...prevState, selectedFile]);
+        } else {
+            CommonService._alert.showToast('Invalid file type. Please select a PDF, JPEG, or PNG file', 'error');
+        }
+        event.target.value = null;
+    };
 
     const removeAttachment = useCallback((item: any, medicalInterventionId: string) => {
         setIsAttachmentBeingDeleted(true);
@@ -416,7 +429,7 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
             default:
                 break;
         }
-    },[currentColumn, currentRow, columns, rows]);
+    }, [currentColumn, currentRow, columns, rows]);
 
     const handleContainerClick = (event: React.MouseEvent<HTMLDivElement>) => {
         const clickedRowIndex = Number(event.currentTarget.getAttribute('data-row'));
@@ -609,15 +622,16 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                         type={"file"}
                         ref={hiddenFileInput}
                         accept={"application/pdf"}
-                        onChange={(event: any) => {
-                            if (event.target.files.length > 0) {
-                                const selectedFile = event.target.files[0];
-                                if (selectedFile) {
-                                    setSelectedAttachments((prevState: any) => [...(prevState || []), selectedFile]);
-                                }
-                                event.target.value = null;
-                            }
-                        }}
+                        onChange={handleChange}
+                        // onChange={(event: any) => {
+                        //     if (event.target.files.length > 0) {
+                        //         const selectedFile = event.target.files[0];
+                        //         if (selectedFile) {
+                        //             setSelectedAttachments((prevState: any) => [...(prevState || []), selectedFile]);
+                        //         }
+                        //         event.target.value = null;
+                        //     }
+                        // }}
                         style={{display: 'none'}}/>
                 </div>
                 {

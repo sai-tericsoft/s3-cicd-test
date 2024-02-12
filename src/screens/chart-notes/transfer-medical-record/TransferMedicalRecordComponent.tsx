@@ -209,7 +209,7 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
                 "transfer_records": !shouldTransferEntireMedicalRecord ? selectedMedicalInterventions?.map((item: any) => {
                     return {
                         "_id": item?._id,
-                        "note_type_category": item?.note_type || item?.note_type_category,
+                        "note_type_category": item?.note_type_category,
                     }
                 }) : [],
             };
@@ -255,7 +255,7 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
                         <span className={'client-case-name-title mrg-left-10'}>&nbsp;Case:</span>
                         <span>
                            &nbsp; {(selectedMedicalRecordToTransferUnder?.injury_details.length > 2 ? selectedMedicalRecordToTransferUnder.injury_details.slice(0, 2).map((injury: any) => injury.body_part_details?.name + " (" + injury.body_side + ") ").join(', ') + " ..."
-                                : selectedMedicalRecordToTransferUnder.injury_details.map((injury: any) => injury.body_part_details?.name + " (" + injury.body_side + ") ").join(', '))}
+                            : selectedMedicalRecordToTransferUnder.injury_details.map((injury: any) => injury.body_part_details?.name + " (" + injury.body_side + ") ").join(', '))}
                         </span>
                     </div>
                 </div>
