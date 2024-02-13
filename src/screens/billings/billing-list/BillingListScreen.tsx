@@ -1313,30 +1313,6 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                             </div>
                             }
             >
-                {/*<CardComponent title={'Client Details'} className={'client-details-card'}>*/}
-                {/*    <div className="ts-row">*/}
-                {/*        <div className="ts-col-lg-6">*/}
-                {/*            <DataLabelValueComponent*/}
-                {/*                direction={"row"}*/}
-                {/*                label={<>*/}
-                {/*                    <ImageConfig.PersonIcon/>*/}
-                {/*                    <span className={'client-details-label'}>Client Name</span>*/}
-                {/*                </>}>*/}
-                {/*                {CommonService.extractName(selectedPayments[0]?.client_details)}*/}
-                {/*            </DataLabelValueComponent>*/}
-                {/*        </div>*/}
-                {/*        <div className="ts-col-lg-6">*/}
-                {/*            <DataLabelValueComponent*/}
-                {/*                direction={"row"}*/}
-                {/*                label={<>*/}
-                {/*                    <ImageConfig.CallIcon/>*/}
-                {/*                    <span className={'client-details-label'}>Phone Number</span>*/}
-                {/*                </>}>*/}
-                {/*                {selectedPayments[0]?.client_details?.primary_contact_info?.phone}*/}
-                {/*            </DataLabelValueComponent>*/}
-                {/*        </div>*/}
-                {/*    </div>*/}
-                {/*</CardComponent>*/}
                 <TableComponent
                     columns={markAsPaidTableColumns}
                     data={selectedPayments}
@@ -1397,7 +1373,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             </ModalComponent>
             {/*Payment mode selection Modal end*/}
 
-            <DrawerComponent isOpen={isClientBillingAddressDrawerOpened}
+            <DrawerComponent  isOpen={isClientBillingAddressDrawerOpened}
             >
                 {
                     currentStep === 'selectAddress' && <>

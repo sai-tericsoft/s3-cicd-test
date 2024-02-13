@@ -36,6 +36,7 @@
     .autoComplete-component-wrapper, .input-component {
       margin-bottom: 0 !important;
       border-bottom: 1px solid #E2E2E2 !important;
+      border-radius: 8px !important;
     }
 
     .MuiFormHelperText-root.Mui-error {
@@ -119,12 +120,12 @@
 
     &.bordered {
       .t-cell {
-        border-right: 1px solid #F3F3F3;
+        border-right: 1px solid #E2E2E2;
       }
     }
 
     .t-tr {
-      border-bottom: 1px solid #F3F3F3;
+      border-bottom: 1px solid #E2E2E2;
     }
 
     .t-th, .t-td {

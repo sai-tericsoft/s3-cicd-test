@@ -109,7 +109,7 @@ const AddBillingAddressComponent = (props: AddBillingAddressComponentProps) => {
                     }, [validateForm, values]);
                     return (
                         <Form className="t-form edit-billing-address-form" noValidate={true}>
-                            <FormControlLabelComponent size={"lg"} label={"Add Billing To"}/>
+                            <FormControlLabelComponent size={"xl"} label={"Add Billing Address"}/>
                             <div className="t-form-controls">
                                 <Field name={`name`} className="t-form-control">
                                     {
@@ -229,7 +229,7 @@ const AddBillingAddressComponent = (props: AddBillingAddressComponentProps) => {
                                     isLoading={isSubmitting}
                                     disabled={isSubmitting || !isValid}
                                 >
-                                    Save
+                                    Add
                                 </ButtonComponent>
                             </div>
                         </Form>

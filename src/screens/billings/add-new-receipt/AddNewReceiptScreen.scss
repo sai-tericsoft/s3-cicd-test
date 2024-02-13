@@ -1,18 +1,13 @@
 @import "src/assets/styles/common";
 
 .add-new-receipt-screen {
-  .add-receipt-title {
-    color: #00534F;
-    font-size: 1.2857rem;
-    font-weight: 700;
-    margin-bottom: 20px;
-
-  }
-
   .t-form {
-    background-color: #ffffff;
-    padding: 24px;
-    border: 1px solid #ECECEC;
+    //background-color: #ffffff;
+    //padding: 24px;
+    //border: 1px solid #ECECEC;
+    .card-component {
+      padding-bottom: 4px !important;
+    }
 
     .alert-error {
       display: flex;
@@ -69,6 +64,13 @@
           .billing-address-block__header {
             //justify-content: center;
             //margin-left: 32px;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+
+            .edit-address-btn {
+              margin-top: -10px;
+            }
           }
         }
 
@@ -76,9 +78,9 @@
           display: flex;
 
           .billing-address-block__title {
-            font-weight: 600;
+            font-weight: 400;
             line-height: 19px;
-            color: #6D6D6D;
+            color: #7F7F7F;
             margin-bottom: 8px;
           }
 
@@ -89,12 +91,13 @@
           .billing-address-block__detail__row {
             font-weight: 400;
             line-height: 19px;
-            color: #6D6D6D;
+            color: #1D1C1D;
 
             &.name {
               font-weight: 700;
               line-height: 19px;
-              color: #212B36;
+              color: #1D1C1D;
+              font-size: 16px;
               margin-bottom: 8px;
             }
 
@@ -105,9 +108,10 @@
   }
 
   .add-new-receipt__comments__payment__block__wrapper {
-    background: #EAF3F2;
+    background: #ECF7FF;
     padding: 24px 24px 10px;
-
+    border: 1px solid #E2E2E2;
+    border-radius: 8px;
 
     .add-new-receipt__payment__block {
       width: 300px;
@@ -120,27 +124,27 @@
         align-items: center;
 
         .add-new-receipt__payment__block__row__title {
-          font-weight: 500;
+          font-weight: 400;
           font-size: 14px;
           line-height: 16px;
-          color: #6D6D6D;
+          color: #1D1C1D;
         }
 
         .add-new-receipt__payment__block__row__value {
-          font-weight: 700;
-          font-size: 16px;
+          font-weight: 400;
+          font-size: 14px;
           line-height: 19px;
-          color: #212B36;
+          color: #1D1C1D;
         }
 
         &.grand {
           .add-new-receipt__payment__block__row__title {
-            color: #212B36;
+            color: #1D1C1D;
             font-weight: 600;
           }
 
           .add-new-receipt__payment__block__row__value {
-            font-size: 24px;
+            font-size: 16px;
           }
         }
       }
@@ -153,6 +157,7 @@
     .t-table-wrapper {
       .t-table {
         min-height: fit-content !important;
+
 
         .t-cell-units, .t-cell-discount {
           .input-component {
@@ -176,9 +181,12 @@
       padding-left: 17px !important;
     }
 
+
     .products-block-add-more {
-      margin-top: 10px;
-      margin-bottom: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 24px 0;
     }
   }
 
@@ -191,7 +199,7 @@
 }
 
 .client-search-table-wrapper, .provider-search-table-wrapper {
-  height: calc(100vh - 315px);
+  height: calc(100vh - 280px);
 
   .client-list-heading {
     font-weight: $font-weight-bolder;
@@ -202,7 +210,11 @@
   }
 
   .t-table-wrapper {
-    height: calc(100vh - 310px);
+    height: calc(100vh - 280px);
+    .t-table{
+      border-bottom-left-radius: 8px;
+      border-bottom-right-radius: 8px;
+    }
 
     .table-no-data-wrapper {
       min-height: 300px !important;

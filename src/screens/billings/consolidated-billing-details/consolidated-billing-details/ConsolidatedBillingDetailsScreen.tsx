@@ -230,7 +230,7 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                 title: 'Service Description',
                 key: 'service_description',
                 dataIndex: 'service_description',
-                width: 220,
+                width: 200,
 
                 render: (item: any) => {
                     return <div>
@@ -284,14 +284,15 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                 }
             },
             {
-                title: "",
+                title: "Action",
                 dataIndex: "actions",
                 key: "actions",
+                align: 'center',
                 fixed: 'right',
                 width: 50,
                 render: (item: any, index: any) => {
                     return <IconButtonComponent onClick={handleRemovePayment(item, index)}>
-                        <ImageConfig.CrossOutlinedIcon/>
+                        <ImageConfig.DeleteIcon/>
                     </IconButtonComponent>
                 }
             }
@@ -394,6 +395,10 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                 })
 
         }, [consolidatedBillingId]);
+
+        const handleCancel = useCallback(() => {
+            navigate(CommonService._routeConfig.BillingList() + '?activeTab=consolidatedPayments');
+        }, [navigate]);
 
         const handleDeleteBillingAddress = useCallback((billingAddress: any) => {
             CommonService.onConfirm({
@@ -518,28 +523,27 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                             searchParams.get('type') !== 'completed' &&
                             <>
                                 <ButtonComponent variant={'outlined'} color={'error'}
-                                                 size={'large'}
                                                  isLoading={isConsolidatedBillDeleted}
                                                  disabled={isMarkAsPaidDisabled}
+                                                 className={'mrg-right-15'}
                                                  onClick={() => handleDeleteConsolidatedBill(billingDetails?.bill_type)}
-                                                 prefixIcon={<ImageConfig.DeleteIcon/>}>
-                                    Delete
-                                </ButtonComponent>&nbsp;&nbsp;
+                                                 prefixIcon={<ImageConfig.CrossOutlinedIcon/>}>
+                                    Discard Bill
+                                </ButtonComponent>
                                 {searchParams.get('type') === 'consolidatedInvoice' &&
                                     <ButtonComponent
                                         prefixIcon={<ImageConfig.CircleCheck/>}
-                                        size={'large'}
+                                        className={'mrg-right-15'}
                                         onClick={openPaymentModeModal}
                                         disabled={isBillingBeingMarkedAsPaid || isMarkAsPaidDisabled}
                                         isLoading={isBillingBeingMarkedAsPaid}
                                     >
                                         Mark as Paid
                                     </ButtonComponent>}
-                                &nbsp;&nbsp;
                             </>
                         }
                         <MenuDropdownComponent className={'billing-details-drop-down-menu'} menuBase={
-                            <ButtonComponent size={'large'} variant={'outlined'}
+                            <ButtonComponent variant={'outlined'}
                                              disabled={isMarkAsPaidDisabled}
                                              fullWidth={true}>
                                 Select Action &nbsp;<ImageConfig.SelectDropDownIcon/>
@@ -569,296 +573,298 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                 }
                 {
                     isBillingDetailsBeingLoaded && <>
-                        <div className={'billing-details-container'}>
-                            <div
-                                className={"billing-details-header"}>
-                                <div className={"billing-details-logo"}>
-                                    {<ImageConfig.NewLogo/>}
-                                </div>
-                                <div className={"billing-details-meta"}>
-                                    {
-                                        <div>
-                                            <div className={'appointment-id-heading'}>
-                                                {CommonService.capitalizeFirstLetter(billingDetails?.bill_type) + ' No.'}
-                                            </div>
-                                            <div className={'appointment-id'}>
-                                                {billingDetails?.billing_number}
-                                            </div>
-                                        </div>
-                                    }
+                        <CardComponent>
+                            <div className={'billing-details-container'}>
 
-                                    <div className={"billing-date"}>
-                                        {CommonService.convertDateFormat2(billingDetails?.created_at, "DD-MMM-YYYY | hh:mm A")}
+                                <div
+                                    className={"billing-details-header"}>
+                                    <div className={"billing-details-logo"}>
+                                        {<ImageConfig.NewLogo/>}
                                     </div>
-                                </div>
-                            </div>
-                            <HorizontalLineComponent/>
-                            <div className={"billing-address-wrapper ts-row"}>
-                                <div className={"billing-address-block from ts-col-lg-4"}>
-                                    <div className={"billing-address-block__header"}>
-                                        <div className={"billing-address-block__title"}>Billing From</div>
-                                    </div>
-                                    <div className={"billing-address-block__details"}>
-                                        <div
-                                            className={"billing-address-block__detail__row name"}>{billingFromAddress?.name}</div>
-                                        <div
-                                            className={"billing-address-block__detail__row"}> {billingFromAddress?.address_line} </div>
-                                        <div className={"billing-address-block__detail__row"}>
-                                            <span>{billingFromAddress?.city}</span>, <span>{billingFromAddress?.state}</span>&nbsp;
-                                            <span>{billingFromAddress?.zip_code}</span>
-                                        </div>
-                                        <div
-                                            className={"billing-address-block__detail__row"}> {CommonService.formatPhoneNumber(billingFromAddress?.phone)} </div>
-                                    </div>
-                                </div>
-                                <div className={'ts-col-lg-2'}/>
-                                <div className={"billing-address-block to ts-col-lg-3"}>
-                                    <div className={"billing-address-block__header"}>
-                                        <div className={"billing-address-block__title"}>Billing To</div>
-                                        &nbsp;&nbsp;
-                                        {/*{(billingDetails?.billing_address && type === 'invoice') &&*/}
-                                        <ButtonComponent
-                                            onClick={openBillingAddressFormDrawer}
-                                            variant={'text'}
-                                            color={"primary"}
-                                            className={'edit-button'}
-                                            prefixIcon={<ImageConfig.EditIcon height={'15'}
-                                                                              width={'15'}/>}
-                                        >
-                                            Edit
-                                        </ButtonComponent>
-                                        {/*}*/}
-                                    </div>
-                                    <div className={"billing-address-block__details"}>
+                                    <div className={"billing-details-meta"}>
                                         {
-                                            !billingDetails?.billing_address && <>
-                                                <div className={"billing-address-block__detail__row"}> -</div>
-                                                <div className={"billing-address-block__detail__row"}> -</div>
-                                            </>
-                                        }
-                                        {
-                                            !billingDetails?.billing_address && <>
-                                                <div className={"billing-address-block__detail__row"}> -</div>
-                                                <div className={"billing-address-block__detail__row"}> -</div>
-                                            </>
-                                        }
-                                        <div
-                                            className={"billing-address-block__detail__row name"}>
-                                            {selectedAddress?.name}
-                                        </div>
-                                        <div
-                                            className={"billing-address-block__detail__row"}> {selectedAddress?.address_line} </div>
-                                        <div className={"billing-address-block__detail__row"}>
-                                            <span>{selectedAddress?.city}</span>,&nbsp;
-                                            <span>{selectedAddress?.state}</span>&nbsp;
-                                            <span>{selectedAddress?.zip_code}</span>
-                                        </div>
-                                        <div
-                                            className={"billing-address-block__detail__row"}>  {billingDetails?.billing_address?.phone || '-'} </div>
-                                    </div>
-                                </div>
-                            </div>
-                            {
-                                billingDetails?.bills_details?.length > 0 && billingDetails?.bills_details?.map((billDetail: any, index: number) => {
-                                    return (
-                                        <CardComponent title={'Client and Case Details'}>
-                                            <div className={'ts-row'}>
-                                                <div className={'ts-col-lg-3'}>
-                                                    <DataLabelValueComponent label={'Client Name'}>
-                                                        <div className={'d-flex'}>
-                                                            {CommonService.extractName(billDetail?.client_details) + " (ID: " + billDetail?.client_details?.client_id + ")"}&nbsp;
-                                                            {/*<LinkComponent>View Details</LinkComponent>*/}
-                                                        </div>
-                                                    </DataLabelValueComponent>
+                                            <div>
+                                                <div className={'appointment-id-heading'}>
+                                                    {CommonService.capitalizeFirstLetter(billingDetails?.bill_type) + ' No.'}
                                                 </div>
-                                                <div className={'ts-col-lg-3'}/>
-                                                <div className={'ts-col'}>
-                                                    <DataLabelValueComponent label={'Case Name'}>
-
-                                                        {/*{billDetail?.medical_record_details?.injury_details && billDetail?.medical_record_details?.injury_details?.map((injury: any, index: number) => {*/}
-                                                        {/*    return (*/}
-                                                        {/*        <>*/}
-                                                        {/*            {index === 0 ? CommonService.convertDateFormat2(billDetail?.created_at) : " "} - {injury?.body_part_name} ({injury?.body_side})*/}
-                                                        {/*        </>*/}
-                                                        {/*    )*/}
-                                                        {/*})}*/}
-                                                        {billDetail?.medical_record_details?.created_at && CommonService.convertDateFormat2(billDetail?.medical_record_details?.created_at)}{" "}
-                                                        {"-"} {billDetail?.medical_record_details?.injury_details?.length > 0 ? billDetail?.medical_record_details?.injury_details?.map((injury: any, index: number) => {
-                                                        return <>{" "}{injury?.body_part_name}{injury.body_side ? `(${injury.body_side})` : ''}{index !== billDetail?.medical_record_details?.injury_details?.length - 1 ? <>,</> : ''}</>
-                                                    }) : "N/A"}
-                                                        {
-                                                            billDetail?.medical_record_details === undefined && <>N/A</>
-                                                        }
-                                                    </DataLabelValueComponent>
+                                                <div className={'appointment-id'}>
+                                                    {billingDetails?.billing_number}
                                                 </div>
                                             </div>
-                                            <TableComponent columns={consolidatedDetailsColumn} data={billDetail?.bills}/>
+                                        }
+
+                                        <div className={"billing-date"}>
+                                            {CommonService.convertDateFormat2(billingDetails?.created_at, "DD-MMM-YYYY | hh:mm A")}
+                                        </div>
+                                    </div>
+                                </div>
+                                <HorizontalLineComponent/>
+                                <div className={"billing-address-wrapper ts-row"}>
+                                    <div className={"billing-address-block from ts-col-lg-4"}>
+                                        <div className={"billing-address-block__header"}>
+                                            <div className={"billing-address-block__title"}>Billing From</div>
+                                        </div>
+                                        <div className={"billing-address-block__details"}>
+                                            <div
+                                                className={"billing-address-block__detail__row name"}>{billingFromAddress?.name}</div>
+                                            <div
+                                                className={"billing-address-block__detail__row"}> {billingFromAddress?.address_line} {billingFromAddress?.city}, {billingFromAddress?.state} {billingFromAddress?.zip_code} </div>
+                                            <div
+                                                className={"billing-address-block__detail__row"}> {CommonService.formatPhoneNumber(billingFromAddress?.phone)} </div>
+                                        </div>
+                                    </div>
+                                    <div className={'ts-col-lg-2'}/>
+                                    <div className={"billing-address-block to ts-col"}>
+                                        <div className={"billing-address-block__header"}>
+                                            <div className={"billing-address-block__title"}>Billing To</div>
+                                            &nbsp;&nbsp;
+                                            {/*{(billingDetails?.billing_address && type === 'invoice') &&*/}
+                                            <ButtonComponent
+                                                onClick={openBillingAddressFormDrawer}
+                                                variant={'text'}
+                                                color={"primary"}
+                                                className={'edit-button'}
+                                                prefixIcon={<ImageConfig.EditIcon height={'15'}
+                                                                                  width={'15'}/>}
+                                            >
+                                                Edit
+                                            </ButtonComponent>
+                                            {/*}*/}
+                                        </div>
+                                        <div className={"billing-address-block__details"}>
                                             {
-                                                billingDetails?.bills_details?.length > 1 && <>
-                                                    <div className={'ts-row'}>
-                                                        <div className={'ts-col-lg-8 mrg-right-40'}/>
-                                                        <div className={'ts-col-3 mrg-top-25'}>
-                                                            <div className={'d-flex ts-justify-content-sm-between'}>
-                                                                <div className={'payment-type-header'}>
-                                                                    Subtotal (Incl. tax)
-                                                                </div>
-                                                                <div className={'payment-type-header'}>
-                                                                    {Misc.CURRENCY_SYMBOL}{CommonService.convertToDecimals(billDetail?.totalAmount)}
-                                                                </div>
-                                                            </div>
-                                                            <div className={'d-flex ts-justify-content-sm-between'}>
-                                                                <div className={'payment-type-header'}>
-                                                                    Discount
-                                                                </div>
-                                                                <div className={'payment-type-header'}>
-                                                                    {Misc.CURRENCY_SYMBOL}{CommonService.convertToDecimals(billDetail?.totalDiscount) || '0.00'}
-                                                                </div>
-                                                            </div>
-                                                            <div className={'d-flex ts-justify-content-sm-between'}>
-                                                                <div className={'payment-type-header-total'}>
-                                                                    Amount (Incl.tax)
-                                                                </div>
-                                                                <div className={'payment-type-header-total'}>
-                                                                    {Misc.CURRENCY_SYMBOL}{CommonService.convertToDecimals(billDetail?.totalPayableAmount) || '0.00'}
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                                                !billingDetails?.billing_address && <>
+                                                    <div className={"billing-address-block__detail__row"}> -</div>
+                                                    <div className={"billing-address-block__detail__row"}> -</div>
                                                 </>
                                             }
-                                        </CardComponent>
-                                    )
-                                })
-                            }
-                            <div className={'add-new-invoice__comments__payment__block__wrapper'}>
-                                <div className="ts-row">
-                                    <div className="ts-col-lg-4 add-new-invoice__comments__block">
-                                        <DataLabelValueComponent className={'comments'} label={""}>
-                                            {searchParams.get('type') !== 'completed' &&
-                                                <TextAreaComponent label={'Comments'}
-                                                                   placeholder={'Please add your comments here'}
-                                                                   fullWidth={true}
-                                                                   value={comments}
-                                                                   onChange={(value: any) => {
-                                                                       setComments(value);
-                                                                       setIsMarkAsPaidDisabled(true);
-                                                                   }}
-                                                />
+                                            {
+                                                !billingDetails?.billing_address && <>
+                                                    <div className={"billing-address-block__detail__row"}> -</div>
+                                                    <div className={"billing-address-block__detail__row"}> -</div>
+                                                </>
                                             }
-                                            {searchParams.get('type') === 'completed' &&
-                                                <TextAreaComponent label={'Comments'}
-                                                                   placeholder={'Please add your comments here'}
-                                                                   fullWidth={true}
-                                                                   value={comments?.length > 0 ? comments : 'N/A'}
-                                                                   disabled={true}
-                                                />}
-
-                                        </DataLabelValueComponent>
-                                        {/*{*/}
-                                        {/*    type === 'receipt' &&*/}
-                                        {/*    <DataLabelValueComponent className={'mode_of_payment'}*/}
-                                        {/*                             label={"Mode Of Payment: "}*/}
-                                        {/*                             direction={"row"}*/}
-                                        {/*    >*/}
-                                        {/*        {billingDetails?.payment_mode_details?.title || billingDetails?.payment_mode || "N/A"}*/}
-                                        {/*    </DataLabelValueComponent>*/}
-                                        {/*}*/}
-                                    </div>
-                                    <div className="ts-col-lg-2"/>
-                                    <div className="ts-col-lg-6">
-                                        <div className="add-new-invoice__payment__block">
-                                            <div className="add-new-invoice__payment__block__row subtotal">
-                                                <div
-                                                    className="add-new-invoice__payment__block__row__title">
-                                                    Subtotal (Incl. tax)
-                                                </div>
-                                                <div
-                                                    className="add-new-invoice__payment__block__row__value">
-                                                    {Misc.CURRENCY_SYMBOL}{CommonService.convertToDecimals(billingDetails?.total)}
-                                                </div>
+                                            <div
+                                                className={"billing-address-block__detail__row name"}>
+                                                {selectedAddress?.name}
                                             </div>
-                                            <div className="add-new-invoice__payment__block__row discount">
-                                                <div
-                                                    className="add-new-invoice__payment__block__row__title">
-                                                    Discount
-                                                </div>
-                                                <div
-                                                    className="add-new-invoice__payment__block__row__value">
-                                                    {Misc.CURRENCY_SYMBOL}{billingDetails?.discount ? CommonService.convertToDecimals(billingDetails?.discount) : '0.00'}
-                                                </div>
-                                            </div>
-                                            <div className="add-new-invoice__payment__block__row grand">
-                                                <div className="add-new-invoice__payment__block__row__title">
-                                                    Grand Total (Incl. tax)
-                                                </div>
-                                                <div
-                                                    className="add-new-invoice__payment__block__row__value">{Misc.CURRENCY_SYMBOL}
-                                                    {
-                                                        CommonService.convertToDecimals((billingDetails?.total) - (billingDetails?.discount ? (billingDetails?.discount) : 0))
-                                                    }
-                                                </div>
-                                            </div>
-                                            {searchParams.get('type') === 'consolidatedReceipt' &&
-                                                <div className="add-new-invoice__payment__block__row date">
-                                                    <div className="add-new-invoice__payment__block__row__title">
-                                                        Payment Date
-                                                    </div>
-                                                    <div
-                                                        className="add-new-invoice__payment__block__row__value">
-                                                        {CommonService.convertDateFormat2(billingDetails?.created_at)}
-                                                    </div>
-                                                </div>
-                                            }
-                                            {/*// }*/}
-
-                                            {searchParams.get('type') === 'consolidatedReceipt' &&
-                                                <div className="add-new-invoice__payment__block__row date">
-                                                    <div
-                                                        className="add-new-invoice__payment__block__row__title">
-                                                        Payment Method
-                                                    </div>
-                                                    <div
-                                                        className="add-new-invoice__payment__block__row__value">
-                                                        {billingDetails?.payment_mode_details?.title || billingDetails?.payment_mode || "N/A"}
-                                                    </div>
-                                                </div>
-                                            }
-
-
+                                            <div
+                                                className={"billing-address-block__detail__row"}> {selectedAddress?.address_line} {selectedAddress?.city}, {selectedAddress?.state} {selectedAddress?.zip_code} </div>
+                                            <div
+                                                className={"billing-address-block__detail__row"}>  {CommonService.formatPhoneNumber(billingDetails?.billing_address?.phone) || '-'} </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <CardComponent title={'Thank You Note'} className={'mrg-top-30'}>
-                                {searchParams.get('type') !== 'completed' && <><TextAreaComponent label={'Note'}
-                                                                                                  fullWidth={true}
-                                                                                                  value={thankYouNote}
-                                                                                                  onChange={(value: any) => {
-                                                                                                      setThankYouNote(value);
-                                                                                                      setIsMarkAsPaidDisabled(true);
-                                                                                                  }}
-                                />
+                                <CardComponent title={'Client and Case Details'}>
+                                    {
+                                        billingDetails?.bills_details?.length > 0 && billingDetails?.bills_details?.map((billDetail: any, index: number) => {
+                                            return (
+                                                <>
+                                                    <div className={'ts-row'}>
+                                                        <div className={'ts-col-lg-3'}>
+                                                            <DataLabelValueComponent label={'Client Name'}>
+                                                                <div className={'d-flex'}>
+                                                                    {CommonService.extractName(billDetail?.client_details) + " (ID: " + billDetail?.client_details?.client_id + ")"}&nbsp;
+                                                                    {/*<LinkComponent>View Details</LinkComponent>*/}
+                                                                </div>
+                                                            </DataLabelValueComponent>
+                                                        </div>
+                                                        <div className={'ts-col-lg-3'}/>
+                                                        <div className={'ts-col'}>
+                                                            <DataLabelValueComponent label={'Case Name'}>
 
-                                    <div className={'ts-col-md-12'}>
-                                        {(thankYouNote?.length) > 90 ?
-                                            <div className={'alert-error'}>Characters
-                                                Limit: {(thankYouNote?.length)}/90</div> :
-                                            <div className={'no-alert'}>Characters
-                                                Limit: {(thankYouNote?.length)}/90</div>}
+                                                                {/*{billDetail?.medical_record_details?.injury_details && billDetail?.medical_record_details?.injury_details?.map((injury: any, index: number) => {*/}
+                                                                {/*    return (*/}
+                                                                {/*        <>*/}
+                                                                {/*            {index === 0 ? CommonService.convertDateFormat2(billDetail?.created_at) : " "} - {injury?.body_part_name} ({injury?.body_side})*/}
+                                                                {/*        </>*/}
+                                                                {/*    )*/}
+                                                                {/*})}*/}
+                                                                {billDetail?.medical_record_details?.created_at && CommonService.convertDateFormat2(billDetail?.medical_record_details?.created_at)}{" "}
+                                                                {"-"} {billDetail?.medical_record_details?.injury_details?.length > 0 ? billDetail?.medical_record_details?.injury_details?.map((injury: any, index: number) => {
+                                                                return <>{" "}{injury?.body_part_name}{injury.body_side ? `(${injury.body_side})` : ''}{index !== billDetail?.medical_record_details?.injury_details?.length - 1 ? <>,</> : ''}</>
+                                                            }) : "N/A"}
+                                                                {
+                                                                    billDetail?.medical_record_details === undefined && <>N/A</>
+                                                                }
+                                                            </DataLabelValueComponent>
+                                                        </div>
+                                                    </div>
+                                                    <TableComponent columns={consolidatedDetailsColumn} data={billDetail?.bills}/>
+                                                    {
+                                                        billingDetails?.bills_details?.length > 1 && <>
+                                                            <div className={'ts-row'}>
+                                                                <div className={'ts-col-lg-8 mrg-right-40'}/>
+                                                                <div className={'ts-col-3 mrg-top-25'}>
+                                                                    <div className={'d-flex ts-justify-content-sm-between'}>
+                                                                        <div className={'payment-type-header'}>
+                                                                            Subtotal (Incl. tax)
+                                                                        </div>
+                                                                        <div className={'payment-type-header'}>
+                                                                            {Misc.CURRENCY_SYMBOL}{CommonService.convertToDecimals(billDetail?.totalAmount)}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className={'d-flex ts-justify-content-sm-between'}>
+                                                                        <div className={'payment-type-header'}>
+                                                                            Discount
+                                                                        </div>
+                                                                        <div className={'payment-type-header'}>
+                                                                            {Misc.CURRENCY_SYMBOL}{CommonService.convertToDecimals(billDetail?.totalDiscount) || '0.00'}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className={'d-flex ts-justify-content-sm-between'}>
+                                                                        <div className={'payment-type-header-total'}>
+                                                                            Total (Incl.tax)
+                                                                        </div>
+                                                                        <div className={'payment-type-header-total'}>
+                                                                            {Misc.CURRENCY_SYMBOL}{CommonService.convertToDecimals(billDetail?.totalPayableAmount) || '0.00'}
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </>
+                                                    }
+                                                    {index !== billingDetails?.bills_details?.length - 1 &&
+                                                        <HorizontalLineComponent/>}
+                                                </>
+                                            )
+                                        })
+
+                                    }
+                                </CardComponent>
+                                <div className={'add-new-invoice__comments__payment__block__wrapper'}>
+                                    <div className="ts-row">
+                                        <div className="ts-col-lg-4 add-new-invoice__comments__block">
+                                            <DataLabelValueComponent className={'comments'} label={""}>
+                                                {searchParams.get('type') !== 'completed' &&
+                                                    <TextAreaComponent label={'Comments'}
+                                                                       placeholder={'Please add your comments here'}
+                                                                       fullWidth={true}
+                                                                       value={comments}
+                                                                       onChange={(value: any) => {
+                                                                           setComments(value);
+                                                                           setIsMarkAsPaidDisabled(true);
+                                                                       }}
+                                                    />
+                                                }
+                                                {searchParams.get('type') === 'completed' &&
+                                                    <TextAreaComponent label={'Comments'}
+                                                                       placeholder={'Please add your comments here'}
+                                                                       fullWidth={true}
+                                                                       value={comments?.length > 0 ? comments : 'N/A'}
+                                                                       disabled={true}
+                                                    />}
+
+                                            </DataLabelValueComponent>
+                                            {/*{*/}
+                                            {/*    type === 'receipt' &&*/}
+                                            {/*    <DataLabelValueComponent className={'mode_of_payment'}*/}
+                                            {/*                             label={"Mode Of Payment: "}*/}
+                                            {/*                             direction={"row"}*/}
+                                            {/*    >*/}
+                                            {/*        {billingDetails?.payment_mode_details?.title || billingDetails?.payment_mode || "N/A"}*/}
+                                            {/*    </DataLabelValueComponent>*/}
+                                            {/*}*/}
+                                        </div>
+                                        <div className="ts-col-lg-2"/>
+                                        <div className="ts-col-lg-6">
+                                            <div className="add-new-invoice__payment__block">
+                                                <div className="add-new-invoice__payment__block__row subtotal">
+                                                    <div
+                                                        className="add-new-invoice__payment__block__row__title">
+                                                        Subtotal (Incl. tax)
+                                                    </div>
+                                                    <div
+                                                        className="add-new-invoice__payment__block__row__value">
+                                                        {Misc.CURRENCY_SYMBOL}{CommonService.convertToDecimals(billingDetails?.total)}
+                                                    </div>
+                                                </div>
+                                                <div className="add-new-invoice__payment__block__row discount">
+                                                    <div
+                                                        className="add-new-invoice__payment__block__row__title">
+                                                        Discount
+                                                    </div>
+                                                    <div
+                                                        className="add-new-invoice__payment__block__row__value">
+                                                        {Misc.CURRENCY_SYMBOL}{billingDetails?.discount ? CommonService.convertToDecimals(billingDetails?.discount) : '0.00'}
+                                                    </div>
+                                                </div>
+                                                <div className="add-new-invoice__payment__block__row grand">
+                                                    <div className="add-new-invoice__payment__block__row__title">
+                                                        Grand Total (Incl. tax)
+                                                    </div>
+                                                    <div
+                                                        className="add-new-invoice__payment__block__row__value">{Misc.CURRENCY_SYMBOL}
+                                                        {
+                                                            CommonService.convertToDecimals((billingDetails?.total) - (billingDetails?.discount ? (billingDetails?.discount) : 0))
+                                                        }
+                                                    </div>
+                                                </div>
+                                                {searchParams.get('type') === 'consolidatedReceipt' &&
+                                                    <div className="add-new-invoice__payment__block__row date">
+                                                        <div className="add-new-invoice__payment__block__row__title">
+                                                            Payment Date
+                                                        </div>
+                                                        <div
+                                                            className="add-new-invoice__payment__block__row__value">
+                                                            {CommonService.convertDateFormat2(billingDetails?.created_at)}
+                                                        </div>
+                                                    </div>
+                                                }
+                                                {/*// }*/}
+
+                                                {searchParams.get('type') === 'consolidatedReceipt' &&
+                                                    <div className="add-new-invoice__payment__block__row date">
+                                                        <div
+                                                            className="add-new-invoice__payment__block__row__title">
+                                                            Payment Method
+                                                        </div>
+                                                        <div
+                                                            className="add-new-invoice__payment__block__row__value">
+                                                            {billingDetails?.payment_mode_details?.title || billingDetails?.payment_mode || "N/A"}
+                                                        </div>
+                                                    </div>
+                                                }
+
+
+                                            </div>
+                                        </div>
                                     </div>
-                                </>
+                                </div>
+                                <CardComponent title={'Thank You Note'} className={'mrg-top-30'}>
+                                    {searchParams.get('type') !== 'completed' && <><TextAreaComponent label={'Note'}
+                                                                                                      fullWidth={true}
+                                                                                                      value={thankYouNote}
+                                                                                                      onChange={(value: any) => {
+                                                                                                          setThankYouNote(value);
+                                                                                                          setIsMarkAsPaidDisabled(true);
+                                                                                                      }}
+                                    />
 
-                                }
-                                {searchParams.get('type') === 'completed' && <>{billingDetails?.thankyou_note}</>}
-                                {/*// <div className={'pdd-bottom-20'}>{thankYouNote}</div>*/}
+                                        <div className={'ts-col-md-12'}>
+                                            {(thankYouNote?.length) > 90 ?
+                                                <div className={'alert-error'}>Characters
+                                                    Limit: {(thankYouNote?.length)}/90</div> :
+                                                <div className={'no-alert'}>Characters
+                                                    Limit: {(thankYouNote?.length)}/90</div>}
+                                        </div>
+                                    </>
 
-                            </CardComponent>
-                        </div>
+                                    }
+                                    {searchParams.get('type') === 'completed' && <>{billingDetails?.thankyou_note}</>}
+                                    {/*// <div className={'pdd-bottom-20'}>{thankYouNote}</div>*/}
+
+                                </CardComponent>
+                            </div>
+                        </CardComponent>
                         {searchParams.get('type') !== 'completed' &&
-                            <div className={'d-flex ts-justify-content-center mrg-top-20'}>
+                            <div className={'d-flex ts-justify-content-center mrg-top-30'}>
+                                <ButtonComponent variant={'outlined'} className={'mrg-right-15'} onClick={handleCancel}>
+                                    Cancel
+                                </ButtonComponent>
+                                &nbsp;
                                 <ButtonComponent
                                     isLoading={isSubmitting}
-                                    size={'large'}
                                     disabled={thankYouNote?.length > 90}
                                     onClick={() => handleSave(thankYouNote, comments, selectedAddress, billingDetails)}>Save</ButtonComponent>
                             </div>}
@@ -866,11 +872,21 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                 }
                 <DrawerComponent isOpen={isClientBillingAddressDrawerOpened}
                                  onClose={() => setIsClientBillingAddressDrawerOpened(false)}
-                                 showClose={true}>
+                >
 
                     {
                         currentStep === 'selectAddress' && <>
-                            <FormControlLabelComponent label={"Select Billing Address"}/>
+                            <div className="drawer-header pdd-bottom-20">
+                                {
+                                    <div className="back-btn"/>
+                                }
+
+                                <div className="drawer-close"
+                                     id={'book-appointment-close-btn'}
+                                     onClick={closeBillingAddressFormDrawer
+                                     }><ImageConfig.CloseIcon/></div>
+                            </div>
+                            <FormControlLabelComponent label={"Select Billing Address"} size={'xl'}/>
 
                             <div className={'select-billing-address'}>
                                 {clientLinkedList?.length > 1 &&
@@ -951,6 +967,7 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                     }
                     {currentStep === "editAddress" && <EditBillingAddressComponent billing_address={tempSelectedAddress}
                                                                                    clientId={billingDetails?.client_id}
+                                                                                   onClose={closeBillingAddressFormDrawer}
                                                                                    onCancel={closeBillingAddressFormDrawer}
                                                                                    afterSave={getClientBillingAddressList}
                                                                                    onSave={handleEditBillingAddress}/>
@@ -960,6 +977,7 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                         <AddBillingAddressComponent clientId={billingDetails?.client_id}
                                                     onCancel={closeBillingAddressFormDrawer}
                                                     onSave={handleEditBillingAddress}
+                                                    onClose={closeBillingAddressFormDrawer}
                                                     afterSave={getClientBillingAddressList}
 
                         />
