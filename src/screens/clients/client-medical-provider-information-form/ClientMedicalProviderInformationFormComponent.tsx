@@ -168,7 +168,6 @@ const ClientMedicalProviderInformationFormComponent = (props: ClientMedicalProvi
                                                             (field: FieldProps) => (
                                                                 <FormikPhoneInputComponent
                                                                     label={"MD Phone"}
-                                                                    disabled={!values?.medical_provider_info?.referring_doctor_name}
                                                                     // required={true}
                                                                     formikField={field}
                                                                     fullWidth={true}
