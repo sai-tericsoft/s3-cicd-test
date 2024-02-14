@@ -320,7 +320,8 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
             key: "sale_price",
             align: 'center',
             width: 70,
-            render: (record: any, index: number) => <Field name={`products[${index}].sale_price`} className="t-form-control">
+            render: (record: any, index: number) => <Field name={`products[${index}].sale_price`}
+                                                           className="t-form-control">
                 {
                     (field: FieldProps) => (
                         <>
@@ -515,6 +516,12 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
         setIsClientBillingAddressDrawerOpened(false);
         setCurrentStep('selectAddress')
         getClientBillingAddressList()
+    }, [getClientBillingAddressList]);
+
+    const BillingAddressStep = useCallback(() => {
+        // setIsClientBillingAddressDrawerOpened(false);
+        setCurrentStep('selectAddress');
+        getClientBillingAddressList();
     }, [getClientBillingAddressList]);
 
     const openPaymentModeModal = useCallback(() => {
@@ -1109,10 +1116,21 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
             </DrawerComponent>
             <DrawerComponent isOpen={isClientBillingAddressDrawerOpened}
                              onClose={closeBillingAddressFormDrawer}
-                             showClose={true}
+
             >
                 {
                     currentStep === 'selectAddress' && <>
+
+                        <div className="drawer-header pdd-bottom-20">
+                            {
+                                <div className="back-btn"/>
+                            }
+
+                            <div className="drawer-close"
+                                 id={'book-appointment-close-btn'}
+                                 onClick={closeBillingAddressFormDrawer
+                                 }><ImageConfig.CloseIcon/></div>
+                        </div>
                         <FormControlLabelComponent label={"Select Billing Address"} size={'xl'}/>
                         <div className={'select-billing-address'}>
                             {getBillingList?.length > 0 && getBillingList?.map((item: any, index: number) => {
@@ -1124,7 +1142,8 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                                                 onChange={() => handleRadioButtonClick(item)}/>
                                             <b>{item?.name}</b>
                                             <div className={'mrg-left-10'}>
-                                                {item?.is_default && <ChipComponent className={'draft'} label={'Default'}/>}
+                                                {item?.is_default &&
+                                                    <ChipComponent className={'Modified'} label={'Default'}/>}
                                             </div>
                                         </div>
                                         <div className={'btn-wrapper'}>
@@ -1150,10 +1169,12 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                                         </div>
                                     </div>
                                     <div className={'mrg-15'}>
-                                        <span className={'card-heading'}>Address:</span> {item?.address_line}, {item?.city}, {item?.state}, {item?.country} {item?.zip_code}
+                                        <span
+                                            className={'card-heading'}>Address:</span> {item?.address_line}, {item?.city}, {item?.state}, {item?.country} {item?.zip_code}
                                     </div>
                                     <div className={'mrg-15'}>
-                                        <span className={'card-heading'}>Phone Number:</span>  {CommonService.formatPhoneNumber(item?.phone)}
+                                        <span
+                                            className={'card-heading'}>Phone Number:</span> {CommonService.formatPhoneNumber(item?.phone)}
                                     </div>
                                 </div>
                             })
@@ -1173,14 +1194,16 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                 {currentStep === "editAddress" &&
                     <EditBillingAddressComponent billing_address={tempSelectedAddress}
                                                  clientId={selectedClient?._id}
-                                                 onCancel={closeBillingAddressFormDrawer}
+                                                 onCancel={BillingAddressStep}
                                                  onSave={handleEditBillingAddress}
+                                                 onClose={closeBillingAddressFormDrawer}
                                                  afterSave={getClientBillingAddressList}
                     />}
                 {
                     currentStep === "addAddress" &&
                     <AddBillingAddressComponent clientId={selectedClient?._id}
-                                                onCancel={closeBillingAddressFormDrawer}
+                                                onCancel={BillingAddressStep}
+                                                onClose={closeBillingAddressFormDrawer}
                                                 onSave={handleEditBillingAddress}
                                                 afterSave={getClientBillingAddressList}
 

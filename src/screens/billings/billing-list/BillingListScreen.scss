@@ -5,9 +5,11 @@
 
   .billing-stats-card {
     padding: 0 8px !important;
-    &.last-card{
+
+    &.last-card {
       padding-right: 10px !important;
     }
+
   }
 
   .client-card {
@@ -26,12 +28,17 @@
     }
   }
 
+  .consolidated-mark-as-paid-button-wrapper {
+    margin-top: -20px !important;
+    margin-bottom: 4px !important;
+  }
+
   .consolidation-switch-wrapper {
     display: flex;
     align-items: center;
-    margin-top: -24px;
     margin-bottom: 14px;;
     margin-left: 9px;
+    margin-top: -5px;
 
     .consolidation-switch-label-component {
       color: #212B36;
@@ -52,7 +59,17 @@
 
   .t-tabs-wrapper {
     &.admin-billing {
+      .t-tabs {
+        margin-bottom: 12px !important;
+      }
+      .billing-card{
+        padding-bottom: 24px !important;
+      }
+
       .consolidated-table-wrapper {
+        .card-component {
+          padding-bottom: 24px !important;
+        }
         .table-component {
           .t-table-wrapper {
             .t-cell-billing_number {
@@ -69,10 +86,10 @@
   }
 
   .t-table-wrapper {
-    height: calc(100vh - 340px) !important;
+    //height: calc(100vh - 340px) !important;
 
     .t-table {
-      min-height: calc(100vh - 340px) !important;
+      //min-height: calc(100vh - 340px) !important;
 
       .t-cell-select {
         padding-left: 20px !important;
