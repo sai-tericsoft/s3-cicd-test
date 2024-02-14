@@ -21,7 +21,6 @@ import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import {IAPIResponseType} from "../../../shared/models/api.model";
 import {setUserBasicDetails} from "../../../store/actions/user.action";
 import {AddCircleIcon} from "../../../constants/ImageConfig";
-import FormDebuggerComponent from "../../../shared/components/form-debugger/FormDebuggerComponent";
 
 interface UserContactInformationEditComponentProps {
     handleNext: () => void

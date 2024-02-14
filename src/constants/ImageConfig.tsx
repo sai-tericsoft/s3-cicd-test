@@ -73,9 +73,10 @@ import {ReactComponent as PendingAmount} from './../assets/icons/discount_amount
 import {ReactComponent as BillingListIcon} from './../assets/icons/billing-list.svg';
 import {ReactComponent as FolderIcon} from './../assets/icons/folder-icon.svg';
 
-
 import {ReactComponent as CircularShowMore} from './../assets/icons/circular_show_more.svg';
 import {ReactComponent as CircularShowLess} from './../assets/icons/circular_show_less.svg';
+import {ReactComponent as ConsolidatedIcon} from './../assets/icons/consolidate-icon.svg';
+
 
 import {ReactComponent as ComingSoon} from './../assets/icons/coming_soon.svg';
 import {ReactComponent as History} from './../assets/icons/history_icon.svg';
@@ -260,5 +261,6 @@ export {
     ImageTypeIcon,
     UpdateQuantityIcon,
     CheckLottie,
+    ConsolidatedIcon
 
 }

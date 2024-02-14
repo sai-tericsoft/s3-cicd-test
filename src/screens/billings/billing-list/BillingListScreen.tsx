@@ -31,7 +31,6 @@ import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
 import BillingStatsCardComponent from "../billing-stats-card/BillingStatsCardComponent";
 import SwitchComponent from "../../../shared/components/form-controls/switch/SwitchComponent";
-import ReceiptOutlinedIcon from '@mui/icons-material/ReceiptOutlined';
 import commonService from "../../../shared/services/common.service";
 import DateRangePickerComponentV2
     from "../../../shared/components/form-controls/date-range-pickerV2/DateRangePickerComponentV2";
@@ -204,7 +203,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             key: 'client_name',
             dataIndex: 'first_name',
             width: 150,
-            align: 'left',
+            align: 'center',
             render: (item: any) => {
                 return <>
                     {
@@ -1090,19 +1089,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                         </div>
                         <div className="ts-col-lg-1"/>
                         <div className="ts-col-lg-5 d-flex ts-justify-content-end btn-wrapper">
-                            {
-                                (currentTab === 'completedPayments' || currentTab === 'pendingPayments') && !clientId &&
-                                <>
-                                    <ButtonComponent variant={'outlined'}
-                                                     className={'mrg-right-10'}
-                                                     disabled={selectedPayments.length < 2}
-                                                     isLoading={isPaymentsGettingConsolidated}
-                                                     onClick={handleConsolidatePayments}
-                                                     prefixIcon={<ReceiptOutlinedIcon/>}>
-                                        Consolidate
-                                    </ButtonComponent>&nbsp;&nbsp;
-                                </>
-                            }
+
                             {
                                 clientId &&
                                 <ButtonComponent className={'mrg-right-10'}
@@ -1112,7 +1099,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                                     Billing Address
                                 </ButtonComponent>
                             }
-                            {currentTab === 'pendingPayments' &&
+                            {(currentTab === 'pendingPayments' && clientId) &&
                                 <>
                                     <ButtonComponent variant={'outlined'}
                                                      className={'mrg-right-10'}
@@ -1126,49 +1113,14 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                             {!clientId &&
                                 <ButtonComponent prefixIcon={<ImageConfig.AddIcon/>}
                                                  onClick={() => navigate(CommonService._routeConfig.AddNewReceipt())}>
-                                    New Receipt
+                                    Add Receipt
                                 </ButtonComponent>
                             }
                         </div>
                     </div>
                 </div>
             </div>
-            {
-                !clientId &&
-                <div className={'consolidation-switch-wrapper'}>
-                    <div className={'consolidation-switch'}>
-                        <SwitchComponent
-                            label={''}
-                            disabled={selectedPayments?.length === 0 || currentTab === 'consolidatedPayments' || selectedPayments[0]?.payment_for === "products"}
-                            checked={selectedPayments?.length > 0 && clientListFilterState.linked_invoices}
-                            onChange={(value) => {
-                                if (!value) {
-                                    setClientListFilterState(
-                                        {
-                                            ...clientListFilterState,
-                                            linked_invoices: value,
-                                            linked_receipts: value,
-                                            client_id: undefined
-                                        }
-                                    );
-                                } else {
-                                    setClientListFilterState({
-                                        ...clientListFilterState,
-                                        linked_invoices: value,
-                                        linked_receipts: value,
-                                        client_id: selectedPayments[0]?.client_id
-                                    })
-                                }
-                            }
-                            }
-                        />
-                    </div>
-                    <div
-                        className={`consolidation-switch-label-component ${(selectedPayments?.length === 0 || currentTab === 'consolidatedPayments' || selectedPayments[0]?.payment_for === "products") && " disabled"}`}>
-                        Show payments for selected client and linked profiles
-                    </div>
-                </div>
-            }
+
             {clientId &&
                 <div>
                     {
@@ -1234,6 +1186,73 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                 </TabsComponent>
                 <TabContentComponent value={'pendingPayments'} selectedTab={currentTab}>
                     <CardComponent className={clientId ? 'client-card' : 'billing-card'}>
+                        <div className={'d-flex justify-content-space-between align-items-center'}>
+                            <div>
+                                {
+                                    !clientId &&
+                                    <div className={'consolidation-switch-wrapper'}>
+                                        <div className={'consolidation-switch'}>
+                                            <SwitchComponent
+                                                label={''}
+                                                disabled={selectedPayments?.length === 0 || currentTab === 'consolidatedPayments' || selectedPayments[0]?.payment_for === "products"}
+                                                checked={selectedPayments?.length > 0 && clientListFilterState.linked_invoices}
+                                                onChange={(value) => {
+                                                    if (!value) {
+                                                        setClientListFilterState(
+                                                            {
+                                                                ...clientListFilterState,
+                                                                linked_invoices: value,
+                                                                linked_receipts: value,
+                                                                client_id: undefined
+                                                            }
+                                                        );
+                                                    } else {
+                                                        setClientListFilterState({
+                                                            ...clientListFilterState,
+                                                            linked_invoices: value,
+                                                            linked_receipts: value,
+                                                            client_id: selectedPayments[0]?.client_id
+                                                        })
+                                                    }
+                                                }
+                                                }
+                                            />
+                                        </div>
+                                        <div
+                                            className={`consolidation-switch-label-component ${(selectedPayments?.length === 0 || currentTab === 'consolidatedPayments' || selectedPayments[0]?.payment_for === "products") && " disabled"}`}>
+                                            Show payments for selected client and linked profiles
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+
+                            <div className={'consolidated-mark-as-paid-button-wrapper'}>
+                                {
+                                    !clientId &&
+                                    <>
+                                        <ButtonComponent variant={'outlined'}
+                                                         className={'mrg-right-10'}
+                                                         disabled={selectedPayments.length < 2}
+                                                         isLoading={isPaymentsGettingConsolidated}
+                                                         onClick={handleConsolidatePayments}
+                                                         prefixIcon={<ImageConfig.ConsolidatedIcon/>}>
+                                            Consolidate
+                                        </ButtonComponent>
+                                    </>
+                                }
+                                {!clientId && <>
+                                    <ButtonComponent variant={'outlined'}
+
+                                                     disabled={selectedPayments.length === 0 || isPaymentsGettingConsolidated}
+                                                     onClick={openMarkAsPaidModal}
+                                                     prefixIcon={<ImageConfig.CircleCheck/>}>
+                                        Mark as paid
+                                    </ButtonComponent>&nbsp;&nbsp;
+                                </>}
+
+                            </div>
+
+                        </div>
                         <div className={clientId ? 'table-actions-wrapper' : ""}>
                             <TableWrapperComponent url={APIConfig.PENDING_PAYMENT_LIST.URL}
                                                    extraPayload={
@@ -1259,6 +1278,58 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                 </TabContentComponent>
                 <TabContentComponent value={'completedPayments'} selectedTab={currentTab}>
                     <CardComponent className={clientId ? 'client-card' : 'billing-card'}>
+                        <div className={'d-flex justify-content-space-between align-items-center'}>
+                            {
+                                !clientId &&
+                                <div className={'consolidation-switch-wrapper'}>
+                                    <div className={'consolidation-switch'}>
+                                        <SwitchComponent
+                                            label={''}
+                                            disabled={selectedPayments?.length === 0 || currentTab === 'consolidatedPayments' || selectedPayments[0]?.payment_for === "products"}
+                                            checked={selectedPayments?.length > 0 && clientListFilterState.linked_invoices}
+                                            onChange={(value) => {
+                                                if (!value) {
+                                                    setClientListFilterState(
+                                                        {
+                                                            ...clientListFilterState,
+                                                            linked_invoices: value,
+                                                            linked_receipts: value,
+                                                            client_id: undefined
+                                                        }
+                                                    );
+                                                } else {
+                                                    setClientListFilterState({
+                                                        ...clientListFilterState,
+                                                        linked_invoices: value,
+                                                        linked_receipts: value,
+                                                        client_id: selectedPayments[0]?.client_id
+                                                    })
+                                                }
+                                            }
+                                            }
+                                        />
+                                    </div>
+                                    <div
+                                        className={`consolidation-switch-label-component ${(selectedPayments?.length === 0 || currentTab === 'consolidatedPayments' || selectedPayments[0]?.payment_for === "products") && " disabled"}`}>
+                                        Show payments for selected client and linked profiles
+                                    </div>
+                                </div>
+                            }
+                            <div className={'consolidated-mark-as-paid-button-wrapper'}>
+                                {
+                                    !clientId &&
+                                    <>
+                                        <ButtonComponent variant={'outlined'}
+                                                         disabled={selectedPayments.length < 2}
+                                                         isLoading={isPaymentsGettingConsolidated}
+                                                         onClick={handleConsolidatePayments}
+                                                         prefixIcon={<ImageConfig.ConsolidatedIcon/>}>
+                                            Consolidate
+                                        </ButtonComponent>&nbsp;&nbsp;
+                                    </>
+                                }
+                            </div>
+                        </div>
                         <div className={clientId ? 'table-actions-wrapper' : ""}>
                             <TableWrapperComponent url={APIConfig.COMPLETE_PAYMENT_LIST.URL}
                                                    noDataText={(<div className={'no-client-text-wrapper'}>
@@ -1281,24 +1352,26 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                 {
                     !clientId && <div className={'consolidated-table-wrapper'}>
                         <TabContentComponent value={'consolidatedPayments'} selectedTab={currentTab}>
-                            <TableWrapperComponent
-                                url={APIConfig.CONSOLIDATED_PAYMENT_LIST.URL}
-                                extraPayload={
-                                    clientListFilterState
-                                }
-                                noDataText={(<div className={'no-client-text-wrapper'}>
-                                    <div>{clientListFilterState.search ?
-                                        <img src={ImageConfig.Search} alt="client-search"/> : ''}</div>
-                                    <div
-                                        className={'no-client-heading mrg-bottom-15'}>{clientListFilterState.search ? 'Sorry, no results found!' : ''}</div>
-                                    <div className={'no-client-description'}>
-                                        {clientListFilterState.search ? 'There is no payment available by the client name you have searched.' : 'Currently there is no consolidated payments.'}
-                                    </div>
-                                </div>)}
-                                method={APIConfig.CONSOLIDATED_PAYMENT_LIST.METHOD}
-                                onSort={handleSort}
-                                columns={consolidatedPayments}
-                            />
+                            <CardComponent>
+                                <TableWrapperComponent
+                                    url={APIConfig.CONSOLIDATED_PAYMENT_LIST.URL}
+                                    extraPayload={
+                                        clientListFilterState
+                                    }
+                                    noDataText={(<div className={'no-client-text-wrapper'}>
+                                        <div>{clientListFilterState.search ?
+                                            <img src={ImageConfig.Search} alt="client-search"/> : ''}</div>
+                                        <div
+                                            className={'no-client-heading mrg-bottom-15'}>{clientListFilterState.search ? 'Sorry, no results found!' : ''}</div>
+                                        <div className={'no-client-description'}>
+                                            {clientListFilterState.search ? 'There is no payment available by the client name you have searched.' : 'Currently there is no consolidated payments.'}
+                                        </div>
+                                    </div>)}
+                                    method={APIConfig.CONSOLIDATED_PAYMENT_LIST.METHOD}
+                                    onSort={handleSort}
+                                    columns={consolidatedPayments}
+                                />
+                            </CardComponent>
                         </TabContentComponent>
                     </div>
                 }
@@ -1384,7 +1457,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             </ModalComponent>
             {/*Payment mode selection Modal end*/}
 
-            <DrawerComponent  isOpen={isClientBillingAddressDrawerOpened}
+            <DrawerComponent isOpen={isClientBillingAddressDrawerOpened}
             >
                 {
                     currentStep === 'selectAddress' && <>

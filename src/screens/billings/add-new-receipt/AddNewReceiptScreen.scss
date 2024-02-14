@@ -1,10 +1,14 @@
 @import "src/assets/styles/common";
 
 .add-new-receipt-screen {
+
   .t-form {
-    //background-color: #ffffff;
-    //padding: 24px;
-    //border: 1px solid #ECECEC;
+    .t-form-controls {
+      .card-component {
+        box-shadow: none !important;
+      }
+    }
+
     .card-component {
       padding-bottom: 4px !important;
     }
@@ -211,7 +215,8 @@
   .t-table-wrapper {
 
     height: calc(100vh - 280px);
-    .t-table{
+
+    .t-table {
       border-bottom-left-radius: 8px;
       border-bottom-right-radius: 8px;
     }
