@@ -20,9 +20,9 @@ import {ReactComponent as EyeIcon} from './../assets/icons/eye.svg';
 import {ReactComponent as CloseEyeIcon} from './../assets/icons/close_eye.svg';
 import {ReactComponent as NewLogo} from './../assets/icons/logo-new.svg';
 import {ReactComponent as ShareIcon} from "./../assets/icons/share_icon.svg";
+import {ReactComponent as EyeOutlined} from "./../assets/icons/eye_outlined.svg";
 import {ReactComponent as PaymentStatusIcon} from "./../assets/icons/payment-status-icon.svg";
-
-
+import {ReactComponent as UpdateQuantityIcon} from './../assets/icons/update-quantity.svg';
 
 
 import {ReactComponent as PrintIcon} from './../assets/icons/print.svg';
@@ -93,6 +93,7 @@ import PDFIcon from './../assets/icons/file-types/pdf.svg';
 import WordDocIcon from './../assets/icons/file-types/doc.svg';
 import ExcelIcon from './../assets/icons/file-types/xls.svg';
 import UnknownFileTypeIcon from '../assets/icons/file-types/unknown_file_type.svg';
+import ImageTypeIcon from '../assets/icons/file-types/image.svg';
 
 // MainMenu
 import {ReactComponent as DashboardIcon} from './../assets/icons/side-menu/dashboard.svg';
@@ -123,6 +124,7 @@ import {ReactComponent as ListIcon} from './../assets/icons/list_black.svg';
 import {ReactComponent as CommentIcon} from './../assets/icons/comment.svg';
 import {ReactComponent as NoDataDocumentsIcon} from '../assets/icons/no_documents.svg';
 import {ReactComponent as NoDataAppointmentsIcon} from '../assets/icons/no_appointments.svg';
+
 
 import {ReactComponent as TableRowExpandIcon} from './../assets/icons/table/expand.svg';
 import {ReactComponent as TableRowCollapseIcon} from './../assets/icons/table/collapse.svg';
@@ -254,5 +256,9 @@ export {
     CrossOutlinedIcon,
     BillingListIcon,
     FolderIcon,
-    CheckLottie
+    EyeOutlined,
+    ImageTypeIcon,
+    UpdateQuantityIcon,
+    CheckLottie,
+
 }

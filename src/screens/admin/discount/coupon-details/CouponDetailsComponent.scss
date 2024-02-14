@@ -1,5 +1,4 @@
 
-
 .coupon-details-component {
   .coupon-name-button-wrapper {
     display: flex;
@@ -15,9 +14,21 @@
       }
     }
   }
-  .coupon-valid-on-card{
+
+  .coupon-valid-on-card {
     padding-bottom: 24px;
+
+    .form-control-label-component {
+      margin-bottom: 12px !important;
+      color: #212B36;
+    }
+
+    .t-table {
+      border-bottom-left-radius: 8px !important;
+      border-bottom-right-radius: 8px !important;
+    }
   }
+
   //.coupon-valid-on-table-wrapper{
   //  width: 700px;
   //  .table-component {

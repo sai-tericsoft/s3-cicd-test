@@ -1,7 +1,6 @@
 @import "src/assets/styles/common";
 
 .scheduling-list-component {
-  //height: calc(100vh - 100px);
   .scheduling-header-wrapper {
     display: flex;
     //flex-direction: row;
@@ -524,8 +523,8 @@
     }
 
     &.scheduled {
-      background: #E8F2FF;
-      color: #1C5EDE;
+      background: #558BB0;
+      color: #FFFFFF;
       width: 100px;
     }
 

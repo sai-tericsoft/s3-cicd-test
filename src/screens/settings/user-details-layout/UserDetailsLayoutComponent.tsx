@@ -148,7 +148,10 @@ const UserDetailsLayoutComponent = (props: UserDetailsLayoutComponentProps) => {
                                         </div>
                                     </div>
                                     <div className={"user-details-sub-menu-holder"}>
-                                        <SubMenuListComponent menuItems={USER_MENU_ITEMS} pathIndex={path.includes('admin') ? 4 : 2} isExternalHighLight={true} listMapping={path.includes('admin')?AdminMenuItemsMapping:UserMenuItemsMapping}/>
+                                        <SubMenuListComponent menuItems={USER_MENU_ITEMS}
+                                                              pathIndex={path.includes('admin') ? 4 : 2}
+                                                              isExternalHighLight={true}
+                                                              listMapping={path.includes('admin') ? AdminMenuItemsMapping : UserMenuItemsMapping}/>
                                     </div>
                                 </div>
                                 <div className="user-details-content-wrapper">
@@ -163,12 +166,12 @@ const UserDetailsLayoutComponent = (props: UserDetailsLayoutComponentProps) => {
                                             >
                                                 Delete User Permanently
                                             </ButtonComponent>
-
-                                            <div>
+                                            <div className={'h-v-center'}>
+                                                <div className={'status-heading'}>Status:</div>
                                                 <SwitchComponent
                                                     name={'is_active'}
                                                     checked={isUserActive}
-                                                    label="Status"
+                                                    label={isUserActive ? "Active" : "Inactive"}
                                                     labelPlacement={'start'}
                                                     onChange={toggleUserStatus}
                                                 />

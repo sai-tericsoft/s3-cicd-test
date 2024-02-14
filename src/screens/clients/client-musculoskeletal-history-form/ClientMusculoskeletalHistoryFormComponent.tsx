@@ -47,8 +47,11 @@ const ClientMusculoskeletalHistoryFormComponent = (props: ClientMusculoskeletalF
 
     const onSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
         const musculoskeletalHistoryPayload = Object.keys(values.musculoskeletal_history).reduce(
-            (acc:any, id) => {
-                acc[id] = { value: values.musculoskeletal_history[id].value, text: values.musculoskeletal_history[id].text};
+            (acc: any, id) => {
+                acc[id] = {
+                    value: values.musculoskeletal_history[id].value,
+                    text: values.musculoskeletal_history[id].text
+                };
                 return acc;
             }, {});
         const payload = {
@@ -86,106 +89,108 @@ const ClientMusculoskeletalHistoryFormComponent = (props: ClientMusculoskeletalF
                 ((mode === "edit" && clientMedicalDetails) || mode === "add") && <>
                     <FormControlLabelComponent className={'add-musculoskeletal-history-heading'}
                                                label={CommonService.capitalizeFirstLetter(mode) + " Musculoskeletal History"}/>
-                    <CardComponent title={"Musculoskeletal History"} description={"Has the client ever:"}>
-                        <Formik
-                            validationSchema={ClientMusculoskeletalHistoryFormValidationSchema}
-                            initialValues={clientMusculoskeletalHistoryFormInitialValues}
-                            onSubmit={onSubmit}
-                            enableReinitialize={true}
-                            validateOnChange={false}
-                            validateOnBlur={false}
-                            validateOnMount={true}>
-                            {({values, setFieldValue, isValid, validateForm}) => {
-                                return (
-                                    <Form noValidate={true} className={"t-form"}>
+
+                    <Formik
+                        validationSchema={ClientMusculoskeletalHistoryFormValidationSchema}
+                        initialValues={clientMusculoskeletalHistoryFormInitialValues}
+                        onSubmit={onSubmit}
+                        enableReinitialize={true}
+                        validateOnChange={false}
+                        validateOnBlur={false}
+                        validateOnMount={true}>
+                        {({values, setFieldValue, isValid, validateForm}) => {
+                            return (
+                                <Form noValidate={true} className={"t-form"}>
+                                    <CardComponent title={"Musculoskeletal History"} description={"Has the client ever:"}>
                                         {
                                             musculoskeletalHistoryOptionsList?.map((question: IMusculoskeletalHistoryOption) => {
                                                 const {_id, title, placeholder} = question;
                                                 return <div className="ts-row mrg-top-10 mrg-bottom-10"
-                                                         key={_id}>
-                                                        <div className="ts-col-md-3">
-                                                            <div className={"mrg-bottom-10"}>
-                                                                {title}
-                                                            </div>
-                                                            <Field name={`musculoskeletal_history.${_id}.value`}>
+                                                            key={_id}>
+                                                    <div className="ts-col-md-3">
+                                                        <div className={"mrg-bottom-10"}>
+                                                            {title}
+                                                        </div>
+                                                        <Field name={`musculoskeletal_history.${_id}.value`}>
+                                                            {
+                                                                (field: FieldProps) => (
+                                                                    <FormikRadioButtonGroupComponent
+                                                                        options={CommonService._staticData.yesNoOptions}
+                                                                        displayWith={(option) => option.title}
+                                                                        valueExtractor={(option) => option.code}
+                                                                        required={true}
+                                                                        formikField={field}
+                                                                        id={"musculos"}
+                                                                        onChange={(value) => {
+                                                                            if (!value) {
+                                                                                setFieldValue(`musculoskeletal_history.${_id}.text`, undefined);
+                                                                            }
+                                                                        }}
+                                                                    />
+                                                                )
+                                                            }
+                                                        </Field>
+                                                    </div>
+                                                    <div className={"ts-col-md-9"}>
+                                                        {
+                                                            values?.musculoskeletal_history && values?.musculoskeletal_history[_id]?.value &&
+                                                            <Field name={`musculoskeletal_history.${_id}.text`}>
                                                                 {
                                                                     (field: FieldProps) => (
-                                                                        <FormikRadioButtonGroupComponent
-                                                                            options={CommonService._staticData.yesNoOptions}
-                                                                            displayWith={(option) => option.title}
-                                                                            valueExtractor={(option) => option.code}
-                                                                            required={true}
+                                                                        <FormikTextAreaComponent
+                                                                            id={"musculos_input"}
+                                                                            label={placeholder}
+                                                                            placeholder={placeholder}
                                                                             formikField={field}
-                                                                            id={"musculos"}
-                                                                            onChange={(value) => {
-                                                                                if (!value) {
-                                                                                    setFieldValue(`musculoskeletal_history.${_id}.text`, undefined);
-                                                                                }
-                                                                            }}
+                                                                            size={"small"}
+                                                                            rows={2}
+                                                                            fullWidth={true}
                                                                         />
                                                                     )
                                                                 }
                                                             </Field>
-                                                        </div>
-                                                        <div className={"ts-col-md-9"}>
-                                                            {
-                                                                values?.musculoskeletal_history && values?.musculoskeletal_history[_id]?.value  &&
-                                                                <Field name={`musculoskeletal_history.${_id}.text`}>
-                                                                    {
-                                                                        (field: FieldProps) => (
-                                                                            <FormikTextAreaComponent
-                                                                                id={"musculos_input"}
-                                                                                label={placeholder}
-                                                                                placeholder={placeholder}
-                                                                                formikField={field}
-                                                                                size={"small"}
-                                                                                rows={2}
-                                                                                fullWidth={true}
-                                                                            />
-                                                                        )
-                                                                    }
-                                                                </Field>
-                                                            }
-                                                        </div>
+                                                        }
                                                     </div>
+                                                </div>
                                             })
                                         }
-                                        <div className="t-form-actions">
-                                            <ButtonComponent
-                                                id={"home_btn"}
-                                                variant={"outlined"}
-                                                size={'large'}
-                                                onClick={onCancel}
-                                                disabled={isClientMusculoskeletalHistorySavingInProgress}
-                                                className={(isClientMusculoskeletalHistorySavingInProgress ? 'mrg-right-15' : '')}
-                                            >
-                                                Previous
-                                            </ButtonComponent>
-                                            <ButtonComponent
-                                                id={"save_next_btn"}
-                                                className={'submit-cta'}
-                                                size={'large'}
-                                                isLoading={isClientMusculoskeletalHistorySavingInProgress}
-                                                disabled={isClientMusculoskeletalHistorySavingInProgress || !isValid || CommonService.isEqual(values, clientMusculoskeletalHistoryFormInitialValues)}
-                                                type={"submit"}
-                                            >
-                                                {isClientMusculoskeletalHistorySavingInProgress ? "Saving" : "Save"}
-                                            </ButtonComponent>
-                                            {/*<ButtonComponent*/}
-                                            {/*    className={'submit-cta'}*/}
-                                            {/*    size={'large'}*/}
-                                            {/*    id={"next_btn"}*/}
-                                            {/*    onClick={onNext}*/}
-                                            {/*    disabled={mode === 'add' ? false : true}*/}
-                                            {/*>*/}
-                                            {/*    Next*/}
-                                            {/*</ButtonComponent>*/}
-                                        </div>
-                                    </Form>
-                                )
-                            }}
-                        </Formik>
-                    </CardComponent>
+                                    </CardComponent>
+
+                                    <div className="t-form-actions">
+                                        <ButtonComponent
+                                            id={"home_btn"}
+                                            variant={"outlined"}
+                                            size={'large'}
+                                            onClick={onCancel}
+                                            disabled={isClientMusculoskeletalHistorySavingInProgress}
+                                            className={(isClientMusculoskeletalHistorySavingInProgress ? 'mrg-right-15' : '')}
+                                        >
+                                            Previous
+                                        </ButtonComponent>
+                                        <ButtonComponent
+                                            id={"save_next_btn"}
+                                            className={'submit-cta'}
+                                            size={'large'}
+                                            isLoading={isClientMusculoskeletalHistorySavingInProgress}
+                                            disabled={isClientMusculoskeletalHistorySavingInProgress || !isValid || CommonService.isEqual(values, clientMusculoskeletalHistoryFormInitialValues)}
+                                            type={"submit"}
+                                        >
+                                            {isClientMusculoskeletalHistorySavingInProgress ? "Saving" : "Save"}
+                                        </ButtonComponent>
+                                        {/*<ButtonComponent*/}
+                                        {/*    className={'submit-cta'}*/}
+                                        {/*    size={'large'}*/}
+                                        {/*    id={"next_btn"}*/}
+                                        {/*    onClick={onNext}*/}
+                                        {/*    disabled={mode === 'add' ? false : true}*/}
+                                        {/*>*/}
+                                        {/*    Next*/}
+                                        {/*</ButtonComponent>*/}
+                                    </div>
+                                </Form>
+                            )
+                        }}
+                    </Formik>
                 </>
             }
         </div>

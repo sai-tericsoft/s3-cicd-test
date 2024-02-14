@@ -29,10 +29,7 @@ const ClientBasicDetailsComponent = (props: ClientBasicDetailsComponentProps) =>
         isClientBasicDetailsLoaded,
         isClientBasicDetailsLoadingFailed
     } = useSelector((state: IRootReducerState) => state.client);
-
-    const {
-        billingAddressList
-    } = useSelector((state: IRootReducerState) => state.billings);
+    
 
     const [isSSNMasked, setIsSSNMasked] = React.useState<boolean>(true);
     const [isFirstNameMasked, setIsFirstNameMasked] = React.useState<boolean>(true);
@@ -42,7 +39,7 @@ const ClientBasicDetailsComponent = (props: ClientBasicDetailsComponentProps) =>
         if (clientId) {
             dispatch(getBillingAddressList(clientId))
         }
-    }, [dispatch,clientId]);
+    }, [dispatch, clientId]);
 
     return (
         <div className={'client-basic-details-component'}>
@@ -231,26 +228,26 @@ const ClientBasicDetailsComponent = (props: ClientBasicDetailsComponentProps) =>
                                 </>
                             ) : 'N/A'}
                         </DataLabelValueComponent>
-                        {
-                            billingAddressList?.length > 0 && <>
-                                <HorizontalLineComponent className={'alternate-heading-horizontal-line'}/>
-                                <DataLabelValueComponent label={'Billing Address(es)'}>
-                                    <div className={'ts-row'}>
-                                        {billingAddressList?.map((address: any, index: number) => {
-                                            return <>
-                                                <div className={'ts-col-lg-5 billing-address-list'} key={index}>
-                                                    <div>
-                                                        <b>{address?.name}&nbsp;{address?.is_default ? '(Default)' : ''}</b>
-                                                    </div>
-                                                    {address.address_line}, {address.city}, {address.state}, {address.country} {address.zip_code}
-                                                </div>
-                                            </>
+                        {/*{*/}
+                        {/*    billingAddressList?.length > 0 && <>*/}
+                        {/*        <HorizontalLineComponent className={'alternate-heading-horizontal-line'}/>*/}
+                        {/*        <DataLabelValueComponent label={'Billing Address(es)'}>*/}
+                        {/*            <div className={'ts-row'}>*/}
+                        {/*                {billingAddressList?.map((address: any, index: number) => {*/}
+                        {/*                    return <>*/}
+                        {/*                        <div className={'ts-col-lg-5 billing-address-list'} key={index}>*/}
+                        {/*                            <div>*/}
+                        {/*                                <b>{address?.name}&nbsp;{address?.is_default ? '(Default)' : ''}</b>*/}
+                        {/*                            </div>*/}
+                        {/*                            {address.address_line}, {address.city}, {address.state}, {address.country} {address.zip_code}*/}
+                        {/*                        </div>*/}
+                        {/*                    </>*/}
 
-                                        })}
-                                    </div>
-                                </DataLabelValueComponent>
-                            </>
-                        }
+                        {/*                })}*/}
+                        {/*            </div>*/}
+                        {/*        </DataLabelValueComponent>*/}
+                        {/*    </>*/}
+                        {/*}*/}
                     </CardComponent>
                     <CardComponent title={'Emergency Contact Information'}>
                         <FormControlLabelComponent className={'primary-emergency-contact'}
@@ -397,7 +394,7 @@ const ClientBasicDetailsComponent = (props: ClientBasicDetailsComponentProps) =>
                             })
                         }
                     </CardComponent>
-                    <CardComponent title={'Work Information'} className={'pdd-bottom-0'}>
+                    <CardComponent title={'Work Information'}>
                         <div className={'ts-row'}>
                             <div className={'ts-col-lg-3'}>
                                 <DataLabelValueComponent label={'Occupation'}>

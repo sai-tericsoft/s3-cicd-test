@@ -65,7 +65,7 @@ const ESignApprovalComponent = (props: ESignApprovalComponentProps) => {
                 }
             </div>
             {signedAt && <div className="e-sign-time-stamp">
-                Electronically signed on : <> {CommonService.transformTimeStamp(signedAt)} </>
+                Uploaded on: <> {CommonService.transformTimeStamp(signedAt)} </>
             </div>}
             {
                 isLoading && <div className={'e-sign-loading'}>

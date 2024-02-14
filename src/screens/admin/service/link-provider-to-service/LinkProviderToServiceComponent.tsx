@@ -1,6 +1,5 @@
 import "./LinkProviderToServiceComponent.scss";
 import {useNavigate, useParams, useSearchParams} from "react-router-dom";
-import PageHeaderComponent from "../../../../shared/components/page-header/PageHeaderComponent";
 import React, {useCallback, useEffect, useState} from "react";
 import {IService} from "../../../../shared/models/service.model";
 import {CommonService} from "../../../../shared/services";
@@ -16,6 +15,8 @@ import AutoCompleteDropdownComponent
 import ServiceSlotsComponent from "../service-slots/ServiceSlotsComponent";
 import IconButtonComponent from "../../../../shared/components/icon-button/IconButtonComponent";
 import ToolTipComponent from "../../../../shared/components/tool-tip/ToolTipComponent";
+import ButtonComponent from "../../../../shared/components/button/ButtonComponent";
+import FormControlLabelComponent from "../../../../shared/components/form-control-label/FormControlLabelComponent";
 
 interface LinkProviderToServiceComponentProps {
 
@@ -63,21 +64,27 @@ const LinkProviderToServiceComponent = (props: LinkProviderToServiceComponentPro
     }, [navigate, serviceDetails, dispatch, serviceId]);
 
     useEffect(() => {
-        if(searchParams.get("user_id") && searchParams.get("first_name") && searchParams.get("last_name")){
-                setSelectedProviderIDForLinking(
-                    {
-                        _id:searchParams.get("user_id"),
-                        first_name:searchParams.get("first_name"),
-                        last_name:searchParams.get("last_name")
-                    }
-                )
+        if (searchParams.get("user_id") && searchParams.get("first_name") && searchParams.get("last_name")) {
+            setSelectedProviderIDForLinking(
+                {
+                    _id: searchParams.get("user_id"),
+                    first_name: searchParams.get("first_name"),
+                    last_name: searchParams.get("last_name")
+                }
+            )
 
         }
     }, [searchParams]);
 
+    const handleEdit = useCallback((categoryId: any) => {
+        if (serviceId && categoryId) {
+            navigate(CommonService._routeConfig.ServiceEdit(categoryId, serviceId));
+        }
+    }, [navigate, serviceId]);
+
     return (
         <div className={'link-provider-to-service-component'}>
-            <PageHeaderComponent title={"LINK PROVIDER"}/>
+            <FormControlLabelComponent label={"Link Provider"} size={'xl'}/>
             {
                 isServiceDetailsLoading && <LoaderComponent/>
             }
@@ -89,14 +96,28 @@ const LinkProviderToServiceComponent = (props: LinkProviderToServiceComponentPro
                 isServiceDetailsLoaded && serviceDetails && <>
                     <div className={"service-details-card"}>
                         <BasicDetailsCardComponent
+                            legend={serviceDetails?.category?.name}
                             title={serviceDetails?.name}
                             status={serviceDetails?.is_active}
                             avatarUrl={serviceDetails?.image?.url}
                             subTitle={serviceDetails?.description}
+                            actions={<>
+                                {(serviceDetails?.category_id && serviceId) &&
+                                    <ButtonComponent
+                                        prefixIcon={<ImageConfig.EditIcon/>}
+                                        onClick={() => handleEdit(serviceDetails?.category_id)}
+                                        variant={"outlined"}
+                                        id={"sv_edit_btn"}
+                                    >
+                                        Edit Details
+                                    </ButtonComponent>
+
+                                }
+                            </>}
                         ></BasicDetailsCardComponent>
                     </div>
                     <div className={'ts-row'}>
-                        <div className={'ts-col-sm-12 ts-col-md-6'}>
+                        <div className={'ts-col-sm-12 ts-col-md-6 ts-col-lg-5'}>
                             <AutoCompleteDropdownComponent
                                 label={"Providers"}
                                 placeholder={"Search for provider by name"}

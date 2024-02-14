@@ -308,7 +308,7 @@ const UserSlotsComponent = (props: UserSlotsComponentProps) => {
             setFacilityId(currentTab);
         }, [searchParams]);
 
-        const handleTabChange = useCallback((e: any, value: any) => {
+        const handleTabChange = useCallback((e:any,value: any) => {
             if (userId) {
                 setUserSelectedSlots([]);
                 dispatch(getUserSlots(userId, value));

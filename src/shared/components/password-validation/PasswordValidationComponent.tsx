@@ -66,24 +66,25 @@ const PasswordValidationComponent = (props: PasswordValidationComponentProps) =>
             <div className="validator-rule-list">
                 <div className={`validator-rule-item ${isLengthValid ? "valid" : 'invalid'}`}>
                     <div className="validator-rule-icon"> {isLengthValid ? <CircleCheck/> : <CircleInfo/>}</div>
-                    <div className="validator-rule-text"> A minimum 8 characters long and a maximum of 16</div>
-                </div>
-                <div className={`validator-rule-item ${isDigitValid ? "valid" : 'invalid'}`}>
-                    <div className="validator-rule-icon"> {isDigitValid ? <CircleCheck/> : <CircleInfo/>}</div>
-                    <div className="validator-rule-text"> At least 1 digit</div>
-                </div>
-                <div className={`validator-rule-item ${isUpperCaseValid ? "valid" : 'invalid'}`}>
-                    <div className="validator-rule-icon"> {isUpperCaseValid ? <CircleCheck/> : <CircleInfo/>}</div>
-                    <div className="validator-rule-text"> At least 1 uppercase letter</div>
-                </div>
-                <div className={`validator-rule-item ${isLowerCaseValid ? "valid" : 'invalid'}`}>
-                    <div className="validator-rule-icon"> {isLowerCaseValid ? <CircleCheck/> : <CircleInfo/>}</div>
-                    <div className="validator-rule-text"> At least 1 lowercase letter</div>
+                    <div className="validator-rule-text"> Must contain 8 - 16 characters</div>
                 </div>
                 <div className={`validator-rule-item ${isSpecialCharacterValid ? "valid" : 'invalid'}`}>
                     <div className="validator-rule-icon"> {isSpecialCharacterValid ? <CircleCheck/> : <CircleInfo/>}</div>
-                    <div className="validator-rule-text"> At least 1 special character ( #-_!@ )</div>
+                    <div className="validator-rule-text"> At least one special character</div>
                 </div>
+                <div className={`validator-rule-item ${isDigitValid ? "valid" : 'invalid'}`}>
+                    <div className="validator-rule-icon"> {isDigitValid ? <CircleCheck/> : <CircleInfo/>}</div>
+                    <div className="validator-rule-text"> At least one digit</div>
+                </div>
+                <div className={`validator-rule-item ${isUpperCaseValid ? "valid" : 'invalid'}`}>
+                    <div className="validator-rule-icon"> {isUpperCaseValid ? <CircleCheck/> : <CircleInfo/>}</div>
+                    <div className="validator-rule-text"> At least one upper-case character</div>
+                </div>
+                <div className={`validator-rule-item ${isLowerCaseValid ? "valid" : 'invalid'}`}>
+                    <div className="validator-rule-icon"> {isLowerCaseValid ? <CircleCheck/> : <CircleInfo/>}</div>
+                    <div className="validator-rule-text"> At least one lower-case character</div>
+                </div>
+
             </div>
         </div>
     );

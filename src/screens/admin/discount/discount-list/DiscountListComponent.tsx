@@ -12,6 +12,7 @@ import LinkComponent from "../../../../shared/components/link/LinkComponent";
 import TableWrapperComponent from "../../../../shared/components/table-wrapper/TableWrapperComponent";
 import {CommonService} from "../../../../shared/services";
 import ToolTipComponent from "../../../../shared/components/tool-tip/ToolTipComponent";
+import CardComponent from "../../../../shared/components/card/CardComponent";
 
 interface DiscountListComponentProps {
 
@@ -32,7 +33,7 @@ const DiscountListComponent = (props: DiscountListComponentProps) => {
                 dataIndex: "title",
                 key: "title",
                 fixed: "left",
-                width: 180,
+                width: 150,
                 render: (item: any) => {
                     return <>
                         {
@@ -42,7 +43,7 @@ const DiscountListComponent = (props: DiscountListComponentProps) => {
                                     position={"top"}
                                     showArrow={true}
                                 >
-                                   <div> {item?.title?.substring(0, 15) + '...'}</div>
+                                    <> {item?.title?.substring(0, 15) + '...'}</>
                                 </ToolTipComponent> :
                                 <>
                                     {item?.title}
@@ -56,14 +57,14 @@ const DiscountListComponent = (props: DiscountListComponentProps) => {
                 dataIndex: "code",
                 key: "code",
                 align: "center",
-                width: 150,
+                width: 120,
             },
             {
                 title: "Start Date",
                 dataIndex: "start_date",
                 key: "start_date",
                 align: "center",
-                width: 150,
+                width: 120,
                 render: (item: any) => {
                     return <>{CommonService.convertDateFormat2(item?.start_date)}</>
                 }
@@ -73,17 +74,17 @@ const DiscountListComponent = (props: DiscountListComponentProps) => {
                 dataIndex: "end_date",
                 key: "end_date",
                 align: "center",
-                width: 150,
+                width: 120,
                 render: (item: any) => {
                     return <>{CommonService.convertDateFormat2(item?.end_date)}</>
                 }
             },
             {
-                title: "Status",
+                title: "Coupon Status",
                 dataIndex: "status",
                 key: "status",
                 align: "center",
-                width: 150,
+                width: 120,
                 render: (item: any) => {
                     return <ChipComponent label={item.is_active ? "Active" : "Inactive"}
                                           className={item?.is_active ? "active" : "inactive"}
@@ -91,11 +92,11 @@ const DiscountListComponent = (props: DiscountListComponentProps) => {
                 }
             },
             {
-                title: "",
+                title: "Action",
                 dataIndex: "action",
                 key: "action",
                 fixed: "right",
-                align: "right",
+                align: "center",
                 render: (item: any) => {
                     return <LinkComponent route={CommonService._routeConfig.CouponViewDetails(item?._id)}>View
                         Details</LinkComponent>
@@ -108,7 +109,7 @@ const DiscountListComponent = (props: DiscountListComponentProps) => {
                 <div className={'list-screen-header'}>
                     <div className={'list-search-filters'}>
                         <div className="ts-row">
-                            <div className="ts-col-md-6 ts-col-lg-5">
+                            <div className="ts-col-md-6 ts-col-lg-4">
                                 <SearchComponent
                                     label={"Search"}
                                     placeholder={"Search using Title or Coupon Code"}
@@ -151,12 +152,15 @@ const DiscountListComponent = (props: DiscountListComponentProps) => {
                 </div>
 
                 <div className={'coupon-list'}>
-                    <TableWrapperComponent url={APIConfig.GET_COUPON_LIST.URL}
-                                           method={APIConfig.GET_COUPON_LIST.METHOD}
-                                           noDataText={'No results found'}
-                                           extraPayload={discountListFilterState}
-                                           columns={columns}/>
+                    <CardComponent>
+                        <TableWrapperComponent url={APIConfig.GET_COUPON_LIST.URL}
+                                               method={APIConfig.GET_COUPON_LIST.METHOD}
+                                               noDataText={<div className={'no-data-text'}>{(discountListFilterState) ?'Sorry, no results found':'No coupon added yet.'}</div>}
+                                               extraPayload={discountListFilterState}
+                                               columns={columns}/>
+                    </CardComponent>
                 </div>
+
             </div>
         );
 

@@ -2,24 +2,44 @@
   .card-component {
     margin-bottom: 0 !important;
   }
+
   .appointment-confirmation-card {
-  padding-bottom: 24px;
-    .message-heading{
+    padding-bottom: 24px;
+
+    .question-title{
+      color: #1D1C1D !important;
+      font-weight: 700;
+    }
+    .question-description{
+      color: #7F7F7F !important;
+      font-weight: 400;
+    }
+
+    .message-section{
+      padding-top: 0 !important;
+    }
+    .horizontal-line-wrapper{
+     height: 2px !important;
+    }
+
+    .message-heading {
       font-weight: 500;
       font-size: 16px;
       color: #212B36;
       margin-right: 8px;
-      margin-bottom: 8px!important;
+      margin-bottom: 8px !important;
     }
-    .message-description{
+
+    .message-description {
       margin-top: 5px;
       font-size: 14px;
-      color: #6D6D6D;
+      color: #7F7F7F;
       padding-bottom: 10px;
     }
   }
-  .question-component{
-    .question-title{
+
+  .question-component {
+    .question-title {
       font-weight: 500;
       margin-bottom: 8px;
     }

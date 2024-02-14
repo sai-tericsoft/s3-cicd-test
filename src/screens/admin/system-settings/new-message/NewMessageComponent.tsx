@@ -87,14 +87,14 @@ const NewMessageComponent = (props: NewMessageComponentProps) => {
                                             }
                                         </Field>
                                         <div className={'ts-row days-select-wrapper'}>
-                                            <div className={'ts-col-lg-8'}>
+                                            <div className={'ts-col-lg-9'}>
                                                 {/*<FormControlLabelComponent label={'Number of days'}/>*/}
-                                                <div className={'no-of-days'}>Number of days</div>
+                                                <div className={'no-of-days'}>Number of days:</div>
                                                 <div className={'select-text'}>Select the number of days for which the
                                                     message will be displayed.
                                                 </div>
                                             </div>
-                                            <div className={'ts-col-lg-4'}>
+                                            <div className={'ts-col-lg-3'}>
                                                 <Field name={'valid_days'}>
                                                     {
                                                         (field: FieldProps) => (

@@ -5,14 +5,15 @@
     display: flex;
     justify-content: space-between;
     padding: 13px 15px;
-    background-color: #FEF0BF;
-    border: 1px solid #E7A933;
-    border-radius: 6px;
+    background-color: #CFF2ED;
+    border: 1px solid #2CA091;
+    border-radius: 8px;
     margin-bottom: 16px;
+    box-shadow: 0px 4px 8px 0px #D1D1D1;
     .link-component{
-      color:#1A222B;
+      color:#275778;
       font-size: 14px;
-      font-weight: 400;
+      font-weight: 700;
     }
 
   }
@@ -29,12 +30,14 @@
   .medical-record-attachment-basic-details-wrapper {
     .card-component{
       margin-bottom: 23px !important;
+      padding-bottom: 4px !important;
     }
 
     .medical-record-attachment-basic-details-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
+      margin-bottom: 8px;
 
       .medical-record-attachment-basic-details-name-status-wrapper {
         display: flex;

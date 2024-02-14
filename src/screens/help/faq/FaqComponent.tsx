@@ -42,7 +42,7 @@ const FaqComponent = (props: FaqComponentProps) => {
                                                 <FaqAccordionComponent title={faq.question}>
                                                     {faq.answer}
                                                 </FaqAccordionComponent>
-                                                <HorizontalLineComponent/>
+                                                <HorizontalLineComponent className={'divider'}/>
 
 
                                             </>

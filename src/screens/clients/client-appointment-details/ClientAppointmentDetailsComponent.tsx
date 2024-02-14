@@ -78,7 +78,7 @@ const ClientAppointmentDetailsComponent = (props: ClientAppointmentDetailsCompon
             }
             {
                 isAppointmentDetailsLoaded && <>
-                    <PageHeaderComponent title={'View Details'}/>
+                    <PageHeaderComponent title={'View Appointment Details'}/>
                     <div className={"medical-record-attachment-basic-details-wrapper"}>
                         <CardComponent color={"primary"}>
                             <div className={"medical-record-attachment-basic-details-header"}>
@@ -88,7 +88,7 @@ const ClientAppointmentDetailsComponent = (props: ClientAppointmentDetailsCompon
                                             className={appointmentDetails?.client_details?.is_alias_name_set ? 'alias-name' : ''}> {CommonService.extractName(appointmentDetails.client_details)}</span>
                                     </div>
                                     <div className={"medical-record-attachment-basic-details-status"}>
-                                        <ChipComponent label={appointmentDetails?.status}
+                                        <ChipComponent label={CommonService.capitalizeFirstLetter(appointmentDetails?.status)}
                                                        className={appointmentDetails?.status}/>
                                     </div>
                                 </div>

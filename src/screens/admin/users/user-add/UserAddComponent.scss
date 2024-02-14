@@ -1,11 +1,14 @@
 .user-add-component {
-  .MuiAutocomplete-tag{
-    background: #E4F6EA!important;
+  .MuiAutocomplete-tag {
+    background: #2CA091 !important;
+    color: #FFFFFF !important;
+
     width: 180px !important;
   }
+
   .t-form {
     .t-form-actions {
-      margin-bottom: 24px;
+      margin-top: 30px;
 
       .submit-cta {
         margin-left: 16px;

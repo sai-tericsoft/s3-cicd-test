@@ -1,17 +1,35 @@
 .discount-list-component {
   &.list-screen {
     .list-screen-header {
-      margin-bottom: 11px;
+      margin-bottom: 16px;
     }
   }
-  .coupon-list{
-    .table-component{
-      .t-cell-title{
-        padding-left: 30px !important;
-      }
-      .t-cell-action{
-        padding-right: 30px !important;
+
+  .coupon-list {
+    .no-data-text {
+      font-size: 24px;
+      color: #7F7F7F;
+    }
+
+    .card-component {
+      padding-bottom: 24px !important;
+      margin-bottom: 0 !important;
+    }
+
+    .t-table-wrapper {
+      .t-table {
+        height: calc(100vh - 280px) !important;
+
+
+        .t-cell-title {
+          padding-left: 20px !important;
+        }
+
+        //.t-cell-action {
+        //  padding-right: 20px !important;
+        //}
       }
     }
   }
+
 }

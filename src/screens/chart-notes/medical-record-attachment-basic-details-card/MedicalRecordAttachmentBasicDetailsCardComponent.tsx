@@ -130,7 +130,7 @@ const MedicalRecordAttachmentBasicDetailsCardComponent = (props: MedicalRecordAt
                         This file was shared to the client
                         on <b>{tempAttachmentDetails?.shared_at ? CommonService.transformTimeStamp(tempAttachmentDetails?.shared_at) : 'N/A'}</b>.
                     </div>
-                    <LinkComponent
+                    <LinkComponent className={'remove-access'}
                         onClick={() => {
                             handleRemoveAccess(tempAttachmentDetails);
                         }}

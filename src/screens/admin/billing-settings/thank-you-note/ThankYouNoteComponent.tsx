@@ -122,7 +122,7 @@ const ThankYouNoteComponent = (props: ThankYouNoteComponentProps) => {
                                             &nbsp;&nbsp;
                                             <ButtonComponent
                                                 isLoading={isSaving}
-                                                className={'submit-cta'}
+                                                className={'submit-cta mrg-left-15'}
                                                 type={"submit"}
                                                 id={"save_btn"}
                                                 disabled={!isValid || values?.default_thankyou_note === "" || CommonService.isEqual(values, defaultThankYouNote)}

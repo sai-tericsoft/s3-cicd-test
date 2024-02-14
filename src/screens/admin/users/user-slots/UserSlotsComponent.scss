@@ -6,17 +6,20 @@
   }
 
   .slots-timings-table-view-wrapper {
-    border: 1px solid #F3F3F3;
+    border: 1px solid #E2E2E2;
     margin-bottom: 24px;
+    border-radius: 8px;
 
     .slot-header{
       width: 100%;
-      background: #E1EBEA;
+      background: #ECF7FF;
       margin-left: 0px;
       font-weight: 700;
       height: 51px;
       color: #212B36;
       font-size: 16px;
+      border-top-left-radius: 8px;
+      border-top-right-radius: 8px;
     }
 
     .slots-timings-row-wrapper {
@@ -28,6 +31,9 @@
         margin-bottom: 0px !important;
         color: #F3F3F3;
         opacity: 0.3;
+        .day-name{
+          padding-left: 20px;
+        }
       }
 
       .slots-timings-sub-row-wrapper {

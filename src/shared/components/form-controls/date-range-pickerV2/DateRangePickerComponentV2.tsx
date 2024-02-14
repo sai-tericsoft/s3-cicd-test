@@ -120,7 +120,7 @@ const DateRangePickerComponentV2 = (props: DateRangePickerComponentProps) => {
                     }
                     }
                     color={"secondary"}
-                    placeholder={'MM-DD-YYYY  to  MM-DD-YYYY'}
+                    placeholder={'Date Range'}
                     onClick={() => setOpen(open => !open)}
                     InputProps={{
                         endAdornment: (
@@ -133,7 +133,7 @@ const DateRangePickerComponentV2 = (props: DateRangePickerComponentProps) => {
                                     >
                                         <ImageConfig.CloseIcon height={'18'} width={'18'}/>
                                     </IconButtonComponent> :
-                                        <ImageConfig.EventIcon height={'20'} width={'20'}/>
+                                        <ImageConfig.CalendarIcon height={'20'} width={'20'}/>
                                 }
                             </React.Fragment>
                         ),

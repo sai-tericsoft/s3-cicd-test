@@ -113,7 +113,7 @@ const ClientDocumentsTableComponent = (props: ClientDocumentsTableComponentProps
                     break;
             }
         })
-    }, [removeAccess,removeConcussionAccess,removeDryNeedlingAccess])
+    }, [removeAccess, removeConcussionAccess, removeDryNeedlingAccess])
 
     const ClientDocumentListTableColumns: ITableColumn[] = [
         {
@@ -149,7 +149,7 @@ const ClientDocumentsTableComponent = (props: ClientDocumentsTableComponentProps
             key: "file_name",
             dataIndex: "file_name",
             // sortable: true,
-            width: 175,
+            width: 170,
             render: (item: any) => {
                 return <>
                     {item?.note_type?.length > 20 ?
@@ -386,8 +386,9 @@ const ClientDocumentsTableComponent = (props: ClientDocumentsTableComponentProps
                         columns={clientDocumentListFilterState?.is_shared ? ClientSharedDocumentListTableColumns : ClientDocumentListTableColumns}
                         extraPayload={clientDocumentFilters}
                         moduleName={moduleName}
-                        noDataText={'No documents have been shared yet'}
-                        noDataImage={<ImageConfig.NoDataDocumentsIcon/>}
+                        noDataText={<div className={'no-document-text'}>
+                            No documents to show!
+                        </div>}
                     />
                 </div>
             }

@@ -4,6 +4,13 @@
   .other-settings-wrapper {
     .card-component {
       margin-bottom: 0 !important;
+      .question-title{
+        color: #1D1C1D;
+        font-weight: 700;
+      }
+      .question-description{
+        color:#7F7F7F;
+      }
     }
   }
 

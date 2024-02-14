@@ -15,7 +15,7 @@ interface TableComponentProps extends ITableComponentProps {
     id?: string;
     columns: ITableColumn[];
     data: any[];
-    noDataText?: string;
+    noDataText?: any;
     noDataImage?: any;
     className?: any;
     onKeyDown?: (event: React.KeyboardEvent<HTMLDivElement>) => void;

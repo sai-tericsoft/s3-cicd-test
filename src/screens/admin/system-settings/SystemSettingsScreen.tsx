@@ -127,13 +127,13 @@ const SystemSettingsScreen = (props: SystemSettingsScreenProps) => {
                                         <CardComponent title={"Other Settings"}>
                                             <div className="t-form-controls">
                                                 <div className="ts-row">
-                                                    <div className="ts-col-md-12 ts-col-md-6 ts-col-lg-7">
+                                                    <div className="ts-col-md-12 ts-col-md-6 ts-col-lg-8">
                                                         <QuestionComponent title={"System Auto Lock"}
                                                                            description={"The length of time before the system auto-saves the work that has been done, and locks the system if there’s been a certain length of inactivity."}
                                                         ></QuestionComponent>
                                                     </div>
                                                     <div className={"ts-col-md-12 ts-col-md-6 ts-col-lg-1"}/>
-                                                    <div className="ts-col-md-12 ts-col-md-6 ts-col-lg-4">
+                                                    <div className="ts-col-md-12 ts-col-md-6 ts-col-lg-3">
                                                         <Field name={'other_settings.auto_lock_minutes'}
                                                                className="t-form-control">
                                                             {
@@ -152,13 +152,13 @@ const SystemSettingsScreen = (props: SystemSettingsScreenProps) => {
                                                 </div>
                                                 <HorizontalLineComponent/>
                                                 <div className="ts-row">
-                                                    <div className="ts-col-md-12 ts-col-md-6 ts-col-lg-7">
+                                                    <div className="ts-col-md-12 ts-col-md-6 ts-col-lg-8">
                                                         <QuestionComponent title={"Files Uneditable after"}
                                                                            description={"Makes file uneditable after XX days."}
                                                         ></QuestionComponent>
                                                     </div>
                                                     <div className={"ts-col-md-12 ts-col-md-6 ts-col-lg-1"}/>
-                                                    <div className="ts-col-md-12 ts-col-md-6 ts-col-lg-4">
+                                                    <div className="ts-col-md-12 ts-col-md-6 ts-col-lg-3">
                                                         <Field name={'other_settings.uneditable_after_days'}
                                                                className="t-form-control">
                                                             {
@@ -178,13 +178,13 @@ const SystemSettingsScreen = (props: SystemSettingsScreenProps) => {
 
                                                 <HorizontalLineComponent/>
                                                 <div className="ts-row">
-                                                    <div className="ts-col-md-12 ts-col-md-6 ts-col-lg-7">
+                                                    <div className="ts-col-md-12 ts-col-md-6 ts-col-lg-8">
                                                         <QuestionComponent title={"Scheduling Buffer Time"}
                                                                            description={"The buffer time to be considered while generating appointment time slots for each provider."}
                                                         ></QuestionComponent>
                                                     </div>
                                                     <div className={"ts-col-md-12 ts-col-md-6 ts-col-lg-1"}/>
-                                                    <div className="ts-col-md-12 ts-col-md-6 ts-col-lg-4">
+                                                    <div className="ts-col-md-12 ts-col-md-6 ts-col-lg-3">
                                                         <Field name={'other_settings.buffer_time'}
                                                                className="t-form-control">
                                                             {
@@ -203,13 +203,13 @@ const SystemSettingsScreen = (props: SystemSettingsScreenProps) => {
                                                 </div>
                                                 <HorizontalLineComponent/>
                                                 <div className="ts-row">
-                                                    <div className="ts-col-md-12 ts-col-md-6 ts-col-lg-7">
+                                                    <div className="ts-col-md-12 ts-col-md-6 ts-col-lg-8">
                                                         <QuestionComponent title={"Admin Email"}
                                                                            description={"Users of this application will be sending notifications about records, SOAP notes, or any issues to the email address listed here."}
                                                         ></QuestionComponent>
                                                     </div>
                                                     <div className={"ts-col-md-12 ts-col-md-6 ts-col-lg-1"}/>
-                                                    <div className="ts-col-md-12 ts-col-md-6 ts-col-lg-4">
+                                                    <div className="ts-col-md-12 ts-col-md-6 ts-col-lg-3">
                                                         <Field name={'other_settings.admin_email'}
                                                                className="t-form-control">
                                                             {

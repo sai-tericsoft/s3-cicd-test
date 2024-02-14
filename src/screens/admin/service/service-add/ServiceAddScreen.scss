@@ -1,14 +1,55 @@
 .service-add-component {
+  .card-component {
+    padding-bottom: 4px !important;
+  }
+
+  .status-text-wrapper {
+    .MuiFormControlLabel-label {
+      font-weight: 700 !important;
+    }
+
+    .status-text {
+      color: #7F7F7F;
+    }
+  }
 
   .consultation-card-item {
     .card {
       margin-bottom: 24px;
     }
+
+    .remove-btn {
+      margin-top: 2px;
+    }
+
+    .horizontal-divider {
+      border-bottom: 2px solid #E2E2E2;
+    }
+
+    .form-control-label-component {
+      margin-bottom: 20px !important;
+      color: #212B36 !important;
+      font-weight: 700 !important;
+      text-decoration: underline;
+      margin-top: 8px !important;
+    }
+
+    .another-consultation-button {
+      margin-bottom: 20px;
+    }
   }
-  .t-form{
-    .t-form-actions{
+
+  .image-wrapper {
+    .card-component {
+      padding-bottom: 24px !important;
+    }
+  }
+
+  .t-form {
+    .t-form-actions {
       margin-bottom: 0px;
-      .submit-cta{
+
+      .submit-cta {
         margin-left: 16px;
       }
     }

@@ -3,7 +3,7 @@ import {IClientAppointmentsFilterState} from "../../../shared/models/client.mode
 import {ITableColumn} from "../../../shared/models/table.model";
 import TableWrapperComponent from "../../../shared/components/table-wrapper/TableWrapperComponent";
 import React, {useEffect, useState} from "react";
-import {APIConfig, ImageConfig} from "../../../constants";
+import {APIConfig} from "../../../constants";
 import LinkComponent from "../../../shared/components/link/LinkComponent";
 import {CommonService} from "../../../shared/services";
 import ToolTipComponent from "../../../shared/components/tool-tip/ToolTipComponent";
@@ -50,20 +50,20 @@ const ClientAppointmentsTableComponent = (props: ClientAppointmentsTableComponen
                 if (item?._id) {
                     return <>
                         {
-                            item?.medical_record_id ?<>
-                        {CommonService.generateUseCaseFromCaseDetails(item?.case_details).length > 28 ?
-                            <ToolTipComponent
-                                tooltip={item?.case_details && CommonService.generateUseCaseFromCaseDetails(item?.case_details)}
-                                position={"top"}
-                                showArrow={true}
-                            >
-                                <div>{
-                                    CommonService.generateUseCaseFromCaseDetails(item?.case_details)?.slice(0, 28) + "..."
-                                }
-                                </div>
-                            </ToolTipComponent> : <> {CommonService.generateUseCaseFromCaseDetails(item?.case_details)}</>
-                        }
-                            </>:
+                            item?.medical_record_id ? <>
+                                    {CommonService.generateUseCaseFromCaseDetails(item?.case_details).length > 28 ?
+                                        <ToolTipComponent
+                                            tooltip={item?.case_details && CommonService.generateUseCaseFromCaseDetails(item?.case_details)}
+                                            position={"top"}
+                                            showArrow={true}
+                                        >
+                                            <div>{
+                                                CommonService.generateUseCaseFromCaseDetails(item?.case_details)?.slice(0, 28) + "..."
+                                            }
+                                            </div>
+                                        </ToolTipComponent> : <> {CommonService.generateUseCaseFromCaseDetails(item?.case_details)}</>
+                                    }
+                                </> :
                                 <>N/A</>}
                     </>
                 }
@@ -71,24 +71,24 @@ const ClientAppointmentsTableComponent = (props: ClientAppointmentsTableComponen
         },
 
         {
-            title: "Appointment Type",
+            title: "Appt.Type",
             key: "appointment_type",
             dataIndex: "appointment_type",
-            width: 170,
+            width: 140,
             align: "center",
             render: (item: any) => {
                 return <span>{CommonService.capitalizeFirstLetterAndRemoveUnderScore(item?.appointment_type)}</span>
             }
         },
         {
-            title: "Appointment Date/Time",
+            title: "App. Date & Time",
             key: "appointment_date",
             dataIndex: "appointmentDate",
-            width: 200,
+            width: 170,
             align: "center",
             render: (item: any) => {
                 return <span>
-                    {item?.appointment_date ? CommonService.getSystemFormatTimeStamp(item?.appointment_date, false) +", "+CommonService.getHoursAndMinutesFromMinutes(item?.start_time) : "-"}
+                    {item?.appointment_date ? CommonService.getSystemFormatTimeStamp(item?.appointment_date, false) + ", " + CommonService.getHoursAndMinutesFromMinutes(item?.start_time) : "-"}
                 </span>
             }
         },
@@ -97,7 +97,7 @@ const ClientAppointmentsTableComponent = (props: ClientAppointmentsTableComponen
             title: 'Provider',
             key: 'provider',
             dataIndex: 'first_name',
-            width: 150,
+            width: 130,
             align: 'center',
             render: (item: any) => {
                 return <>
@@ -124,12 +124,13 @@ const ClientAppointmentsTableComponent = (props: ClientAppointmentsTableComponen
             title: "Status",
             dataIndex: "status",
             key: "status",
-            width: 90,
-            align:"center",
+            width: 100,
+            align: "center",
             render: (item: any) => {
                 console.log(item?.status);
-                return <ChipComponent label={CommonService.capitalizeFirstLetterAndRemoveUnderScore(item?.status_details?.admin_title)}
-                                      className={item?.status}
+                return <ChipComponent
+                    label={CommonService.capitalizeFirstLetterAndRemoveUnderScore(item?.status_details?.admin_title)}
+                    className={item?.status}
                 />
             }
         },
@@ -162,8 +163,9 @@ const ClientAppointmentsTableComponent = (props: ClientAppointmentsTableComponen
                 columns={ClientAppointmentListTableColumns}
                 extraPayload={clientAppointmentFilters}
                 moduleName={moduleName}
-                noDataText={'No Appointments To Show'}
-                noDataImage={<ImageConfig.NoDataAppointmentsIcon/>}
+                noDataText={<div className={'no-appointment-text'}>
+                    No appointments to show!
+                </div>}
             />
         </div>
     );

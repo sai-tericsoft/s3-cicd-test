@@ -14,7 +14,7 @@
       padding: 6px;
 
       .sub-menu-item {
-        padding: 13px 20px;
+        padding: 12px 20px;
         letter-spacing: 0.5px;
         color: $text-light-2;
         border-left: 4px solid transparent;
@@ -25,13 +25,14 @@
           border-left-color: $primary-color;
           color: $primary-color;
           font-weight: $font-weight-bolder;
-          background: #E1EBEA;
+          background: #ECF7FF;
+          border-radius: 8px;
         }
 
         &:hover {
           cursor: pointer;
           color: $primary-color;
-          background: #E1EBEA;
+          background: #ECF7FF;
         }
       }
     }

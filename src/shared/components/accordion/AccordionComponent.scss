@@ -1,6 +1,7 @@
 @import "src/assets/styles/common";
 
 .accordion-component {
+  border-radius: 8px !important;
 
   .MuiAccordionDetails-root {
     padding: 20px 24px !important;
@@ -9,7 +10,7 @@
   .MuiAccordion-root {
     //border-right: 1px solid #D2D2D2;
     //border-left: 1px solid #D2D2D2;
-    border-radius: 4px;
+    border-radius: 8px;
     border: 1px solid #E1EBEA;
     background: #FDFDFD;
     box-shadow: 0px 4px 15px 0px #EBEBEB;
@@ -26,8 +27,11 @@
   }
   .MuiAccordion-root:has(.disable-expanding){
     pointer-events: none;
+
   }
   .MuiAccordion-root {
+    border-radius: 8px !important;
+
 
     .MuiAccordionSummary-expandIconWrapper {
       margin-right: 20px !important;
@@ -68,9 +72,11 @@
         column-gap: 30px;
 
         .accordian-tile {
-          font-weight: 400;
-          font-size: 14px;
-          color: #212B36;
+          font-weight: 700;
+          font-size: 16px;
+          color: #1D1C1D;
+          text-decoration: underline;
+          text-transform: uppercase;
         }
 
         .accordian-sub-tile {

@@ -1,6 +1,8 @@
 @import "src/assets/styles/common";
 
-
 .service-category-details-screen {
-
+  .card-component {
+    margin-bottom: 0 !important;
+    height: calc(100vh - 320px) !important;
+  }
 }

@@ -1,4 +1,15 @@
 .check-box-component {
+  color: #275778;
+
+  .MuiFormControlLabel-label {
+    color: #1D1C1D !important;
+  }
+
+  .MuiCheckbox-colorPrimary {
+    color: #275778 !important;
+
+  }
+
   &.label-position-start, &.label-position-top, &.label-position-bottom {
     .MuiFormControlLabel-root {
       margin-left: 0 !important;

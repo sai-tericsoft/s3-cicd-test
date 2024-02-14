@@ -30,25 +30,29 @@
       display: flex;
       flex-wrap: wrap;
     }
-    .t-table{
+
+    .t-table {
       margin-bottom: 0px;
       height: calc(100vh - 220px);
-      .t-cell-name{
-        padding-left: 30px !important;
+
+      .t-cell-name {
+        padding-left: 20px !important;
       }
-      .t-cell-actions{
-        padding-right: 30px !important;
+
+      .t-cell-actions {
+        padding-right: 20px !important;
       }
     }
 
-  .no-features-text-wrapper {
-    .no-features-description {
-      font-size: 16px;
-      margin-top: 15px;
+    .no-features-text-wrapper {
+      .no-features-description {
+        font-size: 24px;
+        color: #7F7F7F;
       }
-    .no-feature-heading{
-      margin-bottom: 5px;
-    }
+
+      .no-feature-heading {
+        margin-bottom: 5px;
+      }
     }
   }
 

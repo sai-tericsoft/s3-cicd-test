@@ -1,25 +1,32 @@
 .user-personal-details-edit-component {
-  .edit-user-heading {
-    color: #00534F;
-    font-size: 18px;
-    font-weight: 700;
-    //text-transform: uppercase;
-    margin-bottom: 24px;
-  }
-  .MuiAutocomplete-tag{
-    background: #E4F6EA!important;
+
+  .MuiAutocomplete-tag {
+    background: #2CA091 !important;
+    color: #FFFFFF;
     width: 180px !important;
+
+    .MuiSvgIcon-root {
+      color: #FFFFFF !important;
+    }
   }
+
   .card-component {
+    padding-bottom: 4px !important;
+
     .card-body {
       .link-component {
         float: right !important;
-        color: red;
+        color: #D26060;
       }
     }
   }
-  .form-control-label-component{
+
+  .form-control-label-component {
     margin-bottom: 12px;
+  }
+
+  .signature-heading {
+    color: #1D1C1D;
   }
 
   .t-form-actions {

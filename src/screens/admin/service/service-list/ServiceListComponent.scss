@@ -1,8 +1,7 @@
 @import "src/assets/styles/common";
 
 .service-list-component {
-  margin-top: 15px;
-
+  padding-bottom: 24px;
   .service-list-header {
     display: flex;
     align-items: center;
@@ -16,18 +15,25 @@
       color: $text-light-2;
     }
   }
+  .service-list-table-container{
+    .no-data-text{
+      color: #7F7F7F;
+      font-size: 24px;
+      font-weight: 400;
+    }
+  }
 
   .t-table-wrapper {
     .t-table {
       .table-no-data-wrapper{
-        min-height: 300px !important;
+        min-height: 200px !important;
       }
       .t-th:first-child,
       .t-td:first-child {
-        padding-left: 30px;
+        padding-left: 20px;
       }
       .t-cell-viewDetails{
-        padding-left: 30px !important;
+        padding-left: 20px !important;
       }
 
     }

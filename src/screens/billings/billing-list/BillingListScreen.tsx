@@ -42,6 +42,7 @@ import AddBillingAddressComponent from "../add-billing-address/AddBillingAddress
 import DrawerComponent from "../../../shared/components/drawer/DrawerComponent";
 import LottieFileGenerationComponent
     from "../../../shared/components/lottie-file-generation/LottieFileGenerationComponent";
+import CardComponent from "../../../shared/components/card/CardComponent";
 
 interface PaymentListComponentProps {
 
@@ -282,7 +283,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
 
         },
         {
-            title: '',
+            title: 'Action',
             key: 'action',
             fixed: 'right',
             width: 120,
@@ -377,11 +378,11 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             }
         },
         {
-            title: '',
+            title: 'Action',
             key: 'action',
             fixed: 'right',
             width: 120,
-            align: 'right',
+            align: 'center',
             dataIndex: 'action',
             render: (item: any) => {
                 return <LinkComponent
@@ -473,10 +474,10 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             }
         },
         {
-            title: '',
+            title: 'Action',
             key: 'action',
             fixed: 'right',
-            align: 'right',
+            align: 'center',
             dataIndex: 'action',
             width: 119,
             render: (item: any) => {
@@ -596,9 +597,9 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             }
         },
         {
-            title: '',
+            title: 'Action',
             key: 'action',
-            fixed: 'right',
+            fixed: 'center',
             dataIndex: 'action',
             render: (item: any) => {
                 return <LinkComponent
@@ -1104,7 +1105,9 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                             }
                             {
                                 clientId &&
-                                <ButtonComponent className={'mrg-right-10'} prefixIcon={<ImageConfig.BillingListIcon/>}
+                                <ButtonComponent className={'mrg-right-10'}
+                                                 variant={'outlined'}
+                                                 prefixIcon={<ImageConfig.BillingListIcon/>}
                                                  onClick={openBillingAddressFormDrawer}>
                                     Billing Address
                                 </ButtonComponent>
@@ -1230,39 +1233,50 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                     }
                 </TabsComponent>
                 <TabContentComponent value={'pendingPayments'} selectedTab={currentTab}>
-                    <TableWrapperComponent url={APIConfig.PENDING_PAYMENT_LIST.URL}
-                                           extraPayload={
-                                               clientListFilterState
-                                           }
-                                           noDataText={(<div className={'no-client-text-wrapper'}>
-                                               <div>{clientListFilterState.search ?
-                                                   <img src={ImageConfig.Search} alt="client-search"/> : ''}</div>
-                                               <div
-                                                   className={'no-client-heading mrg-bottom-15'}>{clientListFilterState?.search ? 'Sorry, no results found!' : ''}</div>
-                                               <div className={'no-client-description'}>
-                                                   {clientListFilterState?.search ? 'There is no payment available by the client name you have searched.' : 'Currently there is no pending payment'}
-                                               </div>
-                                           </div>)}
-                                           method={APIConfig.PENDING_PAYMENT_LIST.METHOD}
-                                           columns={clientId ? clientPendingPaymentColumn : pendingPaymentColumn}
-                                           moduleName={PENDING_PAYMENTS_MODULE}
-                    />
+                    <CardComponent className={clientId ? 'client-card' : 'billing-card'}>
+                        <div className={clientId ? 'table-actions-wrapper' : ""}>
+                            <TableWrapperComponent url={APIConfig.PENDING_PAYMENT_LIST.URL}
+                                                   extraPayload={
+                                                       clientListFilterState
+                                                   }
+                                                   noDataText={(<div className={'no-client-text-wrapper'}>
+                                                       <div>{clientListFilterState.search ?
+                                                           <img src={ImageConfig.Search}
+                                                                alt="client-search"/> : ''}</div>
+                                                       <div
+                                                           className={'no-client-heading mrg-bottom-15'}>{clientListFilterState?.search ? 'Sorry, no results found!' : ''}</div>
+                                                       <div className={'no-client-description'}>
+                                                           {clientListFilterState?.search ? 'There is no payment available by the client name you have searched.' : 'Currently there is no pending payment'}
+                                                       </div>
+                                                   </div>)}
+                                                   method={APIConfig.PENDING_PAYMENT_LIST.METHOD}
+                                                   columns={clientId ? clientPendingPaymentColumn : pendingPaymentColumn}
+                                                   moduleName={PENDING_PAYMENTS_MODULE}
+                            />
+                        </div>
+                    </CardComponent>
+
                 </TabContentComponent>
                 <TabContentComponent value={'completedPayments'} selectedTab={currentTab}>
-                    <TableWrapperComponent url={APIConfig.COMPLETE_PAYMENT_LIST.URL}
-                                           noDataText={(<div className={'no-client-text-wrapper'}>
-                                               <div>{clientListFilterState.search ?
-                                                   <img src={ImageConfig.Search} alt="client-search"/> : ''}</div>
-                                               <div
-                                                   className={'no-client-heading mrg-bottom-15'}>{clientListFilterState.search ? 'Sorry, no results found!' : ''}</div>
-                                               <div className={'no-client-description'}>
-                                                   {clientListFilterState.search ? 'There is no payment available by the client name you have searched.' : 'Currently there is no completed payment'}
-                                               </div>
-                                           </div>)}
-                                           method={APIConfig.COMPLETE_PAYMENT_LIST.METHOD}
-                                           extraPayload={clientListFilterState}
-                                           columns={clientId ? clientCompletePaymentListColumn : completePaymentListColumn}
-                    />
+                    <CardComponent className={clientId ? 'client-card' : 'billing-card'}>
+                        <div className={clientId ? 'table-actions-wrapper' : ""}>
+                            <TableWrapperComponent url={APIConfig.COMPLETE_PAYMENT_LIST.URL}
+                                                   noDataText={(<div className={'no-client-text-wrapper'}>
+                                                       <div>{clientListFilterState.search ?
+                                                           <img src={ImageConfig.Search}
+                                                                alt="client-search"/> : ''}</div>
+                                                       <div
+                                                           className={'no-client-heading mrg-bottom-15'}>{clientListFilterState.search ? 'Sorry, no results found!' : ''}</div>
+                                                       <div className={'no-client-description'}>
+                                                           {clientListFilterState.search ? 'There is no payment available by the client name you have searched.' : 'Currently there is no completed payment'}
+                                                       </div>
+                                                   </div>)}
+                                                   method={APIConfig.COMPLETE_PAYMENT_LIST.METHOD}
+                                                   extraPayload={clientListFilterState}
+                                                   columns={clientId ? clientCompletePaymentListColumn : completePaymentListColumn}
+                            />
+                        </div>
+                    </CardComponent>
                 </TabContentComponent>
                 {
                     !clientId && <div className={'consolidated-table-wrapper'}>
@@ -1310,30 +1324,6 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                             </div>
                             }
             >
-                {/*<CardComponent title={'Client Details'} className={'client-details-card'}>*/}
-                {/*    <div className="ts-row">*/}
-                {/*        <div className="ts-col-lg-6">*/}
-                {/*            <DataLabelValueComponent*/}
-                {/*                direction={"row"}*/}
-                {/*                label={<>*/}
-                {/*                    <ImageConfig.PersonIcon/>*/}
-                {/*                    <span className={'client-details-label'}>Client Name</span>*/}
-                {/*                </>}>*/}
-                {/*                {CommonService.extractName(selectedPayments[0]?.client_details)}*/}
-                {/*            </DataLabelValueComponent>*/}
-                {/*        </div>*/}
-                {/*        <div className="ts-col-lg-6">*/}
-                {/*            <DataLabelValueComponent*/}
-                {/*                direction={"row"}*/}
-                {/*                label={<>*/}
-                {/*                    <ImageConfig.CallIcon/>*/}
-                {/*                    <span className={'client-details-label'}>Phone Number</span>*/}
-                {/*                </>}>*/}
-                {/*                {selectedPayments[0]?.client_details?.primary_contact_info?.phone}*/}
-                {/*            </DataLabelValueComponent>*/}
-                {/*        </div>*/}
-                {/*    </div>*/}
-                {/*</CardComponent>*/}
                 <TableComponent
                     columns={markAsPaidTableColumns}
                     data={selectedPayments}
@@ -1394,53 +1384,72 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             </ModalComponent>
             {/*Payment mode selection Modal end*/}
 
-            <DrawerComponent isOpen={isClientBillingAddressDrawerOpened}
-                             onClose={closeBillingAddressDrawer}
-                             showClose={true}>
+            <DrawerComponent  isOpen={isClientBillingAddressDrawerOpened}
+            >
                 {
                     currentStep === 'selectAddress' && <>
-                        <FormControlLabelComponent label={"Select Billing Address"}/>
+                        <div className="drawer-header pdd-bottom-20">
+                            {
+                                <div className="back-btn"/>
+                            }
+
+                            <div className="drawer-close"
+                                 id={'book-appointment-close-btn'}
+                                 onClick={closeBillingAddressDrawer
+                                 }><ImageConfig.CloseIcon/></div>
+                        </div>
+                        <FormControlLabelComponent size={'xl'} label={"Billing Address(es)"}/>
                         <div className={'select-billing-address'}>
                             {getBillingList?.length > 0 && getBillingList?.map((item: any, index: number) => {
-                                return <div className={'select-address-card'}>
-                                    <div className={'select-address-card-header'}>
-                                        <div className={'btn-heading-wrapper'}>
-                                            <b>{item?.name}</b>
-                                            <div className={'mrg-left-10'}>
-                                                {item?.is_default && <ChipComponent className={'draft'} label={'Default'}/>}
+                                return <div className="ts-row">
+                                    <div className="ts-col-lg-12">
+                                        <div className={'select-address-card'}>
+
+                                            <div className={'select-address-card-header'}>
+                                                <div className={'btn-heading-wrapper'}>
+                                                    <b className={'text-decoration-underline'}>{item?.name}</b>
+                                                    <div className={'mrg-left-10'}>
+                                                        {item?.is_default &&
+                                                            <ChipComponent className={'Modified'} label={'Default'}/>}
+                                                    </div>
+                                                </div>
+                                                <div className={'btn-wrapper'}>
+                                                    <MenuDropdownComponent className={'billing-details-drop-down-menu'}
+                                                                           menuBase={
+                                                                               <IconButtonComponent>
+                                                                                   <ImageConfig.MoreVerticalIcon/>
+                                                                               </IconButtonComponent>
+                                                                           } menuOptions={[
+                                                        <ListItemButton onClick={() => handleEdit(item)}>
+                                                            Edit
+                                                        </ListItemButton>,
+                                                        <ListItemButton onClick={() => handleDeleteBillingAddress(item)}>
+                                                            Delete
+                                                        </ListItemButton>,
+                                                        <ListItemButton
+                                                            onClick={() => onBillingAddressFormSubmit(item?._id)}>
+                                                            Make as Default
+                                                        </ListItemButton>,
+                                                    ]}/>
+
+                                                </div>
+                                            </div>
+                                            <div className={'mrg-15'}>
+                                        <span
+                                            className={'card-heading'}>Address:</span> <span
+                                                className={'card-heading-answer'}>{item?.address_line}, {item?.city}, {item?.state}, {item?.country} {item?.zip_code}</span>
+                                            </div>
+                                            <div className={'mrg-15'}>
+                                        <span
+                                            className={'card-heading'}>Phone Number:</span> <span
+                                                className={'card-heading-answer'}>{CommonService.formatPhoneNumber(item?.phone)}</span>
                                             </div>
                                         </div>
-                                        <div className={'btn-wrapper'}>
-                                            <MenuDropdownComponent className={'billing-details-drop-down-menu'} menuBase={
-                                                <IconButtonComponent>
-                                                    <ImageConfig.MoreVerticalIcon/>
-                                                </IconButtonComponent>
-                                            } menuOptions={[
-                                                <ListItemButton onClick={() => handleEdit(item)}>
-                                                    Edit
-                                                </ListItemButton>,
-                                                <ListItemButton onClick={() => handleDeleteBillingAddress(item)}>
-                                                    Delete
-                                                </ListItemButton>,
-                                                <ListItemButton onClick={() => onBillingAddressFormSubmit(item?._id)}>
-                                                    Make as Default
-                                                </ListItemButton>,
-                                            ]}/>
-
-                                        </div>
-                                    </div>
-                                    <div className={'mrg-15'}>
-                                        <span
-                                            className={'card-heading'}>Address:</span> {item?.address_line}, {item?.city}, {item?.state}, {item?.country} {item?.zip_code}
-                                    </div>
-                                    <div className={'mrg-15'}>
-                                        <span
-                                            className={'card-heading'}>Phone Number:</span> {CommonService.formatPhoneNumber(item?.phone)}
                                     </div>
                                 </div>
                             })
                             }
-                            <ButtonComponent prefixIcon={<ImageConfig.AddIcon/>}
+                            <ButtonComponent prefixIcon={<ImageConfig.AddCircleIcon/>}
                                              onClick={() => setCurrentStep("addAddress")} variant={"text"}>Add New
                                 Address</ButtonComponent>
                         </div>
@@ -1450,6 +1459,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                 {(currentStep === "editAddress" && clientId) &&
                     <EditBillingAddressComponent billing_address={tempSelectedAddress}
                                                  clientId={clientId}
+                                                 onClose={closeBillingAddressDrawer}
                                                  onCancel={BillingAddressStep}
                                                  afterSave={getClientBillingAddressList}
                                                  onSave={handleEditBillingAddress}/>
@@ -1459,6 +1469,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                 {
                     currentStep === "addAddress" &&
                     <AddBillingAddressComponent clientId={clientId}
+                                                onClose={closeBillingAddressDrawer}
                                                 onCancel={BillingAddressStep}
                                                 onSave={handleEditBillingAddress}
                                                 afterSave={getClientBillingAddressList}

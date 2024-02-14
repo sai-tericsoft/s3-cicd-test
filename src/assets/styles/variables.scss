@@ -1,6 +1,6 @@
 @import "mixins";
 
-$primary-color: #00534F;
+$primary-color: #275778;
 $secondary-color: #000000;
 $accent-color: #FFE49A;
 $warn-color: #E84142;
@@ -13,7 +13,7 @@ $success-color: #00534F;
 $warning-color: #ffa335;
 $info-color: #1a67ff;
 
-$font-family: 'inter';
+$font-family: 'nunito';
 
 $font-weight-thin: 300;
 $font-weight-normal: 400;
@@ -22,20 +22,20 @@ $font-weight-bold: 600;
 $font-weight-bolder: 700;
 
 $body-background-color: #FFFFFF;
-$body-color: #212B36;
+$body-color: #1D1C1D;
 $text-light-1: #ABB6BE;
-$text-light-2: #6D6D6D;
+$text-light-2: #275778;
 
 // side menu
 $side-bar-holder-width: 220;
 $side-bar-holder-bg-color: #00534F;
-$side-menu-active-link-bg-color: #ffffff; // #BDE8CA;
-$side-menu-hover-link-bg-color: #ffffff; //#BDE8CA;
-$side-menu-active-link-color: #00534F;
+$side-menu-active-link-bg-color: #D5EEFF; // #BDE8CA;
+$side-menu-hover-link-bg-color: #D5EEFF; //#BDE8CA;
+$side-menu-active-link-color: #275778;
 $side-menu-active-link-font-weight: $font-weight-bold;
-$side-menu-hover-link-color: #00534F;
+$side-menu-hover-link-color: #275778;
 $side-menu-link-color: #ffffff;
-$side-menu-link-font-weight: $font-weight-normal;
+$side-menu-link-font-weight: $font-weight-medium;
 $side-bar-toggle-icon-color: #00534F;
 
 //header
@@ -44,7 +44,7 @@ $header-bg-color: #FFFFFF;
 
 //branding
 $branding-holder-height: 54;
-$branding-holder-bg-color: #135C59;
+$branding-holder-bg-color: #285778;
 $branding-holder-border: 1px solid #ABB6BE;
 
 // PAGE CONTENT
@@ -76,10 +76,10 @@ $progressbar-default-bg-color: #D6E8FF;
 $progressbar-filled-bg-color: #005BCA;
 
 //Service-category-card variables
-$service-category-card-bg-color: #F0F5F4;
-$service-category-card-border-color: #F3F3F3;
-$service-category-card-view-details-bg-color: #D8E5E4;
-$service-category-card-view-details-text-color: #003E3B;
+$service-category-card-bg-color: #FFFFFF;
+$service-category-card-border-color: #E2E2E2;
+$service-category-card-view-details-bg-color: #DFF6F3;
+$service-category-card-view-details-text-color: #275778;
 $service-category-card-view-details-font-weight: $font-weight-medium;
 $service-category-card-active-status-text-color: #003E3B;
 $service-category-card-inactive-status-text-color: #6D6D6D;

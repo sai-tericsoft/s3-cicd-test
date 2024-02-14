@@ -1,5 +1,4 @@
 import './EditInventoryProductDetailsComponent.scss';
-import PageHeaderComponent from "../../../shared/components/page-header/PageHeaderComponent";
 import {Field, FieldProps, Form, Formik, FormikHelpers} from "formik";
 import React, {useCallback, useEffect, useState} from "react";
 import CardComponent from "../../../shared/components/card/CardComponent";
@@ -11,7 +10,6 @@ import ErrorComponent from "../../../shared/components/error/ErrorComponent";
 import FilePreviewThumbnailComponent
     from "../../../shared/components/file-preview-thumbnail/FilePreviewThumbnailComponent";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
-import LinkComponent from "../../../shared/components/link/LinkComponent";
 import {CommonService} from "../../../shared/services";
 import {setCurrentNavParams} from "../../../store/actions/navigation.action";
 import {useDispatch, useSelector} from "react-redux";
@@ -20,6 +18,7 @@ import {IAPIResponseType} from "../../../shared/models/api.model";
 import {Misc, Patterns} from "../../../constants";
 import * as Yup from "yup";
 import {IRootReducerState} from "../../../store/reducers";
+import FormControlLabelComponent from "../../../shared/components/form-control-label/FormControlLabelComponent";
 import FormikSelectComponent from "../../../shared/components/form-controls/formik-select/FormikSelectComponent";
 
 interface EditInventoryProductDetailsComponentProps {
@@ -100,23 +99,30 @@ const EditInventoryProductDetailsComponent = (props: EditInventoryProductDetails
 
     const onSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
         if (productId) {
-            const payload = _.cloneDeep(values);
-            if (!(payload.image instanceof File)) {
-                delete payload.image;
-            }
-            const formData = CommonService.getFormDataFromJSON(payload);
-            setIsInventoryProductEditInProgress(true);
-            CommonService._inventory.InventoryProductEditAPICall(productId, formData)
-                .then((response: IAPIResponseType<any>) => {
-                    setIsInventoryProductEditInProgress(false);
-                    CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
-                    navigate(CommonService._routeConfig.InventoryProductViewDetails(productId));
-                }).catch((error: any) => {
-                CommonService.handleErrors(setErrors, error, true);
+            try {
+                const payload = _.cloneDeep(values);
+                if (!(payload.image instanceof File)) {
+                    delete payload.image;
+                }
+                const formData = CommonService.getFormDataFromJSON(payload);
+                setIsInventoryProductEditInProgress(true);
+                CommonService._inventory.InventoryProductEditAPICall(productId, formData)
+                    .then((response: IAPIResponseType<any>) => {
+                        setIsInventoryProductEditInProgress(false);
+                        CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+                        navigate(CommonService._routeConfig.InventoryProductViewDetails(productId));
+                    })
+                    .catch((error: any) => {
+                        CommonService.handleErrors(setErrors, error, true);
+                        setIsInventoryProductEditInProgress(false);
+                    });
+            } catch (error) {
+                console.error("Error occurred while editing inventory product", error);
                 setIsInventoryProductEditInProgress(false);
-            });
+            }
         }
     }, [navigate, productId]);
+
 
     useEffect(() => {
         if (productId) {
@@ -125,6 +131,12 @@ const EditInventoryProductDetailsComponent = (props: EditInventoryProductDetails
             }));
         }
     }, [navigate, dispatch, productId]);
+
+    const handleCancel = useCallback((productId: string) => {
+        if (productId) {
+            navigate(CommonService._routeConfig.InventoryProductViewDetails(productId));
+        }
+    }, [navigate]);
 
     const calculateSalePrice = useCallback((retailPrice: any, discountType: any, discount: any) => {
         if (!retailPrice || !discountType) {
@@ -151,8 +163,8 @@ const EditInventoryProductDetailsComponent = (props: EditInventoryProductDetails
     }, []);
 
     return (
-        <div className={'edit-inventory-product-component'}>
-            <PageHeaderComponent title={'Edit Product'}/>
+        <div className={'add-inventory-product-component'}>
+            <FormControlLabelComponent label={'Edit Product'} size={'xl'}/>
             <Formik initialValues={editInventoryProductInitialValues}
                     onSubmit={onSubmit}
                     validationSchema={inventoryProductValidationSchema}
@@ -166,7 +178,7 @@ const EditInventoryProductDetailsComponent = (props: EditInventoryProductDetails
                         validateForm();
                         calculateSalePrice(values?.retail_price, values?.discount_type, values?.discount);
                         setFieldValue('sale_price', calculateSalePrice(values?.retail_price, values?.discount_type, values?.discount));
-                    }, [validateForm, values,setFieldValue]);
+                    }, [validateForm, values, setFieldValue]);
                     return (
                         <Form className="t-form" noValidate={true}>
                             <CardComponent title={"Product"}>
@@ -330,7 +342,8 @@ const EditInventoryProductDetailsComponent = (props: EditInventoryProductDetails
 
                                 </div>
                             </CardComponent>
-                            <CardComponent title={"Upload Image"}>
+
+                            <CardComponent title={"Upload Image*"} className={'file-upload'}>
                                 <>
                                     {
 
@@ -369,18 +382,17 @@ const EditInventoryProductDetailsComponent = (props: EditInventoryProductDetails
                                 </>
                             </CardComponent>
                             <div className="t-form-actions">
-                                <LinkComponent
-                                    route={CommonService._routeConfig.InventoryProductViewDetails(inventoryProductDetails?._id)}>
-                                    <ButtonComponent
-                                        variant={"outlined"}
-                                        id={"cancel_btn"}
-                                    >
-                                        Cancel
-                                    </ButtonComponent>
-                                </LinkComponent>
+                                <ButtonComponent
+                                    variant={"outlined"}
+                                    id={"cancel_btn"}
+                                    onClick={() => handleCancel(inventoryProductDetails?._id)}
+                                >
+                                    Cancel
+                                </ButtonComponent>
                                 &nbsp;
                                 <ButtonComponent
                                     type={"submit"}
+                                    className={'mrg-left-15'}
                                     isLoading={isInventoryProductEditInProgress}
                                     disabled={!isValid || isInventoryProductEditInProgress}
                                     id={"save_btn"}

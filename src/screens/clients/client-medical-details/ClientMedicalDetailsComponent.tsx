@@ -13,6 +13,7 @@ import {ImageConfig} from "../../../constants";
 import HorizontalLineComponent
     from "../../../shared/components/horizontal-line/horizontal-line/HorizontalLineComponent";
 import {useSearchParams} from "react-router-dom";
+import FormControlLabelComponent from "../../../shared/components/form-control-label/FormControlLabelComponent";
 
 interface ClientMedicalDetailsComponentProps {
     clientId: string;
@@ -48,7 +49,7 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                 setSearchParams(searchParams);
             }
         }
-    }, [isClientMedicalDetailsLoaded, clientMedicalDetails, handleScrollToLastPosition, searchParams,setSearchParams]);
+    }, [isClientMedicalDetailsLoaded, clientMedicalDetails, handleScrollToLastPosition, searchParams, setSearchParams]);
 
 
     return (
@@ -70,11 +71,10 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                             Edit
                         </ButtonComponent>
                     </LinkComponent>
-                    }
-                                   id={"personalHabits"}
+                    } id={"personalHabits"}
                     >
                         <div className={'ts-row mrg-bottom-20'}>
-                            <div className={'ts-col-lg-4'}>
+                            <div className={'ts-col-lg-4 personal-habit-heading'}>
                                 Smoke/Chew Tobacco?
                             </div>
                             <div className={'ts-col-lg-3 no-answer-text'}>
@@ -94,7 +94,7 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                                 )}
                             </div>
                         </div>
-                        <div className={'ts-row mrg-bottom-20'}>
+                        <div className={'ts-row mrg-bottom-20 personal-habit-heading'}>
                             <div className={'ts-col-lg-4'}>
                                 Drink Alcohol?
                             </div>
@@ -109,7 +109,7 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                             </div>
                         </div>
                         <div className={'ts-row mrg-bottom-20'}>
-                            <div className={'ts-col-lg-4'}>
+                            <div className={'ts-col-lg-4 personal-habit-heading'}>
                                 Drink Coffee?
                             </div>
                             <div className={'ts-col-lg-3 no-answer-text'}>
@@ -125,7 +125,7 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                             </div>
                         </div>
                         <div className={'ts-row mrg-bottom-20'}>
-                            <div className={'ts-col-lg-4'}>
+                            <div className={'ts-col-lg-4 personal-habit-heading'}>
                                 Drink Soda/Pop?
                             </div>
                             <div className={'ts-col-lg-3 no-answer-text'}>
@@ -159,15 +159,19 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                             Edit
                         </ButtonComponent>
                     </LinkComponent>
-                    }
-                                   id={"medicalSupplements"}
-                    >
-                        <DataLabelValueComponent label={'Prescription Medications'}>
-                            {clientMedicalDetails?.medications?.prescription_medication || "N/A"}
-                        </DataLabelValueComponent>
-                        <DataLabelValueComponent label={'Non-Prescription Medications/Supplements'}>
-                            {clientMedicalDetails?.medications?.non_prescription_medication || "N/A"}
-                        </DataLabelValueComponent>
+                    } id={"medicalSupplements"}>
+
+                        <FormControlLabelComponent className={'medical-supplement-headings'}
+                                                   label={'Prescription Medications:'}/>
+                        <div
+                            className={'medical-supplement-answer-text'}>{clientMedicalDetails?.medications?.prescription_medication || "N/A"}</div>
+
+                        <FormControlLabelComponent className={'medical-supplement-headings'}
+                                                   label={'Non-Prescription Medications/Supplements:'}
+                        />
+                        <div
+                            className={'medical-supplement-answer-text'}>{clientMedicalDetails?.medications?.non_prescription_medication || "N/A"}</div>
+
                     </CardComponent>
                     <CardComponent title={'Medical Provider Information'} actions={<LinkComponent
                         route={CommonService._client.NavigateToClientEdit(clientId, "medicalProvider")}>
@@ -272,7 +276,8 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                                             </DataLabelValueComponent>
                                         </div>
                                         <div className={'ts-col-12'}>
-                                            <DataLabelValueComponent className={'mrg-bottom-0'} label={'Nursing?'} direction={'row'}>
+                                            <DataLabelValueComponent className={'mrg-bottom-0'} label={'Nursing?'}
+                                                                     direction={'row'}>
                                                 <div
                                                     className={'no-answer-text'}>{clientMedicalDetails?.females_only_questions?.["Nursing?"] || "N/A"}</div>
                                             </DataLabelValueComponent>
@@ -339,7 +344,6 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                                     None Reported
                                 </>
                             }
-
                             </div>}
 
                         {
@@ -349,7 +353,7 @@ const ClientMedicalDetailsComponent = (props: ClientMedicalDetailsComponentProps
                                     (Object.keys(clientMedicalDetails?.musculoskeletal_history || {})?.map((question, index) => {
                                         return <div key={question + index} className={"musculoskeletal-history-block"}>
                                             <div className="ts-row musculoskeletal-history-question-list">
-                                                <div className="ts-col-lg-3 font-weight-bold">
+                                                <div className="ts-col-lg-4">
                                                     {clientMedicalDetails?.musculoskeletal_history[question]?.title}
                                                 </div>
                                                 <div

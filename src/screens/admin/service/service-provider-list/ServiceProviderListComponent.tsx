@@ -5,7 +5,6 @@ import React, {useCallback, useEffect} from "react";
 import {CommonService} from "../../../../shared/services";
 import {ITableColumn} from "../../../../shared/models/table.model";
 import {IService} from "../../../../shared/models/service.model";
-import IconButtonComponent from "../../../../shared/components/icon-button/IconButtonComponent";
 import ButtonComponent from "../../../../shared/components/button/ButtonComponent";
 import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "../../../../store/reducers";
@@ -15,6 +14,7 @@ import InsertLinkIcon from '@mui/icons-material/InsertLink';
 import {useNavigate} from "react-router-dom";
 import commonService from "../../../../shared/services/common.service";
 import LinkComponent from "../../../../shared/components/link/LinkComponent";
+import FormControlLabelComponent from "../../../../shared/components/form-control-label/FormControlLabelComponent";
 
 interface ServiceProviderComponentProps {
     serviceId: string;
@@ -36,42 +36,46 @@ const ServiceProviderListComponent = (props: ServiceProviderComponentProps) => {
             key: 'providerName',
             dataIndex: 'provider_name',
             title: "Provider Name",
-            width: "90%",
-            render: (item: any) => {
-                // return <>{item?.is_linked && item?.provider_name}</>
-                return <>{item?.first_name + " " + item?.last_name}</>
-            }
-        },
-        {
-            key: 'viewDetails',
-            dataIndex: 'view_details',
-            title: '',
-            align:'right',
-            width: 100,
             render: (item: any, index: number) => {
-                if (item._id && item.first_name && item.last_name) {
-                    return <LinkComponent id={"sv_view_details_" + index}
-                                          route={commonService._routeConfig.LinkProviderToSericeRoute(serviceId,item._id,item?.first_name,item?.last_name)}>
-                        View Details
-                    </LinkComponent>
-                }
+                // return <>{item?.is_linked && item?.provider_name}</>
+                return <><LinkComponent id={"sv_view_details_" + index}
+                                        route={commonService._routeConfig.LinkProviderToSericeRoute(serviceId, item._id, item?.first_name, item?.last_name)}>
+                    {item?.first_name + " " + item?.last_name}
+                </LinkComponent>
+                </>
             }
         },
+        // {
+        //     key: 'viewDetails',
+        //     dataIndex: 'view_details',
+        //     title: '',
+        //     align: 'right',
+        //     width: 100,
+        //     render: (item: any, index: number) => {
+        //         if (item._id && item.first_name && item.last_name) {
+        //             return <LinkComponent id={"sv_view_details_" + index}
+        //                                   route={commonService._routeConfig.LinkProviderToSericeRoute(serviceId, item._id, item?.first_name, item?.last_name)}>
+        //                 View Details
+        //             </LinkComponent>
+        //         }
+        //     }
+        // },
         {
             key: 'action',
             title: 'Action',
-            width: 100,
             fixed: 'right',
             align: 'center',
             render: (item: any) => {
-                return <IconButtonComponent
+                return <ButtonComponent
                     color={"error"}
+                    variant={"outlined"}
+                    prefixIcon={<ImageConfig.CrossOutlinedIcon/>}
                     onClick={() => {
                         handleDeleteProvider(item);
                     }}
                     id={"pv_delete_btn_" + item.provider_name}>
-                    <ImageConfig.DeleteIcon/>
-                </IconButtonComponent>
+                    Unlink Provider
+                </ButtonComponent>
             }
         }
     ];
@@ -115,29 +119,29 @@ const ServiceProviderListComponent = (props: ServiceProviderComponentProps) => {
     }, [dispatch, serviceId]);
 
     return (
-        <div className={'service-provider'}>
-            <div className={'add-provider'}>
-                <ButtonComponent
-                    className={'add-provider-cta'}
-                    prefixIcon={<InsertLinkIcon/>}
-                    onClick={() => {
-                        navigate(commonService._routeConfig.LinkProviderToSericeRoute(serviceId))
-                    }}
-                    id={"pv_add_btn"}
-                >
-                    Link Provider
-                </ButtonComponent>
+        <CardComponent className={'service-provider'}>
+            <div className={'provider-button-wrapper'}>
+                <FormControlLabelComponent label={"Providers"} size={'xl'}/>
+                <div className={'add-provider'}>
+                    <ButtonComponent
+                        className={'add-provider-cta'}
+                        prefixIcon={<InsertLinkIcon/>}
+                        onClick={() => {
+                            navigate(commonService._routeConfig.LinkProviderToSericeRoute(serviceId))
+                        }}
+                        id={"pv_add_btn"}
+                    >
+                        Link Provider
+                    </ButtonComponent>
+                </div>
             </div>
-            <CardComponent title={'Providers'}>
-                <TableComponent
-                    size={"small"}
-                    noDataText={'Currently there are no providers linked to this service.'}
-                    columns={ClientListColumns}
-                    data={serviceProviderList}
-                    loading={isServiceProviderListLoading}
-                />
-            </CardComponent>
-        </div>
+            <TableComponent
+                columns={ClientListColumns}
+                data={serviceProviderList}
+                noDataText={<div className={'no-data-text'}>No provider linked yet.</div>}
+                loading={isServiceProviderListLoading}
+            />
+        </CardComponent>
     );
 
 };

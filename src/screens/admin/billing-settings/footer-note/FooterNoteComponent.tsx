@@ -96,7 +96,7 @@ const FooterNoteComponent = (props: FooterNoteComponentProps) => {
                                 return (
                                     <Form className={'t-form'} noValidate={true}>
                                         <div className={'default-message-box'}>
-                                            <FormControlLabelComponent label={"Footer Line 1"}/>
+                                            <FormControlLabelComponent className={'footer-heading'} label={"Footer Line 1"}/>
                                             <Field name={'footer_note'}>
                                                 {
                                                     (field: FieldProps) => (
@@ -118,7 +118,7 @@ const FooterNoteComponent = (props: FooterNoteComponentProps) => {
                                                     Limit: {(values?.footer_note?.length)}/120</div>}
                                         </div>
                                         <div className={'default-message-box'}>
-                                            <FormControlLabelComponent label={"Footer Line 2"}/>
+                                            <FormControlLabelComponent className={'footer-heading'} label={"Footer Line 2"}/>
                                             <Field name={'footer_note_second_line'}>
                                                 {
                                                     (field: FieldProps) => (
@@ -153,7 +153,7 @@ const FooterNoteComponent = (props: FooterNoteComponentProps) => {
                                             &nbsp;&nbsp;
                                             <ButtonComponent
                                                 isLoading={isSaving}
-                                                className={'submit-cta'}
+                                                className={'submit-cta mrg-left-15'}
                                                 type={"submit"}
                                                 id={"save_btn"}
                                                 disabled={!isValid || values?.footer_note === "" || CommonService.isEqual(values, defaultFooterNote)}

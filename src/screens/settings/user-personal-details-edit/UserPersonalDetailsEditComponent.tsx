@@ -126,26 +126,25 @@ const UserPersonalDetailsEditComponent = (props: UserPersonalDetailsEditComponen
 
     return (
         <div className={'user-personal-details-edit-component'}>
-            <div className={'edit-user-heading'}>Edit Personal Details</div>
-            <CardComponent title={"Personal Details"} size={"md"}>
-                <Formik
-                    validationSchema={formValidationSchema}
-                    initialValues={initialValues}
-                    onSubmit={onSubmit}
-                    validateOnChange={false}
-                    validateOnBlur={true}
-                    enableReinitialize={true}
-                    validateOnMount={true}>
-                    {({values, touched, errors, setFieldValue, validateForm, isSubmitting, isValid}) => {
-                        // eslint-disable-next-line react-hooks/rules-of-hooks
-                        useEffect(() => {
-                            validateForm();
-                            console.log('val', values);
-                        }, [validateForm, values]);
+            <FormControlLabelComponent label={'Edit Basic Details'} size={'xl'}/>
 
-                        return (
-                            <Form noValidate={true} className={"t-form"}>
-                                {/*<FormDebuggerComponent showDebugger={true} values={values} errors={errors}/>*/}
+            <Formik
+                validationSchema={formValidationSchema}
+                initialValues={initialValues}
+                onSubmit={onSubmit}
+                validateOnChange={false}
+                validateOnBlur={true}
+                enableReinitialize={true}
+                validateOnMount={true}>
+                {({values, touched, errors, setFieldValue, validateForm, isSubmitting, isValid}) => {
+                    // eslint-disable-next-line react-hooks/rules-of-hooks
+                    useEffect(() => {
+                        validateForm();
+                    }, [validateForm, values]);
+                    return (
+                        <Form noValidate={true} className={"t-form"}>
+                            {/*<FormDebuggerComponent showDebugger={true} values={values} errors={errors}/>*/}
+                            <CardComponent title={"Basic Details"} size={"md"}>
                                 <div className="ts-row">
                                     <div className="ts-col">
                                         <Field name={'first_name'}>
@@ -319,7 +318,7 @@ const UserPersonalDetailsEditComponent = (props: UserPersonalDetailsEditComponen
                                 {!(values?.signature && userBasicDetails?.signature) && <div className="ts-row">
                                     <div className="ts-col-12">
                                         <FormControlLabelComponent
-                                            className={"font-weight-thin"}
+                                            className={"signature-heading"}
                                             label={"Signature:"}
                                         />
                                         <SignaturePadComponent
@@ -355,34 +354,33 @@ const UserPersonalDetailsEditComponent = (props: UserPersonalDetailsEditComponen
                                         Remove Signature
                                     </LinkComponent>
                                 </div>}
+                            </CardComponent>
 
-                                <div className="t-form-actions">
-                                    <ButtonComponent
-                                        id={"save_btn"}
-                                        size={'large'}
-                                        className={'submit-cta'}
-                                        isLoading={isSubmitting}
-                                        disabled={isSubmitting || !isValid || CommonService.isEqual(values, initialValues) || !values?.signature}
-                                        type={"submit"}
-                                    >
-                                        {isSubmitting ? "Saving" : "Save"}
-                                    </ButtonComponent>
-                                    <ButtonComponent
-                                        id={"cancel_btn"}
-                                        variant={"outlined"}
-                                        size={'large'}
-                                        className={'submit-cta'}
-                                        disabled={isSubmitting || !(!isValid || CommonService.isEqual(values, initialValues))}
-                                        onClick={handleNext}
-                                    >
-                                        Next
-                                    </ButtonComponent>
-                                </div>
-                            </Form>
-                        )
-                    }}
-                </Formik>
-            </CardComponent>
+                            <div className="t-form-actions">
+                                <ButtonComponent
+                                    id={"save_btn"}
+                                    className={'mrg-right-15'}
+                                    isLoading={isSubmitting}
+                                    disabled={isSubmitting || !isValid || CommonService.isEqual(values, initialValues)}
+                                    type={"submit"}
+                                >
+                                    {isSubmitting ? "Saving" : "Save"}
+                                </ButtonComponent>
+                                &nbsp;
+                                <ButtonComponent
+                                    id={"cancel_btn"}
+                                    variant={"outlined"}
+                                    className={'submit-cta'}
+                                    disabled={isSubmitting || !(!isValid || CommonService.isEqual(values, initialValues))}
+                                    onClick={handleNext}
+                                >
+                                    Next
+                                </ButtonComponent>
+                            </div>
+                        </Form>
+                    )
+                }}
+            </Formik>
         </div>
     );
 

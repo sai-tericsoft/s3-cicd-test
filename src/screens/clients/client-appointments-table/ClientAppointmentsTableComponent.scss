@@ -1,3 +1,8 @@
-.client-appointment-list-table-component{
+.client-appointment-list-table-component {
   margin-top: -12px;
+
+  .no-appointment-text {
+    color: #7F7F7F;
+    font-size: 24px;
+  }
 }

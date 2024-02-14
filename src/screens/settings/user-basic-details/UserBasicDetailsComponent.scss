@@ -1,20 +1,29 @@
 .user-basic-details-component {
   .client-basic-details-component {
-    .education-details-card{
-      .card-component{
-        margin-bottom: 0px !important;
-      }
+    .education-details-card {
+
     }
+
+    .specialities {
+      margin-bottom: 12px;
+    }
+    .no-message{
+      margin-bottom: 24px;
+    }
+
     .user-details-horizontal-line {
-      border-bottom: 1px solid #CECECE;
-        margin-bottom: 10px !important;
+      border-bottom: 2px solid #CECECE;
+      margin-bottom: 24px !important;
+      margin-top: 4px !important;
     }
-    .signature-heading{
+
+    .signature-heading {
       font-weight: bold;
       margin-bottom: 12px;
     }
   }
-  .prof-educational-no-data{
+
+  .prof-educational-no-data {
     margin-bottom: 11px;
   }
 }

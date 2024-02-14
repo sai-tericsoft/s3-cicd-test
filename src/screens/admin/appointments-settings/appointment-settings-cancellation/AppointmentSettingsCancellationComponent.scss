@@ -2,8 +2,23 @@
   .card-component {
     margin-bottom: 0 !important;
   }
+
   .appointment-cancellation {
     padding-bottom: 24px;
+
+    .question-title {
+      color: #1D1C1D !important;
+      font-weight: 700;
+    }
+
+    .question-description {
+      color: #7F7F7F !important;
+      font-weight: 400;
+    }
+
+    .horizontal-line-wrapper{
+      height: 2px !important;
+    }
 
     .message-heading {
       font-weight: 500;

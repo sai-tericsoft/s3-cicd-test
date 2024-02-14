@@ -53,13 +53,13 @@ const AllMessageHistoryComponent = (props: AllMessageHistoryComponentProps) => {
     }, []);
 
     const handleMessageDelete = useCallback((messageId: string) => {
-            CommonService._dashboardService.deleteDashboardMessage(messageId, {})
-                .then((response: any) => {
-                    CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
-                    dispatch(getAllMessageHistory(true));
-                }).catch((error: any) => {
-                CommonService._alert.showToast(error.error, "error");
-            });
+        CommonService._dashboardService.deleteDashboardMessage(messageId, {})
+            .then((response: any) => {
+                CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+                dispatch(getAllMessageHistory(true));
+            }).catch((error: any) => {
+            CommonService._alert.showToast(error.error, "error");
+        });
     }, [dispatch])
     return (
         <div className={'all-message-history-component'}>
@@ -92,44 +92,52 @@ const AllMessageHistoryComponent = (props: AllMessageHistoryComponentProps) => {
                                         {copiedIndex === message?._id && <span>Copied!</span>}
                                         {
                                             !message?.can_delete &&
-                                            <PopupState variant="popover" popupId="demo-popup-popover">
-                                                {(popupState: any) => (
-                                                    <div>
-                                                        <div className="cursor-pointer pdd-bottom-10" {...bindTrigger(popupState)}>
-                                                            <ImageConfig.HorizontalMore/>
-                                                        </div>
+                                            <div className={'popup-wrapper'}>
 
-                                                        <Popover
-                                                            {...bindPopover(popupState)}
-                                                            anchorOrigin={{
-                                                                vertical: 'bottom',
-                                                                horizontal: 'center',
-                                                            }}
-                                                            transformOrigin={{
-                                                                vertical: 'top',
-                                                                horizontal: 'center',
-                                                            }}
-                                                        >
-                                                            <div className="pdd-10">
-                                                                <div
-                                                                    className={'h-v-center  cursor-pointer mrg-right-10'}
-                                                                    onClick={() => handleCopyMessage(message?._id, message?.message)}>
-                                                                    <span><ImageConfig.CopyIcon/></span>
-                                                                    <span className={'mrg-left-15'}>Copy</span>
-
-                                                                </div>
-
-                                                                <div className={'h-v-center mrg-top-10 cursor-pointer'}
-                                                                     onClick={() => handleMessageDelete(message?._id)}>
-                                                                    <span><ImageConfig.DeleteIcon/></span>
-                                                                    <span className={'mrg-left-10 delete-text'}>Delete</span>
-
-                                                                </div>
+                                                <PopupState variant="popover" popupId="demo-popup-popover">
+                                                    {(popupState: any) => (
+                                                        <div>
+                                                            <div
+                                                                className="h-v-center cursor-pointer" {...bindTrigger(popupState)}>
+                                                                <ImageConfig.MoreVerticalIcon/>
                                                             </div>
-                                                        </Popover>
-                                                    </div>
-                                                )}
-                                            </PopupState>
+                                                            <div className={'mrg-left-20'}>
+                                                                <Popover
+                                                                    {...bindPopover(popupState)}
+                                                                    anchorOrigin={{
+                                                                        vertical: 'bottom',
+                                                                        horizontal: 'center',
+                                                                    }}
+                                                                    transformOrigin={{
+                                                                        vertical: 'top',
+                                                                        horizontal: 'center',
+                                                                    }}
+                                                                >
+                                                                    <div className="pdd-10 pdd-right-40">
+                                                                        <div
+                                                                            className={'cursor-pointer mrg-right-10'}
+                                                                            onClick={() => handleCopyMessage(message?._id, message?.message)}>
+                                                                            {/*<span><ImageConfig.CopyIcon/></span>*/}
+                                                                            <span className={''}>Copy</span>
+
+                                                                        </div>
+
+                                                                        <div
+                                                                            className={'h-v-center mrg-top-10 cursor-pointer'}
+                                                                            onClick={() => handleMessageDelete(message?._id)}>
+                                                                            {/*<span><ImageConfig.DeleteIcon/></span>*/}
+                                                                            <span
+                                                                                className={'delete-text'}>Delete</span>
+
+                                                                        </div>
+                                                                    </div>
+                                                                </Popover>
+                                                            </div>
+                                                        </div>
+                                                    )}
+                                                </PopupState>
+                                            </div>
+
                                         }
 
                                     </div>

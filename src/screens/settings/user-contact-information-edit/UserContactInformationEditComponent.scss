@@ -1,15 +1,28 @@
-.user-contact-information-edit-component{
-  .edit-user-heading{
-    color: #00534F;
-    font-size: 18px;
+.user-contact-information-edit-component {
+  .edit-user-heading {
+    color: #275778;
+    font-size: 20px;
     font-weight: 700;
     //text-transform: uppercase;
     margin-bottom: 24px;
   }
-  .t-form-actions{
-    margin-top: 60px !important;
-    margin-bottom: 24px !important;
-    .submit-cta{
+  .card-component{
+    padding-bottom: 4px !important;
+  }
+
+  .form-label {
+    color: #212B36;
+    margin-bottom: 12px !important;
+    font-size: 14px !important;
+  }
+  .horizontal-divider{
+    border-bottom: 2px solid #CECECE;
+  }
+
+  .t-form-actions {
+    margin-top: 30px !important;
+
+    .submit-cta {
       margin-left: 16px;
     }
   }

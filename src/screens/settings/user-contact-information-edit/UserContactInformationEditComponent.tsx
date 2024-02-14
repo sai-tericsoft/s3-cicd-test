@@ -38,6 +38,7 @@ const formValidationSchema = Yup.object({
                 return value?.length === 10
             }),
     }),
+
     secondary_contact_info: Yup.lazy((value) => {
         if (value) {
             return Yup.array().of(
@@ -139,27 +140,25 @@ const UserContactInformationEditComponent = (props: UserContactInformationEditCo
     return (
         <div className={'user-contact-information-edit-component'}>
             <div className={'edit-user-heading'}>Edit Contact Information</div>
-            <CardComponent title={"Contact Information"} size={"md"}>
-
-                <Formik
-                    validationSchema={formValidationSchema}
-                    initialValues={initialValues}
-                    onSubmit={onSubmit}
-                    validateOnChange={false}
-                    validateOnBlur={true}
-                    innerRef={formikRef}
-                    enableReinitialize={true}
-                    validateOnMount={true}>
-                    {({values, touched, errors, setFieldValue, validateForm, isSubmitting, isValid}) => {
-                        // eslint-disable-next-line react-hooks/rules-of-hooks
-                        useEffect(() => {
-                            validateForm();
-                        }, [validateForm, values]);
-                        return (
-                            <Form noValidate={true} className={"t-form"}>
-                                <FormDebuggerComponent showDebugger={true} values={values} errors={errors}/>
-
-                                <FormControlLabelComponent size={'sm'} label={'Primary Phone :'}/>
+            <Formik
+                validationSchema={formValidationSchema}
+                initialValues={initialValues}
+                onSubmit={onSubmit}
+                validateOnChange={false}
+                validateOnBlur={true}
+                enableReinitialize={true}
+                validateOnMount={true}>
+                {({values, touched, errors, setFieldValue, validateForm, isSubmitting, isValid}) => {
+                    // eslint-disable-next-line react-hooks/rules-of-hooks
+                    useEffect(() => {
+                        validateForm();
+                    }, [validateForm, values]);
+                    return (
+                        <Form noValidate={true} className={"t-form"}>
+                            {/*<FormDebuggerComponent showDebugger={true} values={values} errors={errors}/>*/}
+                            <CardComponent title={"Contact Information"} size={"md"}>
+                                <FormControlLabelComponent size={'sm'} className={'form-label'}
+                                                           label={'Primary Phone :'}/>
                                 <div className="ts-row">
                                     <div className="ts-col">
                                         <Field name={'primary_contact_info.phone_type'}>
@@ -209,7 +208,8 @@ const UserContactInformationEditComponent = (props: UserContactInformationEditCo
                                 {
                                     values?.secondary_contact_info && values?.secondary_contact_info?.length > 0 ?
                                         <>
-                                            <FormControlLabelComponent size={'sm'} label={'Alternate Phone :'}/>
+                                            <FormControlLabelComponent size={'sm'} className={'form-label'}
+                                                                       label={'Alternate Phone :'}/>
                                             <FieldArray
                                                 name="secondary_contact_info"
                                                 render={(arrayHelpers) => (
@@ -250,6 +250,15 @@ const UserContactInformationEditComponent = (props: UserContactInformationEditCo
                                                                     </div>
                                                                     <div className="ts-col-1">
                                                                         <div className="d-flex">
+                                                                            <IconButtonComponent
+                                                                                className={"form-helper-icon"}
+                                                                                color={"error"}
+                                                                                onClick={() => {
+                                                                                    arrayHelpers.remove(index);
+                                                                                }}
+                                                                            >
+                                                                                <ImageConfig.DeleteIcon/>
+                                                                            </IconButtonComponent>
                                                                             {
                                                                                 values?.secondary_contact_info && (index === values?.secondary_contact_info?.length - 1)
                                                                                 && values.secondary_contact_info.length < 3 &&
@@ -265,15 +274,7 @@ const UserContactInformationEditComponent = (props: UserContactInformationEditCo
                                                                                     <ImageConfig.AddCircleIcon/>
                                                                                 </IconButtonComponent>
                                                                             }
-                                                                            <IconButtonComponent
-                                                                                className={"form-helper-icon"}
-                                                                                color={"error"}
-                                                                                onClick={() => {
-                                                                                    arrayHelpers.remove(index);
-                                                                                }}
-                                                                            >
-                                                                                <ImageConfig.DeleteIcon/>
-                                                                            </IconButtonComponent>
+
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -296,8 +297,9 @@ const UserContactInformationEditComponent = (props: UserContactInformationEditCo
                                             Add Alternate Phone
                                         </ButtonComponent>
                                 }
-                                <HorizontalLineComponent/>
-                                <FormControlLabelComponent size={'sm'} label={'Primary Email :'}/>
+                                <HorizontalLineComponent className={'horizontal-divider'}/>
+                                <FormControlLabelComponent className={'form-label'} size={'sm'}
+                                                           label={'Primary Email :'}/>
                                 <div className="ts-row">
                                     <div className="ts-col">
                                         <Field name={'primary_email'}>
@@ -331,7 +333,8 @@ const UserContactInformationEditComponent = (props: UserContactInformationEditCo
                                 {
                                     values?.secondary_emails && values?.secondary_emails?.length > 0 ?
                                         <>
-                                            <FormControlLabelComponent size={'sm'} label={'Alternate Email :'}/>
+                                            <FormControlLabelComponent size={'sm'} className={'form-label'}
+                                                                       label={'Alternate Email :'}/>
                                             <FieldArray
                                                 name="secondary_emails"
                                                 render={(arrayHelpers) => (
@@ -357,6 +360,15 @@ const UserContactInformationEditComponent = (props: UserContactInformationEditCo
                                                                     </div>
                                                                     <div className="ts-col-1">
                                                                         <div className="d-flex">
+                                                                            <IconButtonComponent
+                                                                                className={"form-helper-icon"}
+                                                                                color={"error"}
+                                                                                onClick={() => {
+                                                                                    arrayHelpers.remove(index);
+                                                                                }}
+                                                                            >
+                                                                                <ImageConfig.DeleteIcon/>
+                                                                            </IconButtonComponent>
                                                                             {values?.secondary_emails && (index === values?.secondary_emails?.length - 1) &&
                                                                                 values.secondary_emails.length < 3 &&
                                                                                 <IconButtonComponent
@@ -370,15 +382,7 @@ const UserContactInformationEditComponent = (props: UserContactInformationEditCo
                                                                                     <ImageConfig.AddCircleIcon/>
                                                                                 </IconButtonComponent>
                                                                             }
-                                                                            <IconButtonComponent
-                                                                                className={"form-helper-icon"}
-                                                                                color={"error"}
-                                                                                onClick={() => {
-                                                                                    arrayHelpers.remove(index);
-                                                                                }}
-                                                                            >
-                                                                                <ImageConfig.DeleteIcon/>
-                                                                            </IconButtonComponent>
+
                                                                         </div>
                                                                     </div>
                                                                     <div className="ts-col"/>
@@ -401,44 +405,47 @@ const UserContactInformationEditComponent = (props: UserContactInformationEditCo
                                             Add Alternate Email
                                         </ButtonComponent>
                                 }
+                            </CardComponent>
 
-                                <div className="t-form-actions">
-                                    <ButtonComponent
-                                        id={"cancel_btn"}
-                                        variant={"outlined"}
-                                        size={'large'}
-                                        className={'submit-cta'}
-                                        disabled={isSubmitting}
-                                        onClick={handlePrevious}
-                                    >
-                                        Previous
-                                    </ButtonComponent>
-                                    <ButtonComponent
-                                        id={"save_btn"}
-                                        size={'large'}
-                                        className={'submit-cta'}
-                                        isLoading={isSubmitting}
-                                        disabled={isSubmitting || !isValid || CommonService.isEqual(values, initialValues)}
-                                        type={"submit"}
-                                    >
-                                        {isSubmitting ? "Saving" : "Save"}
-                                    </ButtonComponent>
-                                    <ButtonComponent
-                                        id={"cancel_btn"}
-                                        variant={"outlined"}
-                                        size={'large'}
-                                        className={'submit-cta'}
-                                        disabled={isSubmitting || !(!isValid || CommonService.isEqual(values, initialValues))}
-                                        onClick={handleNext}
-                                    >
-                                        Next
-                                    </ButtonComponent>
-                                </div>
-                            </Form>
-                        )
-                    }}
-                </Formik>
-            </CardComponent>
+                            <div className="t-form-actions">
+                                <ButtonComponent
+                                    id={"cancel_btn"}
+                                    variant={"outlined"}
+                                    size={'large'}
+                                    className={'submit-cta'}
+                                    disabled={isSubmitting}
+                                    onClick={handlePrevious}
+                                >
+                                    Previous
+                                </ButtonComponent>
+                                &nbsp;
+                                <ButtonComponent
+                                    id={"save_btn"}
+                                    size={'large'}
+                                    className={'submit-cta'}
+                                    isLoading={isSubmitting}
+                                    disabled={isSubmitting || !isValid || CommonService.isEqual(values, initialValues)}
+                                    type={"submit"}
+                                >
+                                    {isSubmitting ? "Saving" : "Save"}
+                                </ButtonComponent>
+                                &nbsp;
+                                <ButtonComponent
+                                    id={"cancel_btn"}
+                                    variant={"outlined"}
+                                    size={'large'}
+                                    className={'submit-cta'}
+                                    disabled={isSubmitting || !(!isValid || CommonService.isEqual(values, initialValues))}
+                                    onClick={handleNext}
+                                >
+                                    Next
+                                </ButtonComponent>
+                            </div>
+                        </Form>
+                    )
+                }}
+            </Formik>
+
         </div>
     );
 

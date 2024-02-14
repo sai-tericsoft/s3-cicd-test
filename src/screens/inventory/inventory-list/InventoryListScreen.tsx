@@ -100,11 +100,11 @@ const InventoryListScreen = (props: InventoryListScreenProps) => {
             }
         },
         {
-            title: '',
+            title: 'Action',
             dataIndex: 'action',
             key: 'action',
             width: 159,
-            align: 'right',
+            align: 'center',
             fixed: 'right',
             render: (item: any) => {
                 return <LinkComponent route={CommonService._routeConfig.InventoryProductViewDetails(item?._id)}>
@@ -167,7 +167,7 @@ const InventoryListScreen = (props: InventoryListScreenProps) => {
             <div className={'list-screen-header'}>
                 <div className={'list-search-filters'}>
                     <div className="ts-row">
-                        <div className="ts-col-md-8 ts-col-lg-5">
+                        <div className="ts-col-md-8 ts-col-lg-4">
                             <SearchComponent label={'Search'}
                                              placeholder={'Search using Product Name or Code'}
                                              value={inventoryListFilterState.search}
@@ -182,8 +182,8 @@ const InventoryListScreen = (props: InventoryListScreenProps) => {
                     </div>
                 </div>
                 <div className="list-options">
-                    <ButtonComponent id={"update_product_btn"} variant={'outlined'}
-                                     onClick={handleUpdateQuantityModalOpen}
+                    <ButtonComponent prefixIcon={<ImageConfig.UpdateQuantityIcon/>} id={"update_product_btn"}
+                                     variant={'outlined'} onClick={handleUpdateQuantityModalOpen}
                                      className={'update_product_btn'}>
                         Update Quantity
                     </ButtonComponent>
@@ -200,13 +200,13 @@ const InventoryListScreen = (props: InventoryListScreenProps) => {
                                        method={APIConfig.GET_INVENTORY_LIST.METHOD}
                                        columns={InventoryListTableColumns}
                                        extraPayload={inventoryListFilterState}
-                                       noDataText={(<div className={'no-client-text-wrapper'}>
-                                           <div>{inventoryListFilterState.search ?
-                                               <img src={ImageConfig.Search} alt="client-search"/> : ''}</div>
-                                           <div
-                                               className={'no-client-heading mrg-bottom-15'}>{inventoryListFilterState.search ? 'Sorry, no results found!' : ''}</div>
-                                           <div className={'no-client-description'}>
-                                               {inventoryListFilterState.search ? 'There is no product available by the name or code you have searched.' : 'Currently there is no product added.'}
+                                       noDataText={(<div className={'no-product-text-wrapper'}>
+                                           {/*<div>{inventoryListFilterState.search ?*/}
+                                           {/*    <img src={ImageConfig.Search} alt="client-search"/> : ''}</div>*/}
+                                           {/*<div*/}
+                                           {/*    className={'no-client-heading mrg-bottom-15'}>{inventoryListFilterState.search ? '' : ''}</div>*/}
+                                           <div className={'no-product-description'}>
+                                               {inventoryListFilterState.search ? 'Sorry, no results found!.' : 'No product added yet.'}
                                            </div>
                                        </div>)}
                                        refreshToken={refreshToken}
@@ -285,6 +285,6 @@ const InventoryListScreen = (props: InventoryListScreenProps) => {
         </div>
     );
 
-};
+}
 
 export default InventoryListScreen;

@@ -1,5 +1,5 @@
 .data-label-value {
-  margin-bottom: 24px;
+  margin-bottom: 20px;
   display: flex;
   flex-direction: column;
 
@@ -8,15 +8,15 @@
     font-size: 1rem;
     line-height: 16px;
     letter-spacing: 0.5px;
-    color: #949494;
+    color: #7F7F7F;
   }
 
   .data-value {
     line-height: 19px;
     font-size: 1rem;
     align-items: center;
-    color: #212B36;
-    font-weight: 500;
+    color: #1D1C1D;
+    font-weight: 400;
   }
 
   &.row {

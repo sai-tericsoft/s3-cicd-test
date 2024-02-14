@@ -1,22 +1,53 @@
-.client-medical-provider-information-form-component{
-  .card-component{
+.client-medical-provider-information-form-component {
+  .card-component {
     margin-bottom: 0 !important;
+    padding-bottom: 4px;
   }
 
-  .add-communication-referral-heading{
+  .communication-referral-heading {
+    color: #1D1C1D;
+    text-decoration: underline;
+    margin-bottom: 20px;
+  }
+
+  .referral-details-heading {
+    color: #1D1C1D;
+    font-size: 16px;
+    text-decoration: underline;
+  }
+
+  .question-component {
+    .question-title {
+      color: #1D1C1D;
+      font-weight: 700;
+    }
+  }
+  .other-wrapper{
+    .question-component {
+      .question-title {
+        color: #7F7F7F;
+        font-weight: 400;
+      }
+    }
+  }
+
+
+  .add-communication-referral-heading {
     font-weight: 700;
-    font-size: 1.2857rem;
-    color: #00534F;
+    font-size: 20px;
     margin-bottom: 24px;
   }
-  .horizontal-line-wrapper{
+
+  .horizontal-line-wrapper {
     border: 2px solid #CECECE;
   }
+
   .t-form {
     .t-form-actions {
-      margin-top: 60px;
       margin-bottom: 24px;
-      .submit-cta{
+      margin-top: 30px;
+
+      .submit-cta {
         margin-left: 16px;
       }
     }

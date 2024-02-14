@@ -93,23 +93,22 @@ const UserProfessionalDetailsEditComponent = (props: UserProfessionalDetailsEdit
     return (
         <div className={'user-professional-details-edit-component'}>
             <div className={'edit-user-heading'}>Edit Professional details</div>
-            <CardComponent title={"professional details"} size={"md"}>
-
-                <Formik
-                    initialValues={initialValues}
-                    onSubmit={onSubmit}
-                    validationSchema={UserProfessionalDetailsValidationSchema}
-                    validateOnChange={false}
-                    validateOnBlur={true}
-                    enableReinitialize={true}
-                    validateOnMount={true}>
-                    {({values, touched, errors, setFieldValue, validateForm, isSubmitting, isValid}) => {
-                        // eslint-disable-next-line react-hooks/rules-of-hooks
-                        useEffect(() => {
-                            validateForm();
-                        }, [validateForm, values]);
-                        return (
-                            <Form noValidate={true} className={"t-form"}>
+            <Formik
+                initialValues={initialValues}
+                onSubmit={onSubmit}
+                validationSchema={UserProfessionalDetailsValidationSchema}
+                validateOnChange={false}
+                validateOnBlur={true}
+                enableReinitialize={true}
+                validateOnMount={true}>
+                {({values, touched, errors, setFieldValue, validateForm, isSubmitting, isValid}) => {
+                    // eslint-disable-next-line react-hooks/rules-of-hooks
+                    useEffect(() => {
+                        validateForm();
+                    }, [validateForm, values]);
+                    return (
+                        <Form noValidate={true} className={"t-form"}>
+                            <CardComponent title={"professional details"} size={"md"}>
                                 {/*<FormDebuggerComponent showDebugger={true} values={values} errors={errors}/>*/}
 
                                 <FieldArray
@@ -119,17 +118,18 @@ const UserProfessionalDetailsEditComponent = (props: UserProfessionalDetailsEdit
                                             {values?.professional_details?.map((item: any, index: any) => {
                                                 return (
                                                     <>
-                                                        <div className="d-flex ts-align-items-center mrg-bottom-24">
-                                                            <FormControlLabelComponent
-                                                                label={`Experience ${index + 1}:`}/>
+                                                        <div className="d-flex ts-align-items-center">
+                                                            <FormControlLabelComponent className={'form-label'}
+                                                                                       label={`Experience ${index + 1}:`}/>
                                                             {values?.professional_details.length > 1 &&
-                                                                <ButtonComponent className={'remove-contact-button'}
-                                                                                 prefixIcon={<ImageConfig.CloseIcon/>}
-                                                                                 variant={'contained'} color={'error'}
-                                                                                 onClick={() => {
-                                                                                     arrayHelpers.remove(index);
-                                                                                 }}
-                                                                >Remove</ButtonComponent>}
+                                                                <ButtonComponent
+                                                                    className={'remove-contact-button mrg-top-10'}
+                                                                    prefixIcon={<ImageConfig.CrossOutlinedIcon/>}
+                                                                    variant={'outlined'} color={'error'}
+                                                                    onClick={() => {
+                                                                        arrayHelpers.remove(index);
+                                                                    }}
+                                                                >Remove Experience</ButtonComponent>}
                                                         </div>
                                                         <div className="ts-row">
                                                             <div className="ts-col">
@@ -222,7 +222,7 @@ const UserProfessionalDetailsEditComponent = (props: UserProfessionalDetailsEdit
                                                         {
                                                             index + 1 !== values?.professional_details?.length &&
                                                             <HorizontalLineComponent
-                                                                className={'secondary-emergency-divider'}/>
+                                                                className={'horizontal-divider'}/>
                                                         }
                                                         {index + 1 === values?.professional_details.length &&
                                                             <div
@@ -248,44 +248,47 @@ const UserProfessionalDetailsEditComponent = (props: UserProfessionalDetailsEdit
                                         </>
                                     )}
                                 />
+                            </CardComponent>
 
-                                <div className="t-form-actions">
-                                    <ButtonComponent
-                                        id={"cancel_btn"}
-                                        variant={"outlined"}
-                                        size={'large'}
-                                        className={'submit-cta'}
-                                        disabled={isSubmitting}
-                                        onClick={handlePrevious}
-                                    >
-                                        Previous
-                                    </ButtonComponent>
-                                    <ButtonComponent
-                                        id={"save_btn"}
-                                        size={'large'}
-                                        className={'submit-cta'}
-                                        isLoading={isSubmitting}
-                                        disabled={isSubmitting || !isValid || CommonService.isEqual(values, initialValues)}
-                                        type={"submit"}
-                                    >
-                                        {isSubmitting ? "Saving" : "Save"}
-                                    </ButtonComponent>
-                                    <ButtonComponent
-                                        id={"cancel_btn"}
-                                        variant={"outlined"}
-                                        size={'large'}
-                                        className={'submit-cta'}
-                                        disabled={isSubmitting || !(!isValid || CommonService.isEqual(values, initialValues))}
-                                        onClick={handleNext}
-                                    >
-                                        Next
-                                    </ButtonComponent>
-                                </div>
-                            </Form>
-                        )
-                    }}
-                </Formik>
-            </CardComponent>
+                            <div className="t-form-actions">
+                                <ButtonComponent
+                                    id={"cancel_btn"}
+                                    variant={"outlined"}
+                                    size={'large'}
+                                    className={'submit-cta'}
+                                    disabled={isSubmitting}
+                                    onClick={handlePrevious}
+                                >
+                                    Previous
+                                </ButtonComponent>
+                                &nbsp;
+                                <ButtonComponent
+                                    id={"save_btn"}
+                                    size={'large'}
+                                    className={'submit-cta'}
+                                    isLoading={isSubmitting}
+                                    disabled={isSubmitting || !isValid || CommonService.isEqual(values, initialValues)}
+                                    type={"submit"}
+                                >
+                                    {isSubmitting ? "Saving" : "Save"}
+                                </ButtonComponent>
+                                &nbsp;
+                                <ButtonComponent
+                                    id={"cancel_btn"}
+                                    variant={"outlined"}
+                                    size={'large'}
+                                    className={'submit-cta'}
+                                    disabled={isSubmitting || !(!isValid || CommonService.isEqual(values, initialValues))}
+                                    onClick={handleNext}
+                                >
+                                    Next
+                                </ButtonComponent>
+                            </div>
+                        </Form>
+                    )
+                }}
+            </Formik>
+
         </div>
     );
 

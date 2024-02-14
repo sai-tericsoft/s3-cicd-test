@@ -1,10 +1,9 @@
 @import "src/assets/styles/common";
 
 .faq-component {
-  margin-top: 46px;
-
   display: flex;
   flex-direction: column;
+  margin-top: 46px;
 
   .faq-question-wrapper {
     .card-component {
@@ -18,7 +17,7 @@
 
     .faq-block-wrapper {
       overflow: auto;
-     //height: calc(100vh - 40vh);
+      //height: calc(100vh - 40vh);
       height: auto;
 
       .faq-block-content {
@@ -28,13 +27,12 @@
     }
 
     .contact-info-wrapper {
-      background-color: #EAF3F2;
+      background-color: #DFF6F3;
       height: 80px;
       border-radius: 8px;
-      margin-top: 60px;
 
       .card-component {
-        margin: 0px;
+        margin: 0;
       }
 
       .contact-number-wrapper {
@@ -48,7 +46,8 @@
         }
 
         .contact-text {
-          font-weight: 500;
+          font-weight: 700;
+          color: #1D1C1D;
           font-size: 16px;
           margin: 17px 0 5px 24px;
         }
@@ -62,7 +61,8 @@
           align-items: center;
 
           .contact-number-wrapper {
-            font-weight: 500;
+            font-weight: 700;
+            color: #1D1C1D;
             font-size: 16px;
             margin: 17px 24px 5px 0;
             align-items: center;
@@ -72,7 +72,7 @@
 
       .help-text {
         margin-left: 24px;
-        color: #6D6D6D;
+        color: #7F7F7F;
         //opacity: 0.5;
         padding-bottom: 24px;
       }

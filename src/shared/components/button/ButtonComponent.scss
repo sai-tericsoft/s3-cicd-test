@@ -1,7 +1,10 @@
 .MuiButton-contained {
   box-shadow: none !important;
 }
+.MuiButton-outlined{
+  background: #FFFFFF !important;
+}
 
-.MuiButton-root {
+.MuiButton-root  {
   box-sizing: content-box;
 }

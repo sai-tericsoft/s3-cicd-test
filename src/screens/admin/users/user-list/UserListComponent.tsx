@@ -12,6 +12,7 @@ import ButtonComponent from "../../../../shared/components/button/ButtonComponen
 import {APIConfig, ImageConfig} from "../../../../constants";
 import TableWrapperComponent from "../../../../shared/components/table-wrapper/TableWrapperComponent";
 import {IClientBasicDetails} from "../../../../shared/models/client.model";
+import CardComponent from "../../../../shared/components/card/CardComponent";
 
 interface UserListComponentProps {
 
@@ -28,7 +29,7 @@ const UserListComponent = (props: UserListComponentProps) => {
 
         const columns: ITableColumn[] = [
             {
-                title: "Name",
+                title: "User Name",
                 key: "last_name",
                 dataIndex: "first_name",
                 sortable: true,
@@ -72,7 +73,7 @@ const UserListComponent = (props: UserListComponentProps) => {
                 }
             },
             {
-                title: "",
+                title: "Action",
                 dataIndex: "actions",
                 key: "actions",
                 width: 120,
@@ -101,9 +102,9 @@ const UserListComponent = (props: UserListComponentProps) => {
         }, []);
 
         return (
-            <div className={'user-list-component facility-list-screen'}>
-                <div className={'facility-list-header'}>
-                    <div className={'facility-list-filters'}>
+            <div className={'user-list-component list-screen'}>
+                <div className={'list-screen-header'}>
+                    <div className={'list-search-filters'}>
                         <div className="ts-row">
                             <div className="ts-col-lg-4 ts-col-md-6 ">
                                 <SearchComponent
@@ -147,11 +148,16 @@ const UserListComponent = (props: UserListComponentProps) => {
                 </div>
 
                 <div className={'user-list'}>
-                    <TableWrapperComponent url={APIConfig.USER_LIST.URL}
-                                           method={APIConfig.USER_LIST.METHOD}
-                                           extraPayload={userListFilterState}
-                                           onSort={handleUserSort}
-                                           columns={columns}/>
+                    <CardComponent>
+                        <TableWrapperComponent url={APIConfig.USER_LIST.URL}
+                                               method={APIConfig.USER_LIST.METHOD}
+                                               extraPayload={userListFilterState}
+                                               noDataText={<div className={'no-data-text'}>
+                                                   {(userListFilterState) ? 'Sorry, no data found.' : 'No user added yet.'}
+                                               </div>}
+                                               onSort={handleUserSort}
+                                               columns={columns}/>
+                    </CardComponent>
                 </div>
             </div>
         );

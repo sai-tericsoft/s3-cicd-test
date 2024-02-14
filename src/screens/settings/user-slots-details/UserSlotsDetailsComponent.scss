@@ -1,8 +1,6 @@
 .user-slots-details-component {
   .t-tabs-wrapper {
     .t-tab-panel {
-      padding-bottom: 0 !important;
-
       .card-component {
         margin-bottom: 0px !important;
 
@@ -14,6 +12,24 @@
 
         .divider {
           margin-bottom: 0 !important;
+        }
+      }
+
+      .divider {
+       border-bottom: 1px solid #CECECE;
+      }
+
+      .no-slots-wrapper {
+        .card-component {
+          height: calc(100vh - 280px) !important;
+
+          .status-card-component {
+            .status-card-title {
+              color: #7F7F7F;
+              padding-top: 15%;
+              font-size: 24px;
+            }
+          }
         }
       }
     }

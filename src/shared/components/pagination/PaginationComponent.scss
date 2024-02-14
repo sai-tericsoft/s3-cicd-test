@@ -2,14 +2,16 @@
   background-color: white;
   border: 1px solid #E7E7E7;
   border-top: none;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
 }
 
-.MuiTablePagination-displayedRows,  .MuiTablePagination-selectLabel {
-
-  //margin-top: 2px !important;
-  font-size: 14px !important;
+.MuiTablePagination-displayedRows, .MuiTablePagination-selectLabel {
+  color: #1D1C1D !important;
+  font-size: 12px !important;
 }
-.MuiTablePagination-select{
-  font-size: 14px !important;
-  margin-top: 5px !important;
+
+.MuiTablePagination-select {
+  font-size: 12px !important;
+  padding-top: 8px !important;
 }

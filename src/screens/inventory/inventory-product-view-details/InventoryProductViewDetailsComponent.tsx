@@ -1,6 +1,5 @@
 import "./InventoryProductViewDetailsComponent.scss";
 import CardComponent from "../../../shared/components/card/CardComponent";
-import PageHeaderComponent from "../../../shared/components/page-header/PageHeaderComponent";
 import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
 import {useLocation, useNavigate, useParams, useSearchParams} from "react-router-dom";
@@ -88,7 +87,7 @@ const InventoryProductViewDetailsComponent = (props: InventoryProductViewDetails
             width: 160,
             render: (item: any) => {
                 return <LinkComponent
-                    route={CommonService._routeConfig.ClientProfileDetails(item?.client_details?._id)+'?referrer=' + location.pathname + '?activeTab=stockOutgoing'}>{item?.client_details?.client_id}</LinkComponent>
+                    route={CommonService._routeConfig.ClientProfileDetails(item?.client_details?._id) + '?referrer=' + location.pathname + '?activeTab=stockOutgoing'}>{item?.client_details?.client_id}</LinkComponent>
             }
 
         },
@@ -150,6 +149,12 @@ const InventoryProductViewDetailsComponent = (props: InventoryProductViewDetails
         }));
     }, [navigate, dispatch]);
 
+    const handleEdit = useCallback((productId: string) => {
+        if (productId) {
+            navigate(CommonService._routeConfig.EditInventoryProduct(productId));
+        }
+    }, [navigate]);
+
     return (
         <div className={'inventory-product-view-details-component'}>
             {
@@ -160,7 +165,8 @@ const InventoryProductViewDetailsComponent = (props: InventoryProductViewDetails
                 <StatusCardComponent title={"Failed to fetch product details"}/>
             }
             {isInventoryProductLoaded && <>
-                <PageHeaderComponent title={'Product Details'} className={'product-details-heading'}/>
+                <FormControlLabelComponent label={"View Product Details"} size={'xl'}/>
+
                 <CardComponent color={'primary'}>
                     <div className={'image-button-wrapper'}>
                         <div className={'image-details-wrapper'}>
@@ -168,6 +174,11 @@ const InventoryProductViewDetailsComponent = (props: InventoryProductViewDetails
                                 <AvatarComponent url={inventoryProductDetails?.image?.url} size={'xl'}/>
                             </div>
                             <div className={'product-details-wrapper'}>
+                                <DataLabelValueComponent id={"qty_available"} label={'Quantity Available: '}
+                                                         className={'quantity-available'} direction={'row'}>
+                                    {inventoryProductDetails?.quantity}
+                                </DataLabelValueComponent>
+
                                 <FormControlLabelComponent id="product_title" size={'xl'}
                                                            label={inventoryProductDetails?.name}
                                                            className={'inventory-product-details'}/>
@@ -177,10 +188,9 @@ const InventoryProductViewDetailsComponent = (props: InventoryProductViewDetails
                             </div>
                         </div>
                         <div className={'button-wrapper'}>
-                            <LinkComponent
-                                route={CommonService._routeConfig.EditInventoryProduct(inventoryProductDetails?._id)}>
-                                <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>}>Edit Details</ButtonComponent>
-                            </LinkComponent>
+                            <ButtonComponent onClick={() => handleEdit(inventoryProductDetails?._id)}
+                                             variant={'outlined'}
+                                             prefixIcon={<ImageConfig.EditIcon/>}>Edit Details</ButtonComponent>
                         </div>
                     </div>
                     <div className={'ts-row'}>
@@ -238,11 +248,9 @@ const InventoryProductViewDetailsComponent = (props: InventoryProductViewDetails
                 </TabsWrapperComponent>
 
             </>
-
             }
         </div>
     );
-
 };
 
 export default InventoryProductViewDetailsComponent;

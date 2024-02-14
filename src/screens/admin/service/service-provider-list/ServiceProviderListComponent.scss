@@ -1,22 +1,51 @@
-.service-provider{
-  .t-table, .table-no-data-wrapper {
-    min-height: 200px !important;
+.service-provider {
+  padding-bottom: 24px;
+
+  .t-table {
+    border-radius: 8px !important;
+
+    .t-cell-action {
+      padding-right: 10px !important;
+    }
+
+    .table-no-data-wrapper {
+      min-height: calc(100vh - 490px) !important;
+    }
   }
-  .add-provider{
+
+  .provider-button-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  margin-top: 20px;
+
+  .add-provider {
     display: flex;
     justify-content: end;
     margin-bottom: 10px;
-    .add-provider-cta{
+
+    .add-provider-cta {
       margin-bottom: 16px;
     }
   }
-  .card-component{
+
+  .no-data-text {
+    color: #7F7F7F;
+    font-size: 24px;
+    font-weight: 400;
+  }
+
+  .card-component {
     margin-bottom: 0 !important;
-    .card-body{
+
+    .card-body {
       padding: 0;
     }
-    .card-header{
-      padding-left:20px ;
+
+    .card-header {
+      padding-left: 20px;
     }
   }
 }

@@ -5,12 +5,13 @@ import {Field, FieldProps, Form, Formik, FormikHelpers} from "formik";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import {CommonService} from "../../../shared/services";
 import _ from "lodash";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
 import FormikSelectComponent from "../../../shared/components/form-controls/formik-select/FormikSelectComponent";
 import QuestionComponent from "../../../shared/components/question/QuestionComponent";
 import {IAPIResponseType} from "../../../shared/models/api.model";
 import {useLocation, useNavigate} from "react-router-dom";
+import {setCurrentNavParams} from "../../../store/actions/navigation.action";
 
 interface CommunicationPreferencesComponentProps {
 
@@ -29,6 +30,7 @@ const CommunicationPreferencesEditComponent = (props: CommunicationPreferencesCo
     const navigate = useNavigate();
     const location: any = useLocation();
     const path = location.pathname;
+    const dispatch = useDispatch();
 
     const [initialValues, setInitialValues] = useState<any>(_.cloneDeep(formInitialValues));
 
@@ -38,6 +40,16 @@ const CommunicationPreferencesEditComponent = (props: CommunicationPreferencesCo
     const {
         communicationModeTypeList,
     } = useSelector((state: IRootReducerState) => state.staticData);
+
+    useEffect(() => {
+        dispatch(setCurrentNavParams('Edit User', null, () => {
+            if (path.includes('settings')) {
+                navigate(CommonService._routeConfig.PersonalAccountDetails());
+            } else {
+                navigate(CommonService._routeConfig.UserAccountDetails(userBasicDetails._id));
+            }
+        }));
+    }, [dispatch, navigate, path, userBasicDetails]);
 
 
     useEffect(() => {
@@ -74,34 +86,39 @@ const CommunicationPreferencesEditComponent = (props: CommunicationPreferencesCo
             });
     }, [userBasicDetails, navigate, path]);
 
+    const handleCancel = useCallback(() => {
+        navigate(CommonService._routeConfig.PersonalAccountDetails());
+    }, [navigate]);
+
 
     return (
         <div className={'communication-preferences-component'}>
-            <div className={'edit-user-heading'}>Edit Communication Preferences</div>
-            <CardComponent title={"Communication Preferences"} size={"md"}>
-                <Formik
-                    initialValues={initialValues}
-                    onSubmit={onSubmit}
-                    validateOnChange={false}
-                    validateOnBlur={true}
-                    enableReinitialize={true}
-                    validateOnMount={true}>
-                    {({values, touched, errors, setFieldValue, validateForm, isSubmitting, isValid}) => {
-                        // eslint-disable-next-line react-hooks/rules-of-hooks
-                        useEffect(() => {
-                            validateForm();
-                        }, [validateForm, values]);
-                        return (
-                            <Form noValidate={true} className={"t-form"}>
-                                {/*<FormDebuggerComponent showDebugger={true} values={values} errors={errors}/>*/}
+            <div className={'edit-user-heading'}>Edit Communication Preferences:</div>
+
+            <Formik
+                initialValues={initialValues}
+                onSubmit={onSubmit}
+                validateOnChange={false}
+                validateOnBlur={true}
+                enableReinitialize={true}
+                validateOnMount={true}>
+                {({values, touched, errors, setFieldValue, validateForm, isSubmitting, isValid}) => {
+                    // eslint-disable-next-line react-hooks/rules-of-hooks
+                    useEffect(() => {
+                        validateForm();
+                    }, [validateForm, values]);
+                    return (
+                        <Form noValidate={true} className={"t-form"}>
+                            {/*<FormDebuggerComponent showDebugger={true} values={values} errors={errors}/>*/}
+                            <CardComponent title={"Communication Preferences"} size={"md"}>
                                 <div className={'ts-row'}>
                                     <div className={'ts-col-6'}>
                                         <QuestionComponent title={'Appointment Reminders'}
-                                                           description={"How would you like to receive appointment reminders? *"}
+                                                           description={"How would you like to receive appointment reminders?*"}
                                         />
                                     </div>
-                                    <div className={'ts-col-2'}/>
-                                    <div className={'ts-col-4'}>
+                                    <div className={'ts-col-3'}/>
+                                    <div className={'ts-col-3'}>
                                         <Field name={'communication_preferences.appointment_reminders'}>
                                             {(field: FieldProps) => (
                                                 <FormikSelectComponent
@@ -119,25 +136,27 @@ const CommunicationPreferencesEditComponent = (props: CommunicationPreferencesCo
                                     </div>
 
                                 </div>
-
-
-                                <div className="t-form-actions">
-                                    <ButtonComponent
-                                        id={"save_btn"}
-                                        size={'large'}
-                                        className={'submit-cta'}
-                                        isLoading={isSubmitting}
-                                        disabled={isSubmitting || !isValid}
-                                        type={"submit"}
-                                    >
-                                        {isSubmitting ? "Saving" : "Save"}
-                                    </ButtonComponent>
-                                </div>
-                            </Form>
-                        )
-                    }}
-                </Formik>
-            </CardComponent>
+                            </CardComponent>
+                            <div className="t-form-actions">
+                                <ButtonComponent variant={'outlined'}
+                                                 onClick={handleCancel}>
+                                    Cancel
+                                </ButtonComponent>
+                                &nbsp;
+                                <ButtonComponent
+                                    id={"save_btn"}
+                                    className={'mrg-left-15'}
+                                    isLoading={isSubmitting}
+                                    disabled={isSubmitting || !isValid}
+                                    type={"submit"}
+                                >
+                                    {isSubmitting ? "Saving" : "Save"}
+                                </ButtonComponent>
+                            </div>
+                        </Form>
+                    )
+                }}
+            </Formik>
         </div>
     );
 

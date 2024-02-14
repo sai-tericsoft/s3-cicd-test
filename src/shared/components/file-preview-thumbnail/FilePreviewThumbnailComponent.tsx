@@ -26,15 +26,16 @@ const FilePreviewThumbnailComponent = (props: FilePreviewThumbnailComponentProps
         type = CommonService.getNormalizedFileType(type);
         switch (type) {
             case "image":
-                if (file instanceof File) {
-                    const fileReader = new FileReader();
-                    fileReader.onload = () => {
-                        cb(fileReader.result as string);
-                    };
-                    fileReader.readAsDataURL(file);
-                } else {
-                    cb(file.url);
-                }
+                // if (file instanceof File) {
+                //     const fileReader = new FileReader();
+                //     fileReader.onload = () => {
+                //         cb(fileReader.result as string);
+                //     };
+                //     fileReader.readAsDataURL(file);
+                // } else {
+                //     cb(file.url);
+                // }
+                cb(ImageConfig.ImageTypeIcon);
                 break;
             // case "pdf":
             //     cb(ImageConfig.PDFIcon);
@@ -95,10 +96,10 @@ const FilePreviewThumbnailComponent = (props: FilePreviewThumbnailComponentProps
                                 size={"small"}
                                 className={"file-remove"}
                                 id={removeButtonId}
-                                prefixIcon={<ImageConfig.CloseIcon/>}
+                                prefixIcon={<ImageConfig.DeleteIcon/>}
                                 onClick={handleFileRemove}
                             >
-                                Remove
+                                Delete
                             </ButtonComponent>
                         }
                         {

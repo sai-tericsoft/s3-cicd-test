@@ -4,7 +4,6 @@ import {useNavigate} from "react-router-dom";
 import React, {useCallback, useEffect, useMemo, useRef, useState} from "react";
 import {setCurrentNavParams} from "../../../store/actions/navigation.action";
 import {CommonService} from "../../../shared/services";
-import PageHeaderComponent from "../../../shared/components/page-header/PageHeaderComponent";
 import {APIConfig, ImageConfig, Misc, Patterns} from "../../../constants";
 import {ITableColumn} from "../../../shared/models/table.model";
 import IconButtonComponent from "../../../shared/components/icon-button/IconButtonComponent";
@@ -29,7 +28,6 @@ import FormControlLabelComponent from "../../../shared/components/form-control-l
 import {IRootReducerState} from "../../../store/reducers";
 import ModalComponent from "../../../shared/components/modal/ModalComponent";
 import SelectComponent from "../../../shared/components/form-controls/select/SelectComponent";
-import LinkComponent from "../../../shared/components/link/LinkComponent";
 import EditBillingAddressComponent from "../edit-billing-address/EditBillingAddressComponent";
 import {getBillingFromAddress, getBillingSettings} from "../../../store/actions/billings.action";
 import AddBillingAddressComponent from "../add-billing-address/AddBillingAddressComponent";
@@ -159,7 +157,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
             title: "S.No",
             dataIndex: "sno",
             key: "sno",
-            width: 95,
+            width: 55,
             fixed: 'left',
             align: 'center',
             render: (record: any, index: number) => {
@@ -170,7 +168,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
             title: "Item(s)",
             dataIndex: "item",
             key: "item",
-            width: 580,
+            width: 500,
             render: (record: any, index: number) => <Field name={`products[${index}].product`}
                                                            className="t-form-control">
                 {
@@ -349,11 +347,12 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
             </Field>
         },
         {
-            title: "",
+            title: "Action",
             dataIndex: "actions",
             key: "actions",
             fixed: 'right',
-            width: 70,
+            align: 'center',
+            width: 77,
             render: (record: any, index: number) => <Field name={`products[${index}].units`} className="t-form-control">
                 {
                     (field: FieldProps) => (
@@ -366,7 +365,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                                 }));
                             }
                             }>
-                            <ImageConfig.CircleCancel/>
+                            <ImageConfig.DeleteIcon/>
                         </IconButtonComponent>
                     )
                 }
@@ -677,7 +676,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
 
     return (
         <div className={'add-new-receipt-screen'}>
-            <div className={'add-receipt-title'}>Add Receipt</div>
+            <FormControlLabelComponent label={'Add Receipt'} size={'xl'}/>
             <Formik
                 validationSchema={AddNewReceiptFormValidationSchema}
                 initialValues={addNewReceiptFormInitialValues}
@@ -705,311 +704,326 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                             }
                             {
                                 isBillingFromAddressLoaded &&
+                                <>
+                                    <CardComponent>
+                                        <div className="t-form-controls">
+                                            <div>
+                                                <div
+                                                    className={"d-flex justify-content-space-between align-items-center mrg-bottom-20"}>
+                                                    <div>
+                                                        <div>{<ImageConfig.NewLogo/>}</div>
+                                                    </div>
+                                                    <div>
+                                                        {CommonService.convertDateFormat2(new Date(), "DD-MMM-YYYY | hh:mm A")}
+                                                    </div>
+                                                </div>
+                                                <HorizontalLineComponent/>
+                                                <div className={"billing-address-wrapper ts-row"}>
+                                                    <div className={"billing-address-block from ts-col-lg-4"}>
+                                                        <div className={"billing-address-block__header"}>
+                                                            <div className={"billing-address-block__title"}>Billing From
+                                                            </div>
+                                                        </div>
+                                                        <div className={"billing-address-block__details"}>
+                                                            <div
+                                                                className={"billing-address-block__detail__row name"}>{billingFromAddress?.name}</div>
+                                                            <div
+                                                                className={"billing-address-block__detail__row"}> {billingFromAddress?.address_line} {billingFromAddress?.city}, {billingFromAddress?.state}&nbsp;
+                                                                {billingFromAddress?.zip_code}</div>
+                                                            {/*<div className={"billing-address-block__detail__row"}>*/}
 
-                                <div className="t-form-controls">
-                                    <div>
-                                        <div
-                                            className={"d-flex justify-content-space-between align-items-center mrg-bottom-20"}>
-                                            <div>
-                                                <div>{<ImageConfig.NewLogo/>}</div>
-                                            </div>
-                                            <div>
-                                                {CommonService.convertDateFormat2(new Date(), "DD-MMM-YYYY | hh:mm A")}
-                                            </div>
-                                        </div>
-                                        <HorizontalLineComponent/>
-                                        <div className={"billing-address-wrapper ts-row"}>
-                                            <div className={"billing-address-block from ts-col-lg-4"}>
-                                                <div className={"billing-address-block__header"}>
-                                                    <div className={"billing-address-block__title"}>Billing From</div>
-                                                </div>
-                                                <div className={"billing-address-block__details"}>
-                                                    <div
-                                                        className={"billing-address-block__detail__row name"}>{billingFromAddress?.name}</div>
-                                                    <div
-                                                        className={"billing-address-block__detail__row"}> {billingFromAddress?.address_line} </div>
-                                                    <div className={"billing-address-block__detail__row"}>
-                                                        <span> {billingFromAddress?.city}</span>, <span>{billingFromAddress?.state}</span>&nbsp;
-                                                        <span>{billingFromAddress?.zip_code}</span>
-                                                    </div>
-                                                    <div
-                                                        className={"billing-address-block__detail__row"}> {billingFromAddress?.phone} </div>
-                                                </div>
-                                            </div>
-                                            <div className={'ts-col-lg-2'}/>
-                                            {/*<div className={'ts-col-lg-3'}/>*/}
-                                            <div className={"billing-address-block to ts-col-lg-3"}>
-                                                <div className={"billing-address-block__header"}>
-                                                    <div className={"billing-address-block__title"}>Billing To</div>
-                                                    &nbsp;&nbsp;
-                                                    {selectedAddress &&
-                                                        <LinkComponent onClick={openBillingAddressFormDrawer}>
-                                                        <span>  <ImageConfig.EditIcon height={'15'}
-                                                                                      width={'15'}/> </span>
-                                                            <span className={'edit-text'}>Edit</span>
-                                                        </LinkComponent>}
-                                                </div>
-                                                <div className={"billing-address-block__details"}>
-                                                    {
-                                                        !selectedAddress && <>
-                                                            <div className={"billing-address-block__detail__row"}> -</div>
-                                                            <div className={"billing-address-block__detail__row"}> -</div>
-                                                        </>
-                                                    }
-                                                    {
-                                                        (selectedAddress) && <>
+                                                            {/*</div>*/}
                                                             <div
-                                                                className={"billing-address-block__detail__row name"}>
-                                                                {selectedAddress?.name}
+                                                                className={"billing-address-block__detail__row"}> {billingFromAddress?.phone} </div>
+                                                        </div>
+                                                    </div>
+                                                    <div className={'ts-col-lg-2'}/>
+                                                    {/*<div className={'ts-col-lg-3'}/>*/}
+                                                    <div className={"billing-address-block to ts-col"}>
+                                                        <div className={"billing-address-block__header"}>
+                                                            <div className={"billing-address-block__title"}>Billing To
                                                             </div>
-                                                            <div
-                                                                className={"billing-address-block__detail__row"}> {selectedAddress.address_line} </div>
-                                                            <div className={"billing-address-block__detail__row"}>
-                                                                <span>  {selectedAddress?.city}</span>, <span>{selectedAddress?.state}</span>&nbsp;
-                                                                <span>{selectedAddress?.zip_code}</span>
-                                                            </div>
-                                                            <div
-                                                                className={"billing-address-block__detail__row"}>  {selectedAddress?.phone || '-'} </div>
-                                                        </>
-                                                    }
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <CardComponent title={"Client Details"}
-                                                       actions={<>
-                                                           {
-                                                               selectedClient && <ButtonComponent
-                                                                   prefixIcon={<ImageConfig.EditIcon/>}
-                                                                   onClick={openClientSelectionDrawer}
-                                                               >
-                                                                   Edit
-                                                               </ButtonComponent>
-                                                           }
-                                                       </>}>
-                                            {
-                                                !selectedClient && <div className="h-v-center add-client-btn">
-                                                    <ButtonComponent prefixIcon={<ImageConfig.AddIcon/>}
-                                                                     onClick={openClientSelectionDrawer}
-                                                    >
-                                                        Add Client
-                                                    </ButtonComponent>
-                                                </div>
-                                            }
-                                            {
-                                                selectedClient && <>
-                                                    <div className="ts-row">
-                                                        <div className="ts-col-lg-3">
-                                                            <DataLabelValueComponent label={"First Name"}>
-                                                                {selectedClient?.first_name}
-                                                            </DataLabelValueComponent>
-                                                        </div>
-                                                        <div className="ts-col-lg-3">
-                                                            <DataLabelValueComponent label={"Last Name"}>
-                                                                {selectedClient?.last_name}
-                                                            </DataLabelValueComponent>
-                                                        </div>
-                                                        <div className="ts-col-lg-3">
-                                                            <DataLabelValueComponent label={"Phone Number"}>
-                                                                {selectedClient?.primary_contact_info?.phone || '-'}
-                                                            </DataLabelValueComponent>
-                                                        </div>
-                                                        <div className="ts-col-lg-3">
-                                                            <DataLabelValueComponent label={"Email"}>
-                                                                {selectedClient?.primary_email || '-'}
-                                                            </DataLabelValueComponent>
-                                                        </div>
-                                                    </div>
-                                                </>
-                                            }
-                                        </CardComponent>
-                                        <CardComponent title={"Provider Details"}
-                                                       actions={<>
-                                                           {
-                                                               selectedProvider && <ButtonComponent
-                                                                   prefixIcon={<ImageConfig.EditIcon/>}
-                                                                   onClick={openProviderSelectionDrawer}
-                                                               >
-                                                                   Edit
-                                                               </ButtonComponent>
-                                                           }
-                                                       </>}
-                                        >
-                                            {
-                                                !selectedProvider && <div className="h-v-center add-client-btn">
-                                                    <ButtonComponent prefixIcon={<ImageConfig.AddIcon/>}
-                                                                     onClick={openProviderSelectionDrawer}
-                                                    >
-                                                        Add Provider
-                                                    </ButtonComponent>
-                                                </div>
-                                            }
-                                            {
-                                                selectedProvider && <>
-                                                    <div className="ts-row">
-                                                        <div className="ts-col-lg-3">
-                                                            <DataLabelValueComponent label={"Provider Name"}>
-                                                                {selectedProvider?.first_name} {selectedProvider?.last_name}
-                                                            </DataLabelValueComponent>
-                                                        </div>
-                                                        <div className="ts-col-lg-3">
-                                                            <DataLabelValueComponent label={"NPI Number"}>
-                                                                {selectedProvider?.npi_number || 'N/A'}
-                                                            </DataLabelValueComponent>
-                                                        </div>
-                                                        <div className="ts-col-lg-3">
-                                                            <DataLabelValueComponent label={"License Number"}>
-                                                                {selectedProvider?.license_number || 'N/A'}
-                                                            </DataLabelValueComponent>
-                                                        </div>
-                                                    </div>
-                                                </>
-                                            }
-                                        </CardComponent>
-                                        <div className="products-block">
-                                            <div className="products-block-wrapper">
-                                                <TableComponent columns={productListTableColumns}
-                                                                autoHeight={true}
-                                                                data={addNewReceiptFormInitialValues.products}/>
-                                                <div className={'products-block-add-more'}>
-                                                    <ButtonComponent
-                                                        variant={"text"}
-                                                        prefixIcon={<ImageConfig.AddIcon/>}
-                                                        // disabled={!ProductValidationSchema?.isValidSync(values?.products[values.products?.length - 1])}
-                                                        onClick={() => {
-                                                            setAddNewReceiptFormFormInitialValues((prev: any) => ({
-                                                                ...prev,
-                                                                products: [...prev.products, {
-                                                                    ..._.cloneDeep(ProductRow),
-                                                                    key: CommonService.getUUID(),
-                                                                }]
-                                                            }));
-                                                        }}
-                                                    >
-                                                        Add More
-                                                    </ButtonComponent>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="clear-fix"/>
-                                        <div className={'add-new-receipt__comments__payment__block__wrapper'}>
-                                            <div className="ts-row">
-                                                <div className="ts-col-lg-6">
-                                                    <Field name={`comments`} className="t-form-control">
-                                                        {
-                                                            (field: FieldProps) => (
-                                                                <FormikTextAreaComponent
-                                                                    label={"Comments"}
-                                                                    placeholder={'Enter your comments here'}
-                                                                    fullWidth={true}
-                                                                    formikField={field}
+                                                            {selectedAddress &&
+                                                                //     <LinkComponent onClick={openBillingAddressFormDrawer}>
+                                                                // <span>  <ImageConfig.EditIcon height={'15'}
+                                                                //                               width={'15'}/> </span>
+                                                                //         <span className={'edit-text'}>Edit</span>
+                                                                //     </LinkComponent>
+                                                                <ButtonComponent
+                                                                    onClick={openBillingAddressFormDrawer}
                                                                     size={"small"}
-                                                                />
-                                                            )
-                                                        }
-                                                    </Field>
+                                                                    className={"edit-address-btn"}
+                                                                    variant={"text"}
+                                                                    prefixIcon={<ImageConfig.EditIcon/>}
+                                                                >Edit</ButtonComponent>
+                                                            }
+                                                        </div>
+                                                        <div className={"billing-address-block__details"}>
+                                                            {
+                                                                !selectedAddress && <>
+                                                                    <div className={"billing-address-block__detail__row"}> -
+                                                                    </div>
+                                                                    <div className={"billing-address-block__detail__row"}> -
+                                                                    </div>
+                                                                </>
+                                                            }
+                                                            {
+                                                                (selectedAddress) && <>
+                                                                    <div
+                                                                        className={"billing-address-block__detail__row name"}>
+                                                                        {selectedAddress?.name}
+                                                                    </div>
+                                                                    <div
+                                                                        className={"billing-address-block__detail__row"}>
+                                                                        {selectedAddress.address_line} {selectedAddress?.city}, {selectedAddress?.state} {selectedAddress?.zip_code}
+
+                                                                    </div>
+                                                                    <div className={"billing-address-block__detail__row"}>
+                                                                    </div>
+                                                                    <div
+                                                                        className={"billing-address-block__detail__row"}>  {CommonService.formatPhoneNumber(selectedAddress?.phone) || '-'} </div>
+                                                                </>
+                                                            }
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                                <div className="ts-col-lg-6">
-                                                    <div className="add-new-receipt__payment__block">
-                                                        <div className="add-new-receipt__payment__block__row">
-                                                            <div
-                                                                className="add-new-receipt__payment__block__row__title">Subtotal
-                                                                (Incl. tax)
+                                                <CardComponent title={"Client Details"}
+                                                               actions={<>
+                                                                   {
+                                                                       selectedClient && <ButtonComponent
+                                                                           prefixIcon={<ImageConfig.EditIcon/>}
+                                                                           onClick={openClientSelectionDrawer}
+                                                                       >
+                                                                           Edit
+                                                                       </ButtonComponent>
+                                                                   }
+                                                               </>}>
+                                                    {
+                                                        !selectedClient && <div className="h-v-center add-client-btn">
+                                                            <ButtonComponent prefixIcon={<ImageConfig.AddIcon/>}
+                                                                             onClick={openClientSelectionDrawer}
+                                                            >
+                                                                Add Client
+                                                            </ButtonComponent>
+                                                        </div>
+                                                    }
+                                                    {
+                                                        selectedClient && <>
+                                                            <div className="ts-row">
+                                                                <div className="ts-col-lg-3">
+                                                                    <DataLabelValueComponent label={"First Name"}>
+                                                                        {selectedClient?.first_name}
+                                                                    </DataLabelValueComponent>
+                                                                </div>
+                                                                <div className="ts-col-lg-3">
+                                                                    <DataLabelValueComponent label={"Last Name"}>
+                                                                        {selectedClient?.last_name}
+                                                                    </DataLabelValueComponent>
+                                                                </div>
+                                                                <div className="ts-col-lg-3">
+                                                                    <DataLabelValueComponent label={"Phone Number"}>
+                                                                        {CommonService.formatPhoneNumber(selectedClient?.primary_contact_info?.phone) || '-'}
+                                                                    </DataLabelValueComponent>
+                                                                </div>
+                                                                <div className="ts-col-lg-3">
+                                                                    <DataLabelValueComponent label={"Email"}>
+                                                                        {selectedClient?.primary_email || '-'}
+                                                                    </DataLabelValueComponent>
+                                                                </div>
                                                             </div>
-                                                            <div
-                                                                className="add-new-receipt__payment__block__row__value">
-                                                                {Misc.CURRENCY_SYMBOL}{total > 0 ? CommonService.convertToDecimals(+total) : '0.00'}
+                                                        </>
+                                                    }
+                                                </CardComponent>
+                                                <CardComponent title={"Provider Details"}
+                                                               actions={<>
+                                                                   {
+                                                                       selectedProvider && <ButtonComponent
+                                                                           prefixIcon={<ImageConfig.EditIcon/>}
+                                                                           onClick={openProviderSelectionDrawer}
+                                                                       >
+                                                                           Edit
+                                                                       </ButtonComponent>
+                                                                   }
+                                                               </>}
+                                                >
+                                                    {
+                                                        !selectedProvider && <div className="h-v-center add-client-btn">
+                                                            <ButtonComponent prefixIcon={<ImageConfig.AddIcon/>}
+                                                                             onClick={openProviderSelectionDrawer}
+                                                            >
+                                                                Add Provider
+                                                            </ButtonComponent>
+                                                        </div>
+                                                    }
+                                                    {
+                                                        selectedProvider && <>
+                                                            <div className="ts-row">
+                                                                <div className="ts-col-lg-3">
+                                                                    <DataLabelValueComponent label={"Provider Name"}>
+                                                                        {selectedProvider?.first_name} {selectedProvider?.last_name}
+                                                                    </DataLabelValueComponent>
+                                                                </div>
+                                                                <div className="ts-col-lg-3">
+                                                                    <DataLabelValueComponent label={"NPI Number"}>
+                                                                        {selectedProvider?.npi_number || 'N/A'}
+                                                                    </DataLabelValueComponent>
+                                                                </div>
+                                                                <div className="ts-col-lg-3">
+                                                                    <DataLabelValueComponent label={"License Number"}>
+                                                                        {selectedProvider?.license_number || 'N/A'}
+                                                                    </DataLabelValueComponent>
+                                                                </div>
+                                                            </div>
+                                                        </>
+                                                    }
+                                                </CardComponent>
+                                                <CardComponent title={"Product Details"}>
+                                                    <div className="products-block">
+                                                        <div className="products-block-wrapper">
+                                                            <TableComponent columns={productListTableColumns}
+                                                                            autoHeight={true}
+                                                                            data={addNewReceiptFormInitialValues.products}/>
+                                                            <div className={'products-block-add-more'}>
+                                                                <ButtonComponent
+                                                                    prefixIcon={<ImageConfig.AddIcon/>}
+                                                                    // disabled={!ProductValidationSchema?.isValidSync(values?.products[values.products?.length - 1])}
+                                                                    onClick={() => {
+                                                                        setAddNewReceiptFormFormInitialValues((prev: any) => ({
+                                                                            ...prev,
+                                                                            products: [...prev.products, {
+                                                                                ..._.cloneDeep(ProductRow),
+                                                                                key: CommonService.getUUID(),
+                                                                            }]
+                                                                        }));
+                                                                    }}
+                                                                >
+                                                                    Add Another Item
+                                                                </ButtonComponent>
                                                             </div>
                                                         </div>
-                                                        <div>
-                                                            <Field name={`discount`} className="t-form-control">
+                                                    </div>
+                                                </CardComponent>
+                                                <div className="clear-fix"/>
+                                                <div className={'add-new-receipt__comments__payment__block__wrapper'}>
+                                                    <div className="ts-row">
+                                                        <div className="ts-col-lg-6">
+                                                            <Field name={`comments`} className="t-form-control">
                                                                 {
                                                                     (field: FieldProps) => (
-                                                                        <FormikInputComponent
-                                                                            label="Discount"
-                                                                            placeholder={'0.00'}
+                                                                        <FormikTextAreaComponent
+                                                                            label={"Comments"}
+                                                                            placeholder={'Enter your comments here'}
                                                                             fullWidth={true}
-                                                                            max={total}
-                                                                            validationPattern={Patterns.POSITIVE_INTEGERS_WITH_DECIMALS}
                                                                             formikField={field}
-                                                                            disabled={!(total > 0)}
-                                                                            prefix={Misc.CURRENCY_SYMBOL}
+                                                                            size={"small"}
                                                                         />
                                                                     )
                                                                 }
                                                             </Field>
                                                         </div>
-                                                        <div className="add-new-receipt__payment__block__row grand">
-                                                            <div
-                                                                className="add-new-receipt__payment__block__row__title">
-                                                                Grand Total (Incl. tax)
-                                                            </div>
+                                                        <div className="ts-col-lg-6">
+                                                            <div className="add-new-receipt__payment__block">
+                                                                <div className="add-new-receipt__payment__block__row">
+                                                                    <div
+                                                                        className="add-new-receipt__payment__block__row__title">Subtotal
+                                                                        (Incl. tax)
+                                                                    </div>
+                                                                    <div
+                                                                        className="add-new-receipt__payment__block__row__value">
+                                                                        {Misc.CURRENCY_SYMBOL}{total > 0 ? CommonService.convertToDecimals(+total) : '0.00'}
+                                                                    </div>
+                                                                </div>
+                                                                <div>
+                                                                    <Field name={`discount`} className="t-form-control">
+                                                                        {
+                                                                            (field: FieldProps) => (
+                                                                                <FormikInputComponent
+                                                                                    label="Discount"
+                                                                                    placeholder={'0.00'}
+                                                                                    fullWidth={true}
+                                                                                    max={total}
+                                                                                    validationPattern={Patterns.POSITIVE_INTEGERS_WITH_DECIMALS}
+                                                                                    formikField={field}
+                                                                                    disabled={!(total > 0)}
+                                                                                    prefix={Misc.CURRENCY_SYMBOL}
+                                                                                />
+                                                                            )
+                                                                        }
+                                                                    </Field>
+                                                                </div>
+                                                                <div
+                                                                    className="add-new-receipt__payment__block__row grand">
+                                                                    <div
+                                                                        className="add-new-receipt__payment__block__row__title">
+                                                                        Grand Total (Incl. tax)
+                                                                    </div>
 
-                                                            <div
-                                                                className="add-new-receipt__payment__block__row__value">{Misc.CURRENCY_SYMBOL}
+                                                                    <div
+                                                                        className="add-new-receipt__payment__block__row__value">{Misc.CURRENCY_SYMBOL}
 
-                                                                {
-                                                                    total >= 0 && (addNewReceiptFormInitialValues.discount ? CommonService.convertToDecimals((+total) - (addNewReceiptFormInitialValues.discount && (addNewReceiptFormInitialValues.discount))) :
-                                                                        <span> {total > 0 ? CommonService.convertToDecimals(+total) : '0.00'}</span>)
-                                                                }
+                                                                        {
+                                                                            total >= 0 && (addNewReceiptFormInitialValues.discount ? CommonService.convertToDecimals((+total) - (addNewReceiptFormInitialValues.discount && (addNewReceiptFormInitialValues.discount))) :
+                                                                                <span> {total > 0 ? CommonService.convertToDecimals(+total) : '0.00'}</span>)
+                                                                        }
+                                                                    </div>
+                                                                </div>
+                                                                <div className={'d-flex ts-justify-content-end'}>
+                                                                    {
+                                                                        //@ts-ignore
+                                                                        (addNewReceiptFormInitialValues.discount && (CommonService.convertToDecimals((+total) - (addNewReceiptFormInitialValues.discount && (addNewReceiptFormInitialValues.discount))) < 0)) ? (
+                                                                            <span
+                                                                                className={'alert-error invalid-amount'}>Invalid Amount</span>
+                                                                        ) : null
+                                                                    }
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                        <div className={'d-flex ts-justify-content-end'}>
-                                                            {
-                                                                //@ts-ignore
-                                                                (addNewReceiptFormInitialValues.discount && (CommonService.convertToDecimals((+total) - (addNewReceiptFormInitialValues.discount && (addNewReceiptFormInitialValues.discount))) < 0)) ? (
-                                                                    <span className={'alert-error invalid-amount'}>Invalid Amount</span>
-                                                                ) : null
-                                                            }
-                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div className={'ts-row mrg-top-30'}>
+                                                    <div className={'ts-col'}>
+                                                        <CardComponent title={'Thank You Note'}>
+                                                            <div className={'ts-col-lg-12 pdd-0'}>
+                                                                <Field name={'thankyou_note'}>
+                                                                    {
+                                                                        (field: FieldProps) => (
+                                                                            <FormikTextAreaComponent
+                                                                                label={'Note'}
+                                                                                placeholder={' '}
+                                                                                formikField={field}
+                                                                                fullWidth={true}
+                                                                            />
+                                                                        )
+                                                                    }
+                                                                </Field>
+                                                            </div>
+                                                            {(values.thankyou_note?.length) > 90 ?
+                                                                <div className={'alert-error'}>Characters
+                                                                    Limit: {(values.thankyou_note?.length)}/90</div> :
+                                                                <div className={'no-alert'}>Characters
+                                                                    Limit: {(values.thankyou_note?.length)}/90</div>}
+                                                        </CardComponent>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className={'ts-row mrg-top-30'}>
-                                            <div className={'ts-col'}>
-                                                <CardComponent title={'Thank You Note'}>
-                                                    <div className={'ts-col-lg-12 pdd-0'}>
-                                                        <Field name={'thankyou_note'}>
-                                                            {
-                                                                (field: FieldProps) => (
-                                                                    <FormikTextAreaComponent
-                                                                        label={'Note'}
-                                                                        placeholder={' '}
-                                                                        formikField={field}
-                                                                        fullWidth={true}
-                                                                    />
-                                                                )
-                                                            }
-                                                        </Field>
-                                                    </div>
-                                                    {(values.thankyou_note?.length) > 90 ?
-                                                        <div className={'alert-error'}>Characters
-                                                            Limit: {(values.thankyou_note?.length)}/90</div> :
-                                                        <div className={'no-alert'}>Characters
-                                                            Limit: {(values.thankyou_note?.length)}/90</div>}
-                                                </CardComponent>
-
-                                            </div>
-
-                                        </div>
-                                        <div className="t-form-actions mrg-bottom-0">
-                                            <ButtonComponent variant={"outlined"}
-                                                             className={isSubmitting ? 'mrg-right-15' : ''}
-                                                             onClick={handleAddReceiptCancel}
-                                            >
-                                                Discard Receipt
-                                            </ButtonComponent>&nbsp;&nbsp;
-                                            <ButtonComponent
-                                                type="submit"
-                                                className={'mrg-left-15'}
-                                                disabled={isSubmitting || !isValid}
-                                                isLoading={isSubmitting}
-                                            >
-                                                Generate Receipt
-                                            </ButtonComponent>
-                                        </div>
+                                    </CardComponent>
+                                    <div className="t-form-actions mrg-top-30">
+                                        <ButtonComponent variant={"outlined"}
+                                                         onClick={handleAddReceiptCancel}
+                                        >
+                                            Discard Receipt
+                                        </ButtonComponent>&nbsp;
+                                        <ButtonComponent
+                                            type="submit"
+                                            className={'mrg-left-15'}
+                                            disabled={isSubmitting || !isValid}
+                                            isLoading={isSubmitting}
+                                        >
+                                            Generate Receipt
+                                        </ButtonComponent>
                                     </div>
-                                </div>
+                                </>
                             }
                         </Form>
                     );
@@ -1022,7 +1036,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                              showClose={true}
             >
                 <div className={'client-search-table-wrapper'}>
-                    <PageHeaderComponent title={'Add Client'}/>
+                    <FormControlLabelComponent label={'Select Client'} size={'xl'}/>
                     <SearchComponent label={'Search for Clients'}
                                      value={clientListSearch}
                                      placeholder={'Search using Client Name or Client ID'}
@@ -1034,7 +1048,6 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                     {
                         // clientListSearch &&
                         <>
-                            <div className={'client-list-heading'}>Client List</div>
                             <TableComponent data={clientList} columns={clientListColumns}
                                             loading={isClientListLoading}
                                             hideHeader={false}
@@ -1048,7 +1061,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                                              className={'mrg-top-30'}
                                              onClick={() => confirmClientSelection()}
                                              disabled={!selectedClient}>
-                                Select
+                                Save
                             </ButtonComponent>
                         </>
                     }
@@ -1062,7 +1075,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                              showClose={true}
             >
                 <div className={'provider-search-table-wrapper'}>
-                    <PageHeaderComponent title={'Add Provider'}/>
+                    <FormControlLabelComponent label={'Select Provider'} size={'xl'}/>
                     <SearchComponent label={'Search for Providers'}
                                      value={providerListSearch}
                                      placeholder={'Search using Provider Name'}
@@ -1074,7 +1087,6 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                     {
 
                         <>
-                            <div className={'client-list-heading'}>Provider List</div>
                             <TableComponent data={providerList}
                                             columns={providerListColumns}
                                             loading={isProviderListLoading}
@@ -1101,7 +1113,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
             >
                 {
                     currentStep === 'selectAddress' && <>
-                        <FormControlLabelComponent label={"Select Billing Address"}/>
+                        <FormControlLabelComponent label={"Select Billing Address"} size={'xl'}/>
                         <div className={'select-billing-address'}>
                             {getBillingList?.length > 0 && getBillingList?.map((item: any, index: number) => {
                                 return <div className={'select-address-card'}>

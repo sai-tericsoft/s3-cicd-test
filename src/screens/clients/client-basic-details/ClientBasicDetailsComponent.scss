@@ -1,29 +1,52 @@
 .client-basic-details-component {
+  .card-component {
+    padding-bottom: 4px !important;
+  }
+  .primary-emergency-contact {
+    margin-bottom: 12px;
+    text-decoration: underline;
+    color: #000000;
+  }
+
   .contact-info-wrapper {
-    .phone-email-heading{
+    .phone-email-heading {
       font-weight: 700;
-      margin-bottom: 16px;
+      margin-bottom: 12px;
     }
+
     .form-control-label-component {
       font-size: 1.1429rem;
+
+      .form-control-label {
+        margin-bottom: 12px !important;
+      }
     }
   }
-    .phone-email-heading{
-      font-weight: 700;
-      margin-bottom: 16px;
+
+  .phone-email-heading {
+    font-weight: 700;
+    margin-bottom: 12px;
 
   }
-  .alternate-heading-horizontal-line{
+
+  .alternate-heading-horizontal-line {
     border-bottom: 2px solid #CECECE;
   }
 
-  .secondary-horizontal-line{
+  .secondary-horizontal-line {
     border-bottom: 2px solid #CECECE;
-    margin-top: 0px;
+    margin-top: 3px;
   }
-  .billing-address-list{
+  .secondary-emergency-contact{
+    margin-bottom: 12px;
+    color: #000000;
+    text-decoration: underline;
+    margin-top: -2px;
+  }
+
+  .billing-address-list {
     border: 1px solid #CECECE;
-    padding: 12px ;
+    padding: 12px;
     margin-left: 10px;
     margin-right: 8px;
     margin-bottom: 16px;

@@ -1,6 +1,6 @@
 import "./FacilityListScreen.scss";
 import {ITableColumn} from "../../../../shared/models/table.model";
-import {APIConfig, ImageConfig} from "../../../../constants";
+import {APIConfig} from "../../../../constants";
 import TableWrapperComponent from "../../../../shared/components/table-wrapper/TableWrapperComponent";
 import {IFacility, IFacilityListFilterState} from "../../../../shared/models/facility.model";
 import ChipComponent from "../../../../shared/components/chip/ChipComponent";
@@ -68,12 +68,12 @@ const FacilityListScreen = (props: FacilityListScreenProps) => {
             }
         },
         {
-            title: "",
+            title: "Action",
             dataIndex: "actions",
             key: "actions",
             width: 120,
             fixed: "right",
-            align:'right',
+            align:'center',
             render: (item: IFacility) => {
                 return <LinkComponent route={CommonService._routeConfig.FacilityDetails(item._id)}>
                     View Details
@@ -118,10 +118,8 @@ const FacilityListScreen = (props: FacilityListScreenProps) => {
                                        isPaginated={true}
                                        autoHeight={false}
                                        noDataText={(<div className={'no-features-text-wrapper'}>
-                                           <div>{facilityListFilterState.search ?<img src={ImageConfig.Search} alt="client-search"/>:''}</div>
-                                           <div className={'no-feature-heading'}>{facilityListFilterState.search ? 'Sorry, no results found!' : ''}</div>
                                            <div className={'no-features-description'}>
-                                               {facilityListFilterState.search ? 'There is no facility available by the name you have searched' : 'Currently, there is no facility added.'}<br/>
+                                               {facilityListFilterState.search ? 'Sorry, no data found.' : 'No facility added yet.'}<br/>
                                            </div>
                                        </div>)}
                                        extraPayload={facilityListFilterState}

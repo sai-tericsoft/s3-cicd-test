@@ -95,7 +95,7 @@ const ClientAllFormsListComponent = (props: ClientAllFormsListComponentProps) =>
                                                 <ImageConfig.DocumentIcon height={'40'} width={'40'}/>
                                                 <span className={'pending-form-title'}>{pendingForm?.form_type}</span><span>
                                                {pendingForm?.status === 'pending' &&
-                                                <ChipComponent className={'mrg-left-10'}  color={pendingForm?.status === 'pending' ? 'primary' : 'secondary'}
+                                                <ChipComponent className={pendingForm?.status === 'pending' ? 'Modified mrg-left-10':''}
                                                                 label={pendingForm?.status === 'pending' ? "Pending" : 'Completed'}/>
                                                 }
                                             </span>

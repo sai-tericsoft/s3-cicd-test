@@ -127,7 +127,7 @@
     width: #{$side-bar-holder-width}px;
     min-width: #{$side-bar-holder-width}px;
     height: 100vh;
-    background: $side-bar-holder-bg-color;
+    background: linear-gradient(to bottom, #275778, #50B8B7);
     position: relative;
 
     .logo-holder {
@@ -198,6 +198,20 @@
     overflow: hidden;
     flex: 1;
 
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #f1f1f1;
+    }
+
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+      background: #275778; /* Set a color for the scrollbar handle */
+      border-radius: 8px; /* Add rounded corners to the scrollbar handle */
+    }
+
     .header-holder {
       height: $header-height + px;
       width: 100%;
@@ -211,7 +225,10 @@
     }
 
     .page-content-holder {
-      background: $page-content-bg-color;
+      background-color: $page-content-bg-color;
+      background-image: url("../../assets/images/background.png");
+      background-size: cover;
+      background-position: center;
       padding: 30px;
       height: calc(100vh - #{$header-height}px);
       overflow-x: hidden;
@@ -410,7 +427,7 @@
   }
 
   .t-form-actions {
-    margin: 20px 0;
+    margin: 15px 0;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -568,10 +585,12 @@
 
         .card-component {
           width: 410px;
-          margin-bottom: 0px;
+          margin-bottom: 0;
+          background: #DFF6F3;
+          border: 1px solid #E2E2E2;
 
           .card-body {
-            color: #212B36;
+            color: #7F7F7F;
             font-size: 1.1429rem;
             padding: 16px 12px 40px;
           }
@@ -585,7 +604,8 @@
           font-size: 12px;
           margin-top: 10px;
           margin-bottom: 24px;
-          &.message-timestamp{
+
+          &.message-timestamp {
             font-weight: 400 !important;
           }
         }
@@ -608,6 +628,18 @@
     }
   }
 }
+
+.MuiPopover-paper {
+  border-radius: 8px !important;
+}
+
+#demo-popup-popover {
+  .MuiPopover-paper {
+    border-radius: 8px !important;
+    margin-left: 40px !important;
+  }
+}
+
 
 .intervention-comments-modal, .intervention-body-side-selection-modal {
   .modal-content-wrapper {
@@ -669,10 +701,10 @@
   margin-top: 24px;
 
   .MuiTabs-scroller {
-    border-bottom: 1px solid #CECECE;
+    border-bottom: 1px solid #E2E2E2;
 
     .Mui-selected {
-      border-bottom: 2px solid #00534F;
+      border-bottom: 2px solid #275778;
     }
   }
 }
@@ -694,39 +726,39 @@
   font-weight: 500;
 
   &.no_show {
-    background: #EFEFEF;
-    color: #717171;
+    background: #EB9A78;
+    color: #FFFFFF;
     width: 100px;
   }
 
   &.scheduled {
-    background: #E8F2FF;
-    color: #1C5EDE;
+    background: #558BB0;
+    color: #FFFFFF;
     width: 100px;
   }
 
   &.upcoming {
-    background: #FFF7EA;
-    color: #DE561C;
+    background: #8A54AF;
+    color: #FFFFFF;
     width: 100px;
     text-transform: none;
   }
 
   &.engaged {
-    background: #BDE8CA;
-    color: #00534F;
+    background: #2CA091;
+    color: #FFFFFF;
     width: 100px;
   }
 
   &.completed {
-    background: #F5F7F8;
-    color: #7583A6;
+    background: #B7B7B7;
+    color: #FFFFFF;
     width: 100px;
   }
 
   &.cancelled {
-    background: #FFE2E9;
-    color: #DE1C4E;
+    background: #D26060;
+    color: #FFFFFF;
     width: 100px;
   }
 }
@@ -872,7 +904,8 @@
     &.back-button {
       padding: 0 !important;
       padding-left: 10px !important;
-      .back-text{
+
+      .back-text {
         font-weight: 500;
         font-size: 16px;
         margin-left: 8px;
@@ -922,6 +955,7 @@
 .billing-details-drop-down-menu {
   .MuiMenu-paper {
     margin-left: -5px;
+    border-radius: 8px;
   }
 }
 
@@ -994,7 +1028,8 @@
         font-size: 14px;
         font-weight: $font-weight-medium;
       }
-      .back-text{
+
+      .back-text {
         margin-top: -10px !important;
       }
     }
@@ -1061,8 +1096,8 @@
 }
 
 .add-heading {
-  color: #00534F;
-  font-size: 18px;
+  color: #275778;
+  font-size: 20px;
   font-weight: 700;
   //text-transform: uppercase;
   margin-bottom: 24px;

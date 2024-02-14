@@ -101,7 +101,7 @@ const ServiceCategoriesListScreen = (props: ServiceCategoriesListScreenProps) =>
                     {
                         isServiceCategoryListLoaded && <>
                             {serviceCategoryList?.length === 0 &&
-                                <StatusCardComponent className="h-v-center loading-and-failed-message-wrapper" title={"Currently, there is no service category added."}/>}
+                                <StatusCardComponent className="h-v-center loading-and-failed-message-wrapper" title={"No service category added yet."}/>}
                             {
                                 serviceCategoryList?.length !== 0 && <>
                                     <div className="service-category-list">

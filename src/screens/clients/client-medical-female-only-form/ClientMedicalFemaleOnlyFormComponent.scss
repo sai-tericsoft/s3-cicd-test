@@ -1,15 +1,29 @@
-.client-medical-female-only-form-component{
-  .add-females-only-heading{
+.client-medical-female-only-form-component {
+  .add-females-only-heading {
     font-weight: 700;
-    font-size: 1.2857rem;
-    color: #00534F;
+    font-size: 20px;
     margin-bottom: 24px;
   }
+
   .t-form {
+    .card-component {
+      padding-bottom: 24px;
+
+      .card-description {
+        margin-top: 0 !important;
+      }
+
+      .divider {
+        border: 2px solid #E2E2E2;
+        margin-top: 24px !important;
+      }
+    }
+
     .t-form-actions {
-      margin-top: 60px;
+      margin-top: 30px;
       margin-bottom: 24px;
-      .submit-cta{
+
+      .submit-cta {
         margin-left: 16px;
       }
     }

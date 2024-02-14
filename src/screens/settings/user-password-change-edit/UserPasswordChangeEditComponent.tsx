@@ -15,6 +15,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
 import {setCurrentNavParams} from "../../../store/actions/navigation.action";
 import {Misc} from "../../../constants";
+import FormControlLabelComponent from "../../../shared/components/form-control-label/FormControlLabelComponent";
 
 interface UserPasswordChangeEditComponentProps {
 
@@ -74,25 +75,29 @@ const UserPasswordChangeEditComponent = (props: UserPasswordChangeEditComponentP
             });
     }, [navigate, path, userBasicDetails]);
 
+    const handelCancel = useCallback(() => {
+        navigate(CommonService._routeConfig.PersonalAccountDetails());
+    }, [navigate]);
+
     return (
         <div className={'user-password-change-edit-component'}>
-            <div className={'edit-user-heading'}>Edit Password</div>
-            <CardComponent title={"Password"} size={"md"}>
-                <Formik
-                    initialValues={initialValues}
-                    onSubmit={onSubmit}
-                    validationSchema={validationSchema}
-                    validateOnChange={false}
-                    validateOnBlur={true}
-                    enableReinitialize={true}
-                    validateOnMount={true}>
-                    {({values, touched, errors, setFieldValue, validateForm, isSubmitting, isValid}) => {
-                        // eslint-disable-next-line react-hooks/rules-of-hooks
-                        useEffect(() => {
-                            validateForm();
-                        }, [validateForm, values]);
-                        return (
-                            <Form noValidate={true} className={"t-form"}>
+            <FormControlLabelComponent label={'Edit Password'} size={'xl'}/>
+            <Formik
+                initialValues={initialValues}
+                onSubmit={onSubmit}
+                validationSchema={validationSchema}
+                validateOnChange={false}
+                validateOnBlur={true}
+                enableReinitialize={true}
+                validateOnMount={true}>
+                {({values, touched, errors, setFieldValue, validateForm, isSubmitting, isValid}) => {
+                    // eslint-disable-next-line react-hooks/rules-of-hooks
+                    useEffect(() => {
+                        validateForm();
+                    }, [validateForm, values]);
+                    return (
+                        <Form noValidate={true} className={"t-form"}>
+                            <CardComponent title={"Password"} className={'password-wrapper'} size={"md"}>
                                 {/*<FormDebuggerComponent showDebugger={true} values={values} errors={errors}/>*/}
                                 <div className={'ts-row'}>
                                     <div className={'ts-col-6'}>
@@ -146,7 +151,7 @@ const UserPasswordChangeEditComponent = (props: UserPasswordChangeEditComponentP
                                     </div>
                                     <div className={'ts-col-6 password-validation-wrapper'}>
                                         <div>
-                                            <div className={'password-header'}>Choose a Password</div>
+                                            <div className={'password-header'}>Choosing a Password</div>
                                             <div className={'password-message-text'}>To create a new password, you have
                                                 to meet all the following requirements:
                                             </div>
@@ -155,25 +160,29 @@ const UserPasswordChangeEditComponent = (props: UserPasswordChangeEditComponentP
                                     </div>
                                 </div>
 
+                            </CardComponent>
+                            <div className="t-form-actions">
+                                <ButtonComponent variant={'outlined'}
+                                                 onClick={handelCancel}>
+                                    Cancel
+                                </ButtonComponent>
+                                &nbsp;
+                                <ButtonComponent
+                                    id={"save_btn"}
+                                    className={'mrg-left-15'}
+                                    isLoading={isSubmitting}
+                                    disabled={isSubmitting || !isValid}
+                                    type={"submit"}
+                                >
+                                    {isSubmitting ? "Saving" : "Save"}
+                                </ButtonComponent>
+                            </div>
+                        </Form>
+                    )
+                }}
+            </Formik>
 
-                                <div className="t-form-actions">
-                                    <ButtonComponent
-                                        id={"save_btn"}
-                                        size={'large'}
-                                        className={'submit-cta'}
-                                        isLoading={isSubmitting}
-                                        disabled={isSubmitting || !isValid}
-                                        type={"submit"}
-                                    >
-                                        {isSubmitting ? "Saving" : "Save"}
-                                    </ButtonComponent>
-                                </div>
-                            </Form>
-                        )
-                    }}
-                </Formik>
 
-            </CardComponent>
         </div>
     );
 

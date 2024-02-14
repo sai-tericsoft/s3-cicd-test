@@ -8,12 +8,12 @@ import {useNavigate, useParams} from "react-router-dom";
 import BasicDetailsCardComponent from "../../../../shared/components/basic-details-card/BasicDetailsCardComponent";
 import ButtonComponent from "../../../../shared/components/button/ButtonComponent";
 import {ImageConfig} from "../../../../constants";
-import LinkComponent from "../../../../shared/components/link/LinkComponent";
 import ServiceConsultationDetailsComponent from "../service-consultation-details/ServiceConsultationDetailsComponent";
 import LoaderComponent from "../../../../shared/components/loader/LoaderComponent";
 import StatusCardComponent from "../../../../shared/components/status-card/StatusCardComponent";
 import {IService} from "../../../../shared/models/service.model";
 import ServiceProviderListComponent from "../service-provider-list/ServiceProviderListComponent";
+import FormControlLabelComponent from "../../../../shared/components/form-control-label/FormControlLabelComponent";
 
 interface ServiceDetailsScreenProps {
 
@@ -58,8 +58,14 @@ const ServiceDetailsScreen = (props: ServiceDetailsScreenProps) => {
         }));
     }, [navigate, serviceDetails, dispatch]);
 
+    const handleEdit = useCallback((categoryId: any) => {
+        if (serviceId && categoryId) {
+            navigate(CommonService._routeConfig.ServiceEdit(categoryId, serviceId));
+        }
+    }, [navigate, serviceId]);
+
     return (
-        <div className={'service-category-details-screen'}>
+        <div className={'service-details-screen'}>
             {
                 isServiceDetailsLoading && <LoaderComponent/>
             }
@@ -69,9 +75,7 @@ const ServiceDetailsScreen = (props: ServiceDetailsScreenProps) => {
             }
             {
                 isServiceDetailsLoaded && <>
-                <div className={'view-service-heading'}>
-                    View Service
-                </div>
+                    <FormControlLabelComponent label={' View Service Details'} size={'xl'}/>
                     <div className={"service-details-card"}>
                         <BasicDetailsCardComponent
                             legend={serviceDetails?.category?.name}
@@ -81,15 +85,15 @@ const ServiceDetailsScreen = (props: ServiceDetailsScreenProps) => {
                             subTitle={serviceDetails?.description}
                             actions={<>
                                 {(serviceDetails?.category_id && serviceId) &&
-                                    <LinkComponent
-                                        route={CommonService._routeConfig.ServiceEdit(serviceDetails?.category_id, serviceId)}>
-                                        <ButtonComponent
-                                            prefixIcon={<ImageConfig.EditIcon/>}
-                                            id={"sv_edit_btn"}
-                                        >
-                                            Edit Details
-                                        </ButtonComponent>
-                                    </LinkComponent>
+                                    <ButtonComponent
+                                        prefixIcon={<ImageConfig.EditIcon/>}
+                                        onClick={() => handleEdit(serviceDetails?.category_id)}
+                                        variant={"outlined"}
+                                        id={"sv_edit_btn"}
+                                    >
+                                        Edit Details
+                                    </ButtonComponent>
+
                                 }
                             </>}
                         ></BasicDetailsCardComponent>

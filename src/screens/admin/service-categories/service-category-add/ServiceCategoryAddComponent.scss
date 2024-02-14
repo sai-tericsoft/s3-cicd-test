@@ -1,43 +1,81 @@
 .service-category-add-component {
   .service-category-add-form-container {
     .service-category-add-heading {
-      font-size: 18px;
-      margin-bottom: 18px;
+      font-size: 20px;
+      margin-bottom: 9px;
       font-weight: 700;
+      color: #275778;
     }
-    .service-category-color-heading{
+
+    .switch-button-wrapper {
+      display: flex;
+      align-items: center;
+      .MuiFormControlLabel-label{
+        font-weight: 700 !important;
+      }
+
+      .status-switch-heading {
+        color: #7F7F7F;
+      }
+    }
+
+    .service-category-color-heading {
       margin-top: 4px !important;
       margin-bottom: 24px !important;
-      .form-control-label-component{
-        margin-bottom: 16px !important;
+
+      .form-control-label-component {
+        margin-bottom: 12px !important;
+        color: #1D1C1D !important;
       }
     }
   }
-  .upload-image-heading{
-    .form-control-label-component{
-      margin-bottom: 16px !important;
+
+  .upload-image-heading {
+    .form-control-label-component {
+      margin-bottom: 12px !important;
+      color: #1D1C1D !important;
+      font-weight: 700;
     }
   }
 
   .color-picker-wrapper {
-    border: 1px solid #ABB6BE;
-    border-radius: 4px;
+    border: 1px solid #C4C4C4;
+    border-radius: 8px;
     padding: 20px;
 
+    .color-component {
+      .label {
+        color: #1D1C1D;
+        font-weight: 700;
+      }
+
+      input {
+        border: none;
+        border-radius: 8px;
+        font-size: 12px;
+        text-align: center;
+        height: 20px;
+        width: 100%;
+        box-shadow: 0px 16px 32px 0px #23170542;
+      }
+
+      label {
+        font-weight: 700;
+      }
+    }
 
     .preview-wrapper {
       margin-bottom: 20px;
 
-      .form-control-label-component{
+      .form-control-label-component {
         margin-bottom: 12px !important;
       }
 
       .preview-button {
         margin-top: 10px;
-        width: 88px;
         height: 40px;
         padding: 4px;
-        border-radius: 4px;
+        border-radius: 8px;
         align-items: center;
         justify-content: center;
         display: flex;

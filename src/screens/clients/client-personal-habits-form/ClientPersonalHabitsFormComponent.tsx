@@ -158,22 +158,23 @@ const ClientPersonalHabitsFormComponent = (props: ClientPersonalHabitsFormCompon
                 ((mode === "edit" && clientMedicalDetails) || mode === "add") && <>
                     <FormControlLabelComponent className={'add-personal-habits-heading'}
                                                label={CommonService.capitalizeFirstLetter(mode) + " Personal Habits"}/>
-                    <CardComponent title={"Personal Habits"} description={"Has the client ever or do they currently:"}>
-                        <Formik
-                            validationSchema={ClientPersonalHabitsFormValidationSchema}
-                            initialValues={clientPersonalHabitsFormInitialValues}
-                            onSubmit={onSubmit}
-                            validateOnChange={false}
-                            validateOnBlur={true}
-                            enableReinitialize={true}
-                            validateOnMount={true}>
-                            {({values, setFieldValue, isValid, validateForm}) => {
-                                // eslint-disable-next-line react-hooks/rules-of-hooks
-                                useEffect(() => {
-                                    validateForm();
-                                }, [validateForm, values]);
-                                return (
-                                    <Form noValidate={true} className={"t-form form-question-list"}>
+                    <Formik
+                        validationSchema={ClientPersonalHabitsFormValidationSchema}
+                        initialValues={clientPersonalHabitsFormInitialValues}
+                        onSubmit={onSubmit}
+                        validateOnChange={false}
+                        validateOnBlur={true}
+                        enableReinitialize={true}
+                        validateOnMount={true}>
+                        {({values, setFieldValue, isValid, validateForm}) => {
+                            // eslint-disable-next-line react-hooks/rules-of-hooks
+                            useEffect(() => {
+                                validateForm();
+                            }, [validateForm, values]);
+                            return (
+                                <Form noValidate={true} className={"t-form form-question-list"}>
+                                    <CardComponent title={"Personal Habits"}
+                                                   description={"Has the client ever or do they currently:"}>
                                         {
                                             FormQuestions.map((question: any, index) => {
                                                 const {key, title, placeholder} = question;
@@ -229,44 +230,44 @@ const ClientPersonalHabitsFormComponent = (props: ClientPersonalHabitsFormCompon
                                                 </>
                                             })
                                         }
-                                        <div className="t-form-actions">
-                                            {/*<ButtonComponent*/}
-                                            {/*    id={"home_btn"}*/}
-                                            {/*    variant={"outlined"}*/}
-                                            {/*    size={'large'}*/}
-                                            {/*    onClick={onCancel}*/}
-                                            {/*    className={(isClientPersonalHabitsSavingInProgress ? 'mrg-right-15' : '')}*/}
-                                            {/*    disabled={true}*/}
-                                            {/*>*/}
-                                            {/*    Previous*/}
-                                            {/*</ButtonComponent>*/}
-                                            <ButtonComponent
-                                                id={"save_next_btn"}
-                                                className={'submit-cta'}
-                                                size={'large'}
-                                                isLoading={isClientPersonalHabitsSavingInProgress}
-                                                disabled={isClientPersonalHabitsSavingInProgress || !isValid || CommonService.isEqual(values, clientPersonalHabitsFormInitialValues)}
-                                                type={"submit"}
-                                            >
-                                                {isClientPersonalHabitsSavingInProgress ? "Saving" : "Save"}
-                                            </ButtonComponent>
+                                    </CardComponent>
+                                    <div className="t-form-actions">
+                                        {/*<ButtonComponent*/}
+                                        {/*    id={"home_btn"}*/}
+                                        {/*    variant={"outlined"}*/}
+                                        {/*    size={'large'}*/}
+                                        {/*    onClick={onCancel}*/}
+                                        {/*    className={(isClientPersonalHabitsSavingInProgress ? 'mrg-right-15' : '')}*/}
+                                        {/*    disabled={true}*/}
+                                        {/*>*/}
+                                        {/*    Previous*/}
+                                        {/*</ButtonComponent>*/}
+                                        <ButtonComponent
+                                            id={"save_next_btn"}
+                                            className={'submit-cta'}
+                                            size={'large'}
+                                            isLoading={isClientPersonalHabitsSavingInProgress}
+                                            disabled={isClientPersonalHabitsSavingInProgress || !isValid || CommonService.isEqual(values, clientPersonalHabitsFormInitialValues)}
+                                            type={"submit"}
+                                        >
+                                            {isClientPersonalHabitsSavingInProgress ? "Saving" : "Save"}
+                                        </ButtonComponent>
 
-                                            <ButtonComponent
-                                                id={"next_btn"}
-                                                size={'large'}
-                                                className={'submit-cta'}
-                                                disabled={isClientPersonalHabitsSavingInProgress || !isValid || !CommonService.isEqual(values, clientPersonalHabitsFormInitialValues)}
-                                                onClick={onNext}
-                                            >
-                                                Next
-                                            </ButtonComponent>
+                                        <ButtonComponent
+                                            id={"next_btn"}
+                                            size={'large'}
+                                            className={'submit-cta'}
+                                            disabled={isClientPersonalHabitsSavingInProgress || !isValid || !CommonService.isEqual(values, clientPersonalHabitsFormInitialValues)}
+                                            onClick={onNext}
+                                        >
+                                            Next
+                                        </ButtonComponent>
 
-                                        </div>
-                                    </Form>
-                                )
-                            }}
-                        </Formik>
-                    </CardComponent>
+                                    </div>
+                                </Form>
+                            )
+                        }}
+                    </Formik>
                 </>
             }
         </div>

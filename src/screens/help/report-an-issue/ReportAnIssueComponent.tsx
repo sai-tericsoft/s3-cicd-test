@@ -37,7 +37,7 @@ const ReportAnIssueComponent = (props: ReportAnIssueComponentProps) => {
         dispatch(setCurrentNavParams("Help"));
     }, [dispatch]);
 
-    const onIssueSubmit = useCallback((values: any, {setErrors,resetForm}: FormikHelpers<any>) => {
+    const onIssueSubmit = useCallback((values: any, {setErrors, resetForm}: FormikHelpers<any>) => {
         const formData = CommonService.getFormDataFromJSON(values);
         setIsIssueSubmitting(true);
         CommonService._staticData.ReportAnIssue(formData)
@@ -51,14 +51,13 @@ const ReportAnIssueComponent = (props: ReportAnIssueComponentProps) => {
         });
     }, []);
 
-    const handleFileUpload = useCallback((acceptedFiles: any[], rejectedFiles: any[],setFieldValue:any) => {
+    const handleFileUpload = useCallback((acceptedFiles: any[], rejectedFiles: any[], setFieldValue: any) => {
         const maxAllowedSize = 5 * 1024 * 1024;
-        if (acceptedFiles && acceptedFiles.length > 0  ) {
-            if(acceptedFiles[0].size > maxAllowedSize){
+        if (acceptedFiles && acceptedFiles.length > 0) {
+            if (acceptedFiles[0].size > maxAllowedSize) {
                 CommonService._alert.showToast('File size should be under 5MB.', "error");
                 return;
-            }
-            else {
+            } else {
                 const file = acceptedFiles[0];
                 setFieldValue('attachment', file);
             }
@@ -85,7 +84,7 @@ const ReportAnIssueComponent = (props: ReportAnIssueComponentProps) => {
                             <CardComponent className={'report-an-issue-wrapper'}>
                                 <div className={'ts-row'}>
 
-                                    <FormControlLabelComponent className={'issue-heading'} label={'Issue*'}/>
+                                    <FormControlLabelComponent className={'issue-heading'} label={'Issue:'}/>
                                     <div className={'ts-col-md-12'}>
                                         <Field name={'issue'}>
                                             {
@@ -110,13 +109,14 @@ const ReportAnIssueComponent = (props: ReportAnIssueComponentProps) => {
                                                 : {(values.issue.length)}/3000</div>)}
                                     </div>
                                     <div className={'ts-col-md-12'}>
-                                        <FormControlLabelComponent className={'attachment-heading'}  label={"Attachment (if any)"}/>
-                                        <>
+                                        <FormControlLabelComponent className={'attachment-heading'}
+                                                                   label={"Attachment (if any):"}/>
+                                        <div className={'pdd-bottom-10'}>
                                             {
                                                 (!values.attachment) && <>
                                                     <FilePickerComponent maxFileCount={1}
                                                                          onFilesDrop={(acceptedFiles, rejectedFiles) => {
-                                                                             handleFileUpload(acceptedFiles, rejectedFiles,setFieldValue);
+                                                                             handleFileUpload(acceptedFiles, rejectedFiles, setFieldValue);
 
                                                                          }}
                                                                          acceptedFileTypes={["pdf", "png", "jpg", "jpeg"]}
@@ -129,12 +129,11 @@ const ReportAnIssueComponent = (props: ReportAnIssueComponentProps) => {
                                                     }
                                                 </>
                                             }
-                                        </>
-                                        <div className={'ts-col-md-6 thumbnail-wrapper'}>
+                                        </div>
+                                        <div className={'ts-col-lg-12 thumbnail-wrapper'}>
                                             {
                                                 (values.attachment) && <>
                                                     <FilePreviewThumbnailComponent
-                                                        variant={'compact'}
                                                         file={values.attachment}
                                                         onRemove={() => {
                                                             setFieldValue('attachment', undefined);
@@ -145,15 +144,16 @@ const ReportAnIssueComponent = (props: ReportAnIssueComponentProps) => {
                                         </div>
                                     </div>
                                 </div>
-                                <div className="t-form-actions">
-                                    <ButtonComponent type={'submit'}
-                                                     size={'large'}
-                                                     isLoading={isIssueSubmitting}
-                                                     disabled={!isValid || isIssueSubmitting || (values.issue?.length === 0)}>
-                                        Submit
-                                    </ButtonComponent>
-                                </div>
                             </CardComponent>
+                            <div className="t-form-actions">
+                                <ButtonComponent type={'submit'}
+                                                 size={'large'}
+                                                 isLoading={isIssueSubmitting}
+                                                 disabled={!isValid || isIssueSubmitting || (values.issue?.length === 0)}>
+                                    Submit
+                                </ButtonComponent>
+                            </div>
+
 
                         </Form>
                     )

@@ -45,6 +45,7 @@ const UserAboutEditComponent = (props: UserAboutEditComponentProps) => {
     const {handleNext, handlePrevious} = props;
     const dispatch = useDispatch();
     const [initialValues, setInitialValues] = useState<any>(_.cloneDeep(formInitialValues));
+
     const {languageList} = useSelector(
         (state: IRootReducerState) => state.staticData
     );
@@ -64,20 +65,17 @@ const UserAboutEditComponent = (props: UserAboutEditComponentProps) => {
     }, [userBasicDetails])
 
     const onSubmit = useCallback((values: any, {setErrors, setSubmitting}: FormikHelpers<any>) => {
-        console.log(values);
         let payload = {
             ...CommonService.removeKeysFromJSON(_.cloneDeep(values), ['assigned_facility_details', 'gender_details']),
         };
 
-        setSubmitting(true);
-        CommonService._user.userEdit(userBasicDetails._id, payload)
+        setSubmitting(true);CommonService._user.userEdit(userBasicDetails._id, payload)
             .then((response: IAPIResponseType<any>) => {
                 // CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                 setSubmitting(false);
                 dispatch(setUserBasicDetails(response.data));
             }).catch((error: any) => {
             CommonService.handleErrors(setErrors, error, true);
-            console.log('errors', error);
             setSubmitting(false);
         })
     }, [userBasicDetails, dispatch]);
@@ -85,24 +83,24 @@ const UserAboutEditComponent = (props: UserAboutEditComponentProps) => {
     return (
         <div className={'user-about-edit-component'}>
             <div className={'edit-user-heading'}>Edit About</div>
-            <CardComponent title={"ABOUT"} size={"md"}>
 
-                <Formik
-                    initialValues={initialValues}
-                    onSubmit={onSubmit}
-                    validationSchema={UserAboutValidationSchema}
-                    validateOnChange={false}
-                    validateOnBlur={true}
-                    enableReinitialize={true}
-                    validateOnMount={true}>
-                    {({values, touched, errors, setFieldValue, validateForm, isSubmitting, isValid}) => {
-                        // eslint-disable-next-line react-hooks/rules-of-hooks
-                        useEffect(() => {
-                            validateForm();
-                        }, [validateForm, values]);
-                        return (
-                            <Form noValidate={true} className={"t-form"}>
-                                {/*<FormDebuggerComponent showDebugger={true} values={values} errors={errors}/>*/}
+            <Formik
+                initialValues={initialValues}
+                onSubmit={onSubmit}
+                validationSchema={UserAboutValidationSchema}
+                validateOnChange={false}
+                validateOnBlur={true}
+                enableReinitialize={true}
+                validateOnMount={true}>
+                {({values, touched, errors, setFieldValue, validateForm, isSubmitting, isValid}) => {
+                    // eslint-disable-next-line react-hooks/rules-of-hooks
+                    useEffect(() => {
+                        validateForm();
+                    }, [validateForm, values]);
+                    return (
+                        <Form noValidate={true} className={"t-form"}>
+                            {/*<FormDebuggerComponent showDebugger={true} values={values} errors={errors}/>*/}
+                            <CardComponent title={"ABOUT"} size={"md"}>
                                 <div className={'ts-row'}>
                                     <div className={'ts-col-md-12'}>
                                         <Field name={'summary'}>
@@ -117,7 +115,7 @@ const UserAboutEditComponent = (props: UserAboutEditComponentProps) => {
                                         </Field>
                                     </div>
                                 </div>
-                                <FormControlLabelComponent label={'Specialities:'}/>
+                                <FormControlLabelComponent className={'form-label'} label={'Specialties:'}/>
                                 <FieldArray
                                     name="specialities"
                                     render={(arrayHelpers) => (
@@ -141,6 +139,15 @@ const UserAboutEditComponent = (props: UserAboutEditComponentProps) => {
                                                         <div className="ts-col-1">
                                                             <div className="d-flex">
                                                                 {
+                                                                    values?.specialities.length > 1 &&
+                                                                    <IconButtonComponent className={"form-helper-icon"}
+                                                                                         onClick={() => {
+                                                                                             arrayHelpers.remove(index);
+                                                                                         }}
+                                                                    >
+                                                                        <ImageConfig.DeleteIcon/>
+                                                                    </IconButtonComponent>}
+                                                                {
                                                                     values?.specialities && (index === values?.specialities?.length - 1)
                                                                     && values?.specialities?.length < 5 &&
                                                                     <IconButtonComponent className={"form-helper-icon"}
@@ -151,14 +158,7 @@ const UserAboutEditComponent = (props: UserAboutEditComponentProps) => {
                                                                         <ImageConfig.AddCircleIcon/>
                                                                     </IconButtonComponent>}
 
-                                                                {index > 0 &&
-                                                                    <IconButtonComponent className={"form-helper-icon"}
-                                                                                         onClick={() => {
-                                                                                             arrayHelpers.remove(index);
-                                                                                         }}
-                                                                    >
-                                                                        <ImageConfig.DeleteIcon/>
-                                                                    </IconButtonComponent>}
+
                                                             </div>
                                                         </div>
                                                         <div className="ts-col"/>
@@ -169,7 +169,7 @@ const UserAboutEditComponent = (props: UserAboutEditComponentProps) => {
                                     )}
                                 />
 
-                                <FormControlLabelComponent label={'Languages:'}/>
+                                <FormControlLabelComponent className={'form-label'} label={'Languages:'}/>
 
                                 <FieldArray
                                     name="languages"
@@ -232,6 +232,15 @@ const UserAboutEditComponent = (props: UserAboutEditComponentProps) => {
                                                     </div>
                                                     <div className="ts-col-1">
                                                         <div className="d-flex">
+                                                            {values?.languages?.length > 1 &&
+                                                                <IconButtonComponent
+                                                                    className={"form-helper-icon delete"}
+                                                                    onClick={() => {
+                                                                        arrayHelpers.remove(index);
+                                                                    }}
+                                                                >
+                                                                    <ImageConfig.DeleteIcon/>
+                                                                </IconButtonComponent>}
                                                             {values?.languages && (index === values?.languages?.length - 1)
                                                                 && values?.languages?.length < 5 &&
                                                                 <IconButtonComponent className={"form-helper-icon"}
@@ -241,15 +250,7 @@ const UserAboutEditComponent = (props: UserAboutEditComponentProps) => {
                                                                 >
                                                                     <ImageConfig.AddCircleIcon/>
                                                                 </IconButtonComponent>}
-                                                            {index > 0 &&
-                                                                <IconButtonComponent
-                                                                    className={"form-helper-icon delete"}
-                                                                    onClick={() => {
-                                                                        arrayHelpers.remove(index);
-                                                                    }}
-                                                                >
-                                                                    <ImageConfig.DeleteIcon/>
-                                                                </IconButtonComponent>}
+
                                                         </div>
                                                     </div>
                                                 </div>
@@ -258,45 +259,49 @@ const UserAboutEditComponent = (props: UserAboutEditComponentProps) => {
                                         </>
                                     )}
                                 />
-                                <div className="t-form-actions">
-                                    <ButtonComponent
-                                        id={"cancel_btn"}
-                                        variant={"outlined"}
-                                        size={'large'}
-                                        className={'submit-cta'}
-                                        disabled={isSubmitting}
-                                        onClick={handlePrevious}
-                                    >
-                                        Previous
-                                    </ButtonComponent>
-                                    <ButtonComponent
-                                        id={"save_btn"}
-                                        size={'large'}
-                                        className={'submit-cta'}
-                                        isLoading={isSubmitting}
-                                        disabled={isSubmitting || !isValid || CommonService.isEqual(values, initialValues)}
-                                        type={"submit"}
-                                    >
-                                        {isSubmitting ? "Saving" : "Save"}
-                                    </ButtonComponent>
-                                    <ButtonComponent
-                                        id={"cancel_btn"}
-                                        variant={"outlined"}
-                                        size={'large'}
-                                        className={'submit-cta'}
-                                        disabled={isSubmitting || !(!isValid || CommonService.isEqual(values, initialValues))}
-                                        onClick={handleNext}
-                                    >
-                                        Next
-                                    </ButtonComponent>
-                                </div>
-                            </Form>
-                        )
-                    }}
-                </Formik>
-            </CardComponent>
+                            </CardComponent>
+                            <div className="t-form-actions">
+                                <ButtonComponent
+                                    id={"cancel_btn"}
+                                    variant={"outlined"}
+                                    size={'large'}
+                                    className={'submit-cta'}
+                                    disabled={isSubmitting}
+                                    onClick={handlePrevious}
+                                >
+                                    Previous
+                                </ButtonComponent>
+                                &nbsp;
+                                <ButtonComponent
+                                    id={"save_btn"}
+                                    size={'large'}
+                                    isLoading={isSubmitting}
+                                    className={'mrg-right-15'}
+                                    disabled={isSubmitting || !isValid || CommonService.isEqual(values, initialValues)}
+                                    type={"submit"}
+                                >
+                                    {isSubmitting ? "Saving" : "Save"}
+                                </ButtonComponent>
+                                &nbsp;
+                                <ButtonComponent
+                                    id={"cancel_btn"}
+                                    variant={"outlined"}
+                                    size={'large'}
+                                    className={'submit-cta'}
+                                    disabled={isSubmitting || !(!isValid || CommonService.isEqual(values, initialValues))}
+                                    onClick={handleNext}
+                                >
+                                    Next
+                                </ButtonComponent>
+                            </div>
+                        </Form>
+                    )
+                }}
+            </Formik>
+
         </div>
-    );
+    )
+        ;
 };
 
 export default UserAboutEditComponent;

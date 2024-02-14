@@ -56,7 +56,7 @@ const FacilityDetailsScreen = (props: FacilityDetailsScreenProps) => {
     }, [facilityDetails, navigate, dispatch]);
 
     return (
-        <div className={'service-category-details-screen'}>
+        <div className={'facility-details-screen'}>
             {
                 isFacilityDetailsLoading && <LoaderComponent/>
             }
@@ -66,6 +66,7 @@ const FacilityDetailsScreen = (props: FacilityDetailsScreenProps) => {
             }
             {
                 isFacilityDetailsLoaded && <>
+                    <FormControlLabelComponent size={'xl'} label={'View Facility Details'}/>
                     <div className={"facility-details-card mrg-bottom-20"}>
                         <BasicDetailsCardComponent
                             title={facilityDetails?.name}
@@ -81,6 +82,8 @@ const FacilityDetailsScreen = (props: FacilityDetailsScreenProps) => {
                                     {facilityDetails?.name || "N/A"}
                                 </DataLabelValueComponent>
                             </div>
+                        </div>
+                        <div className={'ts-row'}>
                             <div className={'ts-col-lg-3'}>
                                 <DataLabelValueComponent label={"Facility Location"}>
                                     {facilityDetails?.location_details?.title?.toLocaleUpperCase() || "N/A"}
@@ -168,56 +171,58 @@ const FacilityDetailsScreen = (props: FacilityDetailsScreenProps) => {
                             </DataLabelValueComponent>
                         </div>
                     </CardComponent>
-                    <CardComponent title={'Operating Hours'} className={'operating-hours-wrapper'}>
-                        <div className={'facility-opening-hours-table-wrapper'}>
-                            <div className={'column-left'}>
-                                <div className={'weeks-days-table-header'}>
-                                    <div className={'week-days-timing-wrapper'}>
-                                        <div className={'week-days-heading'}>Day of the Week</div>
-                                        <div className={'timing-heading'}>Timings</div>
-                                    </div>
-                                </div>
-                                {['Monday', 'Tuesday', 'Wednesday', 'Thursday'].map((day, index) => {
-                                    const timing = facilityDetails.timings.find((item: any) => item.day_name === day);
-
-                                    return (
-                                        <div key={index} className='weeks-days-table-container left-container'>
-                                            <DataLabelValueComponent direction="row" label={day}>
-                                                {timing?.timings?.start_time && CommonService.getHoursAndMinutesFromMinutes(timing?.timings?.start_time) + " - "}
-                                                {timing?.timings?.end_time && CommonService.getHoursAndMinutesFromMinutes(timing?.timings?.end_time)}
-                                                {!timing?.timings?.start_time &&
-                                                <span className="facility-opening-hours-closed-text">Closed</span>}
-                                            </DataLabelValueComponent>
-                                            {/*<HorizontalLineComponent/>*/}
+                    <div className={'operating-system-wrapper'}>
+                        <CardComponent title={'Operating Hours'} className={'operating-hours-wrapper'}>
+                            <div className={'facility-opening-hours-table-wrapper'}>
+                                <div className={'column-left'}>
+                                    <div className={'weeks-days-table-header'}>
+                                        <div className={'week-days-timing-wrapper'}>
+                                            <div className={'week-days-heading'}>Week Days</div>
+                                            <div className={'timing-heading'}>Timings</div>
                                         </div>
-                                    );
-                                })}
-                            </div>
-                            <div className={'column-right'}>
-                                <div className={'weeks-days-table-header'}>
-                                    <div className={'week-days-timing-wrapper'}>
-                                        <div className={'week-days-heading'}>Day of the Week</div>
-                                        <div className={'timing-heading'}>Timings</div>
                                     </div>
-                                </div>
-                                {['Friday', 'Saturday', 'Sunday'].map((day, index) => {
-                                    const timing = facilityDetails.timings.find((item: any) => item.day_name === day);
+                                    {['Monday', 'Tuesday', 'Wednesday', 'Thursday'].map((day, index) => {
+                                        const timing = facilityDetails.timings.find((item: any) => item.day_name === day);
 
-                                    return (
-                                        <div key={index} className='weeks-days-table-container right-container'>
-                                            <DataLabelValueComponent direction="row" label={day}>
-                                                {timing?.timings?.start_time && CommonService.getHoursAndMinutesFromMinutes(timing?.timings?.start_time) + " - "}
-                                                {timing?.timings?.end_time && CommonService.getHoursAndMinutesFromMinutes(timing?.timings?.end_time)}
-                                                {!timing?.timings?.start_time &&
-                                                <span className="facility-opening-hours-closed-text">Closed</span>}
-                                            </DataLabelValueComponent>
-                                            {/*<HorizontalLineComponent/>*/}
+                                        return (
+                                            <div key={index} className='weeks-days-table-container left-container'>
+                                                <DataLabelValueComponent direction="row" label={day}>
+                                                    {timing?.timings?.start_time && CommonService.getHoursAndMinutesFromMinutes(timing?.timings?.start_time) + " - "}
+                                                    {timing?.timings?.end_time && CommonService.getHoursAndMinutesFromMinutes(timing?.timings?.end_time)}
+                                                    {!timing?.timings?.start_time &&
+                                                        <span className="facility-opening-hours-closed-text">Closed</span>}
+                                                </DataLabelValueComponent>
+                                                {/*<HorizontalLineComponent/>*/}
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                                <div className={'column-right'}>
+                                    <div className={'weeks-days-table-header right-header'}>
+                                        <div className={'week-days-timing-wrapper'}>
+                                            <div className={'week-days-heading'}>Week Days</div>
+                                            <div className={'timing-heading'}>Timings</div>
                                         </div>
-                                    );
-                                })}
+                                    </div>
+                                    {['Friday', 'Saturday', 'Sunday'].map((day, index) => {
+                                        const timing = facilityDetails.timings.find((item: any) => item.day_name === day);
+
+                                        return (
+                                            <div key={index} className='weeks-days-table-container right-container'>
+                                                <DataLabelValueComponent direction="row" label={day}>
+                                                    {timing?.timings?.start_time && CommonService.getHoursAndMinutesFromMinutes(timing?.timings?.start_time) + " - "}
+                                                    {timing?.timings?.end_time && CommonService.getHoursAndMinutesFromMinutes(timing?.timings?.end_time)}
+                                                    {!timing?.timings?.start_time &&
+                                                        <span className="facility-opening-hours-closed-text">Closed</span>}
+                                                </DataLabelValueComponent>
+                                                {/*<HorizontalLineComponent/>*/}
+                                            </div>
+                                        );
+                                    })}
+                                </div>
                             </div>
-                        </div>
-                    </CardComponent>
+                        </CardComponent>
+                    </div>
 
                     {/*<CardComponent title={"Services"}>*/}
                     {/*    <div className={"therapy-and-performance-training-wrapper"}>*/}

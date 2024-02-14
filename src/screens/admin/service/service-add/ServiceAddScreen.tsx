@@ -24,6 +24,8 @@ import {useNavigate, useParams} from "react-router-dom";
 import IconButtonComponent from "../../../../shared/components/icon-button/IconButtonComponent";
 import {IService} from "../../../../shared/models/service.model";
 import StatusCardComponent from "../../../../shared/components/status-card/StatusCardComponent";
+import HorizontalLineComponent
+    from "../../../../shared/components/horizontal-line/horizontal-line/HorizontalLineComponent";
 
 interface ServiceAddComponentProps {
 }
@@ -128,7 +130,7 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
 
         <div className={'service-add-component'}>
 
-            <FormControlLabelComponent className={'page-normal-heading'} size={"lg"} label={'Add Service'}/>
+            <FormControlLabelComponent className={'page-normal-heading'} size={"xl"} label={'Add Service'}/>
             <div className={'service-category-service-add-form'}>
                 {
                     !serviceCategoryId &&
@@ -190,19 +192,7 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                                         name="initial_consultation"
                                         render={arrayHelpers => (
                                             <CardComponent title={"Initial Consultation Details"}
-                                                           className={"consultation-card-item"}
-                                                           actions={<>
-                                                               <ButtonComponent size={"small"}
-                                                                                prefixIcon={<ImageConfig.AddIcon/>}
-                                                                                onClick={() => {
-                                                                                    arrayHelpers.push(_.cloneDeep(CONSULTATION_BLOCK))
-                                                                                }}
-                                                                                id={"sv_ic_add"}
-                                                               >
-                                                                   Add more
-                                                               </ButtonComponent>
-                                                           </>
-                                                           }>
+                                                           className={"consultation-card-item"}>
                                                 <>
                                                     {values?.initial_consultation && values?.initial_consultation?.map((item: any, index: any) => {
                                                         return (
@@ -211,19 +201,24 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                                                                     className={"display-flex"}>
                                                                     <FormControlLabelComponent
                                                                         className={'mrg-top-10 mrg-right-20'}
-                                                                        label={`Initial Consultation Details ${index + 1}`}/>
+                                                                        label={`Consultation ${index + 1}`}/>
                                                                     <div>
-                                                                        {(index > 0) && <ButtonComponent
-                                                                            color={'error'}
-                                                                            size={'small'}
-                                                                            prefixIcon={<ImageConfig.CloseIcon height={'10'} width={'10'}/>}
-                                                                            onClick={() => {
-                                                                                arrayHelpers.remove(index);
-                                                                            }}
-                                                                            id={"sv_ic_remove_" + index}
-                                                                        >
-                                                                            Remove
-                                                                        </ButtonComponent>}
+                                                                        {values?.initial_consultation?.length !== 1 &&
+                                                                            <ButtonComponent
+                                                                                color={'error'}
+                                                                                size={'small'}
+                                                                                variant={'outlined'}
+                                                                                className={'remove-btn'}
+                                                                                prefixIcon={<ImageConfig.CrossOutlinedIcon
+                                                                                    height={'10'}
+                                                                                    width={'10'}/>}
+                                                                                onClick={() => {
+                                                                                    arrayHelpers.remove(index);
+                                                                                }}
+                                                                                id={"sv_ic_remove_" + index}
+                                                                            >
+                                                                                Remove Consultation
+                                                                            </ButtonComponent>}
                                                                     </div>
                                                                 </div>
                                                                 <div className={"ts-row"}>
@@ -293,20 +288,7 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                                                                                         </div>
                                                                                         <div className="ts-col-1">
                                                                                             <div className="d-flex">
-                                                                                                {
-                                                                                                    iIndex === values?.initial_consultation[index].consultation_details.length - 1 &&
-                                                                                                    <IconButtonComponent className={'mrg-top-5'}
-                                                                                                        onClick={() => {
-                                                                                                            push(_.cloneDeep(CONSULTATION_DURATION_SLOT))
-                                                                                                        }}
-                                                                                                        id={"sv_ic_cd_add"}
-                                                                                                        disabled={!ConsultationDurationSlotValidationSchema.isValidSync(values?.initial_consultation[index]?.consultation_details[iIndex])}
-                                                                                                    >
-                                                                                                        <ImageConfig.AddCircleIcon/>
-                                                                                                    </IconButtonComponent>
-                                                                                                }
-                                                                                                {
-                                                                                                    iIndex > 0 &&
+                                                                                                {values?.initial_consultation[index].consultation_details.length > 1 &&
                                                                                                     <IconButtonComponent
                                                                                                         className={'mrg-top-5'}
                                                                                                         onClick={() => {
@@ -317,6 +299,20 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                                                                                                         <ImageConfig.DeleteIcon/>
                                                                                                     </IconButtonComponent>
                                                                                                 }
+                                                                                                {
+                                                                                                    iIndex === values?.initial_consultation[index].consultation_details.length - 1 &&
+                                                                                                    <IconButtonComponent
+                                                                                                        className={'mrg-top-5'}
+                                                                                                        onClick={() => {
+                                                                                                            push(_.cloneDeep(CONSULTATION_DURATION_SLOT))
+                                                                                                        }}
+                                                                                                        id={"sv_ic_cd_add"}
+                                                                                                        disabled={!ConsultationDurationSlotValidationSchema.isValidSync(values?.initial_consultation[index]?.consultation_details[iIndex])}
+                                                                                                    >
+                                                                                                        <ImageConfig.AddCircleIcon/>
+                                                                                                    </IconButtonComponent>
+                                                                                                }
+
                                                                                             </div>
                                                                                         </div>
                                                                                     </div>
@@ -330,6 +326,18 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                                                         )
                                                     })
                                                     }
+                                                    <HorizontalLineComponent className={'horizontal-divider'}/>
+                                                    <div className={"h-v-center"}>
+                                                        <ButtonComponent prefixIcon={<ImageConfig.AddIcon/>}
+                                                                         className={'another-consultation-button'}
+                                                                         onClick={() => {
+                                                                             arrayHelpers.push(_.cloneDeep(CONSULTATION_BLOCK))
+                                                                         }}
+                                                                         id={"sv_ic_add"}
+                                                        >
+                                                            Add Another Consultation
+                                                        </ButtonComponent>
+                                                    </div>
                                                 </>
                                             </CardComponent>
                                         )}/>
@@ -337,19 +345,7 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                                         name="followup_consultation"
                                         render={arrayHelpers => (
                                             <CardComponent title={"Follow-Up Consultation Details"}
-                                                           className={"consultation-card-item"}
-                                                           actions={<>
-                                                               <ButtonComponent size={"small"}
-                                                                                prefixIcon={<ImageConfig.AddIcon/>}
-                                                                                onClick={() => {
-                                                                                    arrayHelpers.push(_.cloneDeep(CONSULTATION_BLOCK))
-                                                                                }}
-                                                                                id={"sv_fc_add"}
-                                                               >
-                                                                   Add more
-                                                               </ButtonComponent>
-                                                           </>
-                                                           }>
+                                                           className={"consultation-card-item"}>
                                                 <div>
                                                     {values?.followup_consultation && values?.followup_consultation?.map((item: any, index: any) => {
                                                         return (
@@ -357,20 +353,23 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                                                                 <div
                                                                     className={"display-flex align-items-center"}>
                                                                     <FormControlLabelComponent
-                                                                        label={`Follow-up Consultation Details ${index + 1}`}/>
+                                                                        label={`Consultation${index + 1}`}/>
                                                                     <div>
-                                                                        {(index > 0) && <ButtonComponent
-                                                                            size={'small'}
-                                                                            className={'mrg-bottom-25 mrg-left-20'}
-                                                                            color={'error'}
-                                                                            prefixIcon={<ImageConfig.CloseIcon/>}
-                                                                            onClick={() => {
-                                                                                arrayHelpers.remove(index);
-                                                                            }}
-                                                                            id={"sv_fc_remove" + index}
-                                                                        >
-                                                                            Remove
-                                                                        </ButtonComponent>}
+                                                                        {values?.followup_consultation?.length !== 1 &&
+                                                                            <ButtonComponent
+                                                                                size={'small'}
+                                                                                variant={'outlined'}
+                                                                                className={'mrg-bottom-10  mrg-left-20'}
+                                                                                color={'error'}
+                                                                                prefixIcon={
+                                                                                    <ImageConfig.CrossOutlinedIcon/>}
+                                                                                onClick={() => {
+                                                                                    arrayHelpers.remove(index);
+                                                                                }}
+                                                                                id={"sv_fc_remove" + index}
+                                                                            >
+                                                                                Remove Consultation
+                                                                            </ButtonComponent>}
                                                                     </div>
                                                                 </div>
                                                                 <div className={"ts-row"}>
@@ -444,6 +443,18 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                                                                                             <div
                                                                                                 className="d-flex t-cell-align-center">
                                                                                                 {
+                                                                                                    values?.followup_consultation[index].consultation_details.length > 1 &&
+                                                                                                    <IconButtonComponent
+                                                                                                        className={'mrg-top-5'}
+                                                                                                        onClick={() => {
+                                                                                                            remove(iIndex);
+                                                                                                        }}
+                                                                                                        id={"sv_fc_cd_remove_" + index}
+                                                                                                    >
+                                                                                                        <ImageConfig.DeleteIcon/>
+                                                                                                    </IconButtonComponent>
+                                                                                                }
+                                                                                                {
                                                                                                     iIndex === values?.followup_consultation[index].consultation_details.length - 1 &&
                                                                                                     <IconButtonComponent
                                                                                                         className={'mrg-top-5'}
@@ -456,18 +467,7 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                                                                                                         <ImageConfig.AddCircleIcon/>
                                                                                                     </IconButtonComponent>
                                                                                                 }
-                                                                                                {
-                                                                                                    iIndex > 0 &&
-                                                                                                    <IconButtonComponent
-                                                                                                        className={'mrg-top-5'}
-                                                                                                        onClick={() => {
-                                                                                                            remove(iIndex);
-                                                                                                        }}
-                                                                                                        id={"sv_fc_cd_remove_" + index}
-                                                                                                    >
-                                                                                                        <ImageConfig.DeleteIcon/>
-                                                                                                    </IconButtonComponent>
-                                                                                                }
+
                                                                                             </div>
                                                                                         </div>
                                                                                     </div>
@@ -482,53 +482,68 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                                                     })
                                                     }
                                                 </div>
+                                                <HorizontalLineComponent className={'horizontal-divider'}/>
+                                                <div className={"h-v-center"}>
+                                                    <ButtonComponent
+                                                        prefixIcon={<ImageConfig.AddIcon/>}
+                                                        className={'mrg-bottom-20'}
+                                                        onClick={() => {
+                                                            arrayHelpers.push(_.cloneDeep(CONSULTATION_BLOCK))
+                                                        }}
+                                                        id={"sv_fc_add"}
+                                                    >
+                                                        Add Another Consultation
+                                                    </ButtonComponent>
+                                                </div>
                                             </CardComponent>
                                         )}/>
-                                    <CardComponent title={'Upload Image for Service *'}
-                                                   className={"pdd-bottom-25"}
-                                                   size={"md"}>
-                                        {(!values.image) && <>
-                                            <FilePickerComponent maxFileCount={1}
-                                                                 id={"sv_upload_btn"}
-                                                                 onFilesDrop={(acceptedFiles, rejectedFiles) => {
-                                                                     if (acceptedFiles && acceptedFiles.length > 0) {
-                                                                         const file = acceptedFiles[0];
-                                                                         setFieldValue('image', file);
-                                                                     }
-                                                                 }}
-                                                                 acceptedFilesText={"PNG and JPEG files are allowed upto 10MB"}
-                                                                 acceptedFileTypes={["png", "jpeg"]}
-                                            />
-                                            {
-                                                (_.get(touched, "image") && !!(_.get(errors, "image"))) &&
-                                                <ErrorComponent
-                                                    errorText={(_.get(errors, "image"))}/>
-                                            }
-                                        </>
-                                        }
-                                        {
-                                            (values.image) && <>
-                                                <FilePreviewThumbnailComponent
-                                                    file={values.image}
-                                                    removeButtonId={"sv_delete_img"}
-                                                    onRemove={() => {
-                                                        setFieldValue('image', '');
-                                                    }}/>
+                                    <div className={'image-wrapper'}>
+                                        <CardComponent title={'Upload Image*'}
+                                                       className={"pdd-bottom-25"}
+                                                       size={"md"}>
+                                            {(!values.image) && <>
+                                                <FilePickerComponent maxFileCount={1}
+                                                                     id={"sv_upload_btn"}
+                                                                     onFilesDrop={(acceptedFiles, rejectedFiles) => {
+                                                                         if (acceptedFiles && acceptedFiles.length > 0) {
+                                                                             const file = acceptedFiles[0];
+                                                                             setFieldValue('image', file);
+                                                                         }
+                                                                     }}
+                                                                     acceptedFilesText={"PNG and JPEG files are allowed upto 10MB"}
+                                                                     acceptedFileTypes={["png", "jpeg"]}
+                                                />
+                                                {
+                                                    (_.get(touched, "image") && !!(_.get(errors, "image"))) &&
+                                                    <ErrorComponent
+                                                        errorText={(_.get(errors, "image"))}/>
+                                                }
                                             </>
-                                        }
-                                    </CardComponent>
+                                            }
+                                            {
+                                                (values.image) && <>
+                                                    <FilePreviewThumbnailComponent
+                                                        file={values.image}
+                                                        removeButtonId={"sv_delete_img"}
+                                                        onRemove={() => {
+                                                            setFieldValue('image', '');
+                                                        }}/>
+                                                </>
+                                            }
+                                        </CardComponent>
+                                    </div>
                                     <div className="t-form-actions">
                                         {/*<LinkComponent*/}
                                         {/*    route={CommonService._routeConfig.ServiceCategoryDetails(serviceCategoryId)}>*/}
-                                            <ButtonComponent
-                                                variant={"outlined"}
-                                                size={"large"}
-                                                onClick={handleBackNavigation}
-                                                disabled={isServiceAddInProgress}
-                                                id={"sv_cancel_btn"}
-                                            >
-                                                Cancel
-                                            </ButtonComponent>
+                                        <ButtonComponent
+                                            variant={"outlined"}
+                                            size={"large"}
+                                            onClick={handleBackNavigation}
+                                            disabled={isServiceAddInProgress}
+                                            id={"sv_cancel_btn"}
+                                        >
+                                            Cancel
+                                        </ButtonComponent>
                                         {/*</LinkComponent>*/}
                                         &nbsp;
                                         <ButtonComponent

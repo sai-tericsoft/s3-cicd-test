@@ -1,3 +1,27 @@
+.add-billing-address-component {
+  .drawer-header {
+    padding-bottom: 20px;
+
+    .back-btn {
+      justify-content: center;
+      align-items: center;
+      display: flex;
+      cursor: pointer;
+      margin-right: 10px;
+      color: #1D1C1D;
+
+      .back-arrow {
+        padding-top: 5px;
+      }
+
+      .back-text {
+        font-size: 18px;
+        font-weight: 700;
+
+      }
+    }
+  }
+}
 
 .t-form {
   &.edit-billing-address-form {

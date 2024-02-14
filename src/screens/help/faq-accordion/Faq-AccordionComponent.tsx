@@ -25,7 +25,7 @@ const FaqAccordionComponent = (props: React.PropsWithChildren<AccordionComponent
                         <ImageConfig.CircularShowMore/>}</div>
                 </div>
                 {
-                    isExpanded && (React.Children.count(children)) > 0 &&  <div>
+                    isExpanded && (React.Children.count(children)) > 0 &&  <div className={'title-answer'}>
                         {children}
                     </div>
                 }
