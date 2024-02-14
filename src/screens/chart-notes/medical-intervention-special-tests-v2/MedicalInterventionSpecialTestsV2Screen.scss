@@ -21,7 +21,11 @@
     }
 
     .t-table-wrapper {
+
       .t-table {
+        .table-no-data-wrapper{
+          min-height: 90px !important;
+        }
         min-height: max-content !important;
       }
     }

@@ -62,7 +62,7 @@ const BookAppointmentOverviewComponent = (props: BookAppointmentOverviewComponen
                 facility_id: booking.facility._id,
                 appointment_type: booking.appointment_type,
                 consultation_id: booking.duration._id,
-                appointment_date: CommonService.convertDateFormat(booking.date),
+                appointment_date: booking.date,
                 duration: parseInt(booking.duration.duration),
                 start_time: booking.time.start_min,
                 end_time: booking.time.end_min,
@@ -84,7 +84,6 @@ const BookAppointmentOverviewComponent = (props: BookAppointmentOverviewComponen
         },
         [onComplete],
     );
-
     return (
         <div className={'book-appointment-overview-component'}>
             <div className="drawer-header">
@@ -179,18 +178,18 @@ const BookAppointmentOverviewComponent = (props: BookAppointmentOverviewComponen
                                     </div>
                                 </div>
                             </div>
-                            <div className="details-body-item">
-                                <div className="item-heading"><ImageConfig.FolderIcon/>&nbsp;&nbsp;Case Name
-                                </div>
-                                <div
-                                    className="item-value">
-                                    {CommonService.generateInterventionNameFromMedicalRecord(bookingDraft?.case) || 'N/A'}
-                                    <div>
-
+                            {bookingDraft?.appointment_type !== 'initial_consultation' &&
+                                <div className="details-body-item">
+                                    <div className="item-heading"><ImageConfig.FolderIcon/>&nbsp;&nbsp;Case Name
                                     </div>
-
+                                    <div
+                                        className="item-value">
+                                        {CommonService.generateInterventionNameFromMedicalRecord(bookingDraft?.case) || 'N/A'}
+                                        <div>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
+                            }
                         </div>
 
                     </div>

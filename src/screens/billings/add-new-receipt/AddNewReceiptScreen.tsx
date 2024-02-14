@@ -32,6 +32,9 @@ import EditBillingAddressComponent from "../edit-billing-address/EditBillingAddr
 import {getBillingFromAddress, getBillingSettings} from "../../../store/actions/billings.action";
 import AddBillingAddressComponent from "../add-billing-address/AddBillingAddressComponent";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
+import ChipComponent from "../../../shared/components/chip/ChipComponent";
+import MenuDropdownComponent from "../../../shared/components/menu-dropdown/MenuDropdownComponent";
+import {ListItemButton} from "@mui/material";
 
 interface AddNewReceiptScreenProps {
 
@@ -76,7 +79,7 @@ const ProductRow = {
     product: undefined,
     product_id: undefined,
     amount: undefined,
-    units: undefined,
+    sale_price: undefined,
     quantity: undefined,
     discount: undefined,
     showQuantity: false,
@@ -190,7 +193,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                                 displayWith={(item: any) => item?.name || ''}
                                 onUpdate={(item: any) => {
                                     field.form.setFieldValue(`products[${index}].product_id`, item._id);
-                                    field.form.setFieldValue(`products[${index}].rate`, item.price);
+                                    field.form.setFieldValue(`products[${index}].sale_price`, item.sale_price);
                                     field.form.setFieldValue(`products[${index}].quantity`, item.quantity);
                                     field.form.setFieldValue(`products[${index}].units`, 0);
                                     field.form.setFieldValue(`products[${index}].showQuantity`, false);
@@ -239,7 +242,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                                         disabled={!field.form.values?.products?.[index]?.product_id}
                                         // validationPattern={Patterns.POSITIVE_WHOLE_NUMBERS}
                                         onChange={(value: any) => {
-                                            field.form.setFieldValue(`products[${index}].amount`, field.form.values?.products?.[index]?.rate * value);
+                                            field.form.setFieldValue(`products[${index}].amount`, field.form.values?.products?.[index]?.sale_price * value);
                                         }
                                         }
                                     /> : "-"
@@ -259,7 +262,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                 <Field name={`products[${index}].discount`} className="t-form-control">
                     {(field: FieldProps) => {
                         const quantity = _.get(field.form?.values, `products[${index}].quantity`);
-                        const rate = field.form.values?.products?.[index]?.rate;
+                        const rate = field.form.values?.products?.[index]?.sale_price;
                         const units = field.form.values?.products?.[index]?.units;
                         const amount = rate && units ? rate * units : 0;
                         const discount = field.form.values?.products?.[index]?.discount || 0;
@@ -313,15 +316,15 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
         },
         {
             title: "Rate",
-            dataIndex: "rate",
-            key: "rate",
+            dataIndex: "sale_price",
+            key: "sale_price",
             align: 'center',
             width: 70,
-            render: (record: any, index: number) => <Field name={`products[${index}].units`} className="t-form-control">
+            render: (record: any, index: number) => <Field name={`products[${index}].sale_price`} className="t-form-control">
                 {
                     (field: FieldProps) => (
                         <>
-                            {field.form.values?.products?.[index]?.rate ? <> {Misc.CURRENCY_SYMBOL}{CommonService.convertToDecimals(field.form.values?.products?.[index]?.rate) || "-"} </> : "-"}
+                            {field.form.values?.products?.[index]?.sale_price ? <> {Misc.CURRENCY_SYMBOL}{CommonService.convertToDecimals(field.form.values?.products?.[index]?.sale_price) || "-"} </> : "-"}
                         </>
                     )
                 }
@@ -591,7 +594,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
         let totalAmount = 0;
         if (formRef.current?.values?.products) {
             totalAmount = formRef.current?.values?.products?.reduce((acc: number, curr: any) => {
-                return (curr.rate && curr.units) ? acc + ((curr?.rate) * (curr?.units)) - ((curr?.discount || "0.00")) : acc;
+                return (curr.sale_price && curr.units) ? acc + ((curr?.sale_price) * (curr?.units)) - ((curr?.discount || "0.00")) : acc;
             }, 0);
         } else {
             totalAmount = 0;
@@ -637,6 +640,38 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
     useEffect(() => {
         getClientList();
     }, [getClientList]);
+
+    const handleDeleteBillingAddress = useCallback((billingAddress: any) => {
+        CommonService.onConfirm({
+            image: ImageConfig.ConfirmationLottie,
+            showLottie: true,
+            confirmationTitle: 'DELETE ADDRESS',
+            confirmationSubTitle: <div className={'text-center mrg-bottom-20'}>Are you sure you want to permanently
+                delete <br/> this address?</div>,
+
+        }).then(() => {
+            CommonService._billingsService.DeleteBillingAddress(billingAddress?._id, billingAddress)
+                .then((response: any) => {
+                    CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+                    closeBillingAddressFormDrawer();
+                }).catch((error: any) => {
+                CommonService._alert.showToast(error.error || "Error in deleting", "error");
+            });
+        })
+
+    }, [closeBillingAddressFormDrawer]);
+
+    const onBillingAddressFormSubmit = useCallback((billingAddressId: string) => {
+        CommonService._client.UpdateClientBillingAddress(billingAddressId, {is_default: true})
+            .then((response: any) => {
+                getClientBillingAddressList();
+                CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+                getClientBillingAddressList();
+            })
+            .catch((error: any) => {
+                console.log(error);
+            });
+    }, [getClientBillingAddressList]);
 
 
     return (
@@ -1087,59 +1122,38 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
                                             <RadioButtonComponent
                                                 checked={selectedChanged ? tempSelectedAddress === item : selectedAddress === item}
                                                 onChange={() => handleRadioButtonClick(item)}/>
-                                            <div
-                                                className={'card-heading'}>{item?.is_default ? 'Default Address' : 'Other Address'}</div>
+                                            <b>{item?.name}</b>
+                                            <div className={'mrg-left-10'}>
+                                                {item?.is_default && <ChipComponent className={'draft'} label={'Default'}/>}
+                                            </div>
                                         </div>
                                         <div className={'btn-wrapper'}>
-                                            <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>} variant={'text'}
-                                                             onClick={() => handleEdit(item)}>
-                                                Edit
-                                            </ButtonComponent>
+                                            {/*<ButtonComponent prefixIcon={<ImageConfig.EditIcon/>} variant={'text'}*/}
+                                            {/*                 onClick={() => handleEdit(item)}>*/}
+                                            {/*    Edit*/}
+                                            {/*</ButtonComponent>*/}
+                                            <MenuDropdownComponent className={'billing-details-drop-down-menu'} menuBase={
+                                                <IconButtonComponent>
+                                                    <ImageConfig.MoreVerticalIcon/>
+                                                </IconButtonComponent>
+                                            } menuOptions={[
+                                                <ListItemButton onClick={() => handleEdit(item)}>
+                                                    Edit
+                                                </ListItemButton>,
+                                                <ListItemButton onClick={() => handleDeleteBillingAddress(item)}>
+                                                    Delete
+                                                </ListItemButton>,
+                                                <ListItemButton onClick={() => onBillingAddressFormSubmit(item?._id)}>
+                                                    Make as Default
+                                                </ListItemButton>,
+                                            ]}/>
                                         </div>
                                     </div>
-                                    <div className={'ts-row mrg-top-10'}>
-                                        <div className={'ts-col-lg-1'}/>
-                                        <div className={'ts-col-lg-6'}>
-                                            <DataLabelValueComponent label={'Name of Client/Organisation'}>
-                                                {item?.name || 'N/A'}
-                                            </DataLabelValueComponent>
-                                        </div>
-                                        <div className={'ts-col-lg-4'}>
-                                            <DataLabelValueComponent label={'Address Line'}>
-                                                {item?.address_line || 'N/A'}
-                                            </DataLabelValueComponent>
-                                        </div>
-                                        <div className={'ts-col-lg-2'}/>
-
+                                    <div className={'mrg-15'}>
+                                        <span className={'card-heading'}>Address:</span> {item?.address_line}, {item?.city}, {item?.state}, {item?.country} {item?.zip_code}
                                     </div>
-                                    <div className={'ts-row'}>
-                                        <div className={'ts-col-lg-1'}/>
-                                        <div className={'ts-col-lg-6'}>
-                                            <DataLabelValueComponent label={'City'}>
-                                                {item?.city || "N/A"}
-                                            </DataLabelValueComponent>
-                                        </div>
-                                        <div className={'ts-col-lg-4'}>
-                                            <DataLabelValueComponent label={'State'}>
-                                                {item?.state || 'N/A'}
-                                            </DataLabelValueComponent>
-                                        </div>
-                                        <div className={'ts-col-lg-2'}/>
-
-                                    </div>
-                                    <div className={'ts-row'}>
-                                        <div className={'ts-col-lg-1'}/>
-                                        <div className={'ts-col-lg-6'}>
-                                            <DataLabelValueComponent label={'ZIP Code'}>
-                                                {item?.zip_code || 'N/A'}
-                                            </DataLabelValueComponent>
-                                        </div>
-                                        <div className={'ts-col-lg-4'}>
-                                            <DataLabelValueComponent label={'Country'}>
-                                                {item?.country || 'N/A'}                                       </DataLabelValueComponent>
-                                        </div>
-                                        <div className={'ts-col-lg-2'}/>
-
+                                    <div className={'mrg-15'}>
+                                        <span className={'card-heading'}>Phone Number:</span>  {CommonService.formatPhoneNumber(item?.phone)}
                                     </div>
                                 </div>
                             })

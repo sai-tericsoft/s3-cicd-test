@@ -1,8 +1,8 @@
 import "./ClientBasicDetailsFormComponent.scss";
 import * as Yup from "yup";
-import React, {useCallback, useEffect, useState} from "react";
+import React, {useCallback, useEffect, useRef, useState} from "react";
 import _ from "lodash";
-import {Field, FieldArray, FieldProps, Form, Formik, FormikHelpers} from "formik";
+import {Field, FieldArray, FieldProps, Form, Formik, FormikHelpers, FormikProps} from "formik";
 import {CommonService} from "../../../shared/services";
 import {IAPIResponseType} from "../../../shared/models/api.model";
 import {ImageConfig, Patterns} from "../../../constants";
@@ -240,6 +240,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
     const [isClientBasicDetailsSavingInProgress, setIsClientBasicDetailsSavingInProgress] = useState<boolean>(false);
     const dispatch = useDispatch();
 
+    const formikRef = useRef<FormikProps<any>>(null);
     const {
         clientBasicDetails,
         isClientBasicDetailsLoaded,
@@ -260,7 +261,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
             ...CommonService.removeKeysFromJSON(_.cloneDeep(values), ['language_details', 'phone_type_details', 'relationship_details', 'gender_details', 'employment_status_details']),
             mode
         };
-        payload['dob'] = CommonService.convertDateFormat(payload['dob']);
+        // payload['dob'] = CommonService.convertDateFormat(payload['dob']);
         if (payload.show_secondary_emergency_form === false) {
             payload.emergency_contact_info.secondary_emergency = undefined;
         }
@@ -332,7 +333,10 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
             if (!clientBasicDetails?.primary_contact_info) {
                 clientBasicDetails.primary_contact_info = PhoneObj;
             }
-            setClientBasicDetailsFormInitialValues(clientBasicDetails);
+            setClientBasicDetailsFormInitialValues(clientBasicDetails);//TODO: Will fix this later
+            setTimeout(() => {
+                formikRef.current?.validateForm(clientBasicDetails);
+            }, 100);
         }
     }, [clientBasicDetails])
 
@@ -363,14 +367,17 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                 }
             </>
             {
-                ((mode === "edit" && isClientBasicDetailsLoaded && clientBasicDetails) || mode === "add") && <> <Formik
+                ((mode === "edit" && isClientBasicDetailsLoaded && clientBasicDetails) || mode === "add") && <>
+                    <Formik
                     validationSchema={ClientBasicDetailsFormValidationSchema}
                     initialValues={clientBasicDetailsFormInitialValues}
                     onSubmit={onSubmit}
-                    validateOnChange={false}
+                    innerRef={formikRef}
                     validateOnBlur={true}
+                    validateOnChange={true}
                     enableReinitialize={true}
-                    validateOnMount={true}>
+                    validateOnMount={true}
+                    >
                     {({values, touched, errors, setFieldValue, validateForm, isValid}) => {
                         // eslint-disable-next-line react-hooks/rules-of-hooks
                         useEffect(() => {
@@ -1389,7 +1396,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                 </CardComponent>
                                 <div className="t-form-actions">
                                     <LinkComponent className={'text-decoration-none'}
-                                                   route={CommonService._routeConfig.ClientList()}>
+                                                   route={clientId && CommonService._routeConfig.ClientProfileDetails(clientId)}>
                                         <ButtonComponent
                                             id={"cancel_btn"}
                                             variant={"outlined"}

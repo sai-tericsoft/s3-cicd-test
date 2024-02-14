@@ -67,7 +67,7 @@ const ICDTableColumns: any = [
         title: 'Description',
         dataIndex: 'description',
         key: 'description',
-        width:900
+        width: 900
 
     }
 ]
@@ -151,7 +151,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                         item?.config?.comments ?
                             <ToolTipComponent tooltip={item?.config?.comments}>
                                 <div
-                                    className={'comment-text'}>{item?.config?.comments?.length > 80  ? CommonService.capitalizeFirstLetter(item?.config?.comments?.substring(0, 80 ) + '...') : item?.config?.comments}
+                                    className={'comment-text'}>{item?.config?.comments?.length > 80 ? CommonService.capitalizeFirstLetter(item?.config?.comments?.substring(0, 80) + '...') : item?.config?.comments}
                                 </div>
                             </ToolTipComponent> : '-'
                     }
@@ -242,7 +242,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                 {item?.config?.comments ?
                                     <ToolTipComponent tooltip={item?.config?.comments}>
                                         <div
-                                            className={'comment-text'}>{item?.config?.comments?.length> 80  ? CommonService.capitalizeFirstLetter(item?.config?.comments?.substring(0, 80 ) + '...') : item?.config?.comments}
+                                            className={'comment-text'}>{item?.config?.comments?.length > 80 ? CommonService.capitalizeFirstLetter(item?.config?.comments?.substring(0, 80) + '...') : item?.config?.comments}
                                         </div>
                                     </ToolTipComponent> : '-'}
                             </>
@@ -319,6 +319,13 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
         }
     }, [medicalInterventionDetails?.can_edit, navigate, medicalRecordId, medicalInterventionId]);
 
+    const handleViewExerciseLog = useCallback(() => {
+        if (medicalRecordId) {
+            navigate(CommonService._routeConfig.MedicalInterventionExerciseLogView(medicalRecordId, medicalInterventionDetails?._id))
+        }
+    }, [navigate,medicalInterventionDetails?._id, medicalRecordId])
+
+    console.log('medicalInterventionDetails', medicalInterventionDetails);
 
     return (
         <div className={'add-medical-intervention-screen'}>
@@ -373,10 +380,17 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                                    className={"mrg-0 font-size-20"}/>
 
                                         <div className={'d-flex'}>
-
+                                            {(medicalRecordId && medicalInterventionDetails?.is_exercise_log_added) &&
+                                                <ButtonComponent onClick={handleViewExerciseLog} variant={'outlined'}
+                                                                 className={'mrg-right-10'}
+                                                                 prefixIcon={<ImageConfig.EyeIcon/>}>
+                                                    View Exercise Log
+                                                </ButtonComponent>
+                                            }
                                             {/*<FilesUneditableMiddlewareComponent*/}
                                             {/*    timeStamp={medicalInterventionDetails?.completed_date}>*/}
                                             <ButtonComponent onClick={handleEditSoapNote}
+                                                             variant={'outlined'}
                                                              className={'mrg-right-10'}
                                                              prefixIcon={<ImageConfig.EditIcon/>}>Edit SOAP
                                                 Note</ButtonComponent>
@@ -948,7 +962,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                             {/*}*/}
                                                             {/*{*/}
 
-                                                            {medicalInterventionDetails?.linked_icd_codes?.length === 0 &&
+                                                            {(medicalInterventionDetails?.linked_icd_codes ===undefined || medicalInterventionDetails?.linked_icd_codes?.length === 0) &&
                                                                 <div className={'display-flex rom-icd-not-tested-block'}>
                                                                     <FormControlLabelComponent
                                                                         size={'sm'}

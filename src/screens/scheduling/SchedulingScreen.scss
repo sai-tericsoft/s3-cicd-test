@@ -92,7 +92,7 @@
         }
 
         .table-no-data-wrapper {
-          min-height: 360px !important;
+          min-height: 345px !important;
         }
       }
 
@@ -175,6 +175,7 @@
         .scheduling-filter-header-action-item {
           margin-left: 10px;
           flex: 1;
+          width: 200px !important;
 
           .MuiPaper-root-MuiMenu-paper-MuiPaper-root-MuiPopover-paper {
             height: 150px !important;
@@ -417,6 +418,7 @@
                 display: flex;
                 overflow: hidden;
                 flex: 1;
+                background-color: #FFFFFF;
                 position: relative;
                 box-shadow: 0 0 6px #FAFAFA;
 

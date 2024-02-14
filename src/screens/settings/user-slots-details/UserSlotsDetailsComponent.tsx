@@ -117,149 +117,132 @@ const UserSlotsDetailsComponent = (props: UserSlotsDetailsComponentProps) => {
                             <>
 
                                 {isUserSlotsLoaded &&
-                                    <>
-                                        {((userSlots && userSlots?.all_scheduled_slots?.length) || (userSlots?.day_scheduled_slots?.length)) &&
-                                            <>
-                                                <CardComponent title={'Available Hours and Service'}
-                                                               actions={<LinkComponent
-                                                                   route={path.includes('settings') ? CommonService._user.NavigateToSettingsSlotsEdit(userBasicDetails._id, currentTab) : CommonService._user.NavigateToUserSlotsEdit(userBasicDetails._id, currentTab)}>
-                                                                   <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>}
-                                                                                    size={"small"}>
-                                                                       Edit
-                                                                   </ButtonComponent>
-                                                               </LinkComponent>
-                                                               }>
+                                    <CardComponent title={'Available Hours and Service'} actions={<LinkComponent
+                                        route={path.includes('settings') ? CommonService._user.NavigateToSettingsSlotsEdit(userBasicDetails._id, currentTab) : CommonService._user.NavigateToUserSlotsEdit(userBasicDetails._id, currentTab)}>
+                                        <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>} size={"small"}>
+                                            Edit
+                                        </ButtonComponent>
+                                    </LinkComponent>
+                                    }>
 
-                                                    <>
-
-                                                        {/*{userSlots.is_same_slots &&*/}
-                                                        {/*    <div className='same-for-all-details-title'>Same for all days</div>}*/}
-                                                        <div className='slots-timings-table-view-wrapper'>
-                                                            {userSlots.is_same_slots && <>
-                                                                <div className={'ts-row slot-header'}>
-                                                                    <div className={'ts-col-2 mrg-top-15 mrg-left-20'}>
-                                                                        Day
-                                                                    </div>
-                                                                    <div className={'ts-col-3 mrg-top-15 mrg-left-25'}>
-                                                                        Time Slot
-                                                                    </div>
-                                                                    <div className={'mrg-top-15'}>
-                                                                        Service
-                                                                    </div>
-                                                                </div>
-
-                                                                {
-                                                                    facility?.timings?.map((day: any) => {
-                                                                        return (
-                                                                            <>
-                                                                                <div
-                                                                                    className='ts-row slots-timings-row-wrapper'
-                                                                                    key={`row-${day}`}>
-                                                                                    <div
-                                                                                        className={'ts-col-2 mrg-top-10 mrg-bottom-10 pdd-left-20'}>
-                                                                                        {day.day_name}
-                                                                                    </div>
-                                                                                    <div className="ts-col-10">
-                                                                                        {
-                                                                                            userSlots?.all_scheduled_slots?.map((filteredSlot: any, index: number) => (
-                                                                                                <div
-                                                                                                    className='ts-row slots-timings-sub-row-wrapper'
-                                                                                                    key={`slot-${day}-${index}`}>
-                                                                                                    <div
-                                                                                                        className='ts-col-3 mrg-left-15 mrg-top-10'>
-                                                                                                        {CommonService.getHoursAndMinutesFromMinutes(filteredSlot.start_time)} - {CommonService.getHoursAndMinutesFromMinutes(filteredSlot.end_time)}
-                                                                                                    </div>
-                                                                                                    <div
-                                                                                                        className='ts-col-5 mrg-left-50 mrg-top-10'>
-                                                                                                        {filteredSlot?.service_details?.name}
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                            ))
-                                                                                        }
-                                                                                    </div>
-                                                                                </div>
-                                                                                <HorizontalLineComponent
-                                                                                    key={`line-${day}`}/>
-                                                                            </>
-                                                                        );
-                                                                    })
-                                                                }
-
-
-                                                            </>
-
-                                                            }
-                                                            {!userSlots.is_same_slots &&
-                                                                <>
-                                                                    <div className={'ts-row slot-header'}>
-                                                                        <div
-                                                                            className={'ts-col-3 mrg-top-15 mrg-left-15'}>
-                                                                            Day
-                                                                        </div>
-                                                                        <div className={'ts-col-3 mrg-top-15'}>
-                                                                            Time Slot
-                                                                        </div>
-                                                                        <div className={'mrg-top-15'}>
-                                                                            Service
-                                                                        </div>
-                                                                    </div>
-                                                                    {
-                                                                        userSlots?.day_scheduled_slots?.length && userSlots.day_scheduled_slots.map((slot: any, index: number) => {
-                                                                            return (
-                                                                                <div
-                                                                                    className='ts-row slots-timings-row-wrapper'>
-                                                                                    <div
-                                                                                        className="ts-col-2 pdd-left-20">{slot.day_name}</div>
-
-                                                                                    <div className="ts-col-10">
-                                                                                        <>
-                                                                                            {slot.slot_timings.length &&
-                                                                                                slot.slot_timings.map((slot_timing: any, index: number) => {
-                                                                                                    console.log('slot', slot_timing);
-                                                                                                    return (<div
-                                                                                                        className='ts-row slots-timings-sub-row-wrapper'>
-                                                                                                        <div
-                                                                                                            className='ts-col-3 mrg-left-55 '>
-                                                                                                            {CommonService.getHoursAndMinutesFromMinutes(slot_timing.start_time)} - {CommonService.getHoursAndMinutesFromMinutes(slot_timing.end_time)}
-                                                                                                        </div>
-                                                                                                        <div
-                                                                                                            className='ts-col-5 mrg-left-55'>{slot_timing?.service_details?.name}</div>
-                                                                                                    </div>)
-                                                                                                })}
-                                                                                        </>
-
-                                                                                    </div>
-                                                                                    {index !== userSlots.day_scheduled_slots?.length - 1 &&
-                                                                                        <HorizontalLineComponent
-                                                                                            className={'divider'}/>
-                                                                                    }
-
-                                                                                </div>
-                                                                            )
-
-                                                                        })
-
-                                                                    }
-
-                                                                </>
-                                                            }
-
+                                        <>
+                                            {/*{userSlots.is_same_slots &&*/}
+                                            {/*    <div className='same-for-all-details-title'>Same for all days</div>}*/}
+                                            <div className='slots-timings-table-view-wrapper'>
+                                                {userSlots.is_same_slots && <>
+                                                    <div className={'ts-row slot-header'}>
+                                                        <div className={'ts-col-2 mrg-top-15 mrg-left-20'}>
+                                                            Day
                                                         </div>
-                                                    </>
-                                                </CardComponent>
-                                            </>
-                                        }
+                                                        <div className={'ts-col-3 mrg-top-15 mrg-left-25'}>
+                                                            Time Slot
+                                                        </div>
+                                                        <div className={'mrg-top-15'}>
+                                                            Service
+                                                        </div>
+                                                    </div>
 
-                                        {(userSlots && !userSlots?.all_scheduled_slots?.length && !userSlots?.day_scheduled_slots?.length) &&
-                                            <div className={'no-slots-wrapper'}>
-                                                <CardComponent title={'Available Hours & Services'}>
+                                                    {
+                                                        facility?.timings?.map((day: any) => {
+                                                            return (
+                                                                <>
+                                                                    <div className='ts-row slots-timings-row-wrapper'
+                                                                         key={`row-${day}`}>
+                                                                        <div
+                                                                            className={'ts-col-2 mrg-top-10 mrg-bottom-10'}>
+                                                                            {day.day_name}
+                                                                        </div>
+                                                                        <div className="ts-col-10">
+                                                                            {
+                                                                                userSlots?.all_scheduled_slots?.map((filteredSlot: any, index: number) => (
+                                                                                    <div
+                                                                                        className='ts-row slots-timings-sub-row-wrapper'
+                                                                                        key={`slot-${day}-${index}`}>
+                                                                                        <div
+                                                                                            className='ts-col-3 mrg-left-15 mrg-top-10'>
+                                                                                            {CommonService.getHoursAndMinutesFromMinutes(filteredSlot.start_time)} - {CommonService.getHoursAndMinutesFromMinutes(filteredSlot.end_time)}
+                                                                                        </div>
+                                                                                        <div
+                                                                                            className='ts-col-5 mrg-left-50 mrg-top-10'>
+                                                                                            {filteredSlot?.service_details?.name}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                ))
+                                                                            }
+                                                                        </div>
+                                                                    </div>
+                                                                    <HorizontalLineComponent key={`line-${day}`}/>
+                                                                </>
+                                                            );
+                                                        })
+                                                    }
+
+
+                                                </>
+
+                                                }
+                                                {!userSlots.is_same_slots &&
+                                                    <>
+                                                        <div className={'ts-row slot-header'}>
+                                                            <div className={'ts-col-3 mrg-top-15 mrg-left-15'}>
+                                                                Day
+                                                            </div>
+                                                            <div className={'ts-col-3 mrg-top-15'}>
+                                                                Time Slot
+                                                            </div>
+                                                            <div className={'mrg-top-15'}>
+                                                                Service
+                                                            </div>
+                                                        </div>
+                                                        {
+                                                            userSlots?.day_scheduled_slots?.length && userSlots.day_scheduled_slots.map((slot: any, index: number) => {
+                                                                return (
+                                                                    <div className='ts-row slots-timings-row-wrapper'>
+                                                                        <div className="ts-col-2">{slot.day_name}</div>
+
+                                                                        <div className="ts-col-10">
+                                                                            <>
+                                                                                {slot.slot_timings.length &&
+                                                                                    slot.slot_timings.map((slot_timing: any, index: number) => {
+                                                                                        return (<div
+                                                                                            className='ts-row slots-timings-sub-row-wrapper'>
+                                                                                            <div
+                                                                                                className='ts-col-3 mrg-left-55 '>
+                                                                                                {CommonService.getHoursAndMinutesFromMinutes(slot_timing.start_time)} - {CommonService.getHoursAndMinutesFromMinutes(slot_timing.end_time)}
+                                                                                            </div>
+                                                                                            <div
+                                                                                                className='ts-col-5 mrg-left-55'>{slot_timing?.service_details?.name}</div>
+                                                                                        </div>)
+                                                                                    })}
+                                                                            </>
+
+                                                                        </div>
+                                                                        {/*{index !== userSlots.day_scheduled_slots?.length - 1 &&*/}
+                                                                        <HorizontalLineComponent className={'divider'}/>
+                                                                        {/*}*/}
+
+                                                                    </div>
+                                                                )
+
+                                                            })
+
+                                                        }
+
+                                                    </>
+                                                }
+
+                                                {(userSlots && !userSlots?.all_scheduled_slots?.length && !userSlots?.day_scheduled_slots?.length) && <>
                                                     <StatusCardComponent
                                                         title={'No Service have been designated for this facility.'}/>
-                                                </CardComponent>
-                                            </div>
-                                        }
+                                                </>
 
-                                    </>
+                                                }
+
+                                            </div>
+                                        </>
+
+
+                                    </CardComponent>
                                 }
                             </>
                         </TabContentComponent>

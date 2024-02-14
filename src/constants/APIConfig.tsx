@@ -121,7 +121,7 @@ const APIConfig: IAPIConfig = {
         METHOD: "get"
     },
     LOGOUT: {
-        URL: ENV.API_URL + "/login",
+        URL: ENV.API_URL + "/logout",
         METHOD: "delete"
     },
     VERIFY_PASSWORD: {
@@ -179,8 +179,8 @@ const APIConfig: IAPIConfig = {
         METHOD: "get"
     },
     SERVICE_PROVIDER_UNLINK: {
-        URL: (serviceId: string, providerId: string) => ENV.API_URL + '/service/' + serviceId + "/unlink/" + providerId,
-        METHOD: "delete"
+        URL: (serviceId: string, providerId: string) => ENV.API_URL + '/service/' + serviceId + '/provider/' + providerId + '/unlink',
+        METHOD: "put"
     },
     SERVICE_PROVIDER_LINK: {
         URL: (serviceId: string) => ENV.API_URL + '/service/' + serviceId + "/link",
@@ -235,7 +235,7 @@ const APIConfig: IAPIConfig = {
         METHOD: "put"
     },
     CLIENT_LIST_LITE: {
-        URL: ENV.API_URL + "/client/lite",
+        URL: ENV.API_URL + "/client/lite?is_active=true",
         METHOD: "get"
     },
     CLIENT_BASIC_DETAILS_ADD: {
@@ -296,7 +296,7 @@ const APIConfig: IAPIConfig = {
     },
     CLIENT_ACTIVITY_LOG: {
         URL: (clientId: string) => ENV.API_URL + '/client/' + clientId + '/activityLog',
-        METHOD: 'get'
+        METHOD: 'post'
     },
     ICD_CODE_LIST: {
         URL: ENV.API_URL + "/icdCodes",
@@ -578,7 +578,7 @@ const APIConfig: IAPIConfig = {
     },
     GET_MEDICAL_RECORD_ACTIVITY_LOGS: {
         URL: (medicalRecordId: string) => ENV.API_URL + '/medicalRecord/' + medicalRecordId + '/activityLog',
-        METHOD: 'get'
+        METHOD: 'post'
     },
     // chart notes end
     CASE_STATUS_LIST: {
@@ -734,6 +734,14 @@ const APIConfig: IAPIConfig = {
     },
     GET_INVENTORY_PRODUCT_LIST: {
         URL: ENV.API_URL + '/product/lite',
+        METHOD: 'get'
+    },
+    GET_PRODUCT_STOCK_INCOMING_LIST: {
+        URL: (productId: string) => ENV.API_URL + '/product/' + productId + '/stockIncomingList',
+        METHOD: 'get'
+    },
+    GET_PRODUCT_STOCK_OUTGOING_LIST: {
+        URL: (productId: string) => ENV.API_URL + '/product/' + productId + '/stockOutgoingList',
         METHOD: 'get'
     },
     UPDATE_INVENTORY_PRODUCT_QUANTITY: {
@@ -914,7 +922,7 @@ const APIConfig: IAPIConfig = {
         METHOD: 'delete'
     },
     DASHBOARD_MESSAGE_HISTORY: {
-        URL: ENV.API_URL + '/messageHistory',
+        URL: (is_complete_history: boolean) => ENV.API_URL + `/messageHistory?is_complete_history=${is_complete_history}`,
         METHOD: 'get'
     },
     DASHBOARD_DRAFT_NOTE_LIST: {
@@ -1099,6 +1107,18 @@ const APIConfig: IAPIConfig = {
     DELETE_PROGRESS_REPORT: {
         URL: (progressReportId: string) => ENV.API_URL + '/progressReport/' + progressReportId,
         METHOD: "delete"
+    },
+    PRINT_INJURY_CONDITION_FORM: {
+        URL: (medicalRecordId: string) => ENV.API_URL + '/medicalRecord/' + medicalRecordId + '/injuryMainPage/generatePDF',
+        METHOD: "post"
+    },
+    CHECK_COUPON_AVAILABILITY: {
+        URL: ENV.API_URL + '/checkCouponValidity',
+        METHOD: "post"
+    },
+    PRINT_SOAP_NOTE: {
+        URL: (interventionId: string) => ENV.API_URL + '/intervention/' + interventionId + '/generatePDF',
+        METHOD: "post"
     }
 }
 

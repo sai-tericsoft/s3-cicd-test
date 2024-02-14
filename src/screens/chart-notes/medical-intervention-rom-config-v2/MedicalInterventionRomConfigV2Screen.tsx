@@ -2,7 +2,7 @@ import "./MedicalInterventionRomConfigV2Screen.scss";
 import PageHeaderComponent from "../../../shared/components/page-header/PageHeaderComponent";
 import MedicalRecordBasicDetailsCardComponent
     from "../medical-record-basic-details-card/MedicalRecordBasicDetailsCardComponent";
-import React, {useCallback, useEffect, useState} from "react";
+import React, {useCallback, useEffect, useRef, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
 import {useNavigate, useParams, useSearchParams} from "react-router-dom";
@@ -11,7 +11,7 @@ import {IBodyPart, IBodyPartROMConfig} from "../../../shared/models/static-data.
 import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import {ImageConfig} from "../../../constants";
-import {Field, FieldProps, Form, Formik, FormikHelpers} from "formik";
+import {Field, FieldProps, Form, Formik, FormikHelpers, FormikProps} from "formik";
 import TableComponent from "../../../shared/components/table/TableComponent";
 import CardComponent from "../../../shared/components/card/CardComponent";
 import {CommonService} from "../../../shared/services";
@@ -55,6 +55,8 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
     const last_position: any = searchParams.get("last_position");
+    const formRef = useRef<FormikProps<any>>(null);
+
 
     const generateRomConfigForBodySide = useCallback((bodyPart: any, side: string) => {
         return {
@@ -346,8 +348,7 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
     useEffect(() => {
         const romConfig: any = [];
         const rom_config = medicalInterventionDetails?.rom_config;
-        // const injury_details = medicalInterventionDetails?.medical_record_details?.injury_details;
-        // if (romConfig?.length > 0) {
+        const injury_details = medicalInterventionDetails?.medical_record_details?.injury_details;
         rom_config?.forEach((injury: any) => {
             if (!romConfig?.find((item: any) => item?.body_part?._id === injury?.body_part_id)) {
                 romConfig.push({
@@ -359,6 +360,22 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
             } else {
                 const bodyPartIndex = romConfig.findIndex((item: any) => item?.body_part?._id === injury?.body_part_id);
                 romConfig[bodyPartIndex].selected_sides.push(injury.body_side);
+            }
+        });
+        injury_details?.forEach((injury: any) => {
+            const injuryBodyPart = bodyPartList?.find((bodyPart: any) => bodyPart?._id === injury?.body_part_id);
+            if (injuryBodyPart && injuryBodyPart?.rom_applicable_sides?.includes(injury?.body_side)) {
+                if (!romConfig?.find((item: any) => item?.body_part?._id === injury?.body_part_id)) {
+                    romConfig.push({
+                        body_part: injury?.body_part_details,
+                        rom_config: [],
+                        selected_sides: [injury?.body_side],
+                        mode: 'write'
+                    });
+                } else {
+                    const bodyPartIndex = romConfig.findIndex((item: any) => item?.body_part?._id === injury?.body_part_id);
+                    romConfig[bodyPartIndex].selected_sides.push(injury?.body_side);
+                }
             }
         });
         // }
@@ -379,7 +396,7 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
         // }
         setGlobalRomConfig(romConfig);
         buildRomConfig(romConfig);
-    }, [medicalInterventionDetails, buildRomConfig]);
+    }, [medicalInterventionDetails, buildRomConfig, bodyPartList]);
 
     const handleROMConfigSave = useCallback((values: any, {setSubmitting}: FormikHelpers<any>) => {
         if (medicalInterventionId) {
@@ -425,7 +442,7 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
             CommonService._chartNotes.SaveMedicalInterventionROMConfigAPICall(medicalInterventionId, {config})
                 .then((response: any) => {
                     // CommonService._alert.showToast(response.message || 'Saved ROM information', 'success');
-                    // (medicalRecordId && medicalInterventionId) && navigate(CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, medicalInterventionId) + `?last_position=${last_position}`);
+                    (medicalRecordId && medicalInterventionId) && navigate(CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, medicalInterventionId) + `?last_position=${last_position}`);
                 })
                 .catch((error: any) => {
                     CommonService.handleErrors(error.error || error.errors || 'Error saving ROM configuration', 'error');
@@ -435,7 +452,7 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
         } else {
             CommonService._alert.showToast('Please select a medical intervention', 'error');
         }
-    }, [medicalInterventionId]);
+    }, [medicalInterventionId,last_position, medicalRecordId, navigate]);
 
     const handleBodyPartDelete = useCallback((bodyPartId: string) => {
         if (medicalInterventionId) {
@@ -549,6 +566,82 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
         closeBodySideSelectionModal();
     }, [closeBodySideSelectionModal]);
 
+    const [currentRow, setCurrentRow] = React.useState(0);
+    const [currentColumn, setCurrentColumn] = React.useState(0);
+    const inputRef = useRef<HTMLInputElement | null>(null);
+    const [rowsAndColumnsArray, setRowsAndColumnsArray] = useState<{ rows: number; columns: number }[]>([]);
+    const [tableIndex, setTableIndex] = useState<number>(0);
+    const columnsStartIndex = 0;
+
+
+    useEffect(() => {
+        const calculatedArray = Object.values(romFormValues).map((bodyPart: any) => ({
+            rows: bodyPart?.movements?.length || 0,
+            columns: (bodyPart?.selected_sides?.length * 3) + 1 || 0,
+        }));
+        setRowsAndColumnsArray(calculatedArray);
+    }, [romFormValues]);
+
+    useEffect(() => {
+        const actualColumn = currentColumn + columnsStartIndex;
+        const cellId = `row-${currentRow}-column-${actualColumn}-table-index-${tableIndex}`;
+
+        const cell = document.getElementById(cellId);
+        const inputField = cell?.querySelector('input');
+
+        if (inputField) {
+            inputRef.current = inputField as HTMLInputElement;
+            inputRef.current.focus();
+        }
+    }, [currentRow, currentColumn, tableIndex]);
+
+    const handleKeyDown = useCallback((tableIndex: number, event: any) => {
+
+        const bodyPartInfo = rowsAndColumnsArray[tableIndex] || {rows: 0, columns: 0};
+        const rows = bodyPartInfo.rows;
+        const columns = bodyPartInfo.columns;
+
+        switch (event.key) {
+            case 'ArrowUp':
+                if (currentRow > 0) {
+                    setCurrentRow(currentRow - 1);
+                }
+                break;
+            case 'ArrowDown':
+                if (currentRow < rows - 1) {
+                    setCurrentRow(currentRow + 1);
+                }
+                break;
+            case 'ArrowLeft':
+                if (currentColumn > 0) {
+                    setCurrentColumn(currentColumn - 1);
+                } else if (currentColumn === 0 && currentRow > 0) {
+                    setCurrentColumn(columns - 1);
+                    setCurrentRow(currentRow - 1);
+                }
+                break;
+            case 'ArrowRight':
+                if (currentColumn < columns - 1) {
+                    setCurrentColumn(currentColumn + 1);
+                } else if (currentColumn === columns - 1 && currentRow < rows - 1) {
+                    setCurrentColumn(0);
+                    setCurrentRow(currentRow + 1);
+                }
+                break;
+            default:
+                break;
+        }
+    }, [currentRow, currentColumn, rowsAndColumnsArray]);
+
+    const handleContainerClick = useCallback((event: React.MouseEvent<HTMLDivElement>, index: any) => {
+        const clickedRowIndex = Number(event.currentTarget.getAttribute('data-row'));
+        const clickedColumnIndex = Number(event.currentTarget.getAttribute('data-column'));
+
+        setCurrentRow(clickedRowIndex);
+        setCurrentColumn(clickedColumnIndex);
+        setTableIndex(index);
+    }, []);
+
     return (
         <div className={'medical-intervention-rom-config-v2-screen'}>
             <PageHeaderComponent title={'Range of Motion and Strength'}/>
@@ -580,6 +673,7 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
                                     initialValues={romFormValues}
                                     enableReinitialize={true}
                                     onSubmit={handleROMConfigSave}
+                                    innerRef={formRef}
                                 >
                                     {(formik) => {
                                         const {validateForm, values, isValid, setFieldValue, isSubmitting} = formik;
@@ -593,7 +687,7 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
                                                 {/*<FormDebuggerComponent form={formik}/>*/}
                                                 <div>
                                                     {
-                                                        Object.keys(values)?.map((bodyPartId: any) => {
+                                                        Object.keys(values)?.map((bodyPartId: any, index: number) => {
                                                             const bodyPart = values[bodyPartId];
                                                             return (
                                                                 <div className={'body-part-rom-config-card-wrapper'}>
@@ -665,6 +759,12 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
                                                                                             <div
                                                                                                 className={'rom-config-table-container'}>
                                                                                                 <TableComponent
+                                                                                                    onKeyDown={handleKeyDown.bind(null, tableIndex)}
+                                                                                                    tabIndex={0}
+                                                                                                    data-row={index}
+                                                                                                    data-column={index}
+                                                                                                    tableIndex={index}
+                                                                                                    onClick={(event) => handleContainerClick(event, index)}
                                                                                                     data={bodyPart?.movements || []}
                                                                                                     bordered={true}
                                                                                                     canExpandRow={() => true}

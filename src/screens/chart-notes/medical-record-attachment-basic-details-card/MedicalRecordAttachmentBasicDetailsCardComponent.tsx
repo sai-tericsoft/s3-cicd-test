@@ -48,7 +48,7 @@ const MedicalRecordAttachmentBasicDetailsCardComponent = (props: MedicalRecordAt
         isDocumentShared,
         onRemoveAccess,
         medicalRecordDocumentId,
-        noteTypeCategory
+        noteTypeCategory,
     } = props;
 
     const [tempAttachmentDetails] = React.useState<any>(attachmentDetails);
@@ -80,21 +80,21 @@ const MedicalRecordAttachmentBasicDetailsCardComponent = (props: MedicalRecordAt
         //     }
         // })
         CommonService.onConfirm({
-            image:ImageConfig.PopupLottie,
-            showLottie:true,
+            image: ImageConfig.PopupLottie,
+            showLottie: true,
             confirmationTitle: "REMOVE ACCESS",
             confirmationSubTitle: "Are you sure you want to remove access for this shared document?",
         })
-        .then((res: any) => {
-            onRemoveAccess(item);
-        })
+            .then((res: any) => {
+                onRemoveAccess(item);
+            })
     }, [onRemoveAccess]);
 
     const handlePrint = useCallback(() => {
 
         if (medicalRecordDocumentId) {
             const payload = {
-                note_type_category:noteTypeCategory,
+                note_type_category: noteTypeCategory,
                 timezone: momentTimezone.tz.guess(),
             }
             CommonService._chartNotes.PrintDocument(medicalRecordDetails?._id, medicalRecordDocumentId, payload)
@@ -111,7 +111,7 @@ const MedicalRecordAttachmentBasicDetailsCardComponent = (props: MedicalRecordAt
                     console.log(err);
                 });
         }
-}, [medicalRecordDetails?._id, medicalRecordDocumentId,noteTypeCategory]);
+    }, [medicalRecordDetails?._id, medicalRecordDocumentId, noteTypeCategory]);
 
     return (
         <div className={"medical-record-attachment-basic-details-card-component"}>
@@ -127,7 +127,8 @@ const MedicalRecordAttachmentBasicDetailsCardComponent = (props: MedicalRecordAt
                 isShared &&
                 <div className={"medical-record-attachment-remove-access-wrapper"}>
                     <div className={"medical-record-attachment-data-wrapper"}>
-                        This file was shared to the client on <b>{tempAttachmentDetails?.shared_at ? moment(tempAttachmentDetails.shared_at).tz(moment.tz.guess()).format('DD-MMM-YYYY') : 'N/A'}</b>.
+                        This file was shared to the client
+                        on <b>{tempAttachmentDetails?.shared_at ? CommonService.transformTimeStamp(tempAttachmentDetails?.shared_at) : 'N/A'}</b>.
                     </div>
                     <LinkComponent className={'remove-access'}
                         onClick={() => {

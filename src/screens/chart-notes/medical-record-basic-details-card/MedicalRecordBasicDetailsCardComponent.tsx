@@ -32,6 +32,7 @@ import FormikTextAreaComponent from "../../../shared/components/form-controls/fo
 import LottieFileGenerationComponent
     from "../../../shared/components/lottie-file-generation/LottieFileGenerationComponent";
 import commonService from "../../../shared/services/common.service";
+import momentTimezone from "moment-timezone";
 
 const MedicalInterventionFormInitialValues: any = {
     intervention_date: new Date(),
@@ -70,7 +71,7 @@ const NotifyAdminInitialValues: any = {
 
 const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardComponentProps) => {
 
-    const {showAction,onMedicalRecordDataLoad, setRefreshToken, onEditCompleteAction} = props;
+    const {showAction, onMedicalRecordDataLoad, setRefreshToken, onEditCompleteAction} = props;
     const {medicalRecordId} = useParams();
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -233,6 +234,28 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
         }
     }, [medicalRecordId, dispatch]);
 
+    const handleInjuryConditionPrint = useCallback(() => {
+
+        if (medicalRecordId) {
+            const payload = {
+                timezone: momentTimezone.tz.guess(),
+            }
+            CommonService._chartNotes.PrintInjuryConditionForm(medicalRecordId, payload)
+                .then((res: any) => {
+                    const attachment = {
+                        type: 'application/pdf',
+                        url: res.data.url,
+                        name: 'injury condition',
+                        key: ''
+                    };
+                    CommonService.printAttachment(attachment);
+                })
+                .catch((err: any) => {
+                    console.log(err);
+                });
+        }
+    }, [medicalRecordId]);
+
     useEffect(() => {
         if (medicalRecordId) {
             if (clientMedicalRecord?.status_details?.code === "open") {
@@ -258,6 +281,7 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
                     <ListItem onClick={handleNotifyAdminModalOpen}>
                         Notify Admin
                     </ListItem>,
+                    <ListItem onClick={handleInjuryConditionPrint}>Print Injury Form</ListItem>,
 
                     <ListItem onClick={openMedicalRecordStatsModal}>
                         View Case Statistics
@@ -295,10 +319,10 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
                 ]);
             }
         }
-    }, [clientMedicalRecord, medicalRecordId, handleMedicalRecordReOpen, openAddSurgeryRecord, addProgressRecord, openTransferMedicalRecordDrawer, handleNotifyAdmin, openMedicalRecordStatsModal, openMedicalRecordDocumentAddDrawer, handleDischargeCase, handleNotifyAdminModalOpen]);
+    }, [clientMedicalRecord, medicalRecordId,handleInjuryConditionPrint, handleMedicalRecordReOpen, openAddSurgeryRecord, addProgressRecord, openTransferMedicalRecordDrawer, handleNotifyAdmin, openMedicalRecordStatsModal, openMedicalRecordDocumentAddDrawer, handleDischargeCase, handleNotifyAdminModalOpen]);
 
     useEffect(() => {
-        if(onMedicalRecordDataLoad && clientMedicalRecord){
+        if (onMedicalRecordDataLoad && clientMedicalRecord) {
             onMedicalRecordDataLoad(clientMedicalRecord);
         }
     }, [onMedicalRecordDataLoad, clientMedicalRecord]);

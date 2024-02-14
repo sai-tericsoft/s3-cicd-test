@@ -23,8 +23,8 @@ const defaultFooterNote: any = {
     footer_note_second_line: '',
 }
 const FooterNoteValidationSchema = Yup.object().shape({
-    footer_note: Yup.string().max(90, ' '),
-    footer_note_second_line: Yup.string().max(90, ' '),
+    footer_note: Yup.string().max(120, ' '),
+    footer_note_second_line: Yup.string().max(120, ' '),
 });
 
 const FooterNoteComponent = (props: FooterNoteComponentProps) => {
@@ -36,7 +36,6 @@ const FooterNoteComponent = (props: FooterNoteComponentProps) => {
     const {
         billingSettings,
     } = useSelector((state: IRootReducerState) => state.billings);
-    console.log('billingSettings', billingSettings);
 
 
     useEffect(() => {
@@ -66,7 +65,11 @@ const FooterNoteComponent = (props: FooterNoteComponentProps) => {
     }, [isExpanded]);
 
     useEffect(() => {
-        setFooterNoteInitialValue({footer_note: billingSettings?.footer_note})
+        setFooterNoteInitialValue({
+            footer_note: billingSettings?.footer_note,
+            footer_note_second_line: billingSettings?.footer_note_second_line,
+
+        })
     }, [billingSettings]);
 
     return (
@@ -108,11 +111,11 @@ const FooterNoteComponent = (props: FooterNoteComponentProps) => {
                                             </Field>
                                         </div>
                                         <div className={'ts-col-md-12'}>
-                                            {(values.footer_note?.length) > 90 ?
+                                            {(values.footer_note?.length) > 120 ?
                                                 <div className={'alert-error'}>Characters
-                                                    Limit: {(values?.footer_note?.length)}/90</div> :
+                                                    Limit: {(values?.footer_note?.length)}/120</div> :
                                                 <div className={'no-alert'}>Characters
-                                                    Limit: {(values?.footer_note?.length)}/90</div>}
+                                                    Limit: {(values?.footer_note?.length)}/120</div>}
                                         </div>
                                         <div className={'default-message-box'}>
                                             <FormControlLabelComponent className={'footer-heading'} label={"Footer Line 2"}/>
@@ -130,15 +133,24 @@ const FooterNoteComponent = (props: FooterNoteComponentProps) => {
                                             </Field>
                                         </div>
                                         <div className={'ts-col-md-12'}>
-                                            {(values.footer_note_second_line?.length) > 90 ?
+                                            {(values.footer_note_second_line?.length) > 120 ?
                                                 <div className={'alert-error'}>Characters
-                                                    Limit: {(values?.footer_note_second_line?.length)}/90</div> :
+                                                    Limit: {(values?.footer_note_second_line?.length)}/120</div> :
                                                 <div className={'no-alert'}>Characters
-                                                    Limit: {(values?.footer_note_second_line?.length)}/90</div>}
+                                                    Limit: {(values?.footer_note_second_line?.length)}/120</div>}
                                         </div>
 
 
                                         <div className="t-form-actions mrg-bottom-0">
+                                            <ButtonComponent
+                                                onClick={() => resetForm()}
+                                                variant={'outlined'}
+                                                className={isSaving ? 'mrg-right-10' : ''}
+                                                id={"cancel_btn"}
+                                            >
+                                                Cancel
+                                            </ButtonComponent>
+                                            &nbsp;&nbsp;
                                             <ButtonComponent
                                                 isLoading={isSaving}
                                                 className={'submit-cta mrg-left-15'}

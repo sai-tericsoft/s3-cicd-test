@@ -9,11 +9,17 @@
 
 
   .t-table-wrapper .t-table {
+    height: calc(100vh - 225px) !important;
+
     .t-th, .t-td {
       &:first-child {
         padding-left: 30px;
       }
 
+    }
+
+    .table-no-data-wrapper {
+      min-height: 450px !important;
     }
   }
 

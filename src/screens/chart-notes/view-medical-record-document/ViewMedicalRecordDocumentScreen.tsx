@@ -218,19 +218,20 @@ const ViewMedicalRecordDocumentScreen = (props: ViewMedicalRecordDocumentScreenP
                         .then((response: any) => {
                             CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY] || "Document shared successfully", "success");
                             setIsShared(true)
+                            getMedicalRecordDocumentDetails();
                         }).catch((error: any) => {
                         CommonService._alert.showToast(error?.error || "Error sharing document", "success");
                     })
                 }
             })
-        }, [medicalRecordDocumentId]);
+        }, [medicalRecordDocumentId,getMedicalRecordDocumentDetails]);
 
         const removeAccess = useCallback((item: any) => {
-            CommonService.onConfirm({
-                image: ImageConfig.ConfirmationLottie,
-                showLottie: true,
-                confirmationTitle: "REMOVE ACCESS",
-            }).then(() => {
+            // CommonService.onConfirm({
+            //     image: ImageConfig.ConfirmationLottie,
+            //     showLottie: true,
+            //     confirmationTitle: "REMOVE ACCESS",
+            // }).then(() => {
                 const payload = {
                     is_shared: false
                 }
@@ -242,8 +243,8 @@ const ViewMedicalRecordDocumentScreen = (props: ViewMedicalRecordDocumentScreenP
                     .catch((error: any) => {
                         CommonService._alert.showToast(error.error || "Error removing access", "error");
                     });
-            })
-        }, [])
+            // })
+        }, []);
 
 
         return (

@@ -1,7 +1,7 @@
 import "./MedicalRecordListScreen.scss";
 import {useNavigate, useParams, useSearchParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import React, {useCallback, useEffect, useState} from "react";
+import React, {useCallback, useEffect, useMemo, useState} from "react";
 import {IRootReducerState} from "../../../store/reducers";
 import {getClientBasicDetails,} from "../../../store/actions/client.action";
 import {setCurrentNavParams} from "../../../store/actions/navigation.action";
@@ -25,7 +25,10 @@ interface ClientBasicDetailsComponentProps {
 
 const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
 
-    const MedicalRecordListTableColumns: ITableColumn[] = [
+    const [searchParams] = useSearchParams();
+    const referrer: any = searchParams.get("referrer");
+
+    const MedicalRecordListTableColumns: ITableColumn[] = useMemo<ITableColumn[]>(() => [
         {
             title: '',
             key: 'alert_icon',
@@ -38,13 +41,27 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
                         <ToolTipComponent
                             showArrow={true}
                             position={"right"}
-                            // tooltip={`Within ${item.diff_days} days, this medical record will reach its 90-day deadline date.`}>
-                            tooltip={<div>Within <b> {item.diff_days} days</b>, this medical record will reach its
-                                90-day deadline date.</div>}>
+                            tooltip={<>
+                                {
+                                    (item?.alert_type === 'medium') && <> Within <b> {item.diff_days} days</b>,
+                                        this medical record will reach its
+                                        90-day deadline date.</>
+                                }
+                                {
+                                    (item?.alert_type === 'high' && item?.diff_days < 0) && <>90-day deadline date has
+                                        crossed</>
+                                }
+                                {
+                                    (item?.alert_type === 'high' && item?.diff_days > 0) && <>Within <b> {item.diff_days} days</b>,
+                                        this medical record will reach its
+                                        90-day deadline date.</>
+                                }
+
+                            </>}>
                             <ImageConfig.AlertIcon/>
                         </ToolTipComponent>
                     }
-                </span>
+                        </span>
             }
         },
         {
@@ -74,9 +91,10 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
                     <ToolTipComponent
                         showArrow={true}
                         position={"right"}
-                        tooltip={item?.injury_details?.map((injury: any) => <div className={'mrg-bottom-5'}>{injury?.body_part_details?.name}</div>)}
+                        tooltip={item?.injury_details?.map((injury: any) => <div
+                            className={'mrg-bottom-5'}>{injury?.body_part_details?.name}</div>)}
                     >
-                       <div> {item?.injury_details[0]?.body_part_details?.name} (+{item?.injury_details?.length})</div>
+                        <div> {item?.injury_details[0]?.body_part_details?.name} (+{item?.injury_details?.length})</div>
                     </ToolTipComponent> : <>{item?.injury_details[0]?.body_part_details?.name}</>}
                 </>
 
@@ -103,7 +121,8 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
                 return <ChipComponent label={item?.status}
                                       className={item?.status === 'Open - Unresolved' ? "active" : "inactive"}></ChipComponent>
             }
-        },
+        }
+        ,
         {
             title: "Last Provider",
             key: "last_provider",
@@ -116,7 +135,8 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
                     {CommonService.capitalizeFirstLetter(item?.last_provider_details?.first_name) || '-'} {CommonService.capitalizeFirstLetter(item?.last_provider_details?.last_name)}
                 </span>
             }
-        },
+        }
+        ,
         {
             title: "",
             dataIndex: "actions",
@@ -132,12 +152,17 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
                 }
             }
         }
-    ];
-    const {clientId} = useParams();
+    ], [referrer]);
+    const {
+        clientId
+    } = useParams();
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const {caseStatusList} = useSelector((state: IRootReducerState) => state.staticData);
-    const [medicalRecordListStatusDateAndProviderFilterState, setMedicalRecordListStatusDateAndProviderFilterState] = useState<any>({
+    const {
+        caseStatusList
+    } = useSelector((state: IRootReducerState) => state.staticData);
+    const [medicalRecordListStatusDateAndProviderFilterState, setMedicalRecordListStatusDateAndProviderFilterState] = useState
+    < any > ({
         status: "all",
         sort: {}
     })
@@ -147,8 +172,7 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
         isClientBasicDetailsLoadingFailed,
         clientBasicDetails,
     } = useSelector((state: IRootReducerState) => state.client);
-    const [searchParams] = useSearchParams();
-    const referrer: any = searchParams.get("referrer");
+
 
     useEffect(() => {
         if (clientId) {

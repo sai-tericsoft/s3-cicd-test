@@ -724,6 +724,7 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                                                             </div>
                                                         </>
                                                     }
+
                                                     {index !== billingDetails?.bills_details?.length - 1 &&
                                                         <HorizontalLineComponent/>}
                                                 </>
@@ -825,8 +826,6 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                                                         </div>
                                                     </div>
                                                 }
-
-
                                             </div>
                                         </div>
                                     </div>

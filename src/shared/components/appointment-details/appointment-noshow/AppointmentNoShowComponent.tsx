@@ -5,6 +5,7 @@ import {IAPIResponseType} from "../../../models/api.model";
 import {ImageConfig} from "../../../../constants";
 import ButtonComponent from "../../button/ButtonComponent";
 import CheckBoxComponent from "../../form-controls/check-box/CheckBoxComponent";
+import LottieFileGenerationComponent from "../../lottie-file-generation/LottieFileGenerationComponent";
 
 
 interface AppointmentNoShowComponentProps {
@@ -57,10 +58,10 @@ const AppointmentNoShowComponent = (props: AppointmentNoShowComponentProps) => {
                     {/*</ToolTipComponent>*/}
                 </div>
                 <div className="flex-1 booking-confirmation-status">
-                    <div className="booking-confirmation-status-icon"
-                         style={{backgroundImage: 'url(' + ImageConfig.AppointmentConfirm + ')'}}>
-                        <ImageConfig.VerifiedCheck width={24}/>
-                    </div>
+                    {/*<div className="booking-confirmation-status-icon"*/}
+                    {/*     style={{backgroundImage: 'url(' + ImageConfig.AppointmentConfirm + ')'}}>*/}
+                    {/*    <ImageConfig.VerifiedCheck width={24}/>*/}
+                    {/*</div>*/}
                     <div className="booking-confirmation-status-text">
                         Do you want to mark the appointment with&nbsp;
                         <b>{details.provider_details?.first_name + ' ' + details.provider_details?.last_name}</b> on <br/><b>{CommonService.convertDateFormat2(details.appointment_date)}</b> as&nbsp;
@@ -86,12 +87,9 @@ const AppointmentNoShowComponent = (props: AppointmentNoShowComponentProps) => {
             </>}
             {noShowMarked && <>
                 <div className="flex-1 booking-confirmation-status">
-                    <div className="booking-confirmation-status-icon"
-                         style={{backgroundImage: 'url(' + ImageConfig.AppointmentConfirm + ')'}}>
-                        <ImageConfig.VerifiedCheck width={24}/>
-                    </div>
+                   <LottieFileGenerationComponent autoplay={true} loop={false} animationData={ImageConfig.CheckLottie}/>
                     <div className="booking-confirmation-status-text">
-                        Appointment status have been marked as 'No Show'
+                        Appointment status have<br/> been marked as 'No Show'.
                     </div>
                 </div>
                 <div className="action-buttons">

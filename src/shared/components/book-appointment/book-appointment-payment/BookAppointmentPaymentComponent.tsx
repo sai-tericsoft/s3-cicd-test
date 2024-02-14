@@ -13,7 +13,8 @@ import {CommonService} from "../../../services";
 import {IAPIResponseType} from "../../../models/api.model";
 import HorizontalLineComponent from "../../horizontal-line/horizontal-line/HorizontalLineComponent";
 import {ImageConfig} from "../../../../constants";
-import moment from "moment";
+import FormikInputComponent from "../../form-controls/formik-input/FormikInputComponent";
+import IconButtonComponent from "../../icon-button/IconButtonComponent";
 
 
 interface BookAppointmentPaymentComponentProps {
@@ -28,15 +29,15 @@ interface BookAppointmentPaymentComponentProps {
 const addAppointmentPaymentInitialValues: any = {
     appointmentId: '',
     payment_type: '',
-    mode: '',
-    available_coupons: '',
+    payment_mode: '',
+    coupon_code: '',
     comments: ''
 };
 
 
 const addAppointmentPaymentValidationSchema = Yup.object().shape({
     payment_type: Yup.string().required('Payment type is required'),
-    mode: Yup.mixed().when("payment_type", {
+    payment_mode: Yup.mixed().when("payment_type", {
         is: 'current',
         then: Yup.mixed().required('Payment Mode is required')
     }),
@@ -49,61 +50,64 @@ const addAppointmentPaymentValidationSchema = Yup.object().shape({
 const BookAppointmentPaymentComponent = (props: BookAppointmentPaymentComponentProps) => {
     const {onComplete, need_intervention, booking, onClose, onBack} = props;
     const {paymentModes} = useSelector((state: IRootReducerState) => state.staticData);
-    const [availableCouponsList, setAvailableCouponsList] = useState<any[]>([]);
     const [selectedCoupon, setSelectedCoupon] = useState<any>(undefined);
     const [discountAmount, setDiscountAmount] = useState<number>(0);
     const [payableAmount, setPayableAmount] = useState<number>(0);
     const [appointmentAndInterventionIds, setAppointmentAndInterventionIds] = useState<any>('');
+    const [isCouponCodeApplied, setIsCouponCodeApplied] = useState<boolean>();
+    const [isCouponValid, setIsCouponValid] = useState<boolean>();
+    const [couponApplyButtonText, setCouponApplyButtonText] = useState<string>('Apply');
 
-    const onCouponSelect = useCallback((value: any) => {
-        setSelectedCoupon(value);
-        if (value.discount_type === 'amount') {
-            setDiscountAmount(value.amount)
-            const totalPayableAmount = booking?.amount - value.amount
-            setPayableAmount(totalPayableAmount);
-        } else {
-            let totalPayableAmount;
-            const finalDiscountAmount = CommonService.calculateFinalAmountFromDiscountPercentage(value.percentage, booking?.amount)
-            setDiscountAmount(finalDiscountAmount);
-            if (finalDiscountAmount > value.max_discount_amount) {
-                totalPayableAmount = booking?.amount - value.max_discount_amount
-            } else {
-                totalPayableAmount = booking?.amount - finalDiscountAmount
-            }
-            setPayableAmount(totalPayableAmount);
-        }
-    }, [booking]);
-
-    const getAvailableCouponsList = useCallback(() => {
-        const payload = {
-            service_id: booking?.service_id,
-            amount: booking?.amount,
-            client_id: booking?.client_id,
-        }
-        CommonService._appointment.getAvailableCouponList(payload)
-            .then((response: IAPIResponseType<any>) => {
-                if (response?.data) {
-                    setAvailableCouponsList(response.data);
-                }
-            })
-            .catch((error: any) => {
-                CommonService._alert.showToast(error.error || error.errors || "Failed to fetch", "error");
-            });
-    }, [booking]);
-
-
-    useEffect(() => {
-        getAvailableCouponsList();
-    }, [getAvailableCouponsList]);
+    // const onCouponSelect = useCallback((value: any) => {
+    //     setSelectedCoupon(value);
+    //     if (value.discount_type === 'amount') {
+    //         setDiscountAmount(value.amount)
+    //         const totalPayableAmount = booking?.amount - value.amount
+    //         setPayableAmount(totalPayableAmount);
+    //     } else {
+    //         let totalPayableAmount;
+    //         const finalDiscountAmount = CommonService.calculateFinalAmountFromDiscountPercentage(value.percentage, booking?.amount)
+    //         setDiscountAmount(finalDiscountAmount);
+    //         if (finalDiscountAmount > value.max_discount_amount) {
+    //             totalPayableAmount = booking?.amount - value.max_discount_amount
+    //         } else {
+    //             totalPayableAmount = booking?.amount - finalDiscountAmount
+    //         }
+    //         setPayableAmount(totalPayableAmount);
+    //     }
+    // }, [booking]);
+    //
+    // const getAvailableCouponsList = useCallback(() => {
+    //     const payload = {
+    //         service_id: booking?.service_id,
+    //         amount: booking?.amount,
+    //         client_id: booking?.client_id,
+    //     }
+    //     CommonService._appointment.getAvailableCouponList(payload)
+    //         .then((response: IAPIResponseType<any>) => {
+    //             if (response?.data) {
+    //                 setAvailableCouponsList(response.data);
+    //             }
+    //         })
+    //         .catch((error: any) => {
+    //             CommonService._alert.showToast(error.error || error.errors || "Failed to fetch", "error");
+    //         });
+    // }, [booking]);
+    //
+    //
+    // useEffect(() => {
+    //     getAvailableCouponsList();
+    // }, [getAvailableCouponsList]);
 
     const onSubmitAppointmentPayment = useCallback((values: any, {setErrors, setSubmitting}: any) => {
         const appointmentId = values.appointmentId;
         delete values.appointmentId;
         CommonService._appointment.appointmentPayment(appointmentId, {
             ...values,
-            total: +values?.amount,
-            discount: 0,
-            coupon_id: selectedCoupon?._id
+            coupon_id: selectedCoupon?._id,
+            coupon_code: values?.coupon_code,
+            client_id: booking?.client_id,
+            service_id: booking?.service_id,
         })
             .then((response: IAPIResponseType<any>) => {
                 if (onComplete) {
@@ -116,7 +120,59 @@ const BookAppointmentPaymentComponent = (props: BookAppointmentPaymentComponentP
             .finally(() => {
                 setSubmitting(false);
             })
-    }, [onComplete, selectedCoupon?._id, appointmentAndInterventionIds]);
+    }, [onComplete, selectedCoupon?._id, booking?.client_id, booking?.service_id, appointmentAndInterventionIds]);
+
+    const handleCouponAvailability = useCallback(() => {
+        const payload = {
+            service_id: booking?.service_id,
+            amount: booking?.amount,
+            client_id: booking?.client_id,
+            coupon_code: formRef?.current?.values?.coupon_code
+        }
+        CommonService._appointment.CheckCouponAvailability(payload)
+            .then((response: IAPIResponseType<any>) => {
+                setCouponApplyButtonText('Applied');
+                setIsCouponCodeApplied(true);
+                setIsCouponValid(true);
+                if (response?.data) {
+                    setSelectedCoupon(response.data);
+                    if (response.data.discount_type === 'amount') {
+                        setDiscountAmount(response.data.amount)
+                        const totalPayableAmount = booking?.amount - response.data.amount
+                        setPayableAmount(totalPayableAmount);
+                    } else {
+                        let totalPayableAmount;
+                        const finalDiscountAmount = CommonService.calculateFinalAmountFromDiscountPercentage(response.data.percentage, booking?.amount)
+                        setDiscountAmount(finalDiscountAmount)
+                        if (finalDiscountAmount > response.data.max_discount_amount) {
+                            totalPayableAmount = booking?.amount - response.data.max_discount_amount
+                        } else {
+                            totalPayableAmount = booking?.amount - finalDiscountAmount
+                        }
+                        setPayableAmount(totalPayableAmount);
+                    }
+                }
+            })
+            .catch((error: any) => {
+                if (error?.errors?.coupon_code) {
+                    setCouponApplyButtonText('Apply');
+                    setIsCouponCodeApplied(true);
+                    setIsCouponValid(false);
+                }
+            });
+
+    }, [booking?.amount, booking?.client_id, booking?.service_id]);
+
+    const ClearText = useCallback(() => {
+        formRef?.current?.setFieldValue('coupon_code', '');
+        setIsCouponCodeApplied(false);
+        setIsCouponValid(false);
+        setSelectedCoupon('Apply');
+        // setSelectedCoupon(undefined);
+        // setDiscountAmount(0);
+        // setPayableAmount(0);
+
+    }, []);
 
     const createBooking = useCallback((values: any, {setErrors, setSubmitting}: FormikHelpers<any>) => {
             //medical_record_id
@@ -126,7 +182,7 @@ const BookAppointmentPaymentComponent = (props: BookAppointmentPaymentComponentP
             }
             if (need_intervention) {
                 payload.need_intervention = need_intervention;
-                payload.intervention_date = moment().format('YYYY-MM-DD');
+                // payload.intervention_date = moment().format('YYYY-MM-DD');
             }
             CommonService._appointment.addAppointment(payload)
                 .then((response: IAPIResponseType<any>) => {
@@ -177,7 +233,8 @@ const BookAppointmentPaymentComponent = (props: BookAppointmentPaymentComponentP
                 validationSchema={addAppointmentPaymentValidationSchema}
                 initialValues={{
                     ...addAppointmentPaymentInitialValues,
-                    amount: booking?.amount || 0,
+                    amount: CommonService.convertToDecimals(+(booking?.amount)) || 0,
+
                 }}
                 onSubmit={createBooking}
                 validateOnChange={false}
@@ -230,27 +287,36 @@ const BookAppointmentPaymentComponent = (props: BookAppointmentPaymentComponentP
                                             <FormControlLabelComponent
                                                 label={"Add a gift card or promotion code or voucher"}
                                                 className={'add-gift-card-msg'}/>
-                                            <Field name={'available_coupons'}>
-                                                {
-                                                    (field: FieldProps) => (
-                                                        <FormikSelectComponent
-                                                            formikField={field}
-                                                            size={"small"}
-                                                            fullWidth={true}
-                                                            isClear={true}
-                                                            label={'Available Coupons'}
-                                                            options={availableCouponsList}
-                                                            displayWith={(option: any) => option?.title}
-                                                            valueExtractor={(option: any) => option}
-                                                            onUpdate={(value: any) => {
-                                                                onCouponSelect(value);
-                                                            }}
-
-
-                                                        />
-                                                    )
-                                                }
-                                            </Field>
+                                            <div className="ts-row coupon-code-wrapper">
+                                                <div className="ts-col-9 ">
+                                                    <Field name={'coupon_code'}>
+                                                        {
+                                                            (field: FieldProps) => (
+                                                                <FormikInputComponent
+                                                                    label={'Coupon Code'}
+                                                                    suffix={values?.coupon_code &&
+                                                                        <IconButtonComponent onClick={ClearText}>
+                                                                            <ImageConfig.CloseIcon/>
+                                                                        </IconButtonComponent>
+                                                                    }
+                                                                    formikField={field}
+                                                                    fullWidth={true}
+                                                                />
+                                                            )
+                                                        }
+                                                    </Field>
+                                                    {(isCouponCodeApplied && isCouponValid) &&
+                                                        <div className={'coupon-valid'}>Coupon Applied</div>}
+                                                    {(isCouponCodeApplied && !isCouponValid) &&
+                                                        <div className={'coupon-valid invalid'}>Invalid Coupon</div>}
+                                                </div>
+                                                <div className={'ts-col-3'}>
+                                                    <ButtonComponent size={'large'} className={'mrg-top-5'}
+                                                                     fullWidth={true}
+                                                                     disabled={!values?.coupon_code || (isCouponCodeApplied && !isCouponValid)}
+                                                                     onClick={handleCouponAvailability}>{couponApplyButtonText}</ButtonComponent>
+                                                </div>
+                                            </div>
                                             <FormControlLabelComponent
                                                 label={"Checkout Summary"} className={'checkout-summary'}/>
                                             <div className="price-holder">
@@ -276,7 +342,7 @@ const BookAppointmentPaymentComponent = (props: BookAppointmentPaymentComponentP
                                                 </div>
                                             </div>
 
-                                            <Field name={'mode'}>
+                                            <Field name={'payment_mode'}>
                                                 {
                                                     (field: FieldProps) => (
                                                         <FormikSelectComponent

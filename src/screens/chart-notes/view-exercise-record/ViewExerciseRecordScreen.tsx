@@ -287,11 +287,13 @@ const ViewExerciseRecordScreen = (props: ViewExerciseLogComponentProps) => {
                                     )}
                                 </>
                             })}
-                            {
-                                medicalRecordViewExerciseRecord?.exercise_logs?.length === 0 &&
-                                <StatusCardComponent
-                                    title={'Currently, no exercise logs have been added to this medical record.'}/>
-                            }
+                            <CardComponent className={'no-exercise-record-wrapper'}>
+                                {
+                                    medicalRecordViewExerciseRecord?.exercise_logs?.length === 0 &&
+                                    <StatusCardComponent
+                                        title={'Currently, no exercise logs have been added to this medical record.'}/>
+                                }
+                            </CardComponent>
 
 
                         </>

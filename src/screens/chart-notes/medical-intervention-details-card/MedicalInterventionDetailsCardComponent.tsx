@@ -43,6 +43,7 @@ import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 import FormikDatePickerComponent
     from "../../../shared/components/form-controls/formik-date-picker/FormikDatePickerComponent";
 import commonService from "../../../shared/services/common.service";
+import momentTimezone from "moment-timezone";
 
 interface MedicalInterventionDetailsCardComponentProps {
     showAction?: boolean,
@@ -211,6 +212,28 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
         setIsNotifyModalOpen(true);
     }, []);
 
+    const handleSOAPNotePrint = useCallback(() => {
+        if (medicalInterventionId) {
+            const payload = {
+                timezone: momentTimezone.tz.guess(),
+            }
+            CommonService._chartNotes.PrintSOAPNote(medicalInterventionId, payload)
+                .then((res: any) => {
+                    const attachment = {
+                        type: 'application/pdf',
+                        url: res.data.url,
+                        name: 'progress report',
+                        key: ''
+                    };
+                    CommonService.printAttachment(attachment);
+                })
+                .catch((err: any) => {
+                    console.log(err);
+                });
+        }
+
+    },[medicalInterventionId]);
+
     const handleNotifyAdminModalClose = useCallback(() => {
         setNotifyAdminFormInitialValues(_.cloneDeep(NotifyAdminInitialValues));
         setIsNotifyModalOpen(false);
@@ -261,8 +284,10 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
             const options = [
                 // <ListItem
                 //     onClick={comingSoon}>Print SOAP</ListItem>,
+                <ListItem onClick={handleNotifyAdminModalOpen}>Notify Admin</ListItem>,
+                <ListItem onClick={handleSOAPNotePrint}>Print SOAP</ListItem>,
                 <ListItem onClick={openTransferSoapNoteDrawer}>Transfer SOAP to</ListItem>,
-                <ListItem onClick={handleNotifyAdminModalOpen}>Notify Admin</ListItem>];
+                ];
             if (mode === 'view') {
                 options.unshift(<FilesUneditableMiddlewareComponent
                     timeStamp={medicalInterventionDetails?.completed_date}>
@@ -282,7 +307,7 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
                 <ListItem onClick={openImportSoapNoteDrawer}>Import SOAP Note</ListItem>]
             );
         }
-    }, [handleNotifyAdmin, handleNotifyAdminModalOpen, comingSoon, mode, openMedicalRecordDocumentAddDrawer, openTransferSoapNoteDrawer, openAddConcussionFileDrawer, openAddDryNeedlingFileDrawer, openImportSoapNoteDrawer, openViewPriorNoteDrawer, medicalInterventionDetails]);
+    }, [handleNotifyAdmin,handleSOAPNotePrint, handleNotifyAdminModalOpen, comingSoon, mode, openMedicalRecordDocumentAddDrawer, openTransferSoapNoteDrawer, openAddConcussionFileDrawer, openAddDryNeedlingFileDrawer, openImportSoapNoteDrawer, openViewPriorNoteDrawer, medicalInterventionDetails]);
 
     return (
         <div className={'client-medical-details-card-component'}>

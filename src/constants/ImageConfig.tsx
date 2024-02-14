@@ -3,6 +3,7 @@ import BillingLogo from './../assets/images/logo.png';
 import LogoSM from './../assets/icons/logo-sm.svg';
 import Confirm from './../assets/confirmation/confirm.png';
 import PopupLottie from '../assets/images/popup.json';
+import CheckLottie from '../assets/images/check.json';
 import ConfirmationLottie from '../assets/images/red_exclamation.json';
 import LockLottie from '../assets/images/lock_lottie.json';
 import confirmImage from './../assets/confirmation/confirm.svg';
@@ -257,5 +258,7 @@ export {
     FolderIcon,
     EyeOutlined,
     ImageTypeIcon,
-    UpdateQuantityIcon
+    UpdateQuantityIcon,
+    CheckLottie,
+
 }

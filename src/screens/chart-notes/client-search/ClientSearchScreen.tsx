@@ -4,13 +4,15 @@ import SearchComponent from "../../../shared/components/search/SearchComponent";
 import {IClientBasicDetails, IClientListFilterState} from "../../../shared/models/client.model";
 import React, {useCallback, useEffect, useState} from "react";
 import {APIConfig, ImageConfig} from "../../../constants";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {setCurrentNavParams} from "../../../store/actions/navigation.action";
 import {ITableColumn} from "../../../shared/models/table.model";
 import {CommonService} from "../../../shared/services";
 import ChipComponent from "../../../shared/components/chip/ChipComponent";
 import LinkComponent from "../../../shared/components/link/LinkComponent";
 import TableWrapperComponent from "../../../shared/components/table-wrapper/TableWrapperComponent";
+import SelectComponent from "../../../shared/components/form-controls/select/SelectComponent";
+import {IRootReducerState} from "../../../store/reducers";
 
 interface ClientSearchScreenProps {
 
@@ -19,10 +21,13 @@ interface ClientSearchScreenProps {
 const ClientSearchScreen = (props: ClientSearchScreenProps) => {
 
     const dispatch = useDispatch();
+    const {statusList} = useSelector((store: IRootReducerState) => store.staticData);
+
 
     const [clientListFilterState, setClientListFilterState] = useState<IClientListFilterState>({
         search: "",
         is_chart_notes: true,
+        is_active: "all",
         sort: {},
         page: 1
     });
@@ -148,6 +153,21 @@ const ClientSearchScreen = (props: ClientSearchScreenProps) => {
                                         page: 1 // Reset the page number to 1
                                     };
                                 });
+                            }}
+                        />
+                    </div>
+                    <div className="ts-col-md-6 ts-col-lg-3 mrg-top-20 status-filter">
+                        <SelectComponent
+                            label={"Status"}
+                            size={"small"}
+                            isClear={false}
+                            fullWidth={true}
+                            options={statusList}
+                            value={clientListFilterState.is_active}
+                            keyExtractor={(item) => item.code}
+                            onUpdate={(value) => {
+                                delete clientListFilterState.is_active;
+                                setClientListFilterState({...clientListFilterState, ...(value !== '' ? {is_active: value} : {})})
                             }}
                         />
                     </div>

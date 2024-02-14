@@ -5,7 +5,7 @@ import {Field, FieldProps, Form, Formik, FormikHelpers} from "formik";
 import FormikInputComponent from "../../../shared/components/form-controls/formik-input/FormikInputComponent";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import {CommonService} from "../../../shared/services";
-import { ImageConfig, Misc} from "../../../constants";
+import {ImageConfig, Misc} from "../../../constants";
 import {useNavigate} from "react-router-dom";
 import * as Yup from "yup";
 import FormikPhoneInputComponent
@@ -16,6 +16,9 @@ import {
     setClientMedicalDetails
 } from "../../../store/actions/client.action";
 import FormikCheckBoxComponent from "../../../shared/components/form-controls/formik-check-box/FormikCheckBoxComponent";
+import FormikDatePickerComponent
+    from "../../../shared/components/form-controls/formik-date-picker/FormikDatePickerComponent";
+import moment from "moment";
 
 
 interface ClientAddComponentProps {
@@ -25,6 +28,7 @@ interface ClientAddComponentProps {
 const clientAddInitialValues: any = {
     first_name: '',
     last_name: '',
+    dob: '',
     primary_email: '',
     primary_contact_info: {
         phone: ''
@@ -40,7 +44,7 @@ const clientAddsValidationSchema = Yup.object({
     primary_contact_info: Yup.object({
         phone: Yup.string()
             .required('Phone Number is required')
-            .test('is-ten-digits', 'Phone number must contain exactly 10 digits', (value:any) => {
+            .test('is-ten-digits', 'Phone number must contain exactly 10 digits', (value: any) => {
                 return value?.length === 10
             }),
     }),
@@ -57,7 +61,10 @@ const ClientAddComponent = (props: ClientAddComponentProps) => {
     const dispatch = useDispatch();
 
     const onSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
-        const payload = {...values};
+        const payload = {
+            ...values,
+            send_onboarded_email:(values?.send_onboarded_email ? false: true)
+        };
         setIsClientAddInProgress(true);
         CommonService._client.ClientBasicDetailsAddAPICall(payload)
             .then((response: any) => {
@@ -78,16 +85,17 @@ const ClientAddComponent = (props: ClientAddComponentProps) => {
         const payload = {
             ...values,
             send_invite: true,
-            // send_onboarded_email: false
+            send_onboarded_email: false
         };
         CommonService.onConfirm({
             image: ImageConfig.PopupLottie,
-            showLottie:true,
+            showLottie: true,
             confirmationTitle: 'SEND INVITE LINK',
             confirmationSubTitle: 'Are you sure you want to send invite link to:',//${values.first_name} ${values.last_name} having email ${values.primary_email}?`,
-            confirmationDescription:<div className="transfer-file-to">
+            confirmationDescription: <div className="transfer-file-to">
                 <div className={'mrg-bottom-15'}>
-                    <span className={'client-case-name-title '}>Client:</span> <span>{values.first_name} {values.last_name}</span>
+                    <span className={'client-case-name-title '}>Client:</span>
+                    <span>{values.first_name} {values.last_name}</span>
                 </div>
                 <div>
                     <span className={'client-case-name-title'}>&nbsp;Email:</span> <span>{values.primary_email}</span>
@@ -154,6 +162,20 @@ const ClientAddComponent = (props: ClientAddComponentProps) => {
                                         )
                                     }
                                 </Field>
+                                <Field name={'dob'}>
+                                    {
+                                        (field: FieldProps) => (
+                                            <FormikDatePickerComponent
+                                                label={'Date of Birth'}
+                                                placeholder={'MM/DD/YYYY'}
+                                                formikField={field}
+                                                maxDate={moment()}
+                                                required={true}
+                                                fullWidth={true}
+                                            />
+                                        )
+                                    }
+                                </Field>
                                 <Field name={'primary_email'}>
                                     {
                                         (field: FieldProps) => (
@@ -188,10 +210,39 @@ const ClientAddComponent = (props: ClientAddComponentProps) => {
                                                 formikField={field}
                                                 required={false}
                                                 labelPlacement={"end"}
+
                                             />
                                         )
                                     }
                                 </Field>
+                                <div className={'ts-row'}>
+                                    <div className={'message-box-wrapper'}>
+                                        <div className={'message-heading'}>
+                                            Check the box based on client type:
+                                        </div>
+                                        <ul className={'list-text'}>
+                                            <li>
+                                                If client is new and will self sign up: Uncheck box, Click "Send
+                                                Invite Link"
+                                            </li>
+                                        </ul>
+                                        <ul>
+                                            <li>
+                                                If client exists already:
+                                            </li>
+                                        </ul>
+                                        <ul className={'pdd-left-25'}>
+                                            <li>
+                                                Want notification: Uncheck box, Click "Proceed with Adding Client"
+                                            </li>
+                                            <li>
+                                                Do NOT want notification: Check box, Click "Proceed with Adding
+                                                Client"
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                </div>
 
                                 {/*<>*/}
                                 {/*    {*/}

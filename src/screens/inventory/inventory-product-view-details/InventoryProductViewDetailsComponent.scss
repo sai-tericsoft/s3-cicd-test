@@ -1,6 +1,7 @@
 .inventory-product-view-details-component{
   .image-button-wrapper{
     display: flex;
+    padding-bottom: 30px;
     .button-wrapper{
       margin-top: 30px;
     }
@@ -21,6 +22,7 @@
         }
         .inventory-product-details{
           margin-left: 5px;
+          margin-top: 10px;
         }
         .description{
           color: #858F94;

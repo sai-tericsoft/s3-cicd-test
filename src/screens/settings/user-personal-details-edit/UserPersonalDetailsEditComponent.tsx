@@ -22,6 +22,8 @@ import SignaturePadComponent from "../../../shared/components/signature-pad/Sign
 import ESignApprovalComponent from "../../../shared/components/e-sign-approval/ESignApprovalComponent";
 import LinkComponent from "../../../shared/components/link/LinkComponent";
 import FormikSsnInputComponent from "../../../shared/components/form-controls/formik-ssn-input/FormikSsnInputComponent";
+import {ICheckLoginResponse} from "../../../shared/models/account.model";
+import {setLoggedInUserData} from "../../../store/actions/account.action";
 
 interface UserPersonalDetailsEditComponentProps {
     handleNext: () => void
@@ -37,7 +39,7 @@ const formValidationSchema = Yup.object({
         .max(9, 'SSN cannot be more than 9-digits'),
     gender: Yup.string().required('Gender is required'),
     // npi_number: Yup.string().required('NPI number is required'),
-    assigned_facilities: Yup.array().required('Gender is required'),
+    assigned_facilities: Yup.array().min(1, 'At least one facility must be assigned'),
     // signature: Yup.string().required()
 });
 
@@ -62,7 +64,7 @@ const UserPersonalDetailsEditComponent = (props: UserPersonalDetailsEditComponen
         facilityListLite,
         roleList
     } = useSelector((state: IRootReducerState) => state.staticData);
-    const {currentUser}: any = useSelector((state: IRootReducerState) => state.account);
+    const {currentUser, token}: any = useSelector((state: IRootReducerState) => state.account);
     const [initialValues, setInitialValues] = useState<any>(_.cloneDeep(formInitialValues));
     const {handleNext} = props
     const dispatch = useDispatch();
@@ -108,12 +110,19 @@ const UserPersonalDetailsEditComponent = (props: UserPersonalDetailsEditComponen
             .then((response: IAPIResponseType<any>) => {
                 // CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                 setSubmitting(false);
+                CommonService._account.CheckLoginAPICall(token)
+                    .then((response: IAPIResponseType<ICheckLoginResponse>) => {
+                        dispatch(setLoggedInUserData(response.data.user));
+                    })
+                    .catch(() => {
+
+                    });
                 dispatch(setUserBasicDetails(response.data));
             }).catch((error: any) => {
             CommonService.handleErrors(setErrors, error, true);
             setSubmitting(false);
         })
-    }, [userBasicDetails, dispatch, initialValues]);
+    }, [userBasicDetails, dispatch, initialValues, token]);
 
     return (
         <div className={'user-personal-details-edit-component'}>
@@ -314,6 +323,10 @@ const UserPersonalDetailsEditComponent = (props: UserPersonalDetailsEditComponen
                                         />
                                         <SignaturePadComponent
                                             image={values?.signature}
+                                            onClear={() => {
+                                                setFieldValue('signature', '');
+                                            }
+                                            }
                                             onSign={(signImage) => {
                                                 setFieldValue('signature', signImage);
                                             }}/>
@@ -328,10 +341,14 @@ const UserPersonalDetailsEditComponent = (props: UserPersonalDetailsEditComponen
 
                                 {(values?.signature && userBasicDetails?.signature) && <div className="user-signature">
                                     <ESignApprovalComponent isSigned={true}
+                                                            onSign={() => {
+                                                                setFieldValue('signature', values?.signature);
+
+                                                            }}
                                                             signature_url={values?.signature}
                                     /> <br/>
                                     <LinkComponent onClick={() => {
-                                        setFieldValue('signature', "");
+                                        setFieldValue('signature', '');
                                     }
                                     }>
                                         Remove Signature
@@ -364,10 +381,8 @@ const UserPersonalDetailsEditComponent = (props: UserPersonalDetailsEditComponen
                     )
                 }}
             </Formik>
-
         </div>
-    )
-        ;
+    );
 
 };
 

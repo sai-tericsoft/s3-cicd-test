@@ -3,14 +3,16 @@
 .calendar-appointment-card-component {
   z-index: 1;
   cursor: pointer;
+
   &:hover {
     z-index: 2;
     box-shadow: 0 0 6px #AAAAAA;
   }
+
   &.card-appointment-with-status {
     display: flex;
     flex-direction: column;
-    padding: 5px;
+    padding: 0 5px;
     overflow: hidden;
     width: 100%;
     margin: 1px;
@@ -41,7 +43,9 @@
     }
 
     &.blocked {
-    background: $primary-color;
+      background: $primary-color;
+      margin-top: 4px;
+      margin-bottom: 4px;
       //width: auto;
     }
 

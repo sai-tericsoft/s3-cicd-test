@@ -157,26 +157,28 @@ const convertDateFormat2 = (date: Date, format: string = 'DD-MMM-YYYY') => {
 
 const generateUseCaseFromCaseDetails = (case_details: any) => {
     return `${CommonService.convertDateFormat2(case_details?.case_date)} - ${case_details?.injury_details?.map((bodyPart: any) => {
-        return ((" ")+bodyPart?.body_part_details +" "+ (bodyPart?.body_side ? `(${bodyPart.body_side})` : ' '))
+        return ((" ") + bodyPart?.body_part_details + " " + (bodyPart?.body_side ? `(${bodyPart.body_side})` : ' '))
     })} `
 }
 
 const generateUseCaseFromCaseDetails2 = (case_details: any) => {
     return `${CommonService.convertDateFormat2(case_details?.case_date)} - ${case_details?.injury_details?.map((bodyPart: any) => {
-        return ((" ")+bodyPart?.body_part_name +" "+ (bodyPart?.body_side ? `(${bodyPart.body_side})` : ' '))
+        return ((" ") + bodyPart?.body_part_name + " " + (bodyPart?.body_side ? `(${bodyPart.body_side})` : ' '))
     })} `
 }
 
 const generateUseCaseFromCaseDetails3 = (case_details: any) => {
     return `${CommonService.convertDateFormat2(case_details?.created_at)} - ${case_details?.injury_details?.map((bodyPart: any) => {
-        return ((" ")+bodyPart?.body_part_name +(" ")+ (bodyPart?.body_side ? `(${bodyPart.body_side})` : ' '));
+        return ((" ") + bodyPart?.body_part_name + (" ") + (bodyPart?.body_side ? `(${bodyPart.body_side})` : ' '));
     })} `
 }
 
 const generateInterventionNameFromMedicalRecord = (medicalRecordDetails: any) => {
     return `${CommonService.convertDateFormat2(medicalRecordDetails?.created_at)} - ${medicalRecordDetails?.injury_details?.map((bodyPart: any, index: number) => {
-        return ((" ")+bodyPart?.body_part_details?.name +' ('+bodyPart?.body_side+')')
-    })}  `
+        const bodyPartName = bodyPart?.body_part_details?.name;
+        const bodySide = bodyPart?.body_side ? ` (${bodyPart.body_side})` : "";
+        return " " + bodyPartName + bodySide;
+    })} `
 }
 
 const getTheDifferenceBetweenDates = (fromDate: string) => {
@@ -265,8 +267,7 @@ const getFormDataFromJSON = (obj: any, rootName = '', ignoreList = []): FormData
                         }
                     }
                 }
-            }
-            else {
+            } else {
                 if (data !== null && typeof data !== 'undefined') {
                     formData.append(root, data);
                 }
@@ -290,10 +291,10 @@ const capitalizeFirstLetter = (string: string | undefined) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
- const capitalizeFirstLetterAndRemoveUnderScore = (string: string | undefined) => {
+const capitalizeFirstLetterAndRemoveUnderScore = (string: string | undefined) => {
     if (!string) return '';
     return string.split('_').map((word: string) => capitalizeFirstLetter(word)).join(' ');
- }
+}
 
 const capitalizeFirstLetterOfEachWord = (string: string) => {
     return string?.split(' ').map((word: string) => capitalizeFirstLetter(word)).join(' ');
@@ -704,8 +705,8 @@ const generateTimeSlots = (startTime: number, endTime: number, to?: boolean) => 
 
 const generateDisabledSlots = (startTime: number, endTime: number, exclude?: any, to?: boolean, currentStart?: number, currentEnd?: number, facilityDays?: any, isSameSlot?: boolean) => {
     const timeSlots = [];
-    if(!exclude || exclude?.length === 0) {
-        return to ? [] : [{"title":endTime,"code":endTime}];
+    if (!exclude || exclude?.length === 0) {
+        return to ? [] : [{"title": endTime, "code": endTime}];
     }
     while (startTime <= endTime) { // Update the condition to <=
         const hours = Math.floor(startTime / 60);
@@ -785,12 +786,11 @@ const generateClientLastNameFromClientDetails = (clientDetails: any) => {
 
 const extractName = (data: any) => {
     if (!data) return ('-');
-    else if(data?.is_alias_name_set){
-        return  (data?.alias_first_name || data?.alias_last_name ? data?.alias_last_name + ', ' + data?.alias_first_name : '-');
+    else if (data?.is_alias_name_set) {
+        return (data?.alias_first_name || data?.alias_last_name ? data?.alias_last_name + ', ' + data?.alias_first_name : '-');
     }
     return (data?.first_name || data?.last_name ? data?.last_name + ', ' + data?.first_name : '-');
 };
-
 
 
 const CommonService = {

@@ -352,6 +352,14 @@ const DeleteProgressReport = (progressReportId:string) => {
     return ApiService[APIConfig.DELETE_PROGRESS_REPORT.METHOD](APIConfig.DELETE_PROGRESS_REPORT.URL(progressReportId));
 }
 
+const PrintInjuryConditionForm = (medicalRecordId:string,payload:any) => {
+    return ApiService[APIConfig.PRINT_INJURY_CONDITION_FORM.METHOD](APIConfig.PRINT_INJURY_CONDITION_FORM.URL(medicalRecordId),payload);
+}
+
+const PrintSOAPNote = (medicalInterventionId:string,payload:any) => {
+    return ApiService[APIConfig.PRINT_SOAP_NOTE.METHOD](APIConfig.PRINT_SOAP_NOTE.URL(medicalInterventionId),payload);
+}
+
 
 const ChartNotesService = {
     MedicalRecordAddAPICall,
@@ -427,7 +435,9 @@ const ChartNotesService = {
     PrintSurgeryRecord,
     PrintDocument,
     PrintExerciseLog,
-    DeleteProgressReport
+    DeleteProgressReport,
+    PrintInjuryConditionForm,
+    PrintSOAPNote
 }
 
 export default ChartNotesService;

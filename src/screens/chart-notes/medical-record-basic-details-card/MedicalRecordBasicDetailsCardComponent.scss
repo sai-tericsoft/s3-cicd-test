@@ -51,6 +51,9 @@
       .client-name-wrapper {
         font-size: 1.4286rem;
         font-weight: 700;
+        .MuiChip-root{
+          width: 150px !important;
+        }
 
         .client-name {
           padding-right: 10px;

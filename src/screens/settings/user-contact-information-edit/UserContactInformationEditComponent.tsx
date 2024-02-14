@@ -2,7 +2,7 @@ import "./UserContactInformationEditComponent.scss";
 import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
 import CardComponent from "../../../shared/components/card/CardComponent";
-import {Field, FieldArray, FieldProps, Form, Formik, FormikHelpers} from "formik";
+import {Field, FieldArray, FieldProps, Form, Formik, FormikHelpers, FormikProps} from "formik";
 import FormikInputComponent from "../../../shared/components/form-controls/formik-input/FormikInputComponent";
 import FormControlLabelComponent from "../../../shared/components/form-control-label/FormControlLabelComponent";
 import FormikSelectComponent from "../../../shared/components/form-controls/formik-select/FormikSelectComponent";
@@ -13,7 +13,7 @@ import ToolTipComponent from "../../../shared/components/tool-tip/ToolTipCompone
 import {ImageConfig} from "../../../constants";
 import HorizontalLineComponent
     from "../../../shared/components/horizontal-line/horizontal-line/HorizontalLineComponent";
-import React, {useCallback, useEffect, useState} from "react";
+import React, {useCallback, useEffect, useRef, useState} from "react";
 import * as Yup from "yup";
 import _ from "lodash";
 import {CommonService} from "../../../shared/services";
@@ -21,6 +21,7 @@ import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import {IAPIResponseType} from "../../../shared/models/api.model";
 import {setUserBasicDetails} from "../../../store/actions/user.action";
 import {AddCircleIcon} from "../../../constants/ImageConfig";
+import FormDebuggerComponent from "../../../shared/components/form-debugger/FormDebuggerComponent";
 
 interface UserContactInformationEditComponentProps {
     handleNext: () => void
@@ -37,20 +38,35 @@ const formValidationSchema = Yup.object({
                 return value?.length === 10
             }),
     }),
-    secondary_contact_info: Yup.array().of(
-        Yup.object().shape({
-            phone: Yup.string()
-                .test('is-ten-digits', 'Phone number must contain exactly 10 digits', (value: any) => {
-                    const digits = value.replace(/\D/g, ''); // Remove non-digits
-                    return digits.length === 10;
-                }),
-        })
-    ),
-    secondary_emails: Yup.array(Yup.object({
-            email: Yup.string().email('Invalid email')
-        })
-    ),
+
+    secondary_contact_info: Yup.lazy((value) => {
+        if (value) {
+            return Yup.array().of(
+                Yup.object().shape({
+                    phone_type: Yup.string().nullable(),
+                    phone: Yup.string()
+                        .test('is-ten-digits', 'Phone number must contain exactly 10 digits', (value: any) => {
+                            const digits = value ? value.replace(/\D/g, '') : ''; // Remove non-digits
+                            return digits.length === 10;
+                        })
+                        .nullable(),
+                })
+            );
+        }
+        return Yup.mixed().notRequired();
+    }),
+    secondary_emails: Yup.lazy((value) => {
+        if (value) {
+            return Yup.array().of(
+                Yup.object().shape({
+                    email: Yup.string().email('Invalid email').nullable(),
+                })
+            );
+        }
+        return Yup.mixed().notRequired();
+    }),
 });
+
 
 const formInitialValues: any = {
     primary_email: "",
@@ -74,6 +90,7 @@ const UserContactInformationEditComponent = (props: UserContactInformationEditCo
     const [initialValues, setInitialValues] = useState<any>(_.cloneDeep(formInitialValues));
     const {handleNext, handlePrevious} = props
     const dispatch = useDispatch();
+    const formikRef = useRef<FormikProps<any>>(null);
 
     const {
         userBasicDetails,
@@ -90,7 +107,10 @@ const UserContactInformationEditComponent = (props: UserContactInformationEditCo
             primary_contact_info: userBasicDetails?.primary_contact_info,
             secondary_contact_info: userBasicDetails?.secondary_contact_info.length && userBasicDetails?.secondary_contact_info,
         }
-        setInitialValues(contact_information)
+        setInitialValues(contact_information);
+        setTimeout(() => {
+            formikRef.current?.validateForm(userBasicDetails);
+        }, 100);
     }, [userBasicDetails]);
 
     const onSubmit = useCallback((values: any, {setErrors, setSubmitting}: FormikHelpers<any>) => {

@@ -1,4 +1,12 @@
 .client-documents-list-table-component {
+  .client-documents-list{
+    .t-table{
+      .table-no-data-wrapper{
+        min-height: 400px;
+
+      }
+    }
+  }
   .t-cell-case_name {
     padding-left: 20px !important;
   }

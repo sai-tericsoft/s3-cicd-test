@@ -112,6 +112,15 @@ const ThankYouNoteComponent = (props: ThankYouNoteComponentProps) => {
                                         </div>
                                         <div className="t-form-actions mrg-bottom-0">
                                             <ButtonComponent
+                                                onClick={() => resetForm()}
+                                                variant={'outlined'}
+                                                className={isSaving ? 'mrg-right-10' : ''}
+                                                id={"cancel_btn"}
+                                            >
+                                                Cancel
+                                            </ButtonComponent>
+                                            &nbsp;&nbsp;
+                                            <ButtonComponent
                                                 isLoading={isSaving}
                                                 className={'submit-cta mrg-left-15'}
                                                 type={"submit"}

@@ -1,5 +1,11 @@
 @import "responsive-mixins";
 
+@mixin display-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .d-none {
   display: none !important
 }

@@ -9,6 +9,7 @@
 @import "responsive-display";
 @import "normalize";
 
+
 // components
 @import "components/button";
 @import "components/loader";
@@ -29,6 +30,15 @@
   position: fixed;
   bottom: 5px;
   right: 5px;
+}
+
+
+.success {
+  color: #00534F !important;
+}
+
+.error {
+  color: #E84142 !important;
 }
 
 .auth-layout {

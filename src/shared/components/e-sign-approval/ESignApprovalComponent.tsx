@@ -32,6 +32,7 @@ const ESignApprovalComponent = (props: ESignApprovalComponentProps) => {
         }
     }, [onSign]);
 
+
     useEffect(() => {
         if(!signature_url){
             const token = CommonService._localStorage.getItem(Misc.LOCAL_STORAGE_JWT_TOKEN);

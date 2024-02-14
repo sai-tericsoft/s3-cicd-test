@@ -247,6 +247,42 @@ const ServiceSlotsComponent = (props: ServiceSlotsComponentProps) => {
                         }
                     })
                     return newState;
+        // if (userSlots) {
+        //     setUserSelectedSlots(() => {
+        //         let newState: { day: any; slots: any; }[] = [];
+        //         userSlots.forEach((facilitySlots: any) => {
+        //             const slotsToMerge = facilitySlots.is_same_slots
+        //                 ? facilitySlots.applicable_slot_days
+        //                 : facilitySlots.day_scheduled_slots;
+        //             if (facilitySlots.is_same_slots) {
+        //                 slotsToMerge.forEach((day: any) => {
+        //                     const existingSlotIndex = newState?.findIndex((item) => item.day === day);
+        //                     if (existingSlotIndex >= 0) {
+        //                         // Merge slots for the same day
+        //                         const mergedSlots = [...newState[existingSlotIndex].slots, ...(day?.slot_timings || [])];
+        //                         newState[existingSlotIndex].slots = Array.from(new Set(mergedSlots));
+        //                     } else {
+        //                         newState.push({
+        //                             day: day,
+        //                             slots: facilitySlots.all_scheduled_slots,
+        //                         });
+        //                     }
+        //                 })
+        //             } else {
+        //                 slotsToMerge.forEach((day: any) => {
+        //                     const existingSlotIndex = newState?.findIndex((item) => item.day === day);
+        //                     if (existingSlotIndex >= 0) {
+        //                         // Merge slots for the same day
+        //                         const mergedSlots = [...newState[existingSlotIndex].slots, ...(day?.slot_timings || [])];
+        //                         newState[existingSlotIndex].slots = Array.from(new Set(mergedSlots));
+        //                     } else {
+        //                         newState.push({
+        //                             day: day.day,
+        //                             slots: day?.slot_timings || [],
+        //                         });
+        //                     }
+        //                 })
+        //             }
                 })
             }
         } catch (e) {
@@ -601,9 +637,9 @@ const ServiceSlotsComponent = (props: ServiceSlotsComponentProps) => {
         setUserSelectedSlots((oldState: any) => {
             const newState = oldState ? [...oldState] : [];
             newState.forEach((slot: any) => {
-                const userFacilityDaySlots = values?.scheduled_slots?.find((daySlot: any) => daySlot.day === slot.day || daySlot.day === parseInt(slot.day));
+                const userFacilityDaySlots = values?.scheduled_slots?.find((daySlot: any) => slot.day === daySlot.day || parseInt(slot.day) === daySlot.day);
                 if (userFacilityDaySlots) {
-                    slot.slots = slot?.slots?.filter((item: any) => userFacilityDaySlots.slot_timings?.findIndex((userSlot: any) => userSlot.start_time === item.start_time && userSlot.end_time === item.end_time) < 0) || [];
+                    slot.slots = slot?.slots?.filter((slotItem: any) => userFacilityDaySlots?.slot_timings?.findIndex((userSlot: any) => userSlot.start_time === slotItem.start_time && userSlot.end_time === slotItem.end_time) < 0) || [];
                 }
             })
             newState.forEach((slot: any) => {

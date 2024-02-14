@@ -24,7 +24,7 @@ const MedicalRecordAttachmentListComponent = (props: ClientMedicalAttachmentsCom
     });
     const attachmentRecord: ITableColumn[] = [
         {
-            title: 'Date of Document',
+            title: 'Date of the Document',
             key: 'created_at',
             dataIndex: 'date_of_attachment',
             width: 150,
@@ -46,7 +46,7 @@ const MedicalRecordAttachmentListComponent = (props: ClientMedicalAttachmentsCom
                 } else {
                 }
                 return <><LinkComponent
-                    route={route}>{CommonService.getSystemFormatTimeStamp(item?.created_at)}</LinkComponent></>
+                    route={route}>{CommonService.getSystemFormatTimeStamp(item?.document_date)}</LinkComponent></>
             }
         },
         {

@@ -1,8 +1,8 @@
-import {ImageConfig} from "../../../../constants";
+import {ImageConfig, Misc} from "../../../../constants";
 import "./HeaderComponent.scss";
 import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "../../../../store/reducers";
-import {logout, setSystemLocked} from "../../../../store/actions/account.action";
+import {setSystemLocked} from "../../../../store/actions/account.action";
 import {CommonService} from "../../../services";
 import {useNavigate} from "react-router-dom";
 import {useCallback} from "react";
@@ -10,6 +10,8 @@ import IconButtonComponent from "../../icon-button/IconButtonComponent";
 import {ListItemIcon, ListItemText} from "@mui/material";
 import {Logout} from "@mui/icons-material";
 import MenuDropdownComponent from "../../menu-dropdown/MenuDropdownComponent";
+import {IAPIResponseType} from "../../../models/api.model";
+import LocalStorageService from "../../../services/local-storage.service";
 
 interface HeaderComponentProps {
 
@@ -33,6 +35,18 @@ const HeaderComponent = (props: HeaderComponentProps) => {
     const handleSystemLock = useCallback(() => {
         dispatch(setSystemLocked(true, 'manual'));
     }, [dispatch]);
+
+    const handleLogout = useCallback(() => {
+        CommonService._account.LogoutAPICall()
+            .then((response: IAPIResponseType<any>) => {
+                LocalStorageService.clearAll();
+                navigate(CommonService._routeConfig.LoginRoute());
+                CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+            }).catch((error: any) => {
+            CommonService._alert.showToast(error, "error");
+        })
+
+    }, [navigate])
 
     return (
         <div className="header-component">
@@ -72,9 +86,8 @@ const HeaderComponent = (props: HeaderComponentProps) => {
                 </>} menuOptions={
                     [
                         <div className={"menu-item"} onClick={() => {
-                            CommonService._alert.showToast("Logged out", "success");
-                            navigate(CommonService._routeConfig.LoginRoute());
-                            dispatch(logout());
+                            // CommonService._alert.showToast("Logged out", "success");
+                            handleLogout();
                         }}>
                             <ListItemIcon>
                                 <Logout fontSize={"medium"}/>

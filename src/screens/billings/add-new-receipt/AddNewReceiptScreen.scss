@@ -158,7 +158,6 @@
       .t-table {
         min-height: fit-content !important;
 
-
         .t-cell-units, .t-cell-discount {
           .input-component {
             input {
@@ -210,6 +209,7 @@
   }
 
   .t-table-wrapper {
+
     height: calc(100vh - 280px);
     .t-table{
       border-bottom-left-radius: 8px;

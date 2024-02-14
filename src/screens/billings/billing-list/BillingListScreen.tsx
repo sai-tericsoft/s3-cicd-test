@@ -60,6 +60,7 @@ const ClientListFilterStateInitialValues = {
     start_date: null,
     end_date: null,
     linked_invoices: false,
+    linked_receipts: false,
     sort: {},
 }
 const BillingListScreen = (props: PaymentListComponentProps) => {
@@ -247,12 +248,12 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
         },
         {
             title: 'Total Amount',
-            key: 'amount',
+            key: 'total',
             align: 'center',
-            dataIndex: 'amount',
+            dataIndex: 'total',
             width: 120,
             render: (item: any) => {
-                return <>{Misc.CURRENCY_SYMBOL}{CommonService.convertToDecimals(item?.total)}</>
+                return <>{Misc.CURRENCY_SYMBOL}{CommonService.convertToDecimals(+item?.total)}</>
             }
         },
         {
@@ -443,7 +444,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             align: 'center',
             dataIndex: 'amount',
             render: (item: any) => {
-                return <>{Misc.CURRENCY_SYMBOL}{CommonService.convertToDecimals(item?.total)}</>
+                return <>{Misc.CURRENCY_SYMBOL}{CommonService.convertToDecimals(+item?.total)}</>
             }
         },
         {
@@ -566,7 +567,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             align: 'center',
             dataIndex: 'amount',
             render: (item: any) => {
-                return <>{Misc.CURRENCY_SYMBOL}{CommonService.convertToDecimals(item?.total)}</>
+                return <>{Misc.CURRENCY_SYMBOL}{CommonService.convertToDecimals(+item?.total)}</>
             }
         },
         {
@@ -657,7 +658,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
             key: 'amount',
             align: 'center',
             render: (item: any) => {
-                return <>{Misc.CURRENCY_SYMBOL}{CommonService.convertToDecimals(item?.total) || '-'}</>
+                return <>{Misc.CURRENCY_SYMBOL}{CommonService.convertToDecimals(+item?.total) || '-'}</>
             }
         },
         {
@@ -803,6 +804,14 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
         const step: PaymentsListTabType = searchParams.get("activeTab") as PaymentsListTabType;
         if (step && PaymentsListTabTypes.includes(step)) {
             setCurrentTab(step);
+            setClientListFilterState((oldState: any) => {
+                return {
+                    ...oldState,
+                    date_range: [],  // Reset date range to initial state
+                    start_date: undefined,  // Reset start date to initial state
+                    end_date: undefined  // Reset end date to initial state
+                };
+            });
         } else {
             searchParams.set("activeTab", PaymentsListTabTypes[0]);
             setSearchParams(searchParams);
@@ -1138,6 +1147,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                                         {
                                             ...clientListFilterState,
                                             linked_invoices: value,
+                                            linked_receipts: value,
                                             client_id: undefined
                                         }
                                     );
@@ -1145,6 +1155,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                                     setClientListFilterState({
                                         ...clientListFilterState,
                                         linked_invoices: value,
+                                        linked_receipts: value,
                                         client_id: selectedPayments[0]?.client_id
                                     })
                                 }
@@ -1192,7 +1203,7 @@ const BillingListScreen = (props: PaymentListComponentProps) => {
                                         icon={<ImageConfig.CompletedPayments/>}
                                     />
                                 </div>
-                                <div className="ts-col-lg-3 ts-col-md-6 ts-col-sm-6 billing-stats-card">
+                                <div className="ts-col-lg-3 ts-col-md-6 ts-col-sm-6 billing-stats-card last-card">
                                     <BillingStatsCardComponent
                                         title={"Discount Amount"}
                                         amount={billingStats?.discounts}

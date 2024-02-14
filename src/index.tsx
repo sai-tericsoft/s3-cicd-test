@@ -1,11 +1,14 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import './index.scss';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {BrowserRouter} from "react-router-dom";
 import {Provider} from "react-redux";
 import {store} from "./store";
+import ReactDOM from "react-dom";
+
+//Todo: We are using react 17 because of bug in react 18 and redux mismatch.
+//Todo: Don't repeat this mistake again in next project
 
 ReactDOM.render(
     <React.StrictMode>

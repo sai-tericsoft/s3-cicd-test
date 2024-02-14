@@ -454,7 +454,7 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
                                                     </div>
                                                     <div className="ts-col-md-6 ts-col-lg-3">
                                                         <DataLabelValueComponent label={"Reported By"}>
-                                                            {surgeryRecord.reported_by?.first_name} {surgeryRecord.reported_by?.last_name}
+                                                            {currentUser?.first_name + " " + currentUser?.last_name || "NA"}
                                                         </DataLabelValueComponent>
                                                     </div>
                                                     <div className="ts-col-md-6 ts-col-lg-3">

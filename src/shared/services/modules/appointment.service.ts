@@ -83,6 +83,10 @@ const BlockCalender = (providerId: any, payload: any) => {
     return ApiService[APIConfig.BLOCK_SLOTS.METHOD](APIConfig.BLOCK_SLOTS.URL(providerId), payload);
 }
 
+const CheckCouponAvailability = (payload: any) => {
+    return ApiService[APIConfig.CHECK_COUPON_AVAILABILITY.METHOD](APIConfig.CHECK_COUPON_AVAILABILITY.URL, payload);
+}
+
 const AppointmentService = {
     addAppointment,
     appointmentPayment,
@@ -102,7 +106,8 @@ const AppointmentService = {
     getAvailableCouponList,
     checkAppointmentExistsToBlock,
     BlockCalender,
-    appointmentGetAmount
+    appointmentGetAmount,
+    CheckCouponAvailability
 }
 
 export default AppointmentService;

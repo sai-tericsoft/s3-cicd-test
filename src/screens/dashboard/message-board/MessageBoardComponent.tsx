@@ -46,7 +46,7 @@ const MessageBoardComponent = (props: MessageBoardComponentProps) => {
     }, []);
 
     useEffect(() => {
-        dispatch(getAllMessageHistory());
+        dispatch(getAllMessageHistory(false));
     }, [dispatch]);
 
     const handleBackStep = useCallback(() => {
@@ -60,11 +60,11 @@ const MessageBoardComponent = (props: MessageBoardComponentProps) => {
             confirmationTitle: "DELETE MESSAGE",
             confirmationSubTitle: "Are you sure you want to delete this message from the message board?"
         }).then(() => {
-            CommonService._dashboardService.deleteDashboardMessage(messageId, {})
+            CommonService._dashboardService.editDashboardMessage(messageId, {is_deleted:true})
                 .then((response: any) => {
                     CommonService._alert.showToast('Message deleted successfully!', "success");
                     // handleCloseAllMessagesDrawer();
-                    dispatch(getAllMessageHistory());
+                    dispatch(getAllMessageHistory(false));
                 }).catch((error: any) => {
                 CommonService._alert.showToast(error.error, "error");
             });

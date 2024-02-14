@@ -48,8 +48,8 @@ const ImportSoapNoteComponent = (props: ImportSoapNoteComponentProps) => {
             dataIndex: 'created_at',
             render: ( item: any) => {
                 return <>
-                    {CommonService.getSystemFormatTimeStamp(item?.created_at)}
-                    {item?.is_flagged && <ImageConfig.FlagIcon/>}
+                   <div>{CommonService.getSystemFormatTimeStamp(item?.created_at)}</div>
+                    <div className={'mrg-left-10'}>{item?.is_flagged && <ImageConfig.FlagIcon/>}</div>
                 </>
             }
         },

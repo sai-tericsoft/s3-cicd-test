@@ -9,7 +9,7 @@ import {IAPIResponseType} from "../../../shared/models/api.model";
 import {ImageConfig} from "../../../constants";
 import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
-import {getMedicalInterventionDetails} from "../../../store/actions/chart-notes.action";
+import {getMedicalInterventionDetails, setMedicalInterventionDetails} from "../../../store/actions/chart-notes.action";
 import {setCurrentNavParams} from "../../../store/actions/navigation.action";
 import {ITableColumn} from "../../../shared/models/table.model";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
@@ -85,6 +85,11 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
         isMedicalInterventionDetailsLoading,
         isMedicalInterventionDetailsLoaded
     } = useSelector((state: IRootReducerState) => state.chartNotes);
+
+    const {currentUser} = useSelector((state: IRootReducerState) => state.account)
+
+    console.log('currentUser', currentUser);
+
     const {medicalRecordId, medicalInterventionId} = useParams();
     const location = useLocation();
     const search = CommonService.parseQueryString(location.search);
@@ -185,7 +190,7 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                         item?.config?.comments ?
                             <ToolTipComponent tooltip={item?.config?.comments}>
                                 <div
-                                    className={'comment-text'}>{item?.config?.comments?.length>80 ? CommonService.capitalizeFirstLetter(item?.config?.comments?.substring(0, 80) + '...') : item?.config?.comments}
+                                    className={'comment-text'}>{item?.config?.comments?.length > 80 ? CommonService.capitalizeFirstLetter(item?.config?.comments?.substring(0, 80) + '...') : item?.config?.comments}
                                 </div>
                             </ToolTipComponent> : '-'
                     }
@@ -215,102 +220,101 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
     }, [])
 
     const getMedicalInterventionROMConfigColumns = useCallback((body_part: any): ITableColumn[] => {
-                // console.log("body_part", body_part);
-                const ROMColumns: any[] = [
-                    {
-                        title: '',
-                        fixed: 'left',
-                        children: [
-                            {
-                                title: 'Movement',
-                                key: 'movement',
-                                width: 180,
-                                // fixed: 'left',
-                                render: (record: any) => {
-                                    return <div className="movement-name">
-                                        {record?.movement_name}
-                                    </div>
-                                }
+            // console.log("body_part", body_part);
+            const ROMColumns: any[] = [
+                {
+                    title: '',
+                    fixed: 'left',
+                    children: [
+                        {
+                            title: 'Movement',
+                            key: 'movement',
+                            width: 180,
+                            // fixed: 'left',
+                            render: (record: any) => {
+                                return <div className="movement-name">
+                                    {record?.movement_name}
+                                </div>
                             }
-                        ]
-                    },
+                        }
+                    ]
+                },
 
-                ];
-                (body_part?.selected_sides || []).forEach((side: any) => {
-                    ROMColumns.push({
-                        title: side,
-                        className: side,
-                        // fixed: 'left',
-                        align: 'center',
-                        children: [
-                            {
-                                title: 'AROM',
-                                dataIndex: 'arom',
-                                key: side + 'arom',
-                                align: 'center',
-                                // fixed: 'left',
-                                width: 37,
-                                render: (item: any) => {
-                                    return <div className={'movement-name'}>{item?.config[side]?.arom || '-'}</div>
-                                }
-                            },
-                            {
-                                title: 'PROM',
-                                dataIndex: 'prom',
-                                key: side + 'prom',
-                                align: 'center',
-                                // fixed: 'left',
-                                width: 37,
-                                render: (item: any) => {
-                                    return <div className={'movement-name'}>{item?.config[side]?.prom || "-"}</div>
-                                }
-                            },
-                            {
-                                title: 'Strength',
-                                dataIndex: 'strength',
-                                key: side + 'strength',
-                                align: 'center',
-                                // fixed: 'left',
-                                width: 50,
-                                render: (item: any) => {
-                                    return <div className={'movement-name'}>{item?.config[side]?.strength || "-"}</div>
-                                }
+            ];
+            (body_part?.selected_sides || []).forEach((side: any) => {
+                ROMColumns.push({
+                    title: side,
+                    className: side,
+                    // fixed: 'left',
+                    align: 'center',
+                    children: [
+                        {
+                            title: 'AROM',
+                            dataIndex: 'arom',
+                            key: side + 'arom',
+                            align: 'center',
+                            // fixed: 'left',
+                            width: 37,
+                            render: (item: any) => {
+                                return <div className={'movement-name'}>{item?.config[side]?.arom || '-'}</div>
                             }
-                        ]
-                    });
+                        },
+                        {
+                            title: 'PROM',
+                            dataIndex: 'prom',
+                            key: side + 'prom',
+                            align: 'center',
+                            // fixed: 'left',
+                            width: 37,
+                            render: (item: any) => {
+                                return <div className={'movement-name'}>{item?.config[side]?.prom || "-"}</div>
+                            }
+                        },
+                        {
+                            title: 'Strength',
+                            dataIndex: 'strength',
+                            key: side + 'strength',
+                            align: 'center',
+                            // fixed: 'left',
+                            width: 50,
+                            render: (item: any) => {
+                                return <div className={'movement-name'}>{item?.config[side]?.strength || "-"}</div>
+                            }
+                        }
+                    ]
                 });
+            });
 
-                ROMColumns.push(
-                    {
-                        title: '',
-                        key: 'comments-header',
-                        fixed: 'right',
-                        width: 400,
-                        children: [
-                            {
-                                title: 'Comments',
-                                dataIndex: 'comments',
-                                key: 'comments',
-                                width: 400,
-                                render: (item: any) => {
-                                    return <>
-                                        {item?.config?.comments ?
-                                            <ToolTipComponent tooltip={item?.config?.comments}>
-                                                <div
-                                                    className={'comment-text'}> {item?.config?.comments?.length>80 ? CommonService.capitalizeFirstLetter(item?.config?.comments?.substring(0, 80) + '...') : item?.config?.comments}
-                                                </div>
-                                            </ToolTipComponent> : '-'}
-                                    </>
-                                }
+            ROMColumns.push(
+                {
+                    title: '',
+                    key: 'comments-header',
+                    fixed: 'right',
+                    width: 400,
+                    children: [
+                        {
+                            title: 'Comments',
+                            dataIndex: 'comments',
+                            key: 'comments',
+                            width: 400,
+                            render: (item: any) => {
+                                return <>
+                                    {item?.config?.comments ?
+                                        <ToolTipComponent tooltip={item?.config?.comments}>
+                                            <div
+                                                className={'comment-text'}> {item?.config?.comments?.length > 80 ? CommonService.capitalizeFirstLetter(item?.config?.comments?.substring(0, 80) + '...') : item?.config?.comments}
+                                            </div>
+                                        </ToolTipComponent> : '-'}
+                                </>
                             }
-                        ]
-                    }
-                )
-                return ROMColumns;
-            },
-            []
-        )
-    ;
+                        }
+                    ]
+                }
+            )
+            return ROMColumns;
+        },
+        []
+    );
 
     const onSubmit = useCallback((values: any, {
         setSubmitting,
@@ -326,6 +330,7 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
             }
             CommonService._chartNotes.MedicalInterventionBasicDetailsUpdateAPICall(medicalInterventionId, payload)
                 .then((response: IAPIResponseType<any>) => {
+                    dispatch(setMedicalInterventionDetails(response.data));
                     setSignedObject({
                         is_signed: response.data?.is_signed,
                         signed_on: response.data?.signed_on
@@ -351,7 +356,7 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                     }
                 })
         }
-    }, [medicalInterventionId]);
+    }, [dispatch,medicalInterventionId]);
 
 
     useEffect(() => {
@@ -439,7 +444,8 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
             confirmationTitle: "DISCARD SOAP NOTE",
             confirmationDescription: <div className={'discard-soap'}>
                 <div>Are you sure you want to permanently discard this<br/>
-                SOAP note? This action cannot be undone.</div>
+                    SOAP note? This action cannot be undone.
+                </div>
             </div>
         }).then(() => {
             (medicalInterventionId) && CommonService._chartNotes.DiscardSoapNote(medicalInterventionId, {})
@@ -466,7 +472,7 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
         }
 
     }, [medicalInterventionId]);
-    
+
     return (
         <div className={'add-medical-intervention-screen'}>
             {
@@ -512,7 +518,7 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                         {(formik) => {
                             return (
                                 <Form className="t-form" noValidate={true}>
-                                    <FormAutoSave formikCtx={formik} delay={500}/>
+                                    <FormAutoSave formikCtx={formik}/>
                                     <div
                                         className={"display-flex align-items-center justify-content-space-between mrg-bottom-25"}>
                                         <FormControlLabelComponent label={"SOAP Note"} size={'lg'}
@@ -1337,7 +1343,7 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                                                 <ESignApprovalComponent isSigned={signedObject?.is_signed}
                                                                         isSigning={isSigningInProgress}
                                                     // isLoading={formik.isSubmitting}
-                                                                        signature_url={medicalInterventionDetails?.signature}
+                                                                        signature_url={medicalInterventionDetails?.is_signed ? medicalInterventionDetails?.signature : currentUser?.signature}
                                                                         canSign={true}
                                                                         signedAt={signedObject?.signed_on}
                                                                         onSign={() => {

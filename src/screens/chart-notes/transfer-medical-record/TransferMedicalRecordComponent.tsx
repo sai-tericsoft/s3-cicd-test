@@ -14,7 +14,7 @@ import RadioButtonGroupComponent, {
 import CardComponent from "../../../shared/components/card/CardComponent";
 import LinkComponent from "../../../shared/components/link/LinkComponent";
 import CheckBoxComponent from "../../../shared/components/form-controls/check-box/CheckBoxComponent";
-import {ImageConfig} from "../../../constants";
+import {ImageConfig, Misc} from "../../../constants";
 
 interface TransferMedicalRecordComponentProps {
     onClose: () => void;
@@ -76,6 +76,17 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
         }, [selectedMedicalInterventions]);
 
         const MedicalInterventionListColumns: ITableColumn[] = useMemo(() => [
+
+            {
+                title: '',
+                key: "flag",
+                dataIndex: 'is_flagged',
+                width: 40,
+                fixed: 'left',
+                render: (item: any) => {
+                    return <div className={'flag-wrapper'}>{item?.is_flagged && <ImageConfig.FlagIcon/>}</div>
+                }
+            },
             {
                 title: "File Name",
                 key: 'select',
@@ -95,7 +106,7 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
                         />
                     );
                 },
-                width: 150,
+                width: 120,
             },
             {
                 title: 'Date',
@@ -198,14 +209,14 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
                 "transfer_records": !shouldTransferEntireMedicalRecord ? selectedMedicalInterventions?.map((item: any) => {
                     return {
                         "_id": item?._id,
-                        "note_type_category": item?.note_type || item?.note_type_category,
+                        "note_type_category": item?.note_type_category,
                     }
                 }) : [],
             };
             CommonService._chartNotes.TransferMedicalRecordAPICall(selectedClient?._id, payload)
                 .then((response: IAPIResponseType<any>) => {
                     onMedicalRecordTransfer(response?.data);
-                    CommonService._alert.showToast("File(s) have been transferred successfully.", 'success');
+                    CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                     setRefreshToken(Math.random().toString(36).substring(7));
                     setIsMedicalRecordTransferUnderProgress(false);
                 }).catch((error: any) => {
@@ -244,7 +255,7 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
                         <span className={'client-case-name-title mrg-left-10'}>&nbsp;Case:</span>
                         <span>
                            &nbsp; {(selectedMedicalRecordToTransferUnder?.injury_details.length > 2 ? selectedMedicalRecordToTransferUnder.injury_details.slice(0, 2).map((injury: any) => injury.body_part_details?.name + " (" + injury.body_side + ") ").join(', ') + " ..."
-                                : selectedMedicalRecordToTransferUnder.injury_details.map((injury: any) => injury.body_part_details?.name + " (" + injury.body_side + ") ").join(', '))}
+                            : selectedMedicalRecordToTransferUnder.injury_details.map((injury: any) => injury.body_part_details?.name + " (" + injury.body_side + ") ").join(', '))}
                         </span>
                     </div>
                 </div>

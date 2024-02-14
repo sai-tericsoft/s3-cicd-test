@@ -65,7 +65,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
             title: "Date",
             key: "date",
             dataIndex: "date",
-            align:'center',
+            align: 'center',
             width: 120,
             render: (item: any) => {
                 return CommonService.convertDateFormat(item.appointment_date, 'DD-MMM-YYYY')
@@ -106,11 +106,13 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                             showArrow={true}
                         >
                             <div className={"ellipses-for-table-data"}>
-                                <span className={item?.client_details?.is_alias_name_set ? "alias-name":""}> {item?.client_details && CommonService.extractName(item?.client_details)}</span>
+                                <span
+                                    className={item?.client_details?.is_alias_name_set ? "alias-name" : ""}> {item?.client_details && CommonService.extractName(item?.client_details)}</span>
                             </div>
                         </ToolTipComponent> :
                         <>
-                            <span className={item?.client_details?.is_alias_name_set ? "alias-name":""}> {item?.client_details && CommonService.extractName(item?.client_details)}</span>
+                            <span
+                                className={item?.client_details?.is_alias_name_set ? "alias-name" : ""}> {item?.client_details && CommonService.extractName(item?.client_details)}</span>
                         </>
                     }
 
@@ -314,7 +316,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                             };
                         }
                     })
-                    console.log(data);
+                    console.log(data,'data');
                     setServiceCategoryColorMap(colorMap);
                     setServiceCategoryList(data);
                 })
@@ -579,21 +581,33 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
         }
     }, [getServiceList]);
 
+    const closeBookAppointmentDrawer = useCallback(() => {
+        setIsBookAppointmentOpen(false);
+        setBookAppointmentPreFill({});
+        setRefreshToken(Math.random().toString())
+    }, []);
+
+    useEffect(() => {
+        if (!isBookAppointmentOpen) {
+            setRefreshToken(Math.random().toString())
+        }
+    }, [isBookAppointmentOpen]);
+
     return (
         <div className={'scheduling-list-component'}>
             <div className="ts-row scheduling-header-wrapper">
                 <div className="scheduling-header-search-wrapper">
                     {viewMode === "list" && <SearchComponent
-                                                             className={'scheduling-list-input mrg-top-20'}
-                                                             label={'Search'}
-                                                             placeholder={'Search using Client Name'}
-                                                             value={schedulingListFilterState.search}
-                                                             onSearchChange={(value) => {
-                                                                 setSchedulingListFilterState({
-                                                                     ...schedulingListFilterState,
-                                                                     search: value
-                                                                 })
-                                                             }}/>
+                        className={'scheduling-list-input mrg-top-20'}
+                        label={'Search'}
+                        placeholder={'Search using Client Name'}
+                        value={schedulingListFilterState.search}
+                        onSearchChange={(value) => {
+                            setSchedulingListFilterState({
+                                ...schedulingListFilterState,
+                                search: value
+                            })
+                        }}/>
                     }
                 </div>
                 {
@@ -702,7 +716,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                 onDateChange={(value: any) => {
                                     handleFilters(value, 'dateRange')
                                 }}
-                                />
+                            />
                         </div>
                         }
 
@@ -712,7 +726,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                 <SelectComponent size={'small'}
                                                  label={'Service Category'}
                                                  value={schedulingListFilterState?.category_id || ''}
-                                                 displayWith={item => item ? item?.name : ''}
+                                                 displayWith={(item: any) => item ? (item?.name?.length > 20 ? item?.name?.slice(0, 20) + '...' : item?.name) : ''}
                                                  keyExtractor={item => item?._id}
                                                  valueExtractor={item => item?._id}
                                                  options={serviceCategoryList || []}
@@ -728,7 +742,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                                  label={'Service'}
                                                  disabled={!schedulingListFilterState?.category_id}
                                                  value={schedulingListFilterState?.service_id || ''}
-                                                 displayWith={item => item ? item?.name : ''}
+                                                 displayWith={(item: any) => item ? (item?.name?.length > 20 ? item?.name?.slice(0, 20) + '...' : item?.name) : ''}
                                                  keyExtractor={item => item?._id}
                                                  valueExtractor={item => item?._id}
                                                  options={serviceList || []}
@@ -836,7 +850,8 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                                         return (
                                                             <ToolTipComponent key={index} tooltip={
                                                                 <>
-                                                                    <b><span className={value?.client_details?.is_alias_name_set ? 'alias-name':''}>{commonService.generateClientNameFromClientDetails(value?.client_details) || "No title"}</span></b><br/>
+                                                                    <b><span
+                                                                        className={value?.client_details?.is_alias_name_set ? 'alias-name' : ''}>{commonService.generateClientNameFromClientDetails(value?.client_details) || "No title"}</span></b><br/>
                                                                     {value?.category_details?.name + ' / ' + value?.service_details?.name + ' - ' + (value?.provider_details?.first_name + ' ' + value?.provider_details?.last_name) || "-"}
                                                                     <br/>
                                                                     {CommonService.getHoursAndMinutesFromMinutes(value?.start_time) + ' - ' + CommonService.getHoursAndMinutesFromMinutes(value?.end_time) || "-"}
@@ -852,7 +867,9 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                                                     }}
                                                                     className={'appointment-mini-card ' + (value.status)}>
                                                                     <div
-                                                                        className="appointment-title"><span className={value?.client_details?.is_alias_name_set ? "alias-name":''}>{commonService.generateClientNameFromClientDetails( value?.client_details)}</span></div>
+                                                                        className="appointment-title"><span
+                                                                        className={value?.client_details?.is_alias_name_set ? "alias-name" : ''}>{commonService.generateClientNameFromClientDetails(value?.client_details)}</span>
+                                                                    </div>
                                                                     <div
                                                                         className="appointment-status">{value.status || '-'}</div>
                                                                 </div>
@@ -864,7 +881,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                                             <ToolTipComponent key={index} tooltip={
                                                                 <>
                                                                     <b>{CommonService.capitalizeFirstLetter(value.first_name) + ' ' + CommonService.capitalizeFirstLetter(value.last_name)}</b><br/>
-                                                                    <div className={'mrg-top-5'}>No of Appointments
+                                                                    <div className={'mrg-top-5'}>No. of Appointments
                                                                         : {value?.count || 0}</div>
                                                                 </>
                                                             }
@@ -1047,11 +1064,12 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                                                                              setOpenedAppointmentDetails(appointment);
                                                                                          }}
                                                                                          style={{
-                                                                                             top: (appointment.start_time - value.start)*2 ,
-                                                                                             height: (appointment.end_time - appointment.start_time)*2,
-                                                                                             minHeight: (appointment.end_time - appointment.start_time)*2,
-                                                                                             maxHeight: (appointment.end_time - appointment.start_time)*2
-                                                                                         }}>
+                                                                                             top: (appointment.start_time - value.start) * 2,
+                                                                                             height: (appointment.end_time - appointment.start_time) * 2,
+                                                                                             minHeight: (appointment.end_time - appointment.start_time) * 2,
+                                                                                             maxHeight: (appointment.end_time - appointment.start_time) * 2
+                                                                                         }}
+                                                                                    >
                                                                                         <CalendarAppointmentCard
                                                                                             title={appointment.client_details}
                                                                                             timeSlot={CommonService.getHoursAndMinutesFromMinutes(appointment.start_time) + ' - ' + CommonService.getHoursAndMinutesFromMinutes(appointment.end_time)}
@@ -1071,8 +1089,8 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                                                                 return (
                                                                                     <div className="card-item blocked"
                                                                                          style={{
-                                                                                             top: nonFirstAllDayBlock ? (blocked_slot.start_time - value.start)*2  : 0,
-                                                                                             height: nonFirstAllDayBlock ? (blocked_slot.end_time - blocked_slot.start_time)*2  : 0
+                                                                                             top: nonFirstAllDayBlock ? (blocked_slot.start_time - value.start) * 2 : 0,
+                                                                                             height: nonFirstAllDayBlock ? (blocked_slot.end_time - blocked_slot.start_time) * 2 : 0
                                                                                          }}>
                                                                                         {nonFirstAllDayBlock &&
                                                                                             <CalendarAppointmentCard
@@ -1156,7 +1174,8 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                                                 <div><img src={ImageConfig.Search} alt="client-search"/></div>
                                                 <div className={'no-appointment-heading'}>No Client Found!</div>
                                                 <div className={'no-appointment-description'}>
-                                                    Please adjust filters or choose a different date range to refine your
+                                                    Please adjust filters or choose a different date range to refine
+                                                    your
                                                     search.
                                                 </div>
                                             </div> : '')
@@ -1174,7 +1193,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
 
             <DrawerComponent isOpen={!!openedAppointmentDetails}
                              onClose={setOpenedAppointmentDetails.bind(null, null)}
-                             showClose={true}
+                // showClose={true}
                              className={'book-appointment-component-drawer'}>
 
                 <AppointmentDetailsComponent
@@ -1192,7 +1211,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
             </DrawerComponent>
 
             <DrawerComponent isOpen={isBookAppointmentOpen}
-                             // showClose={true}
+                // showClose={true}
                              onClose={setIsBookAppointmentOpen.bind(null, false)}
                              className={'book-appointment-component-drawer'}>
                 <BookAppointmentComponent
@@ -1204,8 +1223,7 @@ const SchedulingScreen = (props: SchedulingScreenProps) => {
                             } else {
                                 setRefreshToken(Math.random().toString());
                             }
-                            setIsBookAppointmentOpen(false);
-                            setBookAppointmentPreFill({})
+                            closeBookAppointmentDrawer();
                         }
                     }
                     onClose={

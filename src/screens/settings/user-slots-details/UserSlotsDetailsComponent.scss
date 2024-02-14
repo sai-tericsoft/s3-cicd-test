@@ -3,6 +3,16 @@
     .t-tab-panel {
       .card-component {
         margin-bottom: 0px !important;
+
+        .slots-timings-table-view-wrapper {
+          .horizontal-line-wrapper {
+            margin-bottom: 0 !important;
+          }
+        }
+
+        .divider {
+          margin-bottom: 0 !important;
+        }
       }
 
       .divider {
@@ -23,5 +33,6 @@
         }
       }
     }
+
   }
 }

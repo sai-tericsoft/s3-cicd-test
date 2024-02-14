@@ -7,7 +7,7 @@
 
   .appointment-details-title {
     font-weight: 700;
-    font-size:1.2857rem;
+    font-size: 1.2857rem;
     line-height: 24px;
     margin-bottom: 24px;
   }
@@ -109,12 +109,14 @@
       }
     }
   }
+
   .details-header {
     .block-body {
       display: flex;
       flex-direction: row;
-      padding-bottom:20px ;
+      padding-bottom: 20px;
       padding-top: 10px;
+
       .block-content {
         flex-direction: row;
         display: flex;
@@ -135,22 +137,31 @@
       }
     }
   }
+
   .details-box {
     //margin: 10px 0;
     border: 1px solid #E7E8EA;
+
     .details-header {
       background: #EAF3F2;
       padding: 12px 24px;
       font-weight: 500;
     }
+
     .details-body-block {
       border-top: 1px solid #E7E8EA;
       padding: 8px 0;
+
       .details-body-item {
         display: flex;
         flex-direction: row;
         align-items: center;
         margin-left: 10px;
+
+        .MuiChip-root {
+          width: 140px !important;
+        }
+
         .item-heading {
           flex: 1;
           font-weight: 400;
@@ -161,6 +172,7 @@
           color: #83909D;
           padding: 9px;
         }
+
         .item-value {
           padding: 9px;
           flex: 2;
@@ -170,14 +182,22 @@
           //display: flex;
           //align-items: center;
           color: #212B36;
-          .minutes-chip{
+
+          .minutes-chip {
             text-transform: lowercase;
           }
-          .d-inline{
+
+          .d-inline {
             margin-top: 2px !important;
           }
-          &.green {color: #37A850 !important}
-          &.red {color: #CB6100 !important}
+
+          &.green {
+            color: #37A850 !important
+          }
+
+          &.red {
+            color: #CB6100 !important
+          }
         }
       }
     }

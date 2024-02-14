@@ -199,13 +199,13 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
             CommonService._chartNotes.UpdateSurgeryRecordAPICall(surgeryRecordId, {is_shared: true})
                 .then((response: IAPIResponseType<any>) => {
                     CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
-                    medicalRecordId && navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId) + '?activeTab=medicalRecord');
+                    // medicalRecordId && navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId) + '?activeTab=medicalRecord');
                 }).catch((error: any) => {
                 CommonService._alert.showToast(error, "error");
             })
         })
 
-    }, [medicalRecordId, navigate]);
+    }, []);
 
 
     const onAttachmentSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {

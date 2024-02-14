@@ -27,7 +27,19 @@ const discountType = [{
 },{
     title: "Amount",
     code:"amount"
-}]
+}];
+
+const discountTypeForInventory = [{
+    title: "Percentage",
+    code: 'percentage'
+},{
+    title: "Amount",
+    code:"amount"
+},{
+    title: "N/A",
+    code:"N/A"
+}];
+
 
 const SpecialTestResultOptions = [
     {
@@ -256,6 +268,7 @@ const StaticDataService = {
     GetValidDaysList,
     FacilityListLite,
     getRoleList,
+    discountTypeForInventory,
 }
 
 export default StaticDataService;

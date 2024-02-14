@@ -72,8 +72,8 @@ const UserProfessionalDetailsEditComponent = (props: UserProfessionalDetailsEdit
         if (payload.professional_details.length) {
             payload.professional_details = payload.professional_details.map((item: any) => ({
                 ...item,
-                start_date: CommonService.convertDateFormat(item?.start_date),
-                end_date: CommonService.convertDateFormat(item?.end_date),
+                // start_date: CommonService.convertDateFormat(item?.start_date),
+                // end_date: CommonService.convertDateFormat(item?.end_date),
             }));
         }
 
@@ -85,7 +85,6 @@ const UserProfessionalDetailsEditComponent = (props: UserProfessionalDetailsEdit
                 dispatch(setUserBasicDetails(response.data));
             }).catch((error: any) => {
             CommonService.handleErrors(setErrors, error, true);
-            console.log('errors', error);
             setSubmitting(false);
         })
     }, [userBasicDetails, dispatch]);

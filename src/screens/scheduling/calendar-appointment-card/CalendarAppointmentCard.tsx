@@ -26,7 +26,7 @@ const CalendarAppointmentCard = (props: CalendarAppointmentCardProps) => {
 
                                   {timeSlot || "-"} <br/>
                                   {status !== 'blocked' ?
-                                      <> {CommonService.capitalizeFirstLetter(status) || "-"}</> :
+                                      <> {CommonService.capitalizeFirstLetterAndRemoveUnderScore(status) || "-"}</> :
                                       <div className="card-appointment-reason">Reason: {reason || "-"}</div>
                                   }
                               </>
@@ -45,7 +45,7 @@ const CalendarAppointmentCard = (props: CalendarAppointmentCardProps) => {
                             </span>
                     </div>
                     <div className="card-appointment-status">
-                        {CommonService.capitalizeFirstLetter(status) || "-"}
+                        {CommonService.capitalizeFirstLetterAndRemoveUnderScore(status) || "-"}
                     </div>
                 </div>
                 {status !== 'blocked' ?

@@ -314,13 +314,13 @@ const EditMedicalRecordComponent = (props: EditMedicalRecordComponentProps) => {
                                                                             {
                                                                                 (field: FieldProps) => (
                                                                                     <FormikSelectComponent
-                                                                                        disabled={(values?.injury_details[index]?.body_part_details === "" || !values?.injury_details[index]?.body_part_details?.sides || values?.injury_details[index]?.body_part_details?.sides?.length === 0)}
-                                                                                        options={values?.injury_details[index]?.body_part_details?.sides}
+                                                                                        disabled={(values?.injury_details[index]?.body_part_details === "" || !values?.injury_details[index]?.body_part_details?.medical_record_applicable_sides || values?.injury_details[index]?.body_part_details?.medical_record_applicable_sides?.length === 0)}
+                                                                                        options={values?.injury_details[index]?.body_part_details?.medical_record_applicable_sides}
                                                                                         label={'Body Side'}
                                                                                         displayWith={(item: any) => item}
                                                                                         valueExtractor={(item: any) => item}
                                                                                         formikField={field}
-                                                                                        required={values?.injury_details[index]?.body_part_details?.sides?.length > 0}
+                                                                                        required={values?.injury_details[index]?.body_part_details?.medical_record_applicable_sides?.length > 0}
                                                                                         fullWidth={true}
                                                                                         onUpdate={() => {
                                                                                             setFieldValue(`injury_details[${index}].injury_type_id`, '');

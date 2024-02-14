@@ -2,7 +2,6 @@ import "./MedicalInterventionSpecialTestsV2Screen.scss";
 import PageHeaderComponent from "../../../shared/components/page-header/PageHeaderComponent";
 import MedicalRecordBasicDetailsCardComponent
     from "../medical-record-basic-details-card/MedicalRecordBasicDetailsCardComponent";
-import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 import React, {useCallback, useEffect, useMemo, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
@@ -39,7 +38,6 @@ const SPECIAL_TEST_CONFIG_INITIAL_VALUES = {
 // const SPECIAL_TEST_APPLICABLE_BODY_SIDES = ['Left', 'Right', 'Central'];
 
 const INITIAL_SPECIAL_TEST_FILTER_STATE = {
-    body_part_id: "",
     search: "",
 }
 
@@ -48,7 +46,6 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
     const dispatch = useDispatch();
     const {
         medicalInterventionDetails,
-        isMedicalInterventionDetailsLoading,
         isMedicalInterventionDetailsLoaded,
     } = useSelector((state: IRootReducerState) => state.chartNotes);
     const {bodyPartList} = useSelector((state: IRootReducerState) => state.staticData);
@@ -94,14 +91,14 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
                         label={record.name}
                         checked={selectedBodyPartForSpecialTestSelection?.tempSelectedSpecialTests?.includes(record.name)}
                         onChange={(isChecked: boolean) => {
-                            handleBodySideSelect(isChecked,record?.name);
+                            handleBodySideSelect(isChecked, record?.name);
                         }}
                     />
 
                 </div>
             }
         },
-    ], [selectedBodyPartForSpecialTestSelection,handleBodySideSelect]);
+    ], [selectedBodyPartForSpecialTestSelection, handleBodySideSelect]);
 
     const handleCheckBoxChange = (formik: any, groupName: string, selectedValue: any, options: any[]) => {
         return (isChecked: boolean) => {
@@ -536,7 +533,7 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
             CommonService._chartNotes.SaveMedicalInterventionSpecialTestAPICall(medicalInterventionId, {config})
                 .then((response: any) => {
                     // CommonService._alert.showToast(response.message || 'Saved Special Test information', 'success');
-                    // medicalRecordId && navigate(CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, medicalInterventionId) + `?last_position=${last_position}`)
+                    medicalRecordId && navigate(CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, medicalInterventionId) + `?last_position=${last_position}`)
                 })
                 .catch((error: any) => {
                     CommonService.handleErrors(error.error || error.errors || 'Error saving Special Test configuration', 'error');
@@ -546,7 +543,7 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
         } else {
             CommonService._alert.showToast('Please select a medical intervention', 'error');
         }
-    }, [medicalInterventionId]);
+    }, [medicalInterventionId,last_position,medicalRecordId, navigate]);
 
     const handleBodyPartDelete = useCallback((bodyPartId: string) => {
         if (medicalInterventionId) {
@@ -580,12 +577,6 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
         setSelectedBodyPartForSpecialTestSelection({
             ...bodyPart,
             tempSelectedSpecialTests: _.cloneDeep(Object.keys(specialTestFormValues?.[bodyPart?._id]?.special_test_config)) || []
-        });
-        setSpecialTestsFilterState((prevFilterState: any) => {
-            return {
-                ...prevFilterState,
-                body_part_id: bodyPart?._id
-            }
         })
         setIsAddSpecialTestDrawerOpen(true);
     }, [specialTestFormValues]);
@@ -648,11 +639,6 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
             <MedicalRecordBasicDetailsCardComponent/>
             <>
                 {
-                    (isMedicalInterventionDetailsLoading) && <>
-                        <LoaderComponent/>
-                    </>
-                }
-                {
                     (isMedicalInterventionDetailsLoaded && medicalInterventionId) && <>
                         {
                             (globalSpecialTestConfig?.length === 0) && <>
@@ -691,6 +677,7 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
                                                     {
                                                         Object.keys(values)?.map((bodyPartId: any) => {
                                                             const bodyPart = values[bodyPartId];
+                                                            console.log('bodyPart', bodyPart);
                                                             return (
                                                                 <CardComponent
                                                                     title={"Body Part: " + bodyPart?.name}
@@ -754,7 +741,7 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
                                                                         </div>
                                                                     </div>
                                                                     {
-                                                                        bodyPart?.special_tests?.map((special_test: any) => {
+                                                                        Object.keys(bodyPart?.special_test_config)?.map((special_test: any) => {
                                                                             if (showSpecialTestForCommentsModal && selectedBodyPartForComments?._id === bodyPartId && special_test === selectedSpecialTestForComments) {
                                                                                 return <ModalComponent
                                                                                     key={bodyPartId + special_test}
@@ -875,7 +862,7 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
                             columns={specialTestSelectionColumns}
                             isPaginated={false}
                             extraPayload={specialTestsFilterState}
-                            />
+                        />
                     </div>
                     <div className={'add-special-test-drawer-action'}>
                         <ButtonComponent
