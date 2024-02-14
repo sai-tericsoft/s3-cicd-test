@@ -1078,7 +1078,7 @@ const AddNewReceiptScreen = (props: AddNewReceiptScreenProps) => {
             >
                 {
                     currentStep === 'selectAddress' && <>
-                        <FormControlLabelComponent label={"Select Billing Address"}/>
+                        <FormControlLabelComponent label={"Select Billing Address"} size={'xl'}/>
                         <div className={'select-billing-address'}>
                             {getBillingList?.length > 0 && getBillingList?.map((item: any, index: number) => {
                                 return <div className={'select-address-card'}>

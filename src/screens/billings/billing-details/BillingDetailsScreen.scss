@@ -302,5 +302,34 @@
         padding: 0;
       }
     }
+
+    .detailed-info-wrapper {
+      .card-component {
+       padding-bottom: 24px !important;
+      }
+      .table-component {
+        .t-table {
+          border-bottom-left-radius: 8px;
+          border-bottom-right-radius: 8px;
+
+          .t-thead {
+            .t-th {
+              height: 36px;
+              padding: 8px 16px 8px 20px;
+              background-color: #ECF7FF;
+              color: #212B36;
+              font-weight: 600;
+              border-bottom: 1px solid #E2E2E2;
+            }
+          }
+
+          .t-body {
+            .t-td {
+              min-height: 36px !important;
+            }
+          }
+        }
+      }
+    }
   }
 }

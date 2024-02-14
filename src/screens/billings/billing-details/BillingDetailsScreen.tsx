@@ -280,6 +280,9 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
             title: 'Description',
             dataIndex: 'description',
             key: 'description',
+            render: (record: any) => {
+                return <div className={'pdd-left-15'}>{record?.description}</div>
+            }
         }], []);
 
     const TreatmentColumns: ITableColumn[] = useMemo<ITableColumn[]>(() => [
@@ -703,7 +706,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                                 </CardComponent>
                             }
                             {
-                                viewMode === 'detailed' && <>
+                                viewMode === 'detailed' && <div className={'detailed-info-wrapper'}>
                                     <CardComponent title={"Medical Diagnosis/ICD Codes"}>
                                         <TableComponent
                                             columns={ICDCodesColumns}
@@ -713,7 +716,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                                             autoHeight={true}
                                         />
                                     </CardComponent>
-                                    <CardComponent className={'billing-treatment-card'}>
+                                    <CardComponent title={'Treatment/CPT Codes'}>
                                         <TableComponent
                                             columns={TreatmentColumns}
                                             data={billingDetails?.linked_cpt_codes || []}
@@ -721,7 +724,7 @@ const BillingDetailsScreen = (props: BillingDetailsScreenProps) => {
                                             autoHeight={true}
                                         />
                                     </CardComponent>
-                                </>
+                                </div>
                             }
                             <div className={'add-new-invoice__comments__payment__block__wrapper'}>
                                 <div className="ts-row">
