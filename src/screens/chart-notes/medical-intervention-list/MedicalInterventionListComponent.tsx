@@ -83,7 +83,7 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
         {
             title: 'Note Type',
             key: 'note_type',
-            width: 150,
+            width: 130,
             align: 'center',
             dataIndex: 'note_type',
             sortable: true,
@@ -128,7 +128,7 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
             sortable: true,
             render: (item: any) => {
                 return <ChipComponent label={item?.status}
-                                      className={item?.status === 'completed' ? "active" : "draft"}/>
+                                      className={item?.status === 'completed' ? "active" : "Modified"}/>
             }
         },
         {
@@ -142,10 +142,11 @@ const MedicalInterventionListComponent = (props: ClientMedicalRecordsComponentPr
             }
         },
         {
-            title: '',
+            title: 'Action',
             key: 'actions',
             width: 120,
             fixed: 'right',
+            align: 'center',
             render: (item: any) => {
                 let route = '';
                 if (medicalRecordId) {

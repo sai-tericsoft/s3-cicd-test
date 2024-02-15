@@ -69,7 +69,7 @@ const ClientSearchScreen = (props: ClientSearchScreenProps) => {
             }
         },
         {
-            title: "Last Intervention",
+            title: "Last Appointment",
             key: "last_appointment_date",
             dataIndex: "lastAppointmentDate",
             width: 200,
@@ -105,10 +105,11 @@ const ClientSearchScreen = (props: ClientSearchScreenProps) => {
             }
         },
         {
-            title: "",
+            title: "Action",
             dataIndex: "actions",
             key: "actions",
             width: 120,
+            align:'center',
             fixed: "right",
             render: (item: IClientBasicDetails) => {
                 if (item?._id) {
@@ -137,9 +138,9 @@ const ClientSearchScreen = (props: ClientSearchScreenProps) => {
 
     return (
         <div className={'client-search-component'}>
-            <CardComponent color={"primary"} className={'search-wrapper'} size={'md'}>
+            <CardComponent color={"primary"} className={'search-wrapper'}>
                 <div className={'ts-row'}>
-                    <div className={'ts-col-lg-4'}>
+                    <div className={'ts-col-lg-3'}>
                         <SearchComponent
                             className={'client-search-input mrg-top-20'}
                             label={'Search'}
@@ -172,36 +173,37 @@ const ClientSearchScreen = (props: ClientSearchScreenProps) => {
                         />
                     </div>
                 </div>
-            </CardComponent>
-            {/*{*/}
-            {/*    !clientListFilterState.search &&*/}
-            {/*    <CardComponent className={"client-search-card"}>*/}
-            {/*        <div className={'client-search-logo-wrapper'}>*/}
-            {/*            <img src={ImageConfig.Search} alt="client-search"/>*/}
-            {/*            <div className={'client-search-label'}>Search for Clients</div>*/}
-            {/*        </div>*/}
-            {/*    </CardComponent>*/}
-            {/*}*/}
 
-            <div className="list-content-wrapper">
-                <TableWrapperComponent
-                    id={"client_search"}
-                    url={APIConfig.CLIENT_LIST.URL}
-                    noDataText={(<div className={'no-client-text-wrapper'}>
-                        <div>{clientListFilterState.search ?
-                            <img src={ImageConfig.Search} alt="client-search"/> : ''}</div>
-                        <div
-                            className={'no-client-heading mrg-bottom-15'}>{clientListFilterState.search ? 'Sorry, no results found!' : ''}</div>
-                        <div className={'no-client-description'}>
-                            {clientListFilterState.search ? 'There is no client available by the ID/Name/Phone you have searched' : 'Currently, there is no client added.'}
-                        </div>
-                    </div>)}
-                    method={APIConfig.CLIENT_LIST.METHOD}
-                    columns={ClientListTableColumns}
-                    extraPayload={clientListFilterState}
-                    onSort={handleClientSort}
-                />
-            </div>
+                {/*{*/}
+                {/*    !clientListFilterState.search &&*/}
+                {/*    <CardComponent className={"client-search-card"}>*/}
+                {/*        <div className={'client-search-logo-wrapper'}>*/}
+                {/*            <img src={ImageConfig.Search} alt="client-search"/>*/}
+                {/*            <div className={'client-search-label'}>Search for Clients</div>*/}
+                {/*        </div>*/}
+                {/*    </CardComponent>*/}
+                {/*}*/}
+
+                <div className="list-content-wrapper">
+                    <TableWrapperComponent
+                        id={"client_search"}
+                        url={APIConfig.CLIENT_LIST.URL}
+                        noDataText={(<div className={'no-client-text-wrapper'}>
+                            <div>{clientListFilterState.search ?
+                                <img src={ImageConfig.Search} alt="client-search"/> : ''}</div>
+                            <div
+                                className={'no-client-heading mrg-bottom-15'}>{clientListFilterState.search ? 'Sorry, no results found!' : ''}</div>
+                            <div className={'no-client-description'}>
+                                {clientListFilterState.search ? 'There is no client available by the ID/Name/Phone you have searched' : 'Currently, there is no client added.'}
+                            </div>
+                        </div>)}
+                        method={APIConfig.CLIENT_LIST.METHOD}
+                        columns={ClientListTableColumns}
+                        extraPayload={clientListFilterState}
+                        onSort={handleClientSort}
+                    />
+                </div>
+            </CardComponent>
 
         </div>
     );

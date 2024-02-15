@@ -18,6 +18,7 @@ import {APIConfig, ImageConfig} from "../../../constants";
 import SelectComponent from "../../../shared/components/form-controls/select/SelectComponent";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
 import ToolTipComponent from "../../../shared/components/tool-tip/ToolTipComponent";
+import CardComponent from "../../../shared/components/card/CardComponent";
 
 interface ClientBasicDetailsComponentProps {
 
@@ -85,7 +86,7 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
             key: "body_part",
             align: 'center',
             dataIndex: "body_part",
-            width: 183,
+            width: 163,
             render: (item: any) => {
                 return <>{item?.injury_details?.length > 1 ?
                     <ToolTipComponent
@@ -105,7 +106,7 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
             key: "body_side",
             align: 'center',
             dataIndex: "body_side",
-            width: 90,
+            width: 85,
             render: (item: any) => {
                 return <>{item?.injury_details[0]?.body_side || "N/A"}</>
             }
@@ -115,7 +116,7 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
             dataIndex: "status",
             key: "status",
             align: 'center',
-            width: 175,
+            width: 165,
             sortable: true,
             render: (item: any) => {
                 return <ChipComponent label={item?.status}
@@ -127,8 +128,8 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
             title: "Last Provider",
             key: "last_provider",
             dataIndex: "last_provider",
-            align: "left",
-            width: 140,
+            align: "center",
+            width: 130,
             sortable: true,
             render: (item: IClientBasicDetails) => {
                 return <span>
@@ -138,10 +139,11 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
         }
         ,
         {
-            title: "",
+            title: "Action",
             dataIndex: "actions",
             key: "actions",
             width: 120,
+            align: "center",
             fixed: "right",
             render: (item: IClientBasicDetails) => {
                 if (item?._id) {
@@ -225,7 +227,7 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
                             <div className={'client-details-wrapper '}>
                                 <div className="client-details-header">
                                     <div className="client-details-title">
-                                        Medical Record List
+                                        Medical Records
                                     </div>
                                     <div className="client-details-filters-options">
                                         <div className="client-details-filters ts-row">
@@ -266,14 +268,16 @@ const MedicalRecordListScreen = (props: ClientBasicDetailsComponentProps) => {
                                         />
                                     </div>
 
-                                    <div className="client-details-tab-wrapper">
+                                    <CardComponent className="client-details-tab-wrapper">
                                         <TableWrapperComponent url={APIConfig.CLIENT_MEDICAL_INFO.URL(clientId)}
                                                                method={APIConfig.CLIENT_MEDICAL_INFO.METHOD}
                                                                extraPayload={medicalRecordListStatusDateAndProviderFilterState}
                                                                onSort={handleClientMedicalListSort}
-                                                               noDataText={(medicalRecordListStatusDateAndProviderFilterState?.status === "open" || medicalRecordListStatusDateAndProviderFilterState?.status === "closed") ? " No medical record was found for the applied status filter." : "No medical records available."}
+                                                               noDataText={(medicalRecordListStatusDateAndProviderFilterState?.status === "open" || medicalRecordListStatusDateAndProviderFilterState?.status === "closed") ?
+                                                                   <div className={'no-data-text'}>No medical record was found for the applied status
+                                                                       filter.</div> : <div className={'no-data-text'}>No record added yet.</div>}
                                                                columns={MedicalRecordListTableColumns}/>
-                                    </div>
+                                    </CardComponent>
                                 </div>
                             </div>
                         }

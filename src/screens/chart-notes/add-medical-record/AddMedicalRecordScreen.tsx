@@ -26,7 +26,6 @@ import {IAPIResponseType} from "../../../shared/models/api.model";
 import DataLabelValueComponent from "../../../shared/components/data-label-value/DataLabelValueComponent";
 import moment from "moment";
 import {useNavigate, useParams} from "react-router-dom";
-import LinkComponent from "../../../shared/components/link/LinkComponent";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
 import {getAppointmentListLite} from "../../../store/actions/appointment.action";
@@ -117,7 +116,11 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
 
     const getAppointmentLite = useCallback(() => {
         if (clientId) {
-            const payload = {client_id: clientId,is_link_to_intervention: true,appointment_type: "initial_consultation"};
+            const payload = {
+                client_id: clientId,
+                is_link_to_intervention: true,
+                appointment_type: "initial_consultation"
+            };
             dispatch(getAppointmentListLite(payload));
         }
     }, [dispatch, clientId])
@@ -203,7 +206,7 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
                 payload.surgery_details.surgery_date = CommonService.convertDateFormat(payload?.surgery_details?.surgery_date);
             }
             const formData = CommonService.getFormDataFromJSON(payload);
-            formData.append('onset_date',tempPayload.onset_date);
+            formData.append('onset_date', tempPayload.onset_date);
             if (tempPayload.case_physician.next_appointment) {
                 formData.append('case_physician.next_appointment', tempPayload?.case_physician?.next_appointment);
             }
@@ -223,7 +226,13 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
     const onSurgeryRecordSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
         setSurgeryRecord(values);
         handleSurgeryRecordDrawerClose();
-    }, [handleSurgeryRecordDrawerClose])
+    }, [handleSurgeryRecordDrawerClose]);
+
+    const handleCancel = useCallback(() => {
+        if (clientId) {
+            navigate(CommonService._routeConfig.MedicalRecordList(clientId));
+        }
+    }, [navigate, clientId]);
 
     return (
         <div className={'add-medical-record-screen'}>
@@ -248,7 +257,7 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
                             }, [validateForm, values]);
                             return (
                                 <Form className="t-form" noValidate={true}>
-                                    <FormControlLabelComponent label={"Surgery Record"} size={'lg'}/>
+                                    <FormControlLabelComponent label={"Add Surgery Record"} size={'xl'}/>
                                     <div className={"t-surgery-record-drawer-form-controls"}>
                                         <Field name={'surgery_date'}>
                                             {
@@ -304,7 +313,7 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
                                             }
                                         </Field>
                                         <div className={'attachment-heading'}>
-                                            Attachment
+                                            Upload Attachment:
                                         </div>
                                         {/*<FieldArray*/}
                                         {/*    name="documents"*/}
@@ -356,8 +365,8 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
                                                                              setFieldValue('attachment', file);
                                                                          }
                                                                      }}
-                                                                     acceptedFileTypes={["png", "jpeg"]}
-                                                                     acceptedFilesText={"PNG and JPEG files are allowed upto 100MB"}
+                                                                     acceptedFileTypes={["png", "jpeg", "pdf"]}
+                                                                     acceptedFilesText={"PNG, JPEG and PDF files are allowed upto 100MB"}
                                                 />
                                                 {
                                                     (_.get(touched, "attachment") && !!(_.get(errors, "attachment"))) &&
@@ -389,7 +398,7 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
                 validateOnBlur={false}
                 enableReinitialize={true}
                 validateOnMount={true}>
-                {({values, touched, errors, setFieldValue, validateForm}) => {
+                {({values, touched, errors, setFieldValue, isValid, validateForm}) => {
                     // eslint-disable-next-line react-hooks/rules-of-hooks
                     useEffect(() => {
                         validateForm();
@@ -409,11 +418,12 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
                                 isAppointmentListLiteLoaded && <>
 
                                     {/*<FormDebuggerComponent values={values} errors={errors}/>*/}
+
                                     {
                                         !surgeryRecord && <div
                                             className={"add-new-medical-record-wrapper"}>
                                             {/*<PageHeaderComponent title={''} className={'display-flex'}/>*/}
-                                            <div className={"add-new-medical-record-title"}>Add New Medical Record</div>
+                                            <FormControlLabelComponent label={'Add Medical Record'} size={'xl'}/>
                                             <ButtonComponent prefixIcon={<ImageConfig.AddIcon/>}
                                                              onClick={handleSurgeryRecordDrawerOpen}
                                             >
@@ -423,70 +433,76 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
                                     }
                                     {
                                         surgeryRecord &&
-                                        <CardComponent color={"primary"}>
-                                            <div
-                                                className={"display-flex flex-direction-row justify-content-space-between mrg-bottom-20"}>
-                                                <FormControlLabelComponent label={"Surgery Record"}/>
+                                        <><FormControlLabelComponent label={'Add Medical Record'} size={'xl'}/>
+                                            <CardComponent color={"primary"}>
+                                                <div
+                                                    className={"display-flex flex-direction-row justify-content-space-between mrg-bottom-20"}>
+                                                    <div className={'surgery-heading'}>Surgery Record Details</div>
+                                                    <div>
+                                                        <ButtonComponent variant={"outlined"}
+                                                                         color={"error"}
+                                                                         className={"mrg-right-10"}
+                                                                         prefixIcon={<ImageConfig.DeleteIcon/>}
+                                                                         onClick={() => {
+                                                                             setSurgeryRecord(null);
+                                                                         }}
+                                                        >
+                                                            Delete Surgery Record
+                                                        </ButtonComponent>
+                                                        <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>}
+                                                                         variant={"outlined"}
+                                                                         onClick={handleSurgeryRecordDrawerOpen}
+                                                        >
+                                                            Edit Surgery Record
+                                                        </ButtonComponent>
+                                                    </div>
+                                                </div>
                                                 <div>
-                                                    <ButtonComponent variant={"outlined"}
-                                                                     color={"error"}
-                                                                     className={"mrg-right-10"}
-                                                                     prefixIcon={<ImageConfig.DeleteIcon/>}
-                                                                     onClick={() => {
-                                                                         setSurgeryRecord(null);
-                                                                     }}
-                                                    >
-                                                        Delete
-                                                    </ButtonComponent>
-                                                    <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>}
-                                                                     onClick={handleSurgeryRecordDrawerOpen}
-                                                    >
-                                                        Edit Surgery Record
-                                                    </ButtonComponent>
+                                                    <div className="ts-row">
+                                                        <div className="ts-col-md-6 ts-col-lg-3">
+                                                            <DataLabelValueComponent label={"Surgery Date"}>
+                                                                {surgeryRecord.surgery_date ? moment(surgeryRecord.surgery_date).format('DD-MMM-YYYY') : "NA"}
+                                                            </DataLabelValueComponent>
+                                                        </div>
+                                                        <div className="ts-col-md-6 ts-col-lg-3">
+                                                            <DataLabelValueComponent label={"Reported By"}>
+                                                                {currentUser?.first_name + " " + currentUser?.last_name || "NA"}
+                                                            </DataLabelValueComponent>
+                                                        </div>
+                                                        <div className="ts-col-md-6 ts-col-lg-3">
+                                                            <DataLabelValueComponent label={"Name of Surgeon"}>
+                                                                {surgeryRecord.surgeon_name || "NA"}
+                                                            </DataLabelValueComponent>
+                                                        </div>
+                                                    </div>
+                                                    <div className="ts-row">
+                                                        <div className="ts-col-md-6 ts-col-lg-3">
+                                                            <DataLabelValueComponent label={"Brief Surgical Details"}>
+                                                                {surgeryRecord.details || "NA"}
+                                                            </DataLabelValueComponent>
+                                                        </div>
+                                                    </div>
+
+                                                    {/*<div className="ts-row">*/}
+                                                    {/*    <div className="ts-col-12 surgery-record-documents">*/}
+                                                    {/*        <DataLabelValueComponent label={"Documents"}>*/}
+                                                    {/*            {*/}
+                                                    {/*                surgeryRecord.documents?.length === 0 && "NA"*/}
+                                                    {/*            }*/}
+                                                    {/*            {surgeryRecord.documents?.map((item: any, index: any) => {*/}
+                                                    {/*                return (*/}
+                                                    {/*                    <FilePreviewThumbnailComponent file={item}*/}
+                                                    {/*                                                   variant={"compact"}*/}
+                                                    {/*                                                   key={item.name + index}*/}
+                                                    {/*                    />*/}
+                                                    {/*                )*/}
+                                                    {/*            })}*/}
+                                                    {/*        </DataLabelValueComponent>*/}
+                                                    {/*    </div>*/}
+                                                    {/*</div>*/}
                                                 </div>
-                                            </div>
-                                            <div>
-                                                <div className="ts-row">
-                                                    <div className="ts-col-md-6 ts-col-lg-3">
-                                                        <DataLabelValueComponent label={"Surgery Date"}>
-                                                            {surgeryRecord.surgery_date ? moment(surgeryRecord.surgery_date).format('DD-MMM-YYYY') : "NA"}
-                                                        </DataLabelValueComponent>
-                                                    </div>
-                                                    <div className="ts-col-md-6 ts-col-lg-3">
-                                                        <DataLabelValueComponent label={"Reported By"}>
-                                                            {currentUser?.first_name + " " + currentUser?.last_name || "NA"}
-                                                        </DataLabelValueComponent>
-                                                    </div>
-                                                    <div className="ts-col-md-6 ts-col-lg-3">
-                                                        <DataLabelValueComponent label={"Name of the Surgeon"}>
-                                                            {surgeryRecord.surgeon_name || "NA"}
-                                                        </DataLabelValueComponent>
-                                                    </div>
-                                                    <div className="ts-col-md-6 ts-col-lg-3">
-                                                        <DataLabelValueComponent label={"Brief Details"}>
-                                                            {surgeryRecord.details || "NA"}
-                                                        </DataLabelValueComponent>
-                                                    </div>
-                                                </div>
-                                                <div className="ts-row">
-                                                    <div className="ts-col-12 surgery-record-documents">
-                                                        <DataLabelValueComponent label={"Documents"}>
-                                                            {
-                                                                surgeryRecord.documents?.length === 0 && "NA"
-                                                            }
-                                                            {surgeryRecord.documents?.map((item: any, index: any) => {
-                                                                return (
-                                                                    <FilePreviewThumbnailComponent file={item}
-                                                                                                   variant={"compact"}
-                                                                                                   key={item.name + index}
-                                                                    />
-                                                                )
-                                                            })}
-                                                        </DataLabelValueComponent>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </CardComponent>
+                                            </CardComponent>
+                                        </>
                                     }
 
                                     <CardComponent title={"Medical Record Details"}>
@@ -538,83 +554,85 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
                                     </CardComponent>
 
                                     <CardComponent title={"Case Physician Details"} className={'appointment-container'}>
-                                        <div className="ts-row">
-                                            <div className="ts-col-lg-4">
-                                                <Field name={'case_physician.is_case_physician'}>
-                                                    {
-                                                        (field: FieldProps) => (
-                                                            <FormikSelectComponent
-                                                                options={CommonService._staticData.yesNoOptions}
-                                                                displayWith={(option) => option.title}
-                                                                valueExtractor={(option) => option.code}
-                                                                label={'Is there a Case Physician?'}
-                                                                formikField={field}
-                                                                required={true}
-                                                                fullWidth={true}
-                                                                onUpdate={(value: any) => {
-                                                                    if (!value) {
-                                                                        setFieldValue('case_physician.name', '');
-                                                                        setFieldValue('case_physician.is_treated_script_received', '');
-                                                                        setFieldValue('case_physician.next_appointment', '');
-                                                                    }
-                                                                }}
-                                                            />
-                                                        )
-                                                    }
-                                                </Field>
+                                        <div className={'ts-col-lg-11'}>
+                                            <div className="ts-row">
+                                                <div className="ts-col-lg-4">
+                                                    <Field name={'case_physician.is_case_physician'}>
+                                                        {
+                                                            (field: FieldProps) => (
+                                                                <FormikSelectComponent
+                                                                    options={CommonService._staticData.yesNoOptions}
+                                                                    displayWith={(option) => option.title}
+                                                                    valueExtractor={(option) => option.code}
+                                                                    label={'Is there a Case Physician?'}
+                                                                    formikField={field}
+                                                                    required={true}
+                                                                    fullWidth={true}
+                                                                    onUpdate={(value: any) => {
+                                                                        if (!value) {
+                                                                            setFieldValue('case_physician.name', '');
+                                                                            setFieldValue('case_physician.is_treated_script_received', '');
+                                                                            setFieldValue('case_physician.next_appointment', '');
+                                                                        }
+                                                                    }}
+                                                                />
+                                                            )
+                                                        }
+                                                    </Field>
+                                                </div>
+                                                {
+                                                    values?.case_physician?.is_case_physician && <>
+                                                        <div className="ts-col-lg-4">
+                                                            <Field name={'case_physician.name'}>
+                                                                {
+                                                                    (field: FieldProps) => (
+                                                                        <FormikInputComponent
+                                                                            titleCase={true}
+                                                                            label={'Case Physician Name'}
+                                                                            placeholder={"Enter Case Physician Name"}
+                                                                            formikField={field}
+                                                                            required={true}
+                                                                            fullWidth={true}
+                                                                        />
+                                                                    )
+                                                                }
+                                                            </Field>
+                                                        </div>
+                                                        <div className="ts-col-lg-4">
+                                                            <Field name={'case_physician.is_treated_script_received'}>
+                                                                {
+                                                                    (field: FieldProps) => (
+                                                                        <FormikSelectComponent
+                                                                            options={CommonService._staticData.yesNoOptions}
+                                                                            displayWith={(option) => option.title}
+                                                                            valueExtractor={(option) => option.code}
+                                                                            label={'Treatment Script Received?'}
+                                                                            id={'is_treated_script_received'}
+                                                                            formikField={field}
+                                                                            required={true}
+                                                                            fullWidth={true}
+                                                                        />
+                                                                    )
+                                                                }
+                                                            </Field>
+                                                        </div>
+                                                        <div className="ts-col-lg-4">
+                                                            <Field name={'case_physician.next_appointment'}>
+                                                                {
+                                                                    (field: FieldProps) => (
+                                                                        <FormikDatePickerComponent
+                                                                            label={'Next MD Appointment'}
+                                                                            formikField={field}
+                                                                            fullWidth={true}
+                                                                            minDate={moment()}
+                                                                        />
+                                                                    )
+                                                                }
+                                                            </Field>
+                                                        </div>
+                                                    </>
+                                                }
                                             </div>
-                                            {
-                                                values?.case_physician?.is_case_physician && <>
-                                                    <div className="ts-col-lg-4">
-                                                        <Field name={'case_physician.name'}>
-                                                            {
-                                                                (field: FieldProps) => (
-                                                                    <FormikInputComponent
-                                                                        titleCase={true}
-                                                                        label={'Case Physician Name'}
-                                                                        placeholder={"Enter Case Physician Name"}
-                                                                        formikField={field}
-                                                                        required={true}
-                                                                        fullWidth={true}
-                                                                    />
-                                                                )
-                                                            }
-                                                        </Field>
-                                                    </div>
-                                                    <div className="ts-col-lg-4">
-                                                        <Field name={'case_physician.is_treated_script_received'}>
-                                                            {
-                                                                (field: FieldProps) => (
-                                                                    <FormikSelectComponent
-                                                                        options={CommonService._staticData.yesNoOptions}
-                                                                        displayWith={(option) => option.title}
-                                                                        valueExtractor={(option) => option.code}
-                                                                        label={'Treatment Script Received?'}
-                                                                        id={'is_treated_script_received'}
-                                                                        formikField={field}
-                                                                        required={true}
-                                                                        fullWidth={true}
-                                                                    />
-                                                                )
-                                                            }
-                                                        </Field>
-                                                    </div>
-                                                    <div className="ts-col-lg-4">
-                                                        <Field name={'case_physician.next_appointment'}>
-                                                            {
-                                                                (field: FieldProps) => (
-                                                                    <FormikDatePickerComponent
-                                                                        label={'Next MD Appointment'}
-                                                                        formikField={field}
-                                                                        fullWidth={true}
-                                                                        minDate={moment()}
-                                                                    />
-                                                                )
-                                                            }
-                                                        </Field>
-                                                    </div>
-                                                </>
-                                            }
                                         </div>
                                     </CardComponent>
                                     <CardComponent title={"Injury Details"} className={'appointment-container'}>
@@ -696,8 +714,8 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                    {
-                                                                        index > 0 && <div className="ts-col-lg-1">
+                                                                    {values?.injury_details.length > 1 && (
+                                                                        <div className="ts-col-lg-1">
                                                                             <IconButtonComponent
                                                                                 id={"delete_body_" + index}
                                                                                 color={'error'}
@@ -708,7 +726,7 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
                                                                                 <ImageConfig.DeleteIcon/>
                                                                             </IconButtonComponent>
                                                                         </div>
-                                                                    }
+                                                                    )}
                                                                 </div>
                                                                 {
                                                                     (index === values?.injury_details?.length - 1) &&
@@ -716,7 +734,7 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
                                                                         onClick={() => {
                                                                             arrayHelpers.push(MEDICAL_RECORD_BODY_PART);
                                                                         }}
-                                                                        prefixIcon={<ImageConfig.AddIcon/>}
+                                                                        prefixIcon={<ImageConfig.AddCircleIcon/>}
                                                                         variant={"text"}
                                                                         className={"mrg-bottom-20"}
                                                                     >
@@ -764,24 +782,21 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
                                         </div>
                                     </CardComponent>
                                     <div className="t-form-actions">
-                                        {clientId &&
-                                        <LinkComponent route={CommonService._routeConfig.MedicalRecordList(clientId)}>
-                                            <ButtonComponent // TODO: Add CTA to take back to the previous screen
-                                                variant={"outlined"}
-                                                size={'large'}
-                                                className={isMedicalRecordAddInProgress ? 'mrg-right-15' : ''}
-                                                disabled={isMedicalRecordAddInProgress}
-                                                id={"medical_record_add_cancel_btn"}
-                                            >
-                                                Cancel
-                                            </ButtonComponent>
-                                        </LinkComponent>
-                                        }
+                                        <ButtonComponent
+                                            variant={"outlined"}
+                                            onClick={handleCancel}
+                                            className={isMedicalRecordAddInProgress ? 'mrg-right-15' : ''}
+                                            disabled={isMedicalRecordAddInProgress}
+                                            id={"medical_record_add_cancel_btn"}
+                                        >
+                                            Cancel
+                                        </ButtonComponent>
+
                                         &nbsp;
                                         <ButtonComponent
                                             isLoading={isMedicalRecordAddInProgress}
                                             type={"submit"}
-                                            size={'large'}
+                                            disabled={!isValid}
                                             className={'mrg-left-15'}
                                             id={"medical_record_add_save_btn"}
                                         >

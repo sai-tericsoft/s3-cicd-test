@@ -1,19 +1,27 @@
 .add-medical-record-screen {
-.add-new-medical-record-wrapper{
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 24px;
-  .add-new-medical-record-title{
-    font-weight: 700;
-    font-size: 1.2857rem;
-    color: #275778;
-    //margin-top: 10px;
+  .add-new-medical-record-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+
+    .form-control-label-component {
+      margin-bottom: 0 !important;
+    }
+
   }
-}
-  .appointment-container{
+
+  .surgery-heading {
+    color: #1D1C1D;
+    font-size: 20px;
+    font-weight: 700;
+  }
+
+
+  .appointment-container {
     padding-bottom: 4px !important;
   }
+
   .surgery-record-documents {
     .data-value {
       display: flex;
@@ -25,8 +33,14 @@
       }
     }
   }
-.t-form-actions{
-  margin-bottom: 0px !important;
+
+  .MuiSvgIcon-root {
+    color: #275778 !important;
+  }
+
+  .t-form-actions {
+    margin-bottom: 0px !important;
+  }
 }
-}
+
 //display-flex ts-justify-content-sm-between

@@ -1,86 +1,100 @@
 @import "src/assets/styles/common";
 
 .chart-notes-details-screen {
-.client-details-wrapper {
-  width: 100%;
-  .client-details-header {
-    display: flex;
-    align-items: center;
-    margin: 5px 0 16px;
-    height: 30px;
-
-    .client-details-title {
-      font-weight: $font-weight-bolder;
-      font-size: 1.2857rem;
-      line-height: 16px;
-      margin-bottom: 24px;
-      margin-top: 16px;
-      letter-spacing: 0.5px;
-      color: $text-light-2;
-      width: 233px; // TODO refactor
-    }
-
-    .client-details-filters-options {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex: 1;
-
-      .ts-row {
-        flex: 1;
-      }
-
-      .input-component {
-        margin-bottom: 0 !important;
-      }
-
-      .select-component {
-        margin-bottom: 0 !important;
-      }
-    }
-  }
-
-  .client-details-layout {
-    display: flex;
+  .client-details-wrapper {
     width: 100%;
 
-    .client-details-basic-card-holder {
-      margin-bottom: 6px;
-      padding: 0 20px 0 0;
-      flex: 0;
-    }
+    .client-details-header {
+      display: flex;
+      align-items: center;
+      margin: 5px 0 16px;
+      height: 30px;
 
-    .client-details-tab-wrapper {
-      width: 100%;
-      overflow-x: auto;
-
-      .table-component {
-        height: auto;
+      .client-details-title {
+        font-weight: $font-weight-bolder;
+        font-size: 1.2857rem;
+        line-height: 16px;
+        margin-bottom: 24px;
+        margin-top: 16px;
+        letter-spacing: 0.5px;
+        color: $text-light-2;
+        width: 233px; // TODO refactor
       }
 
-      .t-table-wrapper {
-        .t-table {
-          height: calc(100vh - 218px);
+      .client-details-filters-options {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex: 1;
 
-          .table-no-data-wrapper {
-            min-height: calc(100vh - 280px);
+        .ts-row {
+          flex: 1;
+        }
+
+        .input-component {
+          margin-bottom: 0 !important;
+        }
+
+        .select-component {
+          margin-bottom: 0 !important;
+        }
+      }
+    }
+
+    .MuiChip-root {
+      width: 130px !important;
+    }
+
+    .client-details-layout {
+      display: flex;
+      width: 100%;
+
+      .client-details-basic-card-holder {
+        margin-bottom: 6px;
+        padding: 0 20px 0 0;
+        flex: 0;
+      }
+
+      .client-details-tab-wrapper {
+        width: 100%;
+        overflow-x: auto;
+        padding-bottom: 24px;
+        margin-bottom: 0 !important;
+
+
+        .table-component {
+          height: auto;
+        }
+
+        .no-data-text {
+          color: #7F7F7F;
+          font-size: 24px;
+        }
+
+        .t-table-wrapper {
+          .t-table {
+            height: calc(100vh - 270px);
+
+            .table-no-data-wrapper {
+              min-height: calc(100vh - 350px);
+            }
           }
         }
       }
     }
-  }
 
-  .medical-record-alert {
-    &.high {
-      color: #FD0000;
-    }
+    .medical-record-alert {
+      &.high {
+        color: #FD0000;
+      }
 
-    &.medium {
-      color: #FA9C2F;
-    }
-    .alert-days{
-      font-weight: 700;
+      &.medium {
+        color: #FA9C2F;
+      }
+
+      .alert-days {
+        font-weight: 700;
+      }
     }
   }
-}
 }

@@ -1,5 +1,8 @@
 
 .client-medical-record-details-component {
+  .list-attachment-wrapper{
+    padding-bottom: 24px;
+  }
   .client-medical-records-header-button-wrapper {
     display: flex;
     justify-content: flex-end;
@@ -8,6 +11,5 @@
   .tab-heading{
     color: #212B36;
     font-size: 1rem;
-    text-decoration: underline;
   }
 }

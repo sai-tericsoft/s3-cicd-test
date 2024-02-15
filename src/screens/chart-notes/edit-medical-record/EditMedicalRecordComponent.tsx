@@ -120,7 +120,7 @@ const EditMedicalRecordComponent = (props: EditMedicalRecordComponentProps) => {
 
     return (
         <div className={'edit-medical-record-component'}>
-            <FormControlLabelComponent label={'Edit Details'} size={'lg'}/>
+            <FormControlLabelComponent label={'Edit Record Details'} size={'xl'}/>
             <div className={'edit-medical-record-container'}>
                 <Formik initialValues={medicalRecordEditInitialValues}
                         validationSchema={MedicalRecordValidationSchema}

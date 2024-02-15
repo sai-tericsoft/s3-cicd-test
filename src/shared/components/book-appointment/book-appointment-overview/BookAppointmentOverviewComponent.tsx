@@ -8,6 +8,7 @@ import {useSelector} from "react-redux";
 import {IRootReducerState} from "../../../../store/reducers";
 import {IAPIResponseType} from "../../../models/api.model";
 import commonService from "../../../services/common.service";
+import FormControlLabelComponent from "../../form-control-label/FormControlLabelComponent";
 
 
 interface BookAppointmentOverviewComponentProps {
@@ -62,7 +63,7 @@ const BookAppointmentOverviewComponent = (props: BookAppointmentOverviewComponen
                 facility_id: booking.facility._id,
                 appointment_type: booking.appointment_type,
                 consultation_id: booking.duration._id,
-                appointment_date: booking.date,
+                appointment_date: CommonService.convertDateFormat(booking.date),
                 duration: parseInt(booking.duration.duration),
                 start_time: booking.time.start_min,
                 end_time: booking.time.end_min,
@@ -102,7 +103,7 @@ const BookAppointmentOverviewComponent = (props: BookAppointmentOverviewComponen
                      }><ImageConfig.CloseIcon/></div>
                 {/*</ToolTipComponent>*/}
             </div>
-            <div className="appointment-details-title">Appointment Details</div>
+            <FormControlLabelComponent label={'Confirm Appointment Details'} size={'xl'}/>
             <div className="details-header">
                 <div className="block-body">
                     <div className="block-content">

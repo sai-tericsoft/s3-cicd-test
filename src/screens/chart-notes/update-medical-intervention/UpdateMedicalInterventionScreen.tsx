@@ -356,7 +356,7 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                     }
                 })
         }
-    }, [dispatch,medicalInterventionId]);
+    }, [dispatch, medicalInterventionId]);
 
 
     useEffect(() => {
@@ -521,8 +521,8 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                                     <FormAutoSave formikCtx={formik}/>
                                     <div
                                         className={"display-flex align-items-center justify-content-space-between mrg-bottom-25"}>
-                                        <FormControlLabelComponent label={"SOAP Note"} size={'lg'}
-                                                                   className={"mrg-0 font-size-20"}/>
+                                        <FormControlLabelComponent label={"SOAP Note"} size={'xl'}
+                                                                   className={"mrg-0"}/>
                                         {
                                             (medicalInterventionId && medicalRecordId) &&
                                             <LinkComponent
@@ -1337,21 +1337,21 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                                                 />
                                             </div>
                                         </div>
-                                        <div className={'ts-row'}>
-                                            <div className={'ts-col-lg-8 ts-col-md-9 ts-col-sm-10'}/>
-                                            <div className={'ts-col-lg-4 ts-col-md-3 ts-col-sm-2 mrg-top-50 mrg-bottom-25'}>
-                                                <ESignApprovalComponent isSigned={signedObject?.is_signed}
-                                                                        isSigning={isSigningInProgress}
-                                                    // isLoading={formik.isSubmitting}
-                                                                        signature_url={medicalInterventionDetails?.is_signed ? medicalInterventionDetails?.signature : currentUser?.signature}
-                                                                        canSign={true}
-                                                                        signedAt={signedObject?.signed_on}
-                                                                        onSign={() => {
-                                                                            handleSign(formik.values, formik);
-                                                                        }}/>
-                                            </div>
-                                        </div>
                                     </CardComponent>
+                                    <div className={'ts-row'}>
+                                        <div className={'ts-col-lg-9 ts-col-md-9 ts-col-sm-10'}/>
+                                        <div className={'ts-col-lg-3 ts-col-md-3 ts-col-sm-2 mrg-bottom-30'}>
+                                            <ESignApprovalComponent isSigned={signedObject?.is_signed}
+                                                                    isSigning={isSigningInProgress}
+                                                // isLoading={formik.isSubmitting}
+                                                                    signature_url={medicalInterventionDetails?.is_signed ? medicalInterventionDetails?.signature : currentUser?.signature}
+                                                                    canSign={true}
+                                                                    signedAt={signedObject?.signed_on}
+                                                                    onSign={() => {
+                                                                        handleSign(formik.values, formik);
+                                                                    }}/>
+                                        </div>
+                                    </div>
                                     <div className="t-form-actions">
                                         <ButtonComponent variant={'outlined'}
                                                          size={'large'}
