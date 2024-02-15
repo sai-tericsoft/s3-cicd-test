@@ -34,6 +34,7 @@ import commonService from "../../../shared/services/common.service";
 import MenuDropdownComponent from "../../../shared/components/menu-dropdown/MenuDropdownComponent";
 import {ListItemButton} from "@mui/material";
 import momentTimezone from "moment-timezone";
+import LinkComponent from "../../../shared/components/link/LinkComponent";
 
 interface SurgeryRecordViewScreenProps {
 
@@ -196,16 +197,43 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
                 </div>
             </div>
         }).then(() => {
-            CommonService._chartNotes.UpdateSurgeryRecordAPICall(surgeryRecordId, {is_shared: true})
-                .then((response: IAPIResponseType<any>) => {
-                    CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
-                    // medicalRecordId && navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId) + '?activeTab=medicalRecord');
-                }).catch((error: any) => {
+            try {
+                CommonService._chartNotes.UpdateSurgeryRecordAPICall(surgeryRecordId, {is_shared: true})
+                    .then((response: IAPIResponseType<any>) => {
+                        CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+                        getSurgeryRecord(surgeryRecordId);
+                        // medicalRecordId && navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId) + '?activeTab=medicalRecord');
+                    }).catch((error: any) => {
+                    CommonService._alert.showToast(error, "error");
+                })
+            } catch (error: any) {
                 CommonService._alert.showToast(error, "error");
-            })
+            }
         })
+    }, [getSurgeryRecord]);
 
-    }, []);
+    const handleRemoveAccess = useCallback((item: any) => {
+        CommonService.onConfirm({
+            image: ImageConfig.PopupLottie,
+            showLottie: true,
+            confirmationTitle: "REMOVE ACCESS",
+            confirmationSubTitle: "Are you sure you want to remove access for this shared record?",
+        })
+            .then((res: any) => {
+                try {
+                    CommonService._chartNotes.UpdateSurgeryRecordAPICall(item._id, {is_shared: false})
+                        .then((response: IAPIResponseType<any>) => {
+                            CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+                            getSurgeryRecord(item._id);
+                        })
+                        .catch((error: any) => {
+                            CommonService._alert.showToast(error, "error");
+                        });
+                } catch (error:any) {
+                    CommonService._alert.showToast(error, "error");
+                }
+            })
+    }, [getSurgeryRecord]);
 
 
     const onAttachmentSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
@@ -293,7 +321,8 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
                     console.log(err);
                 })
         }
-    }, [surgeryRecordId, medicalRecordId])
+    }, [surgeryRecordId, medicalRecordId]);
+
 
     return (
         <div className={'medical-intervention-surgery-record-screen'}>
@@ -447,6 +476,23 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
             }
             {
                 (isClientMedicalRecordLoaded && clientMedicalRecord) && <>
+                    {
+                        surgeryRecordDetails?.is_shared &&
+                        <div className={"medical-record-attachment-remove-access-wrapper"}>
+                            <div className={"medical-record-attachment-data-wrapper"}>
+                                This file was shared to the client
+                                on <b>{surgeryRecordDetails?.shared_at ? CommonService.transformTimeStamp(surgeryRecordDetails?.shared_at) : 'N/A'}</b>.
+                            </div>
+                            <LinkComponent className={'remove-access'}
+                                           onClick={() => {
+                                               handleRemoveAccess(surgeryRecordDetails);
+                                           }}
+
+                            >
+                                Remove Access
+                            </LinkComponent>
+                        </div>
+                    }
                     <CardComponent color={'primary'}>
                         <div className={'client-name-button-wrapper'}>
                                     <span className={'client-name-wrapper'}>

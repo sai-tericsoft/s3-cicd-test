@@ -66,19 +66,6 @@ const MedicalRecordAttachmentBasicDetailsCardComponent = (props: MedicalRecordAt
     }, [onEdit]);
 
     const handleRemoveAccess = useCallback((item: any) => {
-        // commonService.openConfirmationDialog({
-        //     confirmationTitle: "REMOVE ACCESS",
-        //     confirmationSubTitle: "Are you sure you want to remove access for this shared document?",
-        //     image: `${ImageConfig.confirmImage}`,
-        //     yes: {
-        //         text: "Yes",
-        //         color: "primary"
-        //     },
-        //     no: {
-        //         text: "No",
-        //         color: "primary"
-        //     }
-        // })
         CommonService.onConfirm({
             image: ImageConfig.PopupLottie,
             showLottie: true,

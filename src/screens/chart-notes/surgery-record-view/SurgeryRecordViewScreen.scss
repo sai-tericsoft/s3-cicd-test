@@ -8,19 +8,39 @@
     .client-name-wrapper {
       font-size: 1.4286rem;
       font-weight: 700;
-        .MuiChip-root{
-            width: 150px !important;
-        }
+
+      .MuiChip-root {
+        width: 150px !important;
+      }
 
       .client-name {
         padding-right: 10px;
       }
     }
   }
-  .edit-medical-record-component{
-    .attachment-heading{
-      margin-top: -8px!important;
-      margin-bottom: 20px!important;
+
+  .medical-record-attachment-remove-access-wrapper {
+    display: flex;
+    justify-content: space-between;
+    padding: 13px 15px;
+    background-color: #CFF2ED;
+    border: 1px solid #2CA091;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    box-shadow: 0px 4px 8px 0px #D1D1D1;
+
+    .link-component {
+      color: #275778;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+  }
+
+  .edit-medical-record-component {
+    .attachment-heading {
+      margin-top: -8px !important;
+      margin-bottom: 20px !important;
     }
   }
 
@@ -63,12 +83,14 @@
     align-items: center;
     margin-top: 50px;
   }
+
   .attachment-item {
     display: flex !important;
     flex-direction: row !important;
     justify-content: center;
     align-items: center;
   }
+
   .attachment-bg {
     background: $primary-color;
     display: flex;
@@ -80,14 +102,17 @@
     border-radius: 5px;
     margin-right: 15px;
   }
+
   .attachment-text {
     flex: 1;
     font-weight: 500;
   }
-  .attachment-actions{
+
+  .attachment-actions {
     text-align: right;
     display: flex;
     flex-direction: row;
+
     button {
       margin-left: 10px;
     }
