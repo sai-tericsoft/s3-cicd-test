@@ -2,11 +2,10 @@
 .client-search-component {
 
   .card-component {
-    &.md {
-      .card-body {
-        padding-top: 0px !important;
-      }
-    }
+    padding-bottom: 24px !important;
+    margin-bottom: 0 !important;
+    height: calc(100vh - 120px) !important;
+
   }
 
   .client-search-input {
@@ -15,7 +14,7 @@
 
   .list-content-wrapper {
     .t-cell-client_id{
-      padding-left: 30px !important;
+      padding-left: 20px !important;
     }
     .table-no-data-wrapper {
       min-height: calc(100vh - 293px)
@@ -23,7 +22,8 @@
 
     .t-table-wrapper {
       .t-table {
-        min-height: calc(100vh - 293px) !important;
+        min-height: 300px;
+        height: calc(100vh - 300px);
       }
     }
   }

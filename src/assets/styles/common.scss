@@ -9,7 +9,6 @@
 @import "responsive-display";
 @import "normalize";
 
-
 // components
 @import "components/button";
 @import "components/loader";
@@ -534,6 +533,9 @@
 
 
 .t-surgery-record-drawer {
+  .MuiSvgIcon-root {
+    color: #275778 !important;
+  }
 
   .drawer-container {
     //height: 100%;
@@ -706,6 +708,10 @@
     .Mui-selected {
       border-bottom: 2px solid #275778;
     }
+  }
+
+  &.medical-record {
+    margin-top: 0 !important;
   }
 }
 

@@ -7,9 +7,9 @@ import MedicalRecordAttachmentListComponent
 import PageHeaderComponent from "../../../shared/components/page-header/PageHeaderComponent";
 import React, {useCallback, useEffect, useState} from "react";
 import TabsWrapperComponent, {
+    BasicTabsComponent,
     TabComponent,
     TabContentComponent,
-    TabsComponent
 } from "../../../shared/components/tabs/TabsComponent";
 import {useNavigate, useParams, useSearchParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
@@ -30,6 +30,7 @@ import {setCurrentNavParams} from "../../../store/actions/navigation.action";
 import BookAppointmentComponent from "../../../shared/components/book-appointment/BookAppointmentComponent";
 import LottieFileGenerationComponent
     from "../../../shared/components/lottie-file-generation/LottieFileGenerationComponent";
+import CardComponent from "../../../shared/components/card/CardComponent";
 
 const REPEAT_LAST_TREATMENT = "repeat_last_treatment";
 const ADD_NEW_TREATMENT = "add_new_treatment";
@@ -247,42 +248,46 @@ const ClientMedicalRecordDetailsComponent = (props: ClientMedicalDetailsComponen
             <PageHeaderComponent title={"Medical Record Main Page"}/>
             <MedicalRecordBasicDetailsCardComponent showAction={true} setRefreshToken={setRefreshToken}
                                                     onMedicalRecordDataLoad={handleGetCaseDetails}/>
-            <div className={'client-medical-records-header-button-wrapper'}>
-                {clientMedicalRecord?.status_details?.code === 'open' && <div>
-                    <ButtonComponent onClick={() => {
-                        setIsAddTreatmentModalOpen(true)
-                        setAppointmentMode(REPEAT_LAST_TREATMENT)
-                    }}
-                                     disabled={(isMedicalInterventionBeingRepeated || isMedicalInterventionListLoading || medicalInterventionList.filter((item: any) => (item?.status === 'completed' && item?.note_type?.toLowerCase() === "soap note"))?.length === 0)}
-                                     className={'mrg-right-10'}
-                                     variant={"outlined"}>
-                        Repeat Last Treatment
-                    </ButtonComponent>
-                    <ButtonComponent onClick={() => {
-                        setAppointmentMode(ADD_NEW_TREATMENT)
-                        setIsAddTreatmentModalOpen(true)
-                    }}
-                                     prefixIcon={<ImageConfig.AddIcon/>}>
-                        Add New Treatment
-                    </ButtonComponent>
-                </div>}
-            </div>
-            <TabsWrapperComponent>
-                <TabsComponent value={currentTab} onUpdate={handleTabChange} variant={"fullWidth"}
-                               allowScrollButtonsMobile={false}>
 
-                    <TabComponent label={'Medical Records'} className={'tab-heading'} value={"medicalRecord"}/>
-                    <TabComponent label={'Attachments'} className={'tab-heading'} value={"attachmentList"}/>
+            <CardComponent className={'list-attachment-wrapper'}>
+                <TabsWrapperComponent className={'basic-tabs-wrapper medical-record'}>
+                    <BasicTabsComponent value={currentTab} onUpdate={handleTabChange} variant={"fullWidth"}
+                                        allowScrollButtonsMobile={false}>
 
-                </TabsComponent>
-                <TabContentComponent value={"medicalRecord"} selectedTab={currentTab}>
-                    <MedicalInterventionListComponent refreshToken={refreshToken} referrer={referrer}/>
-                </TabContentComponent>
-                <TabContentComponent value={"attachmentList"} selectedTab={currentTab}>
-                    <MedicalRecordAttachmentListComponent refreshToken={refreshToken} referrer={referrer}
-                                                          selectedTab={currentTab}/>
-                </TabContentComponent>
-            </TabsWrapperComponent>
+                        <TabComponent label={'Medical Records'} className={'tab-heading'} value={"medicalRecord"}/>
+                        <TabComponent label={'Attachments'} className={'tab-heading'} value={"attachmentList"}/>
+
+                    </BasicTabsComponent>
+                    <TabContentComponent value={"medicalRecord"} selectedTab={currentTab}>
+                        <div className={'client-medical-records-header-button-wrapper'}>
+                            {clientMedicalRecord?.status_details?.code === 'open' && <div>
+                                <ButtonComponent onClick={() => {
+                                    setIsAddTreatmentModalOpen(true)
+                                    setAppointmentMode(REPEAT_LAST_TREATMENT)
+                                }}
+                                                 disabled={(isMedicalInterventionBeingRepeated || isMedicalInterventionListLoading || medicalInterventionList.filter((item: any) => (item?.status === 'completed' && item?.note_type?.toLowerCase() === "soap note"))?.length === 0)}
+                                                 className={'mrg-right-10'}
+                                                 prefixIcon={<ImageConfig.RepeatIcon/>}
+                                                 variant={"outlined"}>
+                                    Repeat Last Treatment
+                                </ButtonComponent>
+                                <ButtonComponent onClick={() => {
+                                    setAppointmentMode(ADD_NEW_TREATMENT)
+                                    setIsAddTreatmentModalOpen(true)
+                                }}
+                                                 prefixIcon={<ImageConfig.AddIcon/>}>
+                                    Add New Treatment
+                                </ButtonComponent>
+                            </div>}
+                        </div>
+                        <MedicalInterventionListComponent refreshToken={refreshToken} referrer={referrer}/>
+                    </TabContentComponent>
+                    <TabContentComponent value={"attachmentList"} selectedTab={currentTab}>
+                        <MedicalRecordAttachmentListComponent refreshToken={refreshToken} referrer={referrer}
+                                                              selectedTab={currentTab}/>
+                    </TabContentComponent>
+                </TabsWrapperComponent>
+            </CardComponent>
 
 
             <ModalComponent title={""}

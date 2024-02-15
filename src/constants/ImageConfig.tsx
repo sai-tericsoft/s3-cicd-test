@@ -125,6 +125,7 @@ import {ReactComponent as ListIcon} from './../assets/icons/list_black.svg';
 import {ReactComponent as CommentIcon} from './../assets/icons/comment.svg';
 import {ReactComponent as NoDataDocumentsIcon} from '../assets/icons/no_documents.svg';
 import {ReactComponent as NoDataAppointmentsIcon} from '../assets/icons/no_appointments.svg';
+import {ReactComponent as RepeatIcon} from '../assets/icons/repeat.svg';
 
 
 import {ReactComponent as TableRowExpandIcon} from './../assets/icons/table/expand.svg';
@@ -261,6 +262,7 @@ export {
     ImageTypeIcon,
     UpdateQuantityIcon,
     CheckLottie,
-    ConsolidatedIcon
+    ConsolidatedIcon,
+    RepeatIcon
 
 }

@@ -15,6 +15,7 @@ import FormikDatePickerComponent from "../../form-controls/formik-date-picker/Fo
 import commonService from "../../../services/common.service";
 import momentTimezone from "moment-timezone";
 import {useLocation} from "react-router-dom";
+import FormControlLabelComponent from "../../form-control-label/FormControlLabelComponent";
 
 interface BookAppointmentFormComponentProps {
     onClose?: () => void,
@@ -483,7 +484,8 @@ const BookAppointmentFormComponent = (props: BookAppointmentFormComponentProps) 
                      }
                      }><ImageConfig.CloseIcon/></div>
             </div>
-            <div className="book-appointment-heading">Book Appointment</div>
+            {/*<div className="book-appointment-heading">Book Appointment</div>*/}
+            <FormControlLabelComponent label={'Enter Appointment Details'} size={'xl'}/>
             <div className={'appointment-form-wrapper'}>
                 <Formik
                     innerRef={formRef}

@@ -367,6 +367,7 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
                                         {
                                             clientMedicalRecord?.status_details?.code === 'open' && <div className="">
                                                 <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>}
+                                                                 variant={'outlined'}
                                                                  onClick={openEditMedicalRecordDrawer}>
                                                     Edit Details
                                                 </ButtonComponent>
