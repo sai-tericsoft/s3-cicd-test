@@ -25,7 +25,7 @@ const TextAreaComponent = (props: TextAreaComponentProps) => {
     const variant = props.variant || "outlined";
     const size = props.size || "medium";
     const fullWidth = props.fullWidth || false;
-    // const rows = props.rows || 3;
+    const rows = props.rows || 3;
     const placeholder = props.placeholder || label;
 
     const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -68,7 +68,7 @@ const TextAreaComponent = (props: TextAreaComponentProps) => {
                 variant={variant}
                 disabled={disabled}
                 multiline={true}
-                // rows={rows}
+                rows={rows}
                 autoFocus={autoFocus}
                 inputProps={{
                     ...textAreaProps,

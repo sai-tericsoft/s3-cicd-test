@@ -57,34 +57,30 @@
 
     .card-component {
       padding-bottom: 24px;
+    }
 
-      .card-body {
-        padding: 0;
+    .sign-note-wrapper {
+      display: flex;
+      flex-direction: row-reverse;
+      color: #1D1C1D;
+      margin-top: 50px;
+      margin-bottom: 16px;
 
-        .sign-note-wrapper {
-          display: flex;
-          flex-direction: row-reverse;
-          color: #212B36;
-          margin-top: 50px;
-          margin-right: 25px;
-          opacity: 0.5;
-          margin-bottom: 16px;
-
-          .sign-note {
-            width: 360px;
-          }
-        }
+      .sign-note {
+        color: #1D1C1D;
+        font-size: 12px;
       }
+
     }
 
     .esign-pad {
       display: flex;
       justify-content: flex-end;
-
-      .esign {
-        //width:380px;
-        margin-right: 20px;
-      }
+      //
+      //.esign {
+      //  //width:380px;
+      //  margin-right: 20px;
+      //}
     }
 
     .progress-stats-comment {
@@ -107,7 +103,6 @@
       }
 
       .add-comment-heading {
-        color: #00534F;
         font-weight: 700;
         cursor: pointer;
       }
@@ -124,6 +119,7 @@
 
     .last-updated-status-text {
       font-size: 14px;
+      color: #6D6D6D;
     }
 
     .last-updated-status-bold {

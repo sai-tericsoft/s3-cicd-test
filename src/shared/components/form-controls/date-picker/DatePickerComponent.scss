@@ -3,18 +3,22 @@
   border-radius: 8px !important;
   background-color: #FFFFFF;
 
+  .MuiSvgIcon-root {
+    color: #275778 !important;
+  }
+
   &.full-width {
     width: 100%;
   }
 
 }
 
-  .MuiCalendarPicker-root {
-    .MuiYearPicker-root {
-      transform: rotate(180deg);
+.MuiCalendarPicker-root {
+  .MuiYearPicker-root {
+    transform: rotate(180deg);
 
-      .PrivatePickersYear-root {
-        transform: rotate(180deg);
-      }
+    .PrivatePickersYear-root {
+      transform: rotate(180deg);
     }
   }
+}

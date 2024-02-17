@@ -208,8 +208,8 @@ const EditMedicalRecordComponent = (props: EditMedicalRecordComponentProps) => {
                                 {
                                     values?.case_physician?.is_case_physician && <>
                                         <div>
-                                            <FormControlLabelComponent label={'MD Appointment Details'} size={"md"}
-                                                                       className={'mrg-top-15'}/>
+                                            <FormControlLabelComponent label={'MD Appointment Details:'}
+                                                                       className={'appointment-heading'}/>
                                             <Field name={'case_physician.name'}>
                                                 {
                                                     (field: FieldProps) => (
@@ -258,8 +258,8 @@ const EditMedicalRecordComponent = (props: EditMedicalRecordComponentProps) => {
                                     </>
                                 }
 
-                                <FormControlLabelComponent label={'Injury Details'} size={'md'}
-                                                           className={'mrg-top-15 mrg-bottom-15'}/>
+                                <FormControlLabelComponent label={'Injury Details:'}
+                                                           className={'appointment-heading'}/>
                                 <FieldArray
                                     name="injury_details"
                                     render={arrayHelpers => (
@@ -267,21 +267,6 @@ const EditMedicalRecordComponent = (props: EditMedicalRecordComponentProps) => {
                                             {values?.injury_details && values?.injury_details?.map((item: any, index: any) => {
                                                 return (
                                                     <>
-                                                        {
-                                                            <div className="remove-btn">
-                                                                <ButtonComponent
-                                                                    size={"small"}
-                                                                    disabled={values?.injury_details?.length === 1}
-                                                                    color={"error"}
-                                                                    variant={"outlined"}
-                                                                    prefixIcon={<ImageConfig.CloseIcon height={'16'} width={'16'}/>}
-                                                                    onClick={() => {
-                                                                        arrayHelpers.remove(index);
-                                                                    }}>
-                                                                    Remove Body Part
-                                                                </ButtonComponent>
-                                                            </div>
-                                                        }
                                                         <div key={index} className="ts-row">
                                                             <div className="ts-col-lg-12">
                                                                 <div className="ts-row" key={index}>
@@ -353,8 +338,25 @@ const EditMedicalRecordComponent = (props: EditMedicalRecordComponentProps) => {
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                        {
+                                                            <div className="remove-btn">
+                                                                <ButtonComponent
+                                                                    disabled={values?.injury_details?.length === 1}
+                                                                    color={"error"}
+                                                                    fullWidth={true}
+                                                                    variant={"outlined"}
+                                                                    prefixIcon={<ImageConfig.CrossOutlinedIcon height={'16'}
+                                                                                                       width={'16'}/>}
+                                                                    onClick={() => {
+                                                                        arrayHelpers.remove(index);
+                                                                    }}>
+                                                                    Remove Body Part
+                                                                </ButtonComponent>
+                                                            </div>
+                                                        }
                                                         <HorizontalLineComponent/>
                                                     </>
+
                                                 )
                                             })}
                                             {
@@ -363,11 +365,11 @@ const EditMedicalRecordComponent = (props: EditMedicalRecordComponentProps) => {
                                                         onClick={() => {
                                                             arrayHelpers.push(MEDICAL_RECORD_BODY_PART);
                                                         }}
-                                                        prefixIcon={<ImageConfig.AddIcon/>}
+                                                        prefixIcon={<ImageConfig.AddCircleIcon/>}
                                                         variant={"text"}
                                                         className={"mrg-bottom-20"}
                                                     >
-                                                        Add New Body Part
+                                                        Add Another Body Part
                                                     </ButtonComponent>
                                                 </div>
                                             }
@@ -377,7 +379,7 @@ const EditMedicalRecordComponent = (props: EditMedicalRecordComponentProps) => {
                                                  type={'submit'}
                                                  disabled={isMedicalRecordEditInProgress}
                                                  variant={'contained'}>
-                                    {isMedicalRecordEditInProgress ? "Saving" : "Save"}
+                                    {isMedicalRecordEditInProgress ? "Updating" : "Update"}
                                 </ButtonComponent>
                             </Form>
                         )

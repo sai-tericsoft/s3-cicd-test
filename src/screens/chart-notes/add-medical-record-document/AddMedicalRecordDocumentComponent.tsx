@@ -83,7 +83,7 @@ const AddMedicalRecordDocumentComponent = (props: AddMedicalRecordDocumentCompon
         <div className="add-medical-record-document-component">
             <div className="add-medical-record-document-form-container">
                 <FormControlLabelComponent label={"Add Document"}
-                                           size={"lg"}/>
+                                           size={"xl"}/>
                 <Formik
                     validationSchema={AddMedicalRecordDocumentFormValidationSchema}
                     initialValues={addMedicalRecordDocumentFormInitialValues}

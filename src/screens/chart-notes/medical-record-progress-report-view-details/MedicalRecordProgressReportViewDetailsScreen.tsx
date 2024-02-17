@@ -207,7 +207,6 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
             })
     }, [removeAccess]);
 
-    console.log('progressReportDetails', progressReportDetails);
 
     return (
         <div className={'progress-report-view-details-screen'}>
@@ -396,8 +395,8 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
                                             </div>
                                         }
                                         <div className={'ts-row'}>
-                                            <div className={'ts-col-md-4 ts-col-lg-8'}/>
-                                            <div className={'ts-col-md-4 ts-col-lg-4'}>
+                                            <div className={'ts-col-md-4 ts-col-lg-9'}/>
+                                            <div className={'ts-col-md-4 ts-col-lg-3'}>
                                                 <ESignApprovalComponent isSigned={progressReportDetails?.is_signed}
                                                                         signature_url={progressReportDetails?.signature}
                                                                         signedAt={progressReportDetails?.signed_on}/>
