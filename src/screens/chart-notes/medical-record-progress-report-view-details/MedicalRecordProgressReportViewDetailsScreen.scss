@@ -3,8 +3,8 @@
     display: flex;
     justify-content: space-between;
     padding: 13px 15px;
-    background-color: #FEF0BF;
-    border: 1px solid #E7A933;
+    background-color: #ECE3F2;
+    border: 1px solid #8A54AF;
     border-radius: 6px;
     margin-bottom: 16px;
 
@@ -55,17 +55,15 @@
         .t-table-wrapper {
           .t-table {
             min-height: 340px;
+            border-bottom-left-radius: 8px;
+            border-bottom-right-radius: 8px;
 
           }
         }
 
         .card-component {
-          padding: 0;
           border-bottom: none;
-
-          .card-body {
-            padding: 0;
-          }
+          padding-bottom: 24px;
         }
       }
     }
@@ -80,6 +78,7 @@
 
     .last-updated-status-text {
       font-size: 14px;
+      color: #6D6D6D;
     }
 
     .last-updated-status-bold {
@@ -97,6 +96,7 @@
       font-size: 1.4286rem;
       font-weight: 700;
       margin-bottom: 12px;
+
       .MuiChip-root {
         width: 150px !important;
       }

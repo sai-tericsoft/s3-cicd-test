@@ -89,7 +89,7 @@ const AddSurgeryRecordComponent = (props: AddSurgeryRecordComponentProps) => {
                     }, [validateForm, values]);
                     return (
                         <Form className="t-form" noValidate={true}>
-                            <FormControlLabelComponent label={"Add Surgery Record"} size={'lg'}/>
+                            <FormControlLabelComponent label={"Add Surgery Record"} size={'xl'}/>
                             <div className={'t-form-controls'}>
                                 <Field name={'surgery_date'}>
                                     {
@@ -170,7 +170,7 @@ const AddSurgeryRecordComponent = (props: AddSurgeryRecordComponentProps) => {
                                     {
                                         (!values.attachment) && <>
                                             <div className={'attachment-heading'}>
-                                               Upload Attachment
+                                               Upload Attachment:
                                             </div>
                                             <FilePickerComponent maxFileCount={1}
                                                                  onFilesDrop={(acceptedFiles, rejectedFiles) => {

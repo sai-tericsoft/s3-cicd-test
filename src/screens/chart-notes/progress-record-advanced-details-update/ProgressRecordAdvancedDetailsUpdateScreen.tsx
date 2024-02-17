@@ -149,11 +149,13 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
                                     </div> :
                                     <ButtonComponent
                                         // disabled={!field.form.values.progress_stats?.[item?._id]?.result}
-                                        variant={'text'} onClick={() => {
-                                        setShowProgressStatCommentsModal(true);
-                                        setSelectedProgressStatComments(item);
-                                    }}
-                                    >+ Add Comment</ButtonComponent>
+                                        variant={'text'}
+                                        prefixIcon={<ImageConfig.AddCircleIcon/>}
+                                        onClick={() => {
+                                            setShowProgressStatCommentsModal(true);
+                                            setSelectedProgressStatComments(item);
+                                        }}
+                                    > Add Comment</ButtonComponent>
                             }
                         </div>
                     )
@@ -277,7 +279,7 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
                 CommonService._alert.showToast(error.error || "Error deleting provider", "error");
             })
         })
-    }, [medicalRecordId,navigate]);
+    }, [medicalRecordId, navigate]);
 
     return (
         <div className={'progress-record-advanced-details-update-screen'}>
@@ -316,6 +318,7 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
                                     {/*                 variant={'outlined'}>View ICD-11 Code*/}
                                     {/*    (s)</ButtonComponent>*/}
                                     <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>}
+                                                     variant={'outlined'}
                                                      onClick={openEditProgressReportDrawer}>
                                         Edit Details
                                     </ButtonComponent>
@@ -508,24 +511,26 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
                                                 }
                                             })
                                         }
-                                        <div className={"sign-note-wrapper ts-row "}>
-                                            <div className={'sign-note ts-col-lg-4'}>
-                                                Note: By clicking the "Sign" button, the report will be saved including the details you added.                                            </div>
-                                        </div>
-                                        <div className={'esign-pad'}>
-                                            <div className={'esign ts-col-lg-4'}>
-                                                <ESignApprovalComponent isSigned={false}
-                                                                        isSigning={isSigningInProgress}
-                                                                        canSign={true}
-                                                                        signedAt={formik.values.signed_on}
-                                                                        onSign={() => {
-                                                                            handleSign(formik.values, formik);
-                                                                        }}/>
-                                            </div>
-                                        </div>
                                     </CardComponent>
+                                    <div className={"sign-note-wrapper ts-row "}>
+                                        <div className={'sign-note ts-col-lg-3'}>
+                                            Note: By clicking the "Sign" button, the report will be saved including the
+                                            details you added.
+                                        </div>
+                                    </div>
+                                    <div className={'esign-pad'}>
+                                        <div className={'esign ts-col-lg-3'}>
+                                            <ESignApprovalComponent isSigned={false}
+                                                                    isSigning={isSigningInProgress}
+                                                                    canSign={true}
+                                                                    signedAt={formik.values.signed_on}
+                                                                    onSign={() => {
+                                                                        handleSign(formik.values, formik);
+                                                                    }}/>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div className="t-form-actions mrg-bottom-0">
+                                <div className="t-form-actions mrg-top-30">
                                     {
                                         <ButtonComponent
                                             variant={"outlined"}
@@ -534,7 +539,6 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
                                                     handleDiscardProgressReport(progressReportId)
                                                 }
                                             }}
-                                            size={'large'}
                                             id={"progress_report_update_cancel_btn"}
                                             disabled={formik.isSubmitting}>
                                             Discard Report

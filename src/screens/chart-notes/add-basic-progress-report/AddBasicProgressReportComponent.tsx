@@ -67,7 +67,7 @@ const AddBasicProgressReportComponent = (props: AddBasicProgressReportComponentP
 
     return (
         <div className={'add-basic-progress-report-component'}>
-            <FormControlLabelComponent size={'lg'} label={'Add Progress Report'}/>
+            <FormControlLabelComponent size={'xl'} label={'Add Progress Report'}/>
             <div className={'add-progress-report-container'}>
                 <Formik initialValues={addProgressReportBasicInitialValues}
                         onSubmit={onSubmit}
@@ -161,7 +161,7 @@ const AddBasicProgressReportComponent = (props: AddBasicProgressReportComponentP
                                             disabled={!isValid || isProgressReportAddInProgress}
                                             id={"medical_intervention_add_save_btn"}
                                         >
-                                            Next
+                                            Save
                                         </ButtonComponent>
                                     </div>
                                 </Form>

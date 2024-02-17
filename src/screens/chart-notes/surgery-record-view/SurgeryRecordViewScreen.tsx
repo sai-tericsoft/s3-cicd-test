@@ -353,7 +353,7 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
                             }, [validateForm, values]);
                             return (
                                 <Form className="t-form" noValidate={true}>
-                                    <FormControlLabelComponent label={"Edit Surgery Record"}/>
+                                    <FormControlLabelComponent label={"Edit Surgery Record"} size={'xl'}/>
                                     <div className={"t-surgery-record-drawer-form-controls"}>
                                         <Field name={'surgery_date'}>
                                             {
@@ -517,12 +517,13 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
                                 {/*                 prefixIcon={<ImageConfig.DeleteIcon/>}>Delete Surgery*/}
                                 {/*    Record</ButtonComponent>*/}
                                 <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>}
-                                                 className={'mrg-right-10 mrg-top-5'}
+                                                 variant={'outlined'}
+                                                 className={'mrg-right-10'}
                                                  onClick={setIsEditSurgeryRecordDrawerOpen.bind(null, true)}>
                                     Edit Details
                                 </ButtonComponent>
                                 <MenuDropdownComponent className={'billing-details-drop-down-menu'} menuBase={
-                                    <ButtonComponent size={'large'} variant={'outlined'} fullWidth={true}
+                                    <ButtonComponent variant={'outlined'} fullWidth={true}
                                     >
                                         Select Action &nbsp;<ImageConfig.SelectDropDownIcon/>
                                     </ButtonComponent>
@@ -647,7 +648,7 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
                                                 </>
                                             )}/>
                                         {values?.attachment.length === 0 && <>
-                                            <FormControlLabelComponent label={"Upload Attachment"}
+                                            <FormControlLabelComponent label={"Upload Attachment:"}
                                                                        className={'attachment-heading'}/>
 
                                             <FilePickerComponent
@@ -671,11 +672,12 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
                                             disabled={values?.attachment?.length === 0}
                                         >
                                             Cancel
-                                        </ButtonComponent>&nbsp;&nbsp;
+                                        </ButtonComponent>&nbsp;
                                         <ButtonComponent type={'submit'}
+                                                         className={'mrg-left-15'}
                                                          isLoading={isAttachAddInProgress}
                                                          disabled={!isValid || isAttachAddInProgress}>
-                                            Save
+                                            Update
                                         </ButtonComponent>
                                     </div>
                                 </Form>)
