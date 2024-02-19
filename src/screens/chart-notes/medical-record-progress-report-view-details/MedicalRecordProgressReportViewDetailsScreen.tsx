@@ -259,7 +259,7 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
                         {/*        prefixIcon={<ImageConfig.PrintIcon/>}>Print</ButtonComponent>*/}
                         {/*</div>*/}
                         <MenuDropdownComponent className={'billing-details-drop-down-menu'} menuBase={
-                            <ButtonComponent size={'large'} variant={'outlined'} fullWidth={true}
+                            <ButtonComponent variant={'outlined'} fullWidth={true}
                             >
                                 Select Action &nbsp;<ImageConfig.SelectDropDownIcon/>
                             </ButtonComponent>

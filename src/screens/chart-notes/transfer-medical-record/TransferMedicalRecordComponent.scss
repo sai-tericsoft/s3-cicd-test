@@ -16,6 +16,12 @@
       display: flex;
       align-items: center;
       cursor: pointer;
+      font-weight: 500;
+      color: #1d1c1d;
+      font-size: 18px;
+      .back-text{
+        margin-top: -6px;
+      }
     }
 
     .drawer-close {
@@ -57,7 +63,6 @@
   .select-client-wrapper {
     .client-list-table {
       color: #6D6D6D;
-      border: 1px solid #F3F3F3;
     }
 
     .client-list-heading {
@@ -65,10 +70,12 @@
     }
 
     .t-table-wrapper {
-      height: calc(100vh - 330px);
+      border-radius: 8px !important;
+      height: calc(100vh - 270px);
 
       .t-table {
-        height: calc(100vh - 330px);
+        height: calc(100vh - 270px);
+        border-radius: 8px !important;
 
         .table-no-data-wrapper {
           min-height: 400px;
@@ -84,8 +91,11 @@
 
     .medical-intervention-list-wrapper {
       .t-table-wrapper {
+        border-radius: 8px;
+
         .t-table {
-          height: calc(100vh - 405px);
+          height: calc(100vh - 400px);
+          border-radius: 8px;
 
           .table-no-data-wrapper {
             min-height: 400px;
@@ -100,8 +110,10 @@
       margin-bottom: 16px;
 
       .select-intervention-choice-label {
-        margin-bottom: 0px !important;
+        margin-bottom: 0 !important;
         margin-right: 20px;
+        color: #1d1c1d;
+        font-weight: 400 !important;
       }
     }
 
@@ -114,11 +126,13 @@
     .client-mini-card {
       display: flex;
       align-items: center;
+      padding-top: 14px;
+      padding-bottom: 14px;
 
       .avatar-component {
-        background: #FEF0BF;
+        background: #275778;
         font-size: 18px;
-        color: #212B36;
+        color: #FFFFFF;
       }
 
       .client-name {
@@ -131,8 +145,11 @@
 
   .case-list-table {
     .t-table-wrapper {
+      border-radius: 8px;
+
       .t-table {
-        height: calc(100vh - 345px);
+        height: calc(100vh - 360px);
+        border-radius: 8px;
 
         .table-no-data-wrapper {
           min-height: 400px;

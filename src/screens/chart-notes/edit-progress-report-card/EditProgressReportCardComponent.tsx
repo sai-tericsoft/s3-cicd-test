@@ -67,7 +67,7 @@ const EditProgressReportCardComponent = (props: EditProgressReportCardComponentP
 
     return (
         <div className={'edit-progress-report-card-component'}>
-            <FormControlLabelComponent size={'lg'} label={'Edit Progress Report'}/>
+            <FormControlLabelComponent size={'xl'} label={'Edit Progress Report'}/>
             <div className={'add-progress-report-container'}>
                 <Formik initialValues={addProgressReportBasicInitialValues}
                         onSubmit={onSubmit}
@@ -160,7 +160,7 @@ const EditProgressReportCardComponent = (props: EditProgressReportCardComponentP
                                             disabled={!isValid || isProgressReportEditInProgress}
                                             id={"medical_intervention_add_save_btn"}
                                         >
-                                            Save
+                                            Update
                                         </ButtonComponent>
                                     </div>
                                 </Form>

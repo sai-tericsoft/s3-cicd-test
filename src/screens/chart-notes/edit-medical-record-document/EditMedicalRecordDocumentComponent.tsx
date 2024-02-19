@@ -74,7 +74,7 @@ const EditMedicalRecordDocumentComponent = (props: EditMedicalRecordDocumentFile
         <div className="edit-medical-record-document-component">
             <div className="edit-medical-record-document-component-form-container">
                 <FormControlLabelComponent label={"Edit Document"}
-                                           size={"lg"}/>
+                                           size={"xl"}/>
                 <Formik
                     validationSchema={EditMedicalRecordDocumentFormValidationSchema}
                     initialValues={editMedicalRecordDocumentFormInitialValues}
