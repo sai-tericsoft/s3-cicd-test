@@ -370,9 +370,31 @@
   .modal-content-wrapper {
     width: 600px;
 
+    .modal-header {
+      .modal-title {
+        font-size: 20px;
+        font-weight: 700;
+        margin-bottom: 4px;
+      }
+    }
+
+    .modal-title {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
     .modal-footer {
       .close-btn {
         margin-top: 14px;
+      }
+    }
+
+    .t-table-wrapper {
+      border-radius: 8px;
+
+      .t-table {
+        border-radius: 8px;
       }
     }
   }

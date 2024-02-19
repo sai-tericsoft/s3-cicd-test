@@ -61,14 +61,14 @@ const viewExerciseRecordColumn: any = [
         width: 100
     },
     {
-        title: "Time",
+        title: "TIME",
         key: "time",
         dataIndex: 'time',
         align: 'center',
         width: 100
     },
     {
-        title: "Resistance",
+        title: "RESISTANCE",
         key: "resistance",
         dataIndex: 'resistance',
         align: 'center',
@@ -244,36 +244,45 @@ const ViewExerciseRecordScreen = (props: ViewExerciseLogComponentProps) => {
                                                                      isLoading={printExerciseLogLoading[item?.intervention_id]}
                                                                      onClick={() => {
                                                                          handlePrintExerciseLog(item?.intervention_id)
-                                                                     }}>Print</ButtonComponent>
+                                                                     }}>Print Log</ButtonComponent>
                                                 </div>
                                             </div>
                                         </CardComponent>
                                     </div>
                                     <CardComponent title={'Attachments'} className={'attachment-card-wrapper'}>
-                                        <div className={'ts-col-md-2 d-flex'}>
-                                            {item?.attachments?.length > 0 && item?.attachments?.map((attachment: any) => {
-                                                return <ChipComponent label={attachment?.name}
-                                                                      color={'success'}
-                                                                      onClick={() => handleView(attachment)}
-                                                                      className={'mrg-right-10'}
-                                                                      key={attachment?._id}
-                                                                      prefixIcon={ImageConfig.PDFIcon}/>
+                                        {item?.attachments?.length > 0 && item?.attachments?.map((attachment: any) => {
+                                            return <div className={'ts-row'}>
+                                                <div className={'ts-col-lg-12 ts-col attachments-wrapper'}>
+                                                    <div className={'attachment-name-icon'}>
+                                                        <span><ImageConfig.DocumentIcon/></span>
+                                                        <span>{attachment?.name}</span>
+                                                    </div>
+                                                    <div>
+                                                        <ButtonComponent
+                                                            variant={'outlined'}
+                                                            prefixIcon={<ImageConfig.EyeOutlined/>}
+                                                            onClick={() => handleView(attachment)}>
+                                                            View
+                                                        </ButtonComponent>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        })}
 
-                                            })}
-                                        </div>
                                         {
                                             item?.attachments?.length === 0 &&
                                             <StatusCardComponent title={'No attachment has been added'}/>
                                         }
 
                                     </CardComponent>
-                                    <div className={'exercise-log-table-wrapper'}>
+
+                                    <CardComponent className={'exercise-log-table-wrapper'}>
                                         <TableComponent data={item?.exercise_records}
                                                         noDataText={'No exercise has been added'}
                                                         columns={viewExerciseRecordColumn}
                                                         autoHeight={true}
                                         />
-                                    </div>
+                                    </CardComponent>
 
                                     {item && item.comments &&
                                         item.comments.length > 0 && <div className={'comments-wrapper'}>
@@ -287,13 +296,14 @@ const ViewExerciseRecordScreen = (props: ViewExerciseLogComponentProps) => {
                                     )}
                                 </>
                             })}
-                            <CardComponent className={'no-exercise-record-wrapper'}>
-                                {
-                                    medicalRecordViewExerciseRecord?.exercise_logs?.length === 0 &&
+                            {
+                                medicalRecordViewExerciseRecord?.exercise_logs?.length === 0 &&
+                                <CardComponent className={'no-exercise-record-wrapper'}>
+
                                     <StatusCardComponent
                                         title={'Currently, no exercise logs have been added to this medical record.'}/>
-                                }
-                            </CardComponent>
+                                </CardComponent>
+                            }
 
 
                         </>

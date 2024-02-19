@@ -11,7 +11,7 @@ interface TableV2ComponentProps extends ITableComponentProps {
     data: any[];
     loading?: boolean;
     errored?: boolean;
-    noDataText?: string;
+    noDataText?: any;
     showFooter?: boolean;
     // footer?: React.ReactNode;
 }

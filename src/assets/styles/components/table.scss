@@ -241,13 +241,14 @@
   .ant-table-thead {
 
     .ant-table-cell {
-      background: #E1EBEA;
+      background: #ECF7FF;
       font-weight: 700;
       font-size: 16px;
+      border-radius: 8px 8px 0px 0px;
       line-height: 16px;
       color: #212B36;
+      height: 56px;
       letter-spacing: 0.2px;
-      border-radius: 0 !important;
 
       &::before {
         content: none !important;

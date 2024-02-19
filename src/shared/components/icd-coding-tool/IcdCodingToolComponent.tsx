@@ -38,18 +38,20 @@ class IcdCodingToolComponent extends React.Component<ParentComponentProps> {
     render() {
         return (
             <div className={'icd-coding-tool-component'}>
-                <div className={'icd-coding-tool-title'}>ICD-11 Coding Tool v1.6</div>
+                 <div className={'icd-coding-tool-title'}>ICD-11 Coding Tool v1.6</div>
                 <div className={'icd-coding-tool-content-window'}>
                     <div className={'icd-coding-search-component'}>
                         <input
                             type="text"
+                            title={'Search'}
+                            placeholder={'Search Keyword'}
                             className="ctw-input"
                             autoComplete="off"
                             data-ctw-ino={this.iNo}
                         />
-                        <div className="ctw-window" data-ctw-ino={this.iNo}></div>
                     </div>
                 </div>
+                <div className="ctw-window" data-ctw-ino={this.iNo}></div>
             </div>
         );
     }

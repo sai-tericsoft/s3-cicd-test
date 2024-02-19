@@ -1,35 +1,50 @@
 .medical-intervention-icd-codes-screen {
-  .icd-codes-sub-title-and-actions-wrapper {
-    display: flex;
-    justify-content: space-between;
-    column-gap: 20px;
-    flex-wrap: wrap;
-    margin-bottom: 24px;
-    row-gap: 10px;
-    align-items: center;
 
-    .icd-codes-sub-title {
-      font-size: 1.4286rem;
-      font-weight: 700;
-      color: #6D6D6D;
+  .icd-table-wrapper {
+    padding-bottom: 24px;
+
+    .no-data-text {
+      color: #7F7F7F;
+      font-size: 24px;
     }
 
-    .icd-screen-actions-wrapper {
+    .icd-codes-sub-title-and-actions-wrapper {
       display: flex;
-      justify-content: flex-end;
-      column-gap: 10px;
-    }
-  }
+      justify-content: space-between;
+      column-gap: 20px;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
+      row-gap: 10px;
+      align-items: center;
 
-  .ant-table-wrapper {
-    .ant-table {
-      min-height: 500px !important;
+      .icd-codes-sub-title {
+        font-size: 20px;
+        font-weight: 700;
+        color: #275778;
+      }
+
+      .icd-screen-actions-wrapper {
+        display: flex;
+        justify-content: flex-end;
+        column-gap: 10px;
+      }
     }
 
-    .ant-table-empty {
-      .ant-table-tbody {
-        .status-card-component {
-          min-height: 500px !important;
+    .ant-table-wrapper {
+      .ant-table {
+        min-height: 300px !important;
+      }
+
+      .ant-table-empty {
+
+        .ant-table-tbody {
+          .table-no-data-wrapper {
+            min-height: 200px !important;
+          }
+
+          .status-card-component {
+            min-height: 200px !important;
+          }
         }
       }
     }
@@ -72,13 +87,16 @@
   height: 100%;
   width: 800px;
 }
-.select-icd-codes-drawer{
-  .drawer-body{
+
+.select-icd-codes-drawer {
+  .drawer-body {
     height: calc(100vh - 310px) !important;
   }
-  .table-v2-component{
+
+  .table-v2-component {
     height: calc(100vh - 310px);
-    .ant-table-content{
+
+    .ant-table-content {
       height: calc(100vh - 310px);
     }
   }

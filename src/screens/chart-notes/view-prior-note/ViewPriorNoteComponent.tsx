@@ -53,16 +53,17 @@ const ViewPriorNoteComponent = (props: ViewPriorNoteComponentProps) => {
             title: "Provider",
             key: "provider",
             dataIndex: 'first_name',
-            width: 150,
+            width: 180,
             render: (item: any) => {
                 return <span>{item?.treated_by_details?.first_name} {item?.treated_by_details?.last_name}</span>
             }
         },
         {
-            title: "",
+            title: "Action",
             dataIndex: "actions",
-            width: 150,
+            width: 120,
             key: "actions",
+            align: "center",
             fixed: "right",
             render: (item: any) => {
                 return <LinkComponent
@@ -76,7 +77,7 @@ const ViewPriorNoteComponent = (props: ViewPriorNoteComponentProps) => {
 
     return (
         <div className={'view-prior-note-component'}>
-            <FormControlLabelComponent label={'View Prior Note'} size={'lg'}/>
+            <FormControlLabelComponent label={'View Prior Note'} size={'xl'}/>
             <InputComponent label={'Intervention Linked to'}
                             placeholder={'Intervention Linked To'}
                             value={CommonService.generateInterventionNameFromMedicalRecord(medicalRecordDetails)}

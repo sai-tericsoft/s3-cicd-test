@@ -52,26 +52,31 @@ const AddDryNeedlingFileComponent = (props: AddDryNeedlingFileComponentProps) =>
     const onSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
         setIsDryNeedlingFileAddInProgress(true);
         const tempPayload = _.cloneDeep(values);
-        // values.document_date = CommonService.convertDateFormat(values.document_date);
         const formData = CommonService.getFormDataFromJSON(values);
-        formData.append('document_date',tempPayload?.document_date)
-        CommonService._chartNotes.DryNeedlingFileAddAPICall(medicalInterventionId, formData)
-            .then((response: IAPIResponseType<any>) => {
-                CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
-                setIsDryNeedlingFileAddInProgress(false);
-                onAdd(response.data);
-            })
-            .catch((error: any) => {
-                CommonService.handleErrors(setErrors, error, true);
-                setIsDryNeedlingFileAddInProgress(false);
-            })
+        formData.append('document_date', tempPayload?.document_date);
+        try {
+            CommonService._chartNotes.DryNeedlingFileAddAPICall(medicalInterventionId, formData)
+                .then((response: IAPIResponseType<any>) => {
+                    CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+                    setIsDryNeedlingFileAddInProgress(false);
+                    onAdd(response.data);
+                })
+                .catch((error: any) => {
+                    CommonService.handleErrors(setErrors, error, true);
+                    setIsDryNeedlingFileAddInProgress(false);
+                });
+        } catch (error) {
+            CommonService.handleErrors(setErrors, error, true);
+            setIsDryNeedlingFileAddInProgress(false);
+        }
     }, [medicalInterventionId, onAdd]);
+
 
     return (
         <div className="add-dry-needling-file-component">
             <div className="add-dry-needling-file-form-container">
                 <FormControlLabelComponent label={"Add Dry Needling File"}
-                                           size={"lg"}/>
+                                           size={"xl"}/>
                 <Formik
                     validationSchema={AddDryNeedlingFormValidationSchema}
                     initialValues={addDryNeedlingFormInitialValues}
@@ -131,7 +136,7 @@ const AddDryNeedlingFileComponent = (props: AddDryNeedlingFileComponentProps) =>
                                         }
                                     </Field>
                                     <div >
-                                        <FormControlLabelComponent label={"Upload Dry Needling File"} className={'upload-dry-needling-heading'}
+                                        <FormControlLabelComponent label={"Upload Attachment"} className={'upload-dry-needling-heading'}
                                                                    required={true}/>
                                         <>
                                             {

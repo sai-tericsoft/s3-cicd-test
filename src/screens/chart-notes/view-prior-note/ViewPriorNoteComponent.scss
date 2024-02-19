@@ -2,9 +2,10 @@
 
   .t-table-wrapper{
     .t-table{
+      border-radius: 8px;
       height: calc(100vh - 240px);
       .t-cell-actions{
-        padding-right: 30px !important;
+        padding-right: 20px !important;
       }
     }
   }

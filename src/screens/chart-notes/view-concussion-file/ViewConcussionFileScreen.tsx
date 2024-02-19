@@ -17,7 +17,6 @@ import FilePreviewThumbnailComponent
     from "../../../shared/components/file-preview-thumbnail/FilePreviewThumbnailComponent";
 import EditConcussionFileComponent from "../edit-concussion-file/EditConcussionFileComponent";
 import FormControlLabelComponent from "../../../shared/components/form-control-label/FormControlLabelComponent";
-import commonService from "../../../shared/services/common.service";
 
 interface ViewConcussionFileScreenProps {
 
@@ -200,12 +199,13 @@ const ViewConcussionFileScreen = (props: ViewConcussionFileScreenProps) => {
                         .then((response: any) => {
                             CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY] || "Successfully shared document", "success");
                             setIsShared(true);
+                            getConcussionFileFileDetails();
                         }).catch((error: any) => {
                         CommonService._alert.showToast(error?.error || "Error sharing document", "success");
                     });
                 }
             })
-        }, [concussionFileId]);
+        }, [concussionFileId,getConcussionFileFileDetails]);
 
         useEffect(() => {
             if (concussionFileId) {
@@ -219,7 +219,7 @@ const ViewConcussionFileScreen = (props: ViewConcussionFileScreenProps) => {
             }
             CommonService._chartNotes.ConcussionFileEditAPICall(item?._id, payload)
                 .then((response: any) => {
-                    commonService._alert.showToast("Access removed successfully", "success");
+                    CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                     setIsShared(false);
                 })
                 .catch((error: any) => {
@@ -240,7 +240,7 @@ const ViewConcussionFileScreen = (props: ViewConcussionFileScreenProps) => {
                 {
                     isConcussionFileFileDetailsLoaded && <>
                         <MedicalRecordAttachmentBasicDetailsCardComponent
-                            pageTitle={`View ${concussionFileDetails?.concussion_type_details?.type} File`}
+                            pageTitle={`View Concussion File`}
                             attachmentDetails={concussionFileDetails}
                             isDocumentShared={isShared}
                             medicalRecordDetails={concussionFileDetails?.medical_record_details}

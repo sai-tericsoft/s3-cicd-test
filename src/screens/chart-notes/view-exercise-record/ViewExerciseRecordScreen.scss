@@ -1,24 +1,31 @@
 .view-exercise-log-component {
-  .t-table-wrapper{
-   .t-table{
-    min-height: max-content !important;
-    .table-no-data-wrapper{
-      background: #FFFFFF;
-      min-height: 100px;
+  .t-table-wrapper {
+    .t-table {
+      min-height: max-content !important;
+
+      .table-no-data-wrapper {
+        background: #FFFFFF;
+        min-height: 100px;
+      }
     }
-   }
   }
-  .comments-wrapper{
-    .card-component{
+
+  .comments-wrapper {
+    .card-component {
       margin-bottom: 0 !important;
     }
   }
-  .details-card-wrapper{
+
+  .details-card-wrapper {
     width: 100%;
-    .card-component{
-     background: #D6F0DE;
+
+    .card-component {
+      background: #ECE3F2;
+      border: 1px solid #E2E2E2;
+      box-shadow: 0px 4px 8px 0px #D1D1D1;
     }
   }
+
   .client-name-button-wrapper {
     display: flex;
     justify-content: space-between;
@@ -32,37 +39,55 @@
       }
     }
   }
-  .attachment-card-wrapper{
-    padding-bottom: 24px;
-    .MuiChip-root{
-      width: 150px !important;
-      .MuiChip-label{
-        text-decoration: underline;
+
+  .attachment-card-wrapper {
+    padding-bottom: 4px;
+
+    .attachments-wrapper {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #DFF6F3;
+      border: 1px solid #2CA091;
+      box-shadow: 0px 4px 8px 0px #D1D1D1;
+      border-radius: 8px;
+      padding: 16px 12px;
+      margin-bottom: 20px;
+
+      .attachment-name-icon {
+        display: flex;
+        align-items: center;
       }
 
     }
   }
-  .exercise-log-table-wrapper{
+
+  .exercise-log-table-wrapper {
+    padding-bottom: 24px;
+
     .t-table-wrapper {
       .t-table {
         min-height: max-content !important;
+        border-radius: 8px;
       }
     }
   }
 
-  .horizontal-line{
+  .horizontal-line {
     border-bottom: 2px solid #A5A5A5;
     margin-top: 30px;
   }
-  .ts-row{
-    .print-button-wrapper{
+
+  .ts-row {
+    .print-button-wrapper {
       display: flex;
       justify-content: end;
-      margin-left: -40px !important;
+      //margin-left: -40px !important;
 
     }
   }
-  .no-exercise-record-wrapper{
+
+  .no-exercise-record-wrapper {
     min-height: 400px;
     display: flex;
     align-items: center;

@@ -69,7 +69,7 @@ const EditConcussionFileComponent = (props: EditConcussionFileComponentProps) =>
         <div className="edit-concussion-file-component">
             <div className="edit-concussion-file-component-form-container">
                 <FormControlLabelComponent label={`Edit ${concussionFileDetails?.concussion_type_details?.type} File`}
-                                           size={"lg"}/>
+                                           size={"xl"}/>
                 <Formik
                     validationSchema={EditConcussionFileFormValidationSchema}
                     initialValues={editConcussionFileFormInitialValues}

@@ -88,8 +88,6 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
 
     const {currentUser} = useSelector((state: IRootReducerState) => state.account)
 
-    console.log('currentUser', currentUser);
-
     const {medicalRecordId, medicalInterventionId} = useParams();
     const location = useLocation();
     const search = CommonService.parseQueryString(location.search);

@@ -203,7 +203,7 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
         if (medicalRecordId) {
             CommonService._chartNotes.MedicalRecordNotifyAdminAPICall(medicalRecordId, values)
                 .then((response) => {
-                    CommonService._alert.showToast("Admin has been notified.", "success");
+                    CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                     setIsNotifyAdminProgressIsLoading(false);
                     setIsNotifyAdminProgressIsLoading(false);
                     handleNotifyAdminModalClose();
@@ -211,6 +211,7 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
                 }).catch((error) => {
                 CommonService.handleErrors(setErrors, error, true);
                 setIsNotifyModalOpen(false);
+                setIsNotifyAdminProgressIsLoading(false);
             });
         }
     }, [medicalRecordId, handleNotifyAdminModalClose]);
@@ -319,7 +320,7 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
                 ]);
             }
         }
-    }, [clientMedicalRecord, medicalRecordId,handleInjuryConditionPrint, handleMedicalRecordReOpen, openAddSurgeryRecord, addProgressRecord, openTransferMedicalRecordDrawer, handleNotifyAdmin, openMedicalRecordStatsModal, openMedicalRecordDocumentAddDrawer, handleDischargeCase, handleNotifyAdminModalOpen]);
+    }, [clientMedicalRecord, medicalRecordId, handleInjuryConditionPrint, handleMedicalRecordReOpen, openAddSurgeryRecord, addProgressRecord, openTransferMedicalRecordDrawer, handleNotifyAdmin, openMedicalRecordStatsModal, openMedicalRecordDocumentAddDrawer, handleDischargeCase, handleNotifyAdminModalOpen]);
 
     useEffect(() => {
         if (onMedicalRecordDataLoad && clientMedicalRecord) {
@@ -594,7 +595,7 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
                                             <ButtonComponent variant={'contained'} color={'primary'}
                                                              isLoading={isNotifyAdminProgressIsLoading}
                                                              className={'mrg-left-15'}
-                                                             disabled={!isValid || isNotifyAdminProgressIsLoading}
+                                                             disabled={!isValid || isNotifyAdminProgressIsLoading || !values?.message}
                                                              type={'submit'}>
                                                 Notify
                                             </ButtonComponent>

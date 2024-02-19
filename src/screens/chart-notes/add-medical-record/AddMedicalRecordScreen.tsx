@@ -199,9 +199,6 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
                 payload.surgery_details = surgeryRecord;
                 payload.surgery_details.reported_by = surgeryRecord.reported_by?._id;
             }
-            // if (payload.case_physician.next_appointment) {
-            //     payload.case_physician.next_appointment = CommonService.convertDateFormat(payload?.case_physician?.next_appointment);
-            // }
             if (payload.surgery_details.surgery_date) {
                 payload.surgery_details.surgery_date = CommonService.convertDateFormat(payload?.surgery_details?.surgery_date);
             }
@@ -210,18 +207,24 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
             if (tempPayload.case_physician.next_appointment) {
                 formData.append('case_physician.next_appointment', tempPayload?.case_physician?.next_appointment);
             }
-            CommonService._chartNotes.MedicalRecordAddAPICall(clientId, formData)
-                .then((response: IAPIResponseType<any>) => {
-                    CommonService._alert.showToast('Medical record was successfully created', "success");
-                    setIsMedicalRecordAddInProgress(true);
-                    navigate(CommonService._routeConfig.UpdateMedicalIntervention(response?.data._id, response?.data?.intervention_id) + '?mode=add');
-                })
-                .catch((error: any) => {
-                    CommonService.handleErrors(setErrors, error, true);
-                    setIsMedicalRecordAddInProgress(false);
-                })
+            try {
+                CommonService._chartNotes.MedicalRecordAddAPICall(clientId, formData)
+                    .then((response: IAPIResponseType<any>) => {
+                        CommonService._alert.showToast('Medical record was successfully created', "success");
+                        setIsMedicalRecordAddInProgress(true);
+                        navigate(CommonService._routeConfig.UpdateMedicalIntervention(response?.data._id, response?.data?.intervention_id) + '?mode=add');
+                    })
+                    .catch((error: any) => {
+                        CommonService.handleErrors(setErrors, error, true);
+                        setIsMedicalRecordAddInProgress(false);
+                    });
+            } catch (error) {
+                CommonService.handleErrors(setErrors, error, true);
+                setIsMedicalRecordAddInProgress(false);
+            }
         }
     }, [clientId, surgeryRecord, navigate]);
+
 
     const onSurgeryRecordSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
         setSurgeryRecord(values);
