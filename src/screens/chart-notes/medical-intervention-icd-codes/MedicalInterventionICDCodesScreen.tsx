@@ -9,24 +9,19 @@ import {IRootReducerState} from "../../../store/reducers";
 import {getMedicalInterventionDetails} from "../../../store/actions/chart-notes.action";
 import {setCurrentNavParams} from "../../../store/actions/navigation.action";
 import {ITableColumn} from "../../../shared/models/table.model";
-import LinkComponent from "../../../shared/components/link/LinkComponent";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
-import {ClearSharp, DeleteOutline} from "@mui/icons-material";
-import PageHeaderComponent from "../../../shared/components/page-header/PageHeaderComponent";
 import CardComponent from "../../../shared/components/card/CardComponent";
-import ChipComponent from "../../../shared/components/chip/ChipComponent";
-import MedicalInterventionLinkedToComponent
-    from "../medical-intervention-linked-to/MedicalInterventionLinkedToComponent";
-import DataLabelValueComponent from "../../../shared/components/data-label-value/DataLabelValueComponent";
 import {getClientMedicalRecord} from "../../../store/actions/client.action";
 import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 import TableV2Component from "../../../shared/components/table-v2/TableV2Component";
 import IconButtonComponent from "../../../shared/components/icon-button/IconButtonComponent";
 import IcdCodingToolComponent from "../../../shared/components/icd-coding-tool/IcdCodingToolComponent";
-import commonService from "../../../shared/services/common.service";
 import ModalComponent from "../../../shared/components/modal/ModalComponent";
 import TextAreaComponent from "../../../shared/components/form-controls/text-area/TextAreaComponent";
+import FormControlLabelComponent from "../../../shared/components/form-control-label/FormControlLabelComponent";
+import MedicalInterventionDetailsCardComponent
+    from "../medical-intervention-details-card/MedicalInterventionDetailsCardComponent";
 
 interface MedicalInterventionICDCodesScreenProps {
 
@@ -116,7 +111,7 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
         }
     }, [navigate, dispatch, medicalRecordId, medicalInterventionId, searchParams, last_position]);
 
-    const selectesICDCodesColumns: ITableColumn[] = useMemo(() => [
+    const selectedICDCodesColumns: ITableColumn[] = useMemo(() => [
         {
             title: 'ICD Code',
             dataIndex: 'icd_code',
@@ -176,17 +171,17 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
             dataIndex: 'actions',
             align: "center",
             width: 100,
-            fixed: 'right',
             render: (_: any, record: any) => (
-                <IconButtonComponent
-                    size={"large"}
-                    type={"button"}
+                <ButtonComponent
+                    color={"error"}
+                    variant={'outlined'}
+                    prefixIcon={<ImageConfig.CrossOutlinedIcon/>}
                     onClick={() => {
                         setSelectedICDCodes(selectedICDCodes.filter((code) => code?.icd_code !== record?.icd_code));
                     }}
                 >
-                    <DeleteOutline color={"error"} fontSize={"inherit"}/>
-                </IconButtonComponent>
+                    Remove
+                </ButtonComponent>
             )
         }
     ], [selectedICDCodes]);
@@ -203,9 +198,15 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
         }
     }, [medicalInterventionDetails]);
 
+    const handleCancel = useCallback(() => {
+        if (medicalRecordId && medicalInterventionId) {
+            navigate(CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, medicalInterventionId) + `?last_position=${last_position}`);
+        }
+    }, [navigate, medicalRecordId, medicalInterventionId, last_position]);
+
     return (
         <div className={'medical-intervention-icd-codes-screen'}>
-            <PageHeaderComponent title={'Add ICD Code'}/>
+            <FormControlLabelComponent label={"Medical Diagnosis/ICD Codes"} size={'xl'}/>
             {
                 isMedicalInterventionDetailsLoading && <LoaderComponent/>
             }
@@ -214,85 +215,88 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
             }
             {
                 (isMedicalInterventionDetailsLoaded && clientMedicalRecord) && <>
-                    <CardComponent color={'primary'}>
-                        <div className={'client-name-button-wrapper'}>
-                                    <span className={'client-name-wrapper'}>
-                                        <span className={'client-name'}>
-                                            <span
-                                                className={clientMedicalRecord?.client_details?.is_alias_name_set ? 'alias-name' : ''}>
-                                                {commonService.generateClientNameFromClientDetails(clientMedicalRecord?.client_details || {})}
-                                            </span>
-                                        </span>
-                                        <ChipComponent
-                                            className={clientMedicalRecord?.status === "open" ? "active" : "inactive"}
-                                            size={'small'}
-                                            label={clientMedicalRecord?.status_details.title || "-"}/>
-                                    </span>
-                        </div>
-                        <MedicalInterventionLinkedToComponent medicalRecordDetails={clientMedicalRecord}/>
-                        <div className={'ts-row'}>
-                            <div className={'ts-col-6'}>
-                                <DataLabelValueComponent label={'Date of Intervention'}>
-                                    {CommonService.getSystemFormatTimeStamp(clientMedicalRecord?.created_at || "N/A")}
-                                </DataLabelValueComponent>
-                            </div>
-                        </div>
-                    </CardComponent>
+                    {/*<CardComponent color={'primary'}>*/}
+                    {/*    <div className={'client-name-button-wrapper'}>*/}
+                    {/*                <span className={'client-name-wrapper'}>*/}
+                    {/*                    <span className={'client-name'}>*/}
+                    {/*                        <span*/}
+                    {/*                            className={clientMedicalRecord?.client_details?.is_alias_name_set ? 'alias-name' : ''}>*/}
+                    {/*                            {commonService.generateClientNameFromClientDetails(clientMedicalRecord?.client_details || {})}*/}
+                    {/*                        </span>*/}
+                    {/*                    </span>*/}
+                    {/*                    <ChipComponent*/}
+                    {/*                        className={clientMedicalRecord?.status === "open" ? "active" : "inactive"}*/}
+                    {/*                        size={'small'}*/}
+                    {/*                        label={clientMedicalRecord?.status_details.title || "-"}/>*/}
+                    {/*                </span>*/}
+                    {/*    </div>*/}
+                    {/*    <MedicalInterventionLinkedToComponent medicalRecordDetails={clientMedicalRecord}/>*/}
+                    {/*    <div className={'ts-row'}>*/}
+                    {/*        <div className={'ts-col-6'}>*/}
+                    {/*            <DataLabelValueComponent label={'Date of Intervention'}>*/}
+                    {/*                {CommonService.getSystemFormatTimeStamp(clientMedicalRecord?.created_at || "N/A")}*/}
+                    {/*            </DataLabelValueComponent>*/}
+                    {/*        </div>*/}
+                    {/*    </div>*/}
+                    {/*</CardComponent>*/}
+                    <MedicalInterventionDetailsCardComponent medicalInterventionDetails={medicalInterventionDetails}
+                                                             mode={"edit"}
+                                                             showAction={false}/>
                 </>
             }
-            <div className={'icd-codes-sub-title-and-actions-wrapper'}>
-                <div className={'icd-codes-sub-title'}>
-                    Selected ICD Code(s)
-                </div>
-                <div
-                    className={isMedicalInterventionDetailsLoading ? "icd-screen-actions-wrapper mrg-top-15" : "icd-screen-actions-wrapper"}>
-                    <ButtonComponent
-                        className={'white-space-nowrap'}
-                        type={"button"}
-                        onClick={
-                            () => {
-                                setOpenIframe(true)
+            <CardComponent className={'icd-table-wrapper'}>
+                <div className={'icd-codes-sub-title-and-actions-wrapper'}>
+                    <div className={'icd-codes-sub-title'}>
+                        Selected ICD Code(s)
+                    </div>
+                    <div
+                        className={isMedicalInterventionDetailsLoading ? "icd-screen-actions-wrapper mrg-top-15" : "icd-screen-actions-wrapper"}>
+                        <ButtonComponent
+                            prefixIcon={<ImageConfig.AddIcon/>}
+                            className={'white-space-nowrap'}
+                            type={"button"}
+                            onClick={
+                                () => {
+                                    setOpenIframe(true)
+                                }
                             }
-                        }
-                    >
-                        ICD Coding Tool
-                    </ButtonComponent>
-                    <ButtonComponent
-                        className={'white-space-nowrap'}
-                        type={"button"}
-                        disabled={selectedICDCodes.length === 0}
-                        onClick={
-                            () => {
-                                setSelectedICDCodes([]);
+                        >
+                            ICD Coding Tool
+                        </ButtonComponent>
+                        <ButtonComponent
+                            prefixIcon={<ImageConfig.CrossOutlinedIcon/>}
+                            className={'white-space-nowrap'}
+                            type={"button"}
+                            disabled={selectedICDCodes.length === 0}
+                            onClick={
+                                () => {
+                                    setSelectedICDCodes([]);
+                                }
                             }
-                        }
-                        variant={"outlined"}
-                        color={"error"}
-                    >
-                        <ClearSharp/> Clear ICD Codes
-                    </ButtonComponent>
+                            variant={"outlined"}
+                            color={"error"}
+                        >
+                            Clear All Code(s)
+                        </ButtonComponent>
+                    </div>
                 </div>
-            </div>
-            <TableV2Component
-                data={selectedICDCodes}
-                columns={selectesICDCodesColumns}
-                noDataText={"No ICD Code selected"}
-            />
+                <TableV2Component
+                    data={selectedICDCodes}
+                    columns={selectedICDCodesColumns}
+                    noDataText={<div className={'no-data-text'}>No ICD Code Selected</div>}
+                />
+            </CardComponent>
 
             <div className="text-center d-flex align-items-center justify-content-center mrg-top-30">
-                {(medicalRecordId && medicalInterventionId) && <LinkComponent
-                    route={CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, medicalInterventionId) + `?last_position=${last_position}`}>
-                    <ButtonComponent variant={"outlined"}
-                                     size={"large"}
-                                     className={isSubmitting ? 'mrg-right-15' : ''}
-                                     disabled={isSubmitting}
-                    >
-                        Cancel
-                    </ButtonComponent>
-                </LinkComponent>}
-                &nbsp;&nbsp;
+                <ButtonComponent variant={"outlined"}
+                                 onClick={handleCancel}
+                                 disabled={isSubmitting}
+                >
+                    Cancel
+                </ButtonComponent>
+
+                &nbsp;
                 <ButtonComponent type={"button"}
-                                 size={"large"}
                                  className={'mrg-left-15'}
                                  onClick={() => {
                                      linkICDCodesToIntervention(

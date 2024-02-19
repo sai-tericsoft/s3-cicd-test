@@ -369,119 +369,61 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
             {
                 ((mode === "edit" && isClientBasicDetailsLoaded && clientBasicDetails) || mode === "add") && <>
                     <Formik
-                    validationSchema={ClientBasicDetailsFormValidationSchema}
-                    initialValues={clientBasicDetailsFormInitialValues}
-                    onSubmit={onSubmit}
-                    innerRef={formikRef}
-                    validateOnBlur={true}
-                    validateOnChange={true}
-                    enableReinitialize={true}
-                    validateOnMount={true}
+                        validationSchema={ClientBasicDetailsFormValidationSchema}
+                        initialValues={clientBasicDetailsFormInitialValues}
+                        onSubmit={onSubmit}
+                        innerRef={formikRef}
+                        validateOnBlur={true}
+                        validateOnChange={true}
+                        enableReinitialize={true}
+                        validateOnMount={true}
                     >
-                    {({values, touched, errors, setFieldValue, validateForm, isValid}) => {
-                        // eslint-disable-next-line react-hooks/rules-of-hooks
-                        useEffect(() => {
-                            validateForm();
-                        }, [validateForm, values]);
-                        return (
-                            <Form noValidate={true} className={"t-form"}>
-                                {/*<FormDebuggerComponent showDebugger={true} values={values} errors={errors}/>*/}
-                                {
-                                    mode === "edit" &&
-                                    <div
-                                        className={"display-flex ts-justify-content-between mrg-bottom-15 align-items-center"}>
-                                        <div className={'edit-client-heading'}>Edit Client Details</div>
-                                        <div className={"display-flex align-items-center"}>
-
-                                            <div>Status:</div>
-                                            <Field name={'is_active'} className="t-form-control">
-                                                {
-                                                    (field: FieldProps) => (
-                                                        <FormikSwitchComponent
-                                                            label={values.is_active ? "Active" : "Inactive"}
-                                                            required={true}
-                                                            formikField={field}
-                                                            labelPlacement={"start"}
-                                                        />
-                                                    )
-                                                }
-                                            </Field>
-                                        </div>
-                                    </div>
-                                }
-
-
-                                {
-                                    mode === 'add' &&
-                                    <div className={'add-client-heading'}>Add Client</div>
-
-                                }
-                                <CardComponent title={"Personal Details"} size={"md"}>
-                                    <div className="ts-row">
-                                        <div className="ts-col">
-                                            <Field name={'first_name'}>
-                                                {
-                                                    (field: FieldProps) => (
-                                                        <FormikInputComponent
-                                                            label={'First Name'}
-                                                            placeholder={'E.g. John'}
-                                                            type={"text"}
-                                                            required={true}
-                                                            titleCase={true}
-                                                            formikField={field}
-                                                            fullWidth={true}
-                                                        />
-                                                    )
-                                                }
-                                            </Field>
-                                        </div>
-                                        <div className="ts-col">
-                                            <Field name={'last_name'}>
-                                                {
-                                                    (field: FieldProps) => (
-                                                        <FormikInputComponent
-                                                            label={'Last Name'}
-                                                            placeholder={'E.g. Doe'}
-                                                            type={"text"}
-                                                            required={true}
-                                                            titleCase={true}
-                                                            formikField={field}
-                                                            fullWidth={true}
-                                                        />
-                                                    )
-                                                }
-                                            </Field>
-                                        </div>
-                                        <div className="ts-col-1"></div>
-                                    </div>
-                                    <div className={'alias-name-check-box'}>
-                                        <Field name={'is_alias_name_set'}>
-                                            {
-                                                (field: FieldProps) => (
-                                                    <FormikCheckBoxComponent
-                                                        label={'Add Alias Name'}
-                                                        required={true}
-                                                        formikField={field}
-                                                        labelPlacement={"start"}
-                                                        onChange={(value: boolean) => {
-                                                            setFieldValue('alias_first_name', "");
-                                                            setFieldValue('alias_last_name', "");
-                                                        }
-                                                        }
-                                                    />
-                                                )
-                                            }
-                                        </Field>
-                                    </div>
+                        {({values, touched, errors, setFieldValue, validateForm, isValid}) => {
+                            // eslint-disable-next-line react-hooks/rules-of-hooks
+                            useEffect(() => {
+                                validateForm();
+                            }, [validateForm, values]);
+                            return (
+                                <Form noValidate={true} className={"t-form"}>
+                                    {/*<FormDebuggerComponent showDebugger={true} values={values} errors={errors}/>*/}
                                     {
-                                        values.is_alias_name_set &&
+                                        mode === "edit" &&
+                                        <div
+                                            className={"display-flex ts-justify-content-between mrg-bottom-15 align-items-center"}>
+                                            <FormControlLabelComponent label={'Edit Client Details'} size={'xl'}/>
+                                            <div className={"display-flex align-items-center"}>
+
+                                                <div>Status:</div>
+                                                <Field name={'is_active'} className="t-form-control">
+                                                    {
+                                                        (field: FieldProps) => (
+                                                            <FormikSwitchComponent
+                                                                label={values.is_active ? "Active" : "Inactive"}
+                                                                required={true}
+                                                                formikField={field}
+                                                                labelPlacement={"start"}
+                                                            />
+                                                        )
+                                                    }
+                                                </Field>
+                                            </div>
+                                        </div>
+                                    }
+
+
+                                    {
+                                        mode === 'add' &&
+                                        <div className={'add-client-heading'}>Add Client</div>
+
+                                    }
+                                    <CardComponent title={"Personal Details"} size={"md"}>
                                         <div className="ts-row">
                                             <div className="ts-col">
-                                                <Field name={'alias_first_name'}>
+                                                <Field name={'first_name'}>
                                                     {
                                                         (field: FieldProps) => (
                                                             <FormikInputComponent
-                                                                label={'Alias First Name'}
+                                                                label={'First Name'}
                                                                 placeholder={'E.g. John'}
                                                                 type={"text"}
                                                                 required={true}
@@ -494,11 +436,11 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                 </Field>
                                             </div>
                                             <div className="ts-col">
-                                                <Field name={'alias_last_name'}>
+                                                <Field name={'last_name'}>
                                                     {
                                                         (field: FieldProps) => (
                                                             <FormikInputComponent
-                                                                label={'Alias Last Name'}
+                                                                label={'Last Name'}
                                                                 placeholder={'E.g. Doe'}
                                                                 type={"text"}
                                                                 required={true}
@@ -512,139 +454,598 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                             </div>
                                             <div className="ts-col-1"></div>
                                         </div>
-                                    }
-                                    <div className="ts-row">
-                                        <div className="ts-col">
-                                            <Field name={'nick_name'}>
+                                        <div className={'alias-name-check-box'}>
+                                            <Field name={'is_alias_name_set'}>
                                                 {
                                                     (field: FieldProps) => (
-                                                        <FormikInputComponent
-                                                            label={'Nickname/Preferred Name'}
-                                                            placeholder={'Enter Nickname/Preferred Name'}
-                                                            type={"text"}
-                                                            formikField={field}
-                                                            fullWidth={true}
-                                                        />
-                                                    )
-                                                }
-                                            </Field>
-                                        </div>
-                                        <div className="ts-col">
-                                            <Field name={'dob'}>
-                                                {
-                                                    (field: FieldProps) => (
-                                                        <FormikDatePickerComponent
-                                                            label={'Date of Birth'}
-                                                            placeholder={'MM-DD-YYYY'}
-                                                            required={true}
-                                                            maxDate={CommonService._staticData.today}
-                                                            formikField={field}
-                                                            fullWidth={true}
-                                                        />
-                                                    )
-                                                }
-                                            </Field>
-                                        </div>
-                                        <div className="ts-col-1"></div>
-                                    </div>
-                                    <div className="ts-row">
-                                        <div className="ts-col">
-                                            <Field name={'gender'}>
-                                                {
-                                                    (field: FieldProps) => (
-                                                        <FormikSelectComponent
-                                                            options={genderList}
-                                                            label={'Gender'}
+                                                        <FormikCheckBoxComponent
+                                                            label={'Add Alias Name'}
                                                             required={true}
                                                             formikField={field}
-                                                            fullWidth={true}
+                                                            labelPlacement={"start"}
+                                                            onChange={(value: boolean) => {
+                                                                setFieldValue('alias_first_name', "");
+                                                                setFieldValue('alias_last_name', "");
+                                                            }
+                                                            }
                                                         />
                                                     )
                                                 }
                                             </Field>
                                         </div>
-                                        <div className="ts-col">
-                                            <Field name={'ssn'}>
-                                                {
-                                                    (field: FieldProps) => (
-                                                        <FormikSsnInputComponent
-                                                            label={'SSN'}
-                                                            // required={true}
-                                                            formikField={field}
-                                                            fullWidth={true}
-                                                        />
-                                                    )
-                                                }
-                                            </Field>
+                                        {
+                                            values.is_alias_name_set &&
+                                            <div className="ts-row">
+                                                <div className="ts-col">
+                                                    <Field name={'alias_first_name'}>
+                                                        {
+                                                            (field: FieldProps) => (
+                                                                <FormikInputComponent
+                                                                    label={'Alias First Name'}
+                                                                    placeholder={'E.g. John'}
+                                                                    type={"text"}
+                                                                    required={true}
+                                                                    titleCase={true}
+                                                                    formikField={field}
+                                                                    fullWidth={true}
+                                                                />
+                                                            )
+                                                        }
+                                                    </Field>
+                                                </div>
+                                                <div className="ts-col">
+                                                    <Field name={'alias_last_name'}>
+                                                        {
+                                                            (field: FieldProps) => (
+                                                                <FormikInputComponent
+                                                                    label={'Alias Last Name'}
+                                                                    placeholder={'E.g. Doe'}
+                                                                    type={"text"}
+                                                                    required={true}
+                                                                    titleCase={true}
+                                                                    formikField={field}
+                                                                    fullWidth={true}
+                                                                />
+                                                            )
+                                                        }
+                                                    </Field>
+                                                </div>
+                                                <div className="ts-col-1"></div>
+                                            </div>
+                                        }
+                                        <div className="ts-row">
+                                            <div className="ts-col">
+                                                <Field name={'nick_name'}>
+                                                    {
+                                                        (field: FieldProps) => (
+                                                            <FormikInputComponent
+                                                                label={'Nickname/Preferred Name'}
+                                                                placeholder={'Enter Nickname/Preferred Name'}
+                                                                type={"text"}
+                                                                formikField={field}
+                                                                fullWidth={true}
+                                                            />
+                                                        )
+                                                    }
+                                                </Field>
+                                            </div>
+                                            <div className="ts-col">
+                                                <Field name={'dob'}>
+                                                    {
+                                                        (field: FieldProps) => (
+                                                            <FormikDatePickerComponent
+                                                                label={'Date of Birth'}
+                                                                placeholder={'MM-DD-YYYY'}
+                                                                required={true}
+                                                                maxDate={CommonService._staticData.today}
+                                                                formikField={field}
+                                                                fullWidth={true}
+                                                            />
+                                                        )
+                                                    }
+                                                </Field>
+                                            </div>
+                                            <div className="ts-col-1"></div>
                                         </div>
-                                        <div className="ts-col-1"></div>
-                                    </div>
-                                </CardComponent>
-                                <CardComponent title={"Contact Information"} size={"md"}>
-                                    <FormControlLabelComponent className={'contact-info-sub-heading'} size={'sm'}
-                                                               label={'Primary Phone :'}/>
-                                    <div className="ts-row">
-                                        <div className="ts-col">
-                                            <Field name={'primary_contact_info.phone_type'}>
-                                                {
-                                                    (field: FieldProps) => (
-                                                        <FormikSelectComponent
-                                                            options={phoneTypeList}
-                                                            label={'Phone Type'}
-                                                            required={true}
-                                                            id={'primary_phone_type'}
-                                                            formikField={field}
-                                                            fullWidth={true}
-                                                        />
-                                                    )
-                                                }
-                                            </Field>
+                                        <div className="ts-row">
+                                            <div className="ts-col">
+                                                <Field name={'gender'}>
+                                                    {
+                                                        (field: FieldProps) => (
+                                                            <FormikSelectComponent
+                                                                options={genderList}
+                                                                label={'Gender'}
+                                                                required={true}
+                                                                formikField={field}
+                                                                fullWidth={true}
+                                                            />
+                                                        )
+                                                    }
+                                                </Field>
+                                            </div>
+                                            <div className="ts-col">
+                                                <Field name={'ssn'}>
+                                                    {
+                                                        (field: FieldProps) => (
+                                                            <FormikSsnInputComponent
+                                                                label={'SSN'}
+                                                                // required={true}
+                                                                formikField={field}
+                                                                fullWidth={true}
+                                                            />
+                                                        )
+                                                    }
+                                                </Field>
+                                            </div>
+                                            <div className="ts-col-1"></div>
                                         </div>
-                                        <div className="ts-col">
-                                            <Field name={'primary_contact_info.phone'}>
-                                                {
-                                                    (field: FieldProps) => (
-                                                        <FormikPhoneInputComponent
-                                                            label={'Phone Number'}
-                                                            // placeholder={'Phone Number (Primary)'}
-                                                            required={true}
-                                                            disabled={!values?.primary_contact_info?.phone_type}
-                                                            formikField={field}
-                                                            id={'primary_phone_number'}
-                                                            fullWidth={true}
-                                                        />
-                                                    )
-                                                }
-                                            </Field>
+                                    </CardComponent>
+                                    <CardComponent title={"Contact Information"} size={"md"}>
+                                        <FormControlLabelComponent className={'contact-info-sub-heading'} size={'sm'}
+                                                                   label={'Primary Phone :'}/>
+                                        <div className="ts-row">
+                                            <div className="ts-col">
+                                                <Field name={'primary_contact_info.phone_type'}>
+                                                    {
+                                                        (field: FieldProps) => (
+                                                            <FormikSelectComponent
+                                                                options={phoneTypeList}
+                                                                label={'Phone Type'}
+                                                                required={true}
+                                                                id={'primary_phone_type'}
+                                                                formikField={field}
+                                                                fullWidth={true}
+                                                            />
+                                                        )
+                                                    }
+                                                </Field>
+                                            </div>
+                                            <div className="ts-col">
+                                                <Field name={'primary_contact_info.phone'}>
+                                                    {
+                                                        (field: FieldProps) => (
+                                                            <FormikPhoneInputComponent
+                                                                label={'Phone Number'}
+                                                                // placeholder={'Phone Number (Primary)'}
+                                                                required={true}
+                                                                disabled={!values?.primary_contact_info?.phone_type}
+                                                                formikField={field}
+                                                                id={'primary_phone_number'}
+                                                                fullWidth={true}
+                                                            />
+                                                        )
+                                                    }
+                                                </Field>
+                                            </div>
+                                            <div className="ts-col-1">
+                                                <IconButtonComponent className={"form-helper-icon"}>
+                                                    <ToolTipComponent
+                                                        showArrow={true}
+                                                        position={"left"}
+                                                        tooltip={"This phone number will be used to communicate with you whenever we need to get in touch with you. Please ensure that this number is valid and operational."}>
+                                                        <ImageConfig.InfoIcon/>
+                                                    </ToolTipComponent>
+                                                </IconButtonComponent>
+                                            </div>
                                         </div>
-                                        <div className="ts-col-1">
-                                            <IconButtonComponent className={"form-helper-icon"}>
-                                                <ToolTipComponent
-                                                    showArrow={true}
-                                                    position={"left"}
-                                                    tooltip={"This phone number will be used to communicate with you whenever we need to get in touch with you. Please ensure that this number is valid and operational."}>
-                                                    <ImageConfig.InfoIcon/>
-                                                </ToolTipComponent>
-                                            </IconButtonComponent>
+                                        {/*<HorizontalLineComponent className={'primary-phone-divider'}/>*/}
+                                        {
+                                            values?.secondary_contact_info && values?.secondary_contact_info?.length > 0 ?
+                                                <>
+                                                    <FormControlLabelComponent size={'sm'}
+                                                                               className={'contact-info-sub-heading'}
+                                                                               label={'Alternate Phone :'}/>
+                                                    <FieldArray
+                                                        name="secondary_contact_info"
+                                                        render={(arrayHelpers) => (
+                                                            <>
+                                                                {values?.secondary_contact_info && values?.secondary_contact_info?.map((item: any, index: any) => {
+                                                                    return (
+                                                                        <div className="ts-row" key={index}>
+                                                                            <div className="ts-col">
+                                                                                <Field
+                                                                                    name={`secondary_contact_info[${index}].phone_type`}>
+                                                                                    {
+                                                                                        (field: FieldProps) => (
+                                                                                            <FormikSelectComponent
+                                                                                                options={phoneTypeList}
+                                                                                                label={'Phone Type'}
+                                                                                                formikField={field}
+                                                                                                fullWidth={true}
+                                                                                            />
+                                                                                        )
+                                                                                    }
+                                                                                </Field>
+                                                                            </div>
+                                                                            <div className="ts-col">
+                                                                                <Field
+                                                                                    name={`secondary_contact_info[${index}].phone`}>
+                                                                                    {
+                                                                                        (field: FieldProps) => (
+                                                                                            <FormikPhoneInputComponent
+                                                                                                label={'Phone Number'}
+                                                                                                disabled={values?.secondary_contact_info && !values?.secondary_contact_info[index]?.phone_type}
+                                                                                                // placeholder={'Phone Number'}
+                                                                                                formikField={field}
+                                                                                                fullWidth={true}
+                                                                                            />
+                                                                                        )
+                                                                                    }
+                                                                                </Field>
+                                                                            </div>
+                                                                            <div className="ts-col-1">
+                                                                                <div className="d-flex">
+                                                                                    <IconButtonComponent
+                                                                                        className={"form-helper-icon"}
+                                                                                        color={"error"}
+                                                                                        onClick={() => {
+                                                                                            arrayHelpers.remove(index);
+                                                                                        }}
+                                                                                    >
+                                                                                        <ImageConfig.DeleteIcon/>
+                                                                                    </IconButtonComponent>
+                                                                                    {
+                                                                                        values?.secondary_contact_info && (index === values?.secondary_contact_info?.length - 1)
+                                                                                        && values.secondary_contact_info.length < 3 &&
+                                                                                        <IconButtonComponent
+                                                                                            className={"form-helper-icon"}
+                                                                                            onClick={() => {
+                                                                                                arrayHelpers.push({
+                                                                                                    phone_type: undefined,
+                                                                                                    phone: undefined
+                                                                                                });
+                                                                                            }}
+                                                                                        >
+                                                                                            <ImageConfig.AddCircleIcon/>
+                                                                                        </IconButtonComponent>
+                                                                                    }
+
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    )
+                                                                })}
+                                                            </>
+                                                        )}/>  </> :
+                                                <ButtonComponent variant={"text"}
+                                                                 color={"primary"}
+                                                                 className={'mrg-bottom-20'}
+                                                                 size={"medium"}
+                                                                 prefixIcon={<AddCircleIcon/>}
+                                                                 onClick={() => {
+                                                                     setFieldValue('secondary_contact_info', [{
+                                                                         phone_type: "",
+                                                                         phone: ""
+                                                                     }]);
+                                                                 }}
+                                                >
+                                                    Add Alternate Phone
+                                                </ButtonComponent>
+                                        }
+                                        <HorizontalLineComponent className={'horizontal-divider'}/>
+                                        <FormControlLabelComponent size={'sm'} className={'contact-info-sub-heading'}
+                                                                   label={'Primary Email :'}/>
+                                        <div className="ts-row">
+                                            <div className="ts-col">
+                                                <Field name={'primary_email'}>
+                                                    {
+                                                        (field: FieldProps) => (
+                                                            <FormikInputComponent
+                                                                label={'Email'}
+                                                                placeholder={'example@email.com'}
+                                                                type={"email"}
+                                                                required={true}
+                                                                formikField={field}
+                                                                fullWidth={true}
+                                                            />
+                                                        )
+                                                    }
+                                                </Field>
+                                            </div>
+                                            <div className="ts-col-1">
+                                                <IconButtonComponent className={"form-helper-icon"}>
+                                                    <ToolTipComponent
+                                                        showArrow={true}
+                                                        position={"right"}
+                                                        tooltip={"This email address will be used to communicate with you whenever we need to get in touch with you. Please ensure that this email address is valid and operational."}>
+                                                        <ImageConfig.InfoIcon/>
+                                                    </ToolTipComponent>
+                                                </IconButtonComponent>
+                                            </div>
+                                            <div className="ts-col"/>
                                         </div>
-                                    </div>
-                                    {/*<HorizontalLineComponent className={'primary-phone-divider'}/>*/}
-                                    {
-                                        values?.secondary_contact_info && values?.secondary_contact_info?.length > 0 ?
-                                            <>
-                                                <FormControlLabelComponent size={'sm'}
-                                                                           className={'contact-info-sub-heading'}
-                                                                           label={'Alternate Phone :'}/>
-                                                <FieldArray
-                                                    name="secondary_contact_info"
-                                                    render={(arrayHelpers) => (
-                                                        <>
-                                                            {values?.secondary_contact_info && values?.secondary_contact_info?.map((item: any, index: any) => {
+                                        {/*<HorizontalLineComponent className={'primary-phone-divider'}/>*/}
+                                        {
+                                            values?.secondary_emails && values?.secondary_emails?.length > 0 ?
+                                                <>
+                                                    <FormControlLabelComponent size={'sm'}
+                                                                               className={'contact-info-sub-heading'}
+                                                                               label={'Alternate Email :'}/>
+                                                    <FieldArray
+                                                        name="secondary_emails"
+                                                        render={(arrayHelpers) => (
+                                                            <>
+                                                                {values?.secondary_emails && values?.secondary_emails?.map((item: any, index: any) => {
+                                                                    return (
+                                                                        <div className="ts-row" key={index}>
+                                                                            <div className="ts-col">
+                                                                                <Field
+                                                                                    name={`secondary_emails[${index}].email`}>
+                                                                                    {
+                                                                                        (field: FieldProps) => (
+                                                                                            <FormikInputComponent
+                                                                                                label={'Email'}
+                                                                                                placeholder={'example@email.com'}
+                                                                                                type={"email"}
+                                                                                                formikField={field}
+                                                                                                fullWidth={true}
+                                                                                            />
+                                                                                        )
+                                                                                    }
+                                                                                </Field>
+                                                                            </div>
+                                                                            <div className="ts-col-1">
+                                                                                <div className="d-flex">
+                                                                                    <IconButtonComponent
+                                                                                        className={"form-helper-icon"}
+                                                                                        color={"error"}
+                                                                                        onClick={() => {
+                                                                                            arrayHelpers.remove(index);
+                                                                                        }}
+                                                                                    >
+                                                                                        <ImageConfig.DeleteIcon/>
+                                                                                    </IconButtonComponent>
+                                                                                    {values?.secondary_emails && (index === values?.secondary_emails?.length - 1) &&
+                                                                                        values.secondary_emails.length < 3 &&
+                                                                                        <IconButtonComponent
+                                                                                            className={"form-helper-icon"}
+                                                                                            onClick={() => {
+                                                                                                arrayHelpers.push({
+                                                                                                    email: undefined,
+                                                                                                });
+                                                                                            }}
+                                                                                        >
+                                                                                            <ImageConfig.AddCircleIcon/>
+                                                                                        </IconButtonComponent>
+                                                                                    }
+
+                                                                                </div>
+                                                                            </div>
+                                                                            <div className="ts-col"/>
+                                                                        </div>
+                                                                    )
+                                                                })}
+                                                            </>
+                                                        )}/></> :
+                                                <ButtonComponent variant={"text"}
+                                                                 color={"primary"}
+                                                                 size={"medium"}
+                                                                 className={'mrg-bottom-20'}
+                                                                 prefixIcon={<AddCircleIcon/>}
+                                                                 onClick={() => {
+                                                                     setFieldValue('secondary_emails', [{
+                                                                         email: ""
+                                                                     }]);
+                                                                 }}
+                                                >
+                                                    Add Alternate Email
+                                                </ButtonComponent>
+                                        }
+                                    </CardComponent>
+                                    <CardComponent title={"Address Information"} size={"md"}>
+                                        <div className="ts-row">
+                                            <div className="ts-col">
+                                                <Field name={'address.address_line'}>
+                                                    {
+                                                        (field: FieldProps) => (
+                                                            <FormikInputComponent
+                                                                label={'Address Line'}
+                                                                placeholder={'Enter Address Line'}
+                                                                type={"text"}
+                                                                required={true}
+                                                                formikField={field}
+                                                                fullWidth={true}
+                                                            />
+                                                        )
+                                                    }
+                                                </Field>
+                                            </div>
+                                            <div className="ts-col">
+                                                <Field name={'address.city'}>
+                                                    {
+                                                        (field: FieldProps) => (
+                                                            <FormikInputComponent
+                                                                label={'City'}
+                                                                placeholder={'Enter City'}
+                                                                type={"text"}
+                                                                required={true}
+                                                                formikField={field}
+                                                                fullWidth={true}
+                                                            />
+                                                        )
+                                                    }
+                                                </Field>
+                                            </div>
+                                            <div className="ts-col-1"></div>
+                                        </div>
+                                        <div className="ts-row">
+                                            <div className="ts-col">
+                                                <Field name={'address.state'}>
+                                                    {
+                                                        (field: FieldProps) => (
+                                                            <FormikInputComponent
+                                                                label={'State'}
+                                                                placeholder={'Enter State'}
+                                                                type={"text"}
+                                                                required={true}
+                                                                formikField={field}
+                                                                fullWidth={true}
+                                                            />
+                                                        )
+                                                    }
+                                                </Field>
+                                            </div>
+                                            <div className="ts-col">
+                                                <Field name={'address.zip_code'}>
+                                                    {
+                                                        (field: FieldProps) => (
+                                                            <FormikInputComponent
+                                                                label={'ZIP Code'}
+                                                                placeholder={'Enter ZIP Code'}
+                                                                type={"text"}
+                                                                validationPattern={Patterns.FIVE_DIGITS_ONLY}
+                                                                required={true}
+                                                                formikField={field}
+                                                                fullWidth={true}
+                                                            />
+                                                        )
+                                                    }
+                                                </Field>
+                                            </div>
+                                            <div className="ts-col-1"></div>
+                                        </div>
+                                        <div className="ts-row">
+                                            <div className="ts-col">
+                                                <Field name={'address.country'}>
+                                                    {
+                                                        (field: FieldProps) => (
+                                                            <FormikInputComponent
+                                                                label={'Country'}
+                                                                placeholder={'Enter Country'}
+                                                                type={"text"}
+                                                                required={true}
+                                                                formikField={field}
+                                                                fullWidth={true}
+                                                            />
+                                                        )
+                                                    }
+                                                </Field>
+                                            </div>
+                                            <div className="ts-col">
+                                            </div>
+                                            <div className="ts-col-1"></div>
+                                        </div>
+                                    </CardComponent>
+                                    <CardComponent title={"Emergency Contact Information"} size={"md"}>
+                                        <FormControlLabelComponent className={'emergency-info-main-heading'}
+                                                                   label={"Primary Emergency Contact"} size={'sm'}/>
+                                        <div className="ts-row">
+                                            <div className="ts-col">
+                                                <Field name={'emergency_contact_info.primary_emergency.name'}>
+                                                    {
+                                                        (field: FieldProps) => (
+                                                            <FormikInputComponent
+                                                                label={'Full Name'}
+                                                                placeholder={'E.g. John Doe'}
+                                                                type={"text"}
+                                                                required={true}
+                                                                formikField={field}
+                                                                fullWidth={true}
+                                                            />
+                                                        )
+                                                    }
+                                                </Field>
+                                            </div>
+                                            <div className="ts-col">
+                                                <Field name={'emergency_contact_info.primary_emergency.relationship'}>
+                                                    {
+                                                        (field: FieldProps) => (
+                                                            <FormikSelectComponent
+                                                                options={relationshipList}
+                                                                label={'Relationship'}
+                                                                required={true}
+                                                                formikField={field}
+                                                                fullWidth={true}
+                                                            />
+                                                        )
+                                                    }
+                                                </Field>
+                                            </div>
+                                            <div className="ts-col-1"></div>
+                                        </div>
+                                        <div className="ts-row">
+                                            <div className="ts-col">
+                                                <Field name={'emergency_contact_info.primary_emergency.language'}>
+                                                    {
+                                                        (field: FieldProps) => (
+                                                            <FormikSelectComponent
+                                                                options={languageList}
+                                                                label={'Language'}
+                                                                required={true}
+                                                                formikField={field}
+                                                                fullWidth={true}
+                                                            />
+                                                        )
+                                                    }
+                                                </Field>
+                                            </div>
+                                            <div className="ts-col">
+                                            </div>
+                                            <div className="ts-col-1"></div>
+                                        </div>
+                                        <FormControlLabelComponent className={'contact-info-sub-heading'} size={'sm'}
+                                                                   label={'Primary Phone :'}/>
+                                        <div className="ts-row">
+                                            <div className="ts-col">
+                                                <Field
+                                                    name={'emergency_contact_info.primary_emergency.primary_contact_info.phone_type'}>
+                                                    {
+                                                        (field: FieldProps) => (
+                                                            <FormikSelectComponent
+                                                                options={phoneTypeList}
+                                                                label={'Phone Type'}
+                                                                required={true}
+                                                                formikField={field}
+                                                                fullWidth={true}
+                                                            />
+                                                        )
+                                                    }
+                                                </Field>
+                                            </div>
+                                            <div className="ts-col">
+                                                <Field
+                                                    name={'emergency_contact_info.primary_emergency.primary_contact_info.phone'}>
+                                                    {
+                                                        (field: FieldProps) => (
+                                                            <FormikPhoneInputComponent
+                                                                label={'Phone Number'}
+                                                                disabled={!values?.emergency_contact_info?.primary_emergency?.primary_contact_info?.phone_type}
+                                                                // placeholder={'Phone Number'}
+                                                                required={true}
+                                                                formikField={field}
+                                                                fullWidth={true}
+                                                            />
+                                                        )
+                                                    }
+                                                </Field>
+                                            </div>
+                                            <div className="ts-col-1">
+                                                <IconButtonComponent className={"form-helper-icon"}>
+                                                    <ToolTipComponent
+                                                        showArrow={true}
+                                                        position={"left"}
+                                                        tooltip={"This phone number will be used to communicate with you whenever we need to get in touch with you. Please ensure that this number is valid and operational."}>
+                                                        <ImageConfig.InfoIcon/>
+                                                    </ToolTipComponent>
+                                                </IconButtonComponent>
+                                            </div>
+                                        </div>
+                                        {/*<HorizontalLineComponent className={'primary-phone-divider'}/>*/}
+                                        <FieldArray
+                                            name="emergency_contact_info.primary_emergency.secondary_contact_info"
+                                            render={(arrayHelpers) => (
+                                                <>
+                                                    {values?.emergency_contact_info?.primary_emergency?.secondary_contact_info && values?.emergency_contact_info?.primary_emergency?.secondary_contact_info?.length > 0 ? <>
+                                                            <FormControlLabelComponent className={'contact-info-sub-heading'}
+                                                                                       label={'Alternate Phone'}
+                                                                                       size={"sm"}/>
+                                                            {values?.emergency_contact_info?.primary_emergency?.secondary_contact_info?.map((item: any, index: any) => {
+                                                                // @ts-ignore
                                                                 return (
                                                                     <div className="ts-row" key={index}>
                                                                         <div className="ts-col">
                                                                             <Field
-                                                                                name={`secondary_contact_info[${index}].phone_type`}>
+                                                                                name={`emergency_contact_info.primary_emergency.secondary_contact_info[${index}].phone_type`}>
                                                                                 {
                                                                                     (field: FieldProps) => (
                                                                                         <FormikSelectComponent
@@ -659,12 +1060,12 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                                         </div>
                                                                         <div className="ts-col">
                                                                             <Field
-                                                                                name={`secondary_contact_info[${index}].phone`}>
+                                                                                name={`emergency_contact_info.primary_emergency.secondary_contact_info[${index}].phone`}>
                                                                                 {
                                                                                     (field: FieldProps) => (
                                                                                         <FormikPhoneInputComponent
                                                                                             label={'Phone Number'}
-                                                                                            disabled={values?.secondary_contact_info && !values?.secondary_contact_info[index]?.phone_type}
+                                                                                            disabled={values?.emergency_contact_info?.primary_emergency?.secondary_contact_info && !values?.emergency_contact_info?.primary_emergency?.secondary_contact_info[index]?.phone_type}
                                                                                             // placeholder={'Phone Number'}
                                                                                             formikField={field}
                                                                                             fullWidth={true}
@@ -675,18 +1076,18 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                                         </div>
                                                                         <div className="ts-col-1">
                                                                             <div className="d-flex">
-                                                                                <IconButtonComponent
-                                                                                    className={"form-helper-icon"}
-                                                                                    color={"error"}
-                                                                                    onClick={() => {
-                                                                                        arrayHelpers.remove(index);
-                                                                                    }}
-                                                                                >
-                                                                                    <ImageConfig.DeleteIcon/>
-                                                                                </IconButtonComponent>
                                                                                 {
-                                                                                    values?.secondary_contact_info && (index === values?.secondary_contact_info?.length - 1)
-                                                                                    && values.secondary_contact_info.length < 3 &&
+                                                                                    <IconButtonComponent
+                                                                                        className={"form-helper-icon"}
+                                                                                        color={"error"}
+                                                                                        onClick={() => {
+                                                                                            arrayHelpers.remove(index);
+                                                                                        }}
+                                                                                    >
+                                                                                        <ImageConfig.DeleteIcon/>
+                                                                                    </IconButtonComponent>}
+                                                                                {values?.emergency_contact_info?.primary_emergency?.secondary_contact_info && (index === values?.emergency_contact_info?.primary_emergency?.secondary_contact_info?.length - 1) &&
+                                                                                    values.emergency_contact_info.primary_emergency.secondary_contact_info.length < 3 &&
                                                                                     <IconButtonComponent
                                                                                         className={"form-helper-icon"}
                                                                                         onClick={() => {
@@ -697,8 +1098,7 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                                                         }}
                                                                                     >
                                                                                         <ImageConfig.AddCircleIcon/>
-                                                                                    </IconButtonComponent>
-                                                                                }
+                                                                                    </IconButtonComponent>}
 
                                                                             </div>
                                                                         </div>
@@ -706,723 +1106,324 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
                                                                 )
                                                             })}
                                                         </>
-                                                    )}/>  </> :
-                                            <ButtonComponent variant={"text"}
-                                                             color={"primary"}
-                                                             className={'mrg-bottom-20'}
-                                                             size={"medium"}
-                                                             prefixIcon={<AddCircleIcon/>}
-                                                             onClick={() => {
-                                                                 setFieldValue('secondary_contact_info', [{
-                                                                     phone_type: "",
-                                                                     phone: ""
-                                                                 }]);
-                                                             }}
-                                            >
-                                                Add Alternate Phone
-                                            </ButtonComponent>
-                                    }
-                                    <HorizontalLineComponent className={'horizontal-divider'}/>
-                                    <FormControlLabelComponent size={'sm'} className={'contact-info-sub-heading'}
-                                                               label={'Primary Email :'}/>
-                                    <div className="ts-row">
-                                        <div className="ts-col">
-                                            <Field name={'primary_email'}>
-                                                {
-                                                    (field: FieldProps) => (
-                                                        <FormikInputComponent
-                                                            label={'Email'}
-                                                            placeholder={'example@email.com'}
-                                                            type={"email"}
-                                                            required={true}
-                                                            formikField={field}
-                                                            fullWidth={true}
-                                                        />
-                                                    )
-                                                }
-                                            </Field>
-                                        </div>
-                                        <div className="ts-col-1">
-                                            <IconButtonComponent className={"form-helper-icon"}>
-                                                <ToolTipComponent
-                                                    showArrow={true}
-                                                    position={"right"}
-                                                    tooltip={"This email address will be used to communicate with you whenever we need to get in touch with you. Please ensure that this email address is valid and operational."}>
-                                                    <ImageConfig.InfoIcon/>
-                                                </ToolTipComponent>
-                                            </IconButtonComponent>
-                                        </div>
-                                        <div className="ts-col"/>
-                                    </div>
-                                    {/*<HorizontalLineComponent className={'primary-phone-divider'}/>*/}
-                                    {
-                                        values?.secondary_emails && values?.secondary_emails?.length > 0 ?
-                                            <>
-                                                <FormControlLabelComponent size={'sm'}
-                                                                           className={'contact-info-sub-heading'}
-                                                                           label={'Alternate Email :'}/>
-                                                <FieldArray
-                                                    name="secondary_emails"
-                                                    render={(arrayHelpers) => (
-                                                        <>
-                                                            {values?.secondary_emails && values?.secondary_emails?.map((item: any, index: any) => {
-                                                                return (
-                                                                    <div className="ts-row" key={index}>
-                                                                        <div className="ts-col">
-                                                                            <Field
-                                                                                name={`secondary_emails[${index}].email`}>
-                                                                                {
-                                                                                    (field: FieldProps) => (
-                                                                                        <FormikInputComponent
-                                                                                            label={'Email'}
-                                                                                            placeholder={'example@email.com'}
-                                                                                            type={"email"}
-                                                                                            formikField={field}
-                                                                                            fullWidth={true}
-                                                                                        />
-                                                                                    )
-                                                                                }
-                                                                            </Field>
-                                                                        </div>
-                                                                        <div className="ts-col-1">
-                                                                            <div className="d-flex">
-                                                                                <IconButtonComponent
-                                                                                    className={"form-helper-icon"}
-                                                                                    color={"error"}
-                                                                                    onClick={() => {
-                                                                                        arrayHelpers.remove(index);
-                                                                                    }}
-                                                                                >
-                                                                                    <ImageConfig.DeleteIcon/>
-                                                                                </IconButtonComponent>
-                                                                                {values?.secondary_emails && (index === values?.secondary_emails?.length - 1) &&
-                                                                                    values.secondary_emails.length < 3 &&
-                                                                                    <IconButtonComponent
-                                                                                        className={"form-helper-icon"}
-                                                                                        onClick={() => {
-                                                                                            arrayHelpers.push({
-                                                                                                email: undefined,
-                                                                                            });
-                                                                                        }}
-                                                                                    >
-                                                                                        <ImageConfig.AddCircleIcon/>
-                                                                                    </IconButtonComponent>
-                                                                                }
+                                                        :
+                                                        <ButtonComponent variant={"text"}
+                                                                         color={"primary"}
+                                                                         size={"medium"}
+                                                                         prefixIcon={<AddCircleIcon/>}
+                                                                         onClick={() => {
+                                                                             setFieldValue('emergency_contact_info.primary_emergency.secondary_contact_info', [{
+                                                                                 phone_type: "",
+                                                                                 phone: ""
+                                                                             }]);
+                                                                         }}
+                                                        >
+                                                            Add Alternate Phone
+                                                        </ButtonComponent>
 
-                                                                            </div>
-                                                                        </div>
-                                                                        <div className="ts-col"/>
-                                                                    </div>
-                                                                )
-                                                            })}
-                                                        </>
-                                                    )}/></> :
-                                            <ButtonComponent variant={"text"}
-                                                             color={"primary"}
-                                                             size={"medium"}
-                                                             className={'mrg-bottom-20'}
-                                                             prefixIcon={<AddCircleIcon/>}
-                                                             onClick={() => {
-                                                                 setFieldValue('secondary_emails', [{
-                                                                     email: ""
-                                                                 }]);
-                                                             }}
-                                            >
-                                                Add Alternate Email
-                                            </ButtonComponent>
-                                    }
-                                </CardComponent>
-                                <CardComponent title={"Address Information"} size={"md"}>
-                                    <div className="ts-row">
-                                        <div className="ts-col">
-                                            <Field name={'address.address_line'}>
-                                                {
-                                                    (field: FieldProps) => (
-                                                        <FormikInputComponent
-                                                            label={'Address Line'}
-                                                            placeholder={'Enter Address Line'}
-                                                            type={"text"}
-                                                            required={true}
-                                                            formikField={field}
-                                                            fullWidth={true}
-                                                        />
-                                                    )
-                                                }
-                                            </Field>
-                                        </div>
-                                        <div className="ts-col">
-                                            <Field name={'address.city'}>
-                                                {
-                                                    (field: FieldProps) => (
-                                                        <FormikInputComponent
-                                                            label={'City'}
-                                                            placeholder={'Enter City'}
-                                                            type={"text"}
-                                                            required={true}
-                                                            formikField={field}
-                                                            fullWidth={true}
-                                                        />
-                                                    )
-                                                }
-                                            </Field>
-                                        </div>
-                                        <div className="ts-col-1"></div>
-                                    </div>
-                                    <div className="ts-row">
-                                        <div className="ts-col">
-                                            <Field name={'address.state'}>
-                                                {
-                                                    (field: FieldProps) => (
-                                                        <FormikInputComponent
-                                                            label={'State'}
-                                                            placeholder={'Enter State'}
-                                                            type={"text"}
-                                                            required={true}
-                                                            formikField={field}
-                                                            fullWidth={true}
-                                                        />
-                                                    )
-                                                }
-                                            </Field>
-                                        </div>
-                                        <div className="ts-col">
-                                            <Field name={'address.zip_code'}>
-                                                {
-                                                    (field: FieldProps) => (
-                                                        <FormikInputComponent
-                                                            label={'ZIP Code'}
-                                                            placeholder={'Enter ZIP Code'}
-                                                            type={"text"}
-                                                            validationPattern={Patterns.FIVE_DIGITS_ONLY}
-                                                            required={true}
-                                                            formikField={field}
-                                                            fullWidth={true}
-                                                        />
-                                                    )
-                                                }
-                                            </Field>
-                                        </div>
-                                        <div className="ts-col-1"></div>
-                                    </div>
-                                    <div className="ts-row">
-                                        <div className="ts-col">
-                                            <Field name={'address.country'}>
-                                                {
-                                                    (field: FieldProps) => (
-                                                        <FormikInputComponent
-                                                            label={'Country'}
-                                                            placeholder={'Enter Country'}
-                                                            type={"text"}
-                                                            required={true}
-                                                            formikField={field}
-                                                            fullWidth={true}
-                                                        />
-                                                    )
-                                                }
-                                            </Field>
-                                        </div>
-                                        <div className="ts-col">
-                                        </div>
-                                        <div className="ts-col-1"></div>
-                                    </div>
-                                </CardComponent>
-                                <CardComponent title={"Emergency Contact Information"} size={"md"}>
-                                    <FormControlLabelComponent className={'emergency-info-main-heading'}
-                                                               label={"Primary Emergency Contact"} size={'sm'}/>
-                                    <div className="ts-row">
-                                        <div className="ts-col">
-                                            <Field name={'emergency_contact_info.primary_emergency.name'}>
-                                                {
-                                                    (field: FieldProps) => (
-                                                        <FormikInputComponent
-                                                            label={'Full Name'}
-                                                            placeholder={'E.g. John Doe'}
-                                                            type={"text"}
-                                                            required={true}
-                                                            formikField={field}
-                                                            fullWidth={true}
-                                                        />
-                                                    )
-                                                }
-                                            </Field>
-                                        </div>
-                                        <div className="ts-col">
-                                            <Field name={'emergency_contact_info.primary_emergency.relationship'}>
-                                                {
-                                                    (field: FieldProps) => (
-                                                        <FormikSelectComponent
-                                                            options={relationshipList}
-                                                            label={'Relationship'}
-                                                            required={true}
-                                                            formikField={field}
-                                                            fullWidth={true}
-                                                        />
-                                                    )
-                                                }
-                                            </Field>
-                                        </div>
-                                        <div className="ts-col-1"></div>
-                                    </div>
-                                    <div className="ts-row">
-                                        <div className="ts-col">
-                                            <Field name={'emergency_contact_info.primary_emergency.language'}>
-                                                {
-                                                    (field: FieldProps) => (
-                                                        <FormikSelectComponent
-                                                            options={languageList}
-                                                            label={'Language'}
-                                                            required={true}
-                                                            formikField={field}
-                                                            fullWidth={true}
-                                                        />
-                                                    )
-                                                }
-                                            </Field>
-                                        </div>
-                                        <div className="ts-col">
-                                        </div>
-                                        <div className="ts-col-1"></div>
-                                    </div>
-                                    <FormControlLabelComponent className={'contact-info-sub-heading'} size={'sm'}
-                                                               label={'Primary Phone :'}/>
-                                    <div className="ts-row">
-                                        <div className="ts-col">
-                                            <Field
-                                                name={'emergency_contact_info.primary_emergency.primary_contact_info.phone_type'}>
-                                                {
-                                                    (field: FieldProps) => (
-                                                        <FormikSelectComponent
-                                                            options={phoneTypeList}
-                                                            label={'Phone Type'}
-                                                            required={true}
-                                                            formikField={field}
-                                                            fullWidth={true}
-                                                        />
-                                                    )
-                                                }
-                                            </Field>
-                                        </div>
-                                        <div className="ts-col">
-                                            <Field
-                                                name={'emergency_contact_info.primary_emergency.primary_contact_info.phone'}>
-                                                {
-                                                    (field: FieldProps) => (
-                                                        <FormikPhoneInputComponent
-                                                            label={'Phone Number'}
-                                                            disabled={!values?.emergency_contact_info?.primary_emergency?.primary_contact_info?.phone_type}
-                                                            // placeholder={'Phone Number'}
-                                                            required={true}
-                                                            formikField={field}
-                                                            fullWidth={true}
-                                                        />
-                                                    )
-                                                }
-                                            </Field>
-                                        </div>
-                                        <div className="ts-col-1">
-                                            <IconButtonComponent className={"form-helper-icon"}>
-                                                <ToolTipComponent
-                                                    showArrow={true}
-                                                    position={"left"}
-                                                    tooltip={"This phone number will be used to communicate with you whenever we need to get in touch with you. Please ensure that this number is valid and operational."}>
-                                                    <ImageConfig.InfoIcon/>
-                                                </ToolTipComponent>
-                                            </IconButtonComponent>
-                                        </div>
-                                    </div>
-                                    {/*<HorizontalLineComponent className={'primary-phone-divider'}/>*/}
-                                    <FieldArray
-                                        name="emergency_contact_info.primary_emergency.secondary_contact_info"
-                                        render={(arrayHelpers) => (
-                                            <>
-                                                {values?.emergency_contact_info?.primary_emergency?.secondary_contact_info && values?.emergency_contact_info?.primary_emergency?.secondary_contact_info?.length > 0 ? <>
-                                                        <FormControlLabelComponent className={'contact-info-sub-heading'}
-                                                                                   label={'Alternate Phone'}
-                                                                                   size={"sm"}/>
-                                                        {values?.emergency_contact_info?.primary_emergency?.secondary_contact_info?.map((item: any, index: any) => {
-                                                            // @ts-ignore
-                                                            return (
-                                                                <div className="ts-row" key={index}>
-                                                                    <div className="ts-col">
-                                                                        <Field
-                                                                            name={`emergency_contact_info.primary_emergency.secondary_contact_info[${index}].phone_type`}>
-                                                                            {
-                                                                                (field: FieldProps) => (
-                                                                                    <FormikSelectComponent
-                                                                                        options={phoneTypeList}
-                                                                                        label={'Phone Type'}
-                                                                                        formikField={field}
-                                                                                        fullWidth={true}
-                                                                                    />
-                                                                                )
-                                                                            }
-                                                                        </Field>
-                                                                    </div>
-                                                                    <div className="ts-col">
-                                                                        <Field
-                                                                            name={`emergency_contact_info.primary_emergency.secondary_contact_info[${index}].phone`}>
-                                                                            {
-                                                                                (field: FieldProps) => (
-                                                                                    <FormikPhoneInputComponent
-                                                                                        label={'Phone Number'}
-                                                                                        disabled={values?.emergency_contact_info?.primary_emergency?.secondary_contact_info && !values?.emergency_contact_info?.primary_emergency?.secondary_contact_info[index]?.phone_type}
-                                                                                        // placeholder={'Phone Number'}
-                                                                                        formikField={field}
-                                                                                        fullWidth={true}
-                                                                                    />
-                                                                                )
-                                                                            }
-                                                                        </Field>
-                                                                    </div>
-                                                                    <div className="ts-col-1">
-                                                                        <div className="d-flex">
-                                                                            {
-                                                                                <IconButtonComponent
-                                                                                    className={"form-helper-icon"}
-                                                                                    color={"error"}
-                                                                                    onClick={() => {
-                                                                                        arrayHelpers.remove(index);
-                                                                                    }}
-                                                                                >
-                                                                                    <ImageConfig.DeleteIcon/>
-                                                                                </IconButtonComponent>}
-                                                                            {values?.emergency_contact_info?.primary_emergency?.secondary_contact_info && (index === values?.emergency_contact_info?.primary_emergency?.secondary_contact_info?.length - 1) &&
-                                                                                values.emergency_contact_info.primary_emergency.secondary_contact_info.length < 3 &&
-                                                                                <IconButtonComponent
-                                                                                    className={"form-helper-icon"}
-                                                                                    onClick={() => {
-                                                                                        arrayHelpers.push({
-                                                                                            phone_type: undefined,
-                                                                                            phone: undefined
-                                                                                        });
-                                                                                    }}
-                                                                                >
-                                                                                    <ImageConfig.AddCircleIcon/>
-                                                                                </IconButtonComponent>}
+                                                    }
+                                                </>
+                                            )}/>
+                                        {/*{*/}
+                                        {/*    values.show_secondary_emergency_form && <div className={"h-v-center"}>*/}
+                                        {/*        <ButtonComponent variant={"contained"}*/}
+                                        {/*                         prefixIcon={<ImageConfig.AddIcon/>}*/}
+                                        {/*                         onClick={() => {*/}
+                                        {/*                             setFieldValue('show_secondary_emergency_form', true);*/}
+                                        {/*                         }}*/}
+                                        {/*        >*/}
+                                        {/*            Add Secondary Contact*/}
+                                        {/*        </ButtonComponent>*/}
+                                        {/*    </div>*/}
+                                        {/*}*/}
 
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            )
-                                                        })}
-                                                    </>
-                                                    :
-                                                    <ButtonComponent variant={"text"}
-                                                                     color={"primary"}
-                                                                     size={"medium"}
-                                                                     prefixIcon={<AddCircleIcon/>}
-                                                                     onClick={() => {
-                                                                         setFieldValue('emergency_contact_info.primary_emergency.secondary_contact_info', [{
-                                                                             phone_type: "",
-                                                                             phone: ""
-                                                                         }]);
-                                                                     }}
-                                                    >
-                                                        Add Alternate Phone
-                                                    </ButtonComponent>
+                                        {!values.show_secondary_emergency_form &&
+                                            <div className={'display-flex justify-content-center flex-1'}>
+                                                <ButtonComponent
+                                                    className={'add-another-contact-cta'}
+                                                    onClick={() => {
+                                                        setFieldValue('show_secondary_emergency_form', true)
+                                                    }}
+                                                    prefixIcon={<ImageConfig.AddIcon/>}>
+                                                    Add Another
+                                                    Contact</ButtonComponent>
+                                            </div>}
+                                        <>
+                                            {values.show_secondary_emergency_form &&
+                                                <>
+                                                    <HorizontalLineComponent className={'secondary-emergency-divider'}/>
+                                                    <div className={'d-flex ts-align-items-center'}>
+                                                        <FormControlLabelComponent className={'emergency-info-main-heading'}
+                                                                                   label={"Secondary Emergency Contact"}/>
+                                                        <ButtonComponent className={'remove-contact-button'}
+                                                                         size={'small'}
+                                                                         prefixIcon={<ImageConfig.CrossOutlinedIcon/>}
+                                                                         variant={'outlined'} color={'error'}
+                                                                         onClick={() => {
+                                                                             setFieldValue('show_secondary_emergency_form', false)
+                                                                         }}
+                                                        >Remove
+                                                            Contact</ButtonComponent>
+                                                    </div>
+                                                    <div className="ts-row">
+                                                        <div className="ts-col">
+                                                            <Field name={'emergency_contact_info.secondary_emergency.name'}>
+                                                                {
+                                                                    (field: FieldProps) => (
+                                                                        <FormikInputComponent
+                                                                            label={'Full Name'}
+                                                                            placeholder={'E.g John Doe'}
+                                                                            type={"text"}
+                                                                            formikField={field}
+                                                                            fullWidth={true}
+                                                                        />
+                                                                    )
+                                                                }
+                                                            </Field>
+                                                        </div>
+                                                        <div className="ts-col">
+                                                            <Field
+                                                                name={'emergency_contact_info.secondary_emergency.relationship'}>
+                                                                {
+                                                                    (field: FieldProps) => (
+                                                                        <FormikSelectComponent
+                                                                            options={relationshipList}
+                                                                            label={'Relationship'}
+                                                                            formikField={field}
+                                                                            fullWidth={true}
+                                                                        />
+                                                                    )
+                                                                }
+                                                            </Field>
+                                                        </div>
+                                                        <div className="ts-col-1"></div>
+                                                    </div>
+                                                    <div className="ts-row">
+                                                        <div className="ts-col">
+                                                            <Field
+                                                                name={'emergency_contact_info.secondary_emergency.language'}>
+                                                                {
+                                                                    (field: FieldProps) => (
+                                                                        <FormikSelectComponent
+                                                                            options={languageList}
+                                                                            label={'Language'}
+                                                                            formikField={field}
+                                                                            fullWidth={true}
+                                                                        />
+                                                                    )
+                                                                }
+                                                            </Field>
+                                                        </div>
+                                                        <div className="ts-col">
+                                                        </div>
+                                                        <div className="ts-col-1"></div>
+                                                    </div>
+                                                    <div className="ts-row">
+                                                        <div className="ts-col">
+                                                            <Field
+                                                                name={'emergency_contact_info.secondary_emergency.primary_contact_info.phone_type'}>
+                                                                {
+                                                                    (field: FieldProps) => (
+                                                                        <FormikSelectComponent
+                                                                            options={phoneTypeList}
+                                                                            label={'Phone Type'}
+                                                                            formikField={field}
+                                                                            fullWidth={true}
+                                                                        />
+                                                                    )
+                                                                }
+                                                            </Field>
+                                                        </div>
+                                                        <div className="ts-col">
+                                                            <Field
+                                                                name={'emergency_contact_info.secondary_emergency.primary_contact_info.phone'}>
+                                                                {
+                                                                    (field: FieldProps) => (
+                                                                        <FormikPhoneInputComponent
+                                                                            label={'Phone Number'}
+                                                                            disabled={!values?.emergency_contact_info?.secondary_emergency?.primary_contact_info?.phone_type}
+                                                                            // placeholder={'Phone Number (Primary)'}
+                                                                            formikField={field}
+                                                                            fullWidth={true}
+                                                                        />
+                                                                    )
+                                                                }
+                                                            </Field>
+                                                        </div>
+                                                        <div className="ts-col-1">
+                                                            <IconButtonComponent className={"form-helper-icon"}>
+                                                                <ToolTipComponent
+                                                                    showArrow={true}
+                                                                    position={"left"}
+                                                                    tooltip={"This phone number will be used to communicate with you whenever we need to get in touch with you. Please ensure that this number is valid and operational."}>
+                                                                    <ImageConfig.InfoIcon/>
+                                                                </ToolTipComponent>
+                                                            </IconButtonComponent>
+                                                        </div>
+                                                    </div>
+                                                    <FieldArray
+                                                        name="emergency_contact_info.secondary_emergency.secondary_contact_info"
+                                                        render={(arrayHelpers) => (
+                                                            <>
+                                                                {values?.emergency_contact_info?.secondary_emergency?.secondary_contact_info && values?.emergency_contact_info?.secondary_emergency?.secondary_contact_info?.length > 0 ? <>
+                                                                        <FormControlLabelComponent size={'sm'}
+                                                                                                   label={'Alternate Phone'}/>
+                                                                        {values?.emergency_contact_info?.secondary_emergency?.secondary_contact_info?.map((item: any, index: any) => {
+                                                                            return (
+                                                                                <>
 
-                                                }
-                                            </>
-                                        )}/>
-                                    {/*{*/}
-                                    {/*    values.show_secondary_emergency_form && <div className={"h-v-center"}>*/}
-                                    {/*        <ButtonComponent variant={"contained"}*/}
-                                    {/*                         prefixIcon={<ImageConfig.AddIcon/>}*/}
-                                    {/*                         onClick={() => {*/}
-                                    {/*                             setFieldValue('show_secondary_emergency_form', true);*/}
-                                    {/*                         }}*/}
-                                    {/*        >*/}
-                                    {/*            Add Secondary Contact*/}
-                                    {/*        </ButtonComponent>*/}
-                                    {/*    </div>*/}
-                                    {/*}*/}
+                                                                                    <div className="ts-row" key={index}>
+                                                                                        <div className="ts-col">
+                                                                                            <Field
+                                                                                                name={`emergency_contact_info.secondary_emergency.secondary_contact_info[${index}].phone_type`}>
+                                                                                                {
+                                                                                                    (field: FieldProps) => (
+                                                                                                        <FormikSelectComponent
+                                                                                                            options={phoneTypeList}
+                                                                                                            label={'Phone Type'}
+                                                                                                            formikField={field}
+                                                                                                            fullWidth={true}
+                                                                                                        />
+                                                                                                    )
+                                                                                                }
+                                                                                            </Field>
+                                                                                        </div>
+                                                                                        <div className="ts-col">
+                                                                                            <Field
+                                                                                                name={`emergency_contact_info.secondary_emergency.secondary_contact_info[${index}].phone`}>
+                                                                                                {
+                                                                                                    (field: FieldProps) => (
+                                                                                                        <FormikPhoneInputComponent
+                                                                                                            label={'Phone Number'}
+                                                                                                            disabled={values?.emergency_contact_info?.secondary_emergency?.secondary_contact_info && !values?.emergency_contact_info?.secondary_emergency?.secondary_contact_info[index]?.phone_type}
+                                                                                                            // placeholder={'Phone Number'}
+                                                                                                            formikField={field}
+                                                                                                            fullWidth={true}
+                                                                                                        />
+                                                                                                    )
+                                                                                                }
+                                                                                            </Field>
+                                                                                        </div>
+                                                                                        <div className="ts-col-1">
+                                                                                            <div className="d-flex">
+                                                                                                {
+                                                                                                    <IconButtonComponent
+                                                                                                        className={"form-helper-icon"}
+                                                                                                        color={"error"}
+                                                                                                        onClick={() => {
+                                                                                                            arrayHelpers.remove(index);
+                                                                                                        }}
+                                                                                                    >
+                                                                                                        <ImageConfig.DeleteIcon/>
+                                                                                                    </IconButtonComponent>}
+                                                                                                {values?.emergency_contact_info?.secondary_emergency?.secondary_contact_info && (index === values?.emergency_contact_info?.secondary_emergency?.secondary_contact_info?.length - 1) &&
+                                                                                                    values.emergency_contact_info.secondary_emergency.secondary_contact_info.length < 3 &&
+                                                                                                    <IconButtonComponent
+                                                                                                        className={"form-helper-icon"}
+                                                                                                        onClick={() => {
+                                                                                                            arrayHelpers.push({
+                                                                                                                phone_type: undefined,
+                                                                                                                phone: undefined
+                                                                                                            });
+                                                                                                        }}
+                                                                                                    >
+                                                                                                        <ImageConfig.AddCircleIcon/>
+                                                                                                    </IconButtonComponent>}
 
-                                    {!values.show_secondary_emergency_form &&
-                                        <div className={'display-flex justify-content-center flex-1'}>
-                                            <ButtonComponent
-                                                className={'add-another-contact-cta'}
-                                                onClick={() => {
-                                                    setFieldValue('show_secondary_emergency_form', true)
-                                                }}
-                                                prefixIcon={<ImageConfig.AddIcon/>}>
-                                                Add Another
-                                                Contact</ButtonComponent>
-                                        </div>}
-                                    <>
-                                        {values.show_secondary_emergency_form &&
-                                            <>
-                                                <HorizontalLineComponent className={'secondary-emergency-divider'}/>
-                                                <div className={'d-flex ts-align-items-center'}>
-                                                    <FormControlLabelComponent className={'emergency-info-main-heading'}
-                                                                               label={"Secondary Emergency Contact"}/>
-                                                    <ButtonComponent className={'remove-contact-button'}
-                                                                     size={'small'}
-                                                                     prefixIcon={<ImageConfig.CrossOutlinedIcon/>}
-                                                                     variant={'outlined'} color={'error'}
-                                                                     onClick={() => {
-                                                                         setFieldValue('show_secondary_emergency_form', false)
-                                                                     }}
-                                                    >Remove
-                                                        Contact</ButtonComponent>
-                                                </div>
-                                                <div className="ts-row">
-                                                    <div className="ts-col">
-                                                        <Field name={'emergency_contact_info.secondary_emergency.name'}>
-                                                            {
-                                                                (field: FieldProps) => (
-                                                                    <FormikInputComponent
-                                                                        label={'Full Name'}
-                                                                        placeholder={'E.g John Doe'}
-                                                                        type={"text"}
-                                                                        formikField={field}
-                                                                        fullWidth={true}
-                                                                    />
-                                                                )
-                                                            }
-                                                        </Field>
-                                                    </div>
-                                                    <div className="ts-col">
-                                                        <Field
-                                                            name={'emergency_contact_info.secondary_emergency.relationship'}>
-                                                            {
-                                                                (field: FieldProps) => (
-                                                                    <FormikSelectComponent
-                                                                        options={relationshipList}
-                                                                        label={'Relationship'}
-                                                                        formikField={field}
-                                                                        fullWidth={true}
-                                                                    />
-                                                                )
-                                                            }
-                                                        </Field>
-                                                    </div>
-                                                    <div className="ts-col-1"></div>
-                                                </div>
-                                                <div className="ts-row">
-                                                    <div className="ts-col">
-                                                        <Field name={'emergency_contact_info.secondary_emergency.language'}>
-                                                            {
-                                                                (field: FieldProps) => (
-                                                                    <FormikSelectComponent
-                                                                        options={languageList}
-                                                                        label={'Language'}
-                                                                        formikField={field}
-                                                                        fullWidth={true}
-                                                                    />
-                                                                )
-                                                            }
-                                                        </Field>
-                                                    </div>
-                                                    <div className="ts-col">
-                                                    </div>
-                                                    <div className="ts-col-1"></div>
-                                                </div>
-                                                <div className="ts-row">
-                                                    <div className="ts-col">
-                                                        <Field
-                                                            name={'emergency_contact_info.secondary_emergency.primary_contact_info.phone_type'}>
-                                                            {
-                                                                (field: FieldProps) => (
-                                                                    <FormikSelectComponent
-                                                                        options={phoneTypeList}
-                                                                        label={'Phone Type'}
-                                                                        formikField={field}
-                                                                        fullWidth={true}
-                                                                    />
-                                                                )
-                                                            }
-                                                        </Field>
-                                                    </div>
-                                                    <div className="ts-col">
-                                                        <Field
-                                                            name={'emergency_contact_info.secondary_emergency.primary_contact_info.phone'}>
-                                                            {
-                                                                (field: FieldProps) => (
-                                                                    <FormikPhoneInputComponent
-                                                                        label={'Phone Number'}
-                                                                        disabled={!values?.emergency_contact_info?.secondary_emergency?.primary_contact_info?.phone_type}
-                                                                        // placeholder={'Phone Number (Primary)'}
-                                                                        formikField={field}
-                                                                        fullWidth={true}
-                                                                    />
-                                                                )
-                                                            }
-                                                        </Field>
-                                                    </div>
-                                                    <div className="ts-col-1">
-                                                        <IconButtonComponent className={"form-helper-icon"}>
-                                                            <ToolTipComponent
-                                                                showArrow={true}
-                                                                position={"left"}
-                                                                tooltip={"This phone number will be used to communicate with you whenever we need to get in touch with you. Please ensure that this number is valid and operational."}>
-                                                                <ImageConfig.InfoIcon/>
-                                                            </ToolTipComponent>
-                                                        </IconButtonComponent>
-                                                    </div>
-                                                </div>
-                                                <FieldArray
-                                                    name="emergency_contact_info.secondary_emergency.secondary_contact_info"
-                                                    render={(arrayHelpers) => (
-                                                        <>
-                                                            {values?.emergency_contact_info?.secondary_emergency?.secondary_contact_info && values?.emergency_contact_info?.secondary_emergency?.secondary_contact_info?.length > 0 ? <>
-                                                                    <FormControlLabelComponent size={'sm'}
-                                                                                               label={'Alternate Phone'}/>
-                                                                    {values?.emergency_contact_info?.secondary_emergency?.secondary_contact_info?.map((item: any, index: any) => {
-                                                                        return (
-                                                                            <>
-
-                                                                                <div className="ts-row" key={index}>
-                                                                                    <div className="ts-col">
-                                                                                        <Field
-                                                                                            name={`emergency_contact_info.secondary_emergency.secondary_contact_info[${index}].phone_type`}>
-                                                                                            {
-                                                                                                (field: FieldProps) => (
-                                                                                                    <FormikSelectComponent
-                                                                                                        options={phoneTypeList}
-                                                                                                        label={'Phone Type'}
-                                                                                                        formikField={field}
-                                                                                                        fullWidth={true}
-                                                                                                    />
-                                                                                                )
-                                                                                            }
-                                                                                        </Field>
-                                                                                    </div>
-                                                                                    <div className="ts-col">
-                                                                                        <Field
-                                                                                            name={`emergency_contact_info.secondary_emergency.secondary_contact_info[${index}].phone`}>
-                                                                                            {
-                                                                                                (field: FieldProps) => (
-                                                                                                    <FormikPhoneInputComponent
-                                                                                                        label={'Phone Number'}
-                                                                                                        disabled={values?.emergency_contact_info?.secondary_emergency?.secondary_contact_info && !values?.emergency_contact_info?.secondary_emergency?.secondary_contact_info[index]?.phone_type}
-                                                                                                        // placeholder={'Phone Number'}
-                                                                                                        formikField={field}
-                                                                                                        fullWidth={true}
-                                                                                                    />
-                                                                                                )
-                                                                                            }
-                                                                                        </Field>
-                                                                                    </div>
-                                                                                    <div className="ts-col-1">
-                                                                                        <div className="d-flex">
-                                                                                            {
-                                                                                                <IconButtonComponent
-                                                                                                    className={"form-helper-icon"}
-                                                                                                    color={"error"}
-                                                                                                    onClick={() => {
-                                                                                                        arrayHelpers.remove(index);
-                                                                                                    }}
-                                                                                                >
-                                                                                                    <ImageConfig.DeleteIcon/>
-                                                                                                </IconButtonComponent>}
-                                                                                            {values?.emergency_contact_info?.secondary_emergency?.secondary_contact_info && (index === values?.emergency_contact_info?.secondary_emergency?.secondary_contact_info?.length - 1) &&
-                                                                                                values.emergency_contact_info.secondary_emergency.secondary_contact_info.length < 3 &&
-                                                                                                <IconButtonComponent
-                                                                                                    className={"form-helper-icon"}
-                                                                                                    onClick={() => {
-                                                                                                        arrayHelpers.push({
-                                                                                                            phone_type: undefined,
-                                                                                                            phone: undefined
-                                                                                                        });
-                                                                                                    }}
-                                                                                                >
-                                                                                                    <ImageConfig.AddCircleIcon/>
-                                                                                                </IconButtonComponent>}
-
+                                                                                            </div>
                                                                                         </div>
                                                                                     </div>
-                                                                                </div>
-                                                                            </>
-                                                                        )
-                                                                    })}
-                                                                </> :
-                                                                <ButtonComponent variant={"text"}
-                                                                                 color={"primary"}
-                                                                                 size={"medium"}
-                                                                                 className={'mrg-bottom-15'}
-                                                                                 prefixIcon={<AddCircleIcon/>}
-                                                                                 onClick={() => {
-                                                                                     setFieldValue('emergency_contact_info.secondary_emergency.secondary_contact_info', [{
-                                                                                         phone_type: undefined,
-                                                                                         phone: undefined
-                                                                                     }]);
-                                                                                 }}
-                                                                >
-                                                                    Add Alternate Phone
-                                                                </ButtonComponent>
-                                                            }
-                                                        </>
-                                                    )
-                                                    }/>
-                                            </>
-                                        }
-                                    </>
-                                </CardComponent>
-                                <CardComponent title={"Work Information"} size={"md"}>
-                                    <div className="ts-row">
-                                        <div className="ts-col">
-                                            <Field name={'work_info.occupation'}>
-                                                {
-                                                    (field: FieldProps) => (
-                                                        <FormikInputComponent
-                                                            label={'Occupation'}
-                                                            placeholder={'Enter Occupation'}
-                                                            type={"text"}
-                                                            required={true}
-                                                            formikField={field}
-                                                            fullWidth={true}
-                                                        />
-                                                    )
-                                                }
-                                            </Field>
+                                                                                </>
+                                                                            )
+                                                                        })}
+                                                                    </> :
+                                                                    <ButtonComponent variant={"text"}
+                                                                                     color={"primary"}
+                                                                                     size={"medium"}
+                                                                                     className={'mrg-bottom-15'}
+                                                                                     prefixIcon={<AddCircleIcon/>}
+                                                                                     onClick={() => {
+                                                                                         setFieldValue('emergency_contact_info.secondary_emergency.secondary_contact_info', [{
+                                                                                             phone_type: undefined,
+                                                                                             phone: undefined
+                                                                                         }]);
+                                                                                     }}
+                                                                    >
+                                                                        Add Alternate Phone
+                                                                    </ButtonComponent>
+                                                                }
+                                                            </>
+                                                        )
+                                                        }/>
+                                                </>
+                                            }
+                                        </>
+                                    </CardComponent>
+                                    <CardComponent title={"Work Information"} size={"md"}>
+                                        <div className="ts-row">
+                                            <div className="ts-col">
+                                                <Field name={'work_info.occupation'}>
+                                                    {
+                                                        (field: FieldProps) => (
+                                                            <FormikInputComponent
+                                                                label={'Occupation'}
+                                                                placeholder={'Enter Occupation'}
+                                                                type={"text"}
+                                                                required={true}
+                                                                formikField={field}
+                                                                fullWidth={true}
+                                                            />
+                                                        )
+                                                    }
+                                                </Field>
+                                            </div>
+                                            <div className="ts-col">
+                                                <Field name={'work_info.employment_status'}>
+                                                    {
+                                                        (field: FieldProps) => (
+                                                            <FormikSelectComponent
+                                                                options={employmentStatusList}
+                                                                label={'Employment Status'}
+                                                                required={true}
+                                                                formikField={field}
+                                                                fullWidth={true}
+                                                            />
+                                                        )
+                                                    }
+                                                </Field>
+                                            </div>
+                                            <div className="ts-col-1"></div>
                                         </div>
-                                        <div className="ts-col">
-                                            <Field name={'work_info.employment_status'}>
-                                                {
-                                                    (field: FieldProps) => (
-                                                        <FormikSelectComponent
-                                                            options={employmentStatusList}
-                                                            label={'Employment Status'}
-                                                            required={true}
-                                                            formikField={field}
-                                                            fullWidth={true}
-                                                        />
-                                                    )
-                                                }
-                                            </Field>
-                                        </div>
-                                        <div className="ts-col-1"></div>
-                                    </div>
-                                </CardComponent>
-                                <div className="t-form-actions">
-                                    <LinkComponent className={'text-decoration-none'}
-                                                   route={clientId && CommonService._routeConfig.ClientProfileDetails(clientId)}>
+                                    </CardComponent>
+                                    <div className="t-form-actions">
+                                        <LinkComponent className={'text-decoration-none'}
+                                                       route={clientId && CommonService._routeConfig.ClientProfileDetails(clientId)}>
+                                            <ButtonComponent
+                                                id={"cancel_btn"}
+                                                variant={"outlined"}
+                                                size={'large'}
+                                                disabled={isClientBasicDetailsSavingInProgress}
+                                                onClick={onCancel}
+                                            >
+                                                Cancel
+                                            </ButtonComponent>
+                                        </LinkComponent>
+                                        &nbsp;
                                         <ButtonComponent
-                                            id={"cancel_btn"}
-                                            variant={"outlined"}
+                                            id={"save_btn"}
                                             size={'large'}
-                                            disabled={isClientBasicDetailsSavingInProgress}
-                                            onClick={onCancel}
+                                            className={'submit-cta'}
+                                            isLoading={isClientBasicDetailsSavingInProgress}
+                                            disabled={isClientBasicDetailsSavingInProgress || !isValid}
+                                            type={"submit"}
                                         >
-                                            Cancel
+                                            {isClientBasicDetailsSavingInProgress ? "Saving" : "Save"}
                                         </ButtonComponent>
-                                    </LinkComponent>
-                                    &nbsp;
-                                    <ButtonComponent
-                                        id={"save_btn"}
-                                        size={'large'}
-                                        className={'submit-cta'}
-                                        isLoading={isClientBasicDetailsSavingInProgress}
-                                        disabled={isClientBasicDetailsSavingInProgress || !isValid}
-                                        type={"submit"}
-                                    >
-                                        {isClientBasicDetailsSavingInProgress ? "Saving" : "Save"}
-                                    </ButtonComponent>
-                                </div>
-                            </Form>
-                        )
-                    }}
-                </Formik>
+                                    </div>
+                                </Form>
+                            )
+                        }}
+                    </Formik>
                 </>
             }
         </div>

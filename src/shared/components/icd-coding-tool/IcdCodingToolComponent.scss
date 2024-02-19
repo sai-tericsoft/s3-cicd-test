@@ -19,28 +19,27 @@
 
   .icd-coding-tool-title {
     width: 100%;
-    background-color: #03038d;
-    color: #eee;
+    color: #275778;
     font-size: 24px !important;
     display: inline-block;
     font-weight: 600;
-    padding: 15px 30px;
+    padding: 15px 0;
   }
 
   .icd-coding-tool-content-window {
-    padding: 0 30px;
+
 
     .icd-coding-search-component {
-      margin-bottom: 0;
-      height: 110px;
-      padding: 30px 15px;
-      padding-top: 30px !important;
-      background-color: #eee;
-      border-radius: 6px;
+      height: auto;
+      border: 1px solid #7F7F7F;
+      padding: 24px;
+      border-radius: 8px;
       position: relative;
+      box-shadow: 0px 4px 8px 0px #D1D1D1;
       width: 100%;
       float: left;
       min-height: 1px;
+      margin-bottom: 20px;
 
       .clear {
         padding: 0;

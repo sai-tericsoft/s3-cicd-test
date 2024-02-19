@@ -61,16 +61,21 @@ const AddConcussionFileComponent = (props: AddConcussionFileComponentProps) => {
         values.concussion_type_id = selectedConcussionFileType?._id;
         const formData = CommonService.getFormDataFromJSON(values);
         formData.append("document_date", tempValues?.document_date);
-        CommonService._chartNotes.ConcussionFileAddAPICall(medicalInterventionId, formData)
-            .then((response: IAPIResponseType<any>) => {
-                CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
-                setIsConcussionFileAddFileAddInProgress(false);
-                onAdd(response.data);
-            })
-            .catch((error: any) => {
-                CommonService.handleErrors(setErrors, error, true);
-                setIsConcussionFileAddFileAddInProgress(false);
-            })
+        try {
+            CommonService._chartNotes.ConcussionFileAddAPICall(medicalInterventionId, formData)
+                .then((response: IAPIResponseType<any>) => {
+                    CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+                    setIsConcussionFileAddFileAddInProgress(false);
+                    onAdd(response.data);
+                })
+                .catch((error: any) => {
+                    CommonService.handleErrors(setErrors, error, true);
+                    setIsConcussionFileAddFileAddInProgress(false);
+                });
+        } catch (error) {
+            CommonService.handleErrors(setErrors, error, true);
+            setIsConcussionFileAddFileAddInProgress(false);
+        }
     }, [medicalInterventionId, selectedConcussionFileType, onAdd]);
 
     const onConcussionFileTypeSelect = useCallback((type: IConcussionFileType) => {
@@ -120,7 +125,7 @@ const AddConcussionFileComponent = (props: AddConcussionFileComponentProps) => {
                              }><ImageConfig.CloseIcon/></div>
                         {/*</ToolTipComponent>*/}
                     </div>
-                    <FormControlLabelComponent size={"lg"} label={"Add Concussion File"}/>
+                    <FormControlLabelComponent size={"xl"} label={"Add Concussion File"}/>
                     <div className={"concussion-file-type-list"}>
                         {
                             concussionFileTypes.map(((type, index) => {
@@ -138,7 +143,7 @@ const AddConcussionFileComponent = (props: AddConcussionFileComponentProps) => {
             }
             {
                 (currentStep === "form" && selectedConcussionFileType) && <>
-                    <FormControlLabelComponent size={"lg"} label={selectedConcussionFileType.type}/>
+                    <FormControlLabelComponent size={"xl"} label={`Add ${selectedConcussionFileType.type}`}/>
                     <Formik
                         validationSchema={AddConcussionFileAddFormValidationSchema}
                         initialValues={addConcussionFileAddFormInitialValues}
@@ -199,7 +204,7 @@ const AddConcussionFileComponent = (props: AddConcussionFileComponentProps) => {
                                         </Field>
                                         <div className="mrg-bottom-20">
                                             <FormControlLabelComponent
-                                                label={`Upload ${selectedConcussionFileType?.type} Document`}
+                                                label={`Upload Attachment`}
                                                 className={'upload-document-heading'}
                                                 required={true}/>
                                             <>

@@ -69,7 +69,7 @@ const EditDryNeedlingFileComponent = (props: EditDryNeedlingFileComponentProps) 
         <div className="edit-dry-needling-file-component">
             <div className="edit-dry-needling-file-component-form-container">
                 <FormControlLabelComponent label={"Edit Dry Needling File"}
-                                           size={"lg"}/>
+                                           size={"xl"}/>
                 <Formik
                     validationSchema={EditDryNeedlingFormValidationSchema}
                     initialValues={editDryNeedlingFormInitialValues}
@@ -135,7 +135,7 @@ const EditDryNeedlingFileComponent = (props: EditDryNeedlingFileComponentProps) 
                                         type={"submit"}
                                         fullWidth={true}
                                     >
-                                        {isDryNeedlingFileEditInProgress ? "Saving" : "Save"}
+                                        {isDryNeedlingFileEditInProgress ? "Updating" : "Update"}
                                     </ButtonComponent>
                                 </div>
                             </Form>

@@ -9,7 +9,7 @@ import StatusCardComponent from "../../../shared/components/status-card/StatusCa
 import {useNavigate, useParams} from "react-router-dom";
 import {getClientMedicalRecord} from "../../../store/actions/client.action";
 import {CommonService} from "../../../shared/services";
-import {ImageConfig} from "../../../constants";
+import {ImageConfig, Misc} from "../../../constants";
 import DrawerComponent from "../../../shared/components/drawer/DrawerComponent";
 import EditMedicalRecordComponent from "../edit-medical-record/EditMedicalRecordComponent";
 import {ListItem} from "@mui/material";
@@ -232,7 +232,7 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
                 });
         }
 
-    },[medicalInterventionId]);
+    }, [medicalInterventionId]);
 
     const handleNotifyAdminModalClose = useCallback(() => {
         setNotifyAdminFormInitialValues(_.cloneDeep(NotifyAdminInitialValues));
@@ -244,13 +244,14 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
         if (medicalInterventionId) {
             CommonService._chartNotes.MedicalInterventionNotifyAdminAPICall(medicalInterventionId, values)
                 .then((response) => {
-                    CommonService._alert.showToast("Admin has been notified.", "success");
+                    CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                     setIsNotifyAdminProgressIsLoading(false);
                     handleNotifyAdminModalClose();
                     resetForm();
                 }).catch((error) => {
                 CommonService.handleErrors(setErrors, error, true);
                 setIsNotifyModalOpen(false);
+                setIsNotifyAdminProgressIsLoading(false);
             });
         }
     }, [medicalInterventionId, handleNotifyAdminModalClose]);
@@ -287,7 +288,7 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
                 <ListItem onClick={handleNotifyAdminModalOpen}>Notify Admin</ListItem>,
                 <ListItem onClick={handleSOAPNotePrint}>Print SOAP</ListItem>,
                 <ListItem onClick={openTransferSoapNoteDrawer}>Transfer SOAP to</ListItem>,
-                ];
+            ];
             if (mode === 'view') {
                 options.unshift(<FilesUneditableMiddlewareComponent
                     timeStamp={medicalInterventionDetails?.completed_date}>
@@ -307,7 +308,7 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
                 <ListItem onClick={openImportSoapNoteDrawer}>Import SOAP Note</ListItem>]
             );
         }
-    }, [handleNotifyAdmin,handleSOAPNotePrint, handleNotifyAdminModalOpen, comingSoon, mode, openMedicalRecordDocumentAddDrawer, openTransferSoapNoteDrawer, openAddConcussionFileDrawer, openAddDryNeedlingFileDrawer, openImportSoapNoteDrawer, openViewPriorNoteDrawer, medicalInterventionDetails]);
+    }, [handleNotifyAdmin, handleSOAPNotePrint, handleNotifyAdminModalOpen, comingSoon, mode, openMedicalRecordDocumentAddDrawer, openTransferSoapNoteDrawer, openAddConcussionFileDrawer, openAddDryNeedlingFileDrawer, openImportSoapNoteDrawer, openViewPriorNoteDrawer, medicalInterventionDetails]);
 
     return (
         <div className={'client-medical-details-card-component'}>
@@ -360,6 +361,7 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
                             <div className="ts-row width-auto">
                                 <div className="">
                                     <ButtonComponent prefixIcon={<ImageConfig.EditIcon/>}
+                                                     variant={'outlined'}
                                                      onClick={openEditMedicalRecordDrawer}>
                                         Edit Details
                                     </ButtonComponent>
@@ -391,7 +393,7 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
 
                                         {/*<IconButtonComponent */}
                                         {/*    id={"edit"}>*/}
-                                            <ImageConfig.EditIcon className={'edit-icon'} width={'16'} height={'16'}/>
+                                        <ImageConfig.EditIcon className={'edit-icon'} width={'16'} height={'16'}/>
                                         {/*</IconButtonComponent>*/}
                                     </div>
                                 </DataLabelValueComponent>
@@ -564,6 +566,7 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
                         useEffect(() => {
                             validateForm();
                         }, [values, validateForm]);
+
                         return (
                             <Form className={'t-form'} noValidate={true}>
                                 {/*<FormDebuggerComponent values={values} showDebugger={false} />*/}
@@ -593,8 +596,8 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
                                     &nbsp;&nbsp;
                                     <ButtonComponent variant={'contained'} color={'primary'}
                                                      className={'mrg-left-15'}
+                                                     disabled={!isValid || isNotifyAdminProgressIsLoading || !values.message}
                                                      isLoading={isNotifyAdminProgressIsLoading}
-                                                     disabled={!isValid || isNotifyAdminProgressIsLoading}
                                                      type={'submit'}>
                                         Notify
                                     </ButtonComponent>

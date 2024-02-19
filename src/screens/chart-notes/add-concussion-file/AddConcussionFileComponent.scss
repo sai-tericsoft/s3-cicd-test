@@ -5,11 +5,20 @@
     display: flex;
     justify-content: space-between;
     margin-bottom: 10px;
+
     .back-btn {
       display: flex;
       align-items: center;
       cursor: pointer;
+
+      .back-text {
+        color: #1D1C1D;
+        font-size: 18px;
+        font-weight: 500;
+        margin-top: -6px;
+      }
     }
+
     .drawer-close {
       cursor: pointer;
       position: relative;
@@ -22,6 +31,7 @@
       @include display-center();
     }
   }
+
   .cross-btn {
     display: flex;
     align-items: center;
@@ -40,17 +50,24 @@
     }
 
   }
+
   .t-form {
     .t-form-controls {
-      .upload-document-heading{
-        margin-bottom: 16px;
+      height: calc(100vh - 240px);
+
+      .upload-document-heading {
+        margin-bottom: 12px;
+        color: #212B36;
+        font-size: 14px;
+        font-weight: 700;
       }
     }
 
     .t-form-actions {
-      margin: 30px 0 0px;
+      margin: 30px 0 0;
     }
   }
+
   .concussion-file-type-list {
     display: flex;
     flex-direction: column;
@@ -59,10 +76,14 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border: 1px solid #ABB6BE;
-      border-radius: 5px;
+      border: 1px solid #275778;
+      border-radius: 8px;
       margin-bottom: 24px;
       padding: 16px 24px;
+
+      .concussion-file-title {
+        color: #275778;
+      }
 
       &:hover {
         cursor: pointer;

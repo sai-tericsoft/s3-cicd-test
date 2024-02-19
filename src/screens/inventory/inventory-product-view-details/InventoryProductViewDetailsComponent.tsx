@@ -174,10 +174,10 @@ const InventoryProductViewDetailsComponent = (props: InventoryProductViewDetails
                                 <AvatarComponent url={inventoryProductDetails?.image?.url} size={'xl'}/>
                             </div>
                             <div className={'product-details-wrapper'}>
-                                <DataLabelValueComponent id={"qty_available"} label={'Quantity Available: '}
-                                                         className={'quantity-available'} direction={'row'}>
-                                    {inventoryProductDetails?.quantity}
-                                </DataLabelValueComponent>
+                                {/*<DataLabelValueComponent id={"qty_available"} label={'Quantity Available: '}*/}
+                                {/*                         className={'quantity-available'} direction={'row'}>*/}
+                                {/*    {inventoryProductDetails?.quantity}*/}
+                                {/*</DataLabelValueComponent>*/}
 
                                 <FormControlLabelComponent id="product_title" size={'xl'}
                                                            label={inventoryProductDetails?.name}
@@ -233,7 +233,6 @@ const InventoryProductViewDetailsComponent = (props: InventoryProductViewDetails
                             url={APIConfig.GET_PRODUCT_STOCK_INCOMING_LIST.URL(productId)}
                             method={APIConfig.GET_PRODUCT_STOCK_INCOMING_LIST.METHOD}
                             columns={InventoryStockIncomingListColumns}
-                            isPaginated={true}
                             moduleName={"inventory"}
                         />
                     </TabContentComponent>
@@ -242,7 +241,6 @@ const InventoryProductViewDetailsComponent = (props: InventoryProductViewDetails
                             url={APIConfig.GET_PRODUCT_STOCK_OUTGOING_LIST.URL(productId)}
                             method={APIConfig.GET_PRODUCT_STOCK_OUTGOING_LIST.METHOD}
                             columns={InventoryStockOutgoingListColumns}
-                            isPaginated={true}
                             moduleName={"inventory"}/>
                     </TabContentComponent>
                 </TabsWrapperComponent>
