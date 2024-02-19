@@ -102,7 +102,7 @@ const MedicalRecordAttachmentBasicDetailsCardComponent = (props: MedicalRecordAt
 
     return (
         <div className={"medical-record-attachment-basic-details-card-component"}>
-            <PageHeaderComponent title={pageTitle} actions={<>
+            <PageHeaderComponent title={pageTitle} className={'page-heading'} actions={<>
                 <div className={"medical-attachment-last-updated-on-wrapper"}>
                     <DataLabelValueComponent className={'mrg-bottom-0'} label={"Last updated on: "} direction={"row"}>
                         {(tempAttachmentDetails.updated_at ? moment(tempAttachmentDetails.updated_at).tz(moment.tz.guess()).format('DD-MMM-YYYY | hh:mm A z') : 'N/A')}&nbsp;-&nbsp;
@@ -178,6 +178,7 @@ const MedicalRecordAttachmentBasicDetailsCardComponent = (props: MedicalRecordAt
                             {/*    </>*/}
                             {/*}*/}
                             {showEdit && <ButtonComponent
+                                variant={'outlined'}
                                 prefixIcon={<ImageConfig.EditIcon/>}
                                 onClick={handleEdit}
                             >
@@ -185,7 +186,7 @@ const MedicalRecordAttachmentBasicDetailsCardComponent = (props: MedicalRecordAt
                             </ButtonComponent>}
 
                             <MenuDropdownComponent className={'billing-details-drop-down-menu'} menuBase={
-                                <ButtonComponent size={'large'} variant={'outlined'} fullWidth={true}
+                                <ButtonComponent  variant={'outlined'} fullWidth={true}
                                 >
                                     Select Action &nbsp;<ImageConfig.SelectDropDownIcon/>
                                 </ButtonComponent>

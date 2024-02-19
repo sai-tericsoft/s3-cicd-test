@@ -88,7 +88,7 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
                 }
             },
             {
-                title: "File Name",
+                title: "File(s)",
                 key: 'select',
                 dataIndex: 'select',
                 render: (item: any) => {
@@ -119,7 +119,7 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
                 width: 100,
             },
             {
-                title: '',
+                title: 'Action',
                 key: 'view_details',
                 width: 55,
                 render: (item: any) => {
@@ -153,7 +153,7 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
 
         const MedicalRecordListColumns: ITableColumn[] = useMemo(() => [
             {
-                title: 'Case',
+                title: 'Case Name',
                 key: 'select',
                 dataIndex: 'select',
                 width: 255,
@@ -378,7 +378,7 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
                         {/*</ToolTipComponent>*/}
                     </div>
                 }
-                <FormControlLabelComponent label={"Transfer File to"} className={'transfer-file-to-heading'} size={"lg"}/>
+                <FormControlLabelComponent size={'xl'} label={"Transfer File to"} className={'transfer-file-to-heading'}/>
                 {
                     currentStep === "selectClient" && <div className={"select-client-wrapper"}>
                         <SearchComponent label={"Search "}
@@ -389,7 +389,7 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
                                              getClientList(value);
                                          }}/>
                         <>
-                            <FormControlLabelComponent label={"Client List"} className={"client-list-heading"}/>
+                            {/*<FormControlLabelComponent label={"Client List"} className={"client-list-heading"}/>/*/}
                             <TableComponent data={clientList}
                                             className={'client-list-table'}
                                             columns={ClientListColumns}
@@ -478,7 +478,7 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
                         isLoading={isMedicalRecordTransferUnderProgress}
                         onClick={handleConfirmation}>
                         {
-                            currentStep === "selectInterventions" && "Confirm"
+                            currentStep === "selectInterventions" && "Next"
                         }
                         {
                             currentStep === "selectTargetMedicalRecord" && "Transfer"
