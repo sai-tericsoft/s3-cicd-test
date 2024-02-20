@@ -247,42 +247,42 @@ const ServiceSlotsComponent = (props: ServiceSlotsComponentProps) => {
                         }
                     })
                     return newState;
-        // if (userSlots) {
-        //     setUserSelectedSlots(() => {
-        //         let newState: { day: any; slots: any; }[] = [];
-        //         userSlots.forEach((facilitySlots: any) => {
-        //             const slotsToMerge = facilitySlots.is_same_slots
-        //                 ? facilitySlots.applicable_slot_days
-        //                 : facilitySlots.day_scheduled_slots;
-        //             if (facilitySlots.is_same_slots) {
-        //                 slotsToMerge.forEach((day: any) => {
-        //                     const existingSlotIndex = newState?.findIndex((item) => item.day === day);
-        //                     if (existingSlotIndex >= 0) {
-        //                         // Merge slots for the same day
-        //                         const mergedSlots = [...newState[existingSlotIndex].slots, ...(day?.slot_timings || [])];
-        //                         newState[existingSlotIndex].slots = Array.from(new Set(mergedSlots));
-        //                     } else {
-        //                         newState.push({
-        //                             day: day,
-        //                             slots: facilitySlots.all_scheduled_slots,
-        //                         });
-        //                     }
-        //                 })
-        //             } else {
-        //                 slotsToMerge.forEach((day: any) => {
-        //                     const existingSlotIndex = newState?.findIndex((item) => item.day === day);
-        //                     if (existingSlotIndex >= 0) {
-        //                         // Merge slots for the same day
-        //                         const mergedSlots = [...newState[existingSlotIndex].slots, ...(day?.slot_timings || [])];
-        //                         newState[existingSlotIndex].slots = Array.from(new Set(mergedSlots));
-        //                     } else {
-        //                         newState.push({
-        //                             day: day.day,
-        //                             slots: day?.slot_timings || [],
-        //                         });
-        //                     }
-        //                 })
-        //             }
+                    // if (userSlots) {
+                    //     setUserSelectedSlots(() => {
+                    //         let newState: { day: any; slots: any; }[] = [];
+                    //         userSlots.forEach((facilitySlots: any) => {
+                    //             const slotsToMerge = facilitySlots.is_same_slots
+                    //                 ? facilitySlots.applicable_slot_days
+                    //                 : facilitySlots.day_scheduled_slots;
+                    //             if (facilitySlots.is_same_slots) {
+                    //                 slotsToMerge.forEach((day: any) => {
+                    //                     const existingSlotIndex = newState?.findIndex((item) => item.day === day);
+                    //                     if (existingSlotIndex >= 0) {
+                    //                         // Merge slots for the same day
+                    //                         const mergedSlots = [...newState[existingSlotIndex].slots, ...(day?.slot_timings || [])];
+                    //                         newState[existingSlotIndex].slots = Array.from(new Set(mergedSlots));
+                    //                     } else {
+                    //                         newState.push({
+                    //                             day: day,
+                    //                             slots: facilitySlots.all_scheduled_slots,
+                    //                         });
+                    //                     }
+                    //                 })
+                    //             } else {
+                    //                 slotsToMerge.forEach((day: any) => {
+                    //                     const existingSlotIndex = newState?.findIndex((item) => item.day === day);
+                    //                     if (existingSlotIndex >= 0) {
+                    //                         // Merge slots for the same day
+                    //                         const mergedSlots = [...newState[existingSlotIndex].slots, ...(day?.slot_timings || [])];
+                    //                         newState[existingSlotIndex].slots = Array.from(new Set(mergedSlots));
+                    //                     } else {
+                    //                         newState.push({
+                    //                             day: day.day,
+                    //                             slots: day?.slot_timings || [],
+                    //                         });
+                    //                     }
+                    //                 })
+                    //             }
                 })
             }
         } catch (e) {
@@ -295,7 +295,6 @@ const ServiceSlotsComponent = (props: ServiceSlotsComponentProps) => {
             handleSetUserSelectedSlots(userGlobalSlots)
         }
     }, [isUserSlotsLoaded, userGlobalSlots, handleSetUserSelectedSlots, isUserGlobalSlotsLoaded])
-
 
     useEffect(() => {
         try {
@@ -313,7 +312,7 @@ const ServiceSlotsComponent = (props: ServiceSlotsComponentProps) => {
                 }
                 if (userSlots?.is_same_slots) {
                     const allScheduledSlots = {
-                        is_same_slots: userSlots?.all_scheduled_slots?.length > 0 ? true : false,
+                        is_same_slots: userSlots?.all_scheduled_slots?.length > 0,
                         all_scheduled_slots: userSlots?.all_scheduled_slots?.length > 0 ? userSlots?.all_scheduled_slots?.map((slot: any) => ({
                             start_time: slot.start_time,
                             end_time: slot.end_time,
@@ -396,6 +395,11 @@ const ServiceSlotsComponent = (props: ServiceSlotsComponentProps) => {
             const payload = {...values, service_id: serviceId, facility_id: facilityId, provider_id: userId};
             if (serviceId) {
                 if (payload.is_same_slots) {
+                    payload.all_scheduled_slots = payload.all_scheduled_slots.map((slot: any) => ({
+                        start_time: slot.start_time,
+                        end_time: slot.end_time,
+                        service_id: serviceId,
+                    }));
                     delete payload.scheduled_slots;
                     payload.all_scheduled_slots.forEach((slot: any, index: any) => {
                         if (!payload?.service_slots) {
@@ -406,9 +410,10 @@ const ServiceSlotsComponent = (props: ServiceSlotsComponentProps) => {
                         }
                         payload.service_slots[serviceId].push({
                             start_time: slot.start_time,
-                            end_time: slot.end_time
+                            end_time: slot.end_time,
+                            service_id: serviceId,
                         });
-                    })
+                    });
                 } else {
                     delete payload.all_scheduled_slots;
                     payload.scheduled_slots = payload.scheduled_slots.filter(
@@ -458,31 +463,36 @@ const ServiceSlotsComponent = (props: ServiceSlotsComponentProps) => {
                 setSubmitting(true);
 
                 // Perform the API request with the updated payload
-                userId && CommonService._user
-                    .addUserSlotsForService(payload)
-                    .then((response) => {
-                        setSubmitting(false);
-                        // navigate(CommonService._routeConfig.UserList());
-                        if (location.pathname.includes('admin')) {
-                            navigate(commonService._routeConfig.ServiceDetails(serviceId))
-
-                        }
-                        CommonService._alert.showToast(
-                            response[Misc.API_RESPONSE_MESSAGE_KEY],
-                            'success'
-                        );
-                        setUserSelectedSlots([]);
-                        dispatch(getUserGlobalSlots(userId));
-                        dispatch(getUserSlots(userId, facilityId));
-                    })
-                    .catch((error) => {
-                        setSubmitting(false);
-                        CommonService.handleErrors(setErrors, error, true);
-                    });
+                try {
+                    userId && CommonService._user
+                        .addUserSlotsForService(payload)
+                        .then((response) => {
+                            setSubmitting(false);
+                            // navigate(CommonService._routeConfig.UserList());
+                            if (location.pathname.includes('admin')) {
+                                navigate(commonService._routeConfig.ServiceDetails(serviceId))
+                            }
+                            CommonService._alert.showToast(
+                                response[Misc.API_RESPONSE_MESSAGE_KEY],
+                                'success'
+                            );
+                            setUserSelectedSlots([]);
+                            dispatch(getUserGlobalSlots(userId));
+                            dispatch(getUserSlots(userId, facilityId));
+                        })
+                        .catch((error) => {
+                            setSubmitting(false);
+                            CommonService.handleErrors(setErrors, error, true);
+                        });
+                } catch (error) {
+                    setSubmitting(false);
+                    CommonService.handleErrors(setErrors, error, true);
+                }
             }
         },
         [facilityId, userId, serviceId, dispatch, location.pathname, navigate]
     );
+
 
     const handleUserSlotsUpdate = useCallback((endTime: string, startTime: string, isSameSlots: boolean, faclityDays: any) => {
         setUserSelectedSlots((oldstate: any) => {
