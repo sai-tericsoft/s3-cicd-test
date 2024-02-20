@@ -409,12 +409,12 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
                                 </DataLabelValueComponent>
                             </div>
                             <div className={'ts-col'}>
-                                <DataLabelValueComponent label={'Appointment Start Time'}>
+                                <DataLabelValueComponent label={'Scheduled Start Time'}>
                                     {medicalInterventionDetails?.appointment_details?.start_time ? CommonService.getHoursAndMinutesFromMinutes(medicalInterventionDetails?.appointment_details?.start_time) : "N/A"}
                                 </DataLabelValueComponent>
                             </div>
                             <div className={'ts-col'}>
-                                <DataLabelValueComponent label={'Appointment End Time'}>
+                                <DataLabelValueComponent label={'Scheduled End Time'}>
                                     {medicalInterventionDetails?.appointment_details?.end_time ? CommonService.getHoursAndMinutesFromMinutes(medicalInterventionDetails?.appointment_details?.end_time) : "N/A"}
                                 </DataLabelValueComponent>
                             </div>

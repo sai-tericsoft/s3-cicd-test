@@ -1,22 +1,29 @@
 .medical-intervention-finalize-treatment-screen {
-  .t-form-actions{
-    margin-bottom: 0px;
+  .t-form-actions {
+    margin-bottom: 0;
   }
+
   .ant-table-tbody {
     .t-cell-select {
-      padding-left: 30px !important;
+      padding-left: 20px !important;
     }
   }
 
   .ant-table-thead {
     .t-cell-select {
-      padding-left: 30px !important;
+      padding-left: 20px !important;
     }
   }
 
   .finalize-treatment-wrapper {
     padding-bottom: 24px;
-    .cpt-codes-viw-list-header{
+
+    .no-code-text {
+      font-size: 20px;
+      color: #7F7F7F;
+    }
+
+    .cpt-codes-viw-list-header {
       display: flex;
       justify-content: space-between;
       column-gap: 10px;
@@ -30,6 +37,11 @@
         align-items: center;
         justify-content: center;
 
+        .total-heading {
+          color: #1D1C1D;
+          font-weight: 700;
+        }
+
         .total-minutes-wrapper {
           border: 1px solid #ABB6BE;
           padding: 9px 0;
@@ -41,9 +53,11 @@
         }
       }
     }
-    .ant-table-content{
+
+    .ant-table-content {
       height: 100%;
-      table:has(.status-card-component){
+
+      table:has(.status-card-component) {
         height: 100%;
       }
     }
@@ -68,14 +82,20 @@
   }
 
   .ant-table-container {
-    height: 450px;
+    height: 400px;
     overflow: auto;
+
+    .table-no-data-wrapper {
+      min-height: 250px !important;
+    }
   }
 }
-.cpt-codes-select-list{
-  .table-v2-component{
+
+.cpt-codes-select-list {
+  .table-v2-component {
     height: calc(100vh - 260px);
-    .ant-table-content{
+
+    .ant-table-content {
       height: calc(100vh - 260px);
     }
   }

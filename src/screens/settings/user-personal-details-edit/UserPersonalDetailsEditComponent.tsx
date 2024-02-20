@@ -370,7 +370,6 @@ const UserPersonalDetailsEditComponent = (props: UserPersonalDetailsEditComponen
                                 <ButtonComponent
                                     id={"cancel_btn"}
                                     variant={"outlined"}
-                                    className={'submit-cta'}
                                     disabled={isSubmitting || !(!isValid || CommonService.isEqual(values, initialValues))}
                                     onClick={handleNext}
                                 >

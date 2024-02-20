@@ -282,9 +282,25 @@ const MedicalInterventionExerciseLogViewScreen = (props: MedicalInterventionExer
                                     {/*        {attachment.name}*/}
                                     {/*    </div>*/}
                                     {/*</div>*/}
-                                    <ChipComponent prefixIcon={<ImageConfig.DocumentIcon/>} color={'success'}
-                                                   onClick={() => handleView(attachment)}
-                                                   label={attachment.name} className={'attachment-chip-view'}/>
+                                    {/*<ChipComponent prefixIcon={<ImageConfig.DocumentIcon/>} color={'success'}*/}
+                                    {/*               onClick={() => handleView(attachment)}*/}
+                                    {/*               label={attachment.name} className={'attachment-chip-view'}/>*/}
+                                     <div className={'ts-row'}>
+                                                <div className={'ts-col-lg-12 ts-col attachments-wrapper'}>
+                                                    <div className={'attachment-name-icon'}>
+                                                        <span><ImageConfig.DocumentIcon/></span>
+                                                        <span>{attachment?.name}</span>
+                                                    </div>
+                                                    <div>
+                                                        <ButtonComponent
+                                                            variant={'outlined'}
+                                                            prefixIcon={<ImageConfig.EyeOutlined/>}
+                                                            onClick={() => handleView(attachment)}>
+                                                            View
+                                                        </ButtonComponent>
+                                                    </div>
+                                                </div>
+                                            </div>
                                 </span>
                             )
                         })

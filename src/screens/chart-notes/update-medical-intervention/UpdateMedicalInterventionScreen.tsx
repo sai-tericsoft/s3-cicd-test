@@ -252,7 +252,7 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                             key: side + 'arom',
                             align: 'center',
                             // fixed: 'left',
-                            width: 37,
+                            width: 10,
                             render: (item: any) => {
                                 return <div className={'movement-name'}>{item?.config[side]?.arom || '-'}</div>
                             }
@@ -263,7 +263,7 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                             key: side + 'prom',
                             align: 'center',
                             // fixed: 'left',
-                            width: 37,
+                            width: 10,
                             render: (item: any) => {
                                 return <div className={'movement-name'}>{item?.config[side]?.prom || "-"}</div>
                             }
@@ -274,7 +274,7 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                             key: side + 'strength',
                             align: 'center',
                             // fixed: 'left',
-                            width: 50,
+                            width: 10,
                             render: (item: any) => {
                                 return <div className={'movement-name'}>{item?.config[side]?.strength || "-"}</div>
                             }
@@ -288,7 +288,6 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                     title: '',
                     key: 'comments-header',
                     fixed: 'right',
-                    width: 400,
                     children: [
                         {
                             title: 'Comments',

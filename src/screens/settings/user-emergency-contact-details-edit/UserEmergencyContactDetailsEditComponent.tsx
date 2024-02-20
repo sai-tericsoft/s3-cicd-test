@@ -129,6 +129,8 @@ const UserEmergencyContactDetailsEditComponent = (props: UserEmergencyContactDet
         relationshipList
     } = useSelector((state: IRootReducerState) => state.staticData);
 
+    const formikRef = React.useRef<any>(null);
+
     const [initialValues, setInitialValues] = useState<any>(_.cloneDeep(formInitialValues));
     const dispatch = useDispatch();
 
@@ -175,6 +177,9 @@ const UserEmergencyContactDetailsEditComponent = (props: UserEmergencyContactDet
                 userBasicDetails.primary_contact_info = PhoneObj;
             }
             setInitialValues(userBasicDetails)
+            setTimeout(() => {
+                formikRef.current?.validateForm(userBasicDetails);
+            }, 100);
         }
     }, [userBasicDetails])
 
@@ -205,6 +210,7 @@ const UserEmergencyContactDetailsEditComponent = (props: UserEmergencyContactDet
                 validationSchema={formValidationSchema}
                 initialValues={initialValues}
                 onSubmit={onSubmit}
+                innerRef={formikRef}
                 validateOnChange={false}
                 validateOnBlur={true}
                 enableReinitialize={true}
