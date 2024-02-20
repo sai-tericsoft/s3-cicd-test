@@ -110,7 +110,7 @@ const ServiceCategoryEditComponent = (props: ServiceCategoryEditComponentProps) 
                                 <div
                                     className={"mrg-bottom-20 display-flex align-items-center justify-content-space-between"}>
                                     <FormControlLabelComponent label={"Edit Service Category"}
-                                                               size={"lg"}
+                                                               size={"xl"}
                                                                className={"mrg-bottom-0"}/>
                                     <div className={"switch-button-wrapper"}>
                                         <div className={'status-switch-heading'}>Status:</div>
