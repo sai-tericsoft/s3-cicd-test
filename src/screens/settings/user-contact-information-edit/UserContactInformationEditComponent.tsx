@@ -143,6 +143,7 @@ const UserContactInformationEditComponent = (props: UserContactInformationEditCo
                 validationSchema={formValidationSchema}
                 initialValues={initialValues}
                 onSubmit={onSubmit}
+                innerRef={formikRef}
                 validateOnChange={false}
                 validateOnBlur={true}
                 enableReinitialize={true}

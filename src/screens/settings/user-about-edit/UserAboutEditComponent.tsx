@@ -265,7 +265,7 @@ const UserAboutEditComponent = (props: UserAboutEditComponentProps) => {
                                     id={"cancel_btn"}
                                     variant={"outlined"}
                                     size={'large'}
-                                    className={'submit-cta'}
+                                    className={'mrg-right-15'}
                                     disabled={isSubmitting}
                                     onClick={handlePrevious}
                                 >
@@ -287,7 +287,7 @@ const UserAboutEditComponent = (props: UserAboutEditComponentProps) => {
                                     id={"cancel_btn"}
                                     variant={"outlined"}
                                     size={'large'}
-                                    className={'submit-cta'}
+
                                     disabled={isSubmitting || !(!isValid || CommonService.isEqual(values, initialValues))}
                                     onClick={handleNext}
                                 >

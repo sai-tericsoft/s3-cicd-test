@@ -118,7 +118,7 @@ const ClientAddComponent = (props: ClientAddComponentProps) => {
 
     return (
         <div className={'client-add-component'}>
-            <FormControlLabelComponent label={'Add Client'} size={'lg'}/>
+            <FormControlLabelComponent label={'Add Client'} size={'xl'}/>
             <Formik initialValues={addClientInitialValues}
                     validationSchema={clientAddsValidationSchema}
                     validateOnChange={false}

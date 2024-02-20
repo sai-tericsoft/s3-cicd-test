@@ -14,13 +14,8 @@ import {useLocation, useNavigate, useParams} from "react-router-dom";
 import {IAPIResponseType} from "../../../shared/models/api.model";
 import {IService} from "../../../shared/models/service.model";
 import * as Yup from "yup";
-import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
 import PageHeaderComponent from "../../../shared/components/page-header/PageHeaderComponent";
 import CardComponent from "../../../shared/components/card/CardComponent";
-import ChipComponent from "../../../shared/components/chip/ChipComponent";
-import MedicalInterventionLinkedToComponent
-    from "../medical-intervention-linked-to/MedicalInterventionLinkedToComponent";
-import DataLabelValueComponent from "../../../shared/components/data-label-value/DataLabelValueComponent";
 import {IRootReducerState} from "../../../store/reducers";
 import {getClientMedicalRecord} from "../../../store/actions/client.action";
 import {getInterventionAttachmentList, getMedicalInterventionDetails} from "../../../store/actions/chart-notes.action";
@@ -29,7 +24,8 @@ import InputComponent from "../../../shared/components/form-controls/input/Input
 import FormikTextAreaComponent from "../../../shared/components/form-controls/formik-text-area/FormikTextAreaComponent";
 import StatusCardComponent from "../../../shared/components/status-card/StatusCardComponent";
 import FormikCheckBoxComponent from "../../../shared/components/form-controls/formik-check-box/FormikCheckBoxComponent";
-import commonService from "../../../shared/services/common.service";
+import MedicalInterventionDetailsCardComponent
+    from "../medical-intervention-details-card/MedicalInterventionDetailsCardComponent";
 
 
 interface MedicalInterventionExerciseLogScreenProps {
@@ -87,7 +83,6 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
 
     //-----------------------------------ExerciseLogAttachmentStartsHere-------------------------------------
     const [isAttachmentBeingUploaded, setIsAttachmentBeingUploaded] = React.useState<boolean>(false);
-    const [isAttachmentBeingDeleted, setIsAttachmentBeingDeleted] = React.useState<boolean>(false);
 
 
     useEffect(() => {
@@ -126,12 +121,12 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
     }, [dispatch, medicalInterventionId, selectedAttachments]);
 
 
-    const handleChange = (event:any) => {
+    const handleChange = (event: any) => {
         const selectedFile = event.target.files[0];
         // Check if the selected file is a PDF, JPEG, or PNG
         const acceptedTypes = ['application/pdf', 'image/jpeg', 'image/png'];
         if (selectedFile && acceptedTypes.includes(selectedFile.type)) {
-            setSelectedAttachments((prevState:any) => [...prevState, selectedFile]);
+            setSelectedAttachments((prevState: any) => [...prevState, selectedFile]);
         } else {
             CommonService._alert.showToast('Invalid file type. Please select a PDF, JPEG, or PNG file', 'error');
         }
@@ -139,14 +134,13 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
     };
 
     const removeAttachment = useCallback((item: any, medicalInterventionId: string) => {
-        setIsAttachmentBeingDeleted(true);
+
         CommonService._chartNotes.RemoveExerciseLogAttachmentAPICall(medicalInterventionId, item._id, {})
             .then((response) => {
                 CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                 dispatch(getInterventionAttachmentList(medicalInterventionId));
-                setIsAttachmentBeingDeleted(false);
             }).catch((error: any) => {
-            setIsAttachmentBeingDeleted(false);
+
             CommonService._alert.showToast(error.error || "Error deleting attachment", "error");
         })
 
@@ -154,10 +148,6 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
 
     //--------------------------------ExerciseLogAttachmentEndsHere----------------------------------------------
 
-    const {
-        clientMedicalRecord,
-        isClientMedicalRecordLoaded,
-    } = useSelector((state: IRootReducerState) => state.client);
     const [currentRow, setCurrentRow] = React.useState(0);
     const [currentColumn, setCurrentColumn] = React.useState(0);
 
@@ -201,7 +191,7 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
             key: "bilateral",
             dataIndex: 'bilateral',
             align: 'center',
-            width: 40,
+            width: 50,
             render: (record: any, index: any) => {
                 return <Field
                     name={`exercise_records.${index}.bilateral`}
@@ -209,6 +199,7 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                     {
                         (field: FieldProps) => (
                             <FormikCheckBoxComponent
+
                                 formikField={field}
                                 onChange={(isChecked: any) => {
                                     if (isChecked) {
@@ -224,7 +215,7 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
         {
             title: 'SET',
             key: 'set',
-            width: 150,
+            width: 130,
             align: 'center',
             render: (record: any, index: any) => {
                 return <Field
@@ -254,7 +245,7 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
         {
             title: 'REP',
             key: 'rep',
-            width: 150,
+            width: 130,
             align: 'center',
             render: (record: any, index: any) => {
                 return <Field
@@ -284,7 +275,7 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
         {
             title: 'TIME',
             key: 'time',
-            width: 150,
+            width: 130,
             align: 'center',
             render: (record: any, index: any) => {
                 return <Field
@@ -314,7 +305,7 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
         {
             title: 'RESISTANCE',
             key: 'resistance',
-            width: 150,
+            width: 130,
             align: 'center',
             render: (record: any, index: any) => {
                 return <Field
@@ -342,10 +333,10 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
             }
         },
         {
-            title: '',
+            title: 'Action',
             key: 'actions',
             align: 'center',
-            width: 50,
+            width: 120,
             render: (record: any, index: any) => {
                 return (
                     <>
@@ -458,20 +449,25 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
 
             });
             setSubmitting(true)
-            CommonService._chartNotes.SaveMedicalInterventionExerciseLogAPICall(medicalInterventionId, payload)
-                .then((response: any) => {
-                    // CommonService._alert.showToast(response.message, 'success');
-                    setSubmitting(false);
-                    if (mode === 'add' || mode === 'soapNoteEdit') {
-                        navigate(CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, medicalInterventionId) + '?mode=add');
-                    } else {
-                        navigate(CommonService._routeConfig.MedicalInterventionExerciseLogView(medicalRecordId, medicalInterventionId));
-                    }
-                })
-                .catch((error: any) => {
-                    CommonService._alert.showToast(error.error || error.errors || 'Error saving Exercise log', 'error');
-                    setSubmitting(false);
-                });
+            try {
+                CommonService._chartNotes.SaveMedicalInterventionExerciseLogAPICall(medicalInterventionId, payload)
+                    .then((response: any) => {
+                        // CommonService._alert.showToast(response.message, 'success');
+                        setSubmitting(false);
+                        if (mode === 'add' || mode === 'soapNoteEdit') {
+                            navigate(CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, medicalInterventionId) + '?mode=add');
+                        } else {
+                            navigate(CommonService._routeConfig.MedicalInterventionExerciseLogView(medicalRecordId, medicalInterventionId));
+                        }
+                    })
+                    .catch((error: any) => {
+                        CommonService._alert.showToast(error.error || error.errors || 'Error saving Exercise log', 'error');
+                        setSubmitting(false);
+                    });
+            } catch (error: any) {
+                CommonService._alert.showToast(error.error || error.errors || 'Error saving Exercise log', 'error');
+                setSubmitting(false);
+            }
         }
     }, [medicalRecordId, navigate, medicalInterventionId, selectedAttachments, handleFileSubmit, mode]);
 
@@ -582,35 +578,12 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                         {medicalInterventionDetails?.last_updated_by_details?.first_name ? medicalInterventionDetails?.last_updated_by_details?.first_name + ' ' + medicalInterventionDetails?.last_updated_by_details?.last_name : ' NA'}
                     </div>
                 </div>}/>
-            {
-                (isClientMedicalRecordLoaded && clientMedicalRecord) && <div className={'client-card-wrapper'}>
-                    <CardComponent color={'primary'}>
-                        <div className={'client-name-button-wrapper'}>
-                                    <span className={'client-name-wrapper'}>
-                                        <span className={'client-name'}>
-                                            <span
-                                                className={clientMedicalRecord?.client_details?.is_alias_name_set ? 'alias-name' : ''}>
-                                                {commonService.generateClientNameFromClientDetails(clientMedicalRecord?.client_details)}
-                                                </span>
-                                        </span>
-                                        <ChipComponent
-                                            className={clientMedicalRecord?.status === "open" ? "active" : "inactive"}
-                                            size={'small'}
-                                            label={clientMedicalRecord?.status_details?.title || "-"}/>
-                                    </span>
-                        </div>
-                        <MedicalInterventionLinkedToComponent label={'Exercise Log Linked to'}
-                                                              medicalRecordDetails={clientMedicalRecord}/>
-                        <div className={'ts-row'}>
-                            <div className={'ts-col-6'}>
-                                <DataLabelValueComponent label={'Date of Intervention'}>
-                                    {CommonService.getSystemFormatTimeStamp(clientMedicalRecord?.created_at || "N/A")}
-                                </DataLabelValueComponent>
-                            </div>
-                        </div>
-                    </CardComponent>
-                </div>
-            }
+
+            <MedicalInterventionDetailsCardComponent medicalInterventionDetails={medicalInterventionDetails}
+                                                     mode={"edit"}
+                                                     showAction={false}
+
+            />
             <div className={'provider-name'}>
                 <InputComponent placeholder={'Provider'} fullWidth={true} label={'Provider'}
                                 value={CommonService.extractName(currentUser)} disabled={true}/>
@@ -640,6 +613,7 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                             isAttachmentListLoaded && <>
                                 <CardComponent title={'Attachments'}
                                                actions={<ButtonComponent
+                                                   prefixIcon={<ImageConfig.AttachIcon/>}
                                                    isLoading={isAttachmentBeingUploaded}
                                                    onClick={handleClick}>
                                                    Attach Exercise Log</ButtonComponent>}>
@@ -648,34 +622,51 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                                         {(attachmentList.attachments.length > 0) &&
                                             <>
                                                 {attachmentList?.attachments?.map((attachment: any) => {
-                                                    return <span className={'chip-wrapper'}>
-                                        <ChipComponent className={'chip chip-items'}
-                                                       color={"success"}
-                                                       disabled={isAttachmentBeingDeleted}
-                                                       label={attachment.name}
-                                                       prefixIcon={<ImageConfig.PDF_ICON/>}
-                                                       onDelete={() => removeAttachment(attachment, medicalInterventionId)}
-                                        />
-                                                </span>
+                                                    return <div className={'ts-row'}>
+                                                        <div className={'ts-col-lg-12 ts-col attachments-wrapper'}>
+                                                            <div className={'attachment-name-icon'}>
+                                                                <span><ImageConfig.DocumentIcon/></span>
+                                                                <span>{attachment?.name}</span>
+                                                            </div>
+                                                            <div>
+                                                                <ButtonComponent
+                                                                    variant={'outlined'}
+                                                                    color={'error'}
+                                                                    prefixIcon={<ImageConfig.DeleteIcon/>}
+                                                                    onClick={() => removeAttachment(attachment, medicalInterventionId)}>
+                                                                    Delete
+                                                                </ButtonComponent>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 })}
                                             </>
                                         }
                                         {selectedAttachments.length > 0 &&
                                             <>
                                                 {selectedAttachments?.map((attachment: any, index: number) => {
-                                                    return <span className={'chip-wrapper'}>
-                                            <ChipComponent className={'chip chip-items'}
-                                                           color={"success"}
-                                                           disabled={isAttachmentBeingDeleted}
-                                                           label={attachment.name}
-                                                           prefixIcon={<ImageConfig.PDF_ICON/>}
-                                                           onDelete={() => setSelectedAttachments((prevState: any) => {
-                                                               const newState = [...prevState];
-                                                               newState.splice(index, 1);
-                                                               return newState;
-                                                           })}
-                                            />
-                                            </span>
+                                                    return <div className={'ts-row'}>
+                                                        <div className={'ts-col-lg-12 ts-col attachments-wrapper'}>
+                                                            <div className={'attachment-name-icon'}>
+                                                                <span><ImageConfig.DocumentIcon/></span>
+                                                                <span>{attachment?.name}</span>
+                                                            </div>
+                                                            <div>
+                                                                <ButtonComponent
+                                                                    variant={'outlined'}
+                                                                    color={'error'}
+                                                                    prefixIcon={<ImageConfig.DeleteIcon/>}
+                                                                    onClick={() => setSelectedAttachments((prevState: any) => {
+                                                                        const newState = [...prevState];
+                                                                        newState.splice(index, 1);
+                                                                        return newState;
+                                                                    })}>
+                                                                    Delete
+                                                                </ButtonComponent>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
                                                 })
                                                 }
                                             </>
@@ -683,7 +674,7 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
 
                                         {(!selectedAttachments.length && !attachmentList.attachments.length) &&
                                             <StatusCardComponent title={'No attachment has been added'}
-                                                                 className={'mrg-bottom-25'}/>
+                                                                 className={'no-attachment-message'}/>
                                         }
                                     </>
                                 </CardComponent>
@@ -695,9 +686,6 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
             {/*----------------------ExerciseLogAttachmentEndsHere---------------------------*/}
 
             <div id={'exercise-log-form'}>
-                {
-                    isMedicalInterventionExerciseLogDetailsLoading && <LoaderComponent/>
-                }
                 {
                     !isMedicalInterventionExerciseLogDetailsLoading &&
                     <Formik initialValues={medicalInterventionExerciseLogValues}
@@ -713,35 +701,36 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                             return (
                                 <Form className="t-form" noValidate={true}>
                                     <div className={'special-test-table-container'}>
-                                        <div
-                                            className={"display-flex align-items-center flex-direction-row-reverse mrg-bottom-20"}>
-                                            <ButtonComponent
-                                                prefixIcon={<ImageConfig.CloseIcon/>}
-                                                color={"error"}
-                                                disabled={
-                                                    values.exercise_records.every((record: any) => (
-                                                        !record.name && (record.no_of_reps === '-' || !record.no_of_reps) && (record.no_of_sets === '-' || !record.no_of_sets) && (record.resistance === '-' || !record.resistance) && (record.time === '-' || !record.time)
-                                                    ))
-                                                }
-                                                onClick={() => {
-                                                    handleExerciseLogClear(values, setFieldValue);
-                                                }}
-                                            >
-                                                Clear Exercise Log
-                                            </ButtonComponent>
-                                        </div>
-                                        <div className={'card-table-button-wrapper'}>
-                                            <CardComponent>
-                                                <TableComponent
-                                                    data={values.exercise_records}
-                                                    onClick={(event) => handleContainerClick(event)}
-                                                    bordered={true}
-                                                    tabIndex={0}
-                                                    tableIndex={tableIndex}
-                                                    onKeyDown={handleKeyDown}
-                                                    rowClassName={(record: any, index: any) => ('row-' + index)}
-                                                    rowKey={(record: any, index: any) => index}
-                                                    columns={medicalInterventionExerciseLogColumns}/>
+                                        <CardComponent>
+                                            <div
+                                                className={"display-flex align-items-center flex-direction-row-reverse mrg-bottom-20"}>
+                                                <ButtonComponent
+                                                    prefixIcon={<ImageConfig.CrossOutlinedIcon/>}
+                                                    color={"error"}
+                                                    disabled={
+                                                        values.exercise_records.every((record: any) => (
+                                                            !record.name && (record.no_of_reps === '-' || !record.no_of_reps) && (record.no_of_sets === '-' || !record.no_of_sets) && (record.resistance === '-' || !record.resistance) && (record.time === '-' || !record.time)
+                                                        ))
+                                                    }
+                                                    onClick={() => {
+                                                        handleExerciseLogClear(values, setFieldValue);
+                                                    }}
+                                                >
+                                                    Clear Exercise Log
+                                                </ButtonComponent>
+                                            </div>
+                                            <div className={'card-table-button-wrapper'}>
+                                                <CardComponent>
+                                                    <TableComponent
+                                                        data={values.exercise_records}
+                                                        onClick={(event) => handleContainerClick(event)}
+                                                        tabIndex={0}
+                                                        tableIndex={tableIndex}
+                                                        onKeyDown={handleKeyDown}
+                                                        rowClassName={(record: any, index: any) => ('row-' + index)}
+                                                        rowKey={(record: any, index: any) => index}
+                                                        columns={medicalInterventionExerciseLogColumns}/>
+                                                </CardComponent>
                                                 <div className={"h-v-center mrg-top-20 mrg-bottom-20"}>
                                                     <ButtonComponent
                                                         prefixIcon={<ImageConfig.AddIcon/>}
@@ -758,8 +747,8 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                                                         Add Exercise Row
                                                     </ButtonComponent>
                                                 </div>
-                                            </CardComponent>
-                                        </div>
+                                            </div>
+                                        </CardComponent>
 
                                         <CardComponent title={'Comments (if any)'}
                                                        className='mrg-top-20 pdd-bottom-25'>

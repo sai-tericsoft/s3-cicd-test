@@ -17,9 +17,6 @@ import {setCurrentNavParams} from "../../../store/actions/navigation.action";
 import {getMedicalInterventionDetails} from "../../../store/actions/chart-notes.action";
 import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
-import MedicalRecordBasicDetailsCardComponent
-    from "../medical-record-basic-details-card/MedicalRecordBasicDetailsCardComponent";
-import PageHeaderComponent from "../../../shared/components/page-header/PageHeaderComponent";
 import FormikSelectComponent from "../../../shared/components/form-controls/formik-select/FormikSelectComponent";
 import {AddIcon} from "../../../constants/ImageConfig";
 import FormControlLabelComponent from "../../../shared/components/form-control-label/FormControlLabelComponent";
@@ -27,8 +24,9 @@ import CheckBoxComponent from "../../../shared/components/form-controls/check-bo
 import TableV2Component from "../../../shared/components/table-v2/TableV2Component";
 import IconButtonComponent from "../../../shared/components/icon-button/IconButtonComponent";
 import {DeleteOutline} from "@mui/icons-material";
-import ClearIcon from '@mui/icons-material/Clear';
 import LoaderComponent from "../../../shared/components/loader/LoaderComponent";
+import MedicalInterventionDetailsCardComponent
+    from "../medical-intervention-details-card/MedicalInterventionDetailsCardComponent";
 
 interface MedicalInterventionFinalizeTreatmentScreenProps {
 
@@ -299,12 +297,11 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
     useEffect(() => {
         if (medicalRecordId && medicalInterventionId) {
             dispatch(setCurrentNavParams("Finalize Treatment", null, () => {
-                // if (medicalInterventionDetails?.status === 'completed') {
-                //     navigate(CommonService._routeConfig.ViewMedicalIntervention(medicalRecordId, medicalInterventionId));
-                navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId));
-                // } else {
-                //     navigate(CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, medicalInterventionId));
-                // }
+                if (medicalInterventionDetails?.status === 'completed') {
+                    navigate(CommonService._routeConfig.ViewMedicalIntervention(medicalRecordId, medicalInterventionId));
+                } else {
+                    navigate(CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, medicalInterventionId));
+                }
             }));
         }
     }, [dispatch, navigate, medicalInterventionDetails, medicalRecordId, medicalInterventionId]);
@@ -387,8 +384,12 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
                     <LoaderComponent/>
                     :
                     <>
-                        <PageHeaderComponent title={'Finalize Treatment'}/>
-                        <MedicalRecordBasicDetailsCardComponent/>
+                        <FormControlLabelComponent label={'Finalize Treatment'} size={'xl'}/>
+                        <MedicalInterventionDetailsCardComponent medicalInterventionDetails={medicalInterventionDetails}
+                                                                 mode={"edit"}
+                                                                 showAction={false}
+
+                        />
                         {/*{*/}
                         {/*    isMedicalInterventionDetailsLoading && <>*/}
                         {/*        <LoaderComponent/>*/}
@@ -412,8 +413,7 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
                                                         <div>
 
                                                             <div className='cpt-code-list-footer'>
-                                                                <div className="total-heading">Total number
-                                                                    of minutes
+                                                                <div className="total-heading">Total Minutes
                                                                 </div>
                                                                 <div
                                                                     className="total-minutes-wrapper">{totalMinutes}</div>
@@ -421,8 +421,8 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
                                                         </div>
                                                         <div>
                                                             <ButtonComponent
+                                                                variant={'outlined'}
                                                                 className={'white-space-nowrap mrg-right-10'}
-                                                                type={"button"}
                                                                 prefixIcon={<ImageConfig.EyeIcon/>}
                                                                 onClick={() => setEightMinuteRuleChartDrawerOpen(true)}
                                                             >
@@ -430,11 +430,10 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
                                                             </ButtonComponent>
                                                             <ButtonComponent
                                                                 className={'white-space-nowrap mrg-right-10'}
-                                                                type={"button"}
                                                                 color={"error"}
                                                                 variant={'outlined'}
                                                                 disabled={isSubmitting || isInterventionCheckingOut || selectedCptCodes?.length === 0}
-                                                                prefixIcon={<ClearIcon/>}
+                                                                prefixIcon={<ImageConfig.CrossOutlinedIcon/>}
                                                                 onClick={() => {
                                                                     setSelectedCptCodes([])
                                                                     setTotalMinutes(0);
@@ -458,7 +457,8 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
                                                         <TableV2Component
                                                             data={selectedCptCodes}
                                                             showFooter={true}
-                                                            noDataText={"No CPT code has been added yet."}
+                                                            noDataText={<div className={'no-code-text'}>No CPT Code have
+                                                                been selected yet.</div>}
                                                             columns={CPTCodesColumns}/>
                                                     </div>
                                                 </CardComponent>
@@ -467,12 +467,11 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
                                                         {
                                                             medicalRecordId && <>
                                                                 <ButtonComponent variant={"outlined"}
-                                                                                 size={'large'}
                                                                                  className={isSubmitting ? 'mrg-right-15' : ''}
                                                                                  disabled={isSubmitting || isInterventionCheckingOut}
                                                                                  onClick={() => navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId))}
                                                                 >
-                                                                    Home
+                                                                    Return to Record
                                                                 </ButtonComponent>&nbsp;&nbsp;
                                                             </>
                                                         }
@@ -480,7 +479,6 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
                                                     <ButtonComponent
                                                         type={"submit"}
                                                         className={'mrg-left-15'}
-                                                        size={'large'}
                                                         isLoading={isSubmitting}
                                                         disabled={
                                                             isSubmitting ||
@@ -516,7 +514,7 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
                                          closeOnEsc={false}
                                          closeOnBackDropClick={true}
                                          onClose={() => setSelectCPTCodeDrawerOpen(false)}>
-                            <FormControlLabelComponent size={'lg'} label={'Add CPT Code'}/>
+                            <FormControlLabelComponent size={'xl'} label={'Add CPT Code'}/>
                             <SearchComponent label={'Search'}
                                              placeholder={'Search CPT Code'}
                                              value={extraPayload.search}

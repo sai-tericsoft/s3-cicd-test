@@ -35,7 +35,7 @@ const Client8MinutesRuleChartComponent = (props: Client8MinutesRuleChartComponen
 
     return (
         <div className={'client-8-minutes-rule-chart-component'}>
-            <FormControlLabelComponent size={'lg'} label={'8-Minute Rule Reference Chart'}/>
+            <FormControlLabelComponent size={'xl'} label={'8-Minute Rule Reference Chart'}/>
             <TableComponent
                 data={eightMinuteRuleChart}
                 loading={isEightMinuteRuleChartLoading}
