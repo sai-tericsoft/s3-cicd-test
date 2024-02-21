@@ -665,27 +665,18 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                                                             <DataLabelValueComponent label={'Client Name'}>
                                                                 <div className={'d-flex'}>
                                                                     {CommonService.extractName(billDetail?.client_details) + " (ID: " + billDetail?.client_details?.client_id + ")"}&nbsp;
-                                                                    {/*<LinkComponent>View Details</LinkComponent>*/}
                                                                 </div>
                                                             </DataLabelValueComponent>
                                                         </div>
                                                         <div className={'ts-col-lg-3'}/>
                                                         <div className={'ts-col'}>
                                                             <DataLabelValueComponent label={'Case Name'}>
-
-                                                                {/*{billDetail?.medical_record_details?.injury_details && billDetail?.medical_record_details?.injury_details?.map((injury: any, index: number) => {*/}
-                                                                {/*    return (*/}
-                                                                {/*        <>*/}
-                                                                {/*            {index === 0 ? CommonService.convertDateFormat2(billDetail?.created_at) : " "} - {injury?.body_part_name} ({injury?.body_side})*/}
-                                                                {/*        </>*/}
-                                                                {/*    )*/}
-                                                                {/*})}*/}
-                                                                {billDetail?.medical_record_details?.created_at && CommonService.convertDateFormat2(billDetail?.medical_record_details?.created_at)}{" "}
-                                                                {"-"} {billDetail?.medical_record_details?.injury_details?.length > 0 ? billDetail?.medical_record_details?.injury_details?.map((injury: any, index: number) => {
+                                                                {billDetail?.medical_record_details?.created_at && CommonService.convertDateFormat2(billDetail?.medical_record_details?.created_at) + ' -'}
+                                                                 {(billDetail?.medical_record_details?.injury_details?.length > 0) && billDetail?.medical_record_details?.injury_details?.map((injury: any, index: number) => {
                                                                 return <>{" "}{injury?.body_part_name}{injury.body_side ? `(${injury.body_side})` : ''}{index !== billDetail?.medical_record_details?.injury_details?.length - 1 ? <>,</> : ''}</>
-                                                            }) : "N/A"}
+                                                            })}
                                                                 {
-                                                                    billDetail?.medical_record_details === undefined && <>N/A</>
+                                                                    (billDetail?.medical_record_details?.injury_details?.length === 0 || billDetail?.medical_record_details === undefined) && <>N/A</>
                                                                 }
                                                             </DataLabelValueComponent>
                                                         </div>
