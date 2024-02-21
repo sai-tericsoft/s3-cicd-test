@@ -159,7 +159,7 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
                 })
             }
         })
-    }, [dispatch,progressReportId]);
+    }, [dispatch, progressReportId]);
 
     const handleDeleteProgressReport = useCallback(() => {
         CommonService.onConfirm({
@@ -193,7 +193,7 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
                 CommonService._alert.showToast(error.error || "Error removing access", "error");
             });
 
-    }, [dispatch,progressReportId])
+    }, [dispatch, progressReportId])
 
     const handleRemoveAccess = useCallback((item: any) => {
         CommonService.onConfirm({
@@ -213,11 +213,13 @@ const MedicalRecordProgressReportViewDetailsScreen = (props: ProgressReportViewD
             <PageHeaderComponent title={"View Therapy Progress Report"} actions={
                 <div className="last-updated-status mrg-top-10">
                     <div className="last-updated-status-text">Last updated on:&nbsp;</div>
-                    <div
-                        className="last-updated-status-bold">
-                        {(progressReportDetails?.updated_at ? moment(progressReportDetails.updated_at).tz(moment.tz.guess()).format('DD-MMM-YYYY | hh:mm A z') : 'N/A')}&nbsp;-&nbsp;
-                        {progressReportDetails?.last_updated_by_details?.first_name ? progressReportDetails?.last_updated_by_details?.first_name + ' ' + progressReportDetails?.last_updated_by_details?.last_name : ' N/A'}
-                    </div>
+                    {
+                        isProgressReportDetailsLoaded && <div
+                            className="last-updated-status-bold">
+                            {(progressReportDetails?.updated_at ? moment(progressReportDetails.updated_at).tz(moment.tz.guess()).format('DD-MMM-YYYY | hh:mm A z') : 'N/A')}&nbsp;-&nbsp;
+                            {progressReportDetails?.last_updated_by_details?.first_name ? progressReportDetails?.last_updated_by_details?.first_name + ' ' + progressReportDetails?.last_updated_by_details?.last_name : ' N/A'}
+                        </div>
+                    }
                 </div>}/>
             {
                 progressReportDetails?.is_shared &&
