@@ -63,7 +63,7 @@ const ClientAddComponent = (props: ClientAddComponentProps) => {
     const onSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
         const payload = {
             ...values,
-            send_onboarded_email:(values?.send_onboarded_email ? false: true)
+            send_onboarded_email: (values?.send_onboarded_email ? false : true),
         };
         setIsClientAddInProgress(true);
         CommonService._client.ClientBasicDetailsAddAPICall(payload)

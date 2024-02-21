@@ -1,4 +1,5 @@
 import ENV from "./ENV";
+import moment from "moment";
 
 interface IAPIConfig {
     [k: string]: {
@@ -942,7 +943,7 @@ const APIConfig: IAPIConfig = {
         METHOD: 'put'
     },
     TODAY_BIRTHDAY_LIST: {
-        URL: ENV.API_URL + '/todayBirthdays',
+        URL: ENV.API_URL + `/todayBirthdays?date=${moment().format('YYYY-MM-DD')}`,
         METHOD: 'get'
     },
     SEND_BIRTHDAY_WISHES: {
