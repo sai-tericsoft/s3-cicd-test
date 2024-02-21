@@ -91,7 +91,7 @@ const EditMedicalRecordDocumentComponent = (props: EditMedicalRecordDocumentFile
                         }, [validateForm, values]);
                         return (
                             <Form className="t-form" noValidate={true}>
-                                <div className="t-form-controls">
+                                <div className="t-document-record-drawer-form-controls">
                                     <InputComponent className="t-form-control"
                                                     label={'Intervention Linked To'}
                                                     placeholder={'Intervention Linked To'}

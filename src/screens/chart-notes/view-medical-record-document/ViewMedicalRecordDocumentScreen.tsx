@@ -331,6 +331,7 @@ const ViewMedicalRecordDocumentScreen = (props: ViewMedicalRecordDocumentScreenP
                     medicalRecordDocumentId &&
                     <DrawerComponent isOpen={isEditMedicalRecordDocumentDrawerOpened}
                                      showClose={true}
+                                     className={'t-document-record-drawer'}
                                      onClose={closeEditMedicalRecordDocumentDrawer}>
                         <EditMedicalRecordDocumentComponent onEdit={handleEditMedicalRecordDocument}
                                                             medicalRecordDocumentId={medicalRecordDocumentId}

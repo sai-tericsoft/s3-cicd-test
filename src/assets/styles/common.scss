@@ -553,6 +553,11 @@
 
 }
 
+.t-document-record-drawer{
+  .t-document-record-drawer-form-controls{
+    height: calc(100vh - 210px);
+  }
+}
 
 .t-surgery-record-drawer {
   .MuiSvgIcon-root {
