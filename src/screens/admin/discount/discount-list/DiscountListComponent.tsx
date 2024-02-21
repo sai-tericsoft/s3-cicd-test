@@ -43,7 +43,7 @@ const DiscountListComponent = (props: DiscountListComponentProps) => {
                                     position={"top"}
                                     showArrow={true}
                                 >
-                                    <> {item?.title?.substring(0, 15) + '...'}</>
+                                    <div> {item?.title?.substring(0, 14) + '...'}</div>
                                 </ToolTipComponent> :
                                 <>
                                     {item?.title}

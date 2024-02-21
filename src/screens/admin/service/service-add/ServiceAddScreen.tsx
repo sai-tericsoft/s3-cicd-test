@@ -145,7 +145,7 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                         validateOnBlur={true}
                         enableReinitialize={true}
                         validateOnMount={true}>
-                        {({values, touched, errors, setFieldValue, validateForm}) => {
+                        {({values, touched, errors,isValid, setFieldValue, validateForm}) => {
                             // eslint-disable-next-line react-hooks/rules-of-hooks
                             useEffect(() => {
                                 console.log(values)
@@ -537,7 +537,6 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                                         {/*    route={CommonService._routeConfig.ServiceCategoryDetails(serviceCategoryId)}>*/}
                                         <ButtonComponent
                                             variant={"outlined"}
-                                            size={"large"}
                                             onClick={handleBackNavigation}
                                             disabled={isServiceAddInProgress}
                                             id={"sv_cancel_btn"}
@@ -549,7 +548,7 @@ const ServiceAddScreen = (props: ServiceAddComponentProps) => {
                                         <ButtonComponent
                                             isLoading={isServiceAddInProgress}
                                             type={"submit"}
-                                            size={"large"}
+                                            disabled={!isValid}
                                             className={'submit-cta'}
                                             id={"sv_save_btn"}
                                         >
