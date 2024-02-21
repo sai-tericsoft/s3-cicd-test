@@ -284,7 +284,7 @@ const ViewMedicalRecordDocumentScreen = (props: ViewMedicalRecordDocumentScreenP
                             }
                             {
                                 !medicalRecordDocumentDetails?.attachment && <>
-                                    <FormControlLabelComponent label={"Upload Document*"}/>
+                                    <FormControlLabelComponent label={"Upload Attachment"} className={'upload-document-heading'}/>
                                     <div className={'t-form'}>
                                         <div className="t-form-controls">
                                             {
@@ -307,19 +307,18 @@ const ViewMedicalRecordDocumentScreen = (props: ViewMedicalRecordDocumentScreenP
                                         <div className="t-form-actions">
                                             <ButtonComponent
                                                 variant={"outlined"}
-                                                size={'large'}
+                                                className={'mrg-right-15'}
                                                 onClick={() => setMedicalRecordDocumentAttachmentFile(undefined)}
                                                 disabled={isMedicalRecordAttachmentAdding}
                                             >
                                                 Cancel
-                                            </ButtonComponent>&nbsp;&nbsp;
+                                            </ButtonComponent>&nbsp;
                                             <ButtonComponent
-                                                size={'large'}
                                                 onClick={handleMedicalRecordDocumentAttachmentAdd}
                                                 disabled={!medicalRecordDocumentAttachmentFile || isMedicalRecordAttachmentAdding}
                                                 isLoading={isMedicalRecordAttachmentAdding}
                                             >
-                                                Save
+                                                Update
                                             </ButtonComponent>
                                         </div>
                                     </div>
