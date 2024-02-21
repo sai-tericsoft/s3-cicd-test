@@ -18,6 +18,7 @@ import * as Yup from "yup";
 import {IRootReducerState} from "../../../store/reducers";
 import {getInventoryProductList} from "../../../store/actions/inventory.action";
 import _ from "lodash";
+import ToolTipComponent from "../../../shared/components/tool-tip/ToolTipComponent";
 
 interface InventoryListScreenProps {
 
@@ -51,11 +52,20 @@ const InventoryListScreen = (props: InventoryListScreenProps) => {
             title: 'Product Name',
             dataIndex: 'name',
             key: 'name',
-            width: 363,
+            width: 183,
             fixed: 'left',
             render: (item: any) => {
                 return <LinkComponent route={CommonService._routeConfig.InventoryProductViewDetails(item?._id)}>
-                    {item?.name}</LinkComponent>
+                    {
+                        (item?.name?.length) > 18 ?
+                            <ToolTipComponent
+                                tooltip={item?.name}
+                                position={"top"}
+                                showArrow={true}>
+                                <div> {item?.name?.substring(0, 18) + '...'}</div>
+                            </ToolTipComponent> : item?.name
+                    }
+                </LinkComponent>
             }
         },
         {
