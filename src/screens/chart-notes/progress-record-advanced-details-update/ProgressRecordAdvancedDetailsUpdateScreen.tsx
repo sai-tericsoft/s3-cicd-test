@@ -281,17 +281,21 @@ const ProgressRecordAdvancedDetailsUpdateScreen = (props: ProgressRecordAdvanced
         })
     }, [medicalRecordId, navigate]);
 
+    console.log('clientMedicalRecordProgressReportDetails', clientMedicalRecordProgressReportDetails);
+
     return (
         <div className={'progress-record-advanced-details-update-screen'}>
             <PageHeaderComponent title={mode === 'add' ? "Add Therapy Progress Report" : "Edit Therapy Progress Report"}
                                  actions={
                                      <div className="last-updated-status mrg-top-15">
                                          <div className="last-updated-status-text">Last updated on:&nbsp;</div>
-                                         <div
-                                             className="last-updated-status-bold">
-                                             {(clientMedicalRecordProgressReportDetails?.updated_at ? moment(clientMedicalRecordProgressReportDetails.updated_at).tz(moment.tz.guess()).format('DD-MMM-YYYY | hh:mm A z') : 'N/A')}&nbsp;-&nbsp;
-                                             {clientMedicalRecordProgressReportDetails?.last_updated_by_details?.first_name ? clientMedicalRecordProgressReportDetails?.last_updated_by_details?.first_name + ' ' + clientMedicalRecordProgressReportDetails?.last_updated_by_details?.last_name : ' N/A'}
-                                         </div>
+                                         {
+                                             isClientMedicalRecordProgressReportDetailsLoaded && <div
+                                                 className="last-updated-status-bold">
+                                                 {(clientMedicalRecordProgressReportDetails?.updated_at ? moment(clientMedicalRecordProgressReportDetails.updated_at).tz(moment.tz.guess()).format('DD-MMM-YYYY | hh:mm A z') : 'N/A')}&nbsp;-&nbsp;
+                                                 {clientMedicalRecordProgressReportDetails?.last_updated_by_details?.first_name ? clientMedicalRecordProgressReportDetails?.last_updated_by_details?.first_name + ' ' + clientMedicalRecordProgressReportDetails?.last_updated_by_details?.last_name : ' N/A'}
+                                             </div>
+                                         }
                                      </div>}/>
             {
                 isClientMedicalRecordProgressReportDetailsLoading && <LoaderComponent/>
