@@ -1,7 +1,4 @@
 import "./MedicalInterventionRomConfigV2Screen.scss";
-import PageHeaderComponent from "../../../shared/components/page-header/PageHeaderComponent";
-import MedicalRecordBasicDetailsCardComponent
-    from "../medical-record-basic-details-card/MedicalRecordBasicDetailsCardComponent";
 import React, {useCallback, useEffect, useRef, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
@@ -23,6 +20,9 @@ import ModalComponent from "../../../shared/components/modal/ModalComponent";
 import FormikTextAreaComponent from "../../../shared/components/form-controls/formik-text-area/FormikTextAreaComponent";
 import CheckBoxComponent from "../../../shared/components/form-controls/check-box/CheckBoxComponent";
 import {setCurrentNavParams} from "../../../store/actions/navigation.action";
+import FormControlLabelComponent from "../../../shared/components/form-control-label/FormControlLabelComponent";
+import MedicalInterventionDetailsCardComponent
+    from "../medical-intervention-details-card/MedicalInterventionDetailsCardComponent";
 
 interface MedicalInterventionRomConfigV2ScreenProps {
 
@@ -324,11 +324,11 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
         }
     }, [medicalInterventionId, medicalInterventionDetails, dispatch]);
 
-    const onEditSuccess = useCallback(() => {
-        if (medicalInterventionId) {
-            dispatch(getMedicalInterventionDetails(medicalInterventionId));
-        }
-    }, [medicalInterventionId, dispatch]);
+    // const onEditSuccess = useCallback(() => {
+    //     if (medicalInterventionId) {
+    //         dispatch(getMedicalInterventionDetails(medicalInterventionId));
+    //     }
+    // }, [medicalInterventionId, dispatch]);
 
     useEffect(() => {
         if (medicalRecordId && medicalInterventionId) {
@@ -344,6 +344,12 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
         }
     }, [navigate, dispatch, medicalRecordId, medicalInterventionId, searchParams, last_position]);
 
+
+    const handleCancel = useCallback(() => {
+        if (medicalRecordId && medicalInterventionId) {
+            navigate(CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, medicalInterventionId) + `?last_position=${last_position}`);
+        }
+    }, [navigate, medicalRecordId, medicalInterventionId, last_position]);
 
     useEffect(() => {
         const romConfig: any = [];
@@ -452,7 +458,7 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
         } else {
             CommonService._alert.showToast('Please select a medical intervention', 'error');
         }
-    }, [medicalInterventionId,last_position, medicalRecordId, navigate]);
+    }, [medicalInterventionId, last_position, medicalRecordId, navigate]);
 
     const handleBodyPartDelete = useCallback((bodyPartId: string) => {
         if (medicalInterventionId) {
@@ -644,8 +650,10 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
 
     return (
         <div className={'medical-intervention-rom-config-v2-screen'}>
-            <PageHeaderComponent title={'Range of Motion and Strength'}/>
-            <MedicalRecordBasicDetailsCardComponent onEditCompleteAction={onEditSuccess}/>
+            <FormControlLabelComponent label={'Range of Motion and Strength'} size={'xl'}/>
+            <MedicalInterventionDetailsCardComponent medicalInterventionDetails={medicalInterventionDetails}
+                                                     mode={"edit"}
+                                                     showAction={false}/>
             <>
                 {/*{*/}
                 {/*    (isMedicalInterventionDetailsLoading) && <>*/}
@@ -737,7 +745,7 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
                                                                                         color={"error"}
                                                                                         variant={"outlined"}
                                                                                         prefixIcon={
-                                                                                            <ImageConfig.CloseIcon/>}
+                                                                                            <ImageConfig.CrossOutlinedIcon/>}
                                                                                         onClick={() => {
                                                                                             handleBodyPartDelete(bodyPartId);
                                                                                         }}
@@ -845,7 +853,8 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
                                                 </div>
                                                 <div>
                                                     <ButtonComponent
-                                                        prefixIcon={<ImageConfig.AddIcon/>}
+                                                        prefixIcon={<ImageConfig.AddCircleIcon/>}
+                                                        variant={'text'}
                                                         onClick={handleAddNewBodyPartOpenModal}
                                                     >
                                                         Add Body Part
@@ -853,6 +862,13 @@ const MedicalInterventionRomConfigV2Screen = (props: MedicalInterventionRomConfi
 
                                                 </div>
                                                 <div className={"h-v-center pdd-top-30"}>
+                                                    <ButtonComponent variant={'outlined'}
+                                                                     className={'mrg-right-15'}
+                                                                     onClick={handleCancel}
+                                                    >
+                                                        Cancel
+                                                    </ButtonComponent>
+                                                    &nbsp;
                                                     <ButtonComponent
                                                         type={"submit"}
                                                         size={'large'}

@@ -67,7 +67,7 @@ const ICDTableColumns: any = [
         title: 'Description',
         dataIndex: 'description',
         key: 'description',
-        width: 900
+        width: 820
 
     }
 ]
@@ -97,7 +97,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
             dataIndex: 'name',
             key: 'test_name',
             fixed: 'left',
-            width: 150,
+            width: 250,
         },
         {
             title: 'Left Side',
@@ -323,7 +323,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
         if (medicalRecordId) {
             navigate(CommonService._routeConfig.MedicalInterventionExerciseLogView(medicalRecordId, medicalInterventionDetails?._id))
         }
-    }, [navigate,medicalInterventionDetails?._id, medicalRecordId])
+    }, [navigate, medicalInterventionDetails?._id, medicalRecordId])
 
     console.log('medicalInterventionDetails', medicalInterventionDetails);
 
@@ -720,7 +720,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                                 <div className={'display-flex mrg-bottom-0'}>
                                                                     <FormControlLabelComponent
                                                                         size={'sm'}
-                                                                        className={'mrg-bottom-20'}
+                                                                        className={'mrg-bottom-20 special-test-view-header'}
                                                                         label={"Special Tests"}/>
                                                                     <div className={'not-texted-text-special-test'}>
                                                                         Not Tested
@@ -770,7 +770,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                                                 >
 
                                                                                     {medicalInterventionDetails?.special_tests.length > 0 ? medicalInterventionDetails?.special_tests.map((body_part: any) => {
-                                                                                        return (<div className={''}>
+                                                                                        return (<div>
                                                                                             <CardComponent
                                                                                                 size={'sm'}
                                                                                                 className={'body-part-card'}
@@ -962,7 +962,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                             {/*}*/}
                                                             {/*{*/}
 
-                                                            {(medicalInterventionDetails?.linked_icd_codes ===undefined || medicalInterventionDetails?.linked_icd_codes?.length === 0) &&
+                                                            {(medicalInterventionDetails?.linked_icd_codes === undefined || medicalInterventionDetails?.linked_icd_codes?.length === 0) &&
                                                                 <div className={'display-flex rom-icd-not-tested-block'}>
                                                                     <FormControlLabelComponent
                                                                         size={'sm'}
@@ -1013,10 +1013,12 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                                                                            }
                                                                                                        </>} readonly={<></>}/>
                                                                                                }>
-                                                                                    <TableComponent
-                                                                                        data={medicalInterventionDetails?.linked_icd_codes}
-                                                                                        bordered={true}
-                                                                                        columns={ICDTableColumns}/>
+                                                                                    <div className={'icd-table-wrapper'}>
+                                                                                        <TableComponent
+                                                                                            data={medicalInterventionDetails?.linked_icd_codes}
+                                                                                            bordered={true}
+                                                                                            columns={ICDTableColumns}/>
+                                                                                    </div>
                                                                                 </CardComponent>
                                                                             </div>
                                                                         </div>
@@ -1246,8 +1248,11 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                     />
                                                 </div>
                                             </div>
+                                        </CardComponent>
+                                        <div className={'ts-row'}>
+                                            <div className={'ts-col-9'}/>
                                             <div
-                                                className={"display-flex flex-direction-row-reverse mrg-top-20 mrg-bottom-25"}>
+                                                className={"display-flex flex-direction-row-reverse ts-col-3 mrg-top-20"}>
                                                 <ESignApprovalComponent isSigned={medicalInterventionDetails?.is_signed}
                                                                         isSigning={isSigningInProgress}
                                                                         signature_url={medicalInterventionDetails?.signature}
@@ -1258,7 +1263,7 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
                                                                             handleSign(formik.values, formik);
                                                                         }}/>
                                             </div>
-                                        </CardComponent>
+                                        </div>
                                     </div>
                                     {medicalInterventionDetails?.status === 'draft' && <div className="t-form-actions">
                                         <ButtonComponent
