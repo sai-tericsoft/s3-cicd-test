@@ -5,6 +5,7 @@
         padding: 0px !important;
       }
     }
+
     .body-part-rom-config-card {
       .card-header {
         .card-title {
@@ -16,12 +17,23 @@
         .t-table-wrapper {
           .t-table {
             min-height: max-content !important;
+            border-radius: 8px !important;
+
+            .header {
+              .t-tr {
+                .th {
+                  background: #F6FBFF !important;
+                  height: 56px !important;
+                }
+              }
+            }
           }
         }
       }
     }
   }
-  .t-cell-comments{
+
+  .t-cell-comments {
     justify-content: space-between !important;
     padding-left: 8px !important;
   }
