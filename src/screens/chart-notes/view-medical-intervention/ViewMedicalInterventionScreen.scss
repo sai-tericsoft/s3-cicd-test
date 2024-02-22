@@ -7,8 +7,8 @@
 .add-medical-intervention-screen {
   word-break: break-word;
 
-  .plan-card-wrapper{
-    .card-component{
+  .plan-card-wrapper {
+    .card-component {
       margin-bottom: 0 !important;
     }
   }
@@ -81,6 +81,7 @@
 
     .form-control-label {
       width: 175px;
+      color: #212B36 !important;
     }
 
     .completed-text {
@@ -93,6 +94,7 @@
   .rom-icd-not-tested-block {
     .form-control-label {
       width: 175px !important;
+      color: #212B36 !important;
     }
   }
 
