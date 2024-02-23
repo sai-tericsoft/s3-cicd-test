@@ -54,7 +54,7 @@ const AddSurgeryRecordComponent = (props: AddSurgeryRecordComponentProps) => {
             values.reported_by = values?.reported_by?._id;
             const formData = CommonService.getFormDataFromJSON(values);
             if (values.surgery_date) {
-                formData.append('surgery_date', values?.surgery_date);
+                formData.append('surgery_date', moment(values?.surgery_date).format("YYYY-MM-DD"));
             }
             CommonService._chartNotes.AddSurgeryRecordAPICall(medicalRecordDetails._id, formData)
                 .then((response: IAPIResponseType<any>) => {
@@ -170,7 +170,7 @@ const AddSurgeryRecordComponent = (props: AddSurgeryRecordComponentProps) => {
                                     {
                                         (!values.attachment) && <>
                                             <div className={'attachment-heading'}>
-                                               Upload Attachment:
+                                                Upload Attachment:
                                             </div>
                                             <FilePickerComponent maxFileCount={1}
                                                                  onFilesDrop={(acceptedFiles, rejectedFiles) => {

@@ -16,6 +16,7 @@ import FormikDatePickerComponent
 import InputComponent from "../../../shared/components/form-controls/input/InputComponent";
 import {useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
+import moment from "moment";
 
 const EditDryNeedlingFormValidationSchema = Yup.object({
     document_date: Yup.string()
@@ -43,8 +44,12 @@ const EditDryNeedlingFileComponent = (props: EditDryNeedlingFileComponentProps) 
     const [isDryNeedlingFileEditInProgress, setIsDryNeedlingFileAddInProgress] = useState(false);
 
     const onSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
+        const payload = {
+            ...values,
+            document_date: moment(values.document_date).format("YYYY-MM-DD")
+        }
         setIsDryNeedlingFileAddInProgress(true);
-        CommonService._chartNotes.DryNeedlingFileEditAPICall(dryNeedlingFileId, values)
+        CommonService._chartNotes.DryNeedlingFileEditAPICall(dryNeedlingFileId, payload)
             .then((response: IAPIResponseType<IServiceCategory>) => {
                 CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                 setIsDryNeedlingFileAddInProgress(false);

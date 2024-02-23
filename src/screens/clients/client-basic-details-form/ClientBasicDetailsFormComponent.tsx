@@ -257,88 +257,88 @@ const ClientBasicDetailsFormComponent = (props: ClientBasicDetailsFormComponentP
     } = useSelector((state: IRootReducerState) => state.staticData);
 
     const onSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
-        const payload = {
-            ...CommonService.removeKeysFromJSON(_.cloneDeep(values), ['language_details', 'phone_type_details', 'relationship_details', 'gender_details', 'employment_status_details']),
-            mode
-        };
-        // payload['dob'] = CommonService.convertDateFormat(payload['dob']);
-        if (payload.show_secondary_emergency_form === false) {
-            payload.emergency_contact_info.secondary_emergency = undefined;
-        }
-        setIsClientBasicDetailsSavingInProgress(true);
-        if (clientId) {
-            if (mode === 'add' || mode === 'edit') {
-                CommonService._client.ClientBasicDetailsEditAPICall(clientId, payload)
-                    .then((response: IAPIResponseType<IClientBasicDetails>) => {
-                        // CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
-                        setIsClientBasicDetailsSavingInProgress(false);
-                        dispatch(setClientBasicDetails(response.data));
-                        onSave(response.data);
-                    }).catch((error: any) => {
-                    CommonService.handleErrors(setErrors, error, true);
-                    console.log('errors', error);
-                    setIsClientBasicDetailsSavingInProgress(false);
-                })
+        try {
+            const payload = {
+                ...CommonService.removeKeysFromJSON(_.cloneDeep(values), ['language_details', 'phone_type_details', 'relationship_details', 'gender_details', 'employment_status_details']),
+                mode
+            };
+            payload['dob'] = CommonService.convertDateFormat(payload['dob']);
+            if (payload.show_secondary_emergency_form === false) {
+                payload.emergency_contact_info.secondary_emergency = undefined;
             }
+            setIsClientBasicDetailsSavingInProgress(true);
+            if (clientId) {
+                if (mode === 'add' || mode === 'edit') {
+                    CommonService._client.ClientBasicDetailsEditAPICall(clientId, payload)
+                        .then((response: IAPIResponseType<IClientBasicDetails>) => {
+                            // CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+                            setIsClientBasicDetailsSavingInProgress(false);
+                            dispatch(setClientBasicDetails(response.data));
+                            onSave(response.data);
+                        }).catch((error: any) => {
+                        CommonService.handleErrors(setErrors, error, true);
+                        console.log('errors', error);
+                        setIsClientBasicDetailsSavingInProgress(false);
+                    });
+                }
+            }
+        } catch (error) {
+            // Handle any synchronous errors here
+            console.error("An error occurred:", error);
+            // Optionally, notify the user or handle the error as needed
+            setIsClientBasicDetailsSavingInProgress(false);
         }
-        // let apiCall;
-        // if (mode === "edit" && clientId) {
-        //     apiCall = CommonService._client.ClientBasicDetailsEditAPICall(clientId, payload);
-        // } else {
-        //     apiCall = CommonService._client.ClientBasicDetailsAddAPICall(payload);
-        // }
-        // apiCall.then((response: IAPIResponseType<IClientBasicDetails>) => {
-        //     CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
-        //     setIsClientBasicDetailsSavingInProgress(false);
-        //     dispatch(setClientBasicDetails(response.data));
-        //     onSave(response.data);
-        // }).catch((error: any) => {
-        //     CommonService.handleErrors(setErrors, error, true);
-        //     setIsClientBasicDetailsSavingInProgress(false);
-        // })
     }, [onSave, clientId, dispatch, mode]);
 
+
     const patchClientBasicDetails = useCallback(() => {
-        if (clientBasicDetails) {
-            const primaryEmergency = clientBasicDetails?.emergency_contact_info?.primary_emergency;
-            if ((primaryEmergency?.secondary_contact_info?.every((contact: any) => contact.phone_type === "" && contact.phone === ""))) {
-                clientBasicDetails.emergency_contact_info.primary_emergency.secondary_contact_info = undefined;
+        try {
+            if (clientBasicDetails) {
+                const primaryEmergency = clientBasicDetails?.emergency_contact_info?.primary_emergency;
+                if ((primaryEmergency?.secondary_contact_info?.every((contact: any) => contact.phone_type === "" && contact.phone === ""))) {
+                    clientBasicDetails.emergency_contact_info.primary_emergency.secondary_contact_info = undefined;
+                }
+                const tempSecondaryEmergency = clientBasicDetails?.emergency_contact_info?.secondary_emergency;
+                if ((tempSecondaryEmergency?.secondary_contact_info?.every((contact: any) => contact.phone_type === "" && contact.phone === ""))) {
+                    clientBasicDetails.emergency_contact_info.secondary_emergency.secondary_contact_info = undefined;
+                }
+                if (tempSecondaryEmergency?.name || tempSecondaryEmergency?.language_details || tempSecondaryEmergency?.relationship || tempSecondaryEmergency?.primary_contact_info?.phone || tempSecondaryEmergency?.primary_contact_info?.phone_type || (tempSecondaryEmergency?.secondary_contact_info && tempSecondaryEmergency?.secondary_contact_info?.length > 0
+                    && tempSecondaryEmergency?.secondary_contact_info?.some((contact: any) => contact.phone_type !== "" || contact.phone !== ""))) {
+                    clientBasicDetails.show_secondary_emergency_form = true;
+                } else {
+                    clientBasicDetails.show_secondary_emergency_form = false;
+                }
+                if (clientBasicDetails?.secondary_contact_info?.length === 0) {
+                    clientBasicDetails.secondary_contact_info = [{
+                        phone: "",
+                        phone_type: ""
+                    }];
+                }
+                if (clientBasicDetails?.secondary_emails?.length === 0) {
+                    clientBasicDetails.secondary_emails = [{
+                        email: "",
+                    }];
+                }
+                if (!clientBasicDetails?.secondary_emails?.some((item: any) => item.email !== "")) clientBasicDetails.secondary_emails = undefined;
+                if (!clientBasicDetails?.secondary_contact_info?.some((item: any) => item.phone !== "" || item.phone_type !== "")) clientBasicDetails.secondary_contact_info = undefined;
+                if (!clientBasicDetails?.primary_email) {
+                    clientBasicDetails.primary_email = "";
+                }
+                if (!clientBasicDetails?.primary_contact_info) {
+                    clientBasicDetails.primary_contact_info = PhoneObj;
+                }
+                setClientBasicDetailsFormInitialValues(clientBasicDetails);//TODO: Will fix this later
+                setTimeout(() => {
+                    formikRef.current?.validateForm(clientBasicDetails);
+                }, 100);
             }
-            const tempSecondaryEmergency = clientBasicDetails?.emergency_contact_info?.secondary_emergency;
-            if ((tempSecondaryEmergency?.secondary_contact_info?.every((contact: any) => contact.phone_type === "" && contact.phone === ""))) {
-                clientBasicDetails.emergency_contact_info.secondary_emergency.secondary_contact_info = undefined;
-            }
-            if (tempSecondaryEmergency?.name || tempSecondaryEmergency?.language_details || tempSecondaryEmergency?.relationship || tempSecondaryEmergency?.primary_contact_info?.phone || tempSecondaryEmergency?.primary_contact_info?.phone_type || (tempSecondaryEmergency?.secondary_contact_info && tempSecondaryEmergency?.secondary_contact_info?.length > 0
-                && tempSecondaryEmergency?.secondary_contact_info?.some((contact: any) => contact.phone_type !== "" || contact.phone !== ""))) {
-                clientBasicDetails.show_secondary_emergency_form = true;
-            } else {
-                clientBasicDetails.show_secondary_emergency_form = false;
-            }
-            if (clientBasicDetails?.secondary_contact_info?.length === 0) {
-                clientBasicDetails.secondary_contact_info = [{
-                    phone: "",
-                    phone_type: ""
-                }];
-            }
-            if (clientBasicDetails?.secondary_emails?.length === 0) {
-                clientBasicDetails.secondary_emails = [{
-                    email: "",
-                }];
-            }
-            if (!clientBasicDetails?.secondary_emails?.some((item: any) => item.email !== "")) clientBasicDetails.secondary_emails = undefined;
-            if (!clientBasicDetails?.secondary_contact_info?.some((item: any) => item.phone !== "" || item.phone_type !== "")) clientBasicDetails.secondary_contact_info = undefined;
-            if (!clientBasicDetails?.primary_email) {
-                clientBasicDetails.primary_email = "";
-            }
-            if (!clientBasicDetails?.primary_contact_info) {
-                clientBasicDetails.primary_contact_info = PhoneObj;
-            }
-            setClientBasicDetailsFormInitialValues(clientBasicDetails);//TODO: Will fix this later
-            setTimeout(() => {
-                formikRef.current?.validateForm(clientBasicDetails);
-            }, 100);
+        } catch (error) {
+            // Handle any synchronous errors here
+            console.error("An error occurred:", error);
+            // Optionally, notify the user or handle the error as needed
         }
     }, [clientBasicDetails])
+
 
     useEffect(() => {
         if (clientBasicDetails) {

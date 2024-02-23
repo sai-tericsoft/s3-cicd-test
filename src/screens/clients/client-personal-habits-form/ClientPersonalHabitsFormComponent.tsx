@@ -117,23 +117,31 @@ const ClientPersonalHabitsFormComponent = (props: ClientPersonalHabitsFormCompon
     } = useSelector((state: IRootReducerState) => state.client);
 
     const onSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
-        const payload = {...values, mode};
-        setIsClientPersonalHabitsSavingInProgress(true);
-        CommonService._client.ClientPersonalHabitsAddAPICall(clientId, payload)
-            .then((response: IAPIResponseType<IClientPersonalHabitsForm>) => {
-                if (clientId) {
-                    dispatch(getClientMedicalDetails(clientId));
-                }
-                // CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
-                setIsClientPersonalHabitsSavingInProgress(false);
-                setClientPersonalHabitsFormInitialValues(_.cloneDeep(values));
-                onSave(response);
-            })
-            .catch((error: any) => {
-                CommonService.handleErrors(setErrors, error, true);
-                setIsClientPersonalHabitsSavingInProgress(false);
-            })
+        try {
+            const payload = {...values, mode};
+            setIsClientPersonalHabitsSavingInProgress(true);
+            CommonService._client.ClientPersonalHabitsAddAPICall(clientId, payload)
+                .then((response: IAPIResponseType<IClientPersonalHabitsForm>) => {
+                    if (clientId) {
+                        dispatch(getClientMedicalDetails(clientId));
+                    }
+                    // CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+                    setIsClientPersonalHabitsSavingInProgress(false);
+                    setClientPersonalHabitsFormInitialValues(_.cloneDeep(values));
+                    onSave(response);
+                })
+                .catch((error: any) => {
+                    CommonService.handleErrors(setErrors, error, true);
+                    setIsClientPersonalHabitsSavingInProgress(false);
+                });
+        } catch (error) {
+            // Handle any synchronous errors here
+            console.error("An error occurred:", error);
+            // Optionally, notify the user or handle the error as needed
+            setIsClientPersonalHabitsSavingInProgress(false);
+        }
     }, [clientId, onSave, mode, dispatch]);
+
 
     useEffect(() => {
         if (clientMedicalDetails && clientMedicalDetails.personal_habits) {

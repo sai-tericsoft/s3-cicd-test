@@ -61,21 +61,28 @@ const UserAddComponent = (props: UserAddComponentProps) => {
         roleList
     } = useSelector((state: IRootReducerState) => state.staticData);
 
-    const onUserAdd = useCallback((values: any, {setErrors, setSubmitting}: FormikHelpers<any>) => {
-        const payload = _.cloneDeep(values);
-        if (payload?.assigned_facilities?.length) {
-            payload.assigned_facilities = payload.assigned_facilities.map((item: any) => item._id,);
-        }
-        setSubmitting(true);
-        CommonService._user.getUserAdd(payload)
-            .then((response: any) => {
+    const onUserAdd = useCallback((values: any, { setErrors, setSubmitting }: FormikHelpers<any>) => {
+        try {
+            const payload = _.cloneDeep(values);
+            if (payload?.assigned_facilities?.length) {
+                payload.assigned_facilities = payload.assigned_facilities.map((item: any) => item._id);
+            }
+            setSubmitting(true);
+            CommonService._user.getUserAdd(payload)
+                .then((response: any) => {
+                    setSubmitting(false);
+                    CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+                    navigate(CommonService._routeConfig.UserSlots(response.data._id) + '?currentStepId=' + response.data.assigned_facilities[0]);
+                }).catch((error: any) => {
                 setSubmitting(false);
-                CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
-                navigate(CommonService._routeConfig.UserSlots(response.data._id) + '?currentStepId=' + response.data.assigned_facilities[0]);
-            }).catch((error: any) => {
+                CommonService.handleErrors(setErrors, error, true);
+            });
+        } catch (error) {
+            // Handle any synchronous errors here
+            console.error("An error occurred:", error);
+            CommonService._alert.showToast("An error occurred", "error");
             setSubmitting(false);
-            CommonService.handleErrors(setErrors, error, true);
-        });
+        }
     }, [navigate]);
 
     useEffect(() => {
@@ -218,8 +225,8 @@ const UserAddComponent = (props: UserAddComponentProps) => {
 
                                 <ButtonComponent
                                     variant={"outlined"}
-                                    size={'large'}
                                     onClick={handleBackNavigation}
+                                    className={'mrg-right-15'}
                                     disabled={isSubmitting}
                                     id={"medical_record_add_cancel_btn"}
                                 >
@@ -229,8 +236,6 @@ const UserAddComponent = (props: UserAddComponentProps) => {
                                 <ButtonComponent
                                     isLoading={isSubmitting}
                                     type={"submit"}
-                                    size={'large'}
-                                    className={'submit-cta'}
                                     disabled={!isValid || isSubmitting}
                                     id={"medical_record_add_save_btn"}
                                 >

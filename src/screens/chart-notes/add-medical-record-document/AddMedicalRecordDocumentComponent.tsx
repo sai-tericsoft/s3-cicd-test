@@ -60,24 +60,33 @@ const AddMedicalRecordDocumentComponent = (props: AddMedicalRecordDocumentCompon
 
     const onSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
         setIsMedicalRecordDocumentFileAddInProgress(true);
-        const tempValues = {...values}
-        // let tempDocument_date = tempValues.remove("document_date")
-        // const formData = CommonService.getFormDataFromJSON(tempValues);
-        // formData.append("document_date", values?.document_date);
-        CommonService._chartNotes.MedicalRecordDocumentAddAPICall(medicalRecordId, tempValues)
-            .then((response: IAPIResponseType<any>) => {
-                CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
-                setIsMedicalRecordDocumentFileAddInProgress(false);
-                navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId) + '?activeTab=attachmentList')
-                setRefreshToken && setRefreshToken(Math.random().toString(36).substring(7));
-                onAdd(response.data);
-            })
-            .catch((error: any) => {
-                // CommonService.handleErrors(setErrors, error, true);
-                CommonService._alert.showToast(error, "error");
-                setIsMedicalRecordDocumentFileAddInProgress(false);
-            })
+        try {
+            const tempValues = {...values};
+            tempValues.document_date = moment(values?.document_date).format("YYYY-MM-DD");
+            // let tempDocument_date = tempValues.remove("document_date");
+            // const formData = CommonService.getFormDataFromJSON(tempValues);
+            // formData.append("document_date", moment(values?.document_date).format("YYYY-MM-DD"));
+            CommonService._chartNotes.MedicalRecordDocumentAddAPICall(medicalRecordId, tempValues)
+                .then((response: IAPIResponseType<any>) => {
+                    CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+                    setIsMedicalRecordDocumentFileAddInProgress(false);
+                    navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId) + '?activeTab=attachmentList');
+                    setRefreshToken && setRefreshToken(Math.random().toString(36).substring(7));
+                    onAdd(response.data);
+                })
+                .catch((error: any) => {
+                    // CommonService.handleErrors(setErrors, error, true);
+                    CommonService._alert.showToast(error, "error");
+                    setIsMedicalRecordDocumentFileAddInProgress(false);
+                });
+        } catch (error) {
+            // Handle any synchronous errors here
+            console.error("An error occurred in api:", error);
+            setIsMedicalRecordDocumentFileAddInProgress(false);
+            CommonService._alert.showToast("An error occurred in Api", "error");
+        }
     }, [navigate, medicalRecordId, onAdd, setRefreshToken]);
+
 
     return (
         <div className="add-medical-record-document-component">

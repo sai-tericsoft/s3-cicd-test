@@ -19,6 +19,7 @@ import FormikDatePickerComponent
 import InputComponent from "../../../shared/components/form-controls/input/InputComponent";
 import {useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
+import moment from "moment";
 
 const AddDryNeedlingFormValidationSchema = Yup.object({
     document_date: Yup.mixed()
@@ -53,7 +54,7 @@ const AddDryNeedlingFileComponent = (props: AddDryNeedlingFileComponentProps) =>
         setIsDryNeedlingFileAddInProgress(true);
         const tempPayload = _.cloneDeep(values);
         const formData = CommonService.getFormDataFromJSON(values);
-        formData.append('document_date', tempPayload?.document_date);
+        formData.append('document_date', moment(tempPayload?.document_date).format("YYYY-MM-DD"));
         try {
             CommonService._chartNotes.DryNeedlingFileAddAPICall(medicalInterventionId, formData)
                 .then((response: IAPIResponseType<any>) => {
@@ -86,7 +87,7 @@ const AddDryNeedlingFileComponent = (props: AddDryNeedlingFileComponentProps) =>
                     validateOnMount={true}
                     onSubmit={onSubmit}
                 >
-                    {({values,isValid, touched, errors, setFieldValue, validateForm}) => {
+                    {({values, isValid, touched, errors, setFieldValue, validateForm}) => {
                         // eslint-disable-next-line react-hooks/rules-of-hooks
                         useEffect(() => {
                             validateForm();
@@ -135,8 +136,9 @@ const AddDryNeedlingFileComponent = (props: AddDryNeedlingFileComponentProps) =>
                                             )
                                         }
                                     </Field>
-                                    <div >
-                                        <FormControlLabelComponent label={"Upload Attachment"} className={'upload-dry-needling-heading'}
+                                    <div>
+                                        <FormControlLabelComponent label={"Upload Attachment"}
+                                                                   className={'upload-dry-needling-heading'}
                                                                    required={true}/>
                                         <>
                                             {

@@ -86,8 +86,8 @@ const CouponAddScreen = (props: CouponAddScreenProps) => {
 
     const onCouponAddSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
         const payload = _.cloneDeep(values);
-        // payload.start_date = moment(payload?.start_date).format('YYYY-MM-DD');
-        // payload.end_date = moment(payload?.end_date).format('YYYY-MM-DD');
+        payload.start_date = moment(payload?.start_date).format('YYYY-MM-DD');
+        payload.end_date = moment(payload?.end_date).format('YYYY-MM-DD');
         const linked_service_categories = payload?.service_categories?.filter((item: any) => item?.services?.length > 0);
         const linked_service_categories_transformed = linked_service_categories.map((item: any) => {
             return {

@@ -16,6 +16,7 @@ import InputComponent from "../../../shared/components/form-controls/input/Input
 import {useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
 import FormikSelectComponent from "../../../shared/components/form-controls/formik-select/FormikSelectComponent";
+import moment from "moment";
 
 const EditMedicalRecordDocumentFormValidationSchema = Yup.object({
     document_date: Yup.mixed()
@@ -27,7 +28,7 @@ const EditMedicalRecordDocumentFormValidationSchema = Yup.object({
 
 const EditMedicalRecordDocumentFormInitialValues: IMedicalRecordDocumentEditForm = {
     document_date: new Date(),
-    document_type_id : "",
+    document_type_id: "",
     comments: ""
 };
 
@@ -48,7 +49,11 @@ const EditMedicalRecordDocumentComponent = (props: EditMedicalRecordDocumentFile
 
     const onSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
         setIsMedicalRecordDocumentFileAddInProgress(true);
-        CommonService._chartNotes.MedicalRecordDocumentEditAPICall(medicalRecordDocumentId, values)
+        const payload = {
+            ...values,
+            document_date: moment(values.document_date).format("YYYY-MM-DD")
+        }
+        CommonService._chartNotes.MedicalRecordDocumentEditAPICall(medicalRecordDocumentId, payload)
             .then((response: IAPIResponseType<any>) => {
                 CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                 setIsMedicalRecordDocumentFileAddInProgress(false);
@@ -155,7 +160,7 @@ const EditMedicalRecordDocumentComponent = (props: EditMedicalRecordDocumentFile
                                         type={"submit"}
                                         fullWidth={true}
                                     >
-                                        {isMedicalRecordDocumentFileEditInProgress ? "Saving" : "Save"}
+                                        {isMedicalRecordDocumentFileEditInProgress ? "Updating" : "Update"}
                                     </ButtonComponent>
                                 </div>
                             </Form>
