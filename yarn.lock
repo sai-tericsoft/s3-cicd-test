@@ -9311,10 +9311,10 @@ react-list@^0.8.13:
   dependencies:
     prop-types "15"
 
-react-mentions@^4.4.7:
-  version "4.4.7"
-  resolved "https://registry.yarnpkg.com/react-mentions/-/react-mentions-4.4.7.tgz#af8dce00f50ed8be23e46040e7c6f3f3e7a79c13"
-  integrity sha512-VNriu2h/uOB+RS0mwZgPG2Vf+UtdDvRh5zbXa2TNc1WqacKuNDgTdhlbo9LEOZRBxRzIeTUYQmYJ7p9M9rDHqQ==
+react-mentions@^4.4.10:
+  version "4.4.10"
+  resolved "https://registry.yarnpkg.com/react-mentions/-/react-mentions-4.4.10.tgz#ae6c1e310a405597e83ce786f12c5bfb93b097ce"
+  integrity sha512-JHiQlgF1oSZR7VYPjq32wy97z1w1oE4x10EuhKjPr4WUKhVzG1uFQhQjKqjQkbVqJrmahf+ldgBTv36NrkpKpA==
   dependencies:
     "@babel/runtime" "7.4.5"
     invariant "^2.2.4"
