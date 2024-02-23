@@ -44,6 +44,7 @@ import FormikDatePickerComponent
     from "../../../shared/components/form-controls/formik-date-picker/FormikDatePickerComponent";
 import commonService from "../../../shared/services/common.service";
 import momentTimezone from "moment-timezone";
+import moment from "moment";
 
 interface MedicalInterventionDetailsCardComponentProps {
     showAction?: boolean,
@@ -257,9 +258,13 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
     }, [medicalInterventionId, handleNotifyAdminModalClose]);
 
     const onInterventionDateEdit = useCallback((values: any, {setErrors, setSubmitting}: FormikHelpers<any>) => {
+        const payload = {
+            ...values,
+            intervention_date: moment(values.intervention_date).format('YYYY-MM-DD'),
+        }
         setSubmitting(true)
         if (medicalInterventionId) {
-            CommonService._chartNotes.MedicalInterventionBasicDetailsUpdateAPICall(medicalInterventionId, values)
+            CommonService._chartNotes.MedicalInterventionBasicDetailsUpdateAPICall(medicalInterventionId, payload)
                 .then((response) => {
                     CommonService._alert.showToast("Details edited", "success");
                     setSubmitting(false);
@@ -516,6 +521,7 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
 
             <DrawerComponent isOpen={isAddConcussionFileDrawerOpen}
                 // showClose={true}
+                             className={'t-document-record-drawer'}
                              onClose={closeAddConcussionFileDrawer}>
                 <AddConcussionFileComponent
                     medicalRecordDetails={medicalInterventionDetails?.medical_record_details}
