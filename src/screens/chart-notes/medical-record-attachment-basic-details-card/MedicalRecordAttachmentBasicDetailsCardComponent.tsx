@@ -78,12 +78,12 @@ const MedicalRecordAttachmentBasicDetailsCardComponent = (props: MedicalRecordAt
     }, [onRemoveAccess]);
 
     const handlePrint = useCallback(() => {
-
         if (medicalRecordDocumentId) {
             const payload = {
                 note_type_category: noteTypeCategory,
                 timezone: momentTimezone.tz.guess(),
             }
+
             CommonService._chartNotes.PrintDocument(medicalRecordDetails?._id, medicalRecordDocumentId, payload)
                 .then((res: any) => {
                     const attachment = {
@@ -98,7 +98,9 @@ const MedicalRecordAttachmentBasicDetailsCardComponent = (props: MedicalRecordAt
                     console.log(err);
                 });
         }
+
     }, [medicalRecordDetails?._id, medicalRecordDocumentId, noteTypeCategory]);
+
 
     return (
         <div className={"medical-record-attachment-basic-details-card-component"}>
@@ -118,9 +120,9 @@ const MedicalRecordAttachmentBasicDetailsCardComponent = (props: MedicalRecordAt
                         on <b>{tempAttachmentDetails?.shared_at ? CommonService.transformTimeStamp(tempAttachmentDetails?.shared_at) : 'N/A'}</b>.
                     </div>
                     <LinkComponent className={'remove-access'}
-                        onClick={() => {
-                            handleRemoveAccess(tempAttachmentDetails);
-                        }}
+                                   onClick={() => {
+                                       handleRemoveAccess(tempAttachmentDetails);
+                                   }}
 
                     >
                         Remove Access
@@ -186,7 +188,7 @@ const MedicalRecordAttachmentBasicDetailsCardComponent = (props: MedicalRecordAt
                             </ButtonComponent>}
 
                             <MenuDropdownComponent className={'billing-details-drop-down-menu'} menuBase={
-                                <ButtonComponent  variant={'outlined'} fullWidth={true}
+                                <ButtonComponent variant={'outlined'} fullWidth={true}
                                 >
                                     Select Action &nbsp;<ImageConfig.SelectDropDownIcon/>
                                 </ButtonComponent>

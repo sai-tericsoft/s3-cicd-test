@@ -246,6 +246,7 @@ const ViewDryNeedlingFileScreen = (props: ViewDryNeedlingFileScreenProps) => {
                             onEdit={openEditDryNeedlingFileDrawer}
                             onRemoveAccess={removeAccess}
                             showEdit={true}
+                            medicalRecordDocumentId={dryNeedlingFileId}
                             onDryNeedingShare={handleDryNeedlingShare}
                             noteTypeCategory={dryNeedlingFileDetails?.note_type_category}
                         />
