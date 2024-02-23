@@ -93,7 +93,7 @@ const AddDryNeedlingFileComponent = (props: AddDryNeedlingFileComponentProps) =>
                         }, [validateForm, values]);
                         return (
                             <Form className="t-form" noValidate={true}>
-                                <div className="t-form-controls">
+                                <div className="t-form-control">
                                     <InputComponent className="t-form-control"
                                                     label={'Intervention Linked to'}
                                                     placeholder={'Intervention Linked to'}

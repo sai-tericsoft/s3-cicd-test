@@ -560,6 +560,12 @@
   }
 }
 
+.t-dry-needling-record-drawer{
+  .t-dry-needling-record-drawer-form-controls{
+    height: calc(100vh - 140px) !important;
+  }
+}
+
 .t-surgery-record-drawer {
   .MuiSvgIcon-root {
     color: #275778 !important;
