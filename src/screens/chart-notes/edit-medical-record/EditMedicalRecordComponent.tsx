@@ -103,6 +103,8 @@ const EditMedicalRecordComponent = (props: EditMedicalRecordComponentProps) => {
 
     const onSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
         const payload = {...CommonService.removeKeysFromJSON(_.cloneDeep(values), ['body_part_details'])};
+        payload.onset_date = moment(payload.onset_date).format('YYYY-MM-DD');
+
         if (medicalRecordId) {
             setIsMedicalRecordEditInProgress(true);
             CommonService._chartNotes.MedicalRecordEditAPICall(medicalRecordId, payload)
@@ -345,8 +347,9 @@ const EditMedicalRecordComponent = (props: EditMedicalRecordComponentProps) => {
                                                                     color={"error"}
                                                                     fullWidth={true}
                                                                     variant={"outlined"}
-                                                                    prefixIcon={<ImageConfig.CrossOutlinedIcon height={'16'}
-                                                                                                       width={'16'}/>}
+                                                                    prefixIcon={<ImageConfig.CrossOutlinedIcon
+                                                                        height={'16'}
+                                                                        width={'16'}/>}
                                                                     onClick={() => {
                                                                         arrayHelpers.remove(index);
                                                                     }}>

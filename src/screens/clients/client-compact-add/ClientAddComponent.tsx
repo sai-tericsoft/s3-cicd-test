@@ -61,60 +61,75 @@ const ClientAddComponent = (props: ClientAddComponentProps) => {
     const dispatch = useDispatch();
 
     const onSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
-        const payload = {
-            ...values,
-            send_onboarded_email: (values?.send_onboarded_email ? false : true),
-        };
-        setIsClientAddInProgress(true);
-        CommonService._client.ClientBasicDetailsAddAPICall(payload)
-            .then((response: any) => {
-                console.log('response', response);
-                setIsClientAddInProgress(false);
-                dispatch(setClientBasicDetails(response.data));
-                dispatch(setClientMedicalDetails(undefined));
-                // CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
-                navigate(CommonService._routeConfig.ClientAdd(response.data._id));
-            }).catch((error: any) => {
-            setIsClientAddInProgress(false);
-            CommonService.handleErrors(setErrors, error, true);
-        });
-
-    }, [navigate, dispatch]);
-
-    const handleInviteLink = useCallback((values: any, setErrors: any) => {
-        const payload = {
-            ...values,
-            send_invite: true,
-            send_onboarded_email: false
-        };
-        CommonService.onConfirm({
-            image: ImageConfig.PopupLottie,
-            showLottie: true,
-            confirmationTitle: 'SEND INVITE LINK',
-            confirmationSubTitle: 'Are you sure you want to send invite link to:',//${values.first_name} ${values.last_name} having email ${values.primary_email}?`,
-            confirmationDescription: <div className="transfer-file-to">
-                <div className={'mrg-bottom-15'}>
-                    <span className={'client-case-name-title '}>Client:</span>
-                    <span>{values.first_name} {values.last_name}</span>
-                </div>
-                <div>
-                    <span className={'client-case-name-title'}>&nbsp;Email:</span> <span>{values.primary_email}</span>
-                </div>
-            </div>
-
-        }).then(() => {
+        try {
+            const payload = {
+                ...values,
+                send_onboarded_email: (values?.send_onboarded_email ? false : true),
+                dob: moment(values?.dob).format('YYYY-MM-DD')
+            };
+            setIsClientAddInProgress(true);
             CommonService._client.ClientBasicDetailsAddAPICall(payload)
                 .then((response: any) => {
-                    CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
-                    onAdd();
+                    console.log('response', response);
+                    setIsClientAddInProgress(false);
+                    dispatch(setClientBasicDetails(response.data));
+                    dispatch(setClientMedicalDetails(undefined));
+                    // CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+                    navigate(CommonService._routeConfig.ClientAdd(response.data._id));
                 }).catch((error: any) => {
                 setIsClientAddInProgress(false);
                 CommonService.handleErrors(setErrors, error, true);
-                CommonService._alert.showToast(error.error || "Error in sending link", "error");
-
             });
-        })
+        } catch (error) {
+            // Handle any synchronous errors here
+            console.error("An error occurred:", error);
+            // Optionally, notify the user or handle the error as needed
+            setIsClientAddInProgress(false);
+        }
+    }, [navigate, dispatch]);
+
+
+    const handleInviteLink = useCallback((values: any, setErrors: any) => {
+        try {
+            const payload = {
+                ...values,
+                send_invite: true,
+                send_onboarded_email: false
+            };
+            CommonService.onConfirm({
+                image: ImageConfig.PopupLottie,
+                showLottie: true,
+                confirmationTitle: 'SEND INVITE LINK',
+                confirmationSubTitle: 'Are you sure you want to send invite link to:',//${values.first_name} ${values.last_name} having email ${values.primary_email}?`,
+                confirmationDescription: <div className="transfer-file-to">
+                    <div className={'mrg-bottom-15'}>
+                        <span className={'client-case-name-title '}>Client:</span>
+                        <span>{values.first_name} {values.last_name}</span>
+                    </div>
+                    <div>
+                        <span className={'client-case-name-title'}>&nbsp;Email:</span>
+                        <span>{values.primary_email}</span>
+                    </div>
+                </div>
+
+            }).then(() => {
+                CommonService._client.ClientBasicDetailsAddAPICall(payload)
+                    .then((response: any) => {
+                        CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+                        onAdd();
+                    }).catch((error: any) => {
+                    setIsClientAddInProgress(false);
+                    CommonService.handleErrors(setErrors, error, true);
+                    CommonService._alert.showToast(error.error || "Error in sending link", "error");
+                });
+            });
+        } catch (error) {
+            // Handle any synchronous errors here
+            console.error("An error occurred:", error);
+            // Optionally, notify the user or handle the error as needed
+        }
     }, [onAdd]);
+
 
     return (
         <div className={'client-add-component'}>

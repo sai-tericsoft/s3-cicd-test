@@ -203,7 +203,7 @@ const AddMedicalRecordScreen = (props: AddMedicalRecordScreenProps) => {
                 payload.surgery_details.surgery_date = CommonService.convertDateFormat(payload?.surgery_details?.surgery_date);
             }
             const formData = CommonService.getFormDataFromJSON(payload);
-            formData.append('onset_date', tempPayload.onset_date);
+            formData.append('onset_date', moment(tempPayload.onset_date).format('YYYY-MM-DD'));
             if (tempPayload.case_physician.next_appointment) {
                 formData.append('case_physician.next_appointment', tempPayload?.case_physician?.next_appointment);
             }

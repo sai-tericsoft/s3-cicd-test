@@ -24,6 +24,7 @@ import LinkComponent from "../../../shared/components/link/LinkComponent";
 import FormikSsnInputComponent from "../../../shared/components/form-controls/formik-ssn-input/FormikSsnInputComponent";
 import {ICheckLoginResponse} from "../../../shared/models/account.model";
 import {setLoggedInUserData} from "../../../store/actions/account.action";
+import moment from "moment";
 
 interface UserPersonalDetailsEditComponentProps {
     handleNext: () => void
@@ -92,37 +93,48 @@ const UserPersonalDetailsEditComponent = (props: UserPersonalDetailsEditComponen
         }
     }, [userBasicDetails])
 
-    const onSubmit = useCallback((values: any, {setErrors, setSubmitting}: FormikHelpers<any>) => {
-        setSubmitting(true);
-        const payload = {...values}
-        if (payload.signature === initialValues.signature) {
-            delete payload.signature
-        }
-        if (payload?.assigned_facilities?.length) {
-            payload.assigned_facilities = payload.assigned_facilities.map((item: any) => item._id);
-            const facilityIdsArray = initialValues.assigned_facilities.map((item: any) => item._id);
-            if (CommonService.areArraysEqual(facilityIdsArray, payload.assigned_facilities)) {
-                delete payload.assigned_facilities
+    const onSubmit = useCallback((values: any, { setErrors, setSubmitting }: FormikHelpers<any>) => {
+        try {
+            setSubmitting(true);
+            const payload = {
+                ...values,
+                dob: moment(values.dob).format("YYYY-MM-DD")
             }
-        }
+            if (payload.signature === initialValues.signature) {
+                delete payload.signature
+            }
+            if (payload?.assigned_facilities?.length) {
+                payload.assigned_facilities = payload.assigned_facilities.map((item: any) => item._id);
+                const facilityIdsArray = initialValues.assigned_facilities.map((item: any) => item._id);
+                if (CommonService.areArraysEqual(facilityIdsArray, payload.assigned_facilities)) {
+                    delete payload.assigned_facilities
+                }
+            }
 
-        CommonService._user.userEdit(userBasicDetails._id, payload)
-            .then((response: IAPIResponseType<any>) => {
-                // CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+            CommonService._user.userEdit(userBasicDetails._id, payload)
+                .then((response: IAPIResponseType<any>) => {
+                    // CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+                    setSubmitting(false);
+                    CommonService._account.CheckLoginAPICall(token)
+                        .then((response: IAPIResponseType<ICheckLoginResponse>) => {
+                            dispatch(setLoggedInUserData(response.data.user));
+                        })
+                        .catch(() => {
+
+                        });
+                    dispatch(setUserBasicDetails(response.data));
+                }).catch((error: any) => {
+                CommonService.handleErrors(setErrors, error, true);
                 setSubmitting(false);
-                CommonService._account.CheckLoginAPICall(token)
-                    .then((response: IAPIResponseType<ICheckLoginResponse>) => {
-                        dispatch(setLoggedInUserData(response.data.user));
-                    })
-                    .catch(() => {
-
-                    });
-                dispatch(setUserBasicDetails(response.data));
-            }).catch((error: any) => {
-            CommonService.handleErrors(setErrors, error, true);
+            });
+        } catch (error) {
+            // Handle any synchronous errors here
+            console.error("An error occurred:", error);
+            CommonService._alert.showToast("An error occurred", "error");
             setSubmitting(false);
-        })
+        }
     }, [userBasicDetails, dispatch, initialValues, token]);
+
 
     return (
         <div className={'user-personal-details-edit-component'}>
@@ -347,7 +359,7 @@ const UserPersonalDetailsEditComponent = (props: UserPersonalDetailsEditComponen
                                                             }}
                                                             signature_url={values?.signature}
                                     /> <br/>
-                                    <LinkComponent onClick={() => {
+                                    <LinkComponent className={'remove-signature'} onClick={() => {
                                         setFieldValue('signature', '');
                                     }
                                     }>

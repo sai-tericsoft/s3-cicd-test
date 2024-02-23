@@ -20,6 +20,7 @@ import ErrorComponent from "../../../shared/components/error/ErrorComponent";
 import FilePreviewThumbnailComponent
     from "../../../shared/components/file-preview-thumbnail/FilePreviewThumbnailComponent";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
+import moment from "moment";
 
 const AddConcussionFileAddFormValidationSchema = Yup.object({
     document_date: Yup.mixed()
@@ -60,7 +61,7 @@ const AddConcussionFileComponent = (props: AddConcussionFileComponentProps) => {
         const tempValues = _.cloneDeep(values);
         values.concussion_type_id = selectedConcussionFileType?._id;
         const formData = CommonService.getFormDataFromJSON(values);
-        formData.append("document_date", tempValues?.document_date);
+        formData.append("document_date", moment(tempValues?.document_date).format("YYYY-MM-DD"));
         try {
             CommonService._chartNotes.ConcussionFileAddAPICall(medicalInterventionId, formData)
                 .then((response: IAPIResponseType<any>) => {

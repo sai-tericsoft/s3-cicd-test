@@ -11,7 +11,6 @@ import ErrorComponent from "../../../shared/components/error/ErrorComponent";
 import FilePreviewThumbnailComponent
     from "../../../shared/components/file-preview-thumbnail/FilePreviewThumbnailComponent";
 import ButtonComponent from "../../../shared/components/button/ButtonComponent";
-import LinkComponent from "../../../shared/components/link/LinkComponent";
 import {CommonService} from "../../../shared/services";
 import {setCurrentNavParams} from "../../../store/actions/navigation.action";
 import {useDispatch} from "react-redux";
@@ -96,29 +95,40 @@ const AddInventoryProductComponent = (props: AddInventoryProductComponentProps) 
             }));
         }, [navigate, dispatch]);
 
-        const calculateSalePrice = useCallback((retailPrice: any, discountType: any, discount: any) => {
+    const calculateSalePrice = useCallback((retailPrice: any, discountType: any, discount: any) => {
+        try {
             if (!retailPrice || !discountType) {
                 return null;
             }
             switch (discountType) {
-                case 'percentage'   :
+                case 'percentage':
                     if (discount === 100) return 0;
                     const discountAmount = (retailPrice * discount) / 100;
                     return CommonService.convertToDecimals(retailPrice - discountAmount);
-                case 'amount'   :
+                case 'amount':
                     if ((retailPrice - discount) > 0) {
                         return CommonService.convertToDecimals(retailPrice - discount);
                     } else if ((retailPrice - discount) === 0) {
                         return 0;
                     }
                     return null;
-
-                case'n/a':
+                case 'n/a':
                     return retailPrice;
                 default:
                     return null;
             }
-        },[]);
+        } catch (error) {
+            // Handle any synchronous errors here
+            console.error("An error occurred:", error);
+            // Optionally, notify the user or handle the error as needed
+            return null;
+        }
+    }, []);
+
+
+    const handleCancel = useCallback(() => {
+            navigate(CommonService._routeConfig.InventoryList());
+        }, [navigate]);
 
 
         return (
@@ -137,7 +147,7 @@ const AddInventoryProductComponent = (props: AddInventoryProductComponentProps) 
                             validateForm();
                             calculateSalePrice(values?.retail_price, values?.discount_type, values?.discount);
                             setFieldValue('sale_price', calculateSalePrice(values?.retail_price, values?.discount_type, values?.discount));
-                        }, [setFieldValue,validateForm, values]);
+                        }, [setFieldValue, validateForm, values]);
                         return (
                             <Form className="t-form" noValidate={true}>
                                 <FormDebuggerComponent values={values} errors={errors} showDebugger={true}/>
@@ -344,16 +354,15 @@ const AddInventoryProductComponent = (props: AddInventoryProductComponentProps) 
                                     </>
                                 </CardComponent>
                                 <div className="t-form-actions">
-                                    <LinkComponent route={CommonService._routeConfig.InventoryList()}>
-                                        <ButtonComponent
-                                            variant={"outlined"}
-                                            id={"cancel_btn"}
-                                            size={"large"}
-                                            className={"cancel-cta"}
-                                        >
-                                            Cancel
-                                        </ButtonComponent>
-                                    </LinkComponent>
+                                    <ButtonComponent
+                                        variant={"outlined"}
+                                        onClick={handleCancel}
+                                        id={"cancel_btn"}
+                                        className={"mrg-right-15"}
+                                    >
+                                        Cancel
+                                    </ButtonComponent>
+
                                     &nbsp;
                                     <ButtonComponent
                                         type={"submit"}

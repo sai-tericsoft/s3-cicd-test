@@ -229,7 +229,7 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
                         .catch((error: any) => {
                             CommonService._alert.showToast(error, "error");
                         });
-                } catch (error:any) {
+                } catch (error: any) {
                     CommonService._alert.showToast(error, "error");
                 }
             })
@@ -259,10 +259,15 @@ const SurgeryRecordViewScreen = (props: SurgeryRecordViewScreenProps) => {
 
     const [isEditSurgeryRecordDrawerOpen, setIsEditSurgeryRecordDrawerOpen] = useState<boolean>(false);
     const [isEditInProgress, setIsEditInProgress] = useState<boolean>(false);
+
     const onEditSurgerySubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
+        const payload = {
+            ...values,
+            surgery_date: moment(values.surgery_date).format("YYYY-MM-DD")
+        }
         if (surgeryRecordId) {
             setIsEditInProgress(true);
-            CommonService._chartNotes.UpdateSurgeryRecordAPICall(surgeryRecordId, values)
+            CommonService._chartNotes.UpdateSurgeryRecordAPICall(surgeryRecordId, payload)
                 .then((response: IAPIResponseType<any>) => {
                     CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                     setIsEditSurgeryRecordDrawerOpen(false);

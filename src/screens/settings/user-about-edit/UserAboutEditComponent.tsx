@@ -65,20 +65,28 @@ const UserAboutEditComponent = (props: UserAboutEditComponentProps) => {
     }, [userBasicDetails])
 
     const onSubmit = useCallback((values: any, {setErrors, setSubmitting}: FormikHelpers<any>) => {
-        let payload = {
-            ...CommonService.removeKeysFromJSON(_.cloneDeep(values), ['assigned_facility_details', 'gender_details']),
-        };
-
-        setSubmitting(true);CommonService._user.userEdit(userBasicDetails._id, payload)
-            .then((response: IAPIResponseType<any>) => {
-                // CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+        try {
+            setSubmitting(true);
+            let payload = {
+                ...CommonService.removeKeysFromJSON(_.cloneDeep(values), ['assigned_facility_details', 'gender_details']),
+            };
+            CommonService._user.userEdit(userBasicDetails._id, payload)
+                .then((response: IAPIResponseType<any>) => {
+                    // CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+                    setSubmitting(false);
+                    dispatch(setUserBasicDetails(response.data));
+                }).catch((error: any) => {
+                CommonService.handleErrors(setErrors, error, true);
                 setSubmitting(false);
-                dispatch(setUserBasicDetails(response.data));
-            }).catch((error: any) => {
-            CommonService.handleErrors(setErrors, error, true);
+            });
+        } catch (error) {
+            // Handle any synchronous errors here
+            console.error("An error occurred:", error);
+            // Optionally, notify the user or handle the error as needed
             setSubmitting(false);
-        })
+        }
     }, [userBasicDetails, dispatch]);
+
 
     return (
         <div className={'user-about-edit-component'}>

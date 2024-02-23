@@ -16,6 +16,7 @@ import FormikDatePickerComponent
 import InputComponent from "../../../shared/components/form-controls/input/InputComponent";
 import {useSelector} from "react-redux";
 import {IRootReducerState} from "../../../store/reducers";
+import moment from "moment";
 
 const EditConcussionFileFormValidationSchema = Yup.object({
     document_date: Yup.string()
@@ -43,8 +44,12 @@ const EditConcussionFileComponent = (props: EditConcussionFileComponentProps) =>
     const [isConcussionFileEditInProgress, setIsConcussionFileAddInProgress] = useState(false);
 
     const onSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
+        const payload = {
+            ...values,
+            document_date: moment(values.document_date).format("YYYY-MM-DD")
+        }
         setIsConcussionFileAddInProgress(true);
-        CommonService._chartNotes.ConcussionFileEditAPICall(concussionFileId, values)
+        CommonService._chartNotes.ConcussionFileEditAPICall(concussionFileId, payload)
             .then((response: IAPIResponseType<IServiceCategory>) => {
                 CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
                 setIsConcussionFileAddInProgress(false);
@@ -135,7 +140,7 @@ const EditConcussionFileComponent = (props: EditConcussionFileComponentProps) =>
                                         type={"submit"}
                                         fullWidth={true}
                                     >
-                                        {isConcussionFileEditInProgress ? "Saving" : "Save"}
+                                        {isConcussionFileEditInProgress ? "Updating" : "Update"}
                                     </ButtonComponent>
                                 </div>
                             </Form>

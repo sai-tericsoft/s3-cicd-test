@@ -66,33 +66,41 @@ const UserEducationDetailsEditComponent = (props: UserEducationDetailsEditCompon
         }
     }, [userBasicDetails]);
 
-    const onSubmit = useCallback((values: any, {setErrors, setSubmitting}: FormikHelpers<any>) => {
-        console.log(values);
-        const payload = {...values}
-        if (payload.education_details.length) {
-            payload.education_details = payload.education_details.map((item: any) => ({
-                ...item,
-                // start_date: CommonService.convertDateFormat(item?.start_date),
-                // end_date: CommonService.convertDateFormat(item?.end_date),
-            }));
-        }
-        setSubmitting(true);
-        CommonService._user.userEdit(userBasicDetails._id, payload)
-            .then((response: IAPIResponseType<any>) => {
-                // CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+    const onSubmit = useCallback((values: any, { setErrors, setSubmitting }: FormikHelpers<any>) => {
+        try {
+            console.log(values);
+            const payload = { ...values };
+            if (payload.education_details.length) {
+                payload.education_details = payload.education_details.map((item: any) => ({
+                    ...item,
+                    start_date: CommonService.convertDateFormat(item?.start_date),
+                    end_date: CommonService.convertDateFormat(item?.end_date),
+                }));
+            }
+            setSubmitting(true);
+            CommonService._user.userEdit(userBasicDetails._id, payload)
+                .then((response: IAPIResponseType<any>) => {
+                    // CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+                    setSubmitting(false);
+                    dispatch(setUserBasicDetails(response.data));
+                    if (path.includes('settings')) {
+                        navigate(CommonService._routeConfig.PersonalDetails());
+                    } else {
+                        navigate(CommonService._routeConfig.UserPersonalDetails(userBasicDetails._id) + '?userId=' + userBasicDetails?._id)
+                    }
+                }).catch((error: any) => {
+                CommonService.handleErrors(setErrors, error, true);
+                console.log('errors', error);
                 setSubmitting(false);
-                dispatch(setUserBasicDetails(response.data));
-                if (path.includes('settings')) {
-                    navigate(CommonService._routeConfig.PersonalDetails());
-                } else {
-                    navigate(CommonService._routeConfig.UserPersonalDetails(userBasicDetails._id) + '?userId=' + userBasicDetails?._id)
-                }
-            }).catch((error: any) => {
-            CommonService.handleErrors(setErrors, error, true);
-            console.log('errors', error);
+            });
+        } catch (error) {
+            // Handle any synchronous errors here
+            console.error("An error occurred:", error);
+            CommonService._alert.showToast("An error occurred", "error");
             setSubmitting(false);
-        })
+        }
     }, [userBasicDetails, dispatch, navigate, path]);
+
 
 
     return (

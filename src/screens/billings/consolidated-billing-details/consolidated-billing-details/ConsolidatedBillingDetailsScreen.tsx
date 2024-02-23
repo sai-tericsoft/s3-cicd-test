@@ -80,21 +80,31 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
         }, [dispatch]);
 
         const fetchBillingDetails = useCallback(() => {
-            setIsBillingDetailsBeingLoading(true);
-            setIsBillingDetailsBeingLoadingFailed(false);
-            setIsBillingDetailsBeingLoaded(false);
-            consolidatedBillingId && CommonService._billingsService.GetConsolidatedBillingDetails(consolidatedBillingId, {})
-                .then((response) => {
-                    setIsBillingDetailsBeingLoading(false);
-                    setSelectedAddress(response?.data?.billing_address)
-                    setIsBillingDetailsBeingLoaded(true);
-                    setBillingDetails(response?.data);
-                }).catch((error) => {
-                    setBillingDetails(undefined)
-                    setIsBillingDetailsBeingLoading(false);
-                    setIsBillingDetailsBeingLoadingFailed(true);
-                });
+            try {
+                setIsBillingDetailsBeingLoading(true);
+                setIsBillingDetailsBeingLoadingFailed(false);
+                setIsBillingDetailsBeingLoaded(false);
+                if (consolidatedBillingId) {
+                    CommonService._billingsService.GetConsolidatedBillingDetails(consolidatedBillingId, {})
+                        .then((response) => {
+                            setIsBillingDetailsBeingLoading(false);
+                            setSelectedAddress(response?.data?.billing_address);
+                            setIsBillingDetailsBeingLoaded(true);
+                            setBillingDetails(response?.data);
+                        }).catch((error) => {
+                        setBillingDetails(undefined);
+                        setIsBillingDetailsBeingLoading(false);
+                        setIsBillingDetailsBeingLoadingFailed(true);
+                    });
+                }
+            } catch (error) {
+                // Handle any synchronous errors here
+                console.error("An error occurred:", error);
+                setIsBillingDetailsBeingLoading(false);
+                setIsBillingDetailsBeingLoadingFailed(true);
+            }
         }, [consolidatedBillingId]);
+
 
         useEffect(() => {
             fetchBillingDetails();
@@ -121,57 +131,72 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
         }, [navigate, dispatch, searchParams]);
 
         const removePayment = useCallback((removedPayment: any, index: number, billingDetails: any) => {
-            const tempBillingDetails = _.cloneDeep(billingDetails);
-            const currentClientIndex = tempBillingDetails.bills_details.findIndex((item: any) => item.bills.find((bill: any) => bill._id === removedPayment._id));
-            if (tempBillingDetails.bills_details[currentClientIndex].bills.length === 1) {
-                tempBillingDetails.bills_details.splice(currentClientIndex, 1);
-            } else {
-                tempBillingDetails.bills_details[currentClientIndex].bills.splice(index, 1);
-                tempBillingDetails.bills_details[currentClientIndex].totalAmount = tempBillingDetails.bills_details[currentClientIndex].bills.reduce((acc: any, item: any) => {
-                    return acc + item.total;
+            try {
+                const tempBillingDetails = _.cloneDeep(billingDetails);
+                const currentClientIndex = tempBillingDetails.bills_details.findIndex((item: any) => item.bills.find((bill: any) => bill._id === removedPayment._id));
+                if (tempBillingDetails.bills_details[currentClientIndex].bills.length === 1) {
+                    tempBillingDetails.bills_details.splice(currentClientIndex, 1);
+                } else {
+                    tempBillingDetails.bills_details[currentClientIndex].bills.splice(index, 1);
+                    tempBillingDetails.bills_details[currentClientIndex].totalAmount = tempBillingDetails.bills_details[currentClientIndex].bills.reduce((acc: any, item: any) => {
+                        return acc + item.total;
+                    }, 0);
+                    tempBillingDetails.bills_details[currentClientIndex].totalDiscount = tempBillingDetails.bills_details[currentClientIndex].bills.reduce((acc: any, item: any) => {
+                        return acc + item.discount;
+                    }, 0);
+                    tempBillingDetails.bills_details[currentClientIndex].totalPayableAmount = tempBillingDetails.bills_details[currentClientIndex].bills.reduce((acc: any, item: any) => {
+                        return acc + item.payable_amount;
+                    }, 0);
+                }
+                tempBillingDetails.payable_amount = tempBillingDetails.bills_details.reduce((acc: any, item: any) => {
+                    return acc + item.totalPayableAmount;
                 }, 0);
-                tempBillingDetails.bills_details[currentClientIndex].totalDiscount = tempBillingDetails.bills_details[currentClientIndex].bills.reduce((acc: any, item: any) => {
-                    return acc + item.discount;
+                tempBillingDetails.discount = tempBillingDetails.bills_details.reduce((acc: any, item: any) => {
+                    return acc + item.totalDiscount;
                 }, 0);
-                tempBillingDetails.bills_details[currentClientIndex].totalPayableAmount = tempBillingDetails.bills_details[currentClientIndex].bills.reduce((acc: any, item: any) => {
-                    return acc + item.payable_amount;
+                tempBillingDetails.total = tempBillingDetails.bills_details.reduce((acc: any, item: any) => {
+                    return acc + item.totalAmount;
                 }, 0);
+                // eslint-disable-next-line array-callback-return
+                tempBillingDetails.bill_ids = tempBillingDetails.bill_ids.filter((billId: any) => billId !== removedPayment._id)
+                setBillingDetails(tempBillingDetails);
+            } catch (error) {
+                // Handle any synchronous errors here
+                console.error("An error occurred:", error);
+                // Optionally, notify the user or handle the error as needed
             }
-            tempBillingDetails.payable_amount = tempBillingDetails.bills_details.reduce((acc: any, item: any) => {
-                return acc + item.totalPayableAmount;
-            }, 0);
-            tempBillingDetails.discount = tempBillingDetails.bills_details.reduce((acc: any, item: any) => {
-                return acc + item.totalDiscount;
-            }, 0);
-            tempBillingDetails.total = tempBillingDetails.bills_details.reduce((acc: any, item: any) => {
-                return acc + item.totalAmount;
-            }, 0);
-            // eslint-disable-next-line array-callback-return
-            tempBillingDetails.bill_ids = tempBillingDetails.bill_ids.filter((billId: any) => billId !== removedPayment._id)
-            setBillingDetails(tempBillingDetails);
         }, []);
 
-        const handleDeleteConsolidatedBill = useCallback((type: any) => {
-            CommonService.onConfirm({
-                image: ImageConfig.ConfirmationLottie,
-                showLottie: true,
-                confirmationTitle: `DELETE CONSOLIDATED ${type?.toLocaleUpperCase()}`,
-                confirmationSubTitle: 'Are you sure you want to permanently delete this\n' +
-                    `consolidated ${type}? This action cannot be undone.`
-            }).then(() => {
-                setIsConsolidatedBillDeleted(true);
-                consolidatedBillingId && CommonService._billingsService.DeleteConsolidatedBill(consolidatedBillingId, {})
-                    .then((response: any) => {
-                        setIsConsolidatedBillDeleted(false);
-                        CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
-                        navigate(CommonService._routeConfig.BillingList() + '?activeTab=consolidatedPayments')
-                    }).catch((error: any) => {
-                        setIsConsolidatedBillDeleted(false);
-                        CommonService._alert.showToast(error.error || "Error deleting provider", "error");
-                    })
-            })
 
+        const handleDeleteConsolidatedBill = useCallback((type: any) => {
+            try {
+                CommonService.onConfirm({
+                    image: ImageConfig.ConfirmationLottie,
+                    showLottie: true,
+                    confirmationTitle: `DELETE CONSOLIDATED ${type?.toLocaleUpperCase()}`,
+                    confirmationSubTitle: 'Are you sure you want to permanently delete this\n' +
+                        `consolidated ${type}? This action cannot be undone.`
+                }).then(() => {
+                    setIsConsolidatedBillDeleted(true);
+                    if (consolidatedBillingId) {
+                        CommonService._billingsService.DeleteConsolidatedBill(consolidatedBillingId, {})
+                            .then((response: any) => {
+                                setIsConsolidatedBillDeleted(false);
+                                CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+                                navigate(CommonService._routeConfig.BillingList() + '?activeTab=consolidatedPayments');
+                            }).catch((error: any) => {
+                            setIsConsolidatedBillDeleted(false);
+                            CommonService._alert.showToast(error.error || "Error deleting provider", "error");
+                        });
+                    }
+                });
+            } catch (error) {
+                // Handle any synchronous errors here
+                console.error("An error occurred:", error);
+                // Optionally, notify the user or handle the error as needed
+            }
         }, [consolidatedBillingId, navigate]);
+
 
         const handleRemovePayment = useCallback((item: any, index: number) => () => {
 
@@ -376,25 +401,34 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
         }, [closeBillingAddressFormDrawer]);
 
         const handleSave = useCallback((thankYouNote: any, comments: any, selectedAddress: any, billingDetails: any) => {
-            setIsSubmitting(true);
-            setIsMarkAsPaidDisabled(false);
-            const payload = {
-                "billing_address_id": selectedAddress?._id,
-                "thankyou_note": thankYouNote,
-                "comments": comments,
-                "bill_ids": [...billingDetails?.bill_ids]
+            try {
+                setIsSubmitting(true);
+                setIsMarkAsPaidDisabled(false);
+                const payload = {
+                    "billing_address_id": selectedAddress?._id,
+                    "thankyou_note": thankYouNote,
+                    "comments": comments,
+                    "bill_ids": [...billingDetails?.bill_ids]
+                };
+                if (consolidatedBillingId) {
+                    CommonService._billingsService.EditConsolidatedBill(consolidatedBillingId, payload)
+                        .then((response) => {
+                            setIsSubmitting(false);
+                            CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY] || "Billing updated successfully", "success");
+                            // navigate(CommonService._routeConfig.BillingList() + '?activeTab=consolidatedPayments');
+                        }).catch((error) => {
+                        setIsSubmitting(false);
+                        CommonService._alert.showToast(error.error || error.errors || "Failed to update billing", "error");
+                    });
+                }
+            } catch (error) {
+                // Handle any synchronous errors here
+                console.error("An error occurred:", error);
+                // Optionally, notify the user or handle the error as needed
+                setIsSubmitting(false);
             }
-            consolidatedBillingId && CommonService._billingsService.EditConsolidatedBill(consolidatedBillingId, payload)
-                .then((response) => {
-                    setIsSubmitting(false);
-                    CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY] || "Billing updated successfully", "success");
-                    // navigate(CommonService._routeConfig.BillingList() + '?activeTab=consolidatedPayments');
-                }).catch((error) => {
-                    setIsSubmitting(false);
-                    CommonService._alert.showToast(error.error || error.errors || "Failed to update billing", "error");
-                })
-
         }, [consolidatedBillingId]);
+
 
         const handleCancel = useCallback(() => {
             navigate(CommonService._routeConfig.BillingList() + '?activeTab=consolidatedPayments');
@@ -672,9 +706,9 @@ const ConsolidatedBillingDetailsScreen = (props: ConsolidatedBillingDetailsScree
                                                         <div className={'ts-col'}>
                                                             <DataLabelValueComponent label={'Case Name'}>
                                                                 {billDetail?.medical_record_details?.created_at && CommonService.convertDateFormat2(billDetail?.medical_record_details?.created_at) + ' -'}
-                                                                 {(billDetail?.medical_record_details?.injury_details?.length > 0) && billDetail?.medical_record_details?.injury_details?.map((injury: any, index: number) => {
-                                                                return <>{" "}{injury?.body_part_name}{injury.body_side ? `(${injury.body_side})` : ''}{index !== billDetail?.medical_record_details?.injury_details?.length - 1 ? <>,</> : ''}</>
-                                                            })}
+                                                                {(billDetail?.medical_record_details?.injury_details?.length > 0) && billDetail?.medical_record_details?.injury_details?.map((injury: any, index: number) => {
+                                                                    return <>{" "}{injury?.body_part_name}{injury.body_side ? `(${injury.body_side})` : ''}{index !== billDetail?.medical_record_details?.injury_details?.length - 1 ? <>,</> : ''}</>
+                                                                })}
                                                                 {
                                                                     (billDetail?.medical_record_details?.injury_details?.length === 0 || billDetail?.medical_record_details === undefined) && <>N/A</>
                                                                 }
