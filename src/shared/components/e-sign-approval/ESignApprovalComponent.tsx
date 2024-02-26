@@ -7,7 +7,7 @@ import {CommonService} from "../../services";
 import LoaderComponent from "../loader/LoaderComponent";
 import {IAPIResponseType} from "../../models/api.model";
 import {ICheckLoginResponse} from "../../models/account.model";
-import { setLoggedInUserData, setLoggedInUserToken} from "../../../store/actions/account.action";
+import {setLoggedInUserData, setLoggedInUserToken} from "../../../store/actions/account.action";
 import {Misc} from "../../../constants";
 
 interface ESignApprovalComponentProps {
@@ -34,7 +34,7 @@ const ESignApprovalComponent = (props: ESignApprovalComponentProps) => {
 
 
     useEffect(() => {
-        if(!signature_url){
+        if (!signature_url) {
             const token = CommonService._localStorage.getItem(Misc.LOCAL_STORAGE_JWT_TOKEN);
             if (token) {
                 CommonService._account.CheckLoginAPICall(token)
@@ -58,7 +58,8 @@ const ESignApprovalComponent = (props: ESignApprovalComponentProps) => {
                 </div>
                 {
                     !isSigned && <div className="e-sign-action-container">
-                        <ButtonComponent onClick={handleOnSign} isLoading={isSigning} disabled={isSigning || !canSign}>
+                        <ButtonComponent onClick={handleOnSign} isLoading={isSigning}
+                                         disabled={isSigning || !canSign || !currentUser?.signature || !signature_url}>
                             Sign
                         </ButtonComponent>
                     </div>

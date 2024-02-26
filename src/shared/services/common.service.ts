@@ -793,6 +793,14 @@ const extractName = (data: any) => {
     return (data?.first_name || data?.last_name ? data?.last_name + ', ' + data?.first_name : '-');
 };
 
+const extractName2 = (data: any) => {
+    if (!data) return ('-');
+    else if (data?.is_alias_name_set) {
+        return (data?.alias_first_name || data?.alias_last_name ? data?.alias_first_name + ' ' + data?.alias_last_name : '-');
+    }
+    return (data?.first_name || data?.last_name ? data?.first_name + ' ' + data?.last_name : '-');
+};
+
 
 const CommonService = {
     LightenDarkenColor,
@@ -861,6 +869,7 @@ const CommonService = {
     capitalizeFirstLetterAndRemoveUnderScore,
     generateUseCaseFromCaseDetails3,
     formatSSNNumber,
+    extractName2,
     // createValidationsObject,
     // createYupSchema,
 
