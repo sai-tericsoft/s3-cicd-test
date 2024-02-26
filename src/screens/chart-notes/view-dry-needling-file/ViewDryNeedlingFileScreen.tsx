@@ -195,6 +195,7 @@ const ViewDryNeedlingFileScreen = (props: ViewDryNeedlingFileScreenProps) => {
                 if (dryNeedlingFileId) {
                     CommonService._chartNotes.DryNeedlingFileEditAPICall(dryNeedlingFileId, {is_shared: true})
                         .then((response: any) => {
+                            getDryNeedlingFileDetails();
                             CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY] || "Successfully shared document", "success");
                             setIsDryNeedlingFileShared(true);
                         }).catch((error: any) => {
@@ -202,7 +203,7 @@ const ViewDryNeedlingFileScreen = (props: ViewDryNeedlingFileScreenProps) => {
                     });
                 }
             })
-        }, [dryNeedlingFileId]);
+        }, [dryNeedlingFileId, getDryNeedlingFileDetails]);
 
         useEffect(() => {
             if (dryNeedlingFileId) {

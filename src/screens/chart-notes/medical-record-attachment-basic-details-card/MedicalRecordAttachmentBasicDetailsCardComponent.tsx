@@ -102,6 +102,7 @@ const MedicalRecordAttachmentBasicDetailsCardComponent = (props: MedicalRecordAt
     }, [medicalRecordDetails?._id, medicalRecordDocumentId, noteTypeCategory]);
 
 
+
     return (
         <div className={"medical-record-attachment-basic-details-card-component"}>
             <PageHeaderComponent title={pageTitle} className={'page-heading'} actions={<>
@@ -231,7 +232,7 @@ const MedicalRecordAttachmentBasicDetailsCardComponent = (props: MedicalRecordAt
                         </>
                         <div className="ts-col-md-6 ts-col-lg-3">
                             <DataLabelValueComponent label={"Attached by"}>
-                                {CommonService.extractName(tempAttachmentDetails?.attached_by_details)}
+                                {CommonService.extractName2(tempAttachmentDetails?.attached_by_details)}
                             </DataLabelValueComponent>
                         </div>
                     </div>

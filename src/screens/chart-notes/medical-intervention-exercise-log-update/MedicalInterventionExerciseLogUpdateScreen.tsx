@@ -594,7 +594,6 @@ const MedicalInterventionExerciseLogUpdateScreen = (props: MedicalInterventionEx
                     <input
                         type={"file"}
                         ref={hiddenFileInput}
-                        accept={"application/pdf"}
                         onChange={handleChange}
                         // onChange={(event: any) => {
                         //     if (event.target.files.length > 0) {
