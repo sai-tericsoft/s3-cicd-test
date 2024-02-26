@@ -201,7 +201,8 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
         }, [selectedMedicalInterventions, medicalInterventionList]);
 
 
-        const handleTransferMedicalRecord = useCallback(() => {
+    const handleTransferMedicalRecord = useCallback(() => {
+        try {
             setIsMedicalRecordTransferUnderProgress(true);
             const payload = {
                 "is_transfer_record": shouldTransferEntireMedicalRecord,
@@ -223,9 +224,15 @@ const TransferMedicalRecordComponent = (props: TransferMedicalRecordComponentPro
                 CommonService._alert.showToast(error?.error || "Error while transferring Medical Record", 'error');
                 setIsMedicalRecordTransferUnderProgress(false);
             });
-        }, [onMedicalRecordTransfer, setRefreshToken, selectedClient, medicalRecordId, shouldTransferEntireMedicalRecord, selectedMedicalInterventions, selectedMedicalRecordToTransferUnder]);
+        } catch (error) {
+            // Handle synchronous errors here
+            console.error(error);
+            setIsMedicalRecordTransferUnderProgress(false);
+        }
+    }, [onMedicalRecordTransfer, setRefreshToken, selectedClient, medicalRecordId, shouldTransferEntireMedicalRecord, selectedMedicalInterventions, selectedMedicalRecordToTransferUnder]);
 
-        const confirmTransferMedicalRecord = useCallback(() => {
+
+    const confirmTransferMedicalRecord = useCallback(() => {
             CommonService.onConfirm({
                 image: ImageConfig.PopupLottie,
                 showLottie: true,

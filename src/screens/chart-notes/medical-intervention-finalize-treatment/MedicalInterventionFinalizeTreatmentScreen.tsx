@@ -61,19 +61,26 @@ const MedicalInterventionFinalizeTreatmentScreen = (props: MedicalInterventionFi
     const getCptCodes = useCallback((medicalInterventionId: string) => {
         setIsCPTCodesLoading(true);
         const payload = {};
-        CommonService._chartNotes.GetCPTCodesAPICall(medicalInterventionId, payload)
-            .then((response: any) => {
-                setSelectedCptCodes(response?.data?.cpt_codes || []);
-                const totalMinutes = response?.data?.cpt_codes?.reduce((acc: number, cptCode: any) => {
-                    return acc + cptCode?.minutes;
-                }, 0) || 0;
-                setTotalMinutes(totalMinutes);
-                setIsCPTCodesLoading(false);
-            })
-            .catch((error: any) => {
-                setIsCPTCodesLoading(false);
-            });
-    }, [])
+        try {
+            CommonService._chartNotes.GetCPTCodesAPICall(medicalInterventionId, payload)
+                .then((response: any) => {
+                    setSelectedCptCodes(response?.data?.cpt_codes || []);
+                    const totalMinutes = response?.data?.cpt_codes?.reduce((acc: number, cptCode: any) => {
+                        return acc + cptCode?.minutes;
+                    }, 0) || 0;
+                    setTotalMinutes(totalMinutes);
+                    setIsCPTCodesLoading(false);
+                })
+                .catch((error: any) => {
+                    setIsCPTCodesLoading(false);
+                });
+        } catch (error) {
+            // Handle synchronous errors here
+            console.error(error);
+            setIsCPTCodesLoading(false);
+        }
+    }, []);
+
 
     useEffect(() => {
         if (medicalInterventionId) {

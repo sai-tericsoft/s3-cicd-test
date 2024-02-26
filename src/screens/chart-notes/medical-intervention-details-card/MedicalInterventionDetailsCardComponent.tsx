@@ -215,25 +215,30 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
 
     const handleSOAPNotePrint = useCallback(() => {
         if (medicalInterventionId) {
-            const payload = {
-                timezone: momentTimezone.tz.guess(),
+            try {
+                const payload = {
+                    timezone: momentTimezone.tz.guess(),
+                };
+                CommonService._chartNotes.PrintSOAPNote(medicalInterventionId, payload)
+                    .then((res: any) => {
+                        const attachment = {
+                            type: 'application/pdf',
+                            url: res.data.url,
+                            name: 'progress report',
+                            key: ''
+                        };
+                        CommonService.printAttachment(attachment);
+                    })
+                    .catch((err: any) => {
+                        console.log(err);
+                    });
+            } catch (error) {
+                // Handle synchronous errors here
+                console.error(error);
             }
-            CommonService._chartNotes.PrintSOAPNote(medicalInterventionId, payload)
-                .then((res: any) => {
-                    const attachment = {
-                        type: 'application/pdf',
-                        url: res.data.url,
-                        name: 'progress report',
-                        key: ''
-                    };
-                    CommonService.printAttachment(attachment);
-                })
-                .catch((err: any) => {
-                    console.log(err);
-                });
         }
-
     }, [medicalInterventionId]);
+
 
     const handleNotifyAdminModalClose = useCallback(() => {
         setNotifyAdminFormInitialValues(_.cloneDeep(NotifyAdminInitialValues));
@@ -243,39 +248,54 @@ const MedicalInterventionDetailsCardComponent = (props: MedicalInterventionDetai
     const handleNotifyAdmin = useCallback((values: any, {setErrors, resetForm}: FormikHelpers<any>) => {
         setIsNotifyAdminProgressIsLoading(true);
         if (medicalInterventionId) {
-            CommonService._chartNotes.MedicalInterventionNotifyAdminAPICall(medicalInterventionId, values)
-                .then((response) => {
-                    CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+            try {
+                CommonService._chartNotes.MedicalInterventionNotifyAdminAPICall(medicalInterventionId, values)
+                    .then((response) => {
+                        CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+                        setIsNotifyAdminProgressIsLoading(false);
+                        handleNotifyAdminModalClose();
+                        resetForm();
+                    }).catch((error) => {
+                    CommonService.handleErrors(setErrors, error, true);
+                    setIsNotifyModalOpen(false);
                     setIsNotifyAdminProgressIsLoading(false);
-                    handleNotifyAdminModalClose();
-                    resetForm();
-                }).catch((error) => {
+                });
+            } catch (error) {
+                // Handle synchronous errors here
                 CommonService.handleErrors(setErrors, error, true);
                 setIsNotifyModalOpen(false);
                 setIsNotifyAdminProgressIsLoading(false);
-            });
+            }
         }
     }, [medicalInterventionId, handleNotifyAdminModalClose]);
+
 
     const onInterventionDateEdit = useCallback((values: any, {setErrors, setSubmitting}: FormikHelpers<any>) => {
         const payload = {
             ...values,
             intervention_date: moment(values.intervention_date).format('YYYY-MM-DD'),
-        }
-        setSubmitting(true)
+        };
+        setSubmitting(true);
         if (medicalInterventionId) {
-            CommonService._chartNotes.MedicalInterventionBasicDetailsUpdateAPICall(medicalInterventionId, payload)
-                .then((response) => {
-                    CommonService._alert.showToast("Details edited", "success");
+            try {
+                CommonService._chartNotes.MedicalInterventionBasicDetailsUpdateAPICall(medicalInterventionId, payload)
+                    .then((response) => {
+                        CommonService._alert.showToast("Details edited", "success");
+                        setSubmitting(false);
+                        setIsEditInterventionDateOpen(false);
+                        dispatch(getMedicalInterventionDetails(medicalInterventionId));
+                    }).catch((error) => {
+                    CommonService.handleErrors(setErrors, error, true);
                     setSubmitting(false);
-                    setIsEditInterventionDateOpen(false);
-                    dispatch(getMedicalInterventionDetails(medicalInterventionId));
-                }).catch((error) => {
+                });
+            } catch (error) {
+                // Handle synchronous errors here
                 CommonService.handleErrors(setErrors, error, true);
                 setSubmitting(false);
-            });
+            }
         }
     }, [medicalInterventionId, dispatch]);
+
 
     // const handleEditSoapNote = useCallback(() => {
     //     if (medicalRecordId && medicalInterventionId) {

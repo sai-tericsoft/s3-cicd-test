@@ -257,31 +257,42 @@ const ViewMedicalInterventionScreen = (props: ViewMedicalInterventionScreenProps
         setSubmitting,
         setErrors
     }: FormikHelpers<any>, announce = false, cb: any = null) => {
-        if (medicalInterventionId) {
-            setSubmitting(true);
-            setIsSavingProgress(true);
-            CommonService._chartNotes.MedicalInterventionBasicDetailsUpdateAPICall(medicalInterventionId, values)
-                .then((response: IAPIResponseType<any>) => {
-                    dispatch(setMedicalInterventionDetails(response.data));
-                    if (announce) {
-                        CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
-                    }
-                    setIsSavingProgress(false);
-                    setSubmitting(false);
-                    if (cb) {
-                        cb();
-                    }
-                })
-                .catch((error: any) => {
-                    CommonService.handleErrors(setErrors, error, true);
-                    setSubmitting(false);
-                    setIsSavingProgress(false);
-                    if (cb) {
-                        cb();
-                    }
-                })
+        try {
+            if (medicalInterventionId) {
+                setSubmitting(true);
+                setIsSavingProgress(true);
+                CommonService._chartNotes.MedicalInterventionBasicDetailsUpdateAPICall(medicalInterventionId, values)
+                    .then((response: IAPIResponseType<any>) => {
+                        dispatch(setMedicalInterventionDetails(response.data));
+                        if (announce) {
+                            CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+                        }
+                        setIsSavingProgress(false);
+                        setSubmitting(false);
+                        if (cb) {
+                            cb();
+                        }
+                    })
+                    .catch((error: any) => {
+                        CommonService.handleErrors(setErrors, error, true);
+                        setSubmitting(false);
+                        setIsSavingProgress(false);
+                        if (cb) {
+                            cb();
+                        }
+                    })
+            }
+        } catch (error) {
+            // Handle synchronous errors here
+            console.error(error);
+            setSubmitting(false);
+            setIsSavingProgress(false);
+            if (cb) {
+                cb();
+            }
         }
     }, [dispatch, medicalInterventionId]);
+
 
     useEffect(() => {
         if (medicalInterventionId) {

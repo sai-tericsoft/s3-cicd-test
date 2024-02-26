@@ -93,7 +93,8 @@ const ViewConcussionFileScreen = (props: ViewConcussionFileScreenProps) => {
             }
         }, [searchParams, navigate, dispatch, medicalRecordId]);
 
-        const handleConcussionFileFileDelete = useCallback(() => {
+    const handleConcussionFileFileDelete = useCallback(() => {
+        try {
             CommonService.onConfirm({
                 image: ImageConfig.Confirm,
                 // showLottie: true,
@@ -120,9 +121,15 @@ const ViewConcussionFileScreen = (props: ViewConcussionFileScreenProps) => {
                     CommonService._alert.showToast('Concussion File Id is missing', "error");
                 }
             });
-        }, [concussionFileId]);
+        } catch (error) {
+            // Handle synchronous errors here
+            console.error(error);
+        }
+    }, [concussionFileId]);
 
-        const handleConcussionDocumentDelete = useCallback(() => {
+
+    const handleConcussionDocumentDelete = useCallback(() => {
+        try {
             CommonService.onConfirm({
                 image: ImageConfig.ConfirmationLottie,
                 showLottie: true,
@@ -151,12 +158,16 @@ const ViewConcussionFileScreen = (props: ViewConcussionFileScreenProps) => {
                         CommonService._alert.showToast(error?.error || "Error deleting document", "success");
                     })
                 }
-
-
             });
-        }, [concussionFileId, medicalRecordId, navigate, searchParams]);
+        } catch (error) {
+            // Handle synchronous errors here
+            console.error(error);
+        }
+    }, [concussionFileId, medicalRecordId, navigate, searchParams]);
 
-        const handleConcussionFileFileAttachmentAdd = useCallback(() => {
+
+    const handleConcussionFileFileAttachmentAdd = useCallback(() => {
+        try {
             if (concussionFileId) {
                 const payload = {
                     attachment: concussionFileAttachmentFile
@@ -181,9 +192,15 @@ const ViewConcussionFileScreen = (props: ViewConcussionFileScreenProps) => {
             } else {
                 CommonService._alert.showToast('Concussion File Id is missing', "error");
             }
-        }, [concussionFileAttachmentFile, concussionFileId]);
+        } catch (error) {
+            // Handle synchronous errors here
+            console.error(error);
+        }
+    }, [concussionFileAttachmentFile, concussionFileId]);
 
-        const handleConcussionFileShare = useCallback(() => {
+
+    const handleConcussionFileShare = useCallback(() => {
+        try {
             CommonService.onConfirm({
                 image: ImageConfig.PopupLottie,
                 showLottie: true,
@@ -204,10 +221,15 @@ const ViewConcussionFileScreen = (props: ViewConcussionFileScreenProps) => {
                         CommonService._alert.showToast(error?.error || "Error sharing document", "success");
                     });
                 }
-            })
-        }, [concussionFileId,getConcussionFileFileDetails]);
+            });
+        } catch (error) {
+            // Handle synchronous errors here
+            console.error(error);
+        }
+    }, [concussionFileId,getConcussionFileFileDetails]);
 
-        useEffect(() => {
+
+    useEffect(() => {
             if (concussionFileId) {
                 getConcussionFileFileDetails();
             }

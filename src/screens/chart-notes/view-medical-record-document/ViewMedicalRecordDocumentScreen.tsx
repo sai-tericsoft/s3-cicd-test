@@ -169,81 +169,83 @@ const ViewMedicalRecordDocumentScreen = (props: ViewMedicalRecordDocumentScreenP
         }, [getMedicalRecordDocumentDetails, medicalRecordDocumentId]);
 
         const handleDocumentDelete = useCallback(() => {
-            CommonService.onConfirm({
-                image: ImageConfig.ConfirmationLottie,
-                showLottie: true,
-                confirmationTitle: "DELETE DOCUMENT",
-                // confirmationSubTitle: "Are you sure you want to delete this document\n" +
-                //     "from this file?"
-                confirmationDescription: <div className="delete-document">
-                    <div className={'delete-document-text text-center '}>Are you sure you want to delete this
-                        document?
+            try {
+                CommonService.onConfirm({
+                    image: ImageConfig.ConfirmationLottie,
+                    showLottie: true,
+                    confirmationTitle: "DELETE DOCUMENT",
+                    confirmationDescription: <div className="delete-document">
+                        <div className={'delete-document-text text-center '}>Are you sure you want to delete this
+                            document?
+                        </div>
                     </div>
-                </div>
-            }).then(() => {
-                if (medicalRecordDocumentId) {
-                    CommonService._chartNotes.DeleteDocument(medicalRecordDocumentId)
-                        .then((response: any) => {
-                            CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY] || "Document deleted successfully", "success");
-                            const referrer: any = searchParams.get("referrer");
-                            const module_name: any = searchParams.get("module_name");
-                            setModule(module_name);
-                            if (module_name === "client_module") {
-                                navigate(referrer);
-                            } else {
-                                medicalRecordId && navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId) + '?activeTab=attachmentList');
-                            }
+                }).then(() => {
+                    if (medicalRecordDocumentId) {
+                        CommonService._chartNotes.DeleteDocument(medicalRecordDocumentId)
+                            .then((response: any) => {
+                                CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY] || "Document deleted successfully", "success");
+                                const referrer: any = searchParams.get("referrer");
+                                const module_name: any = searchParams.get("module_name");
+                                setModule(module_name);
+                                if (module_name === "client_module") {
+                                    navigate(referrer);
+                                } else {
+                                    medicalRecordId && navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId) + '?activeTab=attachmentList');
+                                }
 
-                        }).catch((error: any) => {
-                        CommonService._alert.showToast(error?.error || "Error deleting document", "success");
-                    })
-                }
-            })
-
+                            }).catch((error: any) => {
+                            CommonService._alert.showToast(error?.error || "Error deleting document", "success");
+                        })
+                    }
+                })
+            } catch (error) {
+                // Handle synchronous errors here
+                console.error(error);
+            }
         }, [medicalRecordDocumentId, navigate, searchParams, medicalRecordId])
 
         const handleShareDocument = useCallback(() => {
-            CommonService.onConfirm({
-                image: ImageConfig.PopupLottie,
-                showLottie: true,
-                confirmationTitle: "SHARE WITH CLIENT",
-                confirmationDescription: <div className="delete-document">
-                    <div className={'delete-document-text text-center '}>Are you sure you want to share this
-                        document <br/> with the client?
+            try {
+                CommonService.onConfirm({
+                    image: ImageConfig.PopupLottie,
+                    showLottie: true,
+                    confirmationTitle: "SHARE WITH CLIENT",
+                    confirmationDescription: <div className="delete-document">
+                        <div className={'delete-document-text text-center '}>Are you sure you want to share this
+                            document <br/> with the client?
+                        </div>
                     </div>
-                </div>
-            }).then(() => {
-                if (medicalRecordDocumentId) {
-                    CommonService._chartNotes.MedicalRecordDocumentEditAPICall(medicalRecordDocumentId, {is_shared: true})
-                        .then((response: any) => {
-                            CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY] || "Document shared successfully", "success");
-                            setIsShared(true)
-                            getMedicalRecordDocumentDetails();
-                        }).catch((error: any) => {
-                        CommonService._alert.showToast(error?.error || "Error sharing document", "success");
-                    })
-                }
-            })
-        }, [medicalRecordDocumentId,getMedicalRecordDocumentDetails]);
+                }).then(() => {
+                    if (medicalRecordDocumentId) {
+                        CommonService._chartNotes.MedicalRecordDocumentEditAPICall(medicalRecordDocumentId, {is_shared: true})
+                            .then((response: any) => {
+                                CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY] || "Document shared successfully", "success");
+                                setIsShared(true)
+                                getMedicalRecordDocumentDetails();
+                            }).catch((error: any) => {
+                            CommonService._alert.showToast(error?.error || "Error sharing document", "success");
+                        })
+                    }
+                })
+            } catch (error) {
+                // Handle synchronous errors here
+                console.error(error);
+            }
+        }, [medicalRecordDocumentId, getMedicalRecordDocumentDetails]);
+
 
         const removeAccess = useCallback((item: any) => {
-            // CommonService.onConfirm({
-            //     image: ImageConfig.ConfirmationLottie,
-            //     showLottie: true,
-            //     confirmationTitle: "REMOVE ACCESS",
-            // }).then(() => {
-                const payload = {
-                    is_shared: false
-                }
-                CommonService._chartNotes.MedicalRecordDocumentEditAPICall(item?._id, payload)
-                    .then((response: any) => {
-                        commonService._alert.showToast("Access removed successfully", "success");
-                        setIsShared(false);
-                    })
-                    .catch((error: any) => {
-                        CommonService._alert.showToast(error.error || "Error removing access", "error");
-                    });
-            // })
+            const payload = {
+                is_shared: false
+            }
+            CommonService._chartNotes.MedicalRecordDocumentEditAPICall(item?._id, payload)
+                .then((response: any) => {
+                    commonService._alert.showToast("Access removed successfully", "success");
+                    setIsShared(false);
+                })
+                .catch((error: any) => {
+                    CommonService._alert.showToast(error.error || "Error removing access", "error");
+                });
         }, []);
 
 

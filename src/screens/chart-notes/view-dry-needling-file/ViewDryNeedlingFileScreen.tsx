@@ -154,7 +154,8 @@ const ViewDryNeedlingFileScreen = (props: ViewDryNeedlingFileScreenProps) => {
             });
         }, [dryNeedlingFileId, medicalRecordId, navigate, searchParams]);
 
-        const handleDryNeedlingFileAttachmentAdd = useCallback(() => {
+    const handleDryNeedlingFileAttachmentAdd = useCallback(() => {
+        try {
             if (dryNeedlingFileId) {
                 const payload = {
                     attachment: dryNeedlingFileAttachmentFile
@@ -179,9 +180,15 @@ const ViewDryNeedlingFileScreen = (props: ViewDryNeedlingFileScreenProps) => {
             } else {
                 CommonService._alert.showToast('Dry Needling File Id is missing', "error");
             }
-        }, [dryNeedlingFileAttachmentFile, dryNeedlingFileId]);
+        } catch (error) {
+            // Handle synchronous errors here
+            console.error(error);
+        }
+    }, [dryNeedlingFileAttachmentFile, dryNeedlingFileId]);
 
-        const handleDryNeedlingShare = useCallback(() => {
+
+    const handleDryNeedlingShare = useCallback(() => {
+        try {
             CommonService.onConfirm({
                 image: ImageConfig.PopupLottie,
                 showLottie: true,
@@ -202,10 +209,15 @@ const ViewDryNeedlingFileScreen = (props: ViewDryNeedlingFileScreenProps) => {
                         CommonService._alert.showToast(error?.error || "Error sharing document", "success");
                     });
                 }
-            })
-        }, [dryNeedlingFileId, getDryNeedlingFileDetails]);
+            });
+        } catch (error) {
+            // Handle synchronous errors here
+            console.error(error);
+        }
+    }, [dryNeedlingFileId, getDryNeedlingFileDetails]);
 
-        useEffect(() => {
+
+    useEffect(() => {
             if (dryNeedlingFileId) {
                 getDryNeedlingFileDetails();
             }

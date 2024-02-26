@@ -50,22 +50,28 @@ const ClientMedicalSupplementsFormComponent = (props: ClientMedicalSupplementsFo
 
 
     const onSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
-        const payload = {...values, mode};
-        setIsClientMedicalSupplementsSavingInProgress(true);
-        CommonService._client.ClientMedicalSupplementsAddAPICall(clientId, payload)
-            .then((response: IAPIResponseType<IClientMedicalSupplementsForm>) => {
-                if (clientId) {
-                    dispatch(getClientMedicalDetails(clientId));
-                }
-                // CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
-                setIsClientMedicalSupplementsSavingInProgress(false);
-                setClientMedicalSupplementsInitialValues(_.cloneDeep(values));
-                onSave(response);
-            })
-            .catch((error: any) => {
-                CommonService.handleErrors(setErrors, error, true);
-                setIsClientMedicalSupplementsSavingInProgress(false);
-            })
+        try {
+            const payload = {...values, mode};
+            setIsClientMedicalSupplementsSavingInProgress(true);
+            CommonService._client.ClientMedicalSupplementsAddAPICall(clientId, payload)
+                .then((response: IAPIResponseType<IClientMedicalSupplementsForm>) => {
+                    if (clientId) {
+                        dispatch(getClientMedicalDetails(clientId));
+                    }
+                    // CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+                    setIsClientMedicalSupplementsSavingInProgress(false);
+                    setClientMedicalSupplementsInitialValues(_.cloneDeep(values));
+                    onSave(response);
+                })
+                .catch((error: any) => {
+                    CommonService.handleErrors(setErrors, error, true);
+                    setIsClientMedicalSupplementsSavingInProgress(false);
+                })
+        } catch (error) {
+            // Handle synchronous errors here
+            console.error(error);
+            setIsClientMedicalSupplementsSavingInProgress(false);
+        }
     }, [clientId, onSave, mode, dispatch]);
 
     useEffect(() => {
@@ -75,6 +81,7 @@ const ClientMedicalSupplementsFormComponent = (props: ClientMedicalSupplementsFo
             });
         }
     }, [mode, clientId, dispatch, clientMedicalDetails]);
+
 
     return (
         <div className={'client-medical-supplements-form-component'}>

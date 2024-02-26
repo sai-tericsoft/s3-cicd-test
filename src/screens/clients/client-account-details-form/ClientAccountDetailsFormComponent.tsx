@@ -92,26 +92,33 @@ const ClientAccountDetailsFormComponent = (props: ClientAccountDetailsFormCompon
     } = useSelector((state: IRootReducerState) => state.client);
 
     const onSubmit = useCallback((values: any, {setErrors}: FormikHelpers<any>) => {
-        const payload = CommonService.removeKeysFromJSON(_.cloneDeep(values), ['source_details', 'appointment_confirmations_details', 'appointment_reminders_details']);
-        setIsClientAccountDetailsFormSavingInProgress(true);
-        let apiCall;
-        if (mode === "add") {
-            apiCall = CommonService._client.ClientAccountDetailsAddAPICall(clientId, payload);
-        } else {
-            apiCall = CommonService._client.ClientAccountDetailsEditAPICall(clientId, payload);
-        }
-        apiCall.then((response: IAPIResponseType<IClientAccountDetails>) => {
-            // CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
-            setIsClientAccountDetailsFormSavingInProgress(false);
-            onSave(response.data);
-            if (mode === 'add') {
-                navigate(CommonService._routeConfig.ClientList());
+        try {
+            const payload = CommonService.removeKeysFromJSON(_.cloneDeep(values), ['source_details', 'appointment_confirmations_details', 'appointment_reminders_details']);
+            setIsClientAccountDetailsFormSavingInProgress(true);
+            let apiCall;
+            if (mode === "add") {
+                apiCall = CommonService._client.ClientAccountDetailsAddAPICall(clientId, payload);
+            } else {
+                apiCall = CommonService._client.ClientAccountDetailsEditAPICall(clientId, payload);
             }
-        }).catch((error: any) => {
-            CommonService.handleErrors(setErrors, error);
+            apiCall.then((response: IAPIResponseType<IClientAccountDetails>) => {
+                // CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+                setIsClientAccountDetailsFormSavingInProgress(false);
+                onSave(response.data);
+                if (mode === 'add') {
+                    navigate(CommonService._routeConfig.ClientList());
+                }
+            }).catch((error: any) => {
+                CommonService.handleErrors(setErrors, error);
+                setIsClientAccountDetailsFormSavingInProgress(false);
+            })
+        } catch (error) {
+            // Handle synchronous errors here
+            console.error(error);
             setIsClientAccountDetailsFormSavingInProgress(false);
-        })
+        }
     }, [clientId, onSave, mode, navigate]);
+
 
     useEffect(() => {
         if (mode === "edit") {

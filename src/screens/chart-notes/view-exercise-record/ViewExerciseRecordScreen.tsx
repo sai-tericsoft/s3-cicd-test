@@ -103,64 +103,75 @@ const ViewExerciseRecordScreen = (props: ViewExerciseLogComponentProps) => {
     }, [medicalRecordId, navigate, dispatch]);
 
     const handlePrint = useCallback((medicalInterventionId?: string) => {
-        setIsPrintLoading(true);
-        const payload = {
-            timezone: momentTimezone.tz.guess(),
-        }
-        if (medicalRecordId) {
-            CommonService._chartNotes.PrintExerciseRecord(medicalRecordId, payload)
-                .then((res: any) => {
-                    setIsPrintLoading(false);
-                    const attachment = {
-                        type: 'application/pdf',
-                        url: res.data.url,
-                        name: 'progress report',
-                        key: ''
-                    };
-                    CommonService.printAttachment(attachment);
-                })
-                .catch((err: any) => {
-                    setIsPrintLoading(false);
-                    console.log(err);
-                })
+        try {
+            setIsPrintLoading(true);
+            const payload = {
+                timezone: momentTimezone.tz.guess(),
+            }
+            if (medicalRecordId) {
+                CommonService._chartNotes.PrintExerciseRecord(medicalRecordId, payload)
+                    .then((res: any) => {
+                        setIsPrintLoading(false);
+                        const attachment = {
+                            type: 'application/pdf',
+                            url: res.data.url,
+                            name: 'progress report',
+                            key: ''
+                        };
+                        CommonService.printAttachment(attachment);
+                    })
+                    .catch((err: any) => {
+                        setIsPrintLoading(false);
+                        console.log(err);
+                    })
+            }
+        } catch (error) {
+            // Handle synchronous errors here
+            console.error(error);
+            setIsPrintLoading(false);
         }
     }, [medicalRecordId]);
 
 
     const handlePrintExerciseLog = useCallback((medicalInterventionId?: string) => {
-        if (medicalInterventionId) {
-            setPrintExerciseLogLoading((prevLoading) => ({
-                ...prevLoading,
-                [medicalInterventionId]: true,
-            }));
+        try {
+            if (medicalInterventionId) {
+                setPrintExerciseLogLoading((prevLoading) => ({
+                    ...prevLoading,
+                    [medicalInterventionId]: true,
+                }));
 
-            const payload = {
-                timezone: momentTimezone.tz.guess(),
-            };
+                const payload = {
+                    timezone: momentTimezone.tz.guess(),
+                };
 
-            CommonService._chartNotes.PrintExerciseLog(medicalInterventionId, payload)
-                .then((res: any) => {
-                    setPrintExerciseLogLoading((prevLoading) => ({
-                        ...prevLoading,
-                        [medicalInterventionId]: false,
-                    }));
+                CommonService._chartNotes.PrintExerciseLog(medicalInterventionId, payload)
+                    .then((res: any) => {
+                        setPrintExerciseLogLoading((prevLoading) => ({
+                            ...prevLoading,
+                            [medicalInterventionId]: false,
+                        }));
 
-                    const attachment = {
-                        type: 'application/pdf',
-                        url: res.data.url,
-                        name: 'progress report',
-                        key: '',
-                    };
+                        const attachment = {
+                            type: 'application/pdf',
+                            url: res.data.url,
+                            name: 'progress report',
+                            key: '',
+                        };
 
-                    CommonService.printAttachment(attachment);
-                })
-                .catch((err: any) => {
-                    setPrintExerciseLogLoading((prevLoading) => ({
-                        ...prevLoading,
-                        [medicalInterventionId]: false,
-                    }));
-                    console.error(err);
-                });
+                        CommonService.printAttachment(attachment);
+                    })
+                    .catch((err: any) => {
+                        setPrintExerciseLogLoading((prevLoading) => ({
+                            ...prevLoading,
+                            [medicalInterventionId]: false,
+                        }));
+                        console.error(err);
+                    });
+            }
+        } catch (error) {
+            // Handle synchronous errors here
+            console.error(error);
         }
     }, []);
 

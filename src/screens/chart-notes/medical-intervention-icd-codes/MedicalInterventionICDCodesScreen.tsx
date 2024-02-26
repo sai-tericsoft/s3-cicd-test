@@ -64,37 +64,44 @@ const MedicalInterventionICDCodesScreen = (props: MedicalInterventionICDCodesScr
 
 
     const linkICDCodesToIntervention = useCallback((codes: string[], mode: 'add' | 'edit' = 'add') => {
-        if (!medicalInterventionId || !medicalRecordId) {
-            CommonService._alert.showToast('InterventionId not found!', "error");
-            return;
+        try {
+            if (!medicalInterventionId || !medicalRecordId) {
+                CommonService._alert.showToast('InterventionId not found!', "error");
+                return;
+            }
+            const tempCodes: any[] = [];
+            codes.forEach((code: any) => {
+                tempCodes.push({
+                    icd_code: code?.icd_code,
+                    description: code?.description,
+                })
+            });
+            setIsSubmitting(true);
+            CommonService._chartNotes.AddMedicalInterventionICDCodesAPICall(medicalInterventionId, {
+                "icd_codes": tempCodes,
+                "mode": mode
+            })
+                .then((response: IAPIResponseType<any>) => {
+                    // CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
+                    // if (medicalInterventionDetails?.status === 'completed') {
+                    //     navigate(CommonService._routeConfig.ViewMedicalIntervention(medicalRecordId, medicalInterventionId));
+                    // } else {
+                    navigate(CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, medicalInterventionId) + `?last_position=${last_position}`);
+                    // }
+                })
+                .catch((error: any) => {
+                    CommonService._alert.showToast(error, "error");
+                })
+                .finally(() => {
+                    setIsSubmitting(false);
+                });
+        } catch (error) {
+            // Handle synchronous errors here
+            console.error(error);
+            setIsSubmitting(false);
         }
-        const tempCodes: any[] = [];
-        codes.forEach((code: any) => {
-            tempCodes.push({
-                icd_code: code?.icd_code,
-                description: code?.description,
-            })
-        });
-        setIsSubmitting(true);
-        CommonService._chartNotes.AddMedicalInterventionICDCodesAPICall(medicalInterventionId, {
-            "icd_codes": tempCodes,
-            "mode": mode
-        })
-            .then((response: IAPIResponseType<any>) => {
-                // CommonService._alert.showToast(response[Misc.API_RESPONSE_MESSAGE_KEY], "success");
-                // if (medicalInterventionDetails?.status === 'completed') {
-                //     navigate(CommonService._routeConfig.ViewMedicalIntervention(medicalRecordId, medicalInterventionId));
-                // } else {
-                navigate(CommonService._routeConfig.UpdateMedicalIntervention(medicalRecordId, medicalInterventionId) + `?last_position=${last_position}`);
-                // }
-            })
-            .catch((error: any) => {
-                CommonService._alert.showToast(error, "error");
-            })
-            .finally(() => {
-                setIsSubmitting(false);
-            })
-    }, [medicalInterventionId, medicalRecordId, navigate, last_position])
+    }, [medicalInterventionId, medicalRecordId, navigate, last_position]);
+
 
 
     useEffect(() => {

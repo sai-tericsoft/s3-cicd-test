@@ -435,40 +435,54 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
     }, [onSubmit]);
 
     const handleDiscardNote = useCallback(() => {
-        CommonService.onConfirm({
-            image: ImageConfig.PopupLottie,
-            showLottie: true,
-            confirmationTitle: "DISCARD SOAP NOTE",
-            confirmationDescription: <div className={'discard-soap'}>
-                <div>Are you sure you want to permanently discard this<br/>
-                    SOAP note? This action cannot be undone.
+        try {
+            CommonService.onConfirm({
+                image: ImageConfig.PopupLottie,
+                showLottie: true,
+                confirmationTitle: "DISCARD SOAP NOTE",
+                confirmationDescription: <div className={'discard-soap'}>
+                    <div>Are you sure you want to permanently discard this<br/>
+                        SOAP note? This action cannot be undone.
+                    </div>
                 </div>
-            </div>
-        }).then(() => {
-            (medicalInterventionId) && CommonService._chartNotes.DiscardSoapNote(medicalInterventionId, {})
-                .then((response: any) => {
-                    CommonService._alert.showToast("SOAP note has been discarded successfully.", "success");
-                    (medicalRecordId) && navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId))
+            }).then(() => {
+                if (medicalInterventionId) {
+                    CommonService._chartNotes.DiscardSoapNote(medicalInterventionId, {})
+                        .then((response: any) => {
+                            CommonService._alert.showToast("SOAP note has been discarded successfully.", "success");
+                            if (medicalRecordId) {
+                                navigate(CommonService._routeConfig.ClientMedicalRecordDetails(medicalRecordId));
+                            }
+                        }).catch((error: any) => {
+                        CommonService._alert.showToast(error.error, "error");
+                    });
+                }
+            });
+        } catch (error) {
+            // Handle synchronous errors here
+            console.error(error);
+        }
+    }, [medicalInterventionId, medicalRecordId, navigate]);
+
+
+    const handleFlagNoteChange = useCallback((isChecked: boolean) => {
+        try {
+            if (medicalInterventionId) {
+                CommonService._chartNotes.MedicalInterventionBasicDetailsUpdateAPICall(medicalInterventionId, {
+                    is_flagged: isChecked
+                }).then((response: IAPIResponseType<any>) => {
+                    // dispatch(setMedicalInterventionDetails(response.data));
+                    CommonService._alert.showToast(isChecked ? 'Note has been flagged.' : 'Note has been unflagged.', "success");
                 }).catch((error: any) => {
                     CommonService._alert.showToast(error.error, "error");
                 });
-        });
-    }, [medicalInterventionId, medicalRecordId, navigate]);
-
-    const handleFlagNoteChange = useCallback((isChecked: boolean) => {
-        if (medicalInterventionId) {
-            CommonService._chartNotes.MedicalInterventionBasicDetailsUpdateAPICall(medicalInterventionId, {
-                is_flagged: isChecked
-            }).then((response: IAPIResponseType<any>) => {
-                // dispatch(setMedicalInterventionDetails(response.data));
-
-                CommonService._alert.showToast(isChecked ? 'Note has been flagged.' : 'Note has been unflagged.', "success");
-            }).catch((error: any) => {
-                CommonService._alert.showToast(error.error, "error");
-            });
+            }
+        } catch (error) {
+            // Handle synchronous errors here
+            console.error(error);
         }
-
     }, [medicalInterventionId]);
+
 
     return (
         <div className={'add-medical-intervention-screen'}>
