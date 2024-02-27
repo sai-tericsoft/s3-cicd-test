@@ -34,6 +34,7 @@ import {ReactComponent as VerifiedCross} from './../assets/icons/verified_cross.
 import {ReactComponent as CalendarIcon} from './../assets/icons/calander.svg';
 import {ReactComponent as TimerIcon} from './../assets/icons/timer.svg';
 import {ReactComponent as ReStartIcon} from './../assets/icons/restart.svg';
+import {ReactComponent as Calendar2Icon} from "./../assets/icons/event.svg";
 
 import {ReactComponent as CallIcon} from './../assets/icons/call_black.svg';
 import {ReactComponent as PersonIcon} from './../assets/icons/person_black.svg';
@@ -208,6 +209,7 @@ export {
     DeleteAttachmentConfirmationIcon,
     AppointmentConfirm,
     CalendarIcon,
+    Calendar2Icon,
     TimerIcon,
     SendIcon,
     EmailIcon,

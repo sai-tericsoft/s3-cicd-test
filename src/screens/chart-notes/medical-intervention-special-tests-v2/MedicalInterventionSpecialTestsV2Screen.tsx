@@ -85,6 +85,7 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
         {
             title: 'Special Tests',
             key: 'special_tests',
+            width: '100',
             render: (record: any) => {
                 return <div className="body-part-special-tests">
                     <CheckBoxComponent
@@ -237,7 +238,7 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
             title: 'Comments',
             key: 'comments',
             align: 'center',
-            width: 316,
+            width: 506,
             render: (record: any, index: any) => <Field
                 name={`${bodyPart._id}.special_test_config.${record}.comments`}
                 className="t-form-control">
@@ -306,7 +307,7 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
             title: '',
             key: 'actions',
             align: 'center',
-            width: 72,
+            width: 40,
             render: (record: any, index: any) => <Field
                 name={`${bodyPart._id}.special_test_config.${record}.actions`}
                 className="t-form-control">
@@ -543,7 +544,7 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
         } else {
             CommonService._alert.showToast('Please select a medical intervention', 'error');
         }
-    }, [medicalInterventionId,last_position,medicalRecordId, navigate]);
+    }, [medicalInterventionId, last_position, medicalRecordId, navigate]);
 
     const handleBodyPartDelete = useCallback((bodyPartId: string) => {
         if (medicalInterventionId) {
@@ -641,7 +642,7 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
                 {
                     (isMedicalInterventionDetailsLoaded && medicalInterventionId) && <>
                         {
-                            (globalSpecialTestConfig?.length === 0) && <>
+                            (globalSpecialTestConfig?.length === 0) && <CardComponent className={'no-body-part-status-wrapper'}>
                                 <StatusCardComponent
                                     title={"There are no body parts listed under the Special Tests. Please add a body part."}>
                                     <ButtonComponent
@@ -651,7 +652,7 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
                                         Add Body Part
                                     </ButtonComponent>
                                 </StatusCardComponent>
-                            </>
+                            </CardComponent>
                         }
                         {
                             (globalSpecialTestConfig?.length > 0) && <>
@@ -720,7 +721,7 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
                                                                             color={"error"}
                                                                             variant={'outlined'}
                                                                             prefixIcon={
-                                                                                <ImageConfig.CloseIcon/>}
+                                                                                <ImageConfig.CrossOutlinedIcon/>}
                                                                             onClick={() => {
                                                                                 handleBodyPartDelete(bodyPartId);
                                                                             }}
@@ -809,7 +810,8 @@ const MedicalInterventionSpecialTestV2Screen = (props: MedicalInterventionSpecia
                                                     }
                                                 </div>
                                                 <ButtonComponent
-                                                    prefixIcon={<ImageConfig.AddIcon/>}
+                                                    prefixIcon={<ImageConfig.AddCircleIcon/>}
+                                                    variant={'text'}
                                                     onClick={handleAddNewBodyPartOpenModal}
                                                 >
                                                     Add Body Part

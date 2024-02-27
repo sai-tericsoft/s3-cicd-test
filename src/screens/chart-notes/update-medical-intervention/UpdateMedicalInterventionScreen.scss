@@ -13,19 +13,21 @@
       margin-bottom: 5px;
     }
   }
-  .t-form{
+
+  .t-form {
     //.s-o-a-wrapper{
     //  //.card-component{
     //  //  padding-bottom: 4px;
     //  //}
     //}
-    .clear-cta{
+    .clear-cta {
       display: flex;
       justify-content: end;
 
       color: #00534F;
     }
-    .t-form-actions{
+
+    .t-form-actions {
       margin-bottom: 0px;
     }
   }
@@ -146,37 +148,55 @@
 
   .range-of-motion-wrapper, .special-test-wrapper, .icd-codes-wrapper {
     margin-bottom: 10px;
+
     .rom-header, .special-test-header, .icd-codes-header {
       width: 100%;
+
       & > .card-header {
         background: #FFFFFF !important;
         padding: 16px;
+
+        .card-title {
+          text-transform: capitalize !important;
+          text-decoration: none !important;
+          color: #212B36;
+          font-size: 14px;
+        }
       }
-      //& > .card-component {
-      border: 1px solid #ABB6BE;
-      border-radius: 5px;
+
+      border: 1px solid #e2e2e2;
+      border-radius: 8px;
       overflow: hidden;
-      //}
-      .t-table-wrapper{
+
+      .t-table-wrapper {
         .t-table {
-          border: none !important;
           min-height: max-content !important;
+          border-radius: 0px !important;
+
+          .header {
+            .t-tr {
+              .th {
+                background: #F6FBFF !important;
+                height: 40px !important;
+              }
+            }
+          }
         }
       }
     }
 
-    .card-body {
-      padding: 0 !important;
+    .card-component {
+      box-shadow: none !important;
 
-      .card-component {
-        border-radius: 0;
+      .card-body {
+        padding: 0 !important;
       }
     }
   }
 
   .rom-special-test-icd-11-cta {
     height: 68px;
-   justify-content: flex-start;
+    justify-content: flex-start;
     padding-left: 13px;
   }
 }

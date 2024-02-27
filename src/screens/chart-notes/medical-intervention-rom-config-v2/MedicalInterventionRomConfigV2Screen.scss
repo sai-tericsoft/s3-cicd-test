@@ -17,18 +17,35 @@
         .t-table-wrapper {
           .t-table {
             min-height: max-content !important;
-            border-radius: 8px !important;
+            border-radius: 0 0 8px 8px !important;
 
             .header {
               .t-tr {
                 .th {
                   background: #F6FBFF !important;
-                  height: 56px !important;
+                  height: 50px !important;
                 }
               }
             }
           }
         }
+      }
+    }
+  }
+  .no-body-part-status-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 300px;
+    font-size: 16px;
+    color: #212B36;
+
+    .status-card-component {
+      .status-card-title {
+        font-size: 20px;
+        color: #7F7F7F;
+        font-weight: 400;
+        margin-bottom: 30px;
       }
     }
   }
