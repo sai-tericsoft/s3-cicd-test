@@ -227,7 +227,7 @@ const BookAppointmentPaymentComponent = (props: BookAppointmentPaymentComponentP
                      }
                      }><ImageConfig.CloseIcon/></div>
             </div>
-            <div className="secure-checkout-title">Secure Checkout</div>
+            <FormControlLabelComponent label={'Secure Checkout'} size={'xl'}/>
             <Formik
                 innerRef={formRef}
                 validationSchema={addAppointmentPaymentValidationSchema}
@@ -251,7 +251,7 @@ const BookAppointmentPaymentComponent = (props: BookAppointmentPaymentComponentP
                             <Form className="t-form" noValidate={true}>
                                 <>
                                     <div className={"t-appointment-drawer-form-controls height-100"}>
-                                        <div className={'payment-block payment-block-time blue-card pdd-15'}>
+                                        <div className={'payment-block payment-block-time pdd-15'}>
                                             <div className="block-heading">
                                                 Total Amount
                                             </div>
@@ -313,12 +313,13 @@ const BookAppointmentPaymentComponent = (props: BookAppointmentPaymentComponentP
                                                 <div className={'ts-col-3'}>
                                                     <ButtonComponent size={'large'} className={'mrg-top-5'}
                                                                      fullWidth={true}
+                                                                     variant={'outlined'}
                                                                      disabled={!values?.coupon_code || (isCouponCodeApplied && !isCouponValid)}
                                                                      onClick={handleCouponAvailability}>{couponApplyButtonText}</ButtonComponent>
                                                 </div>
                                             </div>
                                             <FormControlLabelComponent
-                                                label={"Checkout Summary"} className={'checkout-summary'}/>
+                                                label={"Checkout Summary:"} className={'checkout-summary'}/>
                                             <div className="price-holder">
                                                 <div className="price-item">
                                                     <div className="price-item-text">Amount (Incl. tax)</div>

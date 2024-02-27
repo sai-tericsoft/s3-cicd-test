@@ -1,7 +1,6 @@
 import React, {useCallback, useEffect, useState} from "react";
 import "./BookAppointmentOverviewComponent.scss";
 import {CommonService} from "../../../services";
-import ChipComponent from "../../chip/ChipComponent";
 import {ImageConfig} from "../../../../constants";
 import ButtonComponent from "../../button/ButtonComponent";
 import {useSelector} from "react-redux";
@@ -168,15 +167,15 @@ const BookAppointmentOverviewComponent = (props: BookAppointmentOverviewComponen
                                 <div
                                     className="item-value">
                                     {bookingDraft?.service_category?.name || 'N/A'} / {bookingDraft?.service?.name || 'N/A'}
-                                    <div className="ts-row mrg-top-5">
-                                        <div className={'ts-col-6 mrg-bottom-5'}>
-                                            <ChipComponent color={'success'} label={bookType?.title}/>&nbsp;&nbsp;
-                                        </div>
-                                        <div className={'ts-col-6'}>
-                                            <ChipComponent className={'minutes-chip'} color={'success'}
-                                                           label={bookingDraft?.duration.duration + ' mins'}/>
-                                        </div>
-                                    </div>
+                                </div>
+                            </div>
+                            <div className="details-body-item">
+                                <div className="item-heading"><ImageConfig.Event2Icon/>&nbsp;&nbsp;Appointment
+                                    Type
+                                </div>
+                                <div
+                                    className="item-value">
+                                    {bookType?.title || 'N/A'}
                                 </div>
                             </div>
                             {bookingDraft?.appointment_type !== 'initial_consultation' &&

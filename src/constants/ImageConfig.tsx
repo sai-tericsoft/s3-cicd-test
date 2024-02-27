@@ -74,6 +74,7 @@ import {ReactComponent as CompletedPayments} from './../assets/icons/completed_p
 import {ReactComponent as PendingAmount} from './../assets/icons/discount_amount.svg';
 import {ReactComponent as BillingListIcon} from './../assets/icons/billing-list.svg';
 import {ReactComponent as FolderIcon} from './../assets/icons/folder-icon.svg';
+import {ReactComponent as Event2Icon} from './../assets/icons/event_note.svg';
 
 import {ReactComponent as CircularShowMore} from './../assets/icons/circular_show_more.svg';
 import {ReactComponent as CircularShowLess} from './../assets/icons/circular_show_less.svg';
@@ -268,5 +269,6 @@ export {
     ConsolidatedIcon,
     RepeatIcon,
     AttachIcon,
+    Event2Icon,
 
 }
