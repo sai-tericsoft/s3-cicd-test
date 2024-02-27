@@ -154,10 +154,10 @@ const SystemLockComponent = (props: SystemLockLockComponentProps) => {
                                         <ImageConfig.NavigateBack/>&nbsp;Back
                                     </div>
                                     <div className={"system-lock-title"}>
-                                        WELCOME BACK!
+                                        Welcome back!
                                     </div>
                                     <div className={"system-lock-sub-title"}>
-                                        Enter your password to access the system again.
+                                        Enter your password to log in and access your account.
                                     </div>
                                     <div className={"system-lock-password-field"}>
                                         <Field name={'password'} className="t-form-control">
@@ -179,9 +179,10 @@ const SystemLockComponent = (props: SystemLockLockComponentProps) => {
                                     <div className="t-form-actions mrg-top-0 mrg-bottom-0">
                                         <ButtonComponent
                                             type={"submit"}
-                                            className={"pdd-left-30 pdd-right-30"}
+                                            // className={"pdd-left-30 pdd-right-30"}
                                             disabled={isLoggingIn}
                                             isLoading={isLoggingIn}
+                                            size={"large"}
                                         >
                                             Proceed
                                         </ButtonComponent>
