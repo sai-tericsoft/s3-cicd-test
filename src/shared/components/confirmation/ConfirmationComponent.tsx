@@ -67,8 +67,9 @@ const ConfirmationComponent = (props: ConfirmationComponentProps) => {
                         color={config?.no?.color || 'primary'}
                         variant={config?.no?.variant || "outlined"}
                         id={"no-btn"}
-                        className={"pdd-left-60 pdd-right-60"}
+                        // className={"pdd-left-60 pdd-right-60"}
                         disabled={config?.yes?.isLoading}
+                        size={"large"}
                     >
                         {config?.no?.text || 'No'}
                     </ButtonComponent>&nbsp;&nbsp;&nbsp;
@@ -80,7 +81,8 @@ const ConfirmationComponent = (props: ConfirmationComponentProps) => {
                     variant={config?.yes?.variant || "contained"}
                     id={"yes-btn"}
                     isLoading={config?.yes?.isLoading}
-                    className={"confirm-cta pdd-left-60 pdd-right-60"}
+                    // className={"confirm-cta pdd-left-60 pdd-right-60"}
+                    size={"large"}
                 >
                     {config?.yes?.text || 'Yes'}
                 </ButtonComponent>

@@ -57,10 +57,20 @@ const MessageBoardComponent = (props: MessageBoardComponentProps) => {
         CommonService.onConfirm({
             image: ImageConfig.ConfirmationLottie,
             showLottie: true,
-            confirmationTitle: "DELETE MESSAGE",
-            confirmationSubTitle: "Are you sure you want to delete this message from the message board?"
+            confirmationTitle: "Delete Message",
+            confirmationSubTitle: "Are you sure you want to delete this message from the message board? This action cannot be undone.",
+            no: {
+                // color: "error",
+                text: "Cancel",
+                variant: "outlined"
+            },
+            yes:{
+                color: "primary",
+                text: "Delete",
+                variant: "contained"
+            }
         }).then(() => {
-            CommonService._dashboardService.editDashboardMessage(messageId, {is_deleted:true})
+            CommonService._dashboardService.editDashboardMessage(messageId, {is_deleted: true})
                 .then((response: any) => {
                     CommonService._alert.showToast('Message deleted successfully!', "success");
                     // handleCloseAllMessagesDrawer();
