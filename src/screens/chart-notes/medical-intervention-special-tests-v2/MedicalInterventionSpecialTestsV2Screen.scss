@@ -11,11 +11,36 @@
     }
   }
 
+  .no-body-part-status-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 300px;
+    font-size: 16px;
+    color: #212B36;
+
+    .status-card-component {
+      .status-card-title {
+        font-size: 20px;
+        color:#7F7F7F;
+        font-weight: 400;
+        margin-bottom: 30px;
+      }
+    }
+  }
+
   .rom-config-table-container {
-    .t-table {
-      .t-thead {
-        .t-th {
-          height: 80px !important;
+    .t-table-wrapper {
+      .t-table {
+        min-height: max-content !important;
+        border-radius: 0 0 8px 8px !important;
+
+        .header {
+          .t-tr {
+            .th {
+              background: #F6FBFF !important;
+            }
+          }
         }
       }
     }
@@ -23,9 +48,10 @@
     .t-table-wrapper {
 
       .t-table {
-        .table-no-data-wrapper{
+        .table-no-data-wrapper {
           min-height: 90px !important;
         }
+
         min-height: max-content !important;
       }
     }
@@ -50,7 +76,7 @@
     display: flex;
     column-gap: 50px;
     justify-content: center;
-    margin-top: 16px;
+    margin-top: 4px;
     align-items: center;
     font-size: 15px;
   }
@@ -85,12 +111,15 @@
 
   .add-special-test-drawer-body {
     height: calc(100vh - 270px);
+
     .t-table-wrapper {
       height: calc(100vh - 280px);
-      .table-no-data-wrapper{
-        min-height: 300px!important;
+
+      .table-no-data-wrapper {
+        min-height: 300px !important;
       }
     }
+
     margin-bottom: 30px;
   }
 

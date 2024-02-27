@@ -483,6 +483,44 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
         }
     }, [medicalInterventionId]);
 
+    const handleICDCodesEdit = useCallback(() => {
+        if (medicalRecordId && medicalInterventionId) {
+            navigate(CommonService._routeConfig.MedicalInterventionICDCodes(medicalRecordId, medicalInterventionId) + '?referrer=' + referrer + '&last_position=icd_codes');
+        }
+    }, [navigate, medicalRecordId, medicalInterventionId, referrer]);
+
+    const handleSpecialTestEdit = useCallback(() => {
+        if (medicalRecordId && medicalInterventionId) {
+            navigate(CommonService._routeConfig.MedicalInterventionSpecialTests(medicalRecordId, medicalInterventionId) + '?last_position=special-test-wrapper');
+        }
+
+    }, [navigate, medicalRecordId, medicalInterventionId]);
+
+    const handleROMConfigEdit = useCallback(() => {
+        if (medicalRecordId && medicalInterventionId) {
+            navigate(CommonService._routeConfig.MedicalInterventionROMConfig(medicalRecordId, medicalInterventionId) + '?last_position=range-of-motion-wrapper');
+        }
+
+    }, [navigate, medicalRecordId, medicalInterventionId]);
+
+    const handleROMConfig = useCallback(() => {
+        if (medicalRecordId && medicalInterventionId) {
+            navigate(CommonService._routeConfig.MedicalInterventionROMConfig(medicalRecordId, medicalInterventionId) + '?referrer=' + referrer + '&last_position=range-of-motion-wrapper');
+        }
+    }, [navigate, medicalRecordId, medicalInterventionId, referrer]);
+
+    const handleSpecialTest = useCallback(() => {
+        if (medicalRecordId && medicalInterventionId) {
+            navigate(CommonService._routeConfig.MedicalInterventionSpecialTests(medicalRecordId, medicalInterventionId) + '?last_position=special-test-wrapper');
+        }
+    }, [navigate, medicalRecordId, medicalInterventionId]);
+
+    const handleICDCodes = useCallback(() => {
+        if (medicalRecordId && medicalInterventionId) {
+            navigate(CommonService._routeConfig.MedicalInterventionICDCodes(medicalRecordId, medicalInterventionId) + '?referrer=' + referrer + '&last_position=icd_codes');
+        }
+    }, [navigate, medicalRecordId, medicalInterventionId, referrer]);
+
 
     return (
         <div className={'add-medical-intervention-screen'}>
@@ -672,38 +710,35 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                                                                 medicalRecordId && medicalInterventionId && <>
                                                                     {
                                                                         medicalInterventionDetails?.rom_config?.length === 0 &&
-                                                                        <LinkComponent
-                                                                            route={CommonService._routeConfig.MedicalInterventionROMConfig(medicalRecordId, medicalInterventionId) + '?referrer=' + referrer + '&last_position=range-of-motion-wrapper'}>
-                                                                            <ButtonComponent
-                                                                                fullWidth={true}
-                                                                                variant={'outlined'}
-                                                                                size={"large"}
-                                                                                className={'rom-special-test-icd-11-cta mrg-bottom-10'}
-                                                                            >
-                                                                                Range of Motion and Strength
-                                                                            </ButtonComponent>
-                                                                        </LinkComponent>
+                                                                        <ButtonComponent
+                                                                            fullWidth={true}
+                                                                            onClick={handleROMConfig}
+                                                                            variant={'outlined'}
+                                                                            size={"large"}
+                                                                            className={'rom-special-test-icd-11-cta mrg-bottom-10'}
+                                                                        >
+                                                                            Range of Motion and Strength
+                                                                        </ButtonComponent>
                                                                     }
                                                                     {
                                                                         medicalInterventionDetails?.rom_config?.length > 0 &&
                                                                         <CardComponent className={'rom-header'}
-                                                                                       title={"Range of Motion and Strength"}
+                                                                                       title={"Range of Motion and Strength:"}
                                                                                        actions={
                                                                                            <DraftReadonlySwitcherComponent
                                                                                                condition={true}
                                                                                                draft={<>
                                                                                                    {
                                                                                                        (medicalInterventionId && medicalRecordId) &&
-                                                                                                       <LinkComponent
-                                                                                                           route={CommonService._routeConfig.MedicalInterventionROMConfig(medicalRecordId, medicalInterventionId) + '?last_position=range-of-motion-wrapper'}>
-                                                                                                           <ButtonComponent
-                                                                                                               size={"small"}
-                                                                                                               prefixIcon={(medicalInterventionDetails?.rom_config && medicalInterventionDetails?.rom_config.length > 0) ?
-                                                                                                                   <ImageConfig.EditIcon/> :
-                                                                                                                   <ImageConfig.AddIcon/>}>
-                                                                                                               {medicalInterventionDetails?.rom_config && medicalInterventionDetails?.rom_config.length > 0 ? 'Edit' : 'Add'}
-                                                                                                           </ButtonComponent>
-                                                                                                       </LinkComponent>
+                                                                                                       <ButtonComponent
+                                                                                                           size={"small"}
+                                                                                                           variant={'outlined'}
+                                                                                                           onClick={handleROMConfigEdit}
+                                                                                                           prefixIcon={(medicalInterventionDetails?.rom_config && medicalInterventionDetails?.rom_config.length > 0) ?
+                                                                                                               <ImageConfig.EditIcon/> :
+                                                                                                               <ImageConfig.AddIcon/>}>
+                                                                                                           {medicalInterventionDetails?.rom_config && medicalInterventionDetails?.rom_config.length > 0 ? 'Edit' : 'Add'}
+                                                                                                       </ButtonComponent>
                                                                                                    }
                                                                                                </>} readonly={<></>}
                                                                                            />
@@ -772,24 +807,22 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                                                             medicalRecordId && medicalInterventionId && <>
                                                                 {
                                                                     medicalInterventionDetails?.special_tests?.length === 0 &&
-                                                                    <LinkComponent
-                                                                        route={CommonService._routeConfig.MedicalInterventionSpecialTests(medicalRecordId, medicalInterventionId) + '?last_position=special-test-wrapper'}>
-                                                                        <ButtonComponent
-                                                                            fullWidth={true}
-                                                                            variant={'outlined'}
-                                                                            size={"large"}
-                                                                            className={'rom-special-test-icd-11-cta mrg-bottom-10'}
-                                                                        >
-                                                                            Special Tests
-                                                                        </ButtonComponent>
-                                                                    </LinkComponent>
+                                                                    <ButtonComponent
+                                                                        fullWidth={true}
+                                                                        variant={'outlined'}
+                                                                        onClick={handleSpecialTest}
+                                                                        size={"large"}
+                                                                        className={'rom-special-test-icd-11-cta mrg-bottom-10'}
+                                                                    >
+                                                                        Special Tests
+                                                                    </ButtonComponent>
                                                                 }
                                                                 {
                                                                     medicalInterventionDetails?.special_tests?.length > 0 &&
                                                                     <div
                                                                         className={"card-styling padding-card-5 mrg-bottom-20 " + ((medicalInterventionDetails?.special_tests && medicalInterventionDetails?.special_tests.length > 0) ?
                                                                             ' white-card-header ' : '')}>
-                                                                        <CardComponent title={"Special Tests"}
+                                                                        <CardComponent title={"Special Tests:"}
                                                                                        className={'special-test-header'}
                                                                                        actions={
                                                                                            <DraftReadonlySwitcherComponent
@@ -797,16 +830,15 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                                                                                                draft={<>
                                                                                                    {
                                                                                                        (medicalInterventionId && medicalRecordId) &&
-                                                                                                       <LinkComponent
-                                                                                                           route={CommonService._routeConfig.MedicalInterventionSpecialTests(medicalRecordId, medicalInterventionId) + '?last_position=special-test-wrapper'}>
-                                                                                                           <ButtonComponent
-                                                                                                               size={"small"}
-                                                                                                               prefixIcon={(medicalInterventionDetails?.special_tests && medicalInterventionDetails?.special_tests.length > 0) ?
-                                                                                                                   <ImageConfig.EditIcon/> :
-                                                                                                                   <ImageConfig.AddIcon/>}>
-                                                                                                               {medicalInterventionDetails?.special_tests && medicalInterventionDetails?.special_tests.length > 0 ? 'Edit' : 'Add'}
-                                                                                                           </ButtonComponent>
-                                                                                                       </LinkComponent>
+                                                                                                       <ButtonComponent
+                                                                                                           size={"small"}
+                                                                                                           variant={'outlined'}
+                                                                                                           onClick={handleSpecialTestEdit}
+                                                                                                           prefixIcon={(medicalInterventionDetails?.special_tests && medicalInterventionDetails?.special_tests.length > 0) ?
+                                                                                                               <ImageConfig.EditIcon/> :
+                                                                                                               <ImageConfig.AddIcon/>}>
+                                                                                                           {medicalInterventionDetails?.special_tests && medicalInterventionDetails?.special_tests.length > 0 ? 'Edit' : 'Add'}
+                                                                                                       </ButtonComponent>
                                                                                                    }
                                                                                                </>} readonly={<></>}/>
                                                                                        }
@@ -1024,17 +1056,15 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                                                             medicalRecordId && medicalInterventionId && <>
                                                                 {
                                                                     (medicalInterventionDetails?.linked_icd_codes?.length === 0 || !medicalInterventionDetails?.linked_icd_codes) &&
-                                                                    <LinkComponent
-                                                                        route={CommonService._routeConfig.MedicalInterventionICDCodes(medicalRecordId, medicalInterventionId) + '?referrer=' + referrer + '&last_position=icd_codes'}>
-                                                                        <ButtonComponent
-                                                                            fullWidth={true}
-                                                                            variant={'outlined'}
-                                                                            size={"large"}
-                                                                            className={'rom-special-test-icd-11-cta'}
-                                                                        >
-                                                                            Medical Diagnosis/ICD Codes
-                                                                        </ButtonComponent>
-                                                                    </LinkComponent>
+                                                                    <ButtonComponent
+                                                                        fullWidth={true}
+                                                                        variant={'outlined'}
+                                                                        size={"large"}
+                                                                        onClick={handleICDCodes}
+                                                                        className={'rom-special-test-icd-11-cta'}
+                                                                    >
+                                                                        Medical Diagnosis/ICD Codes
+                                                                    </ButtonComponent>
                                                                 }
                                                                 {
                                                                     medicalInterventionDetails?.linked_icd_codes?.length > 0 &&
@@ -1049,16 +1079,15 @@ const UpdateMedicalInterventionScreen = (props: UpdateMedicalInterventionScreenP
                                                                                                    draft={<>
                                                                                                        {
                                                                                                            (medicalInterventionId && medicalRecordId) &&
-                                                                                                           <LinkComponent
-                                                                                                               route={CommonService._routeConfig.MedicalInterventionICDCodes(medicalRecordId, medicalInterventionId) + '?referrer=' + referrer + '&last_position=icd_codes'}>
-                                                                                                               <ButtonComponent
-                                                                                                                   size={"small"}
-                                                                                                                   prefixIcon={(medicalInterventionDetails?.linked_icd_codes && medicalInterventionDetails?.linked_icd_codes.length > 0) ?
-                                                                                                                       <ImageConfig.EditIcon/> :
-                                                                                                                       <ImageConfig.AddIcon/>}>
-                                                                                                                   {medicalInterventionDetails?.linked_icd_codes && medicalInterventionDetails?.linked_icd_codes.length > 0 ? 'Edit' : 'Add'}
-                                                                                                               </ButtonComponent>
-                                                                                                           </LinkComponent>
+                                                                                                           <ButtonComponent
+                                                                                                               size={"small"}
+                                                                                                               onClick={handleICDCodesEdit}
+                                                                                                               variant={'outlined'}
+                                                                                                               prefixIcon={(medicalInterventionDetails?.linked_icd_codes && medicalInterventionDetails?.linked_icd_codes.length > 0) ?
+                                                                                                                   <ImageConfig.EditIcon/> :
+                                                                                                                   <ImageConfig.AddIcon/>}>
+                                                                                                               {medicalInterventionDetails?.linked_icd_codes && medicalInterventionDetails?.linked_icd_codes.length > 0 ? 'Edit' : 'Add'}
+                                                                                                           </ButtonComponent>
                                                                                                        }
                                                                                                    </>}
                                                                                                    readonly={<></>}/>

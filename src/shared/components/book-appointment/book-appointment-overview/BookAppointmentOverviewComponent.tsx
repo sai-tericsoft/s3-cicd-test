@@ -107,7 +107,7 @@ const BookAppointmentOverviewComponent = (props: BookAppointmentOverviewComponen
             <div className="details-header">
                 <div className="block-body">
                     <div className="block-content">
-                        <ImageConfig.CalendarIcon/>
+                        <ImageConfig.Calendar2Icon/>
                         <div
                             className="content-title">{CommonService.convertDateFormat2(bookingDraft?.date)}
                         </div>
@@ -126,7 +126,7 @@ const BookAppointmentOverviewComponent = (props: BookAppointmentOverviewComponen
             </div>
             <div className="flex-1">
                 <div className="details-box">
-                    <div className="details-header">Other Details</div>
+                    <div className="details-header">Appointment Details</div>
                     <div className="details-body">
                         <div className="details-body-block">
                             <div className="details-body-item">

@@ -59,7 +59,7 @@ const ESignApprovalComponent = (props: ESignApprovalComponentProps) => {
                 {
                     !isSigned && <div className="e-sign-action-container">
                         <ButtonComponent onClick={handleOnSign} isLoading={isSigning}
-                                         disabled={isSigning || !canSign || !currentUser?.signature || !signature_url}>
+                                         disabled={isSigning || !canSign || !currentUser?.signature}>
                             Sign
                         </ButtonComponent>
                     </div>
