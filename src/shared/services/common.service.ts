@@ -150,7 +150,7 @@ const convertDateFormat = (date: Date, format: string = 'YYYY-MM-DD') => {
 }
 
 
-const convertDateFormat2 = (date: Date, format: string = 'DD-MMM-YYYY') => {
+const convertDateFormat2 = (date: Date | string, format: string = 'DD-MMM-YYYY') => {
     return moment(date).format(format);
 }
 //item?.created_at && CommonService.convertDateFormat2(item?.created_at) + " - " + (item?.injury_details.map((injury: any, index: number) =>
