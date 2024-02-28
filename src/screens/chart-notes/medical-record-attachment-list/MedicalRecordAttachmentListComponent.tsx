@@ -46,7 +46,7 @@ const MedicalRecordAttachmentListComponent = (props: ClientMedicalAttachmentsCom
                 } else {
                 }
                 return <><LinkComponent
-                    route={route}>{CommonService.getSystemFormatTimeStamp(item?.document_date)}</LinkComponent></>
+                    route={route}>{CommonService.convertDateFormat2(item?.document_date)}</LinkComponent></>
             }
         },
         {
