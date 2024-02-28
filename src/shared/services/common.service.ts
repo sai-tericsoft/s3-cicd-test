@@ -136,22 +136,22 @@ const getPayloadFilterDates = (mode: 'day' | 'week' | 'month' | 'year'): { start
 }
 
 const transformTimeStamp = (date: Date | string | undefined) => {
-    return moment(date).format('DD-MMM-YYYY');
+    return moment(date).utcOffset(0, false).format('DD-MMM-YYYY');
 }
 
 
 const transformTimeStamp2 = (date: Date | string | undefined) => {
-    return moment(date).format('hh:mm A, DD-MMM-YYYY ');
+    return moment(date).utcOffset(0, false).format('hh:mm A, DD-MMM-YYYY ');
 }
 
 
 const convertDateFormat = (date: Date, format: string = 'YYYY-MM-DD') => {
-    return moment(date).format(format);
+    return moment(date).utcOffset(0, false).format(format);
 }
 
 
 const convertDateFormat2 = (date: Date | string, format: string = 'DD-MMM-YYYY') => {
-    return moment(date).format(format);
+    return moment(date).utcOffset(0, false).format(format);
 }
 //item?.created_at && CommonService.convertDateFormat2(item?.created_at) + " - " + (item?.injury_details.map((injury: any, index: number) =>
 // (injury?.body_part_details?.name + "(" + injury?.body_side + ")"))).join(','))
@@ -472,9 +472,9 @@ const getSystemFormatTimeStamp = (date: Date | string, showTime: boolean = false
         return "N/A"
     }
     if (showTime) {
-        return moment(date).format('DD-MMM-YYYY, hh:mm A');
+        return moment(date).utcOffset(0, false).format('DD-MMM-YYYY, hh:mm A');
     } else {
-        return moment(date).format('DD-MMM-YYYY');
+        return moment(date).utcOffset(0, false).format('DD-MMM-YYYY');
     }
 };
 

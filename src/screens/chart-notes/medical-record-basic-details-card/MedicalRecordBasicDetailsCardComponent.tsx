@@ -389,13 +389,13 @@ const MedicalRecordBasicDetailsCardComponent = (props: ClientMedicalDetailsCardC
                                 <div className={'ts-row'}>
                                     <div className={'ts-col-md-4 ts-col-lg'}>
                                         <DataLabelValueComponent label={'Date of Onset'}>
-                                            {clientMedicalRecord?.onset_date ? CommonService.convertDateFormat2(clientMedicalRecord?.onset_date) : "N/A"}
+                                            {clientMedicalRecord?.onset_date ? CommonService.getSystemFormatTimeStamp(clientMedicalRecord?.onset_date) : "N/A"}
                                         </DataLabelValueComponent>
                                     </div>
                                     <div className={'ts-col-md-4 ts-col-lg'}>
                                         <DataLabelValueComponent className={'date-of-surgery'}
                                                                  label={'Date of Surgery'}>
-                                            {clientMedicalRecord?.surgery_date ? CommonService.convertDateFormat2(clientMedicalRecord?.surgery_date) : "N/A"}
+                                            {clientMedicalRecord?.surgery_date ? CommonService.getSystemFormatTimeStamp(clientMedicalRecord?.surgery_date) : "N/A"}
                                         </DataLabelValueComponent>
                                     </div>
                                     <div className={'ts-col-md-4 ts-col-lg'}>
